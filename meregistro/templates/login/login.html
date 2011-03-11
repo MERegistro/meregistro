@@ -1,0 +1,9 @@
+
+{% block content %}
+<h1>Login</h1>
+<form action="" method="post">{% csrf_token %}
+{{ form.as_ul }}
+<input type="submit" value="Acceder" />
+</form>
+{% endblock %}
+

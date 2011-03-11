@@ -5,6 +5,7 @@ from django.conf.urls.defaults import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
+    (r'^login', 'seguridad.views.login'),
     # Example:
     # (r'^meregistro/', include('meregistro.foo.urls')),
 
