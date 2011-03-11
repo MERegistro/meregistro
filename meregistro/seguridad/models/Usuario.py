@@ -19,3 +19,6 @@ class Usuario(models.Model):
   class Meta:
     app_label = 'seguridad'
     unique_together = ("tipo_documento", "documento")
+
+  def is_anonymous(self):
+    return self.id is None

@@ -5,7 +5,8 @@ from django.conf.urls.defaults import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^login', 'seguridad.views.login'),
+    url(r'^login', 'seguridad.views.login', name='login'),
+    url(r'^seleccionarPerfil', 'seguridad.views.seleccionarPerfil', name='seleccionarPerfil'),
     # Example:
     # (r'^meregistro/', include('meregistro.foo.urls')),
 
@@ -15,3 +16,8 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     # (r'^admin/', include(admin.site.urls)),
 )
+
+
+
+
+
