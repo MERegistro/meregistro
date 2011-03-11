@@ -7,8 +7,8 @@ from seguridad.models import Usuario
 class LazyUser(object):
   def __get__(self, request, obj_type=None):
     if not hasattr(request, '_cached_user'):
-      if request.session.has_key('user'):
-        request._cached_user = Usuario.objects.get(pk=request.session['user']['id'])
+      if request.session.has_key('user_id'):
+        request._cached_user = Usuario.objects.get(pk=request.session['user_id'])
       else:
         request._cached_user = Usuario()
         request._cached_user.nombre = 'Anonimo'

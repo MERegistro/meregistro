@@ -21,13 +21,7 @@ def login(request):
         form.cleaned_data['password'],
       )
       if user:
-        request.session['user'] = {
-          'id': user.serializable_value('id'),
-          'nombre': user.serializable_value('nombre'),
-          'apellido': user.serializable_value('apellido'),
-          'documento': user.serializable_value('documento'),
-          'tipo_documento': user.serializable_value('tipo_documento'),
-        }
+        request.session['user_id'] = user.id
         return HttpResponseRedirect(reverse('seleccionarPerfil'))
   else:
     form = LoginForm()
