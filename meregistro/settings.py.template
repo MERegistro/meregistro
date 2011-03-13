@@ -99,3 +99,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+STATIC_URL_PATH = 'static'
+STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
+STATIC_DOC_ROOT = '/home/miguel/projects/meregistro/meregistro/static'
