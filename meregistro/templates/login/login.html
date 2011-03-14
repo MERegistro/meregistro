@@ -6,25 +6,27 @@
 
 {% block content %}
 <h2>Ingresar al sistema</h2>
-<form action="" method="post">{% csrf_token %}
-    {{ form.non_field_errors }}
-    <div class="form-text">
-        {{ form.tipo_documento.errors }}
-        <label for="id_tipo_documento">Tipo de documento:</label>
-        {{ form.tipo_documento }}
-    </div>
-	<div class="form-text">
-        {{ form.documento.errors }}
-        <label for="id_documento">Documento:</label>
-        {{ form.documento }}
-	</div>
-	<div class="form-text">
-        {{ form.password.errors }}
-        <label for="id_password">Contraseña:</label>
-        {{ form.password }}
-	</div>
-	<div class="form-submit">
-		<input type="submit" value="Acceder" />
-	</div>
-</form>
+<div class="form" id="loginForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.tipo_documento.errors }}
+			<label for="id_tipo_documento">Tipo de documento:</label>
+			{{ form.tipo_documento }}
+		</div>
+		<div class="form-text">
+			{{ form.documento.errors }}
+			<label for="id_documento">Documento:</label>
+			{{ form.documento }}
+		</div>
+		<div class="form-text">
+			{{ form.password.errors }}
+			<label for="id_password">Contraseña:</label>
+			{{ form.password }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Acceder" />
+		</div>
+	</form>
+</div>
 {% endblock %}

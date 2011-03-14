@@ -10,14 +10,14 @@
 <body>
 	<div id="wrapper">
 		<div id="header">
-			<h1><span>Ministerio de Educación</span></h1>
+			<h1><a href="/"><span>Ministerio de Educación</span></a></h1>
 			<h2><span>Presidencia de la Nación</span></h2>
 		</div>	<!-- END header -->
 		<div id="content">
 {% block content %}{% endblock %}
 		</div> <!-- END content -->
 		<div id="footer">
-			<p>Ministerio de Educación - Presidencia de la Nación</p>
+			<p>Ministerio de Educación | Presidencia de la Nación - {% now "Y" %}</p>
 		</div> <!-- END footer -->
 	</div> <!-- END wrapper -->
 </body>
