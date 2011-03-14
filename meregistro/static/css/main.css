@@ -1,0 +1,47 @@
+/*
+ *
+ * Archivo CSS principal del sistema
+ *
+ * @author: luciano.baraglia[at]gmail.com
+ *
+*/
+/* RESET */
+* {
+	margin: 0;
+	padding: 0;
+}
+/*
+=COMMON
+*/
+body {
+	background: #CCEAFF;
+}
+ul {
+	list-style: none;
+}
+/*
+=WRAPPER
+*/
+div#wrapper {
+	width: 964px;
+	margin: 0 auto;
+	background: #fff;
+}
+/*
+=HEADER
+*/
+div#header {
+	height: 83px;
+	background: url(../img/header-964x83.jpg) no-repeat;
+
+}
+div#header h1 span,
+div#header h2 span {
+	display: none;
+}
+/*
+=CONTENT
+*/
+div#content {
+	margin: 10px;
+}
