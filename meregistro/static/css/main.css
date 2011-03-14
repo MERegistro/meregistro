@@ -14,7 +14,9 @@
 =COMMON
 */
 body {
-	background: #CCEAFF;
+	background: #F5E2AD;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
 }
 ul {
 	list-style: none;
@@ -23,16 +25,20 @@ ul {
 =WRAPPER
 */
 div#wrapper {
-	width: 964px;
+	width: 965px;
 	margin: 0 auto;
 	background: #fff;
+	border: 5px #fff solid;
+	border-bottom: none;
+	border-top: none;
 }
 /*
 =HEADER
 */
 div#header {
-	height: 83px;
-	background: url(../img/header-964x83.jpg) no-repeat;
+	height: 136px;
+	background: url(../img/header-965x136.jpg) no-repeat;
+	border-bottom: 3px #276399 solid;
 
 }
 div#header h1 span,
@@ -44,4 +50,16 @@ div#header h2 span {
 */
 div#content {
 	margin: 10px;
+}
+/*
+=FOOTER
+*/
+div#footer {
+	background: #276399;
+	font-size: 12px;
+	color:#fff;
+	text-align: center;
+	height: 40px;
+	padding-top: 10px;
+	border-bottom: 4px #fff solid;
 }
