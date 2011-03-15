@@ -5,6 +5,7 @@ from forms import LoginForm
 from authenticate import authenticate
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
+from decorators import login_required
 
 def login(request):
   """
@@ -22,10 +23,18 @@ def login(request):
       )
       if user:
         request.session['user_id'] = user.id
+        # Se logueo bien, lo redirijo a seleccionarPerfil
         return HttpResponseRedirect(reverse('seleccionarPerfil'))
   else:
     form = LoginForm()
   return my_render(request, 'login/login.html', {'form': form})
-  
+
+@login_required
 def seleccionarPerfil(request):
-  return HttpResponse('hola ' + str(request.user.is_anonymous()))
+  if request.method == 'POST':
+    pass
+    # cargar credenciales
+    # cargar datos particulares del perfil
+    # redirijir a la app elegida
+  form = None
+  return my_render(request, 'seleccionarPerfil/seleccionarPerfil.html', {'form': form})

@@ -22,3 +22,6 @@ class Usuario(models.Model):
 
   def is_anonymous(self):
     return self.id is None
+  
+  def is_authenticated(self):
+    return self.id is not None
