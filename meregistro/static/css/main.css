@@ -21,6 +21,10 @@ body {
 ul {
 	list-style: none;
 }
+hr {
+	clear: both;
+	visibility: hidden;
+}
 /*
 =WRAPPER
 */
@@ -51,6 +55,9 @@ div#header h2 span {
 div#content {
 	margin: 10px;
 }
+div#content h2 {
+	margin: 25px 0 10px;
+}
 /*
 =FOOTER
 */
@@ -62,4 +69,45 @@ div#footer {
 	height: 40px;
 	padding-top: 10px;
 	border-bottom: 4px #fff solid;
+}
+/*
+=FORM
+*/
+div.form {
+	margin: 10px 0 0;
+	background: #D6DEDE;
+	border: 1px #CECECE solid;
+	width: 500px;
+}
+div.form form {
+	border: 10px #fff solid;
+}
+div.form div {
+	margin: 13px 0 0 10px;
+}
+div.form label {
+	display: block;
+	float: left;
+	width: 150px;
+}
+
+div.form div.form-text input,
+div.form div.form-select select,
+div.form div.form-textarea textarea {
+	margin-top: -3px;
+}
+div.form div.form-text input,
+div.form div.form-textarea textarea {
+	border: 1px #CECECE solid;
+}
+div.form div.form-text input {
+	padding: 2px 3px;
+	width: 300px;
+}
+div.form div.form-submit {
+	margin-bottom: 10px;
+}
+div.form ul.errorlist {
+	color: #f00;
+	margin: 0  0 4px 150px;
 }
