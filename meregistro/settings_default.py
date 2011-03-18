@@ -1,4 +1,6 @@
 # Django settings for meregistro project.
+import os,sys
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -80,7 +82,9 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'meregistro.urls'
 
 TEMPLATE_DIRS = (
-  '/home/miguel/projects/meregistro/meregistro/templates'
+    #PROJECT_ROOT + "templates"
+    os.path.join(PROJECT_ROOT, 'templates')
+
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -102,4 +106,4 @@ INSTALLED_APPS = (
 
 STATIC_URL_PATH = 'static'
 STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
-STATIC_DOC_ROOT = '/home/miguel/projects/meregistro/meregistro/static'
+STATIC_DOC_ROOT = os.path.join(PROJECT_ROOT, 'static')
