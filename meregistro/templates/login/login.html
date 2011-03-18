@@ -2,14 +2,12 @@
 
 {% block title %}Login{% endblock %}
 
-{% block content_title %}Login{% endblock %}
-
 {% block content %}
 <h2>Ingresar al sistema</h2>
 <div class="form" id="loginForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
-		<div class="form-text">
+		<div class="form-select">
 			{{ form.tipo_documento.errors }}
 			<label for="id_tipo_documento">Tipo de documento:</label>
 			{{ form.tipo_documento }}

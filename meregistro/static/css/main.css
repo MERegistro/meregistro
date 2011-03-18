@@ -43,7 +43,19 @@ div#header {
 	height: 136px;
 	background: url(../img/header-965x136.jpg) no-repeat;
 	border-bottom: 3px #276399 solid;
-
+	position: relative;
+}
+div#header h1 {
+	width: 240px;
+	height: 75px;
+	position: absolute;
+	top: 45px;
+	left: 10px;
+}
+div#header h1 a {
+	display: block;
+	width: 100%;
+	height: 100%;
 }
 div#header h1 span,
 div#header h2 span {
@@ -95,6 +107,7 @@ div.form div.form-text input,
 div.form div.form-select select,
 div.form div.form-textarea textarea {
 	margin-top: -3px;
+	width: 300px;
 }
 div.form div.form-text input,
 div.form div.form-textarea textarea {
@@ -102,7 +115,6 @@ div.form div.form-textarea textarea {
 }
 div.form div.form-text input {
 	padding: 2px 3px;
-	width: 300px;
 }
 div.form div.form-submit {
 	margin-bottom: 10px;
