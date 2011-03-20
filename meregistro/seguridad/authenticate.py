@@ -28,4 +28,4 @@ def authenticate(tipo_documento, documento, password):
     return False
   except Usuario.DoesNotExist:
     return False
-
+  

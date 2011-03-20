@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from meregistro.shortcuts import my_render
-from forms import LoginForm
+from forms import LoginForm, SeleccionarPerfilForm
 from authenticate import authenticate
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
@@ -32,9 +32,13 @@ def login(request):
 @login_required
 def seleccionarPerfil(request):
   if request.method == 'POST':
-    pass
-    # cargar credenciales
-    # cargar datos particulares del perfil
-    # redirijir a la app elegida
-  form = None
+    form = SeleccionarPerfilForm(request.user, request.POST)
+    if form.is_valid():
+      request.seleccionar_perfil(form.cleaned_data['perfil'])
+      return HttpResponseRedirect(reverse('seguridadHome'))
+  else:
+    form = SeleccionarPerfilForm(request.user)
   return my_render(request, 'seleccionarPerfil/seleccionarPerfil.html', {'form': form})
+
+def index(request):
+  return HttpResponse('hola' + request.get_perfil().rol.nombre)

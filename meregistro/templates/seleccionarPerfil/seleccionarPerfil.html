@@ -6,5 +6,17 @@
 
 {% block content %}
 <h2>Seleccionar perfil</h2>
-
+<div class="form" id="seleccionarPerfilForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.perfil.errors }}
+			<label for="id_perfil">Perfil:</label>
+			{{ form.perfil }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Acceder" />
+		</div>
+	</form>
+</div>
 {% endblock %}
