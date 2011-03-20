@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.forms import LoginForm, SeleccionarPerfilForm
@@ -27,7 +27,7 @@ def login(request):
         return HttpResponseRedirect(reverse('seleccionarPerfil'))
   else:
     form = LoginForm()
-  return my_render(request, 'login/login.html', {'form': form})
+  return my_render(request, 'seguridad/login/login.html', {'form': form})
 
 @login_required
 def seleccionar_perfil(request):
@@ -35,7 +35,7 @@ def seleccionar_perfil(request):
     form = SeleccionarPerfilForm(request.user, request.POST)
     if form.is_valid():
       request.seleccionar_perfil(form.cleaned_data['perfil'])
-      return HttpResponseRedirect(reverse('seguridadHome'))
+      return HttpResponseRedirect(reverse('home'))
   else:
     form = SeleccionarPerfilForm(request.user)
-  return my_render(request, 'seleccionarPerfil/seleccionarPerfil.html', {'form': form})
+  return my_render(request, 'seguridad/login/seleccionarPerfil.html', {'form': form})

@@ -3,5 +3,5 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    (r'^$', 'seguridad.views.index'),
+    url(r'^$', 'seguridad.views.index', name='home'),
 )
