@@ -1,11 +1,11 @@
 # -*- coding: UTF-8 -*-
 
-from meregistro.shortcuts import my_render
-from forms import LoginForm, SeleccionarPerfilForm
-from authenticate import authenticate
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.urlresolvers import reverse
-from decorators import login_required
+from meregistro.shortcuts import my_render
+from seguridad.forms import LoginForm, SeleccionarPerfilForm
+from seguridad.authenticate import authenticate
+from seguridad.decorators import login_required
 
 def login(request):
   """
@@ -30,7 +30,7 @@ def login(request):
   return my_render(request, 'login/login.html', {'form': form})
 
 @login_required
-def seleccionarPerfil(request):
+def seleccionar_perfil(request):
   if request.method == 'POST':
     form = SeleccionarPerfilForm(request.user, request.POST)
     if form.is_valid():
@@ -39,6 +39,3 @@ def seleccionarPerfil(request):
   else:
     form = SeleccionarPerfilForm(request.user)
   return my_render(request, 'seleccionarPerfil/seleccionarPerfil.html', {'form': form})
-
-def index(request):
-  return HttpResponse('hola' + request.get_perfil().rol.nombre)
