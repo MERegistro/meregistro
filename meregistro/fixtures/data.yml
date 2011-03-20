@@ -1,0 +1,116 @@
+-   fields: {app_label: seguridad, model: ambito, name: ambito}
+    model: contenttypes.contenttype
+    pk: 15
+-   fields: {app_label: seguridad, model: aplicacion, name: aplicacion}
+    model: contenttypes.contenttype
+    pk: 11
+-   fields: {app_label: contenttypes, model: contenttype, name: content type}
+    model: contenttypes.contenttype
+    pk: 1
+-   fields: {app_label: seguridad, model: credencial, name: credencial}
+    model: contenttypes.contenttype
+    pk: 12
+-   fields: {app_label: registro, model: dependenciafuncional, name: dependencia funcional}
+    model: contenttypes.contenttype
+    pk: 9
+-   fields: {app_label: registro, model: establecimiento, name: establecimiento}
+    model: contenttypes.contenttype
+    pk: 10
+-   fields: {app_label: registro, model: gestionjurisdiccion, name: gestion jurisdiccion}
+    model: contenttypes.contenttype
+    pk: 6
+-   fields: {app_label: registro, model: jurisdiccion, name: jurisdiccion}
+    model: contenttypes.contenttype
+    pk: 5
+-   fields: {app_label: seguridad, model: perfil, name: perfil}
+    model: contenttypes.contenttype
+    pk: 17
+-   fields: {app_label: registro, model: region, name: region}
+    model: contenttypes.contenttype
+    pk: 4
+-   fields: {app_label: seguridad, model: rol, name: rol}
+    model: contenttypes.contenttype
+    pk: 16
+-   fields: {app_label: sessions, model: session, name: session}
+    model: contenttypes.contenttype
+    pk: 2
+-   fields: {app_label: sites, model: site, name: site}
+    model: contenttypes.contenttype
+    pk: 3
+-   fields: {app_label: registro, model: tipodependenciafuncional, name: tipo dependencia
+            funcional}
+    model: contenttypes.contenttype
+    pk: 8
+-   fields: {app_label: seguridad, model: tipodocumento, name: tipo documento}
+    model: contenttypes.contenttype
+    pk: 13
+-   fields: {app_label: registro, model: tipogestion, name: tipo gestion}
+    model: contenttypes.contenttype
+    pk: 7
+-   fields: {app_label: seguridad, model: usuario, name: usuario}
+    model: contenttypes.contenttype
+    pk: 14
+-   fields: {expire_date: !!timestamp '2011-04-03 03:04:20', session_data: 'gAJ9cQEoVQlwZXJmaWxfaWRxAlgBAAAAMVUHdXNlcl9pZHEDSwF1LjEwZGY0NWEwZWI5NWZhZGVj
+
+            ZjM0ZGE0N2RlYWU3MjZl
+
+            '}
+    model: sessions.session
+    pk: 91552c3f40694631e200a5a03cf2922d
+-   fields: {expire_date: !!timestamp '2011-04-03 19:07:22', session_data: 'gAJ9cQEoVQlwZXJmaWxfaWRxAlgBAAAAMVUHdXNlcl9pZHEDigEBdS5lYmQyYmFmNzlhYzMwZTkw
+
+            MjQyMTI2MDgzOGRmOGM1MQ==
+
+            '}
+    model: sessions.session
+    pk: e8b68310b7abdbe9ab0b87290c6941d5
+-   fields: {domain: example.com, name: example.com}
+    model: sites.site
+    pk: 1
+-   fields: {descripcion: Seguridad, home_url: seguridad/, nombre: seguridad}
+    model: seguridad.aplicacion
+    pk: 1
+-   fields: {descripcion: Registro, home_url: registro/, nombre: registro}
+    model: seguridad.aplicacion
+    pk: 2
+-   fields: {aplicacion: 1, descripcion: Administrar roles, nombre: seg_rol_admin}
+    model: seguridad.credencial
+    pk: 1
+-   fields: {aplicacion: 1, descripcion: Listar usuarios, nombre: seg_usuario_list}
+    model: seguridad.credencial
+    pk: 2
+-   fields: {aplicacion: 1, descripcion: Alta de usuarios, nombre: seg_usuario_new}
+    model: seguridad.credencial
+    pk: 3
+-   fields: {aplicacion: 1, descripcion: Modificar usuarios, nombre: seg_usuario_edit}
+    model: seguridad.credencial
+    pk: 4
+-   fields: {aplicacion: 1, descripcion: Asignar perfiles a usuarios, nombre: seg_usuario_asignar_perfil}
+    model: seguridad.credencial
+    pk: 5
+-   fields: {aplicacion: 1, descripcion: Bloquear/Desbloquear usuarios, nombre: seg_usuario_lock}
+    model: seguridad.credencial
+    pk: 6
+-   fields: {abreviatura: DNI, descripcion: Documento Nacional de Identidad}
+    model: seguridad.tipodocumento
+    pk: 1
+-   fields: {abreviatura: LEN, descripcion: Libreta de Enrolamiento}
+    model: seguridad.tipodocumento
+    pk: 2
+-   fields: {apellido: test, documento: test, email: test@example.org, last_login: null,
+        nombre: test, password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3, tipo_documento: 1}
+    model: seguridad.usuario
+    pk: 1
+-   fields: {descripcion: Todo, level: 1, parent: null}
+    model: seguridad.ambito
+    pk: 1
+-   fields:
+        credenciales: [1, 2, 3, 4, 5, 6]
+        descripcion: Administrador de Seguridad
+        nombre: SeguridadAdmin
+    model: seguridad.rol
+    pk: 1
+-   fields: {ambito: 1, fecha_asignacion: 2011-03-15, fecha_desasignacion: null, rol: 1,
+        usuario: 1}
+    model: seguridad.perfil
+    pk: 1
