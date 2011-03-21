@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     url(r'^$', 'seguridad.views.index', name='home'),
     url(r'^usuario$', 'seguridad.views.usuario.index', name='usuario'),
     url(r'^usuario/([0-9]+)/edit', 'seguridad.views.usuario.edit', name='usuarioEdit'),
+    url(r'^usuario/create', 'seguridad.views.usuario.create', name='usuarioCreate'),
 )

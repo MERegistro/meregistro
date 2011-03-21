@@ -2,3 +2,4 @@ from LoginForm import LoginForm
 from SeleccionarPerfilForm import SeleccionarPerfilForm
 from UsuarioFormFilters import UsuarioFormFilters
 from UsuarioForm import UsuarioForm
+from UsuarioCreateForm import UsuarioCreateForm

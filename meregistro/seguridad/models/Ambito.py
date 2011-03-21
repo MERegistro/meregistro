@@ -9,3 +9,6 @@ class Ambito(models.Model):
 
   class Meta:
     app_label = 'seguridad'
+
+  def __str__(self):
+    return self.descripcion
