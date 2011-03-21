@@ -9,8 +9,8 @@ class Usuario(models.Model):
   apellido = models.CharField(max_length=40)
   nombre = models.CharField(max_length=40)
   email = models.CharField(max_length=255)
-  password = models.CharField(max_length=255, null=True)
-  last_login = models.IntegerField(null=True, blank=True)
+  password = models.CharField(max_length=255, null=True, editable=False)
+  last_login = models.IntegerField(null=True, blank=True, editable=False)
   
   def set_password(self, password):
     from seguridad.authenticate import encrypt_password

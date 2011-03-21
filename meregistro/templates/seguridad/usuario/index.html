@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Administrar usuarios{% endblock %}
+
+{% block content %}
+<h2>Administrar usuarios</h2>
+<div class="form" id="usuarioFormFilter">
+	<form action="" method="post">{% csrf_token %}
+		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.tipo_documento.errors }}
+			<label for="id_tipo_documento">Tipo de documento:</label>
+			{{ form_filters.tipo_documento }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.documento.errors }}
+			<label for="id_documento">Documento:</label>
+			{{ form_filters.documento }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.apellido.errors }}
+			<label for="id_apellido">Apellido:</label>
+			{{ form_filters.apellido }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form_filters.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.email.errors }}
+			<label for="id_email">Email:</label>
+			{{ form_filters.email }}
+		</div>
+
+		<div class="form-submit">
+			<input type="submit" value="Búscar" />
+		</div>
+	</form>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Documento</th>
+      <th>Nombre</th>
+      <th>Apellido</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in objects %}
+      <tr>
+        <td><a href="{% url seguridad.views.usuario.edit u.id %}">
+          {{u.tipo_documento.abreviatura}} - {{u.documento}}
+        </a></td>
+        <td><a href="{% url seguridad.views.usuario.edit u.id %}">
+          {{u.nombre}}
+        </a></td>
+        <td><a href="{% url seguridad.views.usuario.edit u.id %}">
+          {{u.apellido}}
+        </a></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

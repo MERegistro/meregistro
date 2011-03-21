@@ -6,9 +6,7 @@ import re #regexp
 from seguridad.authenticate import *
 
 class LoginForm(forms.Form):
-  tipo_documento_choices = [(t.id, t.descripcion) for t in TipoDocumento.objects.all()]
-  tipo_documento = forms.ChoiceField(label='Tipo de documento', choices=tipo_documento_choices)
-
+  tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects, required=True)
   documento = forms.CharField(max_length=20, label='documento')
   password = forms.CharField(widget=forms.PasswordInput(render_value=False), label='contraseña')
 

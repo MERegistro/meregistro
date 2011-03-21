@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Modificar usuario{% endblock %}
+
+{% block content %}
+<h2>Modificar usuario</h2>
+<div class="form" id="usuarioForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.tipo_documento.errors }}
+			<label for="id_tipo_documento">Tipo de documento:</label>
+			{{ form.tipo_documento }}
+		</div>
+		<div class="form-text">
+			{{ form.documento.errors }}
+			<label for="id_documento">Documento:</label>
+			{{ form.documento }}
+		</div>
+		<div class="form-text">
+			{{ form.apellido.errors }}
+			<label for="id_apellido">Apellido:</label>
+			{{ form.apellido }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="id_email">Email:</label>
+			{{ form.email }}
+		</div>
+
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+</div>
+
+<ul>
+  <li>
+    <a href="{% url seguridad.views.usuario.index %}">Volver</a>
+  </li>
+</ul>
+{% endblock %}
