@@ -123,3 +123,61 @@ div.form ul.errorlist {
 	color: #f00;
 	margin: 0  0 4px 150px;
 }
+
+table.hor-zebra
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+}
+table.hor-zebra th
+{
+	font-size: 14px;
+	font-weight: normal;
+	padding: 10px 8px;
+	color: #039;
+}
+table.hor-zebra td
+{
+	padding: 8px;
+	color: #669;
+}
+tr.hor-zebra_odd
+{
+	background: #e8edff; 
+}
+.hor-zebra a
+{
+    color: #303030;
+    outline-style: none;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+}
+.hor-zebra a:hover
+{
+    text-decoration: underline;
+}
+
+ul.actions li
+{
+  border: 1px solid;
+  background-color: #eaeaea;
+	padding: 8px;
+  margin: 4px;
+}
+ul.actions a
+{
+    color: #000000;
+    outline-style: none;
+    text-decoration: none;
+    font-size: 12px;
+}
+ul.actions a:hover
+{
+    text-decoration: underline;
+}
+

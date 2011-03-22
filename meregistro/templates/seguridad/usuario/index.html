@@ -39,7 +39,7 @@
 	</form>
 </div>
 
-<table>
+<table class="hor-zebra">
   <thead>
     <tr>
       <th>Documento</th>
@@ -50,7 +50,7 @@
   </thead>
   <tbody>
     {% for u in objects %}
-      <tr>
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
         <td><a href="{% url seguridad.views.usuario.edit u.id %}">
           {{u.tipo_documento.abreviatura}} - {{u.documento}}
         </a></td>
@@ -60,12 +60,12 @@
         <td><a href="{% url seguridad.views.usuario.edit u.id %}">
           {{u.apellido}}
         </a></td>
+        <td></td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
-
-<ul>
+<ul class="actions">
   <li>
     <a href="{% url seguridad.views.usuario.create %}">Dar de alta nuevo usuario</a>
   </li>

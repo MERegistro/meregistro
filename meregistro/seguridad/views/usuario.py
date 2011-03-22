@@ -34,6 +34,9 @@ def build_query(filters, page):
 
 @login_required
 def edit(request, userId):
+  """
+  Edición de los datos de un usuario.
+  """
   if request.method == 'POST':
     form = UsuarioForm(request.POST, instance=Usuario.objects.get(pk=userId))
     if form.is_valid(): # guardar
@@ -47,6 +50,9 @@ def edit(request, userId):
 
 @login_required
 def create(request):
+  """
+  Alta de usuario.
+  """
   if request.method == 'POST':
     form = UsuarioCreateForm(request.POST)
     if form.is_valid(): # guardar
