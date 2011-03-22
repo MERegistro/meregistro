@@ -5,6 +5,7 @@
 	<title>{% block title %}Registro Federal de Ofertas e Instituciones de Formación Docente{% endblock %}</title>
 	{% block stylesheets %}
 		<link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" type="text/css">
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/admin.css" type="text/css">
 	{% endblock stylesheets %}
 </head>
 <body>
@@ -13,6 +14,14 @@
 			<h1><a href="/"><span>Ministerio de Educación</span></a></h1>
 			<h2><span>Instituto Nacional de Formación Docente</span></h2>
 		</div>	<!-- END header -->
+    {% block menu %}
+    <div class="nav" id="mainNav">
+      <ul>
+        <li><a href="{% url seguridad.views.usuario.index %}">Usuarios</a></li>
+        <li><a href="#">Ayuda</a></li>
+      </ul>
+    </div>
+    {% endblock %}
 		<div id="content">
 {% block content %}{% endblock %}
 		</div> <!-- END content -->
