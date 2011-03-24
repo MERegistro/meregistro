@@ -43,5 +43,8 @@
   <li class="back">
     <a href="{% url seguridad.views.usuario.index %}"><span>Volver</span></a>
   </li>
+  <li>
+    <a href="{% url seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
+  </li>
 </ul>
 {% endblock %}

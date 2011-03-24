@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
-from seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm
+from seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm, UsuarioChangePasswordForm
 
 
 @login_required
@@ -37,15 +37,17 @@ def edit(request, userId):
   """
   Edición de los datos de un usuario.
   """
+  usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
-    form = UsuarioForm(request.POST, instance=Usuario.objects.get(pk=userId))
+    form = UsuarioForm(request.POST, instance=usuario)
     if form.is_valid(): # guardar
-      form.save()
+      usuario = form.save()
   else:
-    form = UsuarioForm(instance=Usuario.objects.get(pk=userId))
+    form = UsuarioForm(instance=usuario)
 
   return my_render(request, 'seguridad/usuario/edit.html', {
-    'form': form
+    'form': form,
+    'usuario': usuario,
   })
 
 @login_required
@@ -72,4 +74,23 @@ def create(request):
 
   return my_render(request, 'seguridad/usuario/new.html', {
     'form': form
+  })
+
+@login_required
+def change_password(request, userId):
+  """
+  Cambiar contraseña de un usuario.
+  """
+  usuario = Usuario.objects.get(pk=userId)
+  if request.method == 'POST':
+    form = UsuarioChangePasswordForm(request.POST)
+    if form.is_valid(): # guardar
+      usuario.set_password(form.cleaned_data['password'])
+      usuario.save()
+  else:
+    form = UsuarioChangePasswordForm()
+
+  return my_render(request, 'seguridad/usuario/change_password.html', {
+    'form': form,
+    'usuario': usuario,
   })
