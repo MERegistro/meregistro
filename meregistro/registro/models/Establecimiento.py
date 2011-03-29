@@ -1,5 +1,5 @@
 from django.db import models
-from meregistro.registro.models import DependenciaFuncional, Jurisdiccion
+from meregistro.registro.models import DependenciaFuncional
 
 class Establecimiento(models.Model):
   dependencia_funcional = models.ForeignKey(DependenciaFuncional)
