@@ -1,0 +1,194 @@
+# Dependencia Funcional
+- model: registro.dependenciafuncional
+  pk: 1
+  fields:
+    nombre: Dependencia Funcional 01
+    jurisdiccion: 1
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+
+- model: registro.dependenciafuncional
+  pk: 2
+  fields:
+    nombre: Dependencia Funcional 02
+    jurisdiccion: 2
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 3
+  fields:
+    nombre: Dependencia Funcional 03
+    jurisdiccion: 3
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 4
+  fields:
+    nombre: Dependencia Funcional 04
+    jurisdiccion: 4
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 5
+  fields:
+    nombre: Dependencia Funcional 05
+    jurisdiccion: 5
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 6
+  fields:
+    nombre: Dependencia Funcional 06
+    jurisdiccion: 6
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 7
+  fields:
+    nombre: Dependencia Funcional 07
+    jurisdiccion: 7
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 8
+  fields:
+    nombre: Dependencia Funcional 08
+    jurisdiccion: 8
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 9
+  fields:
+    nombre: Dependencia Funcional 09
+    jurisdiccion: 9
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 10
+  fields:
+    nombre: Dependencia Funcional 10
+    jurisdiccion: 10
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 11
+  fields:
+    nombre: Dependencia Funcional 11
+    jurisdiccion: 11
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 12
+  fields:
+    nombre: Dependencia Funcional 12
+    jurisdiccion: 12
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 13
+  fields:
+    nombre: Dependencia Funcional 13
+    jurisdiccion: 13
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 14
+  fields:
+    nombre: Dependencia Funcional 14
+    jurisdiccion: 14
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 15
+  fields:
+    nombre: Dependencia Funcional 15
+    jurisdiccion: 15
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 16
+  fields:
+    nombre: Dependencia Funcional 16
+    jurisdiccion: 16
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 17
+  fields:
+    nombre: Dependencia Funcional 17
+    jurisdiccion: 17
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 18
+  fields:
+    nombre: Dependencia Funcional 18
+    jurisdiccion: 18
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 19
+  fields:
+    nombre: Dependencia Funcional 19
+    jurisdiccion: 19
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 20
+  fields:
+    nombre: Dependencia Funcional 20
+    jurisdiccion: 20
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 21
+  fields:
+    nombre: Dependencia Funcional 21
+    jurisdiccion: 21
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 22
+  fields:
+    nombre: Dependencia Funcional 22
+    jurisdiccion: 22
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 23
+  fields:
+    nombre: Dependencia Funcional 23
+    jurisdiccion: 23
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
+- model: registro.dependenciafuncional
+  pk: 24
+  fields:
+    nombre: Dependencia Funcional 24
+    jurisdiccion: 24
+    gestion_jurisdiccion: 1
+    tipo_gestion: 1
+    tipo_dependencia: 1
