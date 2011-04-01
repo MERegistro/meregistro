@@ -108,6 +108,31 @@ div#footer {
 	border-bottom: 4px #fff solid;
 }
 /*
+=SPREADFIREFOX
+*/
+div#spreadFirefox {
+	background: #DDF0F7;
+	margin: 20px 0 0;
+	border: 1px #C0E3F7 solid;
+}
+div#spreadFirefox p {
+	width: 600px;
+	float: left;
+	margin: 10px 10px 0 0;
+}
+div#spreadFirefox p a:link,
+div#spreadFirefox p a:visited {
+	color: #AA1A1A;
+	text-decoration: none;
+}
+div#spreadFirefox p a:hover {
+	text-decoration: underline;
+}
+div#spreadFirefox div#firefoxButton {
+	float: left;
+	margin: 10px;
+}
+/*
 =FORM
 */
 div.form {
@@ -305,12 +330,15 @@ div.form-filter ul.errorlist {
 */
 div.message {
   margin: 20px 0 20px;
-  padding: 5px;
+  padding: 10px;
 }
-/*
-=WARNING
-*/
 div.warning {
-  background: #f30d0d;
+  color: #fff ;
+  padding-left: 40px;
+  background: #F20909 url(../img/icons/warning.png) no-repeat 10px;
+}
+div.success {
   color: #fff;
+  padding-left: 40px;
+  background: #6E972E url(../img/icons/success.png) no-repeat 10px;
 }
