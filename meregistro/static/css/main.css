@@ -183,20 +183,20 @@ table.hor-zebra {
 	width: 100%;
 	text-align: left;
 	border-collapse: collapse;
-  border: 1px #ccc solid;
+	border: 1px #ccc solid;
 }
 table.hor-zebra th {
 	font-size: 14px;
 	font-weight: bold;
-	padding: 10px 5px;
+	padding: 5px;
 	color: #fff;
 	text-align: center;
 	border: 1px #ccc solid;
 	background: #276399;
 }
 table.hor-zebra td {
-	padding: 8px;
-	color: #669;
+	padding: 1px 3px;
+	color: #000;
 	border: 1px #ccc solid;
 }
 tr.hor-zebra_odd {
@@ -213,73 +213,80 @@ tr.hor-zebra_odd {
 }
 /* ACTIONS */
 table.hor-zebra th.actions {
-  width: 80px;
+	width: 80px;
 }
 ul.actions {
-  margin-top: 20px;
+	margin-top: 20px;
 }
 ul.actions li {
-  padding-left: 30px;
-  height: 24px;
-  line-height: 24px;
+	height: 24px;
+	line-height: 24px;
+	float: left;
+	margin: 0 10px 0 0;
 }
-ul.actions a {
-
+ul.actions li a {
+	display: block;
+	height: 100%;
+	border-right: 1px #CDE7F6 solid;
+	padding: 0 10px 0 30px;
 }
 ul.actions a:link,
 ul.actions a:visited {
-  text-decoration: none;
+	text-decoration: none;
+	color: #276399;
 }
 ul.actions a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 /* CREATE */
 ul.actions li.create {
-  width: 160px;
-  background: #6a8b00 url(../img/icons/add.png) no-repeat left;
-  position: absolute;
-  top: 0;
-  right: 0;
+	color: #000;
+	background: url(../img/icons/add.png) no-repeat left;
+	position: absolute;
+	top: 0;
+	right: 0;
 }
 ul.actions li.create a:link,
 ul.actions li.create a:visited {
-  color: #fff;
+	color: #000;
 }
 /* BACK */
 ul.actions li.back {
-  width: 50px;
-  background: #fff url(../img/icons/back.png) no-repeat left;
+	background: url(../img/icons/back.png) no-repeat left;
 }
-ul.actions li.back a:link,
-ul.actions li.back a:visited {
-  color: #276399;
+/* CHANGE-PASSWORD */
+ul.actions li.change-password {
+	background: #fff url(../img/icons/lock.png) no-repeat left;
+}
+ul.actions li.change-password a {
+	padding-left: 25px;
 }
 /* TABLE ACTIONS */
 td.actions-td {
 }
 td.actions-td ul li a {
-  display: block;
-  float: left;
-  width: 24px;
-  height: 24px;
-  margin: 0 5px 0 0;
+	display: block;
+	float: left;
+	width: 24px;
+	height: 24px;
+	margin: 0 5px 0 0;
 }
 td.actions-td ul li span {
   display: none;
 }
 /* EDIT */
 td.actions-td ul li.edit a {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background: url(../img/icons/edit.png) no-repeat left;
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/edit.png) no-repeat left;
 }
 /* DELETE */
 td.actions-td ul li.delete a {
-  display: block;
-  width: 24px;
-  height: 24px;
-  background: url(../img/icons/delete.png) no-repeat left;
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/delete.png) no-repeat left;
 }
 
 /*
@@ -289,10 +296,10 @@ div.form-filter {
 	margin: 10px 0 0;
 	border: 1px #ceccca solid;
 	width: 500px;
-  background: #f2f1f0;
+	background: #f2f1f0;
 }
 div.form-filter h3 {
-  margin: 10px 0 10px 10px;
+	margin: 10px 0 10px 10px;
 }
 div.form-filter form {
 }
