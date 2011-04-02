@@ -10,11 +10,14 @@
 	margin: 0;
 	padding: 0;
 }
+html {
+	background: url(../img/bg-10x3000.gif) repeat-x;
+}
+
 /*
 =COMMON
 */
 body {
-	background: #F5E2AD;
 	font-family: Arial, sans-serif;
 	font-size: 13px;
 }
@@ -29,18 +32,18 @@ hr {
 =WRAPPER
 */
 div#wrapper {
-	width: 965px;
+	width: 990px;
 	margin: 0 auto;
-	background: #fff;
-	border: 5px #fff solid;
-	border-bottom: none;
-	border-top: none;
+	background: url(../img/bg-990x3000.gif) no-repeat;
+	padding-top: 20px;
 }
 /*
 =HEADER
 */
 div#header {
+	width: 966px;
 	height: 136px;
+	margin: 0 auto;
 	background: url(../img/header-965x136.jpg) no-repeat;
 	border-bottom: 3px #276399 solid;
 	position: relative;
@@ -65,7 +68,8 @@ div#header h2 span {
 =CONTENT
 */
 div#content {
-	margin: 10px;
+	width: 956px;
+	margin: 10px auto;
 	position: relative;
 }
 div#content h2 {
@@ -75,35 +79,44 @@ div#content h2 {
 =MAINNAV
 */
 div#mainNav {
-	background: #276399;
-  border-top: 2px #fff solid;
+	width: 966px;
+	margin: 0 auto;
+	background: url(../img/bg-10x25.gif) repeat-x;
+	border-top: 2px #fff solid;
 }
 div#mainNav ul {
   height: 25px;
 }
 div#mainNav ul li {
-  float: left;
-  padding: 5px;
-  text-transform: uppercase;
-  border-right: 1px #fff solid;
+	float: left;
+	padding: 5px;
+	text-transform: uppercase;
+	border-right: 1px #bbb solid;
 }
 div#mainNav ul li a:link,
 div#mainNav ul li a:visited {
-  color: #fff;
-  text-decoration: none;
+	color: #fff;
+	text-decoration: none;
 }
 div#mainNav ul li a:hover {
-  text-decoration: underline;
+	color: #bbb;
+}
+div#mainNav ul li#linkAyuda {
+	float: right;
+	border-right: none;
+	border-left: 1px #bbb solid;
 }
 /*
 =FOOTER
 */
 div#footer {
+	width: 966px;
+	height: 40px;
+	margin: 0 auto;
 	background: #276399;
 	font-size: 12px;
 	color:#fff;
 	text-align: center;
-	height: 40px;
 	padding-top: 10px;
 	border-bottom: 4px #fff solid;
 }
@@ -244,7 +257,11 @@ ul.actions li.create {
 	background: url(../img/icons/add.png) no-repeat left;
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: -5px;
+}
+ul.actions li.create a {
+	border-right: none;
+	padding-right: 0;
 }
 ul.actions li.create a:link,
 ul.actions li.create a:visited {
