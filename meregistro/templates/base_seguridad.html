@@ -14,6 +14,12 @@
 			<h1><a href="/"><span>Ministerio de Educación</span></a></h1>
 			<h2><span>Instituto Nacional de Formación Docente</span></h2>
 		</div>	<!-- END header -->
+		<div class="nav" id="mainNav">
+				<ul>
+				<li><a href="{% url seguridad.views.usuario.index %}">Usuarios</a></li>
+				<li id="linkAyuda"><a href="#">Ayuda</a></li>
+			</ul>
+		</div>
 		<div id="content">
 {% block content %}{% endblock %}
 		</div> <!-- END content -->
