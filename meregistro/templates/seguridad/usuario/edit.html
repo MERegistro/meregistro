@@ -43,11 +43,12 @@
 </div>
 
 <ul class="actions">
-  <li class="back">
-    <a href="{% url seguridad.views.usuario.index %}"><span>Volver</span></a>
-  </li>
-  <li>
-    <a href="{% url seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
-  </li>
+	<li class="back">
+		<a href="{% url seguridad.views.usuario.index %}"><span>Volver</span></a>
+	</li>
+	<li class="change-password">
+		<a href="{% url seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
+	</li>
 </ul>
+<hr />
 {% endblock %}
