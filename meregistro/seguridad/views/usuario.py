@@ -36,7 +36,6 @@ def edit(request, userId):
   Edición de los datos de un usuario.
   """
   usuario = Usuario.objects.get(pk=userId)
-  flash = {}
   if request.method == 'POST':
     form = UsuarioForm(request.POST, instance=usuario)
     if form.is_valid(): # guardar
@@ -86,7 +85,6 @@ def change_password(request, userId):
   """
   Cambiar contraseña de un usuario.
   """
-  flash = {}
   usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
     form = UsuarioChangePasswordForm(request.POST)
