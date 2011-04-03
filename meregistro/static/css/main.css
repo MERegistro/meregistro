@@ -44,8 +44,8 @@ div#header {
 	width: 966px;
 	height: 136px;
 	margin: 0 auto;
-	background: url(../img/header-965x136.jpg) no-repeat;
-	border-bottom: 3px #276399 solid;
+	background: url(../img/header-01-965x136.jpg) no-repeat;
+	border-bottom: 3px #000 solid;
 	position: relative;
 }
 div#header h1 {
@@ -116,9 +116,16 @@ div#footer {
 	margin: 0 auto;
 	background: url(../img/bg-footer-990x15.gif) no-repeat bottom;
 	font-size: 12px;
+	padding-bottom: 22px;
 	color:#fff;
 	text-align: center;
+}
+div#footer div {
+	background: #000;
+	width: 966px;
+	height: 40px;
 	padding-top: 10px;
+	margin: 0 auto;
 }
 /*
 =SPREADFIREFOX
@@ -152,7 +159,7 @@ div.form {
 	margin: 10px 0 0;
 	background: #D6DEDE;
 	border: 1px #CECECE solid;
-	width: 500px;
+	width: 954px;
 }
 div.form form {
 	border: 10px #fff solid;
@@ -163,14 +170,14 @@ div.form div {
 div.form label {
 	display: block;
 	float: left;
-	width: 150px;
+	width: 170px;
 }
 
 div.form div.form-text input,
 div.form div.form-select select,
 div.form div.form-textarea textarea {
 	margin-top: -3px;
-	width: 300px;
+	width: 738px;
 }
 div.form div.form-text input,
 div.form div.form-textarea textarea {
@@ -184,7 +191,7 @@ div.form div.form-submit {
 }
 div.form ul.errorlist {
 	color: #f00;
-	margin: 0  0 4px 150px;
+	margin: 0  0 4px 170px;
 }
 /*
 =TABLE
