@@ -101,3 +101,18 @@ def change_password(request, userId):
     'form': form,
     'usuario': usuario,
   })
+
+@login_required
+def bloquear(request, userId):
+  """
+  Bloquea un usuario.
+  """
+  usuario = Usuario.objects.get(pk=userId)
+  if request.method == 'POST':
+    usuario.is_active = False
+    usuario.save()
+    request.set_flash('success', 'Usuario bloqueado correctamente')
+    return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+  return my_render(request, 'seguridad/usuario/bloquear.html', {
+    'usuario': usuario
+  })

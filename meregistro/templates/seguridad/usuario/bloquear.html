@@ -1,0 +1,40 @@
+{% extends "base_seguridad.html" %}
+
+{% block title %}Bloquear usuario{% endblock %}
+
+{% block content %}
+<h2>Bloquear usuario</h2>
+{% if flash %}
+	{% include "flashes.html" %}
+{% endif %}
+<div class="form" id="bloquearUsuarioForm" onsubmit="return confirm('Está seguro de que desea bloquear al usuario ?');">
+	<form action="" method="post">{% csrf_token %}
+		<div>
+			<label>Tipo de documento:</label>
+      {{ usuario.tipo_documento.descripcion }}
+		</div>
+		<div>
+			<label>Documento:</label>
+      {{ usuario.documento }}
+		</div>
+		<div>
+			<label>Apellido:</label>
+      {{ usuario.apellido }}
+		</div>
+		<div>
+			<label>Nombre:</label>
+      {{ usuario.nombre }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Bloquear" />
+		</div>
+	</form>
+</div>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url seguridad.views.usuario.edit usuario.id %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

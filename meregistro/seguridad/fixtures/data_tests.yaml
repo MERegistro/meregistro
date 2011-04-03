@@ -1,0 +1,14 @@
+- model: seguridad.Usuario
+  pk: 1
+  fields:
+    tipo_documento: 1
+    documento: test
+    nombre: test
+    apellido: test
+    email: test@example.org
+    # El password es test
+    password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+    is_active: True
+
+
+

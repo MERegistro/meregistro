@@ -1,0 +1,26 @@
+
+- model: seguridad.TipoDocumento
+  pk: 1
+  fields:
+    descripcion: Documento Nacional de Identidad
+    abreviatura: DNI
+
+- model: seguridad.TipoDocumento
+  pk: 2
+  fields:
+    descripcion: Pasaporte
+    abreviatura: PS
+
+- model: seguridad.Ambito
+  pk: 1
+  fields:
+    descripcion: Todo
+    level: 0
+
+- model: seguridad.Rol
+  pk: 1
+  fields:
+    nombre: Administrador
+    descripcion: Administrador
+
+
