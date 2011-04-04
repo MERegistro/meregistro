@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     url(r'^usuario/([0-9]+)/changePassword', 'seguridad.views.usuario.change_password', name='usuarioChangePassword'),
     url(r'^usuario/create', 'seguridad.views.usuario.create', name='usuarioCreate'),
     url(r'^usuario/([0-9]+)/bloquear', 'seguridad.views.usuario.bloquear', name='usuarioBloquear'),
+    url(r'^usuario/([0-9]+)/desbloquear', 'seguridad.views.usuario.desbloquear', name='usuarioDesbloquear'),
 )

@@ -11,4 +11,26 @@
     is_active: True
 
 
+- model: seguridad.Usuario
+  pk: 2
+  fields:
+    tipo_documento: 1
+    documento: usractivo
+    nombre: usractivo
+    apellido: usractivo
+    email: usractivo@example.org
+    # El password es test
+    password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+    is_active: True
 
+- model: seguridad.Usuario
+  pk: 3
+  fields:
+    tipo_documento: 1
+    documento: usrinactivo
+    nombre: usrinactivo
+    apellido: usrinactivo
+    email: usrinactivo@example.org
+    # El password es test
+    password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+    is_active: False

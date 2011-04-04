@@ -116,3 +116,18 @@ def bloquear(request, userId):
   return my_render(request, 'seguridad/usuario/bloquear.html', {
     'usuario': usuario
   })
+
+@login_required
+def desbloquear(request, userId):
+  """
+  Desbloquea un usuario.
+  """
+  usuario = Usuario.objects.get(pk=userId)
+  if request.method == 'POST':
+    usuario.is_active = True
+    usuario.save()
+    request.set_flash('success', 'Usuario desbloqueado correctamente')
+    return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+  return my_render(request, 'seguridad/usuario/desbloquear.html', {
+    'usuario': usuario
+  })
