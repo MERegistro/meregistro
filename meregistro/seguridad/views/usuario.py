@@ -16,8 +16,6 @@ def index(request):
   """
   if request.method == 'POST':
     form_filter = UsuarioFormFilters(request.POST)
-#    if form_filter.is_valid():
-#      q = build_query(form_filter)
   else:
     form_filter = UsuarioFormFilters()
   q = build_query(form_filter, 1)
@@ -38,23 +36,19 @@ def edit(request, userId):
   Edición de los datos de un usuario.
   """
   usuario = Usuario.objects.get(pk=userId)
-  flash = {}
   if request.method == 'POST':
     form = UsuarioForm(request.POST, instance=usuario)
     if form.is_valid(): # guardar
       usuario = form.save()
-      flash['type'] = 'success'
-      flash['message'] = 'Datos guardados correctamente.'
+      request.set_flash('success', 'Datos actualizados correctamente.')
     else:
-      flash['type'] = 'warning'
-      flash['message'] = 'Ocurrió un error guardando los datos.'
+      request.set_flash('warning','Ocurrió un error actualizando los datos.')
   else:
     form = UsuarioForm(instance=usuario)
 
   return my_render(request, 'seguridad/usuario/edit.html', {
     'form': form,
     'usuario': usuario,
-    'flash': flash,
   })
 
 @login_required
@@ -62,7 +56,6 @@ def create(request):
   """
   Alta de usuario.
   """
-  flash = {}
   if request.method == 'POST':
     form = UsuarioCreateForm(request.POST)
     if form.is_valid(): # guardar
@@ -75,21 +68,16 @@ def create(request):
       perfil.ambito = form.cleaned_data['ambito']
       perfil.fecha_asignacion = datetime.now()
       perfil.save()
-
-      flash['type'] = 'success'
-      flash['message'] = 'Datos guardados correctamente.'
-
+      request.set_flash('success', 'Datos guardados correctamente.')
       # redirigir a edit
       return HttpResponseRedirect(reverse('usuarioEdit', args=[usuario.id]))
     else:
-      flash['type'] = 'warning'
-      flash['message'] = 'Ocurrió un error guardando los datos.'
+      request.set_flash('warning', 'Ocurrió un error guardando los datos.')
   else:
     form = UsuarioCreateForm()
 
   return my_render(request, 'seguridad/usuario/new.html', {
     'form': form,
-    'flash': flash,
   })
 
 @login_required
@@ -97,23 +85,34 @@ def change_password(request, userId):
   """
   Cambiar contraseña de un usuario.
   """
-  flash = {}
   usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
     form = UsuarioChangePasswordForm(request.POST)
     if form.is_valid(): # guardar
       usuario.set_password(form.cleaned_data['password'])
       usuario.save()
-      flash['type'] = 'success'
-      flash['message'] = 'Contraseña modificada correctamente.'
+      request.set_flash('success', 'Contraseña modificada correctamente.')
     else:
-      flash['type'] = 'warning'
-      flash['message'] = 'Ocurrió un error modificando la contraseña.'
+      request.set_flash('warning', 'Ocurrió un error modificando la contraseña.')
   else:
     form = UsuarioChangePasswordForm()
 
   return my_render(request, 'seguridad/usuario/change_password.html', {
     'form': form,
     'usuario': usuario,
-    'flash': flash,
+  })
+
+@login_required
+def bloquear(request, userId):
+  """
+  Bloquea un usuario.
+  """
+  usuario = Usuario.objects.get(pk=userId)
+  if request.method == 'POST':
+    usuario.is_active = False
+    usuario.save()
+    request.set_flash('success', 'Usuario bloqueado correctamente')
+    return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+  return my_render(request, 'seguridad/usuario/bloquear.html', {
+    'usuario': usuario
   })

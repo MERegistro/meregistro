@@ -5,4 +5,5 @@ from django.conf import settings
 def my_render(request, template, context = {}):
   context.update(csrf(request))
   context['STATIC_URL'] = settings.STATIC_URL
+  context['flash'] = request.get_flash()
   return render_to_response(template, context)

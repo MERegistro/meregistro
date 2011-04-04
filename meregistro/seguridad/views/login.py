@@ -22,9 +22,12 @@ def login(request):
         form.cleaned_data['password'],
       )
       if user:
-        request.session['user_id'] = user.id
-        # Se logueo bien, lo redirijo a seleccionarPerfil
-        return HttpResponseRedirect(reverse('seleccionarPerfil'))
+        if user.is_active:
+          request.session['user_id'] = user.id
+          # Se logueo bien, lo redirijo a seleccionarPerfil
+          return HttpResponseRedirect(reverse('seleccionarPerfil'))
+        else:
+          request.set_flash('warning', 'No puede iniciar sesión: usuario bloqueado')
   else:
     form = LoginForm()
   return my_render(request, 'seguridad/login/login.html', {'form': form})

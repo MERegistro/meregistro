@@ -37,5 +37,5 @@ class LoginForm(forms.Form):
     if documento and password:
       res = authenticate(tipo_documento, documento, password)
       if  res == False:
-	    self._errors['password'] = self.error_class([u'Password erróneo'])
+	      self._errors['password'] = self.error_class([u'Password erróneo'])
     return cleaned_data

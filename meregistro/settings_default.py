@@ -77,6 +77,7 @@ MIDDLEWARE_CLASSES = (
 #    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'seguridad.middleware.SeguridadMiddleware',
+    'middleware.FlashMiddleware',
 )
 
 ROOT_URLCONF = 'meregistro.urls'

@@ -49,6 +49,9 @@
 	<li class="change-password">
 		<a href="{% url seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
 	</li>
+	<li class="">
+		<a href="{% url seguridad.views.usuario.bloquear usuario.id %}"><span>Bloqueo</span></a>
+	</li>
 </ul>
 <hr />
 {% endblock %}

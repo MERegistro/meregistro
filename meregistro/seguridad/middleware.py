@@ -26,13 +26,24 @@ class SeguridadMiddleware(object):
       """
       perfil = Perfil.objects.get(pk = perfil_id)
       request.session['perfil_id'] = perfil_id
+      # Cargar las credenciales del rol seleccionado
+      request.session['credenciales'] = map(lambda c: c.nombre, perfil.rol.credenciales.all())
     request.__class__.seleccionar_perfil = seleccionar_perfil
-
+    
     def get_perfil(request):
       """
       Retorna el perfil activo
       """
       return Perfil.objects.get(pk = request.session['perfil_id'])
     request.__class__.get_perfil = get_perfil
-
+    
+    def get_credenciales(request):
+      """
+      Retorna la lista de credenciales del perfil activo
+      """
+      if request.session.has_key('credenciales'):
+        return request.session['credenciales']
+      return []
+    request.__class__.get_credenciales = get_credenciales
+        
     return None

@@ -46,20 +46,17 @@ def create(request):
       establecimiento.estado = Estado.objects.get(nombre = 'Pendiente')
       establecimiento.save()
 
-      flash['type'] = 'success'
-      flash['message'] = 'Datos guardados correctamente.'
+      request.set_flash('success', 'Datos guardados correctamente.')
 
       # redirigir a edit
       return HttpResponseRedirect(reverse('establecimientoEdit', args=[establecimiento.id]))
     else:
-      flash['type'] = 'warning'
-      flash['message'] = 'Ocurrió un error guardando los datos.'
+      request.set_flash('warning', 'Ocurrió un error guardando los datos.')
   else:
     form = EstablecimientoForm()
 
   return my_render(request, 'registro/establecimiento/new.html', {
     'form': form,
-    'flash': flash,
   })
 
 @login_required
@@ -73,16 +70,13 @@ def edit(request, establecimiento_id):
     form = EstablecimientoForm(request.POST, instance = establecimiento)
     if form.is_valid(): # guardar
       usuario = form.save()
-      flash['type'] = 'success'
-      flash['message'] = 'Datos actualizados correctamente.'
+      request.set_flash('success', 'Datos actualizados correctamente.')
     else:
-      flash['type'] = 'warning'
-      flash['message'] = 'Ocurrió un error actualizando los datos.'
+      request.set_flash('warning','Ocurrió un error actualizando los datos.')
   else:
     form = EstablecimientoForm(instance = establecimiento)
 
   return my_render(request, 'registro/establecimiento/edit.html', {
     'form': form,
     'establecimiento': establecimiento,
-    'flash': flash,
   })

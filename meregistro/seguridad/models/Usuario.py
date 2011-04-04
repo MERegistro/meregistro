@@ -11,7 +11,8 @@ class Usuario(models.Model):
   email = models.CharField(max_length=255)
   password = models.CharField(max_length=255, null=True, editable=False)
   last_login = models.IntegerField(null=True, blank=True, editable=False)
-  
+  is_active = models.BooleanField(null=False, blank=False, editable=False)
+
   def set_password(self, password):
     from seguridad.authenticate import encrypt_password
     self.password = encrypt_password(self, password)
