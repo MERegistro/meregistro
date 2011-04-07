@@ -38,7 +38,6 @@ def create(request):
   """
   Alta de establecimiento.
   """
-  flash = {}
   if request.method == 'POST':
     form = EstablecimientoForm(request.POST)
     if form.is_valid(): # guardar
@@ -62,14 +61,13 @@ def create(request):
 @login_required
 def edit(request, establecimiento_id):
   """
-  Edición de los datos de un usuario.
+  Edición de los datos de un establecimiento.
   """
   establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
-  flash = {}
   if request.method == 'POST':
     form = EstablecimientoForm(request.POST, instance = establecimiento)
     if form.is_valid(): # guardar
-      usuario = form.save()
+      establecimiento = form.save()
       request.set_flash('success', 'Datos actualizados correctamente.')
     else:
       request.set_flash('warning','Ocurrió un error actualizando los datos.')

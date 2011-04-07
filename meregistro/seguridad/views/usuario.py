@@ -42,7 +42,7 @@ def edit(request, userId):
       usuario = form.save()
       request.set_flash('success', 'Datos actualizados correctamente.')
     else:
-      request.set_flash('warning','Ocurrió un error actualizando los datos.')
+      request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
   else:
     form = UsuarioForm(instance=usuario)
 
