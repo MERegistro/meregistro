@@ -2,6 +2,7 @@
 
 from django.db import models
 from meregistro.seguridad.models import TipoDocumento
+from datetime import datetime
 
 class Usuario(models.Model):
   tipo_documento = models.ForeignKey(TipoDocumento)
@@ -26,3 +27,16 @@ class Usuario(models.Model):
   
   def is_authenticated(self):
     return self.id is not None
+
+  def lock(self, motivo):
+    self.__set_lock(False, motivo)
+
+  def unlock(self, motivo):
+    self.__set_lock(True, motivo)
+
+  def __set_lock(self, is_active, motivo):
+    from meregistro.seguridad.models import BloqueoLog
+    self.is_active = is_active
+    self.save()
+    log = BloqueoLog(usuario = self, motivo = motivo, fecha = datetime.now())
+    log.save()

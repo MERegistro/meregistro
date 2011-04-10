@@ -1,11 +1,11 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Bloquear usuario{% endblock %}
+{% block title %}Desbloquear usuario{% endblock %}
 
 {% block content %}
-<h2>Bloquear usuario</h2>
+<h2>Desbloquear usuario</h2>
 {% include "flashes.html" %}
-<div class="form" id="bloquearUsuarioForm" onsubmit="return confirm('Está seguro que desea bloquear al usuario ?');">
+<div class="form" id="desbloquearUsuarioForm" onsubmit="return confirm('Está seguro que desea desbloquear al usuario ?');">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div>
@@ -30,7 +30,7 @@
 			{{ form.motivo }}
 		</div>
 		<div class="form-submit">
-			<input type="submit" value="Bloquear" />
+			<input type="submit" value="Desbloquear" />
 		</div>
 	</form>
 </div>

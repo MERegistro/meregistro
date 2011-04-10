@@ -51,7 +51,7 @@ class BloqueoUsuarioTest(TestCase):
     response = c.get('/seguridad/usuario/' + str(usuario.id) + '/bloquear')
     self.failUnlessEqual(response.status_code, 200, 'View inexistente')
     # Ejecutar la accion de bloqueo.
-    response = c.post('/seguridad/usuario/' + str(usuario.id) + '/bloquear')
+    response = c.post('/seguridad/usuario/' + str(usuario.id) + '/bloquear', {'motivo': 1})
     self.failUnlessEqual(response.status_code, 302, 'No redirecciono a edicion de usuario')
     # Chequear que se haya guardado el bloqueo.
     usuario = Usuario.objects.get(pk=usuario.id)
@@ -71,7 +71,7 @@ class BloqueoUsuarioTest(TestCase):
     response = c.get('/seguridad/usuario/' + str(usuario.id) + '/desbloquear')
     self.failUnlessEqual(response.status_code, 200, 'View inexistente')
     # Ejecutar la accion de desbloqueo.
-    response = c.post('/seguridad/usuario/' + str(usuario.id) + '/desbloquear')
+    response = c.post('/seguridad/usuario/' + str(usuario.id) + '/desbloquear', {'motivo': 3})
     self.failUnlessEqual(response.status_code, 302, 'No redirecciono a edicion de usuario')
     # Chequear que se haya guardado el desbloqueo.
     usuario = Usuario.objects.get(pk=usuario.id)

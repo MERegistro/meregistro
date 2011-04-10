@@ -5,8 +5,9 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
-from seguridad.models import Usuario, Perfil
-from seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm, UsuarioChangePasswordForm
+from seguridad.models import Usuario, Perfil, MotivoBloqueo
+from seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm
+from seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm
 
 
 @login_required
@@ -109,12 +110,18 @@ def bloquear(request, userId):
   """
   usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
-    usuario.is_active = False
-    usuario.save()
-    request.set_flash('success', 'Usuario bloqueado correctamente')
-    return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+    form = BloquearUsuarioForm(request.POST)
+    if form.is_valid():
+      usuario.lock(form.cleaned_data['motivo'])
+      request.set_flash('success', 'Usuario bloqueado correctamente')
+      return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+    else:
+      request.set_flash('warning', 'Ocurrió un error bloqueando al usuario.')
+  else:
+    form = BloquearUsuarioForm()
   return my_render(request, 'seguridad/usuario/bloquear.html', {
-    'usuario': usuario
+    'usuario': usuario,
+    'form': form
   })
 
 @login_required
@@ -124,10 +131,16 @@ def desbloquear(request, userId):
   """
   usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
-    usuario.is_active = True
-    usuario.save()
-    request.set_flash('success', 'Usuario desbloqueado correctamente')
-    return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+    form = DesbloquearUsuarioForm(request.POST)
+    if form.is_valid():
+      usuario.unlock(form.cleaned_data['motivo'])
+      request.set_flash('success', 'Usuario desbloqueado correctamente')
+      return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
+    else:
+      request.set_flash('warning', 'Ocurrió un error desbloqueando al usuario.')
+  else:
+    form = DesbloquearUsuarioForm()
   return my_render(request, 'seguridad/usuario/desbloquear.html', {
-    'usuario': usuario
+    'usuario': usuario,
+    'form' : form
   })

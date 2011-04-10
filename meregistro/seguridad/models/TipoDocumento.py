@@ -9,5 +9,5 @@ class TipoDocumento(models.Model):
   class Meta:
     app_label = 'seguridad'
 
-  def __str__(self):
+  def __unicode__(self):
     return self.descripcion

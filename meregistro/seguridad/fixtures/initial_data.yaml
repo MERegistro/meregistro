@@ -23,4 +23,20 @@
     nombre: Administrador
     descripcion: Administrador
 
+- model: seguridad.MotivoBloqueo
+  pk: 1
+  fields:
+    descripcion: suspensión temporal
+    accion: L
 
+- model: seguridad.MotivoBloqueo
+  pk: 2
+  fields:
+    descripcion: acceso no autorizado
+    accion: L
+
+- model: seguridad.MotivoBloqueo
+  pk: 3
+  fields:
+    descripcion: cuenta reactivada
+    accion: U
