@@ -5,3 +5,6 @@ class Estado(models.Model):
 
   class Meta:
     app_label = 'registro'
+
+  def __unicode__(self):
+    return self.nombre
