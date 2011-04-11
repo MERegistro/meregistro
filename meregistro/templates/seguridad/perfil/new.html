@@ -1,0 +1,51 @@
+{% extends "base_seguridad.html" %}
+
+{% block title %}Asignación de perfil{% endblock %}
+
+{% block content %}
+<h2>Asignación de perfil</h2>
+{% if flash %}
+	{% include "flashes.html" %}
+{% endif %}
+<div class="form" id="perfilForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+    <div class="form-select">
+			<label for="id_tipo_documento">Tipo de documento:</label>
+			{{ usuario.tipo_documento }}
+		</div>
+		<div class="form-text">
+			<label for="id_documento">Documento:</label>
+			{{ usuario.documento }}
+		</div>
+		<div class="form-text">
+			<label for="id_apellido">Apellido:</label>
+			{{ usuario.apellido }}
+		</div>
+		<div class="form-text">
+			<label for="id_nombre">Nombre:</label>
+			{{ usuario.nombre }}
+		</div>
+		<div class="form-select">
+			{{ form.rol.errors }}
+			<label for="id_rol">Rol:</label>
+			{{ form.rol }}
+		</div>
+		<div class="form-select">
+			{{ form.ambito.errors }}
+			<label for="id_ambito">Ambito:</label>
+			{{ form.ambito }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Asignar" />
+		</div>
+	</form>
+</div>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url seguridad.views.perfil.verPerfilesUsuario usuario.id %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

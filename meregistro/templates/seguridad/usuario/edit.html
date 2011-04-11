@@ -49,6 +49,9 @@
 	<li class="change-password">
 		<a href="{% url seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
 	</li>
+	<li class="ver-perfiles">
+		<a href="{% url seguridad.views.perfil.verPerfilesUsuario usuario.id %}"><span>Perfiles</span></a>
+	</li>
 	<li class="">
     {% if usuario.is_active %}
   		<a href="{% url seguridad.views.usuario.bloquear usuario.id %}">

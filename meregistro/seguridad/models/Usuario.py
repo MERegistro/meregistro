@@ -29,14 +29,24 @@ class Usuario(models.Model):
     return self.id is not None
 
   def lock(self, motivo):
+    """ Inhabilitar al usuario """
     self.__set_lock(False, motivo)
 
   def unlock(self, motivo):
+    """ Habilitar al usuario """
     self.__set_lock(True, motivo)
 
   def __set_lock(self, is_active, motivo):
+    """ Registra un bloqueo/desbloqueo y su motivo """
     from meregistro.seguridad.models import BloqueoLog
     self.is_active = is_active
     self.save()
     log = BloqueoLog(usuario = self, motivo = motivo, fecha = datetime.now())
     log.save()
+
+  def asignarPerfil(self, rol, ambito, fechaAsignacion):
+    """ Asigna al usuario un perfil """
+    from seguridad.models import Rol, Ambito, Perfil
+    perfil = Perfil(usuario=self, rol=rol, ambito=ambito, fecha_asignacion=fechaAsignacion)
+    perfil.save()
+

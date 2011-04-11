@@ -10,4 +10,6 @@ urlpatterns = patterns('',
     url(r'^usuario/create', 'seguridad.views.usuario.create', name='usuarioCreate'),
     url(r'^usuario/([0-9]+)/bloquear', 'seguridad.views.usuario.bloquear', name='usuarioBloquear'),
     url(r'^usuario/([0-9]+)/desbloquear', 'seguridad.views.usuario.desbloquear', name='usuarioDesbloquear'),
+    url(r'^usuario/([0-9]+)/verPerfiles', 'seguridad.views.perfil.verPerfilesUsuario', name='verPerfilesUsuario'),
+    url(r'^usuario/([0-9]+)/asignarPerfil', 'seguridad.views.perfil.create', name='asignarPerfilUsuario'),
 )

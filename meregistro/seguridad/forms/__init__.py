@@ -6,3 +6,4 @@ from UsuarioCreateForm import UsuarioCreateForm
 from UsuarioChangePasswordForm import UsuarioChangePasswordForm
 from BloquearUsuarioForm import BloquearUsuarioForm
 from DesbloquearUsuarioForm import DesbloquearUsuarioForm
+from AsignarPerfilForm import AsignarPerfilForm

@@ -1,0 +1,63 @@
+{% extends "base_seguridad.html" %}
+
+{% block title %}Perfiles de usuario{% endblock %}
+
+{% block content %}
+<h2>Perfiles de usuario</h2>
+<div class="form-filter" id="usuarioFormFilter">
+  <h3>Usuario</h3>
+		<div class="form-select">
+			<label for="id_tipo_documento">Tipo de documento:</label>
+			{{ usuario.tipo_documento }}
+		</div>
+		<div class="form-text">
+			<label for="id_documento">Documento:</label>
+			{{ usuario.documento }}
+		</div>
+		<div class="form-text">
+			<label for="id_apellido">Apellido:</label>
+			{{ usuario.apellido }}
+		</div>
+		<div class="form-text">
+			<label for="id_nombre">Nombre:</label>
+			{{ usuario.nombre }}
+		</div>
+</div>
+
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Rol</th>
+      <th>Ambito</th>
+      <th>Fecha asignación</th>
+      <th>Fecha desasignación</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in usuario.perfiles.all %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+        <td>{{p.rol}}</td>
+        <td>{{p.ambito}}</td>
+        <td>{{p.fecha_asignacion}}</td>
+        <td>{% if p.fecha_desasignacion == None %} - {% else %} {{p.fecha_desasignacion}} {% endif %}</td>
+        <td class="actions-td">
+          <ul>
+            <li class="delete"><a href="#" alt="Eliminar" title="Eliminar"><span>Eliminar</span></a></li>
+          </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<ul class="actions">
+  <li class="create">
+    <a href="{% url seguridad.views.perfil.create usuario.id%}"><span>Asignar perfil</span></a>
+  </li>
+  <li class="back">
+    <a href="{% url seguridad.views.usuario.edit usuario.id %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}
