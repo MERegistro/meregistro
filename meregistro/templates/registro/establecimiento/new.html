@@ -7,48 +7,12 @@
 {% if flash %}
 	{% include "flashes.html" %}
 {% endif %}
-<div class="form" id="establecimientoForm">
-	<form action="" method="post">{% csrf_token %}
-		{{ form.non_field_errors }}
-		<div class="form-select">
-			{{ form.dependencia_funcional.errors }}
-			<label for="id_dependencia_funcional">Dependencia funcional:</label>
-			{{ form.dependencia_funcional }}
-		</div>
-		<div class="form-text">
-			{{ form.cue.errors }}
-			<label for="id_cue">CUE:</label>
-			{{ form.cue }}
-		</div>
-		<div class="form-text">
-			{{ form.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form.nombre }}
-		</div>
-		<div class="form-text">
-			{{ form.norma_creacion.errors }}
-			<label for="norma_creacion">Norma de creación:</label>
-			{{ form.norma_creacion }}
-		</div>
-		<div class="form-text">
-			{{ form.anio_creacion.errors }}
-			<label for="anio_creacion">Año de creación:</label>
-			{{ form.anio_creacion }}
-		</div>
-		<div class="form-textarea">
-			{{ form.observaciones.errors }}
-			<label for="observaciones">Observaciones:</label>
-			{{ form.observaciones }}
-		</div>
-		<div class="form-submit">
-			<input type="submit" value="Dar alta" />
-		</div>
-	</form>
-</div>
+
+{% include "registro/establecimiento/form.html" %}
 
 <ul class="actions">
   <li class="back">
-    <a href="{% url seguridad.views.usuario.index %}"><span>Volver</span></a>
+    <a href="{% url registro.views.establecimiento.index %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />

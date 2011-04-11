@@ -1,0 +1,27 @@
+{% if show_paginator %}
+<div class="paginator">
+	<p class="paginator-summary">(Página {{ page }} de {{ pages }})</p>
+	<ul>
+{% if has_prev %}
+		<li class="prev-page-enabled"><a href="?page={{ prev_page }}" title="Página anterior" alt="Página anterior"><span>&laquo; Anterior</span></a></li>
+{% else %}
+		<li class="prev-page-disabled"><span>&laquo; Anterior</span></li>
+{% endif %}
+
+{% for page_num in pages_range %}
+	{% if page_num = page %}
+		<li class="page-number current"><span>{{ page_num }}</span></li>
+	{% else %}
+		<li class="page-number" title="Página {{ page_num }}" alt="Página {{ page_num }}"><a href="?page={{ page_num }}"><span>{{ page_num }}</span></a></li>
+	{% endif %}
+{% endfor %}
+
+{% if has_next %}
+		<li class="next-page-enabled" title="Página siguiente" alt="Página siguiente"><a href="?page={{ next_page }}"><span>Próxima &raquo;</span></a></li>
+{% else %}
+		<li class="next-page-disabled"><span>Próxima &raquo;</span></li>
+{% endif %}
+	</ul>
+	<hr />
+</div>
+{% endif %}
