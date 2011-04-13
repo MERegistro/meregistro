@@ -10,15 +10,15 @@ from registro.models import Establecimiento, Estado
 from registro.forms import EstablecimientoFormFilters, EstablecimientoForm
 from django.core.paginator import Paginator
 
-ITEMS_PER_PAGE = 40
+ITEMS_PER_PAGE = 50
 
 @login_required
 def index(request):
 	"""
 	Búsqueda de establecimientos
 	"""
-	if request.method == 'POST':
-		form_filter = EstablecimientoFormFilters(request.POST)
+	if request.method == 'GET':
+		form_filter = EstablecimientoFormFilters(request.GET)
 	else:
 		form_filter = EstablecimientoFormFilters()
 	q = build_query(form_filter, 1)

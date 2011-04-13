@@ -389,19 +389,20 @@ div.success {
 =PAGINATOR
 */
 div.paginator {
-	margin: 0 0 0;
+	margin: 0;
 	background: #ccc;
 	border-top: 1px #bbb solid;
 	font-size: 12px;
 }
 div.paginator ul {
 	padding: 5px 5px;
-	margin: 0 10px 0 0;
+	margin: 0;
 	float: right;
 }
 div.paginator ul li {
 	float: left;
 }
+/*
 div.paginator ul li.prev-page-disabled,
 div.paginator ul li.prev-page-enabled {
 	border-right: 1px #aaa solid;
@@ -471,4 +472,31 @@ div.paginator ul li a:visited {
 }
 div.paginator ul li a:hover {
 	text-decoration: underline;
+}
+*/
+div.paginator ul li.page-number {
+	margin: 0 2px 0 0;
+}
+div.paginator ul li.page-number input {
+	width: 22px;
+	height: 22px;
+	background: #fff;
+	border: none;
+	cursor: pointer;
+}
+div.paginator ul li.current {
+	width: 22px;
+	height: 22px;
+}
+div.paginator ul li.current span {
+	display: block;
+	background: #ddd;
+	width: 22px;
+	text-align: center;
+	padding: 5px 0 3px;
+	border-bottom: 3px #666 solid;
+}
+div.paginator p.paginator-summary {
+	margin: 8px 0 0 10px;
+	float: left;
 }

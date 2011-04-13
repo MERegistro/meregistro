@@ -28,6 +28,6 @@ class Establecimiento(models.Model):
 		try:
 			est = Establecimiento.objects.get(cue = self.cue, dependencia_funcional__jurisdiccion__prefijo__exact = self.dependencia_funcional.jurisdiccion.prefijo)
 			if est and est != self:
-				raise ValidationError('Ya existe un establecimiento con ese CUE y cuya dependencia funcional corresponde a la misma jurisdicción.')
+				raise ValidationError('Ya existe un establecimiento con ese CUE en su jurisdicción.')
 		except Establecimiento.DoesNotExist:
 			pass

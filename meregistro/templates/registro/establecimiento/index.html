@@ -4,9 +4,9 @@
 
 {% block content %}
 <h2>Administrar establecimientos</h2>
+<form action="" method="get">
 <div class="form-filter" id="establecimientoFormFilter">
   <h3>Búsqueda avanzada</h3>
-	<form action="" method="post">{% csrf_token %}
 		{{ form_filters.non_field_errors }}
 		<div class="form-select">
 			{{ form_filters.dependencia_funcional.errors }}
@@ -25,9 +25,9 @@
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
-      <input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
 		</div>
-	</form>
+
 </div>
 
 {% if objects %}
@@ -48,7 +48,7 @@
         <td>{{ est.nombre }}</td>
         <td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url registro.views.establecimiento.edit est.id %}" alt="Editar" title="Editar"><span>Editar</span></a></li>
+            <li class="edit"><a href="{% url registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
             <!--
             <li class="delete"><a href="#" alt="Eliminar" title="Eliminar"><span>Eliminar</span></a></li>
             -->
@@ -59,7 +59,7 @@
   </tbody>
 </table>
 {% include "paginator.html" %}
-
+</form>
 {% else %}
 <div class="message warning">
   <p>No se encontraron establecimientos.</p>
