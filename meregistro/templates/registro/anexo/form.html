@@ -1,0 +1,47 @@
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.establecimiento.errors }}
+			<label for="id_establecimiento">Establecimiento:</label>
+			{{ form.establecimiento }}
+		</div>
+		<div class="form-text">
+			{{ form.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form.cue }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.fecha_alta.errors }}
+			<label for="fecha_alta">Fecha de alta:</label>
+			{{ form.fecha_alta }}
+		</div>
+		<div class="form-text">
+			{{ form.telefono.errors }}
+			<label for="telefono">Teléfono:</label>
+			{{ form.telefono }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="email">Email:</label>
+			{{ form.email }}
+		</div>
+		<div class="form-text">
+			{{ form.sitio_web.errors }}
+			<label for="sitio_web">Sitio web:</label>
+			{{ form.sitio_web }}
+		</div>
+		<div class="form-submit">
+		{% if anexo %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>
