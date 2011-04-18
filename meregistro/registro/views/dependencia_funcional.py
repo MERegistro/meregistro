@@ -64,9 +64,7 @@ def create(request):
   if request.method == 'POST':
     form = DependenciaFuncionalForm(request.POST)
     if form.is_valid(): # guardar
-      dependencia_funcional = form.save(commit = False)
-      dependencia_funcional.estado = Estado.objects.get(nombre = 'Pendiente')
-      dependencia_funcional.save()
+      dependencia_funcional = form.save(commit = True)
 
       request.set_flash('success', 'Datos guardados correctamente.')
 
