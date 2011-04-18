@@ -69,7 +69,7 @@ def create(request):
       request.set_flash('success', 'Datos guardados correctamente.')
 
       # redirigir a edit
-      return HttpResponseRedirect(reverse('dependenciafuncionalEdit', args=[dependencia_funcional.id]))
+      return HttpResponseRedirect(reverse('dependenciaFuncionalEdit', args=[dependencia_funcional.id]))
     else:
       request.set_flash('warning', 'Ocurrió un error guardando los datos.')
   else:
