@@ -1,0 +1,38 @@
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">Jurisdicción:</label>
+			{{ form.jurisdiccion }}
+		</div>
+		<div class="form-select">
+			{{ form.gestion_jurisdiccion.errors }}
+			<label for="id_gestion_jurisdiccion">Gestión jurisdiccional:</label>
+			{{ form.gestion_jurisdiccion }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_gestion.errors }}
+			<label for="id_tipo_gestion">Tipo de gestión:</label>
+			{{ form.tipo_gestion }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_dependencia_funcional.errors }}
+			<label for="id_tipo_dependencia_funcional">Tipo de dependencia:</label>
+			{{ form.tipo_dependencia_funcional }}
+		</div>
+
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-submit">
+		{% if establecimiento %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

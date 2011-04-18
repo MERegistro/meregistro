@@ -9,6 +9,7 @@ from TipoDependenciaFuncional import TipoDependenciaFuncional
 from TipoDominio import TipoDominio
 from DependenciaFuncional import DependenciaFuncional
 from Establecimiento import Establecimiento
+from Anexo import Anexo
 from Turno import Turno
 from Estado import Estado
 from Funcion import Funcion

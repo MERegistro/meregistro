@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 class Establecimiento(models.Model):
 	dependencia_funcional = models.ForeignKey(DependenciaFuncional)
-	cue = models.CharField(max_length = 10)
+	cue = models.CharField(max_length = 5)
 	nombre = models.CharField(max_length = 255)
 	tipo_normativa = models.ForeignKey(TipoNormativa)
 	unidad_academica = models.BooleanField()
@@ -19,6 +19,7 @@ class Establecimiento(models.Model):
 
 	class Meta:
 		app_label = 'registro'
+		ordering = ['nombre']
 
 	def __unicode__(self):
 		return self.nombre

@@ -1,2 +1,6 @@
 from EstablecimientoForm import EstablecimientoForm
 from EstablecimientoFormFilters import EstablecimientoFormFilters
+from AnexoForm import AnexoForm
+from AnexoFormFilters import AnexoFormFilters
+from DependenciaFuncionalForm import DependenciaFuncionalForm
+from DependenciaFuncionalFormFilters import DependenciaFuncionalFormFilters
