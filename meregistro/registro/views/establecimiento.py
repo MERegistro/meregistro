@@ -71,7 +71,7 @@ def create(request):
       request.set_flash('success', 'Datos guardados correctamente.')
 
       # redirigir a edit
-      return HttpResponseRedirect(reverse('establecimientoEdit', args=[establecimiento.id]))
+      return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
     else:
       request.set_flash('warning', 'Ocurrió un error guardando los datos.')
   else:
