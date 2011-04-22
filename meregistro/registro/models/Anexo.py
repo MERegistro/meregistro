@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 
 class Anexo(models.Model):
 	establecimiento = models.ForeignKey(Establecimiento)
-	cue = models.CharField(max_length = 2)
+	cue = models.CharField(max_length = 2, help_text = 'pepe')
 	fecha_alta = models.DateField(null = True, blank = True)
 	nombre = models.CharField(max_length = 255)
 	telefono = models.CharField(max_length = 100, null = True, blank = True)
