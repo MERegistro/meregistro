@@ -12,7 +12,12 @@ class Ambito(models.Model):
     app_label = 'seguridad'
 
   def __unicode__(self):
-    return self.descripcion
+    s = self.descripcion
+    parent = self.parent
+    while parent is not None:
+      s = parent.descripcion + '-' + s
+      parent = parent.parent
+    return s
 
   def createChild(self, childDescripcion):
     child = Ambito()

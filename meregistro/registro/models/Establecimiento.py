@@ -3,6 +3,7 @@ from django.db import models
 from meregistro.registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from datetime import datetime
+from meregistro.seguridad.models import Ambito
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.now().year + 1))
 
@@ -19,6 +20,7 @@ class Establecimiento(models.Model):
 	telefono = models.CharField(max_length = 100, null = True, blank = True)
 	email = models.EmailField(max_length = 255, null = True, blank = True)
 	sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
+	ambito = models.ForeignKey(Ambito)
 
 	class Meta:
 		app_label = 'registro'
@@ -36,3 +38,13 @@ class Establecimiento(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
+	def save(self):
+		self.updateAmbito()
+		models.Model.save(self)
+
+	def updateAmbito(self):
+		if self.pk is None or self.ambito is None:
+			self.ambito = self.dependencia_funcional.ambito.createChild(self.nombre)
+		else:
+			self.ambito.descripcion = self.nombre
+			self.ambito.save()
