@@ -20,7 +20,7 @@ class Establecimiento(models.Model):
 	telefono = models.CharField(max_length = 100, null = True, blank = True)
 	email = models.EmailField(max_length = 255, null = True, blank = True)
 	sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
-	ambito = models.ForeignKey(Ambito)
+	ambito = models.ForeignKey(Ambito, editable=False)
 
 	class Meta:
 		app_label = 'registro'

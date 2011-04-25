@@ -8,7 +8,7 @@ class DependenciaFuncional(models.Model):
 	gestion_jurisdiccion = models.ForeignKey(GestionJurisdiccion)
 	tipo_gestion = models.ForeignKey(TipoGestion)
 	tipo_dependencia_funcional = models.ForeignKey(TipoDependenciaFuncional)
-	ambito = models.ForeignKey(Ambito)
+	ambito = models.ForeignKey(Ambito, editable=False)
 
 	class Meta:
 		app_label = 'registro'

@@ -3,7 +3,7 @@ from seguridad.models import Ambito
 
 class Region(models.Model):
 	nombre = models.CharField(max_length=50, unique=True)
-	ambito = models.ForeignKey(Ambito)
+	ambito = models.ForeignKey(Ambito, editable=False)
 
 	class Meta:
 		app_label = 'registro'

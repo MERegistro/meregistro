@@ -6,7 +6,7 @@ class Jurisdiccion(models.Model):
 	prefijo = models.IntegerField(null = True)
 	region = models.ForeignKey(Region)
 	nombre = models.CharField(max_length=50)
-	ambito = models.ForeignKey(Ambito)
+	ambito = models.ForeignKey(Ambito, editable=False)
 
 	class Meta:
 		app_label = 'registro'

@@ -21,7 +21,7 @@ def index(request):
 		form_filter = EstablecimientoFormFilters(request.GET)
 	else:
 		form_filter = EstablecimientoFormFilters()
-	q = build_query(form_filter, 1)
+	q = build_query(form_filter, 1, request)
 
 	paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -50,11 +50,11 @@ def index(request):
 		'prev_page': page_number - 1
 	})
 
-def build_query(filters, page):
+def build_query(filters, page, request):
   """
   Construye el query de búsqueda a partir de los filtros.
   """
-  return filters.buildQuery().order_by('nombre')
+  return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
 
 @login_required
 def create(request):
