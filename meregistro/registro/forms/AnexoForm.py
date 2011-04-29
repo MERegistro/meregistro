@@ -11,6 +11,7 @@ currentYear = datetime.datetime.now().year
 
 class AnexoForm(ModelForm):
 	fecha_alta = forms.DateField(input_formats = ['%d/%m/%Y', '%d/%m/%y'], required = False, initial = datetime.date.today)
+
 	# TODO: investigar, el widget se resetea si la fecha no es válida
 	#fecha_alta = forms.DateField(required = False, initial = datetime.date.today, widget = SelectDateWidget(years = range(1900, currentYear + 5)))
 

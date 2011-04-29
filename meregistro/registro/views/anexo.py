@@ -6,9 +6,10 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
-from registro.models import Establecimiento, Anexo
+from registro.models import Establecimiento, Anexo, AnexoEstado
 from registro.forms import AnexoFormFilters, AnexoForm
 from django.core.paginator import Paginator
+import datetime
 
 ITEMS_PER_PAGE = 50
 
@@ -51,52 +52,52 @@ def index(request):
 	})
 
 def build_query(filters, page):
-  """
-  Construye el query de búsqueda a partir de los filtros.
-  """
-  return filters.buildQuery().order_by('establecimiento__nombre', 'cue')
+	"""
+	Construye el query de búsqueda a partir de los filtros.
+	"""
+	return filters.buildQuery().order_by('establecimiento__nombre', 'cue')
 
 @login_required
 def create(request):
-  """
-  Alta de anexo.
-  """
-  if request.method == 'POST':
-    form = AnexoForm(request.POST)
-    if form.is_valid(): # guardar
-      anexo = form.save(commit = True)
+	"""
+	Alta de anexo.
+	"""
+	if request.method == 'POST':
+		form = AnexoForm(request.POST)
+		if form.is_valid(): # guardar
+			anexo = form.save(commit = False)
+			estado = AnexoEstado()
+			request.set_flash('success', 'Datos guardados correctamente.')
 
-      request.set_flash('success', 'Datos guardados correctamente.')
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('anexoEdit', args=[anexo.id]))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	else:
+		form = AnexoForm()
 
-      # redirigir a edit
-      return HttpResponseRedirect(reverse('anexoEdit', args=[anexo.id]))
-    else:
-      request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-  else:
-    form = AnexoForm()
-
-  return my_render(request, 'registro/anexo/new.html', {
-    'form': form,
-    'is_new': True,
-  })
+	return my_render(request, 'registro/anexo/new.html', {
+		'form': form,
+		'is_new': True,
+	})
 
 @login_required
 def edit(request, anexo_id):
-  """
-  Edición de los datos de un anexo.
-  """
-  anexo = Anexo.objects.get(pk = anexo_id)
-  if request.method == 'POST':
-    form = AnexoForm(request.POST, instance = anexo)
-    if form.is_valid(): # guardar
-      anexo = form.save()
-      request.set_flash('success', 'Datos actualizados correctamente.')
-    else:
-      request.set_flash('warning','Ocurrió un error actualizando los datos.')
-  else:
-    form = AnexoForm(instance = anexo)
+	"""
+	Edición de los datos de un anexo.
+	"""
+	anexo = Anexo.objects.get(pk = anexo_id)
+	if request.method == 'POST':
+		form = AnexoForm(request.POST, instance = anexo)
+		if form.is_valid(): # guardar
+			anexo = form.save()
+			request.set_flash('success', 'Datos actualizados correctamente.')
+		else:
+			request.set_flash('warning','Ocurrió un error actualizando los datos.')
+	else:
+		form = AnexoForm(instance = anexo)
 
-  return my_render(request, 'registro/anexo/edit.html', {
-    'form': form,
-    'anexo': anexo,
-  })
+	return my_render(request, 'registro/anexo/edit.html', {
+		'form': form,
+		'anexo': anexo,
+	})
