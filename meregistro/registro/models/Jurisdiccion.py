@@ -1,5 +1,5 @@
 from django.db import models
-from meregistro.registro.models import Region
+from registro.models import Region
 
 class Jurisdiccion(models.Model):
 	prefijo = models.IntegerField(null = True)

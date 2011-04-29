@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
+from registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
+from registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from datetime import datetime
 
-YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.now().year + 1))
+import datetime
+import time
+
+YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
 class Establecimiento(models.Model):
 	dependencia_funcional = models.ForeignKey(DependenciaFuncional)
@@ -36,3 +39,8 @@ class Establecimiento(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
+	def registrar_estado(self, estado):
+		registro = RegistroEstablecimiento(estado = estado)
+		registro.fecha_solicitud = datetime.date.today()
+		registro.establecimiento_id = 1
+		registro.save()

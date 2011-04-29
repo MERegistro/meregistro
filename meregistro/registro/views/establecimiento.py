@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
-from registro.models import Establecimiento, Estado
+from registro.models import Establecimiento, Estado, RegistroEstablecimiento
 from registro.forms import EstablecimientoFormFilters, EstablecimientoForm
 from django.core.paginator import Paginator
 
@@ -51,54 +51,55 @@ def index(request):
 	})
 
 def build_query(filters, page):
-  """
-  Construye el query de búsqueda a partir de los filtros.
-  """
-  return filters.buildQuery().order_by('nombre')
+	"""
+	Construye el query de búsqueda a partir de los filtros.
+	"""
+	return filters.buildQuery().order_by('nombre')
 
 @login_required
 def create(request):
-  """
-  Alta de establecimiento.
-  """
-  if request.method == 'POST':
-    form = EstablecimientoForm(request.POST)
-    if form.is_valid(): # guardar
-      establecimiento = form.save(commit = False)
-      establecimiento.estado = Estado.objects.get(nombre = 'Pendiente')
-      establecimiento.save()
+	"""
+	Alta de establecimiento.
+	"""
+	if request.method == 'POST':
+		form = EstablecimientoForm(request.POST)
+		if form.is_valid(): # guardar
+			establecimiento = form.save(commit = False)
+			estado = Estado.objects.get(nombre = 'Pendiente')
+			establecimiento.registrar_estado(estado)
+			establecimiento.save()
 
-      request.set_flash('success', 'Datos guardados correctamente.')
+			request.set_flash('success', 'Datos guardados correctamente.')
 
-      # redirigir a edit
-      return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
-    else:
-      request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-  else:
-    form = EstablecimientoForm()
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	else:
+		form = EstablecimientoForm()
 
-  return my_render(request, 'registro/establecimiento/new.html', {
-    'form': form,
-    'is_new': True,
-  })
+	return my_render(request, 'registro/establecimiento/new.html', {
+		'form': form,
+		'is_new': True,
+	})
 
 @login_required
 def edit(request, establecimiento_id):
-  """
-  Edición de los datos de un establecimiento.
-  """
-  establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
-  if request.method == 'POST':
-    form = EstablecimientoForm(request.POST, instance = establecimiento)
-    if form.is_valid(): # guardar
-      establecimiento = form.save()
-      request.set_flash('success', 'Datos actualizados correctamente.')
-    else:
-      request.set_flash('warning','Ocurrió un error actualizando los datos.')
-  else:
-    form = EstablecimientoForm(instance = establecimiento)
+	"""
+	Edición de los datos de un establecimiento.
+	"""
+	establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+	if request.method == 'POST':
+		form = EstablecimientoForm(request.POST, instance = establecimiento)
+		if form.is_valid(): # guardar
+			establecimiento = form.save()
+			request.set_flash('success', 'Datos actualizados correctamente.')
+		else:
+			request.set_flash('warning','Ocurrió un error actualizando los datos.')
+	else:
+		form = EstablecimientoForm(instance = establecimiento)
 
-  return my_render(request, 'registro/establecimiento/edit.html', {
-    'form': form,
-    'establecimiento': establecimiento,
-  })
+	return my_render(request, 'registro/establecimiento/edit.html', {
+		'form': form,
+		'establecimiento': establecimiento,
+	})
