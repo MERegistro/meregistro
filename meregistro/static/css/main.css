@@ -171,8 +171,14 @@ div.form label {
 	display: block;
 	float: left;
 	width: 170px;
+	color: #353636;
+	font-weight: bold;
 }
-
+div.form p.help-text {
+	padding-left: 170px;
+	color: #4E4E4E;
+	font-style: italic;
+}
 div.form div.form-text input,
 div.form div.form-select select,
 div.form div.form-textarea textarea {
@@ -206,7 +212,7 @@ div.form ul.errorlist li { /* Cada error */
 */
 table.hor-zebra {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-	font-size: 12px;
+	font-size: 11px;
 	margin: 45px 10px 0 0;
 	width: 100%;
 	text-align: left;
@@ -214,7 +220,7 @@ table.hor-zebra {
 	border: 1px #ccc solid;
 }
 table.hor-zebra th {
-	font-size: 14px;
+	font-size: 12px;
 	font-weight: bold;
 	padding: 5px;
 	color: #fff;
