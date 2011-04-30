@@ -3,7 +3,6 @@ from django.db import models
 from registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
 from registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-
 from datetime import datetime
 from meregistro.seguridad.models import Ambito
 

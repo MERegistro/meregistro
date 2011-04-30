@@ -50,19 +50,12 @@ def index(request):
 		'prev_page': page_number - 1
 	})
 
-<<<<<<< HEAD
-def build_query(filters, page):
-	"""
-	Construye el query de búsqueda a partir de los filtros.
-	"""
-	return filters.buildQuery().order_by('nombre')
-=======
+
 def build_query(filters, page, request):
   """
   Construye el query de búsqueda a partir de los filtros.
   """
   return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
->>>>>>> 6aa35c71139ab31cd22703c128a0692b192238f4
 
 @login_required
 def create(request):
