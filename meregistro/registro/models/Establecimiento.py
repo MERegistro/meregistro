@@ -3,14 +3,9 @@ from django.db import models
 from registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
 from registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-<<<<<<< HEAD
-=======
+
 from datetime import datetime
 from meregistro.seguridad.models import Ambito
->>>>>>> 6aa35c71139ab31cd22703c128a0692b192238f4
-
-import datetime
-import time
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
@@ -45,13 +40,12 @@ class Establecimiento(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
-<<<<<<< HEAD
 	def registrar_estado(self, estado):
 		registro = RegistroEstablecimiento(estado = estado)
 		registro.fecha_solicitud = datetime.date.today()
 		registro.establecimiento_id = 1
 		registro.save()
-=======
+
 	def save(self):
 		self.updateAmbito()
 		models.Model.save(self)
@@ -62,4 +56,3 @@ class Establecimiento(models.Model):
 		else:
 			self.ambito.descripcion = self.nombre
 			self.ambito.save()
->>>>>>> 6aa35c71139ab31cd22703c128a0692b192238f4
