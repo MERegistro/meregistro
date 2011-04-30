@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from registro.models import Establecimiento, Estado
+from meregistro.registro.models import Establecimiento, Estado
 from django.core.exceptions import ValidationError
 
 class Anexo(models.Model):

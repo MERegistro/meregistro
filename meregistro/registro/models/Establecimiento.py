@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
-from registro.models.RegistroEstablecimiento import RegistroEstablecimiento
+from meregistro.registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
+from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from datetime import datetime
+import datetime
 from meregistro.seguridad.models import Ambito
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
