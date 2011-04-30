@@ -1,0 +1,192 @@
+- fields: {app_label: seguridad, model: ambito, name: ambito}
+  model: contenttypes.contenttype
+  pk: 24
+- fields: {app_label: registro, model: anexo, name: anexo}
+  model: contenttypes.contenttype
+  pk: 13
+- fields: {app_label: seguridad, model: aplicacion, name: aplicacion}
+  model: contenttypes.contenttype
+  pk: 18
+- fields: {app_label: seguridad, model: bloqueolog, name: bloqueo log}
+  model: contenttypes.contenttype
+  pk: 23
+- fields: {app_label: contenttypes, model: contenttype, name: content type}
+  model: contenttypes.contenttype
+  pk: 1
+- fields: {app_label: seguridad, model: credencial, name: credencial}
+  model: contenttypes.contenttype
+  pk: 19
+- fields: {app_label: registro, model: dependenciafuncional, name: dependencia funcional}
+  model: contenttypes.contenttype
+  pk: 11
+- fields: {app_label: registro, model: establecimiento, name: establecimiento}
+  model: contenttypes.contenttype
+  pk: 12
+- fields: {app_label: registro, model: estado, name: estado}
+  model: contenttypes.contenttype
+  pk: 15
+- fields: {app_label: registro, model: funcion, name: funcion}
+  model: contenttypes.contenttype
+  pk: 16
+- fields: {app_label: registro, model: gestionjurisdiccion, name: gestion jurisdiccion}
+  model: contenttypes.contenttype
+  pk: 6
+- fields: {app_label: registro, model: jurisdiccion, name: jurisdiccion}
+  model: contenttypes.contenttype
+  pk: 5
+- fields: {app_label: seguridad, model: motivobloqueo, name: motivo bloqueo}
+  model: contenttypes.contenttype
+  pk: 21
+- fields: {app_label: registro, model: nivel, name: nivel}
+  model: contenttypes.contenttype
+  pk: 17
+- fields: {app_label: seguridad, model: perfil, name: perfil}
+  model: contenttypes.contenttype
+  pk: 26
+- fields: {app_label: registro, model: region, name: region}
+  model: contenttypes.contenttype
+  pk: 4
+- fields: {app_label: seguridad, model: rol, name: rol}
+  model: contenttypes.contenttype
+  pk: 25
+- fields: {app_label: sessions, model: session, name: session}
+  model: contenttypes.contenttype
+  pk: 2
+- fields: {app_label: sites, model: site, name: site}
+  model: contenttypes.contenttype
+  pk: 3
+- fields: {app_label: registro, model: tipodependenciafuncional, name: tipo dependencia
+      funcional}
+  model: contenttypes.contenttype
+  pk: 9
+- fields: {app_label: seguridad, model: tipodocumento, name: tipo documento}
+  model: contenttypes.contenttype
+  pk: 20
+- fields: {app_label: registro, model: tipodominio, name: tipo dominio}
+  model: contenttypes.contenttype
+  pk: 10
+- fields: {app_label: registro, model: tipogestion, name: tipo gestion}
+  model: contenttypes.contenttype
+  pk: 7
+- fields: {app_label: registro, model: tiponormativa, name: tipo normativa}
+  model: contenttypes.contenttype
+  pk: 8
+- fields: {app_label: registro, model: turno, name: turno}
+  model: contenttypes.contenttype
+  pk: 14
+- fields: {app_label: seguridad, model: usuario, name: usuario}
+  model: contenttypes.contenttype
+  pk: 22
+- fields: {expire_date: !!timestamp '2011-05-09 15:44:37.954600', session_data: 'gAJ9cQEoVQlwZXJmaWxfaWRxAlgBAAAAMlUFZmxhc2hxA05VB3VzZXJfaWRxBEsBVQxjcmVkZW5j
+
+      aWFsZXNxBV1xBnUuZjQ3MTBlNDZmNGFhNWJhYTU1OWI2MzM3Mzk3MTRhNDY=
+
+      '}
+  model: sessions.session
+  pk: 199f76323d35152470d9c93b631ed29d
+- fields: {domain: example.com, name: example.com}
+  model: sites.site
+  pk: 1
+- fields: {ambito: 2, nombre: NOA}
+  model: registro.region
+  pk: 1
+- fields: {ambito: 3, nombre: jujuy, prefijo: 1, region: 1}
+  model: registro.jurisdiccion
+  pk: 1
+- fields: {nombre: Tito}
+  model: registro.gestionjurisdiccion
+  pk: 1
+- fields: {nombre: tg}
+  model: registro.tipogestion
+  pk: 1
+- fields: {descripcion: tnorm}
+  model: registro.tiponormativa
+  pk: 1
+- fields: {nombre: tdf}
+  model: registro.tipodependenciafuncional
+  pk: 1
+- fields: {ambito: 4, gestion_jurisdiccion: 1, jurisdiccion: 1, nombre: MEJ, tipo_dependencia_funcional: 1,
+    tipo_gestion: 1}
+  model: registro.dependenciafuncional
+  pk: 1
+- fields: {ambito: 6, gestion_jurisdiccion: 1, jurisdiccion: 1, nombre: MES, tipo_dependencia_funcional: 1,
+    tipo_gestion: 1}
+  model: registro.dependenciafuncional
+  pk: 2
+- fields: {ambito: 5, anio_creacion: 1813, cue: '12345', dependencia_funcional: 1,
+    email: mm@mm.com, nombre: Establecimiento 1, nombre_unidad_academica: s, norma_creacion: norma
+      1, observaciones: '', sitio_web: 'http://google.com/', telefono: '', tipo_normativa: 1,
+    unidad_academica: true}
+  model: registro.establecimiento
+  pk: 1
+- fields: {ambito: 7, anio_creacion: null, cue: '12346', dependencia_funcional: 2,
+    email: null, nombre: Establecimiento 2, nombre_unidad_academica: null, norma_creacion: norma
+      1, observaciones: null, sitio_web: null, telefono: null, tipo_normativa: 1,
+    unidad_academica: true}
+  model: registro.establecimiento
+  pk: 2
+- fields: {abreviatura: DNI, descripcion: Documento Nacional de Identidad}
+  model: seguridad.tipodocumento
+  pk: 1
+- fields: {abreviatura: PS, descripcion: Pasaporte}
+  model: seguridad.tipodocumento
+  pk: 2
+- fields: {accion: L, descripcion: "suspensi\xF3n temporal"}
+  model: seguridad.motivobloqueo
+  pk: 1
+- fields: {accion: L, descripcion: acceso no autorizado}
+  model: seguridad.motivobloqueo
+  pk: 2
+- fields: {accion: U, descripcion: cuenta reactivada}
+  model: seguridad.motivobloqueo
+  pk: 3
+- fields: {apellido: test, documento: test, email: test@example.org, is_active: true,
+    last_login: null, nombre: test, password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3,
+    tipo_documento: 1}
+  model: seguridad.usuario
+  pk: 1
+- fields: {apellido: usractivo, documento: usractivo, email: usractivo@example.org,
+    is_active: true, last_login: null, nombre: usractivo, password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3,
+    tipo_documento: 1}
+  model: seguridad.usuario
+  pk: 2
+- fields: {apellido: usrinactivo, documento: usrinactivo, email: usrinactivo@example.org,
+    is_active: false, last_login: null, nombre: usrinactivo, password: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3,
+    tipo_documento: 1}
+  model: seguridad.usuario
+  pk: 3
+- fields: {descripcion: Todo, level: 0, parent: null, path: /1}
+  model: seguridad.ambito
+  pk: 1
+- fields: {descripcion: NOA, level: 1, parent: 1, path: /1/2}
+  model: seguridad.ambito
+  pk: 2
+- fields: {descripcion: jujuy, level: 2, parent: 2, path: /1/2/3}
+  model: seguridad.ambito
+  pk: 3
+- fields: {descripcion: MEJ, level: 3, parent: 3, path: /1/2/3/4}
+  model: seguridad.ambito
+  pk: 4
+- fields: {descripcion: Establecimiento 1, level: 4, parent: 4, path: /1/2/3/4/5}
+  model: seguridad.ambito
+  pk: 5
+- fields: {descripcion: MES, level: 3, parent: 3, path: /1/2/3/6}
+  model: seguridad.ambito
+  pk: 6
+- fields: {descripcion: Establecimiento 2, level: 4, parent: 6, path: /1/2/3/6/7}
+  model: seguridad.ambito
+  pk: 7
+- fields:
+    credenciales: []
+    descripcion: Administrador
+    nombre: Administrador
+  model: seguridad.rol
+  pk: 1
+- fields: {ambito: 3, fecha_asignacion: 2011-04-25, fecha_desasignacion: null, rol: 1,
+    usuario: 1}
+  model: seguridad.perfil
+  pk: 1
+- fields: {ambito: 6, fecha_asignacion: 2011-04-25, fecha_desasignacion: null, rol: 1,
+    usuario: 1}
+  model: seguridad.perfil
+  pk: 2

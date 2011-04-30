@@ -3,6 +3,11 @@ from django.db import models
 from registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
 from registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+<<<<<<< HEAD
+=======
+from datetime import datetime
+from meregistro.seguridad.models import Ambito
+>>>>>>> 6aa35c71139ab31cd22703c128a0692b192238f4
 
 import datetime
 import time
@@ -22,6 +27,7 @@ class Establecimiento(models.Model):
 	telefono = models.CharField(max_length = 100, null = True, blank = True)
 	email = models.EmailField(max_length = 255, null = True, blank = True)
 	sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
+	ambito = models.ForeignKey(Ambito, editable=False)
 
 	class Meta:
 		app_label = 'registro'
@@ -39,8 +45,21 @@ class Establecimiento(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
+<<<<<<< HEAD
 	def registrar_estado(self, estado):
 		registro = RegistroEstablecimiento(estado = estado)
 		registro.fecha_solicitud = datetime.date.today()
 		registro.establecimiento_id = 1
 		registro.save()
+=======
+	def save(self):
+		self.updateAmbito()
+		models.Model.save(self)
+
+	def updateAmbito(self):
+		if self.pk is None or self.ambito is None:
+			self.ambito = self.dependencia_funcional.ambito.createChild(self.nombre)
+		else:
+			self.ambito.descripcion = self.nombre
+			self.ambito.save()
+>>>>>>> 6aa35c71139ab31cd22703c128a0692b192238f4

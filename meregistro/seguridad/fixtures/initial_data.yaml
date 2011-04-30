@@ -15,6 +15,7 @@
   pk: 1
   fields:
     descripcion: Todo
+    path: /1
     level: 0
 
 - model: seguridad.Rol
