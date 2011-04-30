@@ -1,5 +1,5 @@
 from django.db import models
-from meregistro.registro.models import Region
+from meregistro.registro.models.Region import Region
 from meregistro.seguridad.models import Ambito
 
 class Jurisdiccion(models.Model):

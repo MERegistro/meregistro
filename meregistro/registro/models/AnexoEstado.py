@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from registro.models import Anexo, Estado
+from meregistro.registro.models.Anexo import Anexo
+from meregistro.registro.models.Estado import Estado
 
 class AnexoEstado(models.Model):
 	anexo = models.ForeignKey(Anexo)

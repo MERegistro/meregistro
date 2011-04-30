@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from registro.models.Estado import Estado
 
 class RegistroEstablecimiento(models.Model):
-	from registro.models.Estado import Estado
 	#
 	establecimiento = models.ForeignKey('Establecimiento')
 	estado = models.ForeignKey('Estado')

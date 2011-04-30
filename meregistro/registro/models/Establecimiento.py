@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.registro.models import DependenciaFuncional, TipoNormativa, Jurisdiccion
+from meregistro.registro.models.TipoNormativa import TipoNormativa
+from meregistro.registro.models.Jurisdiccion import Jurisdiccion
 from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
+from meregistro.registro.models.DependenciaFuncional import DependenciaFuncional
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from meregistro.seguridad.models import Ambito
