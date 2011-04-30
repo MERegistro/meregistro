@@ -100,3 +100,15 @@ def edit(request, dependencia_funcional_id):
     'form': form,
     'dependencia_funcional': dependencia_funcional,
   })
+
+@login_required
+def delete(request, dependencia_funcional_id):
+	dependencia_funcional = DependenciaFuncional.objects.get(pk = dependencia_funcional_id)
+	has_establecimientos = dependencia_funcional.hasEstablecimientos()
+	# TODO: chequear que pertenece al ámbito
+	if has_establecimientos:
+		request.set_flash('warning', 'No se puede eliminar la dependencia funcional porque tiene establecimientos asociados.')
+	else:
+		dependencia_funcional.delete()
+		request.set_flash('success', 'Registro eliminado correctamente.')
+	return HttpResponseRedirect(reverse('dependenciaFuncional'))

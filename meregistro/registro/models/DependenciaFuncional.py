@@ -1,5 +1,8 @@
 from django.db import models
-from meregistro.registro.models import Jurisdiccion, GestionJurisdiccion, TipoGestion, TipoDependenciaFuncional
+from meregistro.registro.models.Jurisdiccion import Jurisdiccion
+from meregistro.registro.models.GestionJurisdiccion import GestionJurisdiccion
+from meregistro.registro.models.TipoGestion import TipoGestion
+from meregistro.registro.models.TipoDependenciaFuncional import TipoDependenciaFuncional
 from meregistro.seguridad.models import Ambito
 
 class DependenciaFuncional(models.Model):
@@ -27,3 +30,8 @@ class DependenciaFuncional(models.Model):
 		else:
 			self.ambito.descripcion = self.nombre
 			self.ambito.save()
+
+	def hasEstablecimientos(self):
+		from meregistro.registro.models.Establecimiento import Establecimiento
+		establecimientos = Establecimiento.objects.filter(dependencia_funcional = self)
+		return establecimientos.count() > 0

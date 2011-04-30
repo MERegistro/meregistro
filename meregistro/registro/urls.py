@@ -13,4 +13,5 @@ urlpatterns = patterns('',
     url(r'^dependencia_funcional$', 'registro.views.dependencia_funcional.index', name = 'dependenciaFuncional'),
     url(r'^dependencia_funcional/([0-9]+)/edit', 'registro.views.dependencia_funcional.edit', name = 'dependenciaFuncionalEdit'),
     url(r'^dependencia_funcional/create', 'registro.views.dependencia_funcional.create', name = 'dependenciaFuncionalCreate'),
+    url(r'^dependencia_funcional/([0-9]+)/delete', 'registro.views.dependencia_funcional.delete', name = 'dependenciaFuncionalDelete'),
 )
