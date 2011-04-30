@@ -6,7 +6,9 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
-from registro.models import Establecimiento, Anexo, AnexoEstado
+from meregistro.registro.models.Establecimiento import Establecimiento
+from meregistro.registro.models.Anexo import Anexo
+from meregistro.registro.models.AnexoEstado import AnexoEstado
 from registro.forms import AnexoFormFilters, AnexoForm
 from django.core.paginator import Paginator
 import datetime

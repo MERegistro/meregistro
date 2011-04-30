@@ -6,11 +6,15 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
-from registro.models import Establecimiento, Estado, RegistroEstablecimiento
-from registro.forms import EstablecimientoFormFilters, EstablecimientoForm
+from meregistro.registro.models.Establecimiento import Establecimiento
+from meregistro.registro.models.Estado import Estado
+from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
+from meregistro.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
+from meregistro.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 50
+
 
 @login_required
 def index(request):
