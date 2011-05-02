@@ -3,7 +3,7 @@ from django.db import models
 from registro.models.Estado import Estado
 
 class RegistroEstablecimiento(models.Model):
-	#
+
 	establecimiento = models.ForeignKey('Establecimiento')
 	estado = models.ForeignKey('Estado')
 	fecha_solicitud = models.DateField(null = False, blank = False)

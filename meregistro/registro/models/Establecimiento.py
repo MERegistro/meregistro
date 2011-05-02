@@ -4,11 +4,13 @@ from meregistro.registro.models.TipoNormativa import TipoNormativa
 from meregistro.registro.models.Jurisdiccion import Jurisdiccion
 from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from meregistro.registro.models.DependenciaFuncional import DependenciaFuncional
+from meregistro.registro.models.Estado import Estado
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from meregistro.seguridad.models import Ambito
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
+
 
 class Establecimiento(models.Model):
 	dependencia_funcional = models.ForeignKey(DependenciaFuncional)
@@ -29,6 +31,14 @@ class Establecimiento(models.Model):
 		app_label = 'registro'
 		ordering = ['nombre']
 
+	"""
+	Sobreescribo el init para agregarle propiedades
+	"""
+	def __init__(self, *args, **kwargs):
+		super(Establecimiento, self).__init__(*args, **kwargs)
+		self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento = self).order_by('id')
+		self.estado_actual = self.getEstadoActual()
+
 	def __unicode__(self):
 		return self.nombre
 
@@ -44,12 +54,16 @@ class Establecimiento(models.Model):
 	def registrar_estado(self, estado):
 		registro = RegistroEstablecimiento(estado = estado)
 		registro.fecha_solicitud = datetime.date.today()
-		registro.establecimiento_id = 1
+		registro.establecimiento_id = self.id
 		registro.save()
 
 	def save(self):
 		self.updateAmbito()
 		models.Model.save(self)
+
+	def delete(self):
+		estado = Estado.objects.get(nombre = Estado.BAJA)
+		self.registrar_estado(estado)
 
 	def updateAmbito(self):
 		if self.pk is None or self.ambito is None:
@@ -57,3 +71,15 @@ class Establecimiento(models.Model):
 		else:
 			self.ambito.descripcion = self.nombre
 			self.ambito.save()
+
+	def hasAnexos(self):
+		from meregistro.registro.models.Anexo import Anexo
+		anexos = Anexo.objects.filter(establecimiento = self)
+		return anexos.count() > 0
+
+	def getEstadoActual(self):
+		try:
+			estado_actual = list(self.registro_estados)[-1]
+		except IndexError:
+			estado_actual = u''
+		return estado_actual

@@ -12,12 +12,13 @@ from meregistro.registro.models.RegistroEstablecimiento import RegistroEstableci
 from meregistro.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
 from meregistro.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
+from meregistro.registro.helpers.MailHelper import MailHelper
 
 ITEMS_PER_PAGE = 50
 
-
 @login_required
 def index(request):
+
 	"""
 	Búsqueda de establecimientos
 	"""
@@ -69,13 +70,12 @@ def create(request):
 	if request.method == 'POST':
 		form = EstablecimientoForm(request.POST)
 		if form.is_valid(): # guardar
-			establecimiento = form.save(commit = False)
-			estado = Estado.objects.get(nombre = 'Pendiente')
+			establecimiento = form.save()
+			estado = Estado.objects.get(nombre = Estado.PENDIENTE)
 			establecimiento.registrar_estado(estado)
-			establecimiento.save()
 
+			MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
 			request.set_flash('success', 'Datos guardados correctamente.')
-
 			# redirigir a edit
 			return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
 		else:
@@ -98,6 +98,8 @@ def edit(request, establecimiento_id):
 		form = EstablecimientoForm(request.POST, instance = establecimiento)
 		if form.is_valid(): # guardar
 			establecimiento = form.save()
+
+			MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
 			request.set_flash('success', 'Datos actualizados correctamente.')
 		else:
 			request.set_flash('warning','Ocurrió un error actualizando los datos.')
@@ -108,3 +110,15 @@ def edit(request, establecimiento_id):
 		'form': form,
 		'establecimiento': establecimiento,
 	})
+
+@login_required
+def delete(request, establecimiento_id):
+	establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+	has_anexos = establecimiento.hasAnexos()
+	# TODO: chequear que pertenece al ámbito
+	if has_anexos:
+		request.set_flash('warning', 'No se puede eliminar el establecimiento porque tiene anexos asociados.')
+	else:
+		establecimiento.delete()
+		request.set_flash('success', 'Registro eliminado correctamente.')
+	return HttpResponseRedirect(reverse('establecimiento'))
