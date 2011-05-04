@@ -118,7 +118,10 @@ def delete(request, establecimiento_id):
 	# TODO: chequear que pertenece al ámbito
 	if has_anexos:
 		request.set_flash('warning', 'No se puede eliminar el establecimiento porque tiene anexos asociados.')
+	elif not establecimiento.isDeletable():
+		request.set_flash('warning', 'El establecimiento no se puede eliminar.')
 	else:
 		establecimiento.delete()
+		MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_DELETE, establecimiento)
 		request.set_flash('success', 'Registro eliminado correctamente.')
 	return HttpResponseRedirect(reverse('establecimiento'))

@@ -2,11 +2,11 @@ from django.db import models
 
 class Estado(models.Model):
 
-	PENDIENTE = 'Pendiente'
-	BAJA = 'Baja'
-	REGISTRADO = 'Registrado'
-	NO_VIGENTE = 'No vigente'
-	VIGENTE = 'Vigente'
+	PENDIENTE = u'Pendiente'
+	BAJA = u'Baja'
+	REGISTRADO = u'Registrado'
+	NO_VIGENTE = u'No vigente'
+	VIGENTE = u'Vigente'
 
 	nombre = models.CharField(max_length = 50, unique = True)
 

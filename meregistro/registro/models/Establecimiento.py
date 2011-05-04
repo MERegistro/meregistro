@@ -79,7 +79,16 @@ class Establecimiento(models.Model):
 
 	def getEstadoActual(self):
 		try:
-			estado_actual = list(self.registro_estados)[-1]
+			estado_actual = str(list(self.registro_estados)[-1])
 		except IndexError:
 			estado_actual = u''
 		return estado_actual
+	"""
+	Se puede eliminar cuando:
+	 * Tiene un sólo estado y es pendiente (hoy día si tiene un sólo estado ES pendiente)
+	"""
+	def isDeletable(self):
+		cant_estados = len(self.registro_estados) is 1
+		es_pendiente = self.estado_actual == u'Pendiente'
+		print cant_estados == 1 and es_pendiente
+		return cant_estados == 1 and es_pendiente

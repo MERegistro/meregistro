@@ -10,6 +10,7 @@ class MailHelper():
 
 	ESTABLECIMIENTO_CREATE = u'EstablecimientoCreate'
 	ESTABLECIMIENTO_UPDATE = u'EstablecimientoUpdate'
+	ESTABLECIMIENTO_DELETE = u'EstablecimientoDelete'
 
 	"""
 	Funcionalidad básica de notificación
@@ -22,6 +23,8 @@ class MailHelper():
 			mail_data = MailHelper.establecimiento_create(model)
 		elif notification_type == MailHelper.ESTABLECIMIENTO_UPDATE:
 			mail_data = MailHelper.establecimiento_update(model)
+		elif notification_type == MailHelper.ESTABLECIMIENTO_DELETE:
+			mail_data = MailHelper.establecimiento_delete(model)
 
 		try:
 			email_from = mail_data['email_from']
@@ -69,5 +72,16 @@ class MailHelper():
 			'subject': u'Actualizacióm de datos de establecimiento',
 			'message': u'Se ha modificado el establecimiento',
 			'email_from': u'pepe@example.com',
+			'recipients': ['user@example.com', 'admin@example.com'],
+		}
+
+	"""
+	Mail para baja de establecimiento
+	"""
+	@staticmethod
+	def establecimiento_delete(establecimiento):
+		return {
+			'subject': u'Baja de establecimiento',
+			'message': u'Se ha dado de baja el establecimiento',
 			'recipients': ['user@example.com', 'admin@example.com'],
 		}

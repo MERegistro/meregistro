@@ -47,7 +47,7 @@
 		{% for est in objects %}
 			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 				<td><!-- {{ est.dependencia_funcional.jurisdiccion.prefijo }} - -->{{ est.cue }}</td>
-				<td>{{ est.nombre }}{{ est.estado_actual }}</td>
+				<td>{{ est.nombre }}</td>
 				<td>
 				{% for registro_estado in est.registro_estados %}
 					<p>{{ registro_estado.fecha_solicitud|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
@@ -55,8 +55,12 @@
 				</td>
 				<td class="actions-td">
 					<ul>
+						{% if est.estado_actual == 'Pendiente' %}
 						<li class="edit"><a href="{% url registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
+						{% endif %}
+						{% if est.isDeletable %}
 						<li class="delete"><a href="{% url registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+						{% endif %}
 					</ul>
 				</td>
 			</tr>
