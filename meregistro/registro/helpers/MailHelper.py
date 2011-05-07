@@ -12,19 +12,29 @@ class MailHelper():
 	ESTABLECIMIENTO_UPDATE = u'EstablecimientoUpdate'
 	ESTABLECIMIENTO_DELETE = u'EstablecimientoDelete'
 
+	ANEXO_CREATE = u'AnexoCreate'
+	ANEXO_UPDATE = u'AnexoUpdate'
+	ANEXO_DELETE = u'AnexoDelete'
+
 	"""
 	Funcionalidad básica de notificación
 	"""
 	@staticmethod
 	def notify_by_email(notification_type = None, model = None):
 		if notification_type is None:
-			return
+			return """ Refactorizar...someday """
 		elif notification_type == MailHelper.ESTABLECIMIENTO_CREATE:
 			mail_data = MailHelper.establecimiento_create(model)
 		elif notification_type == MailHelper.ESTABLECIMIENTO_UPDATE:
 			mail_data = MailHelper.establecimiento_update(model)
 		elif notification_type == MailHelper.ESTABLECIMIENTO_DELETE:
 			mail_data = MailHelper.establecimiento_delete(model)
+		elif notification_type == MailHelper.ANEXO_CREATE:
+			mail_data = MailHelper.anexo_create(model)
+		elif notification_type == MailHelper.ANEXO_UPDATE:
+			mail_data = MailHelper.anexo_update(model)
+		elif notification_type == MailHelper.ANEXO_DELETE:
+			mail_data = MailHelper.anexo_delete(model)
 
 		try:
 			email_from = mail_data['email_from']
@@ -84,4 +94,15 @@ class MailHelper():
 			'subject': u'Baja de establecimiento',
 			'message': u'Se ha dado de baja el establecimiento',
 			'recipients': ['user@example.com', 'admin@example.com'],
+		}
+
+	"""
+	Mail para creación de anexo
+	"""
+	@staticmethod
+	def anexo_create(anexo):
+		return {
+			'subject': u'Creación de anexo',
+			'message': u'Se ha creado un nuevo anexo',
+			'recipients': [u'user@example.com', u'admin@example.com'],
 		}

@@ -192,6 +192,21 @@ div.form div.form-textarea textarea {
 div.form div.form-text input {
 	padding: 2px 3px;
 }
+div.form div.form-checkbox-list {
+}
+div.form div.form-checkbox-list ul {
+	width: 480px;
+	float: right;
+	margin: -20px 15px 0 0;
+}
+div.form div.form-checkbox-list li  {
+	display: block;
+	width: 480px;
+	height: 20px;
+}
+div.form div.form-checkbox-list label  {
+	float: none;
+}
 div.form div.form-submit {
 	margin-bottom: 10px;
 }
@@ -202,6 +217,9 @@ div.form ul.errorlist { /* Errores globales */
 div.form div ul.errorlist { /* Error de cada campo */
 	color: #f00;
 	margin: 0  0 4px 170px;
+}
+div.form div.form-checkbox-list ul.errorlist { /* Error de cada campo */
+	margin: 0  20px 4px 150px;
 }
 div.form ul.errorlist li { /* Cada error */
 	padding-left: 20px;
