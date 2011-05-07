@@ -2,7 +2,10 @@
 from django.db import models
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.Estado import Estado
+from meregistro.registro.models.Turno import Turno
+from meregistro.registro.models.AnexosTurnos import AnexosTurnos
 from django.core.exceptions import ValidationError
+import datetime
 
 class Anexo(models.Model):
 	establecimiento = models.ForeignKey(Establecimiento)
@@ -12,7 +15,7 @@ class Anexo(models.Model):
 	telefono = models.CharField(max_length = 100, null = True, blank = True)
 	email = models.EmailField(max_length = 255, null = True, blank = True)
 	sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
-	#estados = models.ManyToManyField('Estado', through = 'registro_anexos_estados')
+	turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_anexos_turnos')
 
 	class Meta:
 		app_label = 'registro'
@@ -32,3 +35,9 @@ class Anexo(models.Model):
 			except Anexo.DoesNotExist:
 				pass
 
+	def registrar_estado(self, estado):
+		from meregistro.registro.models.AnexoEstado import AnexoEstado
+		registro = AnexoEstado(estado = estado)
+		registro.fecha = datetime.date.today()
+		registro.anexo_id = self.id
+		registro.save()

@@ -5,6 +5,7 @@ class GestionJurisdiccion(models.Model):
 
 	class Meta:
 		app_label = 'registro'
+		db_table = 'registro_gestion_jurisdiccion'
 		ordering = ['nombre']
 
 	def __unicode__(self):

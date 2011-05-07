@@ -15,6 +15,7 @@ class DependenciaFuncional(models.Model):
 
 	class Meta:
 		app_label = 'registro'
+		db_table = 'registro_dependencia_funcional'
 		ordering = ['nombre']
 
 	def __unicode__(self):

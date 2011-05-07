@@ -13,6 +13,7 @@ class RegistroEstablecimiento(models.Model):
 
 	class Meta:
 		app_label = 'registro'
+		db_table = 'registro_registro_establecimiento'
 
 	def __unicode__(self):
 		return self.estado.nombre

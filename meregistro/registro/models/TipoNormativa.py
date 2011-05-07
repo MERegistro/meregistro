@@ -5,6 +5,7 @@ class TipoNormativa(models.Model):
 
 	class Meta:
 		app_label = 'registro'
+		db_table = 'registro_tipo_normativa'
 		ordering = ['descripcion']
 
 	def __unicode__(self):

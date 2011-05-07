@@ -14,3 +14,7 @@ from Turno import Turno
 from Funcion import Funcion
 from Nivel import Nivel
 from Anexo import Anexo
+from AnexoEstado import AnexoEstado
+from AnexoDomicilio import AnexoDomicilio
+from Departamento import Departamento
+from Localidad import Localidad
