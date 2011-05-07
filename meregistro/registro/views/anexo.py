@@ -8,9 +8,13 @@ from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.Anexo import Anexo
+from meregistro.registro.models.Localidad import Localidad
+from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.AnexoEstado import AnexoEstado
-from registro.forms import AnexoFormFilters, AnexoForm
+from meregistro.registro.models.AnexosTurnos import AnexosTurnos
+from meregistro.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm
 from django.core.paginator import Paginator
+from meregistro.registro.helpers.MailHelper import MailHelper
 import datetime
 
 ITEMS_PER_PAGE = 50
@@ -66,20 +70,32 @@ def create(request):
 	"""
 	if request.method == 'POST':
 		form = AnexoForm(request.POST)
-		if form.is_valid(): # guardar
-			anexo = form.save(commit = False)
-			estado = AnexoEstado()
+		domicilio_form = AnexoDomicilioForm(request.POST)
+		if form.is_valid() and domicilio_form.is_valid():
+			anexo = form.save()
+			domicilio = domicilio_form.save(commit = False)
+			domicilio.anexo = anexo
+			domicilio.save()
+
+			estado = Estado.objects.get(nombre = Estado.VIGENTE)
+			anexo.registrar_estado(estado)
+
+			MailHelper.notify_by_email(MailHelper.ANEXO_CREATE, anexo)
 			request.set_flash('success', 'Datos guardados correctamente.')
 
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('anexoEdit', args=[anexo.id]))
+			return HttpResponseRedirect(reverse('anexoEdit', args = [anexo.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
 		form = AnexoForm()
-
+		domicilio_form = AnexoDomicilioForm()
+	#raise Exception(request.get_perfil().ambito.path)
+	# ambito__path__istartswith=request.get_perfil().ambito.path
+	domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion = 1)
 	return my_render(request, 'registro/anexo/new.html', {
 		'form': form,
+		'domicilio_form': domicilio_form,
 		'is_new': True,
 	})
 

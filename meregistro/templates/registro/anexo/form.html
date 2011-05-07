@@ -1,4 +1,4 @@
-<div class="form" id="establecimientoForm">
+<div class="form" id="anexoForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
@@ -37,6 +37,20 @@
 			<label for="sitio_web">Sitio web:</label>
 			{{ form.sitio_web }}
 		</div>
+		<fieldset>
+			<legend>Turnos en los que funciona:</legend>
+			<div class="form-checkbox-list">
+				{{ form.turnos.errors }}
+				{{ form.turnos }}
+				<hr />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Domicilio</legend>
+			<div>
+			{{ domicilio_form.as_p }}
+			</div>
+		</fieldset>
 		<div class="form-submit">
 		{% if anexo %}
 			<input type="submit" value="Actualizar" />

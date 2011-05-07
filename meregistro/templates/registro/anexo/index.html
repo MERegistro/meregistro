@@ -46,7 +46,7 @@
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
         <td>{{ anexo.cue }}</td>
         <td>{{ anexo.nombre }}</td>
-		<td>{% if anexo.fecha_alta == None %}---{% else %}{{ anexo.fecha_alta }}{% endif %}</td>
+		<td>{% if anexo.fecha_alta == None %}---{% else %}{{ anexo.fecha_alta|date:"d/m/Y" }}{% endif %}</td>
 		<td></td>
         <td class="actions-td">
           <ul>
