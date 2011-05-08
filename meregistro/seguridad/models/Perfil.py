@@ -12,3 +12,13 @@ class Perfil(models.Model):
   
   class Meta:
     app_label = 'seguridad'
+
+  def jurisdiccion(self):
+    jurisdiccion = None
+    ambito = self.ambito
+    while jurisdiccion is None and ambito is not None:
+      if ambito.jurisdiccion_set.count() > 0:
+        jurisdiccion = ambito.jurisdiccion_set.all()[0]
+      ambito = ambito.parent
+    return jurisdiccion
+
