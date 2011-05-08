@@ -13,6 +13,10 @@
 		<div id="header">
 			<h1><a href="/"><span>Ministerio de Educación</span></a></h1>
 			<h2><span>Instituto Nacional de Formación Docente</span></h2>
+			<div id="user_info">
+				Usuario: {{ user.apellido }}, {{ user.nombre }}
+				Perfil: {{ user_perfil.rol }} en "{{ user_perfil.ambito }}"
+			</div>
 		</div>	<!-- END header -->
 		<div class="nav" id="mainNav">
 			<ul>
