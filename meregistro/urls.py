@@ -5,6 +5,7 @@ import registro.urls
 
 urlpatterns = patterns('',
     url(r'^login', 'seguridad.views.login', name='login'),
+    url(r'^logout', 'seguridad.views.logout', name='logout'),
     url(r'^seguridad/', include(seguridad.urls)),
     url(r'^registro/', include(registro.urls)),
     url(r'^seleccionarPerfil', 'seguridad.views.seleccionar_perfil', name='seleccionarPerfil'),

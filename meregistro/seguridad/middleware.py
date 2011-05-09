@@ -34,7 +34,9 @@ class SeguridadMiddleware(object):
       """
       Retorna el perfil activo
       """
-      return Perfil.objects.get(pk = request.session['perfil_id'])
+      if request.session.has_key('perfil_id'):
+        return Perfil.objects.get(pk = request.session['perfil_id'])
+      return None
     request.__class__.get_perfil = get_perfil
     
     def get_credenciales(request):
@@ -45,5 +47,18 @@ class SeguridadMiddleware(object):
         return request.session['credenciales']
       return []
     request.__class__.get_credenciales = get_credenciales
+        
+    def logout(request):
+      """
+      Retorna la lista de credenciales del perfil activo
+      """
+      if request.session.has_key('credenciales'):
+        del request.session['credenciales']
+      if request.session.has_key('user_id'):
+        del request.session['user_id']
+      if request.session.has_key('perfil_id'):
+        del request.session['perfil_id']
+
+    request.__class__.logout = logout
         
     return None
