@@ -53,14 +53,15 @@
 		<div class="form-select">
 			{{ form.ambito.errors }}
 			<label for="id_ambito">Ambito:</label>
-			{{ user_perfil.ambito.id }}
 
 <input type="hidden" name="ambito" id="ambito" value="{{ form.data.ambito }}"/>
-<span id="ambito_nombre"></span><a href="#" onclick="seleccionarAmbito('ambito_selector', 'ambito')"></a>
-<div id="ambito_selector"></div>
+<span id="ambito_nombre"></span>  <a href="#" onclick="seleccionarAmbito('#ambito_selector', '#ambito', '#ambito_nombre')">seleccionar</a>
+<div id="ambito_selector" class="popup_selector_ambito"></div>
 
 
 		</div>
+
+
 		<div class="form-submit">
 			<input type="submit" value="Dar alta" />
 		</div>

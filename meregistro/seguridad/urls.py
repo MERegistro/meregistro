@@ -12,4 +12,5 @@ urlpatterns = patterns('',
     url(r'^usuario/([0-9]+)/desbloquear', 'seguridad.views.usuario.desbloquear', name='usuarioDesbloquear'),
     url(r'^usuario/([0-9]+)/verPerfiles', 'seguridad.views.perfil.verPerfilesUsuario', name='verPerfilesUsuario'),
     url(r'^usuario/([0-9]+)/asignarPerfil', 'seguridad.views.perfil.create', name='asignarPerfilUsuario'),
+    url(r'^ambito/selector', 'seguridad.views.ambito.selector_ambito', name='selectorAmbito'),
 )
