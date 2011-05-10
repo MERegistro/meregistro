@@ -536,3 +536,16 @@ div.paginator p.paginator-summary {
 	margin: 8px 0 0 10px;
 	float: left;
 }
+
+div.popup_selector_ambito
+{
+  position: absolute;
+	top:0px;
+  border: 1px solid #666666;
+	background-color:#F7F7F7;
+  width: 600px;
+  height: 400px;
+  margin-top: 0px;
+  display: none;
+	overflow: scroll;
+}

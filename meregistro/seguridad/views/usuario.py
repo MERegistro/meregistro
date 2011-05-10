@@ -62,6 +62,7 @@ def create(request):
     if form.is_valid(): # guardar
       usuario = form.save(commit=False)
       usuario.set_password(form.cleaned_data['password'])
+      usuario.is_active = True
       usuario.save()
       perfil = Perfil()
       perfil.usuario = usuario
