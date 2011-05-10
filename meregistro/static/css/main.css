@@ -225,6 +225,18 @@ div.form ul.errorlist li { /* Cada error */
 	padding-left: 20px;
 	background: url(../img/icons/warning-16.png) no-repeat 0 -2px;
 }
+/* SUBFORM */
+div.form fieldset {
+	margin: 20px 10px 0;
+	padding: 0 0 10px;
+	border: 1px #868686 solid;
+}
+div.form fieldset legend {
+	margin-left: 10px
+}
+div.form fieldset div.form-checkbox-list ul {
+	margin-top: 0px;
+}
 /*
 =TABLE
 */
