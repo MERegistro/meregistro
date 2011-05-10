@@ -11,7 +11,7 @@ from meregistro.registro.models.Anexo import Anexo
 from meregistro.registro.models.Localidad import Localidad
 from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.AnexoEstado import AnexoEstado
-from meregistro.registro.models.AnexosTurnos import AnexosTurnos
+from meregistro.registro.models.AnexoDomicilio import AnexoDomicilio
 from meregistro.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm
 from django.core.paginator import Paginator
 from meregistro.registro.helpers.MailHelper import MailHelper
@@ -90,9 +90,10 @@ def create(request):
 	else:
 		form = AnexoForm()
 		domicilio_form = AnexoDomicilioForm()
-	#raise Exception(request.get_perfil().ambito.path)
-	# ambito__path__istartswith=request.get_perfil().ambito.path
-	domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion = 1)
+	jurisdiccion = request.get_perfil().jurisdiccion()
+	#raise Exception(jurisdiccion.id)
+	form.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id = jurisdiccion.id)
+	domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
 	return my_render(request, 'registro/anexo/new.html', {
 		'form': form,
 		'domicilio_form': domicilio_form,
@@ -105,17 +106,22 @@ def edit(request, anexo_id):
 	Edición de los datos de un anexo.
 	"""
 	anexo = Anexo.objects.get(pk = anexo_id)
+	domicilio = anexo.domicilio.get()
 	if request.method == 'POST':
 		form = AnexoForm(request.POST, instance = anexo)
-		if form.is_valid(): # guardar
+		domicilio_form = AnexoDomicilioForm(request.POST, instance = domicilio)
+		if form.is_valid() and domicilio_form.is_valid(): # guardar
 			anexo = form.save()
+			domicilio = domicilio_form.save()
 			request.set_flash('success', 'Datos actualizados correctamente.')
 		else:
 			request.set_flash('warning','Ocurrió un error actualizando los datos.')
 	else:
 		form = AnexoForm(instance = anexo)
-
+		domicilio_form = AnexoDomicilioForm(instance = domicilio)
 	return my_render(request, 'registro/anexo/edit.html', {
 		'form': form,
+		'domicilio_form': domicilio_form,
+		'domicilio': domicilio,
 		'anexo': anexo,
 	})

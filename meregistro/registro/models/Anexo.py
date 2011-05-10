@@ -3,7 +3,6 @@ from django.db import models
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.Turno import Turno
-from meregistro.registro.models.AnexosTurnos import AnexosTurnos
 from django.core.exceptions import ValidationError
 import datetime
 
