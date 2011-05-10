@@ -44,7 +44,7 @@ div#header {
 	width: 966px;
 	height: 136px;
 	margin: 0 auto;
-	background: url(../img/header-01-965x136.jpg) no-repeat;
+	background: url(../img/header-03-965x136.jpg) no-repeat;
 	border-bottom: 3px #000 solid;
 	position: relative;
 }
@@ -536,7 +536,38 @@ div.paginator p.paginator-summary {
 	margin: 8px 0 0 10px;
 	float: left;
 }
-
+/*
+=USERINFO
+*/
+div#userInfo {
+	float: right;
+	margin: 80px 10px 0 0;
+}
+div#userInfo ul#userLinks {
+}
+div#userInfo ul#userLinks li {
+	float: left;
+	margin: 0 5px 0 0;
+	border-right: 1px #C02A19 solid;
+	padding-right: 7px;
+}
+div#userInfo ul#userLinks li.last {
+	border-right: none;
+	padding-right: 0px;
+}
+div#userInfo ul#userLinks a:link,
+div#userInfo ul#userLinks a:visited {
+	font-size: 12px;
+	color: #C02A19;
+	text-transform: uppercase;
+	text-decoration: none;
+}
+div#userInfo ul#userLinks a:hover {
+	text-decoration: underline;
+}
+/*
+=POPUP_SELECTOR_AMBITO
+*/
 div.popup_selector_ambito
 {
   position: absolute;
