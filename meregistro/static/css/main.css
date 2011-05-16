@@ -44,7 +44,7 @@ div#header {
 	width: 966px;
 	height: 136px;
 	margin: 0 auto;
-	background: url(../img/header-03-965x136.jpg) no-repeat;
+	background: url(../img/header-01-965x136.jpg) no-repeat;
 	border-bottom: 3px #000 solid;
 	position: relative;
 }
@@ -540,8 +540,10 @@ div.paginator p.paginator-summary {
 =USERINFO
 */
 div#userInfo {
-	float: right;
-	margin: 80px 10px 0 0;
+	max-width: 400px;
+	position: absolute;
+	right: 5px;
+	bottom: 10px;
 }
 div#userInfo ul#userLinks {
 }
