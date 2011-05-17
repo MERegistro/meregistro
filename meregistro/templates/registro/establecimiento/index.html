@@ -61,6 +61,7 @@
 						{% if est.isDeletable %}
 						<li class="delete"><a href="{% url registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 						{% endif %}
+						<li><a href="{% url registro.views.establecimiento.registrar est.id %}" title="Registrar">Registrar</a></li>
 					</ul>
 				</td>
 			</tr>

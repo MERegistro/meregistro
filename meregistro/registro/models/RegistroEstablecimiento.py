@@ -6,10 +6,10 @@ class RegistroEstablecimiento(models.Model):
 
 	establecimiento = models.ForeignKey('Establecimiento')
 	estado = models.ForeignKey('Estado')
-	fecha_solicitud = models.DateField(null = False, blank = False)
-	observaciones = models.CharField(max_length = 255, null = True, blank = True)
+	fecha_solicitud = models.DateField(null = False, blank = False, editable=False)
+	observaciones = models.TextField(max_length = 255, null = True, blank = True)
 	fecha_registro = models.DateField(null = True, blank = True)
-	fecha_envio_solicitud = models.DateField(null = True, blank = True)
+	fecha_envio_solicitud = models.DateField(null = True, blank = True, editable=False)
 
 	class Meta:
 		app_label = 'registro'

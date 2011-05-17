@@ -1,0 +1,42 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Actualización de establecimiento{% endblock %}
+
+{% block content %}
+<h2>Registrar establecimiento</h2>
+{% if flash %}
+	{% include "flashes.html" %}
+{% endif %}
+
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<input type="hidden" name="establecimiento" value="{{ establecimiento.id }}" />
+		<div class="form-text">
+			{{ form.fecha_registro.errors }}
+			<label for="fecha_alta">Fecha:</label>
+			{{ form.fecha_registro }}
+		</div>
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Registrar" />
+		</div>
+	</form>
+</div>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url registro.views.establecimiento.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

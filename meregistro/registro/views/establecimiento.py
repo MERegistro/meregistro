@@ -13,6 +13,7 @@ from meregistro.registro.forms.EstablecimientoFormFilters import Establecimiento
 from meregistro.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
 from meregistro.registro.helpers.MailHelper import MailHelper
+from registro.forms.EstablecimientoRegistrarForm import EstablecimientoRegistrarForm
 
 ITEMS_PER_PAGE = 50
 
@@ -125,3 +126,31 @@ def delete(request, establecimiento_id):
 		MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_DELETE, establecimiento)
 		request.set_flash('success', 'Registro eliminado correctamente.')
 	return HttpResponseRedirect(reverse('establecimiento'))
+
+@login_required
+def registrar(request, establecimientoId):
+	"""
+	CU 23
+	"""
+	establecimiento = Establecimiento.objects.get(pk=establecimientoId)
+	if request.method == 'POST':
+		data = request.POST.copy()
+		data['establecimiento'] = establecimiento
+		print establecimiento.id
+		form = EstablecimientoRegistrarForm(request.POST)
+		if form.is_valid():
+			#establecimiento.registrar_estado(estado)
+
+			#MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
+			request.set_flash('success', 'Establecimiento registrado correctamente.')
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('establecimiento'))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	else:
+		form = EstablecimientoRegistrarForm()
+
+	return my_render(request, 'registro/establecimiento/registrar.html', {
+		'form': form,
+		'establecimiento': establecimiento
+	})
