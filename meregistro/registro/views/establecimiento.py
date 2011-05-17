@@ -132,14 +132,15 @@ def registrar(request, establecimientoId):
 	"""
 	CU 23
 	"""
+	registro = RegistroEstablecimiento.objects.filter(establecimiento__id=establecimientoId)[0]
 	establecimiento = Establecimiento.objects.get(pk=establecimientoId)
 	if request.method == 'POST':
 		data = request.POST.copy()
 		data['establecimiento'] = establecimiento
-		print establecimiento.id
-		form = EstablecimientoRegistrarForm(request.POST)
+		form = EstablecimientoRegistrarForm(request.POST, instance=registro)
 		if form.is_valid():
-			#establecimiento.registrar_estado(estado)
+			registro = form.save()
+			#establecimiento.registrar_estado(registro.estado)
 
 			#MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
 			request.set_flash('success', 'Establecimiento registrado correctamente.')
@@ -148,7 +149,7 @@ def registrar(request, establecimientoId):
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		form = EstablecimientoRegistrarForm()
+		form = EstablecimientoRegistrarForm(instance=registro)
 
 	return my_render(request, 'registro/establecimiento/registrar.html', {
 		'form': form,
