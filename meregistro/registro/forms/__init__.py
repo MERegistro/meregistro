@@ -5,4 +5,4 @@ from AnexoDomicilioForm import AnexoDomicilioForm
 from AnexoFormFilters import AnexoFormFilters
 from DependenciaFuncionalForm import DependenciaFuncionalForm
 from DependenciaFuncionalFormFilters import DependenciaFuncionalFormFilters
-from EstablecimientoRegistrarForm import EstablecimientoRegistrarForm
+from EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm

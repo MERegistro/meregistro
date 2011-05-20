@@ -12,11 +12,6 @@
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<input type="hidden" name="establecimiento" value="{{ establecimiento.id }}" />
-		<div class="form-text">
-			{{ form.fecha_registro.errors }}
-			<label for="fecha_alta">Fecha:</label>
-			{{ form.fecha_registro }}
-		</div>
 		<div class="form-select">
 			{{ form.estado.errors }}
 			<label for="id_estado">Estado:</label>
