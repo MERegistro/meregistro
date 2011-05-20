@@ -40,7 +40,7 @@ class Establecimiento(models.Model):
 		self.estado_actual = self.getEstadoActual()
 
 	def __unicode__(self):
-		return self.nombre
+		return str(self.cue) + ' - ' + self.nombre
 
 	def clean(self):
 		#Chequea que la combinación entre jurisdiccion y cue sea única

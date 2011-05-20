@@ -11,8 +11,8 @@ class AnexoDomicilio(models.Model):
 	localidad = models.ForeignKey(Localidad, related_name = 'domicilios_anexos')
 	calle = models.CharField(max_length = 100)
 	altura = models.CharField(max_length = 5)
-	referencia = models.CharField(max_length = 255)
-	#cp = models.CharField(max_length = 50)
+	referencia = models.CharField(max_length = 255, null = True, blank = True)
+	cp = models.CharField(max_length = 20)
 
 	class Meta:
 		app_label = 'registro'
