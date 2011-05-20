@@ -7,7 +7,7 @@ class ConexionInternet(models.Model):
 	tipo_conexion = models.ForeignKey('TipoConexion')
 	proveedor = models.CharField(max_length = 30)
 	tiene_conexion = models.BooleanField()
-	costo = models.IntegerField(max_length = 5)
+	costo = models.DecimalField(max_digits = 12, decimal_places = 2)
 	cantidad = models.IntegerField()
 
 	class Meta:
