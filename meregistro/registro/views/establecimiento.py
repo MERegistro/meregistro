@@ -23,41 +23,41 @@ ITEMS_PER_PAGE = 50
 @login_required
 def index(request):
 
-	"""
-	Búsqueda de establecimientos
-	"""
-	if request.method == 'GET':
-		form_filter = EstablecimientoFormFilters(request.GET)
-	else:
-		form_filter = EstablecimientoFormFilters()
-	q = build_query(form_filter, 1, request)
+    """
+    Búsqueda de establecimientos
+    """
+    if request.method == 'GET':
+        form_filter = EstablecimientoFormFilters(request.GET)
+    else:
+        form_filter = EstablecimientoFormFilters()
+    q = build_query(form_filter, 1, request)
 
-	paginator = Paginator(q, ITEMS_PER_PAGE)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
 
-	try:
-		page_number = int(request.GET['page']) # page es un int?
-	except (KeyError, ValueError):
-		page_number = 1
-	# chequear los límites
-	if page_number < 1:
-		page_number = 1
-	elif page_number > paginator.num_pages:
-		page_number = paginator.num_pages
+    try:
+        page_number = int(request.GET['page']) # page es un int?
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
 
-	page = paginator.page(page_number)
-	objects = page.object_list
-	return my_render(request, 'registro/establecimiento/index.html', {
-		'form_filters': form_filter,
-		'objects': objects,
-		'show_paginator': paginator.num_pages > 1,
-		'has_prev': page.has_previous(),
-		'has_next': page.has_next(),
-		'page': page_number,
-		'pages': paginator.num_pages,
-		'pages_range': range(1, paginator.num_pages + 1),
-		'next_page': page_number + 1,
-		'prev_page': page_number - 1
-	})
+    page = paginator.page(page_number)
+    objects = page.object_list
+    return my_render(request, 'registro/establecimiento/index.html', {
+        'form_filters': form_filter,
+        'objects': objects,
+        'show_paginator': paginator.num_pages > 1,
+        'has_prev': page.has_previous(),
+        'has_next': page.has_next(),
+        'page': page_number,
+        'pages': paginator.num_pages,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1
+    })
 
 
 def build_query(filters, page, request):
@@ -68,100 +68,100 @@ def build_query(filters, page, request):
 
 @login_required
 def create(request):
-	"""
-	Alta de establecimiento.
-	"""
-	if request.method == 'POST':
-		form = EstablecimientoForm(request.POST)
-		if form.is_valid(): # guardar
-			establecimiento = form.save()
-			estado = Estado.objects.get(nombre = Estado.PENDIENTE)
-			establecimiento.registrar_estado(estado)
+    """
+    Alta de establecimiento.
+    """
+    if request.method == 'POST':
+        form = EstablecimientoForm(request.POST)
+        if form.is_valid(): # guardar
+            establecimiento = form.save()
+            estado = Estado.objects.get(nombre = Estado.PENDIENTE)
+            establecimiento.registrar_estado(estado)
 
-			MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
-			request.set_flash('success', 'Datos guardados correctamente.')
-			# redirigir a edit
-			return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
-		else:
-			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-	else:
-		form = EstablecimientoForm()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
+            request.set_flash('success', 'Datos guardados correctamente.')
+            # redirigir a edit
+            return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
+        else:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+    else:
+        form = EstablecimientoForm()
 
-	return my_render(request, 'registro/establecimiento/new.html', {
-		'form': form,
-		'is_new': True,
-	})
+    return my_render(request, 'registro/establecimiento/new.html', {
+        'form': form,
+        'is_new': True,
+    })
 
 @login_required
 def edit(request, establecimiento_id):
-	"""
-	Edición de los datos de un establecimiento.
-	"""
-	establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
-	if request.method == 'POST':
-		form = EstablecimientoForm(request.POST, instance = establecimiento)
-		if form.is_valid(): # guardar
-			establecimiento = form.save()
+    """
+    Edición de los datos de un establecimiento.
+    """
+    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+    if request.method == 'POST':
+        form = EstablecimientoForm(request.POST, instance = establecimiento)
+        if form.is_valid(): # guardar
+            establecimiento = form.save()
 
-			MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-			request.set_flash('success', 'Datos actualizados correctamente.')
-		else:
-			request.set_flash('warning','Ocurrió un error actualizando los datos.')
-	else:
-		form = EstablecimientoForm(instance = establecimiento)
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning','Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoForm(instance = establecimiento)
 
-	return my_render(request, 'registro/establecimiento/edit.html', {
-		'form': form,
-		'establecimiento': establecimiento,
-	})
+    return my_render(request, 'registro/establecimiento/edit.html', {
+        'form': form,
+        'establecimiento': establecimiento,
+    })
 
 @login_required
 def delete(request, establecimiento_id):
-	establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
-	has_anexos = establecimiento.hasAnexos()
-	# TODO: chequear que pertenece al ámbito
-	if has_anexos:
-		request.set_flash('warning', 'No se puede eliminar el establecimiento porque tiene anexos asociados.')
-	elif not establecimiento.isDeletable():
-		request.set_flash('warning', 'El establecimiento no se puede eliminar.')
-	else:
-		establecimiento.delete()
-		MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_DELETE, establecimiento)
-		request.set_flash('success', 'Registro eliminado correctamente.')
-	return HttpResponseRedirect(reverse('establecimiento'))
+    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+    has_anexos = establecimiento.hasAnexos()
+    # TODO: chequear que pertenece al ámbito
+    if has_anexos:
+        request.set_flash('warning', 'No se puede eliminar el establecimiento porque tiene anexos asociados.')
+    elif not establecimiento.isDeletable():
+        request.set_flash('warning', 'El establecimiento no se puede eliminar.')
+    else:
+        establecimiento.delete()
+        MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_DELETE, establecimiento)
+        request.set_flash('success', 'Registro eliminado correctamente.')
+    return HttpResponseRedirect(reverse('establecimiento'))
 
 @login_required
 def registrar(request, establecimientoId):
-	"""
-	CU 23
-	"""
-	establecimiento = Establecimiento.objects.get(pk=establecimientoId)
-	form = __registrar_get_form(request, establecimiento)
-	if request.method == 'POST' and __registrar_process(request, form, establecimiento):
-			return HttpResponseRedirect(reverse('establecimiento'))
-	return __registrar_show_form(request, form, establecimiento)
-	
+    """
+    CU 23
+    """
+    establecimiento = Establecimiento.objects.get(pk=establecimientoId)
+    form = __registrar_get_form(request, establecimiento)
+    if request.method == 'POST' and __registrar_process(request, form, establecimiento):
+            return HttpResponseRedirect(reverse('establecimiento'))
+    return __registrar_show_form(request, form, establecimiento)
+
 def __registrar_get_form(request, establecimiento):
-	if request.method == 'POST':
-		form = EstablecimientoCambiarEstadoForm(request.POST)
-	else:
-		form = EstablecimientoCambiarEstadoForm()
-	form.fields["estado"].choices=map(lambda e: (e.id, e), fsmEstablecimiento.estadosDesde(establecimiento.estadoActual()))
-	return form
+    if request.method == 'POST':
+        form = EstablecimientoCambiarEstadoForm(request.POST)
+    else:
+        form = EstablecimientoCambiarEstadoForm()
+    form.fields["estado"].choices=map(lambda e: (e.id, e), fsmEstablecimiento.estadosDesde(establecimiento.estadoActual()))
+    return form
 
 def __registrar_show_form(request, form, establecimiento):
-	return my_render(request, 'registro/establecimiento/registrar.html', {
-		'form': form,
-		'establecimiento': establecimiento
-	})
+    return my_render(request, 'registro/establecimiento/registrar.html', {
+        'form': form,
+        'establecimiento': establecimiento
+    })
 
 def __registrar_process(request, form, establecimiento):
-	if form.is_valid():
-		nuevoEstado = form.cleaned_data['estado']
-		try:
-			establecimiento.registrar_estado(nuevoEstado, form.cleaned_data['observaciones'])
-			request.set_flash('success', 'Establecimiento registrado correctamente.')
-			return True
-		except:
-			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-	return False
+    if form.is_valid():
+        nuevoEstado = form.cleaned_data['estado']
+        try:
+            establecimiento.registrar_estado(nuevoEstado, form.cleaned_data['observaciones'])
+            request.set_flash('success', 'Establecimiento registrado correctamente.')
+            return True
+        except:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+    return False

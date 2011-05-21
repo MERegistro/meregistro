@@ -6,20 +6,20 @@ from meregistro.registro.models.Anexo import Anexo
 from django.core.exceptions import ValidationError
 
 class AnexoDomicilio(models.Model):
-	anexo = models.ForeignKey(Anexo, related_name = 'domicilio')
-	tipo_domicilio = models.ForeignKey(TipoDomicilio)
-	localidad = models.ForeignKey(Localidad, related_name = 'domicilios_anexos')
-	calle = models.CharField(max_length = 100)
-	altura = models.CharField(max_length = 5)
-	referencia = models.CharField(max_length = 255, null = True, blank = True)
-	cp = models.CharField(max_length = 20)
+    anexo = models.ForeignKey(Anexo, related_name = 'domicilio')
+    tipo_domicilio = models.ForeignKey(TipoDomicilio)
+    localidad = models.ForeignKey(Localidad, related_name = 'domicilios_anexos')
+    calle = models.CharField(max_length = 100)
+    altura = models.CharField(max_length = 5)
+    referencia = models.CharField(max_length = 255, null = True, blank = True)
+    cp = models.CharField(max_length = 20)
 
-	class Meta:
-		app_label = 'registro'
-		db_table = 'registro_anexo_domicilio'
+    class Meta:
+        app_label = 'registro'
+        db_table = 'registro_anexo_domicilio'
 
-	def __unicode__(self):
-		return str(self.calle) + str(self.altura)
+    def __unicode__(self):
+        return str(self.calle) + str(self.altura)
 
-	def __init__(self, *args, **kwargs):
-		super(AnexoDomicilio, self).__init__(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(AnexoDomicilio, self).__init__(*args, **kwargs)

@@ -8,6 +8,6 @@ from django import forms
 
 class AnexoDomicilioForm(forms.ModelForm):
 
-	class Meta:
-		model = AnexoDomicilio
-		exclude = ('anexo')
+    class Meta:
+        model = AnexoDomicilio
+        exclude = ('anexo')

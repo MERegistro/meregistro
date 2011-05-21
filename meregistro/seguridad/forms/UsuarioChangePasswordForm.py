@@ -8,5 +8,5 @@ class UsuarioChangePasswordForm(forms.Form):
 
   def clean(self):
     if self.cleaned_data.get('password') != self.cleaned_data.get('repeat_password'):
-	    self._errors['password'] = self.error_class([u'Las contraseñas no coinciden'])
+        self._errors['password'] = self.error_class([u'Las contraseñas no coinciden'])
     return self.cleaned_data
