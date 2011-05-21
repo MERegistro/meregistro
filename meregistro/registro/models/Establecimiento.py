@@ -8,7 +8,6 @@ from meregistro.registro.models.Estado import Estado
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from meregistro.seguridad.models import Ambito
-
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
 
@@ -40,7 +39,7 @@ class Establecimiento(models.Model):
 		self.estado_actual = self.getEstadoActual()
 
 	def __unicode__(self):
-		return self.nombre
+		return str(self.cue) + ' - ' + self.nombre
 
 	def clean(self):
 		#Chequea que la combinación entre jurisdiccion y cue sea única
@@ -51,10 +50,11 @@ class Establecimiento(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
-	def registrar_estado(self, estado):
+	def registrar_estado(self, estado, observaciones=''):
 		registro = RegistroEstablecimiento(estado = estado)
-		registro.fecha_solicitud = datetime.date.today()
+		registro.fecha = datetime.date.today()
 		registro.establecimiento_id = self.id
+		registro.observaciones = observaciones
 		registro.save()
 
 	def save(self):
@@ -81,11 +81,17 @@ class Establecimiento(models.Model):
 		return anexos.count() > 0
 
 	def getEstadoActual(self):
+		estado_actual = self.estadoActual()
+		if estado_actual is None:
+			return u''
+		return str(estado_actual)
+		
+	def estadoActual(self):
 		try:
-			estado_actual = str(list(self.registro_estados)[-1])
+			return list(self.registro_estados)[-1].estado
 		except IndexError:
-			estado_actual = u''
-		return estado_actual
+			return None
+
 	"""
 	Se puede eliminar cuando:
 	 * Tiene un sólo estado y es pendiente (hoy día si tiene un sólo estado ES pendiente)

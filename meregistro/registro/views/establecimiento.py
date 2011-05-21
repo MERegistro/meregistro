@@ -13,7 +13,10 @@ from meregistro.registro.forms.EstablecimientoFormFilters import Establecimiento
 from meregistro.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
 from meregistro.registro.helpers.MailHelper import MailHelper
-from registro.forms.EstablecimientoRegistrarForm import EstablecimientoRegistrarForm
+from registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
+from registro.FSMEstablecimiento import FSMEstablecimiento
+
+fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50
 
@@ -132,26 +135,33 @@ def registrar(request, establecimientoId):
 	"""
 	CU 23
 	"""
-	registro = RegistroEstablecimiento.objects.filter(establecimiento__id=establecimientoId)[0]
 	establecimiento = Establecimiento.objects.get(pk=establecimientoId)
-	if request.method == 'POST':
-		data = request.POST.copy()
-		data['establecimiento'] = establecimiento
-		form = EstablecimientoRegistrarForm(request.POST, instance=registro)
-		if form.is_valid():
-			registro = form.save()
-			#establecimiento.registrar_estado(registro.estado)
-
-			#MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
-			request.set_flash('success', 'Establecimiento registrado correctamente.')
-			# redirigir a edit
+	form = __registrar_get_form(request, establecimiento)
+	if request.method == 'POST' and __registrar_process(request, form, establecimiento):
 			return HttpResponseRedirect(reverse('establecimiento'))
-		else:
-			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	return __registrar_show_form(request, form, establecimiento)
+	
+def __registrar_get_form(request, establecimiento):
+	if request.method == 'POST':
+		form = EstablecimientoCambiarEstadoForm(request.POST)
 	else:
-		form = EstablecimientoRegistrarForm(instance=registro)
+		form = EstablecimientoCambiarEstadoForm()
+	form.fields["estado"].choices=map(lambda e: (e.id, e), fsmEstablecimiento.estadosDesde(establecimiento.estadoActual()))
+	return form
 
+def __registrar_show_form(request, form, establecimiento):
 	return my_render(request, 'registro/establecimiento/registrar.html', {
 		'form': form,
 		'establecimiento': establecimiento
 	})
+
+def __registrar_process(request, form, establecimiento):
+	if form.is_valid():
+		nuevoEstado = form.cleaned_data['estado']
+		try:
+			establecimiento.registrar_estado(nuevoEstado, form.cleaned_data['observaciones'])
+			request.set_flash('success', 'Establecimiento registrado correctamente.')
+			return True
+		except:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	return False

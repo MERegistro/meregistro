@@ -1,7 +1,7 @@
 - fields: {domain: example.com, name: example.com}
   model: sites.site
   pk: 1
-- fields: {ambito: 2, nombre: NOA}
+- fields: {nombre: NOA}
   model: registro.region
   pk: 1
 - fields: {ambito: 3, nombre: jujuy, prefijo: 1, region: 1}
