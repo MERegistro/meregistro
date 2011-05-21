@@ -3,7 +3,7 @@
 from django.http import HttpResponse
 from seguridad.models import Ambito
 from seguridad.decorators import login_required
-from json.encoder import JSONEncoder
+import simplejson as json
 
 @login_required
 def selector_ambito(request):
@@ -11,6 +11,6 @@ def selector_ambito(request):
 		ambitos = Ambito.objects.filter(parent=int(request.GET['parent']))
 	else:
 		ambitos = Ambito.objects.filter(level=0)
-	encoder = JSONEncoder()
+#	encoder = JSONEncoder()
 	result = map(lambda a: {'id': a.id, 'descripcion': a.descripcion }, ambitos)
-	return HttpResponse(encoder.encode(result))
+	return HttpResponse(json.dumps(result))
