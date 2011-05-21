@@ -5,4 +5,4 @@ from seguridad.decorators import login_required
 
 @login_required
 def index(request):
-  return my_render(request, 'seguridad/index/index.html')
+    return my_render(request, 'seguridad/index/index.html')

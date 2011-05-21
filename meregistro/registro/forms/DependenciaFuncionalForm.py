@@ -4,5 +4,5 @@ from registro.models import DependenciaFuncional
 
 class DependenciaFuncionalForm(ModelForm):
 
-	class Meta:
-		model = DependenciaFuncional
+    class Meta:
+        model = DependenciaFuncional
