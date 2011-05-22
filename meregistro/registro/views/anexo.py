@@ -19,6 +19,7 @@ import datetime
 
 ITEMS_PER_PAGE = 50
 
+
 @login_required
 def index(request):
     """
@@ -31,12 +32,12 @@ def index(request):
     q = build_query(form_filter, 1, request)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
-    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id = jurisdiccion.id)
+    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
-        page_number = int(request.GET['page']) # page es un int?
+        page_number = int(request.GET['page'])
     except (KeyError, ValueError):
         page_number = 1
     # chequear los límites
@@ -60,11 +61,13 @@ def index(request):
         'prev_page': page_number - 1
     })
 
+
 def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().order_by('establecimiento__nombre', 'cue').filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().order_by('establecimiento__nombre', 'cue').filter(establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
+
 
 @login_required
 def create(request):
@@ -76,18 +79,18 @@ def create(request):
         domicilio_form = AnexoDomicilioForm(request.POST)
         if form.is_valid() and domicilio_form.is_valid():
             anexo = form.save()
-            domicilio = domicilio_form.save(commit = False)
+            domicilio = domicilio_form.save(commit=False)
             domicilio.anexo = anexo
             domicilio.save()
 
-            estado = Estado.objects.get(nombre = Estado.VIGENTE)
+            estado = Estado.objects.get(nombre=Estado.VIGENTE)
             anexo.registrar_estado(estado)
 
             MailHelper.notify_by_email(MailHelper.ANEXO_CREATE, anexo)
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('anexoEdit', args = [anexo.id]))
+            return HttpResponseRedirect(reverse('anexoEdit', args=[anexo.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -95,8 +98,8 @@ def create(request):
         domicilio_form = AnexoDomicilioForm()
 
     jurisdiccion = request.get_perfil().jurisdiccion()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
-    domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
 
     return my_render(request, 'registro/anexo/new.html', {
         'form': form,
@@ -104,33 +107,34 @@ def create(request):
         'is_new': True,
     })
 
+
 @login_required
 def edit(request, anexo_id):
     """
     Edición de los datos de un anexo.
     """
-    anexo = Anexo.objects.get(pk = anexo_id)
+    anexo = Anexo.objects.get(pk=anexo_id)
     try:
         domicilio = anexo.domicilio.get()
     except:
         domicilio = AnexoDomicilio()
         domicilio.anexo = anexo
     if request.method == 'POST':
-        form = AnexoForm(request.POST, instance = anexo)
-        domicilio_form = AnexoDomicilioForm(request.POST, instance = domicilio)
-        if form.is_valid() and domicilio_form.is_valid(): # guardar
+        form = AnexoForm(request.POST, instance=anexo)
+        domicilio_form = AnexoDomicilioForm(request.POST, instance=domicilio)
+        if form.is_valid() and domicilio_form.is_valid():
             anexo = form.save()
             domicilio = domicilio_form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
-            request.set_flash('warning','Ocurrió un error actualizando los datos.')
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = AnexoForm(instance = anexo)
-        domicilio_form = AnexoDomicilioForm(instance = domicilio)
+        form = AnexoForm(instance=anexo)
+        domicilio_form = AnexoDomicilioForm(instance=domicilio)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
-    domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
 
     return my_render(request, 'registro/anexo/edit.html', {
         'form': form,

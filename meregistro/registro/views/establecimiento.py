@@ -20,6 +20,7 @@ fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50
 
+
 @login_required
 def index(request):
 
@@ -35,7 +36,7 @@ def index(request):
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
-        page_number = int(request.GET['page']) # page es un int?
+        page_number = int(request.GET['page'])
     except (KeyError, ValueError):
         page_number = 1
     # chequear los límites
@@ -61,10 +62,11 @@ def index(request):
 
 
 def build_query(filters, page, request):
-  """
-  Construye el query de búsqueda a partir de los filtros.
-  """
-  return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
 
 @login_required
 def create(request):
@@ -73,15 +75,14 @@ def create(request):
     """
     if request.method == 'POST':
         form = EstablecimientoForm(request.POST)
-        if form.is_valid(): # guardar
+        if form.is_valid():
             establecimiento = form.save()
-            estado = Estado.objects.get(nombre = Estado.PENDIENTE)
+            estado = Estado.objects.get(nombre=Estado.PENDIENTE)
             establecimiento.registrar_estado(estado)
 
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
             request.set_flash('success', 'Datos guardados correctamente.')
-            # redirigir a edit
-            return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
+            return HttpResponseRedirect(reverse('establecimientoEdit', args=[establecimiento.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -92,32 +93,34 @@ def create(request):
         'is_new': True,
     })
 
+
 @login_required
 def edit(request, establecimiento_id):
     """
     Edición de los datos de un establecimiento.
     """
-    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
     if request.method == 'POST':
-        form = EstablecimientoForm(request.POST, instance = establecimiento)
-        if form.is_valid(): # guardar
+        form = EstablecimientoForm(request.POST, instance=establecimiento)
+        if form.is_valid():
             establecimiento = form.save()
 
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
-            request.set_flash('warning','Ocurrió un error actualizando los datos.')
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = EstablecimientoForm(instance = establecimiento)
+        form = EstablecimientoForm(instance=establecimiento)
 
     return my_render(request, 'registro/establecimiento/edit.html', {
         'form': form,
         'establecimiento': establecimiento,
     })
 
+
 @login_required
 def delete(request, establecimiento_id):
-    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
     has_anexos = establecimiento.hasAnexos()
     # TODO: chequear que pertenece al ámbito
     if has_anexos:
@@ -130,6 +133,7 @@ def delete(request, establecimiento_id):
         request.set_flash('success', 'Registro eliminado correctamente.')
     return HttpResponseRedirect(reverse('establecimiento'))
 
+
 @login_required
 def registrar(request, establecimientoId):
     """
@@ -141,19 +145,22 @@ def registrar(request, establecimientoId):
             return HttpResponseRedirect(reverse('establecimiento'))
     return __registrar_show_form(request, form, establecimiento)
 
+
 def __registrar_get_form(request, establecimiento):
     if request.method == 'POST':
         form = EstablecimientoCambiarEstadoForm(request.POST)
     else:
         form = EstablecimientoCambiarEstadoForm()
-    form.fields["estado"].choices=map(lambda e: (e.id, e), fsmEstablecimiento.estadosDesde(establecimiento.estadoActual()))
+    form.fields["estado"].choices = map(lambda e: (e.id, e), fsmEstablecimiento.estadosDesde(establecimiento.estadoActual()))
     return form
+
 
 def __registrar_show_form(request, form, establecimiento):
     return my_render(request, 'registro/establecimiento/registrar.html', {
         'form': form,
         'establecimiento': establecimiento
     })
+
 
 def __registrar_process(request, form, establecimiento):
     if form.is_valid():

@@ -6,6 +6,7 @@ from meregistro.registro.models.TipoDomicilio import TipoDomicilio
 from django.core.exceptions import ValidationError
 from django import forms
 
+
 class AnexoDomicilioForm(forms.ModelForm):
 
     class Meta:

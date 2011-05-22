@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Estado(models.Model):
 
     PENDIENTE = u'Pendiente'
@@ -8,7 +9,7 @@ class Estado(models.Model):
     NO_VIGENTE = u'No vigente'
     VIGENTE = u'Vigente'
 
-    nombre = models.CharField(max_length = 50, unique = True)
+    nombre = models.CharField(max_length=50, unique=True)
 
     class Meta:
         app_label = 'registro'

@@ -2,8 +2,9 @@ from django.db import models
 from meregistro.registro.models.Region import Region
 from meregistro.seguridad.models import Ambito
 
+
 class Jurisdiccion(models.Model):
-    prefijo = models.IntegerField(null = True)
+    prefijo = models.IntegerField(null=True)
     region = models.ForeignKey(Region)
     nombre = models.CharField(max_length=50)
     ambito = models.ForeignKey(Ambito, editable=False, null=True)

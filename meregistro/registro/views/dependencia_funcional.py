@@ -12,6 +12,7 @@ from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 50
 
+
 @login_required
 def index(request):
     """
@@ -26,7 +27,7 @@ def index(request):
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
-        page_number = int(request.GET['page']) # page es un int?
+        page_number = int(request.GET['page'])
     except (KeyError, ValueError):
         page_number = 1
     # chequear los límites
@@ -50,65 +51,71 @@ def index(request):
         'prev_page': page_number - 1
     })
 
+
 def build_query(filters, page):
-  """
-  Construye el query de búsqueda a partir de los filtros.
-  """
-  return filters.buildQuery().order_by('nombre')
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().order_by('nombre')
+
 
 @login_required
 def create(request):
-  """
-  Alta de dependencia.
-  """
-  if request.method == 'POST':
-    form = DependenciaFuncionalForm(request.POST)
-    if form.is_valid(): # guardar
-      dependencia_funcional = form.save(commit = True)
+    """
+    Alta de dependencia.
+    """
+    if request.method == 'POST':
+        form = DependenciaFuncionalForm(request.POST)
+        if form.is_valid():
+            dependencia_funcional = form.save(commit=True)
 
-      request.set_flash('success', 'Datos guardados correctamente.')
+            request.set_flash('success', 'Datos guardados correctamente.')
 
-      # redirigir a edit
-      return HttpResponseRedirect(reverse('dependenciaFuncionalEdit', args=[dependencia_funcional.id]))
+            # redirigir a edit
+            return HttpResponseRedirect(reverse('dependenciaFuncionalEdit', args=[dependencia_funcional.id]))
+        else:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-      request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-  else:
-    form = DependenciaFuncionalForm()
+        form = DependenciaFuncionalForm()
 
-  return my_render(request, 'registro/dependencia_funcional/new.html', {
-    'form': form,
-    'is_new': True,
-  })
+    return my_render(request, 'registro/dependencia_funcional/new.html', {
+        'form': form,
+        'is_new': True,
+    })
+
 
 @login_required
 def edit(request, dependencia_funcional_id):
-  """
-  Edición de los datos de una dependencia funcional.
-  """
-  dependencia_funcional = DependenciaFuncional.objects.get(pk = dependencia_funcional_id)
-  if request.method == 'POST':
-    form = DependenciaFuncionalForm(request.POST, instance = dependencia_funcional)
-    if form.is_valid(): # guardar
-      dependencia_funcional = form.save()
-      request.set_flash('success', 'Datos actualizados correctamente.')
+    """
+    Edición de los datos de una dependencia funcional.
+    """
+    dependencia_funcional = DependenciaFuncional.objects.get(pk=dependencia_funcional_id)
+    if request.method == 'POST':
+        form = DependenciaFuncionalForm(request.POST, instance=dependencia_funcional)
+        if form.is_valid():
+            dependencia_funcional = form.save()
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-      request.set_flash('warning','Ocurrió un error actualizando los datos.')
-  else:
-    form = DependenciaFuncionalForm(instance = dependencia_funcional)
+        form = DependenciaFuncionalForm(instance=dependencia_funcional)
 
-  return my_render(request, 'registro/dependencia_funcional/edit.html', {
-    'form': form,
-    'dependencia_funcional': dependencia_funcional,
-  })
+    return my_render(request, 'registro/dependencia_funcional/edit.html', {
+        'form': form,
+        'dependencia_funcional': dependencia_funcional,
+    })
+
 
 @login_required
 def delete(request, dependencia_funcional_id):
-    dependencia_funcional = DependenciaFuncional.objects.get(pk = dependencia_funcional_id)
+    dependencia_funcional = DependenciaFuncional.objects.get(pk=dependencia_funcional_id)
     has_establecimientos = dependencia_funcional.hasEstablecimientos()
+
     # TODO: chequear que pertenece al ámbito
     if has_establecimientos:
         request.set_flash('warning', 'No se puede eliminar la dependencia funcional porque tiene establecimientos asociados.')
     else:
         dependencia_funcional.delete()
         request.set_flash('success', 'Registro eliminado correctamente.')
+
     return HttpResponseRedirect(reverse('dependenciaFuncional'))

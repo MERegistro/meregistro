@@ -1,6 +1,7 @@
 from django.db import models
 from seguridad.models import Ambito
 
+
 class Region(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
 

@@ -10,12 +10,14 @@ import datetime
 
 currentYear = datetime.datetime.now().year
 
+
 class AnexoForm(forms.ModelForm):
-    fecha_alta = forms.DateField(input_formats = ['%d/%m/%Y', '%d/%m/%y'], required = False, initial = datetime.date.today)
-    turnos = forms.ModelMultipleChoiceField(queryset = Turno.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required = False)
+    fecha_alta = forms.DateField(input_formats=['%d/%m/%Y', '%d/%m/%y'], required=False, initial=datetime.date.today)
+    turnos = forms.ModelMultipleChoiceField(queryset=Turno.objects.all().order_by('nombre'), widget=forms.CheckboxSelectMultiple, required=False)
 
     # TODO: investigar, el widget se resetea si la fecha no es válida
-    #fecha_alta = forms.DateField(required = False, initial = datetime.date.today, widget = SelectDateWidget(years = range(1900, currentYear + 5)))
+    # fecha_alta = forms.DateField(required = False, initial = datetime.date.today,
+    # widget = SelectDateWidget(years = range(1900, currentYear + 5)))
 
     class Meta:
         model = Anexo
@@ -28,5 +30,5 @@ class AnexoForm(forms.ModelForm):
         except ValueError:
             raise ValidationError(u'Ingrese un valor numérico.')
         if int(cue) < 10 and len(cue) < 2:
-            cue = u'0' + str(cue) # 03...08...09
+            cue = u'0' + str(cue)
         return cue

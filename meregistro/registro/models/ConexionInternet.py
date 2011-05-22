@@ -2,12 +2,13 @@ from django.db import models
 from registro.models.Establecimiento import Establecimiento
 from registro.models.TipoConexion import TipoConexion
 
+
 class ConexionInternet(models.Model):
     establecimiento = models.ForeignKey('Establecimiento')
     tipo_conexion = models.ForeignKey('TipoConexion')
-    proveedor = models.CharField(max_length = 30)
+    proveedor = models.CharField(max_length=30)
     tiene_conexion = models.BooleanField()
-    costo = models.DecimalField(max_digits = 12, decimal_places = 2)
+    costo = models.DecimalField(max_digits=12, decimal_places=2)
     cantidad = models.IntegerField()
 
     class Meta:

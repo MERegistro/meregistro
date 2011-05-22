@@ -5,8 +5,9 @@ from meregistro.registro.models.TipoGestion import TipoGestion
 from meregistro.registro.models.TipoDependenciaFuncional import TipoDependenciaFuncional
 from meregistro.seguridad.models import Ambito
 
+
 class DependenciaFuncional(models.Model):
-    nombre = models.CharField(max_length = 50)
+    nombre = models.CharField(max_length=50)
     jurisdiccion = models.ForeignKey(Jurisdiccion)
     gestion_jurisdiccion = models.ForeignKey(GestionJurisdiccion)
     tipo_gestion = models.ForeignKey(TipoGestion)
@@ -34,5 +35,5 @@ class DependenciaFuncional(models.Model):
 
     def hasEstablecimientos(self):
         from meregistro.registro.models.Establecimiento import Establecimiento
-        establecimientos = Establecimiento.objects.filter(dependencia_funcional = self)
+        establecimientos = Establecimiento.objects.filter(dependencia_funcional=self)
         return establecimientos.count() > 0
