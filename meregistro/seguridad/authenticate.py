@@ -1,6 +1,7 @@
 from hashlib import sha1
 from seguridad.models import Usuario
 
+
 def encrypt_password(password):
     """
     Encripta una password para el Usuario usuario.
@@ -10,6 +11,7 @@ def encrypt_password(password):
     @return string password encriptada.
     """
     return sha1(password).hexdigest()
+
 
 def authenticate(tipo_documento, documento, password):
     """

@@ -1,6 +1,7 @@
 from functools import wraps
 from django.http import HttpResponseRedirect
 
+
 def login_required(view):
     """
     Chequea que el usuario este logueado.
@@ -11,6 +12,7 @@ def login_required(view):
             return HttpResponseRedirect('/login?login_required')
         return view(request, *args, **kwargs)
     return wrapper
+
 
 def credential_required(credential):
     """

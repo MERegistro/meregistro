@@ -25,11 +25,13 @@ def index(request):
     'objects': q
   })
 
+
 def build_query(filters, page):
   """
   Construye el query de búsqueda a partir de los filtros.
   """
   return filters.buildQuery().order_by('apellido', 'nombre')
+
 
 @login_required
 def edit(request, userId):
@@ -39,7 +41,7 @@ def edit(request, userId):
   usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
     form = UsuarioForm(request.POST, instance=usuario)
-    if form.is_valid(): # guardar
+    if form.is_valid():
       usuario = form.save()
       request.set_flash('success', 'Datos actualizados correctamente.')
     else:
@@ -52,6 +54,7 @@ def edit(request, userId):
     'usuario': usuario,
   })
 
+
 @login_required
 def create(request):
   """
@@ -59,7 +62,7 @@ def create(request):
   """
   if request.method == 'POST':
     form = UsuarioCreateForm(request.POST)
-    if form.is_valid(): # guardar
+    if form.is_valid():
       usuario = form.save(commit=False)
       usuario.set_password(form.cleaned_data['password'])
       usuario.is_active = True
@@ -82,6 +85,7 @@ def create(request):
     'form': form,
   })
 
+
 @login_required
 def change_password(request, userId):
   """
@@ -90,7 +94,7 @@ def change_password(request, userId):
   usuario = Usuario.objects.get(pk=userId)
   if request.method == 'POST':
     form = UsuarioChangePasswordForm(request.POST)
-    if form.is_valid(): # guardar
+    if form.is_valid():
       usuario.set_password(form.cleaned_data['password'])
       usuario.save()
       request.set_flash('success', 'Contraseña modificada correctamente.')
@@ -103,6 +107,7 @@ def change_password(request, userId):
     'form': form,
     'usuario': usuario,
   })
+
 
 @login_required
 def bloquear(request, userId):
@@ -125,6 +130,7 @@ def bloquear(request, userId):
     'form': form
   })
 
+
 @login_required
 def desbloquear(request, userId):
   """
@@ -143,5 +149,5 @@ def desbloquear(request, userId):
     form = DesbloquearUsuarioForm()
   return my_render(request, 'seguridad/usuario/desbloquear.html', {
     'usuario': usuario,
-    'form' : form
+    'form': form
   })
