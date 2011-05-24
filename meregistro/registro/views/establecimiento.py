@@ -15,7 +15,7 @@ from django.core.paginator import Paginator
 from meregistro.registro.helpers.MailHelper import MailHelper
 from registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
 from registro.FSMEstablecimiento import FSMEstablecimiento
-
+from registro.models import DependenciaFuncional
 fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50
@@ -88,6 +88,7 @@ def create(request):
     else:
         form = EstablecimientoForm()
 
+    form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/new.html', {
         'form': form,
         'is_new': True,
