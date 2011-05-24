@@ -3,6 +3,7 @@ from django.db import models
 from meregistro.registro.models.Anexo import Anexo
 from meregistro.registro.models.Estado import Estado
 
+
 class AnexoEstado(models.Model):
     anexo = models.ForeignKey(Anexo)
     estado = models.ForeignKey(Estado)
@@ -14,4 +15,3 @@ class AnexoEstado(models.Model):
 
     def __unicode__(self):
         return self.estado.nombre
-

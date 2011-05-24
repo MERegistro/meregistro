@@ -1,6 +1,7 @@
 from hashlib import sha1
 from seguridad.models import Usuario
 
+
 def encrypt_password(password):
     """
     Encripta una password para el Usuario usuario.
@@ -10,6 +11,7 @@ def encrypt_password(password):
     @return string password encriptada.
     """
     return sha1(password).hexdigest()
+
 
 def authenticate(tipo_documento, documento, password):
     """
@@ -23,7 +25,7 @@ def authenticate(tipo_documento, documento, password):
     """
     try:
         user = Usuario.objects.get(tipo_documento=tipo_documento, documento=documento)
-        if user.password == encrypt_password(user, password):
+        if user.password == encrypt_password(password):
             return user
         return False
     except Usuario.DoesNotExist:

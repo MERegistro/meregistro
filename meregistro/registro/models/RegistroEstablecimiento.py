@@ -2,11 +2,12 @@
 from django.db import models
 from registro.models.Estado import Estado
 
+
 class RegistroEstablecimiento(models.Model):
     establecimiento = models.ForeignKey('Establecimiento')
     estado = models.ForeignKey('Estado')
-    fecha = models.DateField(null = False, blank = False, editable=False)
-    observaciones = models.TextField(max_length = 255, null = True, blank = True)
+    fecha = models.DateField(null=False, blank=False, editable=False)
+    observaciones = models.TextField(max_length=255, null=True, blank=True)
 
     class Meta:
         app_label = 'registro'
@@ -14,4 +15,3 @@ class RegistroEstablecimiento(models.Model):
 
     def __unicode__(self):
         return self.estado.nombre
-

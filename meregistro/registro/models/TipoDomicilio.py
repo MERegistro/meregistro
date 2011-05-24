@@ -1,7 +1,8 @@
 from django.db import models
 
+
 class TipoDomicilio(models.Model):
-    descripcion = models.CharField(max_length = 50, unique = True)
+    descripcion = models.CharField(max_length=50, unique=True)
 
     class Meta:
         app_label = 'registro'

@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class GestionJurisdiccion(models.Model):
     nombre = models.CharField(max_length=50, unique=True)
 

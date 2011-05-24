@@ -7,12 +7,14 @@ from seguridad.forms import LoginForm, SeleccionarPerfilForm
 from seguridad.authenticate import authenticate
 from seguridad.decorators import login_required
 
+
 def logout(request):
   """
   Logout y redireccionar a login.
   """
   request.logout()
   return HttpResponseRedirect(reverse('login'))
+
 
 def login(request):
   """
@@ -38,6 +40,7 @@ def login(request):
   else:
     form = LoginForm()
   return my_render(request, 'seguridad/login/login.html', {'form': form})
+
 
 @login_required
 def seleccionar_perfil(request):

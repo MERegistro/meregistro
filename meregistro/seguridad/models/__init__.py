@@ -9,5 +9,3 @@ from BloqueoLog import BloqueoLog
 from Ambito import Ambito
 from Rol import Rol
 from Perfil import Perfil
-
-
