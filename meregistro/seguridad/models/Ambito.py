@@ -26,6 +26,6 @@ class Ambito(models.Model):
         child.level = self.level + 1
         child.parent = self
         child.save()
-        child.path = self.path + '/' + str(child.id)
+        child.path = self.path + '/' + str(child.id) +'/'
         child.save()
         return child

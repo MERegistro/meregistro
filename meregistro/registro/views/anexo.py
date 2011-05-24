@@ -32,7 +32,8 @@ def index(request):
     q = build_query(form_filter, 1, request)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
-    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
+    if jurisdiccion is not None:
+        form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -99,7 +100,8 @@ def create(request):
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    if jurisdiccion is not None:
+        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
 
     return my_render(request, 'registro/anexo/new.html', {
         'form': form,
@@ -134,7 +136,8 @@ def edit(request, anexo_id):
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    if jurisdiccion is not None:
+        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
 
     return my_render(request, 'registro/anexo/edit.html', {
         'form': form,

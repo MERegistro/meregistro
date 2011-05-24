@@ -87,8 +87,8 @@ def create(request):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = EstablecimientoForm()
-
-    form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
+    if request.get_perfil().jurisdiccion() is not None:
+        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/new.html', {
         'form': form,
         'is_new': True,

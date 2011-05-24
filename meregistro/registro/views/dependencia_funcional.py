@@ -39,7 +39,8 @@ def index(request):
 
     page = paginator.page(page_number)
     objects = page.object_list
-    form_filter.fields['jurisdiccion'].queryset = Jurisdiccion.objects.filter(id=request.get_perfil().jurisdiccion().id)
+    if request.get_perfil().jurisdiccion() is not None:
+        form_filter.fields['jurisdiccion'].queryset = Jurisdiccion.objects.filter(id=request.get_perfil().jurisdiccion().id)
 
     return my_render(request, 'registro/dependencia_funcional/index.html', {
         'form_filters': form_filter,
@@ -80,7 +81,8 @@ def create(request):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = DependenciaFuncionalForm()
-    form.fields['jurisdiccion'].queryset = Jurisdiccion.objects.filter(id=request.get_perfil().jurisdiccion().id)
+    if request.get_perfil().jurisdiccion() is not None:
+        form.fields['jurisdiccion'].queryset = Jurisdiccion.objects.filter(id=request.get_perfil().jurisdiccion().id)
     return my_render(request, 'registro/dependencia_funcional/new.html', {
         'form': form,
         'is_new': True,
