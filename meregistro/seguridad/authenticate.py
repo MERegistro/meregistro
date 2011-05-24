@@ -25,7 +25,7 @@ def authenticate(tipo_documento, documento, password):
     """
     try:
         user = Usuario.objects.get(tipo_documento=tipo_documento, documento=documento)
-        if user.password == encrypt_password(user, password):
+        if user.password == encrypt_password(password):
             return user
         return False
     except Usuario.DoesNotExist:
