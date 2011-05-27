@@ -2,13 +2,15 @@
 
 from django import forms
 from seguridad.models import TipoDocumento, Usuario
-from registro.models import Establecimiento, DependenciaFuncional
+from registro.models import Establecimiento, DependenciaFuncional, Jurisdiccion, Estado
 
 
 class EstablecimientoFormFilters(forms.Form):
     nombre = forms.CharField(max_length=40, label='Nombre', required=False)
     cue = forms.CharField(max_length=40, label='Cue', required=False)
     dependencia_funcional = forms.ModelChoiceField(queryset=DependenciaFuncional.objects, label='Dependencia funcional', required=False)
+    estado = forms.ModelChoiceField(queryset=Estado.objects, label='Estado', required=False)
+    jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects, label='Jurisdiccion', required=False)
 
     def buildQuery(self, q=None):
         """
@@ -25,4 +27,6 @@ class EstablecimientoFormFilters(forms.Form):
             q = q.filter(cue__contains=self.cleaned_data['cue'])
         if filter_by('dependencia_funcional'):
             q = q.filter(dependencia_funcional=self.cleaned_data['dependencia_funcional'])
+        if filter_by('jurisdiccion'):
+            q = q.filter(dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
         return q

@@ -34,7 +34,7 @@ def index(request):
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
         form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
-
+    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:

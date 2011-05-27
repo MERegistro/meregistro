@@ -360,7 +360,13 @@ td.actions-td ul li.delete a {
 	height: 24px;
 	background: url(../img/icons/delete.png) no-repeat left;
 }
-
+/* REGISTRAR ESTABLECIMIENTO */
+td.actions-td ul li.registrar_establecimiento a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
+}
 /*
 =FORM-FILTER
 */
