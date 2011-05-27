@@ -55,13 +55,17 @@
 				</td>
 				<td class="actions-td">
 					<ul>
-						{% if est.estado_actual == 'Pendiente' %}
-						<li class="edit"><a href="{% url registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
-						{% endif %}
-						{% if est.isDeletable %}
-						<li class="delete"><a href="{% url registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-						{% endif %}
-						<li><a href="{% url registro.views.establecimiento.registrar est.id %}" title="Registrar">Registrar</a></li>
+                        {% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
+						    {% if est.estado_actual == 'Pendiente' %}
+						    <li class="edit"><a href="{% url registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
+						    {% endif %}
+						    {% if est.isDeletable %}
+						    <li class="delete"><a href="{% url registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+						    {% endif %}
+                        {% endif %}
+                        {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+						    <li><a href="{% url registro.views.establecimiento.registrar est.id %}" title="Registrar">Registrar</a></li>
+                        {% endif %}
 					</ul>
 				</td>
 			</tr>
