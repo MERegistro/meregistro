@@ -9,7 +9,6 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from meregistro.seguridad.models import Ambito
 
-
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
 
@@ -27,6 +26,7 @@ class Establecimiento(models.Model):
     email = models.EmailField(max_length=255, null=True, blank=True)
     sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    estado = models.ForeignKey(Estado, editable=False, null=True)
 
     class Meta:
         app_label = 'registro'
@@ -57,7 +57,9 @@ class Establecimiento(models.Model):
         registro.fecha = datetime.date.today()
         registro.establecimiento_id = self.id
         registro.observaciones = observaciones
+        self.estado = estado
         registro.save()
+        self.save()
 
     def save(self):
         self.updateAmbito()
