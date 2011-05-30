@@ -8,6 +8,7 @@ class Ambito(models.Model):
     path = models.CharField(max_length=255)
     level = models.IntegerField()
     parent = models.ForeignKey('self', null=True)
+    vigente = models.BooleanField(default=True)
 
     class Meta:
         app_label = 'seguridad'

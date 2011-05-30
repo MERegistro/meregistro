@@ -12,5 +12,6 @@ def selector_ambito(request):
         ambitos = Ambito.objects.filter(parent=int(request.GET['parent']))
     else:
         ambitos = Ambito.objects.filter(level=0)
+    ambitos = ambitos.filter(vigente=True)
     result = map(lambda a: {'id': a.id, 'descripcion': a.descripcion}, ambitos)
     return HttpResponse(json.dumps(result))

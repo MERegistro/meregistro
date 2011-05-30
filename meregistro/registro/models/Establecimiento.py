@@ -70,6 +70,8 @@ class Establecimiento(models.Model):
 
     def save(self):
         self.updateAmbito()
+        self.ambito.vigente = (self.estado.nombre != Estado.PENDIENTE)
+        self.ambito.save()
         models.Model.save(self)
 
     def delete(self):
