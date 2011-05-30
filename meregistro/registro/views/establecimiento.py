@@ -7,6 +7,11 @@ from meregistro.shortcuts import my_render
 from seguridad.decorators import login_required
 from seguridad.models import Usuario, Perfil
 from meregistro.registro.models.Establecimiento import Establecimiento
+from meregistro.registro.models.TipoDominio import TipoDominio
+from meregistro.registro.models.TipoCompartido import TipoCompartido
+from meregistro.registro.models.EstablecimientoDomicilio import EstablecimientoDomicilio
+from meregistro.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
+from meregistro.registro.models.Localidad import Localidad
 from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from meregistro.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
@@ -14,6 +19,12 @@ from meregistro.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
 from meregistro.registro.helpers.MailHelper import MailHelper
 from registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
+from registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
+from registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm
+from registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
+from registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
+from registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
+from registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
 from registro.FSMEstablecimiento import FSMEstablecimiento
 from registro.models import DependenciaFuncional
 fsmEstablecimiento = FSMEstablecimiento()
@@ -146,7 +157,6 @@ def registrar(request, establecimientoId):
             return HttpResponseRedirect(reverse('establecimiento'))
     return __registrar_show_form(request, form, establecimiento)
 
-
 def __registrar_get_form(request, establecimiento):
     if request.method == 'POST':
         form = EstablecimientoCambiarEstadoForm(request.POST)
@@ -173,3 +183,203 @@ def __registrar_process(request, form, establecimiento):
         except:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
+
+def __get_establecimiento_actual(request):
+    """
+    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
+    """
+    try:
+        establecimiento = Establecimiento.objects.filter(ambito__path = request.get_perfil().ambito.path)
+        if not bool(establecimiento):
+            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+    except Exception:
+        pass
+    return establecimiento[0]
+
+@login_required
+def completar_datos(request):
+    """
+    CU 26
+
+    XXX: Por ahora no usamos esta vista, pero puede que más adelante la necesitemos
+    para mostrar info del establecimiento
+    """
+    establecimiento = __get_establecimiento_actual(request)
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'establecimiento': establecimiento,
+    })
+
+@login_required
+def completar_datos_basicos(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+
+    if request.method == 'POST':
+        form = EstablecimientoDatosBasicosForm(request.POST, instance = establecimiento)
+        if form.is_valid():
+            establecimiento = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoDatosBasicosForm(instance = establecimiento)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_datos_basicos.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos',
+    })
+
+@login_required
+def completar_niveles(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+
+    if request.method == 'POST':
+        form = EstablecimientoNivelesForm(request.POST, instance = establecimiento)
+        if form.is_valid():
+            niveles = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoNivelesForm(instance = establecimiento)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_niveles.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Niveles',
+        'actual_page': 'niveles',
+    })
+
+@login_required
+def completar_turnos(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+
+    if request.method == 'POST':
+        form = EstablecimientoTurnosForm(request.POST, instance = establecimiento)
+        if form.is_valid():
+            turnos = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoTurnosForm(instance = establecimiento)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_turnos.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Turnos',
+        'actual_page': 'turnos',
+    })
+
+@login_required
+def completar_funciones(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+
+    if request.method == 'POST':
+        form = EstablecimientoFuncionesForm(request.POST, instance = establecimiento)
+        if form.is_valid():
+            funciones = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoFuncionesForm(instance = establecimiento)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_funciones.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Funciones',
+        'actual_page': 'funciones',
+    })
+
+@login_required
+def completar_domicilio(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+    try:
+        domicilio = establecimiento.domicilio.get()
+    except:
+        domicilio = AnexoDomicilio()
+        domicilio.establecimiento = establecimiento
+
+    if request.method == 'POST':
+        form = EstablecimientoDomicilioForm(request.POST, instance = domicilio)
+        if form.is_valid():
+            domicilio = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoDomicilioForm(instance = domicilio)
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_domicilio.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Domicilio',
+        'actual_page': 'domicilio',
+    })
+
+@login_required
+def completar_informacion_edilicia(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+
+    try:
+        informacion_edilicia = EstablecimientoInformacionEdilicia.objects.get(establecimiento = establecimiento)
+    except:
+        informacion_edilicia = EstablecimientoInformacionEdilicia()
+        informacion_edilicia.establecimiento = establecimiento
+
+    if request.method == 'POST':
+        form = EstablecimientoInformacionEdiliciaForm(request.POST, instance = informacion_edilicia)
+        if form.is_valid():
+            informacion_edilicia = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoInformacionEdiliciaForm(instance = informacion_edilicia)
+
+    es_dominio_compartido_id = TipoDominio.objects.get(descripcion = 'Compartido').id
+    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion = 'Establecimiento de otro nivel').id
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_informacion_edilicia.html',
+        'establecimiento': establecimiento,
+        'es_dominio_compartido_id': es_dominio_compartido_id,
+        'comparte_otro_nivel_id': comparte_otro_nivel_id,
+        'page_title': 'Información edilicia',
+        'actual_page': 'informacion_edilicia',
+    })

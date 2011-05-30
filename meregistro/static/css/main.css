@@ -108,6 +108,54 @@ div#mainNav ul li#linkAyuda {
 	border-left: 1px #bbb solid;
 }
 /*
+=TAB-NAV
+*/
+div.tab-nav {
+
+}
+div.tab-nav ul li {
+	float: left;
+	background: #ccc;
+	margin: 0 3px 0 0;
+}
+div.tab-nav ul li.active {
+	background: #D6DEDE;
+}
+div.tab-nav ul li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+div.tab-nav ul li a:link,
+div.tab-nav ul li a:visited {
+	float: left;
+	text-decoration: none;
+	color: #555;
+}
+div.tab-nav ul li a:hover,
+div.tab-nav ul li.active a {
+	color: #000;
+}
+div.tab-nav ul li a span {
+	display: block;
+	padding: 5px 8px;
+}
+/*
+=establecimientoCompletarDatosNav
+*/
+div#establecimientoCompletarDatosNav {
+	margin: 25px 0 0 11px;
+}
+div#establecimientoCompletarDatosNav ul li {
+	border-bottom: 1px #fff solid;
+}
+div#establecimientoCompletarDatosNav ul li.active {
+	border-bottom: 1px #D6DEDE solid;
+}
+div#establecimientoCompletarDatosNav ul li a span {
+	padding: 5px 14px;
+}
+/*
 =FOOTER
 */
 div#footer {
@@ -192,21 +240,6 @@ div.form div.form-textarea textarea {
 div.form div.form-text input {
 	padding: 2px 3px;
 }
-div.form div.form-checkbox-list {
-}
-div.form div.form-checkbox-list ul {
-	width: 480px;
-	float: right;
-	margin: -20px 15px 0 0;
-}
-div.form div.form-checkbox-list li  {
-	display: block;
-	width: 480px;
-	height: 20px;
-}
-div.form div.form-checkbox-list label  {
-	float: none;
-}
 div.form div.form-submit {
 	margin-bottom: 10px;
 }
@@ -218,12 +251,44 @@ div.form div ul.errorlist { /* Error de cada campo */
 	color: #f00;
 	margin: 0  0 4px 170px;
 }
-div.form div.form-checkbox-list ul.errorlist { /* Error de cada campo */
-	margin: 0  20px 4px 150px;
-}
 div.form ul.errorlist li { /* Cada error */
 	padding-left: 20px;
 	background: url(../img/icons/warning-16.png) no-repeat 0 -2px;
+}
+div.form div.form-checkbox-list {
+}
+div.form div.form-checkbox-list ul {
+	float: left;
+	margin: 10px 0 0;
+}
+div.form div.form-checkbox-list li {
+	display: block;
+	height: 20px;
+}
+div.form div.form-checkbox-list label {
+	float: none;
+	width: 100%;
+}
+div.form div.form-checkbox-list ul.errorlist { /* Error de cada campo */
+}
+/* CHECKBOX-LIST DENTRO DE UN FIELDSET */
+div.form fieldset div.form-checkbox-list {
+}
+div.form fieldset div.form-checkbox-list ul {
+	width: 480px;
+	float: right;
+	margin: -20px 15px 0 0;
+}
+div.form fieldset div.form-checkbox-list li {
+	display: block;
+	width: 480px;
+	height: 20px;
+}
+div.form fieldset div.form-checkbox-list label {
+	float: none;
+}
+div.form fieldset div.form-checkbox-list ul.errorlist { /* Error de cada campo */
+	margin: 0  20px 4px 150px;
 }
 /* SUBFORM */
 div.form fieldset {
@@ -236,6 +301,13 @@ div.form fieldset legend {
 }
 div.form fieldset div.form-checkbox-list ul {
 	margin-top: 0px;
+}
+/* =establecimientoCompletarDatosForm */
+div#establecimientoCompletarDatosForm {
+	margin: 40px 0 0;
+}
+div#establecimientoCompletarDatosForm form {
+	padding: 10px 0;
 }
 /*
 =TABLE
@@ -259,7 +331,7 @@ table.hor-zebra th {
 	background: #276399;
 }
 table.hor-zebra td {
-	padding: 1px 3px;
+	padding: 1px 5px;
 	color: #000;
 	border: 1px #ccc solid;
 }
@@ -276,8 +348,11 @@ tr.hor-zebra_odd {
     text-decoration: underline;
 }
 /* TABLE Establecimientos */
-th#thCue {
+th#thEstablecimientoCue {
 	width: 100px;
+}
+th#thEstablecimientoEstados {
+	width: 170px;
 }
 /* ACTIONS */
 table.hor-zebra th.actions {
@@ -578,13 +653,13 @@ div#userInfo ul#userLinks a:hover {
 */
 div.popup_selector_ambito
 {
-  position: absolute;
+	position: absolute;
 	top:0px;
-  border: 1px solid #666666;
+	border: 1px solid #666666;
 	background-color:#F7F7F7;
-  width: 600px;
-  height: 400px;
-  margin-top: 0px;
-  display: none;
+	width: 600px;
+	height: 400px;
+	margin-top: 0px;
+	display: none;
 	overflow: scroll;
 }

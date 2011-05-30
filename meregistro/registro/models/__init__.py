@@ -18,3 +18,5 @@ from AnexoEstado import AnexoEstado
 from AnexoDomicilio import AnexoDomicilio
 from Departamento import Departamento
 from Localidad import Localidad
+from EstablecimientoDomicilio import EstablecimientoDomicilio
+from EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia

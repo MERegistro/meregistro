@@ -4,6 +4,9 @@ from meregistro.registro.models.TipoNormativa import TipoNormativa
 from meregistro.registro.models.Jurisdiccion import Jurisdiccion
 from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from meregistro.registro.models.DependenciaFuncional import DependenciaFuncional
+from meregistro.registro.models.Nivel import Nivel
+from meregistro.registro.models.Funcion import Funcion
+from meregistro.registro.models.Turno import Turno
 from meregistro.registro.models.Estado import Estado
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
@@ -15,18 +18,21 @@ YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.no
 
 class Establecimiento(models.Model):
     dependencia_funcional = models.ForeignKey(DependenciaFuncional)
-    cue = models.CharField(max_length=5)
-    nombre = models.CharField(max_length=255)
+    cue = models.CharField(max_length = 5)
+    nombre = models.CharField(max_length = 255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
-    nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
-    norma_creacion = models.CharField(max_length=100)
-    observaciones = models.TextField(max_length=255, null=True, blank=True)
-    anio_creacion = models.IntegerField(null=True, blank=True, choices=YEARS_CHOICES)
-    telefono = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(max_length=255, null=True, blank=True)
-    sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
-    ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    nombre_unidad_academica = models.CharField(max_length = 100, null = True, blank = True)
+    norma_creacion = models.CharField(max_length = 100)
+    observaciones = models.TextField(max_length = 255, null = True, blank = True)
+    anio_creacion = models.IntegerField(null = True, blank = True, choices = YEARS_CHOICES)
+    telefono = models.CharField(max_length = 100, null = True, blank = True)
+    email = models.EmailField(max_length = 255, null = True, blank = True)
+    sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
+    ambito = models.ForeignKey(Ambito, editable = False, null = True)
+    turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_establecimientos_turnos')
+    niveles = models.ManyToManyField(Nivel, null = True, db_table = 'registro_establecimientos_niveles')
+    funciones = models.ManyToManyField(Funcion, null = True, db_table = 'registro_establecimientos_funciones')
 
     class Meta:
         app_label = 'registro'

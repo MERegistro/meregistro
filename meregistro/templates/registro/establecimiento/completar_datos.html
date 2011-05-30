@@ -1,0 +1,130 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Completar datos del establecimiento{% endblock %}
+
+{% block content %}
+<h2>Completar datos del establecimiento - {{ page_title }}</h2>
+<h3>{{ establecimiento }}</h3>
+{% if flash %}
+{% include "flashes.html" %}
+{% endif %}
+
+{% include "registro/establecimiento/completar_datos_nav.html" %}
+
+{% if form_template %}
+{% include form_template %}
+{% endif %}
+<!--
+--------------------------------
+dirección pagina web
+
+
+telefono
+email
+
+        Normativa de creación /reconocimiento
+
+Año de creación
+Nro normativa
+Selecciona
+Tipo de normativa
+
+   Unidad Académica / Normales  Selecciona (SI/NO) en caso d responder SI habilita completar
+
+Nombre Unidad Académica/Normal
+--------------------------------
+
+
+
+--------------------------------
+          Niveles: checkbox niveles
+
+Inicial
+Primaria
+Secundaria
+Superior
+
+--------------------------------
+          Funciones: checkbox funciones
+Formación inicial
+Formación continua
+Investigación de temáticas vinculadas a la enseñanza , el trabajo docente y la formación docente
+Apoyo pedagógico  a escuelas
+
+--------------------------------
+          Turnos en el que funciona: checkbox de turnos
+Turno Mañana
+Turno Tarde
+Turno Vespertino
+Turno Noche
+
+
+--------------------------------
+
+--------------------------------
+Datos domicilio
+   
+Tipo de domicilio   (Postal  -  Institucional)
+calle
+altura
+referencia
+
+             
+              Mediante un selector
+Localidad
+Departamento
+
+--------------------------------
+Información Edilicia
+
+Uso del edificio
+	Selecciona (Exclusivo –Compartido) en caso de responder Compartido habilita completar
+	Comparte edificio con:
+
+
+
+
+Otro Establecimiento de formación docente
+Otro tipo de establecimiento
+Establecimiento de  otro nivel
+
+en caso de responder Establecimiento de  otro nivel habilita completar
+
+Niveles: checkbox niveles
+
+Inicial
+Primaria
+Secundaria
+Superior
+Conectividad
+
+--------------------------------
+     Conexión a internet Selecciona (SI/NO) en caso de responder SI habilita
+
+Selecciona
+
+Tipo de conexión
+[ Conexión telefonica (RTC) o (Dial Up)
+ Conexión telefonica Adsl (navega y habla al mismo tiempo)
+ Conexión por cable modem coaxil
+Conexión por cable modem fibra óptica
+Conexión satelita
+;Conexión Inalambrica fija;3G
+Telefonia Celular
+Otra ]
+Completa
+
+Empresa que suministra el servicio
+Costo mensual de la conexión
+Cantidad de máquinas que utilizan la misma conexión
+--------------------------------
+-->
+<ul class="actions">
+<!--
+    <li class="back">
+	<a href="{% url registro.views.establecimiento.index %}"><span>Volver</span></a>
+    </li>
+-->
+</ul>
+<hr />
+{% endblock %}
