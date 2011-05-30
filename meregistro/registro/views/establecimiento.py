@@ -184,17 +184,19 @@ def __registrar_process(request, form, establecimiento):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
+
 def __get_establecimiento_actual(request):
     """
     Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
     """
     try:
-        establecimiento = Establecimiento.objects.filter(ambito__path = request.get_perfil().ambito.path)
+        establecimiento = Establecimiento.objects.get(ambito__path = request.get_perfil().ambito.path)
         if not bool(establecimiento):
             raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+        else:
+            return establecimiento
     except Exception:
         pass
-    return establecimiento[0]
 
 @login_required
 def completar_datos(request):
@@ -215,7 +217,6 @@ def completar_datos_basicos(request):
     CU 26
     """
     establecimiento = __get_establecimiento_actual(request)
-
     if request.method == 'POST':
         form = EstablecimientoDatosBasicosForm(request.POST, instance = establecimiento)
         if form.is_valid():
@@ -322,7 +323,7 @@ def completar_domicilio(request):
     try:
         domicilio = establecimiento.domicilio.get()
     except:
-        domicilio = AnexoDomicilio()
+        domicilio = EstablecimientoDomicilio()
         domicilio.establecimiento = establecimiento
 
     if request.method == 'POST':
