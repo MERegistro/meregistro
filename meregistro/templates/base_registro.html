@@ -24,7 +24,7 @@
 				{% if user_perfil.rol.nombre in 'Referente,AdminSistema,' %}
 				<li><a href="{% url registro.views.dependencia_funcional.index %}">Dependencias funcionales</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente,AdminSistema,SecretarioIFD' %}
+				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente,AdminSistema' %}
 				<li><a href="{% url registro.views.establecimiento.index %}">Establecimientos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
