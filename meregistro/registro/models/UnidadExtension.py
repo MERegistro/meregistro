@@ -14,6 +14,7 @@ class UnidadExtension(models.Model):
     nombre = models.CharField(max_length = 255)
     observaciones = models.CharField(max_length = 255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
+    fecha_alta = models.DateField(null=True, blank=True)
     normativa = models.CharField(max_length = 100)
     anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
     sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
