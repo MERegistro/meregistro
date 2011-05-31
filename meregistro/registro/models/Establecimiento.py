@@ -21,7 +21,6 @@ class Establecimiento(models.Model):
     nombre = models.CharField(max_length = 255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
-
     nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
     norma_creacion = models.CharField(max_length=100)
     observaciones = models.TextField(max_length=255, null=True, blank=True)

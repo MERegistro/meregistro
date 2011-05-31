@@ -7,9 +7,9 @@ from django.core.exceptions import ValidationError
 
 
 class AnexoDomicilio(models.Model):
-    anexo = models.ForeignKey(Anexo, related_name='domicilio')
+    anexo = models.ForeignKey(Anexo, related_name = 'anexo_domicilio')
     tipo_domicilio = models.ForeignKey(TipoDomicilio)
-    localidad = models.ForeignKey(Localidad, related_name='domicilios_anexos')
+    localidad = models.ForeignKey(Localidad, related_name = 'anexo_localidad')
     calle = models.CharField(max_length=100)
     altura = models.CharField(max_length=5)
     referencia = models.CharField(max_length=255, null=True, blank=True)
