@@ -20,3 +20,6 @@ from Departamento import Departamento
 from Localidad import Localidad
 from EstablecimientoDomicilio import EstablecimientoDomicilio
 from EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
+from UnidadExtension import UnidadExtension
+from UnidadExtensionDomicilio import UnidadExtensionDomicilio
+from UnidadExtensionEstado import UnidadExtensionEstado

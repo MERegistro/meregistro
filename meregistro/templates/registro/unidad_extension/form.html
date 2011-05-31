@@ -1,0 +1,71 @@
+<div class="form" id="anexoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_normativa.errors }}
+			<label for="id_tipo_normativa">Tipo de normativa:</label>
+			{{ form.tipo_normativa }}
+		</div>
+		<div class="form-text">
+			{{ form.normativa.errors }}
+			<label for="id_normativa">Normativa:</label>
+			{{ form.normativa }}
+		</div>
+		<div class="form-text">
+			{{ form.fecha_alta.errors }}
+			<label for="fecha_alta">Fecha de alta:</label>
+			{{ form.fecha_alta }}
+		</div>
+		<div class="form-text">
+			{{ form.anio_creacion.errors }}
+			<label for="anio_creacion">Año de creación:</label>
+			{{ form.anio_creacion }}
+		</div>
+		<div class="form-text">
+			{{ form.telefono.errors }}
+			<label for="telefono">Teléfono:</label>
+			{{ form.telefono }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="email">Email:</label>
+			{{ form.email }}
+		</div>
+		<div class="form-text">
+			{{ form.sitio_web.errors }}
+			<label for="sitio_web">Sitio web:</label>
+			{{ form.sitio_web }}
+		</div>
+		<fieldset>
+			<legend>Turnos en los que funciona:</legend>
+			<div class="form-checkbox-list">
+				{{ form.turnos.errors }}
+				{{ form.turnos }}
+				<hr />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Domicilio</legend>
+			<div>
+			{{ domicilio_form.as_p }}
+			</div>
+		</fieldset>
+		<div class="form-submit">
+		{% if anexo %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

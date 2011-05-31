@@ -33,6 +33,9 @@
 				{% if user_perfil.rol.nombre in 'AdminSistema,RectorDirectorIFD,SecretarioIFD' %}
 				<li><a href="{% url registro.views.anexo.index %}">Anexos</a></li>
 				{% endif %}
+				{% if user_perfil.rol.nombre in 'AdminSistema,RectorDirectorIFD' %}
+				<li><a href="{% url registro.views.unidad_extension.index %}">Unidades de extensión</a></li>
+				{% endif %}
 				{% if user_perfil.rol.nombre in 'Referente,AdminSistema,AdminSeguridad' %}
 				<li><a href="{% url seguridad.views.index %}">Seguridad</a></li>
 				{% endif %}
