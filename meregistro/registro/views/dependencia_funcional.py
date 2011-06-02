@@ -24,6 +24,7 @@ def index(request):
     else:
         form_filter = DependenciaFuncionalFormFilters()
     q = build_query(form_filter, 1)
+    q = q.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
