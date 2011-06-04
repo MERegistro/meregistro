@@ -1,0 +1,100 @@
+<div class="form" id="establecimientoCompletarDatosForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.tipo_conexion.errors }}
+			<label for="id_tipo_conexion">Tipo de conexión:</label>
+			{{ form.tipo_conexion }}
+		</div>
+		<div class="form-text">
+			{{ form.proveedor.errors }}
+			<label for="proveedor">Proveedor:</label>
+			{{ form.proveedor }}
+		</div>
+		<div class="form-checkbox">
+			{{ form.tiene_conexion.errors }}
+			<label for="tiene_conexion">Tiene conexión:</label>
+			{{ form.tiene_conexion }}
+		</div>
+		<div class="form-text">
+			{{ form.costo.errors }}
+			<label for="costo">Costo mensual:</label>
+			{{ form.costo }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad.errors }}
+			<p class="help-text">Cantidad de máquinas que comparten la conexión</p>
+			<label for="cantidad">Cantidad:</label>
+			{{ form.cantidad }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Actualizar" />
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+
+// Valores iniciales
+select_tipo_dominio = document.getElementById('id_tipo_dominio');
+select_tipo_compartido = document.getElementById('id_tipo_compartido');
+es_dominio_compartido_id = {{ es_dominio_compartido_id }};
+comparte_otro_nivel_id = {{ comparte_otro_nivel_id }};
+
+// Activa el combo 2
+function activarComboComparteEdificio(state){
+	select_tipo_compartido.disabled = !state;
+}
+
+// Cambia el estado de los checks
+function setStateNiveles(state){
+	niveles = document.getElementsByName('niveles');
+	for (i = 0; i < niveles.length; i++){
+		niveles[i].disabled = !state;
+	}
+}
+
+// Manejo el primer combo
+select_tipo_dominio.onchange = function(event){
+	select = event.target;
+	value = select[select.selectedIndex].value;
+	if(value == es_dominio_compartido_id){
+		// Activo el segundo combo
+		activarComboComparteEdificio(true);
+		value_compartido = select_tipo_compartido[select_tipo_compartido.selectedIndex].value;
+		// Activo los checkboxes???
+		if(value_compartido == comparte_otro_nivel_id){
+			setStateNiveles(true);
+		}
+	} else {
+		activarComboComparteEdificio(false);
+		setStateNiveles(false);
+	}
+}
+
+// Manejo el segundo combo
+select_tipo_compartido.onchange = function(event){
+	select = event.target;
+	value = select[select.selectedIndex].value;
+	if(value == comparte_otro_nivel_id){
+		setStateNiveles(true); // Activo los checkboxes
+	} else {
+		setStateNiveles(false);
+	}
+}
+
+
+// Init
+value1 = select_tipo_dominio[select_tipo_dominio.selectedIndex].value;
+if(value1 == es_dominio_compartido_id){
+	activarComboComparteEdificio(true);
+} else {
+	activarComboComparteEdificio(false);
+}
+
+value2 = select_tipo_compartido[select_tipo_compartido.selectedIndex].value;
+if(value2 == comparte_otro_nivel_id){
+	setStateNiveles(true);
+} else {
+	setStateNiveles(false);
+}
+</script>

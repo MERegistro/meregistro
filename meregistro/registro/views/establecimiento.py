@@ -11,6 +11,7 @@ from meregistro.registro.models.TipoDominio import TipoDominio
 from meregistro.registro.models.TipoCompartido import TipoCompartido
 from meregistro.registro.models.EstablecimientoDomicilio import EstablecimientoDomicilio
 from meregistro.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
+from meregistro.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
 from meregistro.registro.models.Localidad import Localidad
 from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
@@ -25,6 +26,7 @@ from registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
 from registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
 from registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
 from registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
+from registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
 from registro.FSMEstablecimiento import FSMEstablecimiento
 from registro.models import DependenciaFuncional
 fsmEstablecimiento = FSMEstablecimiento()
@@ -383,4 +385,35 @@ def completar_informacion_edilicia(request):
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
         'actual_page': 'informacion_edilicia',
+    })
+
+@login_required
+def completar_conexion_internet(request):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento_actual(request)
+    try:
+        conexion = EstablecimientoConexionInternet.objects.get(establecimiento = establecimiento)
+    except:
+        conexion = EstablecimientoConexionInternet()
+        conexion.establecimiento = establecimiento
+
+    if request.method == 'POST':
+        form = EstablecimientoConexionInternetForm(request.POST, instance = conexion)
+        if form.is_valid():
+            conexion = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoConexionInternetForm(instance = conexion)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_conexion_internet.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Conexión a internet',
+        'actual_page': 'conexion_internet',
     })

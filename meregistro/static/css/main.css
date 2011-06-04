@@ -226,6 +226,7 @@ div.form p.help-text {
 	padding-left: 170px;
 	color: #4E4E4E;
 	font-style: italic;
+	margin-bottom: 5px;
 }
 div.form div.form-text input,
 div.form div.form-select select,
