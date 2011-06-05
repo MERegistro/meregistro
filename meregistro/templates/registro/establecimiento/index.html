@@ -62,9 +62,11 @@
 				<td><!-- {{ est.dependencia_funcional.jurisdiccion.prefijo }} - -->{{ est.cue }}</td>
 				<td>{{ est.nombre }}</td>
 				<td>
-				{% for registro_estado in est.registro_estados %}
-					<p>{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
-				{% endfor %}
+				    <div class="estados">
+				    {% for registro_estado in est.registro_estados %}
+					<p class="estado_{{ registro_estado.estado.nombre|slugify }}">{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
+				    {% endfor %}
+				    </div>
 				</td>
 				<td class="actions-td">
 					<ul>

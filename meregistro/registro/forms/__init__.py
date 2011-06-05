@@ -3,6 +3,7 @@ from EstablecimientoFormFilters import EstablecimientoFormFilters
 from AnexoForm import AnexoForm
 from AnexoDomicilioForm import AnexoDomicilioForm
 from AnexoFormFilters import AnexoFormFilters
+from AnexoBajaForm import AnexoBajaForm
 from DependenciaFuncionalForm import DependenciaFuncionalForm
 from DependenciaFuncionalFormFilters import DependenciaFuncionalFormFilters
 from EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm

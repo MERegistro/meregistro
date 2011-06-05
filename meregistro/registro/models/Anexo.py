@@ -3,7 +3,7 @@ from django.db import models
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.Turno import Turno
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 
 
@@ -23,6 +23,14 @@ class Anexo(models.Model):
     def __unicode__(self):
         return self.nombre
 
+    """
+    Sobreescribo el init para agregarle propiedades
+    """
+    def __init__(self, *args, **kwargs):
+        super(Anexo, self).__init__(*args, **kwargs)
+        self.estados = self.getEstados()
+        self.estado_actual = self.getEstadoActual()
+
     def clean(self):
         # Chequea que la combinación entre establecimiento y cue sea único
         cue = self.cue
@@ -37,8 +45,37 @@ class Anexo(models.Model):
 
     def registrar_estado(self, estado):
         from meregistro.registro.models.AnexoEstado import AnexoEstado
-
-        registro = AnexoEstado(estado=estado)
+        registro = AnexoEstado(estado = estado)
         registro.fecha = datetime.date.today()
         registro.anexo_id = self.id
         registro.save()
+
+    def getEstados(self):
+        from meregistro.registro.models.AnexoEstado import AnexoEstado
+        try:
+            estados = AnexoEstado.objects.filter(anexo = self).order_by('fecha')
+        except:
+            estados = {}
+        return estados
+
+    def getEstadoActual(self):
+        try:
+            return list(self.estados)[-1]
+        except IndexError:
+            return None
+
+    def registrarBaja(self, baja):
+        from meregistro.registro.models.AnexoBaja import AnexoBaja
+        estado = Estado.objects.get(nombre = Estado.BAJA)
+        self.registrar_estado(estado)
+        baja.anexo = self
+        baja.save()
+
+    def dadoDeBaja(self):
+        from meregistro.registro.models.AnexoBaja import AnexoBaja
+        try:
+            baja = AnexoBaja.objects.get(anexo = self)
+        except ObjectDoesNotExist:
+            return False
+        return True
+
