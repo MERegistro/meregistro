@@ -26,3 +26,4 @@ from EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilici
 from UnidadExtension import UnidadExtension
 from UnidadExtensionDomicilio import UnidadExtensionDomicilio
 from UnidadExtensionEstado import UnidadExtensionEstado
+from UnidadExtensionBaja import UnidadExtensionBaja

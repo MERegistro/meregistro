@@ -1,14 +1,15 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Actualización de unidad de extensión{% endblock %}
+{% block title %}Baja de unidad de extensión{% endblock %}
 
 {% block content %}
-<h2>Actualización de unidad de extensión</h2>
+<h2>Baja de unidad de extensión</h2>
 {% if flash %}
 	{% include "flashes.html" %}
 {% endif %}
-
-{% include "registro/unidad_extension/form.html" %}
+{% if not dada_de_baja %}
+{% include "registro/unidad_extension/form_baja.html" %}
+{% endif %}
 
 <ul class="actions">
   <li class="back">

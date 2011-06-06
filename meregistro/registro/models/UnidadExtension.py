@@ -4,7 +4,7 @@ from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.TipoNormativa import TipoNormativa
 from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.Turno import Turno
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
@@ -27,9 +27,8 @@ class UnidadExtension(models.Model):
         ordering = ['nombre']
 
     def __init__(self, *args, **kwargs):
-        from meregistro.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
         super(UnidadExtension, self).__init__(*args, **kwargs)
-        self.registro_estados = UnidadExtensionEstado.objects.filter(unidad_extension = self).order_by('id')
+        self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
 
     def __unicode__(self):
@@ -43,14 +42,31 @@ class UnidadExtension(models.Model):
         registro.unidad_extension_id = self.id
         registro.save()
 
-    def estadoActual(self):
+    def getEstados(self):
+        from meregistro.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
         try:
-            return list(self.registro_estados)[-1].estado
+            estados = UnidadExtensionEstado.objects.filter(unidad_extension = self).order_by('fecha')
+        except:
+            estados = {}
+        return estados
+
+    def getEstadoActual(self):
+        try:
+            return list(self.estados)[-1]
         except IndexError:
             return None
 
-    def getEstadoActual(self):
-        estado_actual = self.estadoActual()
-        if estado_actual is None:
-            return u''
-        return str(estado_actual)
+    def registrarBaja(self, baja):
+        from meregistro.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+        estado = Estado.objects.get(nombre = Estado.BAJA)
+        self.registrar_estado(estado)
+        baja.unidad_extension = self
+        baja.save()
+
+    def dadaDeBaja(self):
+        from meregistro.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+        try:
+            baja = UnidadExtensionBaja.objects.get(unidad_extension = self)
+        except ObjectDoesNotExist:
+            return False
+        return True

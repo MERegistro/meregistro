@@ -41,14 +41,16 @@
         <td>{{ unidad_extension.nombre }}</td>
 	<td>{% if unidad_extension.fecha_alta == None %}---{% else %}{{ unidad_extension.fecha_alta|date:"d/m/Y" }}{% endif %}</td>
 	<td>
-	{% for registro_estado in unidad_extension.registro_estados %}
-	    <p>{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
+	{% for estado in unidad_extension.estados %}
+	    <p class="estado_{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
 	{% endfor %}
 	</td>
         <td class="actions-td">
           <ul>
+	    {% if not unidad_extension.dadaDeBaja %}
             <li class="edit"><a href="{% url registro.views.unidad_extension.edit unidad_extension.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="#" alt="Eliminar" title="Eliminar"><span>Eliminar</span></a></li>
+            <li class="delete"><a href="{% url registro.views.unidad_extension.baja unidad_extension.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja la unidad de extensión?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
+	    {% endif %}
           </ul>
         </td>
       </tr>

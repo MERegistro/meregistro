@@ -12,13 +12,32 @@ from meregistro.registro.models.Estado import Estado
 from meregistro.registro.models.UnidadExtension import UnidadExtension
 from meregistro.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
 from meregistro.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
-from meregistro.registro.forms import UnidadExtensionFormFilters, UnidadExtensionForm, UnidadExtensionDomicilioForm
+from meregistro.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+from meregistro.registro.forms import UnidadExtensionFormFilters, UnidadExtensionForm, UnidadExtensionDomicilioForm, UnidadExtensionBajaForm
 from django.core.paginator import Paginator
 from meregistro.registro.helpers.MailHelper import MailHelper
 import datetime
 
 ITEMS_PER_PAGE = 50
 
+"""
+La unidad de extensión pertenece al establecimiento?
+"""
+def __pertenece_al_establecimiento(request, unidad_extension):
+    return unidad_extension.establecimiento.ambito.path == request.get_perfil().ambito.path
+
+"""
+Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
+"""
+def __get_establecimiento_actual(request):
+    try:
+        establecimiento = Establecimiento.objects.get(ambito__path = request.get_perfil().ambito.path)
+        if not bool(establecimiento):
+            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+        else:
+            return establecimiento
+    except Exception:
+        pass
 
 @login_required
 def index(request):
@@ -122,6 +141,12 @@ def edit(request, unidad_extension_id):
     unidad_extension = UnidadExtension.objects.get(pk = unidad_extension_id)
     domicilio = unidad_extension.unidad_extension_domicilio.get()
 
+    if unidad_extension.dadaDeBaja():
+        raise Exception('La unidad de extensión se encuentra dada de baja.')
+
+    if not __pertenece_al_establecimiento(request, unidad_extension):
+        raise Exception('La unidad de extensión no pertenece a su establecimiento.')
+
     if request.method == 'POST':
         form = UnidadExtensionForm(request.POST, instance = unidad_extension)
         domicilio_form = UnidadExtensionDomicilioForm(request.POST, instance = domicilio)
@@ -146,16 +171,37 @@ def edit(request, unidad_extension_id):
         'unidad_extension': unidad_extension,
     })
 
-
-def __get_establecimiento_actual(request):
+@login_required
+def baja(request, unidad_extension_id):
     """
-    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
+    Baja de un unidad de extensión
+    CU 28
     """
-    try:
-        establecimiento = Establecimiento.objects.get(ambito__path = request.get_perfil().ambito.path)
-        if not bool(establecimiento):
-            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+    unidad_extension = UnidadExtension.objects.get(pk = unidad_extension_id)
+    """ Pertenece al establecimiento? """
+    pertenece_al_establecimiento = __pertenece_al_establecimiento(request, unidad_extension)
+    if not pertenece_al_establecimiento:
+        raise Exception('La unidad de extensión no pertenece al establecimiento.')
+    """ La unidad de extensión ya fue dada de baja? """
+    dada_de_baja = unidad_extension.dadaDeBaja()
+    if dada_de_baja:
+        request.set_flash('notice', 'La unidad de extensión ya se encuentra dada de baja.')
+    """ Continuar """
+    if request.method == 'POST':
+        form = UnidadExtensionBajaForm(request.POST)
+        if form.is_valid():
+            baja = form.save(commit = False)
+            unidad_extension.registrarBaja(baja)
+            dada_de_baja = True
+            request.set_flash('success', 'La unidad de extensión fue dada de baja correctamente.')
+            """ Redirecciono para evitar el reenvío del form """
+            return HttpResponseRedirect(reverse('unidadExtensionBaja', args = [unidad_extension_id]))
         else:
-            return establecimiento
-    except Exception:
-        pass
+            request.set_flash('warning', 'Ocurrió un error dando de baja la unidad de extensión.')
+    else:
+        form = UnidadExtensionBajaForm()
+    return my_render(request, 'registro/unidad_extension/baja.html', {
+        'form': form,
+        'unidad_extension': unidad_extension,
+        'dada_de_baja': dada_de_baja,
+    })
