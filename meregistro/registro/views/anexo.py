@@ -121,6 +121,8 @@ def edit(request, anexo_id):
     Edición de los datos de un anexo.
     """
     anexo = Anexo.objects.get(pk = anexo_id)
+    if anexo.dadoDeBaja():
+        raise Exception('El anexo se encuentra dado de baja.')
     if not __pertenece_al_establecimiento(request, anexo):
         raise Exception('El anexo no pertenece a su establecimiento.')
     try:
@@ -129,6 +131,7 @@ def edit(request, anexo_id):
         domicilio = AnexoDomicilio()
         domicilio.anexo = anexo
     if request.method == 'POST':
+        raise Exception(request.POST)
         form = AnexoForm(request.POST, instance = anexo)
         domicilio_form = AnexoDomicilioForm(request.POST, instance = domicilio)
         if form.is_valid() and domicilio_form.is_valid():
@@ -145,7 +148,6 @@ def edit(request, anexo_id):
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
     if jurisdiccion is not None:
         domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
-
     return my_render(request, 'registro/anexo/edit.html', {
         'form': form,
         'domicilio_form': domicilio_form,
@@ -163,7 +165,7 @@ def baja(request, anexo_id):
     """ Pertenece al establecimiento? """
     pertenece_al_establecimiento = __pertenece_al_establecimiento(request, anexo)
     if not pertenece_al_establecimiento:
-        request.set_flash('warning', 'El anexo no pertenece a su establecimiento.')
+        raise Exception('El anexo no pertenece a su establecimiento.')
     """ El anexo ya fue dado de baja? """
     dado_de_baja = anexo.dadoDeBaja()
     if dado_de_baja:
@@ -174,7 +176,10 @@ def baja(request, anexo_id):
         if form.is_valid():
             baja = form.save(commit = False)
             anexo.registrarBaja(baja)
+            dado_de_baja = True
             request.set_flash('success', 'El anexo fue dado de baja correctamente.')
+            """ Redirecciono para evitar el reenvío del form """
+            return HttpResponseRedirect(reverse('anexoBaja', args = [anexo_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error dando de baja el anexo.')
     else:
@@ -182,6 +187,5 @@ def baja(request, anexo_id):
     return my_render(request, 'registro/anexo/baja.html', {
         'form': form,
         'anexo': anexo,
-        'pertenece_al_establecimiento': pertenece_al_establecimiento,
         'dado_de_baja': dado_de_baja,
     })
