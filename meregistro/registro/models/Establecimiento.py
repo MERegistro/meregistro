@@ -29,10 +29,10 @@ class Establecimiento(models.Model):
     email = models.EmailField(max_length=255, null=True, blank=True)
     sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
-    turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_establecimientos_turnos')
-    niveles = models.ManyToManyField(Nivel, null = True, db_table = 'registro_establecimientos_niveles')
-    funciones = models.ManyToManyField(Funcion, null = True, db_table = 'registro_establecimientos_funciones')
-    estado = models.ForeignKey(Estado, editable=False, null=True)
+    turnos = models.ManyToManyField(Turno, blank = True, null = True, db_table = 'registro_establecimientos_turnos')
+    niveles = models.ManyToManyField(Nivel, blank = True, null = True, db_table = 'registro_establecimientos_niveles')
+    funciones = models.ManyToManyField(Funcion, blank = True, null = True, db_table = 'registro_establecimientos_funciones')
+    estado = models.ForeignKey(Estado, editable = False, null = True)
 
     class Meta:
         app_label = 'registro'
