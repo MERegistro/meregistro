@@ -21,14 +21,14 @@ class Establecimiento(models.Model):
     nombre = models.CharField(max_length = 255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
-    nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
-    norma_creacion = models.CharField(max_length=100)
-    observaciones = models.TextField(max_length=255, null=True, blank=True)
-    anio_creacion = models.IntegerField(null=True, blank=True, choices=YEARS_CHOICES)
-    telefono = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(max_length=255, null=True, blank=True)
-    sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
-    ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    nombre_unidad_academica = models.CharField(max_length = 100, null = True, blank = True)
+    norma_creacion = models.CharField(max_length = 100)
+    observaciones = models.TextField(max_length = 255, null = True, blank = True)
+    anio_creacion = models.IntegerField(null = True, blank = True, choices = YEARS_CHOICES)
+    telefono = models.CharField(max_length = 100, null = True, blank = True)
+    email = models.EmailField(max_length = 255, null = True, blank = True)
+    sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
+    ambito = models.ForeignKey(Ambito, editable = False, null = True)
     turnos = models.ManyToManyField(Turno, blank = True, null = True, db_table = 'registro_establecimientos_turnos')
     niveles = models.ManyToManyField(Nivel, blank = True, null = True, db_table = 'registro_establecimientos_niveles')
     funciones = models.ManyToManyField(Funcion, blank = True, null = True, db_table = 'registro_establecimientos_funciones')
@@ -43,7 +43,7 @@ class Establecimiento(models.Model):
     """
     def __init__(self, *args, **kwargs):
         super(Establecimiento, self).__init__(*args, **kwargs)
-        self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento=self).order_by('id')
+        self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento = self).order_by('id')
         self.estado_actual = self.getEstadoActual()
 
     def __unicode__(self):
@@ -52,14 +52,14 @@ class Establecimiento(models.Model):
     def clean(self):
         #Chequea que la combinación entre jurisdiccion y cue sea única
         try:
-            est = Establecimiento.objects.get(cue=self.cue, dependencia_funcional__jurisdiccion__id=self.dependencia_funcional.jurisdiccion.id)
+            est = Establecimiento.objects.get(cue = self.cue, dependencia_funcional__jurisdiccion__id = self.dependencia_funcional.jurisdiccion.id)
             if est and est != self:
                 raise ValidationError('Ya existe un establecimiento con ese CUE en su jurisdicción.')
         except ObjectDoesNotExist:
             pass
 
     def registrar_estado(self, estado, observaciones=''):
-        registro = RegistroEstablecimiento(estado=estado)
+        registro = RegistroEstablecimiento(estado = estado)
         registro.fecha = datetime.date.today()
         registro.establecimiento_id = self.id
         registro.observaciones = observaciones
@@ -69,12 +69,14 @@ class Establecimiento(models.Model):
 
     def save(self):
         self.updateAmbito()
+        if self.id is None: # Nuevo objeto?
+            self.estado = Estado.objects.get(nombre = Estado.PENDIENTE)
         self.ambito.vigente = (self.estado.nombre != Estado.PENDIENTE)
         self.ambito.save()
         models.Model.save(self)
 
     def delete(self):
-        estado = Estado.objects.get(nombre=Estado.BAJA)
+        estado = Estado.objects.get(nombre = Estado.BAJA)
         self.registrar_estado(estado)
 
     def updateAmbito(self):
@@ -89,7 +91,7 @@ class Establecimiento(models.Model):
 
     def hasAnexos(self):
         from meregistro.registro.models.Anexo import Anexo
-        anexos = Anexo.objects.filter(establecimiento=self)
+        anexos = Anexo.objects.filter(establecimiento = self)
         return anexos.count() > 0
 
     def getEstadoActual(self):

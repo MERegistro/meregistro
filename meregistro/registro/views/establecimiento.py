@@ -90,8 +90,7 @@ def create(request):
         form = EstablecimientoForm(request.POST)
         if form.is_valid():
             establecimiento = form.save()
-            estado = Estado.objects.get(nombre=Estado.PENDIENTE)
-            establecimiento.registrar_estado(estado)
+            establecimiento.registrar_estado(establecimiento.estado)
 
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
             request.set_flash('success', 'Datos guardados correctamente.')
