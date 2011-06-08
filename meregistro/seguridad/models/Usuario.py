@@ -21,7 +21,7 @@ class Usuario(models.Model):
 
     def set_password(self, password):
         from seguridad.authenticate import encrypt_password
-        self.password = encrypt_password(self, password)
+        self.password = encrypt_password(password)
 
     def is_anonymous(self):
         return self.id is None
