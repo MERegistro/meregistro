@@ -20,7 +20,7 @@
 		</div>	<!-- END header -->
 		<div class="nav" id="mainNav">
 				<ul>
-				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema' %}
+				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente' %}
 				<li><a href="{% url seguridad.views.usuario.index %}">Usuarios</a></li>
 				{% endif %}
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
