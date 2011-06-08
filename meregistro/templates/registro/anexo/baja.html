@@ -1,0 +1,20 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Baja de anexo{% endblock %}
+
+{% block content %}
+<h2>Baja de anexo</h2>
+{% if flash %}
+	{% include "flashes.html" %}
+{% endif %}
+{% if not dado_de_baja %}
+{% include "registro/anexo/form_baja.html" %}
+{% endif %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url registro.views.anexo.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

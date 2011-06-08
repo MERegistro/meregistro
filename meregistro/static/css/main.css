@@ -226,6 +226,7 @@ div.form p.help-text {
 	padding-left: 170px;
 	color: #4E4E4E;
 	font-style: italic;
+	margin-bottom: 5px;
 }
 div.form div.form-text input,
 div.form div.form-select select,
@@ -428,6 +429,10 @@ td.actions-td ul li.edit a {
 	height: 24px;
 	background: url(../img/icons/edit.png) no-repeat left;
 }
+/* ESTADOS */
+p.estado_baja {
+	color: #f00;
+}
 /* DELETE */
 td.actions-td ul li.delete a {
 	display: block;
@@ -501,6 +506,12 @@ div.success {
   color: #fff;
   padding-left: 40px;
   background: #6E972E url(../img/icons/success.png) no-repeat 10px;
+}
+div.notice {
+  color: #000;
+  padding-left: 40px;
+  background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
+  border: 1px #FF7800 solid;
 }
 /*
 =PAGINATOR

@@ -1,0 +1,20 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Baja de unidad de extensión{% endblock %}
+
+{% block content %}
+<h2>Baja de unidad de extensión</h2>
+{% if flash %}
+	{% include "flashes.html" %}
+{% endif %}
+{% if not dada_de_baja %}
+{% include "registro/unidad_extension/form_baja.html" %}
+{% endif %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url registro.views.unidad_extension.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

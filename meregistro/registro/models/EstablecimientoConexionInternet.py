@@ -1,9 +1,9 @@
 from django.db import models
-from registro.models.Establecimiento import Establecimiento
 from registro.models.TipoConexion import TipoConexion
+from registro.models.Establecimiento import Establecimiento
 
 
-class ConexionInternet(models.Model):
+class EstablecimientoConexionInternet(models.Model):
     establecimiento = models.ForeignKey('Establecimiento')
     tipo_conexion = models.ForeignKey('TipoConexion')
     proveedor = models.CharField(max_length=30)
@@ -13,7 +13,7 @@ class ConexionInternet(models.Model):
 
     class Meta:
         app_label = 'registro'
-        db_table = 'registro_conexion_internet'
+        db_table = 'registro_establecimiento_conexion_internet'
         ordering = ['proveedor']
 
     def __unicode__(self):

@@ -14,9 +14,16 @@ from Turno import Turno
 from Funcion import Funcion
 from Nivel import Nivel
 from Anexo import Anexo
+from AnexoBaja import AnexoBaja
 from AnexoEstado import AnexoEstado
 from AnexoDomicilio import AnexoDomicilio
 from Departamento import Departamento
 from Localidad import Localidad
 from EstablecimientoDomicilio import EstablecimientoDomicilio
+from TipoConexion import TipoConexion
+from EstablecimientoConexionInternet import EstablecimientoConexionInternet
 from EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
+from UnidadExtension import UnidadExtension
+from UnidadExtensionDomicilio import UnidadExtensionDomicilio
+from UnidadExtensionEstado import UnidadExtensionEstado
+from UnidadExtensionBaja import UnidadExtensionBaja

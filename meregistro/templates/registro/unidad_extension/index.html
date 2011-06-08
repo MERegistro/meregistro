@@ -1,0 +1,73 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Administrar unidades de extensión{% endblock %}
+
+{% block content %}
+<h2>Administrar unidades de extensión</h2>
+<form action="" method="get">
+<div class="form-filter" id="unidadExtensionFormFilter">
+  <h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.establecimiento.errors }}
+			<label for="id_establecimiento">Establecimiento:</label>
+			{{ form_filters.establecimiento }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form_filters.nombre }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'unidad_extension';" />
+		</div>
+
+</div>
+
+{% if objects %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Fecha de alta</th>
+      <th>Estados</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for unidad_extension in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+        <td>{{ unidad_extension.nombre }}</td>
+	<td>{% if unidad_extension.fecha_alta == None %}---{% else %}{{ unidad_extension.fecha_alta|date:"d/m/Y" }}{% endif %}</td>
+	<td>
+	{% for estado in unidad_extension.estados %}
+	    <p class="estado_{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+	{% endfor %}
+	</td>
+        <td class="actions-td">
+          <ul>
+	    {% if not unidad_extension.dadaDeBaja %}
+            <li class="edit"><a href="{% url registro.views.unidad_extension.edit unidad_extension.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url registro.views.unidad_extension.baja unidad_extension.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja la unidad de extensión?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
+	    {% endif %}
+          </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message warning">
+  <p>No se encontraron unidades de extensión.</p>
+</div>
+{% endif %}
+<ul class="actions">
+  <li class="create">
+    <a href="{% url registro.views.unidad_extension.create %}"><span>Nueva unidad de extensión</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

@@ -18,25 +18,30 @@ class MailHelper():
     ANEXO_UPDATE = u'AnexoUpdate'
     ANEXO_DELETE = u'AnexoDelete'
 
+    UNIDAD_EXTENSION_CREATE = u'UnidadExtensionCreate'
+    UNIDAD_EXTENSION_UPDATE = u'UnidadExtensionUpdate'
+    UNIDAD_EXTENSION_DELETE = u'UnidadExtensionDelete'
+
     @staticmethod
-    def notify_by_email(notification_type=None, model=None):
+    def notify_by_email(notification_type = None, model = None):
         """
         Funcionalidad básica de notificación
         """
-        if notification_type is None:
-            return """ Refactorizar...someday """
-        elif notification_type == MailHelper.ESTABLECIMIENTO_CREATE:
-            mail_data = MailHelper.establecimiento_create(model)
-        elif notification_type == MailHelper.ESTABLECIMIENTO_UPDATE:
-            mail_data = MailHelper.establecimiento_update(model)
-        elif notification_type == MailHelper.ESTABLECIMIENTO_DELETE:
-            mail_data = MailHelper.establecimiento_delete(model)
-        elif notification_type == MailHelper.ANEXO_CREATE:
-            mail_data = MailHelper.anexo_create(model)
-        elif notification_type == MailHelper.ANEXO_UPDATE:
-            mail_data = MailHelper.anexo_update(model)
-        elif notification_type == MailHelper.ANEXO_DELETE:
-            mail_data = MailHelper.anexo_delete(model)
+        """ Diccionario con la llamada correspondiente al tipo de notificación que llega """
+        mail_data_call_dict = {
+            MailHelper.ESTABLECIMIENTO_CREATE: MailHelper.establecimiento_create,
+            MailHelper.ESTABLECIMIENTO_UPDATE: MailHelper.establecimiento_update,
+            MailHelper.ESTABLECIMIENTO_DELETE: MailHelper.establecimiento_delete,
+            MailHelper.ANEXO_CREATE: MailHelper.anexo_create,
+            MailHelper.ANEXO_UPDATE: MailHelper.anexo_update,
+            MailHelper.ANEXO_DELETE: MailHelper.anexo_delete,
+            MailHelper.UNIDAD_EXTENSION_CREATE: MailHelper.unidad_extension_create,
+            MailHelper.UNIDAD_EXTENSION_UPDATE: MailHelper.unidad_extension_update,
+            MailHelper.UNIDAD_EXTENSION_DELETE: MailHelper.unidad_extension_delete,
+
+        }
+        """ EJ:  mail_data = MailHelper.establecimiento_create(model) """
+        mail_data = mail_data_call_dict[notification_type](model)
 
         try:
             email_from = mail_data['email_from']
@@ -109,4 +114,61 @@ class MailHelper():
             'subject': u'Creación de anexo',
             'message': u'Se ha creado un nuevo anexo',
             'recipients': [u'user@example.com', u'admin@example.com'],
+        }
+
+    @staticmethod
+    def anexo_update(anexo):
+        """
+        Mail para actualización de anexo
+        """
+        return {
+            'subject': u'Actualizacióm de datos de anexo',
+            'message': u'Se ha modificado el anexo',
+            'email_from': u'pepe@example.com',
+            'recipients': ['user@example.com', 'admin@example.com'],
+        }
+
+    @staticmethod
+    def anexo_delete(anexo):
+        """
+        Mail para baja de anexo
+        """
+        return {
+            'subject': u'Baja de anexo',
+            'message': u'Se ha dado de baja el anexo',
+            'recipients': ['user@example.com', 'admin@example.com'],
+        }
+
+    @staticmethod
+    def unidad_extension_create(unidad_extension):
+        """
+        Mail para creación de unidad_extension
+        """
+        return {
+            'subject': u'Creación de unidad de extensión',
+            'message': u'Se ha creado una nueva unidad de extensión',
+            'recipients': [u'user@example.com', u'admin@example.com'],
+        }
+
+    @staticmethod
+    def unidad_extension_update(unidad_extension):
+        """
+        Mail para actualización de unidad de extensión
+        """
+        return {
+            'subject': u'Actualizacióm de datos de unidad de extensión',
+            'message': u'Se ha modificado la unidad de extensión',
+            'email_from': u'pepe@example.com',
+            'recipients': ['user@example.com', 'admin@example.com'],
+        }
+
+    @staticmethod
+    def unidad_extension_delete(unidad_extension):
+        """
+        Mail para baja de unidad de extensión
+        """
+        return {
+            'subject': u'Baja de unidad de extensión',
+            'message': u'Se ha dado de baja la unidad de extensión',
+            'recipients': ['user@example.com', 'admin@example.com'],
         }
