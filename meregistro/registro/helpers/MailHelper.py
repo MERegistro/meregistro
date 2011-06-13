@@ -48,10 +48,13 @@ class MailHelper():
         except KeyError:
             email_from = MailHelper.EMAIL_FROM_DEFAULT
 
+        """
         if DEBUG:
             MailHelper.debug_email(model, mail_data['subject'], mail_data['message'], email_from, mail_data['recipients'], notification_type)
         else:
             send_mail(mail_data['subject'], mail_data['message'], email_from, mail_data['recipients'], fail_silently=False)
+        """
+        return
 
     @staticmethod
     def debug_email(model, subject, message, email_from, recipients, notification_type):
