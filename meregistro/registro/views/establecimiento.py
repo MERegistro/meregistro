@@ -58,6 +58,8 @@ def index(request):
     elif page_number > paginator.num_pages:
         page_number = paginator.num_pages
 
+    if request.get_perfil().jurisdiccion() is not None:
+        form_filter.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion = request.get_perfil().jurisdiccion())
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'registro/establecimiento/index.html', {
@@ -78,7 +80,7 @@ def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith = request.get_perfil().ambito.path)
 
 
 @login_required
@@ -94,13 +96,13 @@ def create(request):
 
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('establecimientoEdit', args=[establecimiento.id]))
+            return HttpResponseRedirect(reverse('establecimientoEdit', args = [establecimiento.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = EstablecimientoForm()
     if request.get_perfil().jurisdiccion() is not None:
-        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
+        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion = request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/new.html', {
         'form': form,
         'is_new': True,
@@ -112,9 +114,9 @@ def edit(request, establecimiento_id):
     """
     Edición de los datos de un establecimiento.
     """
-    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
     if request.method == 'POST':
-        form = EstablecimientoForm(request.POST, instance=establecimiento)
+        form = EstablecimientoForm(request.POST, instance = establecimiento)
         if form.is_valid():
             establecimiento = form.save()
 
@@ -123,7 +125,7 @@ def edit(request, establecimiento_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = EstablecimientoForm(instance=establecimiento)
+        form = EstablecimientoForm(instance = establecimiento)
 
     return my_render(request, 'registro/establecimiento/edit.html', {
         'form': form,
@@ -133,7 +135,7 @@ def edit(request, establecimiento_id):
 
 @login_required
 def delete(request, establecimiento_id):
-    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
     has_anexos = establecimiento.hasAnexos()
     # TODO: chequear que pertenece al ámbito
     if has_anexos:
@@ -152,7 +154,7 @@ def registrar(request, establecimientoId):
     """
     CU 23
     """
-    establecimiento = Establecimiento.objects.get(pk=establecimientoId)
+    establecimiento = Establecimiento.objects.get(pk = establecimientoId)
     form = __registrar_get_form(request, establecimiento)
     if request.method == 'POST' and __registrar_process(request, form, establecimiento):
             return HttpResponseRedirect(reverse('establecimiento'))
