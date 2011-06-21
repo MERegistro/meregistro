@@ -8,7 +8,7 @@ class TipoConexion(models.Model):
     class Meta:
         app_label = 'registro'
         db_table = 'registro_tipo_conexion'
-        ordering = ['nombre']
+        ordering = ['descripcion']
 
     def __unicode__(self):
-        return self.nombre
+        return self.descripcion
