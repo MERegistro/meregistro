@@ -21,19 +21,19 @@
 
 		<div class="nav" id="mainNav">
 			<ul>
-				{% if user_perfil.rol.nombre in 'Referente,AdminSistema,' %}
+				{% if user_perfil.rol.nombre in 'Referente,' %}
 				<li><a href="{% url registro.views.dependencia_funcional.index %}">Dependencias funcionales</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente,AdminSistema' %}
+				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente' %}
 				<li><a href="{% url registro.views.establecimiento.index %}">Establecimientos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
 				<li><a href="{% url registro.views.establecimiento.completar_datos_basicos %}">Completar datos del establecimiento</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminSistema,RectorDirectorIFD,SecretarioIFD' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
 				<li><a href="{% url registro.views.anexo.index %}">Anexos</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminSistema,RectorDirectorIFD' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
 				<li><a href="{% url registro.views.unidad_extension.index %}">Unidades de extensión</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'Referente,AdminSistema,AdminSeguridad' %}

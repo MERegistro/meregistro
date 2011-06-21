@@ -674,3 +674,15 @@ div.popup_selector_ambito
 	display: none;
 	overflow: scroll;
 }
+/*
+=USUARIODATA
+*/
+div#usuarioData {
+}
+div#usuarioData h3 {
+	margin: 0 0 5px;
+}
+div#usuarioData p {
+}
+div#usuarioData p strong {
+}

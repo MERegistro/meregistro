@@ -4,24 +4,12 @@
 
 {% block content %}
 <h2>Perfiles de usuario</h2>
-<div class="form-filter" id="usuarioFormFilter">
-  <h3>Usuario</h3>
-		<div class="form-select">
-			<label for="id_tipo_documento">Tipo de documento:</label>
-			{{ usuario.tipo_documento }}
-		</div>
-		<div class="form-text">
-			<label for="id_documento">Documento:</label>
-			{{ usuario.documento }}
-		</div>
-		<div class="form-text">
-			<label for="id_apellido">Apellido:</label>
-			{{ usuario.apellido }}
-		</div>
-		<div class="form-text">
-			<label for="id_nombre">Nombre:</label>
-			{{ usuario.nombre }}
-		</div>
+<div id="usuarioData">
+    <h3>Usuario</h3>
+    <p><strong>Tipo de documento:</strong> {{ usuario.tipo_documento }}</p>
+    <p><strong>Documento:</strong> {{ usuario.documento }}</p>
+    <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
+    <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
 </div>
 
 <table class="hor-zebra">
