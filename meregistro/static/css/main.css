@@ -530,78 +530,6 @@ div.paginator ul {
 div.paginator ul li {
 	float: left;
 }
-/*
-div.paginator ul li.prev-page-disabled,
-div.paginator ul li.prev-page-enabled {
-	border-right: 1px #aaa solid;
-	padding: 2px 5px 2px 2px;
-	width: 16px;
-	height: 16px;
-}
-div.paginator ul li.prev-page-disabled {
-	background: url(../img/icons/arrow_left-disabled-16x16.png) no-repeat 0 2px;
-}
-div.paginator ul li.prev-page-enabled {
-	background: url(../img/icons/arrow_left-enabled-16x16.png) no-repeat 0 2px;
-}
-div.paginator ul li.next-page-disabled,
-div.paginator ul li.next-page-enabled {
-	padding: 2px;
-	width: 16px;
-	height: 16px;
-	margin: 0 0 0 5px;
-}
-div.paginator ul li.next-page-disabled {
-	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat 0 2px;
-}
-div.paginator ul li.next-page-enabled {
-	background: url(../img/icons/arrow_right-enabled-16x16.png) no-repeat 0 2px;
-}
-
-div.paginator ul li.prev-page-disabled a,
-div.paginator ul li.prev-page-enabled a,
-div.paginator ul li.next-page-disabled a,
-div.paginator ul li.next-page-enabled a,
-div.paginator ul li.prev-page-disabled span,
-div.paginator ul li.prev-page-enabled span,
-div.paginator ul li.next-page-disabled span,
-div.paginator ul li.next-page-enabled span {
-	display: block;
-	width: 16px;
-	height: 16px;
-}
-div.paginator ul li.prev-page-disabled span,
-div.paginator ul li.prev-page-enabled span,
-div.paginator ul li.next-page-disabled span,
-div.paginator ul li.next-page-enabled span {
-	display: none;
-}
-div.paginator ul li.page-number,
-div.paginator ul li.current {
-	text-align: center;
-	border-right: 1px #aaa solid;
-	padding: 3px 5px;
-}
-div.paginator ul li.current span {
-	border-bottom: 2px #555 solid;
-	padding: 0 3px;
-}
-div.paginator p.paginator-summary {
-	margin: 8px 0 0 10px;
-	float: left;
-}
-div.paginator ul li a:link,
-div.paginator ul li a:visited {
-	display: block;
-	width: 13px;
-	height: 100%;
-	text-decoration: none;
-	color: #000;
-}
-div.paginator ul li a:hover {
-	text-decoration: underline;
-}
-*/
 div.paginator ul li.page-number {
 	margin: 0 2px 0 0;
 }
@@ -685,4 +613,21 @@ div#usuarioData h3 {
 div#usuarioData p {
 }
 div#usuarioData p strong {
+}
+/*
+=datos-lectura
+*/
+div.datos-lectura {
+	margin: 10px 0 0;
+}
+div.datos-lectura p {
+	margin: 5px 0 0;
+}
+div.datos-lectura ul {
+	list-style: square;
+	list-style-position: inside;
+	margin: 5px 0 0;
+}
+div.datos-lectura ul li {
+	margin: 0 0 0 1px;
 }
