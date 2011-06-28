@@ -1,0 +1,54 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Datos del establecimiento{% endblock %}
+
+{% block content %}
+<h2>Datos del establecimiento</h2>
+{% if flash %}
+{% include "flashes.html" %}
+{% endif %}
+<div class="datos-lectura" id="datosEstablecimiento">
+    <p><strong>CUE:</strong> {{ establecimiento.cue }}</p>
+    <p><strong>Nombre:</strong> {{ establecimiento.nombre }}</p>
+    <p><strong>Domicilio:</strong> {{ establecimiento.domicilio.get }}</p>
+    <p><strong>Dependencia funcional:</strong> {{ establecimiento.dependencia_funcional }}</p>
+    <p><strong>Tipo de normativa:</strong> {{ establecimiento.tipo_normativa }}</p>
+    {% if establecimiento.nombre_unidad_academica %}<p><strong>:</strong> {{ establecimiento.nombre_unidad_academica }}</p>{% endif %}
+    {% if establecimiento.norma_creacion %}<p><strong>Norma de creación:</strong> {{ establecimiento.norma_creacion }}</p>{% endif %}
+    {% if establecimiento.observaciones %}<p><strong>Observaciones:</strong> {{ establecimiento.observaciones }}</p>{% endif %}
+    {% if establecimiento.anio_creacion %}<p><strong>Año de creación:</strong> {{ establecimiento.anio_creacion }}</p>{% endif %}
+    {% if establecimiento.telefono %}<p><strong>Teléfono:</strong> {{ establecimiento.telefono }}</p>{% endif %}
+    {% if establecimiento.email %}<p><strong>Email:</strong> {{ establecimiento.email }}</p>{% endif %}
+    {% if establecimiento.sitio_web %}<p><strong>Sitio web:</strong> {{ establecimiento.sitio_web }}</p>{% endif %}
+    {% if turnos %}
+    <ul>
+	<h4>Turnos:</h4>
+    {% for turno in turnos %}
+	<li>{{ turno }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    {% if funciones %}
+    <ul>
+	<h4>Funciones:</h4>
+    {% for funcion in funciones %}
+	<li>{{ funcion }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    {% if niveles %}
+    <ul>
+	<h4>Niveles:</h4>
+    {% for nivel in niveles %}
+	<li>{{ nivel }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    <p><strong>Estado actual:</strong> {{ establecimiento.estado }}</p>
+</div>
+
+<hr />
+{% endblock %}
