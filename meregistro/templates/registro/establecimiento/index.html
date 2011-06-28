@@ -94,7 +94,7 @@
 	<p>No se encontraron establecimientos.</p>
 </div>
 {% endif %}
-{% if user_perfil.rol.nombre in 'Referente,AdminSistema,SecretarioIFD' %}
+{% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
 <ul class="actions">
 	<li class="create">
 		<a href="{% url registro.views.establecimiento.create %}"><span>Nuevo establecimiento</span></a>

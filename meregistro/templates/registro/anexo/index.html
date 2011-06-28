@@ -74,9 +74,11 @@
 </div>
 {% endif %}
 <ul class="actions">
-  <li class="create">
-    <a href="{% url registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
-  </li>
+    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
+    <li class="create">
+	<a href="{% url registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
+    </li>
+    {% endif %}
 </ul>
 <hr />
 {% endblock %}
