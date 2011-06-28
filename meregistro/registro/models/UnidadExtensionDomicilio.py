@@ -20,7 +20,11 @@ class UnidadExtensionDomicilio(models.Model):
         db_table = 'registro_unidad_extension_domicilio'
 
     def __unicode__(self):
-        return str(self.calle) + str(self.altura)
+        if self.cp:
+            cp = " (CP: " + self.cp + ")"
+        else:
+            cp = ""
+        return str(self.calle) + " " + str(self.altura) + " - " + self.localidad.nombre + cp
 
     def __init__(self, *args, **kwargs):
         super(UnidadExtensionDomicilio, self).__init__(*args, **kwargs)
