@@ -10,6 +10,7 @@ class TipoDocumento(models.Model):
     class Meta:
         app_label = 'seguridad'
         db_table = 'seguridad_tipo_documento'
+        ordering = ['descripcion']
 
     def __unicode__(self):
-        return self.descripcion
+        return self.abreviatura + " - " + self.descripcion
