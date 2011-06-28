@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required
+from seguridad.decorators import login_required, credential_required
 from seguridad.models import Usuario, Perfil
 from registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion, GestionJurisdiccion
 from registro.forms import DependenciaFuncionalFormFilters, DependenciaFuncionalForm
@@ -15,6 +15,7 @@ ITEMS_PER_PAGE = 50
 
 
 @login_required
+@credential_required('reg_df_consulta')
 def index(request):
     """
     Búsqueda de dependencias
@@ -65,6 +66,7 @@ def build_query(filters, page):
 
 
 @login_required
+@credential_required('reg_df_consulta')
 def create(request):
     """
     Alta de dependencia.
@@ -91,6 +93,7 @@ def create(request):
 
 
 @login_required
+@credential_required('reg_df_modificar')
 def edit(request, dependencia_funcional_id):
     """
     Edición de los datos de una dependencia funcional.
@@ -113,6 +116,7 @@ def edit(request, dependencia_funcional_id):
 
 
 @login_required
+@credential_required('reg_df_baja')
 def delete(request, dependencia_funcional_id):
     dependencia_funcional = DependenciaFuncional.objects.get(pk=dependencia_funcional_id)
     has_establecimientos = dependencia_funcional.hasEstablecimientos()

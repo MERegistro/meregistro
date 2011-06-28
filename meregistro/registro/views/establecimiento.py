@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required
+from seguridad.decorators import login_required, credential_required
 from seguridad.models import Usuario, Perfil
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.TipoDominio import TipoDominio
@@ -35,6 +35,7 @@ ITEMS_PER_PAGE = 50
 
 
 @login_required
+@credential_required('reg_establecimiento_consulta')
 def index(request):
 
     """
@@ -84,6 +85,7 @@ def build_query(filters, page, request):
 
 
 @login_required
+@credential_required('reg_establecimiento_alta')
 def create(request):
     """
     Alta de establecimiento.
@@ -110,6 +112,7 @@ def create(request):
 
 
 @login_required
+@credential_required('reg_establecimiento_modificar')
 def edit(request, establecimiento_id):
     """
     Edición de los datos de un establecimiento.
@@ -134,6 +137,7 @@ def edit(request, establecimiento_id):
 
 
 @login_required
+@credential_required('reg_establecimiento_baja')
 def delete(request, establecimiento_id):
     establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
     has_anexos = establecimiento.hasAnexos()
@@ -150,6 +154,7 @@ def delete(request, establecimiento_id):
 
 
 @login_required
+@credential_required('reg_establecimiento_registrar')
 def registrar(request, establecimientoId):
     """
     CU 23
@@ -202,6 +207,7 @@ def __get_establecimiento_actual(request):
         pass
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_datos(request):
     """
     CU 26
@@ -215,6 +221,7 @@ def completar_datos(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_datos_basicos(request):
     """
     CU 26
@@ -240,6 +247,7 @@ def completar_datos_basicos(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_niveles(request):
     """
     CU 26
@@ -266,6 +274,7 @@ def completar_niveles(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_turnos(request):
     """
     CU 26
@@ -292,6 +301,7 @@ def completar_turnos(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_funciones(request):
     """
     CU 26
@@ -318,6 +328,7 @@ def completar_funciones(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_domicilio(request):
     """
     CU 26
@@ -352,6 +363,7 @@ def completar_domicilio(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_informacion_edilicia(request):
     """
     CU 26
@@ -389,6 +401,7 @@ def completar_informacion_edilicia(request):
     })
 
 @login_required
+@credential_required('reg_establecimiento_completar')
 def completar_conexion_internet(request):
     """
     CU 26
@@ -417,4 +430,15 @@ def completar_conexion_internet(request):
         'establecimiento': establecimiento,
         'page_title': 'Conexión a internet',
         'actual_page': 'conexion_internet',
+    })
+
+@login_required
+@credential_required('reg_establecimiento_ver')
+def datos_establecimiento(request):
+    establecimiento = __get_establecimiento_actual(request)
+    return my_render(request, 'registro/establecimiento/datos_establecimiento.html', {
+        'establecimiento': establecimiento,
+        'turnos': establecimiento.turnos.all(),
+        'funciones': establecimiento.funciones.all(),
+        'niveles': establecimiento.niveles.all(),
     })

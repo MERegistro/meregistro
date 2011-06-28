@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required
+from seguridad.decorators import login_required, credential_required
 from seguridad.models import Usuario, Perfil
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.Localidad import Localidad
@@ -40,6 +40,7 @@ def __get_establecimiento_actual(request):
         pass
 
 @login_required
+@credential_required('reg_unidad_extension_consulta')
 def index(request):
     """
     Búsqueda de unidades de extensión
@@ -90,6 +91,7 @@ def build_query(filters, page, request):
 
 
 @login_required
+@credential_required('reg_unidad_extension_alta')
 def create(request):
     """
     Alta de unidad de extensión.
@@ -134,6 +136,7 @@ def create(request):
 
 
 @login_required
+@credential_required('reg_unidad_extension_modificar')
 def edit(request, unidad_extension_id):
     """
     Edición de los datos de una unidad de extensión.
@@ -172,6 +175,7 @@ def edit(request, unidad_extension_id):
     })
 
 @login_required
+@credential_required('reg_unidad_extension_baja')
 def baja(request, unidad_extension_id):
     """
     Baja de un unidad de extensión

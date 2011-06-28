@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required
+from seguridad.decorators import login_required, credential_required
 from seguridad.models import Usuario, Perfil
 from meregistro.registro.models.Establecimiento import Establecimiento
 from meregistro.registro.models.Anexo import Anexo
@@ -26,6 +26,7 @@ def __pertenece_al_establecimiento(request, anexo):
     return anexo.establecimiento.ambito.path == request.get_perfil().ambito.path
 
 @login_required
+@credential_required('reg_anexo_consulta')
 def index(request):
     """
     Búsqueda de anexos
@@ -76,6 +77,7 @@ def build_query(filters, page, request):
 
 
 @login_required
+@credential_required('reg_anexo_alta')
 def create(request):
     """
     Alta de anexo.
@@ -116,6 +118,7 @@ def create(request):
 
 
 @login_required
+@credential_required('reg_anexo_modificar')
 def edit(request, anexo_id):
     """
     Edición de los datos de un anexo.
@@ -131,7 +134,6 @@ def edit(request, anexo_id):
         domicilio = AnexoDomicilio()
         domicilio.anexo = anexo
     if request.method == 'POST':
-        raise Exception(request.POST)
         form = AnexoForm(request.POST, instance = anexo)
         domicilio_form = AnexoDomicilioForm(request.POST, instance = domicilio)
         if form.is_valid() and domicilio_form.is_valid():
@@ -156,6 +158,7 @@ def edit(request, anexo_id):
     })
 
 @login_required
+@credential_required('reg_anexo_baja')
 def baja(request, anexo_id):
     """
     Baja de un anexo
