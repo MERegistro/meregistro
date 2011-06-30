@@ -11,21 +11,11 @@
 </head>
 <body>
 	<div id="wrapper">
-		<div id="header">
-			<h1><a href="/"><span>Ministerio de Educación</span></a></h1>
-			<h2><span>Instituto Nacional de Formación Docente</span></h2>
-			{% if user.is_authenticated %}
-				{% include "user_info.html" %}
-			{% endif %}
-		</div>	<!-- END header -->
-		<div class="nav" id="mainNav">
-				<ul>
-				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente' %}
-				<li><a href="{% url seguridad.views.usuario.index %}">Usuarios</a></li>
-				{% endif %}
-				<li id="linkAyuda"><a href="#">Ayuda</a></li>
-			</ul>
-		</div>
+
+{% include "header.html" %}
+
+{% include "navigation.html" %}
+
 		<div id="content">
 {% block content %}{% endblock %}
 		</div> <!-- END content -->
