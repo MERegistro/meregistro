@@ -13,7 +13,8 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-
+# Pasa a settings.py
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
@@ -24,7 +25,7 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-
+"""
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -101,7 +102,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     #'django.contrib.messages',
     'registro',
-    'seguridad'
+    'seguridad',
+    'titulos',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -109,5 +111,6 @@ INSTALLED_APPS = (
 )
 
 STATIC_URL_PATH = 'static'
-STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
+# Pasa a settings.py
+# STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
 STATIC_DOC_ROOT = os.path.join(PROJECT_ROOT, 'static')
