@@ -4,18 +4,18 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required, credential_required
-from seguridad.models import Usuario, Perfil
-from meregistro.registro.models.Establecimiento import Establecimiento
-from meregistro.registro.models.Localidad import Localidad
-from meregistro.registro.models.Estado import Estado
-from meregistro.registro.models.UnidadExtension import UnidadExtension
-from meregistro.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
-from meregistro.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
-from meregistro.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
-from meregistro.registro.forms import UnidadExtensionFormFilters, UnidadExtensionForm, UnidadExtensionDomicilioForm, UnidadExtensionBajaForm
+from apps.seguridad.decorators import login_required, credential_required
+from apps.seguridad.models import Usuario, Perfil
+from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.Localidad import Localidad
+from apps.registro.models.Estado import Estado
+from apps.registro.models.UnidadExtension import UnidadExtension
+from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
+from apps.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
+from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+from apps.registro.forms import UnidadExtensionFormFilters, UnidadExtensionForm, UnidadExtensionDomicilioForm, UnidadExtensionBajaForm
+from apps.registro.helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
-from meregistro.registro.helpers.MailHelper import MailHelper
 import datetime
 
 ITEMS_PER_PAGE = 50

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.apps.registro.models.UnidadExtension import UnidadExtension
-from meregistro.apps.registro.models.Estado import Estado
+from apps.registro.models.UnidadExtension import UnidadExtension
+from apps.registro.models.Estado import Estado
 
 
 class UnidadExtensionEstado(models.Model):

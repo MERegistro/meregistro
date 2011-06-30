@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
-from meregistro.apps.registro.models.Anexo import Anexo
-from meregistro.apps.registro.models.Turno import Turno
+from apps.registro.models.Anexo import Anexo
+from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget

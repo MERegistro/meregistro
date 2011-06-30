@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.apps.registro.models.TipoNormativa import TipoNormativa
-from meregistro.apps.registro.models.Jurisdiccion import Jurisdiccion
-from meregistro.apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
-from meregistro.apps.registro.models.DependenciaFuncional import DependenciaFuncional
-from meregistro.apps.registro.models.Nivel import Nivel
-from meregistro.apps.registro.models.Funcion import Funcion
-from meregistro.apps.registro.models.Turno import Turno
-from meregistro.apps.registro.models.Estado import Estado
+from apps.registro.models.TipoNormativa import TipoNormativa
+from apps.registro.models.Jurisdiccion import Jurisdiccion
+from apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
+from apps.registro.models.DependenciaFuncional import DependenciaFuncional
+from apps.registro.models.Nivel import Nivel
+from apps.registro.models.Funcion import Funcion
+from apps.registro.models.Turno import Turno
+from apps.registro.models.Estado import Estado
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
-from meregistro.apps.seguridad.models import Ambito
+from apps.seguridad.models import Ambito
 import datetime
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
@@ -90,7 +90,7 @@ class Establecimiento(models.Model):
             self.ambito.save()
 
     def hasAnexos(self):
-        from meregistro.apps.registro.models.Anexo import Anexo
+        from apps.registro.models.Anexo import Anexo
         anexos = Anexo.objects.filter(establecimiento = self)
         return anexos.count() > 0
 

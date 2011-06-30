@@ -4,17 +4,17 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required, credential_required
-from seguridad.models import Usuario, Perfil
-from meregistro.registro.models.Establecimiento import Establecimiento
-from meregistro.registro.models.Anexo import Anexo
-from meregistro.registro.models.Localidad import Localidad
-from meregistro.registro.models.Estado import Estado
-from meregistro.registro.models.AnexoEstado import AnexoEstado
-from meregistro.registro.models.AnexoDomicilio import AnexoDomicilio
-from meregistro.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm
+from apps.seguridad.decorators import login_required, credential_required
+from apps.seguridad.models import Usuario, Perfil
+from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.Anexo import Anexo
+from apps.registro.models.Localidad import Localidad
+from apps.registro.models.Estado import Estado
+from apps.registro.models.AnexoEstado import AnexoEstado
+from apps.registro.models.AnexoDomicilio import AnexoDomicilio
+from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm
+from apps.registro.helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
-from meregistro.registro.helpers.MailHelper import MailHelper
 import datetime
 
 ITEMS_PER_PAGE = 50

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django.db import models
-from meregistro.apps.seguridad.models import Credencial
+from apps.seguridad.models import Credencial
 
 
 class Rol(models.Model):

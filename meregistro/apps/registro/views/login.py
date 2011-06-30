@@ -3,9 +3,9 @@
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.forms import LoginForm, SeleccionarPerfilForm
-from seguridad.authenticate import authenticate
-from seguridad.decorators import login_required
+from apps.seguridad.forms import LoginForm, SeleccionarPerfilForm
+from apps.seguridad.authenticate import authenticate
+from apps.seguridad.decorators import login_required
 
 
 def login(request):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.apps.registro.models.Anexo import Anexo
-from meregistro.apps.registro.models.Estado import Estado
+from apps.registro.models.Anexo import Anexo
+from apps.registro.models.Estado import Estado
 
 
 class AnexoEstado(models.Model):

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.apps.registro.models.Establecimiento import Establecimiento
-from meregistro.apps.registro.models.Estado import Estado
-from meregistro.apps.registro.models.Turno import Turno
+from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.Estado import Estado
+from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 
@@ -44,14 +44,14 @@ class Anexo(models.Model):
                 pass
 
     def registrar_estado(self, estado):
-        from meregistro.apps.registro.models.AnexoEstado import AnexoEstado
+        from apps.registro.models.AnexoEstado import AnexoEstado
         registro = AnexoEstado(estado = estado)
         registro.fecha = datetime.date.today()
         registro.anexo_id = self.id
         registro.save()
 
     def getEstados(self):
-        from meregistro.apps.registro.models.AnexoEstado import AnexoEstado
+        from apps.registro.models.AnexoEstado import AnexoEstado
         try:
             estados = AnexoEstado.objects.filter(anexo = self).order_by('fecha')
         except:
@@ -65,14 +65,14 @@ class Anexo(models.Model):
             return None
 
     def registrarBaja(self, baja):
-        from meregistro.apps.registro.models.AnexoBaja import AnexoBaja
+        from apps.registro.models.AnexoBaja import AnexoBaja
         estado = Estado.objects.get(nombre = Estado.BAJA)
         self.registrar_estado(estado)
         baja.anexo = self
         baja.save()
 
     def dadoDeBaja(self):
-        from meregistro.apps.registro.models.AnexoBaja import AnexoBaja
+        from apps.registro.models.AnexoBaja import AnexoBaja
         try:
             baja = AnexoBaja.objects.get(anexo = self)
         except ObjectDoesNotExist:

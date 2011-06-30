@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.apps.registro.models.Establecimiento import Establecimiento
-from meregistro.apps.registro.models.TipoNormativa import TipoNormativa
-from meregistro.apps.registro.models.Estado import Estado
-from meregistro.apps.registro.models.Turno import Turno
+from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.TipoNormativa import TipoNormativa
+from apps.registro.models.Estado import Estado
+from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 
@@ -35,7 +35,7 @@ class UnidadExtension(models.Model):
         return self.nombre
 
     def registrar_estado(self, estado):
-        from meregistro.apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
+        from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
         registro = UnidadExtensionEstado()
         registro.estado = estado
         registro.fecha = datetime.date.today()
@@ -43,7 +43,7 @@ class UnidadExtension(models.Model):
         registro.save()
 
     def getEstados(self):
-        from meregistro.apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
+        from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
         try:
             estados = UnidadExtensionEstado.objects.filter(unidad_extension = self).order_by('fecha')
         except:
@@ -57,14 +57,14 @@ class UnidadExtension(models.Model):
             return None
 
     def registrarBaja(self, baja):
-        from meregistro.apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+        from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
         estado = Estado.objects.get(nombre = Estado.BAJA)
         self.registrar_estado(estado)
         baja.unidad_extension = self
         baja.save()
 
     def dadaDeBaja(self):
-        from meregistro.apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+        from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
         try:
             baja = UnidadExtensionBaja.objects.get(unidad_extension = self)
         except ObjectDoesNotExist:

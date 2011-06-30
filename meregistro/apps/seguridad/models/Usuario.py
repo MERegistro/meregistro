@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django.db import models
-from meregistro.apps.seguridad.models import TipoDocumento
+from apps.seguridad.models import TipoDocumento
 from datetime import datetime
 
 
@@ -39,7 +39,7 @@ class Usuario(models.Model):
 
     def __set_lock(self, is_active, motivo):
         """ Registra un bloqueo/desbloqueo y su motivo """
-        from meregistro.apps.seguridad.models import BloqueoLog
+        from apps.seguridad.models import BloqueoLog
         self.is_active = is_active
         self.save()
         log = BloqueoLog(usuario=self, motivo=motivo, fecha=datetime.now())
@@ -47,6 +47,6 @@ class Usuario(models.Model):
 
     def asignarPerfil(self, rol, ambito, fechaAsignacion):
         """ Asigna al usuario un perfil """
-        from seguridad.apps.models import Rol, Ambito, Perfil
+        from seguridad.apps.odels import Rol, Ambito, Perfil
         perfil = Perfil(usuario=self, rol=rol, ambito=ambito, fecha_asignacion=fechaAsignacion)
         perfil.save()

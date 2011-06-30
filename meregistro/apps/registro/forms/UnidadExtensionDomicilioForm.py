@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
-from meregistro.apps.registro.models.UnidadExtension import UnidadExtension
-from meregistro.apps.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
-from meregistro.apps.registro.models.TipoDomicilio import TipoDomicilio
+from apps.registro.models.UnidadExtension import UnidadExtension
+from apps.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
+from apps.registro.models.TipoDomicilio import TipoDomicilio
 from django.core.exceptions import ValidationError
 from django import forms
 

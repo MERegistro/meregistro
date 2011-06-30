@@ -33,7 +33,7 @@ class UsuarioCreateFormTest(TestCase):
     Tests para el form de alta de usuario: UsuarioCreateForm.
     """
     def test_usuario_create_contrasenyas_coinciden(self):
-        from seguridad.forms import UsuarioCreateForm
+        from apps.seguridad.forms import UsuarioCreateForm
 
         form = UsuarioCreateForm({'password': '1234', 'repeat_password': '123'})
         self.failUnless(form.errors.has_key('password'), 'No se seteo error para campo password')
@@ -49,7 +49,7 @@ class BloqueoUsuarioTest(TestCase):
     def test_bloquear_usuario(self):
         c = createClientAsAdmin()
         # Comienza con un usuario activo.
-        from seguridad.models import Usuario
+        from apps.seguridad.models import Usuario
         usuario = Usuario.objects.get(documento='usractivo')
         self.failUnless(usuario.is_active, 'Usuario inactivo')
         # Acceder a la pantalla de bloqueo.
@@ -69,7 +69,7 @@ class BloqueoUsuarioTest(TestCase):
     def test_desbloquear_usuario(self):
         c = createClientAsAdmin()
         # Comienza con un usuario inactivo.
-        from seguridad.models import Usuario
+        from apps.seguridad.models import Usuario
         usuario = Usuario.objects.get(documento='usrinactivo')
         self.failIf(usuario.is_active, 'Usuario activo')
         # Acceder a la pantalla de desbloqueo.

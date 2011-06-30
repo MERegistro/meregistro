@@ -1,10 +1,10 @@
 from django.db import models
-from meregistro.apps.titulos.models.TipoTitulo import TipoTitulo
-from meregistro.apps.registro.models.TipoNormativa import TipoNormativa
-from meregistro.apps.titulos.models.Carrera import Carrera
-from meregistro.apps.titulos.models.Area import Area
-from meregistro.apps.registro.models.Nivel import Nivel
-from meregistro.apps.registro.models.Jurisdiccion import Jurisdiccion
+from apps.titulos.models.TipoTitulo import TipoTitulo
+from apps.registro.models.TipoNormativa import TipoNormativa
+from apps.titulos.models.Carrera import Carrera
+from apps.titulos.models.Area import Area
+from apps.registro.models.Nivel import Nivel
+from apps.registro.models.Jurisdiccion import Jurisdiccion
 
 class Titulo(models.Model):
     nombre = models.CharField(max_length = 200)

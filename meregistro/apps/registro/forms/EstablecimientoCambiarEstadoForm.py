@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from apps.meregistro.registro.models.Estado import Estado
+from apps.registro.models.Estado import Estado
 
 
 class EstablecimientoCambiarEstadoForm(forms.Form):

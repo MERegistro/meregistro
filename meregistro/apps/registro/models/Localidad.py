@@ -1,5 +1,5 @@
 from django.db import models
-from meregistro.apps.registro.models.Departamento import Departamento
+from apps.registro.models.Departamento import Departamento
 
 
 class Localidad(models.Model):

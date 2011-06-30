@@ -1,5 +1,5 @@
 from django.db import models
-from meregistro.apps.registro.models.Jurisdiccion import Jurisdiccion
+from apps.registro.models.Jurisdiccion import Jurisdiccion
 
 
 class Departamento(models.Model):

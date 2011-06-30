@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from meregistro.apps.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
-from meregistro.apps.registro.models.Nivel import Nivel
-from meregistro.apps.registro.models.TipoCompartido import TipoCompartido
-from meregistro.apps.registro.models.TipoDominio import TipoDominio
+from apps.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
+from apps.registro.models.Nivel import Nivel
+from apps.registro.models.TipoCompartido import TipoCompartido
+from apps.registro.models.TipoDominio import TipoDominio
 from django.core.exceptions import ValidationError
 from django import forms
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from meregistro.apps.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
-from meregistro.apps.registro.models.TipoConexion import TipoConexion
+from apps.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
+from apps.registro.models.TipoConexion import TipoConexion
 from django.core.exceptions import ValidationError
 from django import forms
 

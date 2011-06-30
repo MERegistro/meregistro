@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required
+from apps.seguridad.decorators import login_required
 
 
 @login_required

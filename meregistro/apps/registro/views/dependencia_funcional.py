@@ -4,12 +4,12 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required, credential_required
-from seguridad.models import Usuario, Perfil
-from registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion, GestionJurisdiccion
-from registro.forms import DependenciaFuncionalFormFilters, DependenciaFuncionalForm
+from apps.seguridad.decorators import login_required, credential_required
+from apps.seguridad.models import Usuario, Perfil
+from apps.registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion, GestionJurisdiccion
+from apps.registro.forms import DependenciaFuncionalFormFilters, DependenciaFuncionalForm
+from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
-from registro.models import Jurisdiccion
 
 ITEMS_PER_PAGE = 50
 

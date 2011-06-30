@@ -4,31 +4,32 @@ from django.http import HttpResponseRedirect
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
-from seguridad.decorators import login_required, credential_required
-from seguridad.models import Usuario, Perfil
-from meregistro.registro.models.Establecimiento import Establecimiento
-from meregistro.registro.models.TipoDominio import TipoDominio
-from meregistro.registro.models.TipoCompartido import TipoCompartido
-from meregistro.registro.models.EstablecimientoDomicilio import EstablecimientoDomicilio
-from meregistro.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
-from meregistro.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
-from meregistro.registro.models.Localidad import Localidad
-from meregistro.registro.models.Estado import Estado
-from meregistro.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
-from meregistro.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
-from meregistro.registro.forms.EstablecimientoForm import EstablecimientoForm
+from apps.seguridad.decorators import login_required, credential_required
+from apps.seguridad.models import Usuario, Perfil
+from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.TipoDominio import TipoDominio
+from apps.registro.models.TipoCompartido import TipoCompartido
+from apps.registro.models.EstablecimientoDomicilio import EstablecimientoDomicilio
+from apps.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
+from apps.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
+from apps.registro.models.Localidad import Localidad
+from apps.registro.models.Estado import Estado
+from apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
+from apps.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
+from apps.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
-from meregistro.registro.helpers.MailHelper import MailHelper
-from registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
-from registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
-from registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm
-from registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
-from registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
-from registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
-from registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
-from registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
-from registro.FSMEstablecimiento import FSMEstablecimiento
-from registro.models import DependenciaFuncional
+from apps.registro.helpers.MailHelper import MailHelper
+from apps.registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
+from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
+from apps.registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm
+from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
+from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
+from apps.registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
+from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
+from apps.registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
+from apps.registro.FSMEstablecimiento import FSMEstablecimiento
+from apps.registro.models import DependenciaFuncional
+
 fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50

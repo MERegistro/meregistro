@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from meregistro.apps.registro.models.Establecimiento import Establecimiento
-from meregistro.apps.registro.models.TipoDominio import TipoDominio
-from meregistro.apps.registro.models.TipoCompartido import TipoCompartido
-from meregistro.apps.registro.models.Nivel import Nivel
+from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.TipoDominio import TipoDominio
+from apps.registro.models.TipoCompartido import TipoCompartido
+from apps.registro.models.Nivel import Nivel
 
 class EstablecimientoInformacionEdilicia(models.Model):
     establecimiento = models.ForeignKey(Establecimiento)

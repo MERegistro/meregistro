@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 import datetime
-from meregistro.apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
+from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
 
 
 class UnidadExtensionBajaForm(forms.ModelForm):
