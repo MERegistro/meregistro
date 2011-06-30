@@ -8,10 +8,12 @@ import simplejson as json
 
 @login_required
 def selector_ambito(request):
+    result = []
     if request.GET.has_key('parent'):
-        ambitos = Ambito.objects.filter(parent=int(request.GET['parent']))
+        parentId = int(request.GET['parent'])
+        ambitos = Ambito.objects.filter(parent=parentId)
     else:
-        ambitos = Ambito.objects.filter(level=0)
+        ambitos = Ambito.objects.filter(path__istartswith=request.get_perfil().ambito.path, level=request.get_perfil().ambito.level)
     ambitos = ambitos.filter(vigente=True)
-    result = map(lambda a: {'id': a.id, 'descripcion': a.descripcion}, ambitos)
+    result += map(lambda a: {'id': a.id, 'descripcion': a.descripcion}, ambitos)
     return HttpResponse(json.dumps(result))
