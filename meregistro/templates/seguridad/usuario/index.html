@@ -58,7 +58,7 @@
         <td>{{u.apellido}}</td>
         <td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url seguridad.views.usuario.edit u.id %}" alt="Editar" title="Editar"><span>Editar</span></a></li>
+            <li class="edit"><a href="{% url apps.seguridad.views.usuario.edit u.id %}" alt="Editar" title="Editar"><span>Editar</span></a></li>
             <!--
             <li class="delete"><a href="#" alt="Eliminar" title="Eliminar"><span>Eliminar</span></a></li>
             -->
@@ -75,7 +75,7 @@
 {% endif %}
 <ul class="actions">
   <li class="create">
-    <a href="{% url seguridad.views.usuario.create %}"><span>Dar de alta nuevo usuario</span></a>
+    <a href="{% url apps.seguridad.views.usuario.create %}"><span>Dar de alta nuevo usuario</span></a>
   </li>
 </ul>
 <hr />

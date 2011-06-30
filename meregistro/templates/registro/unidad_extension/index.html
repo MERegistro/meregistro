@@ -48,8 +48,8 @@
         <td class="actions-td">
           <ul>
 	    {% if not unidad_extension.dadaDeBaja %}
-            <li class="edit"><a href="{% url registro.views.unidad_extension.edit unidad_extension.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="{% url registro.views.unidad_extension.baja unidad_extension.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja la unidad de extensión?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
+            <li class="edit"><a href="{% url apps.registro.views.unidad_extension.edit unidad_extension.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url apps.registro.views.unidad_extension.baja unidad_extension.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja la unidad de extensión?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
 	    {% endif %}
           </ul>
         </td>
@@ -67,7 +67,7 @@
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
     <li class="create">
-	<a href="{% url registro.views.unidad_extension.create %}"><span>Nueva unidad de extensión</span></a>
+	<a href="{% url apps.registro.views.unidad_extension.create %}"><span>Nueva unidad de extensión</span></a>
     </li>
     {% endif %}
 </ul>

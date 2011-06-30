@@ -1,28 +1,28 @@
 		<div class="nav" id="mainNav">
 			<ul>
 				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente' %}
-				<li><a href="{% url seguridad.views.usuario.index %}">Usuarios</a></li>
+				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'Referente,' %}
-				<li><a href="{% url registro.views.dependencia_funcional.index %}">Dependencias funcionales</a></li>
+				<li><a href="{% url apps.registro.views.dependencia_funcional.index %}">Dependencias funcionales</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente' %}
-				<li><a href="{% url registro.views.establecimiento.index %}">Establecimientos</a></li>
+				<li><a href="{% url apps.registro.views.establecimiento.index %}">Establecimientos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'AdminTitulos' %}
-				<li><a href="{% url titulos.views.titulo.index %}">Títulos</a></li>
+				<li><a href="{% url apps.titulos.views.titulo.index %}">Títulos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'SecretarioIFD' %}
-				<li><a href="{% url registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
+				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
-				<li><a href="{% url registro.views.establecimiento.completar_datos_basicos %}">Completar datos del establecimiento</a></li>
+				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos del establecimiento</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
-				<li><a href="{% url registro.views.anexo.index %}">Anexos</a></li>
+				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
-				<li><a href="{% url registro.views.unidad_extension.index %}">Unidades de extensión</a></li>
+				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de extensión</a></li>
 				{% endif %}
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
 			</ul>

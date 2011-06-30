@@ -57,8 +57,8 @@
         <td class="actions-td">
           <ul>
 	    {% if not anexo.dadoDeBaja %}
-            <li class="edit"><a href="{% url registro.views.anexo.edit anexo.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="{% url registro.views.anexo.baja anexo.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja al anexo?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
+            <li class="edit"><a href="{% url apps.registro.views.anexo.edit anexo.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url apps.registro.views.anexo.baja anexo.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja al anexo?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
 	    {% endif %}
           </ul>
         </td>
@@ -76,7 +76,7 @@
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
     <li class="create">
-	<a href="{% url registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
+	<a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
     </li>
     {% endif %}
 </ul>

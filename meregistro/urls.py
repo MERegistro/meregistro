@@ -15,4 +15,3 @@ urlpatterns = patterns('',
         {'document_root': settings.STATIC_DOC_ROOT}),
     url(r'^$', 'apps.registro.views.index', name="index"),
 )
-

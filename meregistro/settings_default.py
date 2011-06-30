@@ -80,7 +80,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
 #    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'seguridad.middleware.SeguridadMiddleware',
+    'apps.seguridad.middleware.SeguridadMiddleware',
     'middleware.FlashMiddleware',
 )
 

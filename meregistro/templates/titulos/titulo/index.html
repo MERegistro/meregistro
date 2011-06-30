@@ -63,24 +63,24 @@
 				<td>{{ est.nombre }}</td>
 				<td>
 				    <div class="estados">
-				    {% for registro_estado in est.registro_estados %}
+				    {% for apps.registro_estado in est.registro_estados %}
 					<p class="estado_{{ registro_estado.estado.nombre|slugify }}">{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
 				    {% endfor %}
 				    </div>
 				</td>
 				<td class="actions-td">
 					<ul>
-					{% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
-					    {% if est.estado_actual == 'Pendiente' %}
-					    <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
-					    {% endif %}
-					    {% if est.isDeletable %}
-					    <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-					    {% endif %}
-					{% endif %}
-					{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
-					    <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
-					{% endif %}
+                        {% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
+						    {% if est.estado_actual == 'Pendiente' %}
+						    <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
+						    {% endif %}
+						    {% if est.isDeletable %}
+						    <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+						    {% endif %}
+                        {% endif %}
+                        {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+						    <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
+                        {% endif %}
 					</ul>
 				</td>
 			</tr>

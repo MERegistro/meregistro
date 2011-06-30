@@ -63,8 +63,8 @@
 		<td>{{ dep.tipo_dependencia_funcional }}</td>
         <td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url registro.views.dependencia_funcional.edit dep.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="{% url registro.views.dependencia_funcional.delete dep.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+            <li class="edit"><a href="{% url apps.registro.views.dependencia_funcional.edit dep.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url apps.registro.views.dependencia_funcional.delete dep.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
           </ul>
         </td>
       </tr>
@@ -80,7 +80,7 @@
 {% endif %}
 <ul class="actions">
   <li class="create">
-    <a href="{% url registro.views.dependencia_funcional.create %}"><span>Nueva dependencia</span></a>
+    <a href="{% url apps.registro.views.dependencia_funcional.create %}"><span>Nueva dependencia</span></a>
   </li>
 </ul>
 <hr />
