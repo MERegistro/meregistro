@@ -3,7 +3,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    url(r'^$', 'registro.views.index', name = 'home'),
+    url(r'^$', 'apps.registro.views.index', name = 'home'),
     url(r'^establecimiento$', 'apps.registro.views.establecimiento.index', name = 'establecimiento'),
     url(r'^establecimiento/([0-9]+)/edit', 'apps.registro.views.establecimiento.edit', name = 'establecimientoEdit'),
     url(r'^establecimiento/create', 'apps.registro.views.establecimiento.create', name = 'establecimientoCreate'),
