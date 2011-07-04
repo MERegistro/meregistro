@@ -8,6 +8,7 @@ class Rol(models.Model):
     nombre = models.CharField(max_length=40)
     descripcion = models.CharField(max_length=255)
     credenciales = models.ManyToManyField(Credencial, related_name='roles')
+    roles_asignables = models.ManyToManyField('self', related_name='roles_asignadores')
 
     class Meta:
         app_label = 'seguridad'

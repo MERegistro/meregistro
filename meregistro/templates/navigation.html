@@ -1,6 +1,6 @@
 		<div class="nav" id="mainNav">
 			<ul>
-				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente' %}
+				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente,RectorDirectorIFD' %}
 				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'Referente,' %}

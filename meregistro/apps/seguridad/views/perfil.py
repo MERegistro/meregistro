@@ -33,7 +33,7 @@ def create(request, userId=None):
       request.set_flash('warning', 'Ocurrió un error asignando el perfil.')
   else:
     form = AsignarPerfilForm()
-
+  form.fields["rol"].queryset = request.get_perfil().rol.roles_asignables
   return my_render(request, 'seguridad/perfil/new.html', {
     'form': form,
     'usuario': usuario,
