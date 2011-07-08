@@ -13,7 +13,7 @@ from apps.registro.models.Estado import Estado
 from apps.registro.models.AnexoEstado import AnexoEstado
 from apps.registro.models.AnexoDomicilio import AnexoDomicilio
 from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm
-from apps.registro.helpers.MailHelper import MailHelper
+from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
 

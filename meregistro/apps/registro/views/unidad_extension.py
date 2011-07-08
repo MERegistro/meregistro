@@ -14,7 +14,7 @@ from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
 from apps.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
 from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
 from apps.registro.forms import UnidadExtensionFormFilters, UnidadExtensionForm, UnidadExtensionDomicilioForm, UnidadExtensionBajaForm
-from apps.registro.helpers.MailHelper import MailHelper
+from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
 

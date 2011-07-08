@@ -18,7 +18,7 @@ from apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from apps.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
 from apps.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
-from apps.registro.helpers.MailHelper import MailHelper
+from helpers.MailHelper import MailHelper
 from apps.registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
 from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
 from apps.registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm

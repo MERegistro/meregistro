@@ -10,6 +10,7 @@ from apps.registro.models import DependenciaFuncional, TipoDependenciaFuncional,
 from apps.registro.forms import DependenciaFuncionalFormFilters, DependenciaFuncionalForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
+from helpers.MailHelper import MailHelper
 
 ITEMS_PER_PAGE = 50
 
