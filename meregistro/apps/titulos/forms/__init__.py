@@ -1,1 +1,2 @@
-
+from TituloForm import TituloForm
+from TituloFormFilters import TituloFormFilters

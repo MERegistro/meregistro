@@ -352,12 +352,12 @@ tr.hor-zebra_odd {
 th#thEstablecimientoCue {
 	width: 100px;
 }
-th#thEstablecimientoEstados {
+th.th-estados {
 	width: 170px;
 }
 /* ACTIONS */
 table.hor-zebra th.actions {
-	width: 80px;
+	width: 100px;
 }
 ul.actions {
 	margin-top: 20px;
@@ -430,7 +430,8 @@ td.actions-td ul li.edit a {
 	background: url(../img/icons/edit.png) no-repeat left;
 }
 /* ESTADOS */
-p.estado_baja {
+p.estado-baja,
+p.estado-no-vigente {
 	color: #f00;
 }
 /* DELETE */
