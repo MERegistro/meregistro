@@ -45,7 +45,7 @@ class UnidadExtension(models.Model):
     def getEstados(self):
         from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
         try:
-            estados = UnidadExtensionEstado.objects.filter(unidad_extension = self).order_by('fecha')
+            estados = UnidadExtensionEstado.objects.filter(unidad_extension = self).order_by('fecha', 'id')
         except:
             estados = {}
         return estados

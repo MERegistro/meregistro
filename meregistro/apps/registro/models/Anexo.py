@@ -53,7 +53,7 @@ class Anexo(models.Model):
     def getEstados(self):
         from apps.registro.models.AnexoEstado import AnexoEstado
         try:
-            estados = AnexoEstado.objects.filter(anexo = self).order_by('fecha')
+            estados = AnexoEstado.objects.filter(anexo = self).order_by('fecha', 'id')
         except:
             estados = {}
         return estados
