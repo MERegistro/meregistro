@@ -13,7 +13,7 @@ from helpers.MailHelper import MailHelper
 ITEMS_PER_PAGE = 50
 
 @login_required
-#@credential_required('reg_titulo_consulta')
+@credential_required('tit_titulo_consulta')
 def index(request):
     """
     Búsqueda de titulos
@@ -61,7 +61,7 @@ def build_query(filters, page, request):
     return filters.buildQuery().order_by('nombre')
 
 @login_required
-#@credential_required('reg_titulo_alta')
+@credential_required('tit_titulo_alta')
 def create(request):
     """
     Alta de título.
@@ -90,7 +90,7 @@ def create(request):
 
 
 @login_required
-#@credential_required('reg_titulo_modificar')
+@credential_required('tit_titulo_modificar')
 def edit(request, titulo_id):
     """
     Edición de los datos de un título.
@@ -120,18 +120,21 @@ def edit(request, titulo_id):
     })
 
 @login_required
-#@credential_required('reg_titulo_baja')
-def baja(request, titulo_id):
+@credential_required('tit_titulo_eliminar')
+def eliminar(request, titulo_id):
     """
     Baja de un título
-    mientras no sea referido por un título jurisdiccional
+    --- mientras no sea referido por un título jurisdiccional ---
     """
     titulo = Titulo.objects.get(pk = titulo_id)
     request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
     if request.method == 'POST':
+        if int(request.POST['titulo_id']) is not int(titulo_id):
+            raise Exception('Error en la consulta!')
         titulo.delete()
         request.set_flash('success', 'El título fue dado de baja correctamente.')
         """ Redirecciono para evitar el reenvío del form """
         return HttpResponseRedirect(reverse('titulosHome'))
-    return my_render(request, 'titulos/titulo/baja.html', {
+    return my_render(request, 'titulos/titulo/eliminar.html', {
+        'titulo_id': titulo.id,
     })
