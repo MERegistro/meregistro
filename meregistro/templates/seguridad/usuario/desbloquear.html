@@ -4,7 +4,7 @@
 
 {% block content %}
 <h2>Desbloquear usuario</h2>
-{% include "flashes.html" %}
+
 <div class="form" id="desbloquearUsuarioForm" onsubmit="return confirm('Está seguro que desea desbloquear al usuario ?');">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}

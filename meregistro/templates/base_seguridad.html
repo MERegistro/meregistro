@@ -17,6 +17,9 @@
 {% include "navigation.html" %}
 
 		<div id="content">
+{% if flash %}
+	{% include "flashes.html" %}
+{% endif %}
 {% block content %}{% endblock %}
 		</div> <!-- END content -->
 		<div id="footer">

@@ -4,9 +4,7 @@
 
 {% block content %}
 <h2>Datos del establecimiento</h2>
-{% if flash %}
-{% include "flashes.html" %}
-{% endif %}
+
 <div class="datos-lectura" id="datosEstablecimiento">
     <p><strong>CUE:</strong> {{ establecimiento.cue }}</p>
     <p><strong>Nombre:</strong> {{ establecimiento.nombre }}</p>

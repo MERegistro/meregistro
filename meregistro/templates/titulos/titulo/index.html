@@ -63,7 +63,7 @@
 		{% if titulo.tiene_orientaciones == 1 %}
 		<li class="edit orientaciones"><a href="{% url apps.titulos.views.titulo.edit titulo.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
 		{% endif %}
-		<li class="delete"><a href="{% url apps.titulos.views.titulo.baja titulo.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+		<li class="delete"><a href="{% url apps.titulos.views.titulo.eliminar titulo.id %}" title="Eliminar"><span>Eliminar</span></a></li>
 	    {% endif %}
 	    </ul>
         </td>

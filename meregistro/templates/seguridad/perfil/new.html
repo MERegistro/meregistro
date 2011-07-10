@@ -4,9 +4,7 @@
 
 {% block content %}
 <h2>Asignación de perfil</h2>
-{% if flash %}
-	{% include "flashes.html" %}
-{% endif %}
+
 <div class="form" id="perfilForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}

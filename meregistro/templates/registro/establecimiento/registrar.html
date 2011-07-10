@@ -4,9 +4,6 @@
 
 {% block content %}
 <h2>Registrar establecimiento</h2>
-{% if flash %}
-	{% include "flashes.html" %}
-{% endif %}
 
 <div class="form" id="establecimientoForm">
 	<form action="" method="post">{% csrf_token %}

@@ -4,9 +4,7 @@
 
 {% block content %}
 <h2>Baja de unidad de extensión</h2>
-{% if flash %}
-	{% include "flashes.html" %}
-{% endif %}
+
 {% if not dada_de_baja %}
 {% include "registro/unidad_extension/form_baja.html" %}
 {% endif %}

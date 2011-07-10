@@ -4,11 +4,10 @@
 
 {% block content %}
 <h2>Eliminación de título</h2>
-{% if flash %}
-	{% include "flashes.html" %}
-{% endif %}
-<div class="form" id="tituloBajaForm">
+
+<div class="form" id="tituloEliminarForm">
     <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="titulo_id" value="{{ titulo_id }}" />
 	<div class="form-submit">
 	    <input type="submit" value="Eliminar" />
 	</div>
