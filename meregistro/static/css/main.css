@@ -390,10 +390,11 @@ ul.actions a:hover {
 /* CREATE */
 ul.actions li.create {
 	color: #000;
-	background: url(../img/icons/add.png) no-repeat left;
+	background: #fff url(../img/icons/add.png) no-repeat left;
 	position: absolute;
-	top: 0;
-	right: -5px;
+	top: 3px;
+	right: -10px;
+	padding: 3px 5px 2px;
 }
 ul.actions li.create a {
 	border-right: none;
