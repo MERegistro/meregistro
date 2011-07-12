@@ -9,13 +9,13 @@ import datetime
 
 class Anexo(models.Model):
     establecimiento = models.ForeignKey(Establecimiento)
-    cue = models.CharField(max_length=2, help_text=u'2 dígitos, ej: 01...02')
-    fecha_alta = models.DateField(null=True, blank=True)
-    nombre = models.CharField(max_length=255)
-    telefono = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(max_length=255, null=True, blank=True)
-    sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
-    turnos = models.ManyToManyField(Turno, null=True, db_table='registro_anexos_turnos')
+    cue = models.CharField(max_length = 2, help_text = u'2 dígitos, ej: 01...02')
+    fecha_alta = models.DateField(null = True, blank = True)
+    nombre = models.CharField(max_length = 255)
+    telefono = models.CharField(max_length = 100, null = True, blank = True)
+    email = models.EmailField(max_length = 255, null = True, blank = True)
+    sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
+    turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_anexos_turnos')
 
     class Meta:
         app_label = 'registro'
@@ -23,16 +23,14 @@ class Anexo(models.Model):
     def __unicode__(self):
         return self.nombre
 
-    """
-    Sobreescribo el init para agregarle propiedades
-    """
+    " Sobreescribo el init para agregarle propiedades "
     def __init__(self, *args, **kwargs):
         super(Anexo, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
 
     def clean(self):
-        # Chequea que la combinación entre establecimiento y cue sea único
+        " Chequea que la combinación entre establecimiento y cue sea único "
         cue = self.cue
         establecimiento = self.establecimiento_id
         if cue and establecimiento:
