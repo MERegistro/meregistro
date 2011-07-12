@@ -9,7 +9,7 @@
 	<script src="{{ STATIC_URL }}js/jquery.js"></script>
 	<script src="{{ STATIC_URL }}js/functions.js"></script>
 </head>
-<body>
+<body{% block css_body_classes %}{% endblock %}>
 	<div id="wrapper">
 
 {% include "header.html" %}
