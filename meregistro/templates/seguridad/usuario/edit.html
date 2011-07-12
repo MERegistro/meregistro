@@ -50,7 +50,7 @@
 	<li class="ver-perfiles">
 		<a href="{% url apps.seguridad.views.perfil.verPerfilesUsuario usuario.id %}"><span>Perfiles</span></a>
 	</li>
-	<li class="">
+	<li class="bloqueos">
     {% if usuario.is_active %}
   		<a href="{% url apps.seguridad.views.usuario.bloquear usuario.id %}">
     {% else %}

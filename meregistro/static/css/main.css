@@ -348,6 +348,11 @@ tr.hor-zebra_odd {
 .hor-zebra a:hover {
     text-decoration: underline;
 }
+/* ESTADOS */
+p.estado-baja,
+p.estado-no-vigente {
+	color: #f00;
+}
 /* TABLE Establecimientos */
 th#thEstablecimientoCue {
 	width: 100px;
@@ -404,10 +409,15 @@ ul.actions li.back {
 }
 /* CHANGE-PASSWORD */
 ul.actions li.change-password {
-	background: #fff url(../img/icons/lock.png) no-repeat left;
+	background: #fff url(../img/icons/key.png) no-repeat left;
 }
-ul.actions li.change-password a {
-	padding-left: 25px;
+/* VER-PERFILES */
+ul.actions li.ver-perfiles {
+	background: #fff url(../img/icons/user.png) no-repeat left;
+}
+/* BLOQUEOS */
+ul.actions li.bloqueos {
+	background: #fff url(../img/icons/padlock_closed.png) no-repeat left;
 }
 /* TABLE ACTIONS */
 td.actions-td {
@@ -429,17 +439,19 @@ td.actions-td ul li.edit a {
 	height: 24px;
 	background: url(../img/icons/edit.png) no-repeat left;
 }
-/* ESTADOS */
-p.estado-baja,
-p.estado-no-vigente {
-	color: #f00;
-}
 /* DELETE */
 td.actions-td ul li.delete a {
 	display: block;
 	width: 24px;
 	height: 24px;
 	background: url(../img/icons/delete.png) no-repeat left;
+}
+/* ORIENTACIONES */
+td.actions-td ul li.orientaciones a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
 }
 /* REGISTRAR ESTABLECIMIENTO */
 td.actions-td ul li.registrar_establecimiento a {
@@ -604,18 +616,6 @@ div.popup_selector_ambito
 	overflow: scroll;
 }
 /*
-=USUARIODATA
-*/
-div#usuarioData {
-}
-div#usuarioData h3 {
-	margin: 0 0 5px;
-}
-div#usuarioData p {
-}
-div#usuarioData p strong {
-}
-/*
 =datos-lectura
 */
 div.datos-lectura {
@@ -631,4 +631,25 @@ div.datos-lectura ul {
 }
 div.datos-lectura ul li {
 	margin: 0 0 0 1px;
+}
+/*
+=USUARIODATA
+*/
+div#usuarioData {
+}
+div#usuarioData h3 {
+	margin: 0 0 5px;
+}
+div#usuarioData p {
+}
+div#usuarioData p strong {
+}
+/*
+=ORIENTACIONES-POR-TITULO
+*/
+body.orientaciones-por-titulo table.hor-zebra {
+	margin-top: 10px;
+}
+body.orientaciones-por-titulo div#datosTitulo {
+	margin-bottom: 30px;
 }
