@@ -11,6 +11,7 @@
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'AdminTitulos' %}
 				<li><a href="{% url apps.titulos.views.titulo.index %}">Títulos</a></li>
+				<li><a href="{% url apps.titulos.views.orientacion.index %}">Orientaciones</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
