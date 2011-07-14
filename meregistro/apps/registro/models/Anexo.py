@@ -58,7 +58,7 @@ class Anexo(models.Model):
 
     def getEstadoActual(self):
         try:
-            return list(self.estados)[-1]
+            return list(self.estados)[-1].estado
         except IndexError:
             return None
 
