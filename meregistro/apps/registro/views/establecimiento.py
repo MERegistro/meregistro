@@ -86,7 +86,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('reg_establecimiento_alta')
+@credential_required('reg_establecimiento_nueva')
 def create(request):
     """
     Alta de establecimiento.
