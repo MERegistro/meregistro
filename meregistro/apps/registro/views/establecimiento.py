@@ -84,9 +84,8 @@ def build_query(filters, page, request):
     """
     return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith = request.get_perfil().ambito.path)
 
-
 @login_required
-@credential_required('reg_establecimiento_alta')
+@credential_required('reg_establecimiento_nueva')
 def create(request):
     """
     Alta de establecimiento.
