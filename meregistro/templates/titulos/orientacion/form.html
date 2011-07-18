@@ -1,0 +1,34 @@
+<div class="form" id="tituloForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.titulo.errors }}
+			<label for="id_titulo">Título:</label>
+			{{ form.titulo }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		{% if not is_new %}
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		{% endif %}
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

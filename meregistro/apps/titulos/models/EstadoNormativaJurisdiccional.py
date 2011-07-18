@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 """
-Representa las opciones de estados que tiene cada título
+Representa las opciones de estados que tiene cada normativa jurisdiccional
 """
 
-class EstadoTitulo(models.Model):
+class EstadoNormativaJurisdiccional(models.Model):
 
     NO_VIGENTE = u'No vigente'
     VIGENTE = u'Vigente'
@@ -14,7 +14,7 @@ class EstadoTitulo(models.Model):
     class Meta:
         app_label = 'titulos'
         ordering = ['nombre']
-        db_table = 'titulos_estado_titulo'
+        db_table = 'titulos_estado_normativa_jurisdiccional'
 
     def __unicode__(self):
         return self.nombre

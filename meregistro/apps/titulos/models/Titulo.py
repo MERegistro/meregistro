@@ -8,6 +8,9 @@ from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Jurisdiccion import Jurisdiccion
 import datetime
 
+"""
+Título nomenclado nacional
+"""
 class Titulo(models.Model):
     nombre = models.CharField(max_length = 200)
     tipo_titulo = models.ForeignKey(TipoTitulo)
@@ -27,15 +30,13 @@ class Titulo(models.Model):
     def __unicode__(self):
         return self.nombre
 
-    """
-    Sobreescribo el init para agregarle propiedades
-    """
+    "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
         super(Titulo, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
 
-    """ Sobreescribo para eliminar lo estados"""
+    "Sobreescribo para eliminar lo estados"
     def delete(self, *args, **kwargs):
         for est in self.estados:
             est.delete()
@@ -58,6 +59,6 @@ class Titulo(models.Model):
 
     def getEstadoActual(self):
         try:
-            return list(self.estados)[-1]
+            return list(self.estados)[-1].estado
         except IndexError:
             return None

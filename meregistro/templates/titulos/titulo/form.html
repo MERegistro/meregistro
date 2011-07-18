@@ -62,6 +62,7 @@
 		<fieldset>
 			<legend>Provincias:</legend>
 			<div class="form-checkbox-list">
+				{{ form.jurisdicciones.errors }}
 				<ul>
 					<li>
 						<label for="check_all_jurisdicciones">
@@ -69,7 +70,6 @@
 						</label>
 					</li>
 				</ul>
-				{{ form.jurisdicciones.errors }}
 				{{ form.jurisdicciones }}
 				<hr />
 			</div>

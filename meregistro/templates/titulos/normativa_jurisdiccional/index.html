@@ -1,0 +1,86 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Administrar orientaciones{% endblock %}
+
+{% block content %}
+<h2>Administrar orientaciones</h2>
+<form action="" method="get">
+<div class="form-filter" id="normativaJurisdiccionalFormFilter">
+    <h3>Búsqueda avanzada</h3>
+    {{ form_filters.non_field_errors }}
+    <div class="form-select">
+	{{ form_filters.tipo_normativa_jurisdiccional.errors }}
+	<label for="id_tipo_normativa_jurisdiccional">Tipo de normativa:</label>
+	{{ form_filters.tipo_normativa_jurisdiccional }}
+    </div>
+    <div class="form-select">
+	{{ form_filters.otorgada_por.errors }}
+	<label for="id_otorgada_por">Otorgada por:</label>
+	{{ form_filters.otorgada_por }}
+    </div>
+    <div class="form-select">
+	{{ form_filters.estado.errors }}
+	<label for="id_estado">Estado:</label>
+	{{ form_filters.estado }}
+    </div>
+    <div class="form-submit">
+	    <input type="submit" value="Buscar" />
+	    <input type="button" value="Reiniciar" onclick="window.location = 'normativa_jurisdiccional';" />
+    </div>
+</div>
+
+{% if objects %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Número/Año</th>
+      <th>Tipo de normativa</th>
+      <th>Otorgada por</th>
+      <th class="th-estados">Estados</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for normativa in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ normativa.numero_anio  }}</td>
+	<td>{{ normativa.tipo_normativa_jurisdiccional  }}</td>
+	<td>{{ normativa.otorgada_por  }}</td>
+	<td>
+	    <div class="estados">
+	    {% for estado in normativa.estados %}
+		<p class="estado-{{ estado.estado.nombre|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+	    {% endfor %}
+	    </div>
+	</td>
+        <td class="actions-td">
+	    <ul>
+	    {% if user_perfil.rol.nombre in 'Referente' %}
+		<li class="edit"><a href="{ url apps.titulos.views.titulo.edit titulo.id %}" title="Editar"><span>Editar</span></a></li>
+		<li class="delete"><a href="{ url apps.titulos.views.titulo.eliminar titulo.id %}" title="Eliminar"><span>Eliminar</span></a></li>
+	    {% endif %}
+	    </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron títulos.</p>
+</div>
+{% endif %}
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'Referente' %}
+    <li class="create">
+	<a href="{% url apps.titulos.views.normativa_jurisdiccional.create %}"><span>Nueva normativa</span></a>
+    </li>
+    {% endif %}
+</ul>
+<hr />
+{% endblock %}
