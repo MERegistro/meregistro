@@ -4,6 +4,10 @@ from apps.titulos.models.Titulo import Titulo
 from apps.titulos.models.EstadoTitulo import EstadoTitulo
 import datetime
 
+"""
+Representa los estados por los que pasa cada título
+"""
+
 class TituloEstado(models.Model):
     titulo = models.ForeignKey(Titulo)
     estado = models.ForeignKey(EstadoTitulo)

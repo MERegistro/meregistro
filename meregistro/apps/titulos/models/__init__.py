@@ -6,3 +6,10 @@ from TituloTipoNormativa import TituloTipoNormativa
 from TituloOrientacion import TituloOrientacion
 from Titulo import Titulo
 from EstadoTitulo import EstadoTitulo
+from EstadoTituloOrientacion import EstadoTituloOrientacion
+from TituloOrientacionEstado import TituloOrientacionEstado
+from EstadoNormativaJurisdiccional import EstadoNormativaJurisdiccional
+from TipoNormativaJurisdiccional import TipoNormativaJurisdiccional
+from NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
+from NormativaJurisdiccional import NormativaJurisdiccional
+from NormativaMotivoOtorgamiento import NormativaMotivoOtorgamiento

@@ -17,7 +17,7 @@ class TituloFormFilters(forms.Form):
     jurisdiccion = forms.ModelChoiceField(queryset = Jurisdiccion.objects.order_by('nombre'), label = 'Jurisdicción', required = False)
     tiene_orientaciones = forms.ChoiceField(label = 'Con orientaciones', required = False, choices = TIENE_ORIENTACIONES_CHOICES)
 
-    def buildQuery(self, q=None):
+    def buildQuery(self, q = None):
         """
         Crea o refina un query de búsqueda.
         """

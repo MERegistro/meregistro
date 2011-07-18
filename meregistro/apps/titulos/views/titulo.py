@@ -97,13 +97,19 @@ def edit(request, titulo_id):
     """
     titulo = Titulo.objects.get(pk = titulo_id)
     estado_actual = titulo.getEstadoActual()
+
+    if estado_actual is None:
+        estado_actual_id = None
+    else:
+        estado_actual_id = estado_actual.id
+
     if request.method == 'POST':
-        form = TituloForm(request.POST, instance = titulo, initial = {'estado': estado_actual.id})
+        form = TituloForm(request.POST, instance = titulo, initial = {'estado': estado_actual_id})
         if form.is_valid():
             titulo = form.save()
 
             "Cambiar el estado?"
-            if int(request.POST['estado']) is not estado_actual.id:
+            if int(request.POST['estado']) is not estado_actual_id:
                 estado = EstadoTitulo.objects.get(pk = int(request.POST['estado']))
                 titulo.registrar_estado(estado)
 
@@ -112,7 +118,7 @@ def edit(request, titulo_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = TituloForm(instance = titulo, initial = {'estado': titulo.getEstadoActual().id})
+        form = TituloForm(instance = titulo, initial = {'estado': estado_actual_id})
 
     return my_render(request, 'titulos/titulo/edit.html', {
         'form': form,
