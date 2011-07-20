@@ -63,13 +63,12 @@ def create(request):
         form = NormativaJurisdiccionalForm(request.POST)
         if form.is_valid():
             normativa_jurisdiccional = form.save()
-            estado = EstadoNormativaJurisdiccional.objects.get(pk = request.POST['estado'])
-            normativa_jurisdiccional.registrar_estado(estado)
+            normativa_jurisdiccional.registrar_estado()
 
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('normativaJurisidccionalEdit', args = [normativa_jurisdiccional.id]))
+            return HttpResponseRedirect(reverse('normativaJurisdiccionalEdit', args = [normativa_jurisdiccional.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -80,73 +79,41 @@ def create(request):
         'is_new': True,
     })
 
-"""
 @login_required
-@credential_required('tit_titulo_modificar')
-def edit(request, orientacion_id):
-    " Edición de los datos de una orientación "
-    orientacion = TituloOrientacion.objects.get(pk = orientacion_id)
+@credential_required('tit_nor_jur_modificar')
+def edit(request, normativa_jurisdiccional_id):
+    " Edición de los datos de una normativa jurisdiccional "
+    normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
 
-    estado_actual = orientacion.getEstadoActual()
+    estado_actual = normativa_jurisdiccional.estado
     if estado_actual is None:
         estado_actual_id = None
     else:
         estado_actual_id = estado_actual.id
 
     if request.method == 'POST':
-        form = TituloOrientacionForm(request.POST, instance = orientacion, initial = {'estado': estado_actual_id})
+        form = NormativaJurisdiccionalForm(request.POST, instance = normativa_jurisdiccional, initial = {'estado': estado_actual_id})
         if form.is_valid():
-            titulo = form.save()
+            normativa_jurisdiccional = form.save()
 
             "Cambiar el estado?"
             if int(request.POST['estado']) is not estado_actual_id:
-                estado = EstadoTituloOrientacion.objects.get(pk = int(request.POST['estado']))
-                orientacion.registrar_estado(estado)
+                normativa_jurisdiccional.registrar_estado()
 
-            MailHelper.notify_by_email(MailHelper.TITULO_UPDATE, orientacion)
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('orientacionesPorTitulo', args = [orientacion.titulo.id]))
+            return HttpResponseRedirect(reverse('normativaJurisdiccionalEdit', args = [normativa_jurisdiccional_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = TituloOrientacionForm(instance = orientacion, initial = {'estado': estado_actual_id})
+        form = NormativaJurisdiccionalForm(instance = normativa_jurisdiccional, initial = {'estado': estado_actual_id})
 
-    form.fields["titulo"].queryset = Titulo.objects.filter(id = orientacion.titulo.id)
-    form.fields["titulo"].empty_label = None
-
-    return my_render(request, 'titulos/orientacion/edit.html', {
-        'form': form,
-        'titulo': orientacion.titulo,
-        'is_new': False,
-    })
-
-@login_required
-@credential_required('tit_titulo_modificar')
-def edit(request, titulo_id):
-    "Edición de los datos de un título."
-    titulo = Titulo.objects.get(pk = titulo_id)
-    estado_actual = titulo.getEstadoActual()
-    if request.method == 'POST':
-        form = TituloForm(request.POST, instance = titulo, initial = {'estado': estado_actual.id})
-        if form.is_valid():
-            titulo = form.save()
-
-            "Cambiar el estado?"
-            if int(request.POST['estado']) is not estado_actual.id:
-                estado = EstadoTitulo.objects.get(pk = int(request.POST['estado']))
-                titulo.registrar_estado(estado)
-
-            MailHelper.notify_by_email(MailHelper.TITULO_UPDATE, titulo)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = TituloForm(instance = titulo, initial = {'estado': titulo.getEstadoActual().id})
-
-    return my_render(request, 'titulos/titulo/edit.html', {
+        form.fields['estado'].empty_label = None
+    return my_render(request, 'titulos/normativa_jurisdiccional/edit.html', {
         'form': form,
         'is_new': False,
     })
+
+"""
 
 @login_required
 @credential_required('tit_titulo_eliminar')

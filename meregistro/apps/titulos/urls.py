@@ -15,5 +15,6 @@ urlpatterns = patterns('',
     url(r'^orientaciones', 'apps.titulos.views.orientacion.index', name = 'orientaciones'),
     # Normativa jurisdiccional
     url(r'^normativa_jurisdiccional/create', 'apps.titulos.views.normativa_jurisdiccional.create', name = 'normativaJurisdiccionalCreate'),
+    url(r'^normativa_jurisdiccional/([0-9]+)/editar', 'apps.titulos.views.normativa_jurisdiccional.edit', name = 'normativaJurisdiccionalEdit'),
     url(r'^normativa_jurisdiccional', 'apps.titulos.views.normativa_jurisdiccional.index', name = 'normativaJurisdiccional'),
 )

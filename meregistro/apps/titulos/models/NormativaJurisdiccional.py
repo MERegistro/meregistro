@@ -2,6 +2,7 @@
 from django.db import models
 from apps.titulos.models.TipoNormativaJurisdiccional import TipoNormativaJurisdiccional
 from apps.titulos.models.NormativaMotivoOtorgamiento import NormativaMotivoOtorgamiento
+from apps.titulos.models.EstadoNormativaJurisdiccional import EstadoNormativaJurisdiccional
 import datetime
 
 class NormativaJurisdiccional(models.Model):
@@ -9,6 +10,7 @@ class NormativaJurisdiccional(models.Model):
     tipo_normativa_jurisdiccional = models.ForeignKey(TipoNormativaJurisdiccional)
     otorgada_por = models.ForeignKey(NormativaMotivoOtorgamiento)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
+    estado = models.ForeignKey(EstadoNormativaJurisdiccional, ) # Concuerda con el último estado en NormativaJurisdiccionalEstado
 
     class Meta:
         app_label = 'titulos'
@@ -23,7 +25,6 @@ class NormativaJurisdiccional(models.Model):
     def __init__(self, *args, **kwargs):
         super(NormativaJurisdiccional, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
-        self.estado_actual = self.getEstadoActual()
 
     "Sobreescribo para eliminar lo estados"
     def delete(self, *args, **kwargs):
@@ -31,9 +32,16 @@ class NormativaJurisdiccional(models.Model):
             est.delete()
         super(NormativaJurisdiccional, self).delete(*args, **kwargs)
 
-    def registrar_estado(self, estado):
+    def registrar_estado1(self, estado):
         from apps.titulos.models.NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
         registro = NormativaJurisdiccionalEstado(estado = estado)
+        registro.fecha = datetime.date.today()
+        registro.normativa_jurisdiccional_id = self.id
+        registro.save()
+
+    def registrar_estado(self):
+        from apps.titulos.models.NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
+        registro = NormativaJurisdiccionalEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
         registro.normativa_jurisdiccional_id = self.id
         registro.save()
@@ -46,8 +54,10 @@ class NormativaJurisdiccional(models.Model):
             estados = {}
         return estados
 
-    def getEstadoActual(self):
-        try:
-            return list(self.estados)[-1].estado
-        except IndexError:
-            return None
+    # TODO:
+    def __asociado_a_titulo_jurisdiccional(self):
+        return
+
+    # TODO:
+    def isDeletable(self):
+        return
