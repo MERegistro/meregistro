@@ -1,13 +1,15 @@
 # -*- coding: UTF-8 -*-
 
 from django import forms
-from apps.titulos.models import NormativaJurisdiccional, TipoNormativaJurisdiccional, NormativaMotivoOtorgamiento, EstadoNormativaJurisdiccional
+from django.db.models import Max
+from apps.titulos.models import NormativaJurisdiccional, NormativaJurisdiccionalEstado, TipoNormativaJurisdiccional, NormativaMotivoOtorgamiento, EstadoNormativaJurisdiccional
 
 
 class NormativaJurisdiccionalFormFilters(forms.Form):
     tipo_normativa_jurisdiccional = forms.ModelChoiceField(queryset = TipoNormativaJurisdiccional.objects.order_by('nombre'), label = 'Tipo de normativa', required = False)
     otorgada_por = forms.ModelChoiceField(queryset = NormativaMotivoOtorgamiento.objects.order_by('nombre'), label = 'Otorgada por', required = False)
     estado = forms.ModelChoiceField(queryset = EstadoNormativaJurisdiccional.objects.all().order_by('nombre'), required = False)
+
 
     def buildQuery(self, q = None):
         """
@@ -23,5 +25,5 @@ class NormativaJurisdiccionalFormFilters(forms.Form):
         if filter_by('otorgada_por'):
             q = q.filter(otorgada_por = self.cleaned_data['otorgada_por'])
         if filter_by('estado'):
-            q = q.filter(estado = self.cleaned_data['estado'])
+            q = q.filter(normativajurisdiccionalestado__estado = self.cleaned_data['estado'])
         return q
