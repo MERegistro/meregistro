@@ -25,5 +25,5 @@ class NormativaJurisdiccionalFormFilters(forms.Form):
         if filter_by('otorgada_por'):
             q = q.filter(otorgada_por = self.cleaned_data['otorgada_por'])
         if filter_by('estado'):
-            q = q.filter(normativajurisdiccionalestado__estado = self.cleaned_data['estado'])
+            q = q.filter(estado = self.cleaned_data['estado'])
         return q
