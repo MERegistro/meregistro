@@ -14,7 +14,7 @@ ITEMS_PER_PAGE = 50
 
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
-    return filters.buildQuery().order_by('id')
+    return filters.buildQuery().order_by('id').filter(jurisdiccion = request.get_perfil().jurisdiccion())
 
 @login_required
 @credential_required('tit_nor_jur_consulta')
@@ -62,7 +62,10 @@ def create(request):
     if request.method == 'POST':
         form = NormativaJurisdiccionalForm(request.POST)
         if form.is_valid():
-            normativa_jurisdiccional = form.save()
+            normativa_jurisdiccional = form.save(commit = False)
+            normativa_jurisdiccional.jurisdiccion = request.get_perfil().jurisdiccion()
+            normativa_jurisdiccional.save()
+
             normativa_jurisdiccional.registrar_estado()
 
             request.set_flash('success', 'Datos guardados correctamente.')

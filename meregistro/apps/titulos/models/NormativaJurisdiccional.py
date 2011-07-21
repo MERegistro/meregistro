@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from apps.registro.models.Jurisdiccion import Jurisdiccion
 from apps.titulos.models.TipoNormativaJurisdiccional import TipoNormativaJurisdiccional
 from apps.titulos.models.NormativaMotivoOtorgamiento import NormativaMotivoOtorgamiento
 from apps.titulos.models.EstadoNormativaJurisdiccional import EstadoNormativaJurisdiccional
@@ -8,6 +9,7 @@ import datetime
 class NormativaJurisdiccional(models.Model):
     numero_anio = models.CharField(max_length = 50)
     tipo_normativa_jurisdiccional = models.ForeignKey(TipoNormativaJurisdiccional)
+    jurisdiccion = models.ForeignKey(Jurisdiccion)
     otorgada_por = models.ForeignKey(NormativaMotivoOtorgamiento)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
     estado = models.ForeignKey(EstadoNormativaJurisdiccional, ) # Concuerda con el último estado en NormativaJurisdiccionalEstado

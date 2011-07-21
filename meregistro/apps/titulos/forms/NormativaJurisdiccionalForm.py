@@ -13,3 +13,4 @@ class NormativaJurisdiccionalForm(forms.ModelForm):
 
     class Meta:
         model = NormativaJurisdiccional
+        exclude = ('jurisdiccion')
