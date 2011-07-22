@@ -1,0 +1,42 @@
+<div class="form" id="tituloForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.establecimiento.errors }}
+			<label for="id_establecimiento">Establecimiento:</label>
+			{{ form.establecimiento }}
+		</div>
+		<div class="form-select">
+			{{ form.anio_lectivo.errors }}
+			<label for="anio_lectivo">Año lectivo:</label>
+			{{ form.anio_lectivo }}
+		</div>
+		<div class="form-text">
+			{{ form.matricula_solo_formacion_docente.errors  }}
+			<label for="matricula_solo_formacion_docente">Matricula Solo Formación Docente:</label>
+			{{ form.matricula_solo_formacion_docente }}
+		</div>
+		<div class="form-text">
+			{{ form.matricula_positulos.errors  }}
+			<label for="matricula_positulos">Matricula Postitulos:</label>
+			{{ form.matricula_positulos }}
+		</div>
+		<div class="form-text">
+			{{ form.matricula_solo_profesorados.errors  }}
+			<label for="matricula_solo_profesorados">Matricula Solo Profesorados:</label>
+			{{ form.matricula_solo_profesorados }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

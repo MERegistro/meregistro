@@ -17,4 +17,9 @@ urlpatterns = patterns('',
     url(r'^normativa_jurisdiccional/create', 'apps.titulos.views.normativa_jurisdiccional.create', name = 'normativaJurisdiccionalCreate'),
     url(r'^normativa_jurisdiccional/([0-9]+)/editar', 'apps.titulos.views.normativa_jurisdiccional.edit', name = 'normativaJurisdiccionalEdit'),
     url(r'^normativa_jurisdiccional', 'apps.titulos.views.normativa_jurisdiccional.index', name = 'normativaJurisdiccional'),
+    # Matriculas
+    url(r'^matricula/create', 'apps.titulos.views.matricula.create', name = 'matriculaCreate'),
+    url(r'^matricula/([0-9]+)/editar', 'apps.titulos.views.matricula.edit', name = 'matriculaEdit'),
+    url(r'^matricula/([0-9]+)/delete', 'apps.titulos.views.matricula.delete', name = 'matriculaDelete'),
+    url(r'^matricula', 'apps.titulos.views.matricula.index', name = 'matricula'),
 )
