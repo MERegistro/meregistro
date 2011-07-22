@@ -6,3 +6,5 @@ from NormativaJurisdiccionalForm import NormativaJurisdiccionalForm
 from NormativaJurisdiccionalFormFilters import NormativaJurisdiccionalFormFilters
 from MatriculaFormFilters import MatriculaFormFilters
 from MatriculaForm import MatriculaForm
+from ProyectoFormFilters import ProyectoFormFilters
+from ProyectoForm import ProyectoForm
