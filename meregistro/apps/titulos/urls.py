@@ -22,4 +22,9 @@ urlpatterns = patterns('',
     url(r'^matricula/([0-9]+)/editar', 'apps.titulos.views.matricula.edit', name = 'matriculaEdit'),
     url(r'^matricula/([0-9]+)/delete', 'apps.titulos.views.matricula.delete', name = 'matriculaDelete'),
     url(r'^matricula', 'apps.titulos.views.matricula.index', name = 'matricula'),
+    # Proyecto
+    url(r'^proyecto/create', 'apps.titulos.views.proyecto.create', name = 'proyectoCreate'),
+    url(r'^proyecto/([0-9]+)/editar', 'apps.titulos.views.proyecto.edit', name = 'proyectoEdit'),
+    url(r'^proyecto/([0-9]+)/delete', 'apps.titulos.views.proyecto.delete', name = 'proyectoDelete'),
+    url(r'^proyecto', 'apps.titulos.views.proyecto.index', name = 'proyecto'),
 )

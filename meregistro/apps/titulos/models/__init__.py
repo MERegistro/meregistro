@@ -14,3 +14,5 @@ from NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
 from NormativaJurisdiccional import NormativaJurisdiccional
 from NormativaMotivoOtorgamiento import NormativaMotivoOtorgamiento
 from Matricula import Matricula
+from TipoProyecto import TipoProyecto
+from Proyecto import Proyecto
