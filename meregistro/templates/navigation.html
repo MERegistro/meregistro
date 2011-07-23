@@ -27,6 +27,12 @@
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de extensión</a></li>
 				{% endif %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
+				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
+				{% endif %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos' %}
+				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
+				{% endif %}
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
 			</ul>
 		</div>

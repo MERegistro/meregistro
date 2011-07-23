@@ -1,0 +1,52 @@
+<div class="form" id="tituloForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.establecimiento.errors }}
+			<label for="id_establecimiento">Establecimiento:</label>
+			{{ form.establecimiento }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_proyecto.errors }}
+			<label for="id_tipo_proyecto">Tipo de proyecto o programa:</label>
+			{{ form.tipo_proyecto }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors  }}
+			<label for="nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.denominacion.errors  }}
+			<label for="denominacion">Denominación:</label>
+			{{ form.denominacion }}
+		</div>
+		<div class="form-text">
+			{{ form.anio_presenta.errors }}
+			<label for="anio_presenta">Año presenta:</label>
+			{{ form.anio_presenta }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad_docentes_participantes.errors  }}
+			<label for="cantidad_docentes_participantes">Cantidad Docentes Participantes:</label>
+			{{ form.cantidad_docentes_participantes }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad_escuelas_participantes.errors  }}
+			<label for="cantidad_escuelas_participantes">Cantidad Escuelas Participantes:</label>
+			{{ form.cantidad_escuelas_participantes }}
+		</div>
+        <div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>
