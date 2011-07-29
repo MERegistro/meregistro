@@ -156,6 +156,21 @@ div#establecimientoCompletarDatosNav ul li a span {
 	padding: 5px 14px;
 }
 /*
+=tituloJurisdiccionalDatosNav
+*/
+div#tituloJurisdiccionalDatosNav {
+	margin: 25px 0 0 11px;
+}
+div#tituloJurisdiccionalDatosNav ul li {
+	border-bottom: 1px #fff solid;
+}
+div#tituloJurisdiccionalDatosNav ul li.active {
+	border-bottom: 1px #D6DEDE solid;
+}
+div#tituloJurisdiccionalDatosNav ul li a span {
+	padding: 5px 14px;
+}
+/*
 =FOOTER
 */
 div#footer {
@@ -221,6 +236,10 @@ div.form label {
 	width: 170px;
 	color: #353636;
 	font-weight: bold;
+}
+div#content div.form form h2 {
+	margin: 10px 0 0 10px;
+	font-size: 14px;
 }
 div.form p.help-text {
 	padding-left: 170px;
@@ -303,11 +322,11 @@ div.form fieldset legend {
 div.form fieldset div.form-checkbox-list ul {
 	margin-top: 0px;
 }
-/* =establecimientoCompletarDatosForm */
-div#establecimientoCompletarDatosForm {
+/* =tabbed-form */
+div.tabbed-form {
 	margin: 40px 0 0;
 }
-div#establecimientoCompletarDatosForm form {
+div.tabbed-form form {
 	padding: 10px 0;
 }
 /*
@@ -654,3 +673,4 @@ body.orientaciones-por-titulo table.hor-zebra {
 body.orientaciones-por-titulo div#datosTitulo {
 	margin-bottom: 30px;
 }
+
