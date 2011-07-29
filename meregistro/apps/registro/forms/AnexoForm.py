@@ -10,10 +10,9 @@ import datetime
 
 currentYear = datetime.datetime.now().year
 
-
 class AnexoForm(forms.ModelForm):
-    fecha_alta = forms.DateField(input_formats=['%d/%m/%Y', '%d/%m/%y'], required=False, initial=datetime.date.today)
-    turnos = forms.ModelMultipleChoiceField(queryset=Turno.objects.all().order_by('nombre'), widget=forms.CheckboxSelectMultiple, required=False)
+    fecha_alta = forms.DateField(input_formats = ['%d/%m/%Y', '%d/%m/%y'], required = False, initial = datetime.date.today)
+    turnos = forms.ModelMultipleChoiceField(queryset = Turno.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required=False)
 
     # TODO: investigar, el widget se resetea si la fecha no es válida
     # fecha_alta = forms.DateField(required = False, initial = datetime.date.today,
