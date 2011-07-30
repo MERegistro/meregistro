@@ -100,9 +100,11 @@ def create(request, titulo_id = None):
     if request.method == 'POST':
         form = TituloOrientacionForm(request.POST)
         if form.is_valid():
-            orientacion = form.save()
-            estado = EstadoTituloOrientacion.objects.get(nombre = EstadoTituloOrientacion.VIGENTE)
-            orientacion.registrar_estado(estado)
+
+            orientacion = form.save(commit = False)
+            orientacion.estado = EstadoTituloOrientacion.objects.get(nombre = EstadoTituloOrientacion.VIGENTE)
+            orientacion.save()
+            orientaciones.registrar_estado()
 
             request.set_flash('success', 'Datos guardados correctamente.')
 
@@ -129,9 +131,8 @@ def edit(request, orientacion_id):
     " Edición de los datos de una orientación "
     orientacion = TituloOrientacion.objects.get(pk = orientacion_id)
     fecha_alta = orientacion.fecha_alta
-    #raise Exception(orientacion.fecha_alta)
 
-    estado_actual = orientacion.getEstadoActual()
+    estado_actual = orientacion.estado
     if estado_actual is None:
         estado_actual_id = None
     else:
@@ -146,8 +147,7 @@ def edit(request, orientacion_id):
 
             "Cambiar el estado?"
             if int(request.POST['estado']) is not estado_actual_id:
-                estado = EstadoTituloOrientacion.objects.get(pk = int(request.POST['estado']))
-                orientacion.registrar_estado(estado)
+                orientacion.registrar_estado()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
             return HttpResponseRedirect(reverse('orientacionesPorTitulo', args = [orientacion.titulo.id]))

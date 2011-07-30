@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.titulos.models.Titulo import Titulo
+from apps.titulos.models.EstadoTituloOrientacion import EstadoTituloOrientacion
 import datetime
 
 class TituloOrientacion(models.Model):
@@ -8,6 +9,7 @@ class TituloOrientacion(models.Model):
     nombre = models.CharField(max_length = 50)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
     fecha_alta = models.DateField(null = True, blank = True)
+    estado = models.ForeignKey(EstadoTituloOrientacion) # Concuerda con el último estado en TituloOrientacionEstado
 
     class Meta:
         app_label = 'titulos'
@@ -21,7 +23,6 @@ class TituloOrientacion(models.Model):
     def __init__(self, *args, **kwargs):
         super(TituloOrientacion, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
-        self.estado_actual = self.getEstadoActual()
 
     def clean(self):
         "Es nuevo?"
@@ -37,9 +38,9 @@ class TituloOrientacion(models.Model):
     def asociado_titulo_jurisdiccional(self):
         pass
 
-    def registrar_estado(self, estado):
+    def registrar_estado(self):
         from apps.titulos.models.TituloOrientacionEstado import TituloOrientacionEstado
-        registro = TituloOrientacionEstado(estado = estado)
+        registro = TituloOrientacionEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
         registro.titulo_orientacion_id = self.id
         registro.save()
@@ -51,9 +52,3 @@ class TituloOrientacion(models.Model):
         except:
             estados = {}
         return estados
-
-    def getEstadoActual(self):
-        try:
-            return list(self.estados)[-1].estado
-        except IndexError:
-            return None
