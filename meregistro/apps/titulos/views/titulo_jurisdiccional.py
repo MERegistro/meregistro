@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import Titulo, TituloJurisdiccional, EstadoTituloJurisdiccional, EstadoTitulo, \
-    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial
+    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial, EstadoTituloOrientacion
 from apps.titulos.forms import TituloJurisdiccionalFormFilters, TituloJurisdiccionalForm, TituloJurisdiccionalDatosBasicosForm, \
     TituloJurisdiccionalOrientacionesForm, TituloJurisdiccionalModalidadPresencialForm, TituloJurisdiccionalModalidadDistanciaForm
 from apps.registro.models import Jurisdiccion
@@ -160,7 +160,7 @@ def editar_orientaciones(request, titulo_jurisdiccional_id):
     else:
         form = TituloJurisdiccionalOrientacionesForm(instance = titulo_jurisdiccional)
 
-    form.fields['orientaciones'].queryset = form.fields['orientaciones'].queryset.filter(titulo = titulo_jurisdiccional.titulo)
+    form.fields['orientaciones'].queryset = form.fields['orientaciones'].queryset.filter(titulo = titulo_jurisdiccional.titulo, estado__nombre = EstadoTituloOrientacion.VIGENTE)
 
     return my_render(request, 'titulos/titulo_jurisdiccional/edit.html', {
         'form': form,
