@@ -247,6 +247,9 @@ div.form p.help-text {
 	font-style: italic;
 	margin-bottom: 5px;
 }
+div.form form div {
+	clear: both;
+}
 div.form div.form-text input,
 div.form div.form-select select,
 div.form div.form-textarea textarea {

@@ -1,0 +1,16 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Completar datos del establecimiento{% endblock %}
+
+{% block content %}
+<h2>Completar datos del establecimiento - {{ page_title }}</h2>
+<h3>{{ establecimiento }}</h3>
+
+{% include "titulos/titulo_jurisdiccional/completar_datos_nav.html" %}
+
+{% if form_template %}
+{% include form_template %}
+{% endif %}
+<hr />
+
+{% endblock %}

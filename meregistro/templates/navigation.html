@@ -9,7 +9,7 @@
 				{% if user_perfil.rol.nombre in 'Referente,' %}
 				<li><a href="{% url apps.registro.views.dependencia_funcional.index %}">Dependencias funcionales</a></li>
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
-				<li><a href="{ url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
+				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'AdminTitulos' %}
 				<li><a href="{% url apps.titulos.views.titulo.index %}">Títulos</a></li>
