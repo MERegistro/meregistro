@@ -16,7 +16,7 @@ class TituloEstado(models.Model):
     class Meta:
         app_label = 'titulos'
         ordering = ['fecha']
-        db_table = 'titulos_titulo_estado'
+        db_table = 'titulos_titulo_estados'
 
     def __unicode__(self):
         return str(self.titulo.nombre) + " - " + str(self.estado.nombre) + " - " + self.fecha

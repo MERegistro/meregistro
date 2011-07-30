@@ -12,7 +12,7 @@ class NormativaJurisdiccional(models.Model):
     jurisdiccion = models.ForeignKey(Jurisdiccion)
     otorgada_por = models.ForeignKey(NormativaMotivoOtorgamiento)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
-    estado = models.ForeignKey(EstadoNormativaJurisdiccional, ) # Concuerda con el último estado en NormativaJurisdiccionalEstado
+    estado = models.ForeignKey(EstadoNormativaJurisdiccional) # Concuerda con el último estado en NormativaJurisdiccionalEstado
 
     class Meta:
         app_label = 'titulos'
@@ -33,13 +33,6 @@ class NormativaJurisdiccional(models.Model):
         for est in self.estados:
             est.delete()
         super(NormativaJurisdiccional, self).delete(*args, **kwargs)
-
-    def registrar_estado1(self, estado):
-        from apps.titulos.models.NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
-        registro = NormativaJurisdiccionalEstado(estado = estado)
-        registro.fecha = datetime.date.today()
-        registro.normativa_jurisdiccional_id = self.id
-        registro.save()
 
     def registrar_estado(self):
         from apps.titulos.models.NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
