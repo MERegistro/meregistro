@@ -1,0 +1,13 @@
+<div id="tituloJurisdiccionalDatosNav" class="tab-nav">
+	<ul>
+		{% if titulo_jurisdiccional %}
+		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.titulo_jurisdiccional.edit titulo_jurisdiccional.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if actual_page == 'orientaciones' %} class="active"{% endif %}><a href="{% url apps.titulos.views.titulo_jurisdiccional.editar_orientaciones titulo_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
+		<li{% if actual_page == 'modalidades' %} class="active"{% endif %}><a href="{% url apps.titulos.views.titulo_jurisdiccional.editar_modalidades titulo_jurisdiccional.id %}" title="Modalidades"><span>Modalidades</span></a></li>
+		{% else %}
+		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.titulo_jurisdiccional.create %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if actual_page == 'orientaciones' %} class="active"{% endif %}><a href="{% url apps.titulos.views.titulo_jurisdiccional.editar_orientaciones %}" title="Orientaciones"><span>Orientaciones</span></a></li>
+		<li{% if actual_page == 'modalidades' %} class="active"{% endif %}><a href="{% url apps.titulos.views.titulo_jurisdiccional.editar_modalidades %}" title="Modalidades"><span>Modalidades</span></a></li>
+		{% endif %}
+	</ul>
+</div>
