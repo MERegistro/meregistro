@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from apps.titulos.models.EstadoTitulo import EstadoTitulo
 from apps.titulos.models.TipoTitulo import TipoTitulo
 from apps.titulos.models.TituloTipoNormativa import TituloTipoNormativa
 from apps.titulos.models.Carrera import Carrera
@@ -22,6 +23,7 @@ class Titulo(models.Model):
     niveles = models.ManyToManyField(Nivel, db_table = 'titulos_titulos_niveles')
     areas = models.ManyToManyField(Area, db_table = 'titulos_titulos_areas')
     jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table = 'titulos_titulos_jurisdicciones') # Provincias
+    estado = models.ForeignKey(EstadoTitulo) # Concuerda con el último estado en TituloEstado
 
     class Meta:
         app_label = 'titulos'
@@ -34,17 +36,24 @@ class Titulo(models.Model):
     def __init__(self, *args, **kwargs):
         super(Titulo, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
-        self.estado_actual = self.getEstadoActual()
 
-    "Sobreescribo para eliminar lo estados"
+    "Sobreescribo para eliminar los objetos relacionados"
     def delete(self, *args, **kwargs):
-        for est in self.estados:
+        for nivel in self.niveles.all():
+            nivel.delete()
+        for area in self.areas.all():
+            area.delete()
+        for jur in self.jurisdicciones.all():
+            jur.delete()
+        for est in self.estados.all():
             est.delete()
+        for orientacion in self.orientaciones.all():
+            orientacion.delete()
         super(Titulo, self).delete(*args, **kwargs)
 
-    def registrar_estado(self, estado):
+    def registrar_estado(self):
         from apps.titulos.models.TituloEstado import TituloEstado
-        registro = TituloEstado(estado = estado)
+        registro = TituloEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
         registro.titulo_id = self.id
         registro.save()
@@ -56,9 +65,3 @@ class Titulo(models.Model):
         except:
             estados = {}
         return estados
-
-    def getEstadoActual(self):
-        try:
-            return list(self.estados)[-1].estado
-        except IndexError:
-            return None
