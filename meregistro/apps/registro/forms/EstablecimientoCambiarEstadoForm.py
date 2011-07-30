@@ -4,5 +4,5 @@ from apps.registro.models.Estado import Estado
 
 
 class EstablecimientoCambiarEstadoForm(forms.Form):
-    estado = forms.ModelChoiceField(queryset=Estado.objects, label='estado')
-    observaciones = forms.CharField(required=False, widget=forms.Textarea)
+    estado = forms.ModelChoiceField(queryset = Estado.objects, label = 'estado')
+    observaciones = forms.CharField(required = False, widget = forms.Textarea)
