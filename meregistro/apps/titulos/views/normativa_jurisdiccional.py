@@ -4,8 +4,8 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import NormativaJurisdiccional, EstadoNormativaJurisdiccional#, TipoNormativaJurisdiccional, NormativaMotivoOtorgamiento
-from apps.titulos.forms import NormativaJurisdiccionalFormFilters, NormativaJurisdiccionalForm #, TituloOrientacionFormFilters, TituloOrientacionForm
+from apps.titulos.models import NormativaJurisdiccional, EstadoNormativaJurisdiccional
+from apps.titulos.forms import NormativaJurisdiccionalFormFilters, NormativaJurisdiccionalForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
