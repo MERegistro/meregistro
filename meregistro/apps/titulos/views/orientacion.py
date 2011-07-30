@@ -128,6 +128,8 @@ def create(request, titulo_id = None):
 def edit(request, orientacion_id):
     " Edición de los datos de una orientación "
     orientacion = TituloOrientacion.objects.get(pk = orientacion_id)
+    fecha_alta = orientacion.fecha_alta
+    #raise Exception(orientacion.fecha_alta)
 
     estado_actual = orientacion.getEstadoActual()
     if estado_actual is None:
@@ -138,7 +140,9 @@ def edit(request, orientacion_id):
     if request.method == 'POST':
         form = TituloOrientacionForm(request.POST, instance = orientacion, initial = {'estado': estado_actual_id})
         if form.is_valid():
-            titulo = form.save()
+            orientacion = form.save(commit = False)
+            orientacion.fecha_alta = fecha_alta # No sé por qué lo borraba la fecha al editarlo
+            orientacion.save()
 
             "Cambiar el estado?"
             if int(request.POST['estado']) is not estado_actual_id:
@@ -160,22 +164,3 @@ def edit(request, orientacion_id):
         'titulo': orientacion.titulo,
         'is_new': False,
     })
-
-"""
-@login_required
-@credential_required('tit_titulo_eliminar')
-def eliminar(request, titulo_id):
-    "Baja de un título    --- mientras no sea referido por un título jurisdiccional ---"
-    titulo = Titulo.objects.get(pk = titulo_id)
-    request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
-    if request.method == 'POST':
-        if int(request.POST['titulo_id']) is not int(titulo_id):
-            raise Exception('Error en la consulta!')
-        titulo.delete()
-        request.set_flash('success', 'El título fue dado de baja correctamente.')
-        "Redirecciono para evitar el reenvío del form"
-        return HttpResponseRedirect(reverse('titulosHome'))
-    return my_render(request, 'titulos/titulo/eliminar.html', {
-        'titulo_id': titulo.id,
-    })
-"""

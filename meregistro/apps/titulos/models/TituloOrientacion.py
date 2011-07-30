@@ -17,7 +17,7 @@ class TituloOrientacion(models.Model):
     def __unicode__(self):
         return self.nombre
 
-    " Sobreescribo el init para agregarle propiedades "
+    "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
         super(TituloOrientacion, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
@@ -57,12 +57,3 @@ class TituloOrientacion(models.Model):
             return list(self.estados)[-1].estado
         except IndexError:
             return None
-
-"""
-    def registrarBaja(self, baja):
-        from apps.registro.models.AnexoBaja import AnexoBaja
-        estado = Estado.objects.get(nombre = Estado.BAJA)
-        self.registrar_estado(estado)
-        baja.anexo = self
-        baja.save()
-"""
