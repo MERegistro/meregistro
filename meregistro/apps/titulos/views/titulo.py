@@ -69,9 +69,11 @@ def create(request):
     if request.method == 'POST':
         form = TituloForm(request.POST)
         if form.is_valid():
-            titulo = form.save()
-            estado = EstadoTitulo.objects.get(nombre = EstadoTitulo.VIGENTE)
-            titulo.registrar_estado(estado)
+            titulo = form.save(commit = False)
+            titulo.estado = EstadoTitulo.objects.get(nombre = EstadoTitulo.VIGENTE)
+            titulo.save()
+            form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+            titulo.registrar_estado()
 
             MailHelper.notify_by_email(MailHelper.TITULO_CREATE, titulo)
             request.set_flash('success', 'Datos guardados correctamente.')
@@ -96,22 +98,24 @@ def edit(request, titulo_id):
     Edición de los datos de un título.
     """
     titulo = Titulo.objects.get(pk = titulo_id)
-    estado_actual = titulo.getEstadoActual()
 
-    if estado_actual is None:
-        estado_actual_id = None
-    else:
-        estado_actual_id = estado_actual.id
+    estado_actual_id = titulo.estado.id
 
     if request.method == 'POST':
         form = TituloForm(request.POST, instance = titulo, initial = {'estado': estado_actual_id})
         if form.is_valid():
-            titulo = form.save()
+            titulo = form.save(commit = False)
 
             "Cambiar el estado?"
             if int(request.POST['estado']) is not estado_actual_id:
-                estado = EstadoTitulo.objects.get(pk = int(request.POST['estado']))
-                titulo.registrar_estado(estado)
+                titulo.estado = EstadoTitulo.objects.get(pk = request.POST['estado'])
+                titulo.save()
+                titulo.registrar_estado()
+            else:
+                # Guardar directamente
+                titulo.save()
+
+            form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
 
             MailHelper.notify_by_email(MailHelper.TITULO_UPDATE, titulo)
             request.set_flash('success', 'Datos actualizados correctamente.')

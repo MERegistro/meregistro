@@ -27,4 +27,14 @@ urlpatterns = patterns('',
     url(r'^proyecto/([0-9]+)/editar', 'apps.titulos.views.proyecto.edit', name = 'proyectoEdit'),
     url(r'^proyecto/([0-9]+)/delete', 'apps.titulos.views.proyecto.delete', name = 'proyectoDelete'),
     url(r'^proyecto', 'apps.titulos.views.proyecto.index', name = 'proyecto'),
+    # Título jurisdiccional
+    url(r'^titulo_jurisdiccional/create$', 'apps.titulos.views.titulo_jurisdiccional.create', name = 'tituloJurisdiccionalCreate'),
+    url(r'^titulo_jurisdiccional/([0-9]+)/editar_orientaciones$', 'apps.titulos.views.titulo_jurisdiccional.editar_orientaciones', name = 'tituloJurisdiccionalOrientacionesEdit'),
+    url(r'^titulo_jurisdiccional/editar_orientaciones$', 'apps.titulos.views.titulo_jurisdiccional.editar_orientaciones', { 'titulo_jurisdiccional_id': None }, name = 'tituloJurisdiccionalOrientacionesEdit'),
+    url(r'^titulo_jurisdiccional/([0-9]+)/editar_modalidades$', 'apps.titulos.views.titulo_jurisdiccional.editar_modalidades', name = 'tituloJurisdiccionalModalidadesEdit'),
+    url(r'^titulo_jurisdiccional/editar_modalidades$', 'apps.titulos.views.titulo_jurisdiccional.editar_modalidades', { 'titulo_jurisdiccional_id': None }, name = 'tituloJurisdiccionalModalidadesEdit'),
+    url(r'^titulo_jurisdiccional/([0-9]+)/edit$', 'apps.titulos.views.titulo_jurisdiccional.edit', name = 'tituloJurisdiccionalEdit'),
+    url(r'^titulo_jurisdiccional$', 'apps.titulos.views.titulo_jurisdiccional.index', name = 'tituloJurisdiccional'),
+    # AJAX
+    url(r'^ajax/get_titulos_por_tipo/(?P<tipo_titulo_id>[0-9]+)', 'apps.titulos.views.ajax.get_titulos_por_tipo', name = 'ajaxGetTitulosPorTipo'),
 )
