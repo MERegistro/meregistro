@@ -137,14 +137,22 @@ def eliminar(request, titulo_id):
     --- mientras no sea referido por un título jurisdiccional ---
     """
     titulo = Titulo.objects.get(pk = titulo_id)
-    request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
+    asociado_titulo_jurisdiccional = titulo.asociado_titulo_jurisdiccional()
+    if asociado_titulo_jurisdiccional:
+        request.set_flash('warning', 'El título no puede darse de baja porque tiene títulos jurisdiccionales asociados.')
+    else:
+        request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
+
     if request.method == 'POST':
         if int(request.POST['titulo_id']) is not int(titulo_id):
             raise Exception('Error en la consulta!')
+
         titulo.delete()
         request.set_flash('success', 'El título fue dado de baja correctamente.')
         """ Redirecciono para evitar el reenvío del form """
         return HttpResponseRedirect(reverse('titulosHome'))
+
     return my_render(request, 'titulos/titulo/eliminar.html', {
         'titulo_id': titulo.id,
+        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
     })

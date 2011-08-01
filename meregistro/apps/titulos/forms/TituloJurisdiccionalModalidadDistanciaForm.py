@@ -30,10 +30,8 @@ class TituloJurisdiccionalModalidadDistanciaForm(forms.ModelForm):
             raise ValidationError('Debe elegir la cantidad de cuatrimestres.')
         return cleaned_data
 
-    # Cuando está vacío da un error
-
     def clean_horas_reloj(self):
-        pass
+        return self.cleaned_data['horas_reloj']
 
     """
     * Si "posee" es True, "duracion" es requerido

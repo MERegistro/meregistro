@@ -104,7 +104,7 @@ def create(request, titulo_id = None):
             orientacion = form.save(commit = False)
             orientacion.estado = EstadoTituloOrientacion.objects.get(nombre = EstadoTituloOrientacion.VIGENTE)
             orientacion.save()
-            orientaciones.registrar_estado()
+            orientacion.registrar_estado()
 
             request.set_flash('success', 'Datos guardados correctamente.')
 
