@@ -39,16 +39,10 @@ class Titulo(models.Model):
 
     "Sobreescribo para eliminar los objetos relacionados"
     def delete(self, *args, **kwargs):
-        for nivel in self.niveles.all():
-            nivel.delete()
-        for area in self.areas.all():
-            area.delete()
-        for jur in self.jurisdicciones.all():
-            jur.delete()
-        for est in self.estados.all():
-            est.delete()
         for orientacion in self.orientaciones.all():
             orientacion.delete()
+        for est in self.estados.all():
+            est.delete()
         super(Titulo, self).delete(*args, **kwargs)
 
     def registrar_estado(self):
@@ -65,3 +59,8 @@ class Titulo(models.Model):
         except:
             estados = {}
         return estados
+
+    "Algún título jurisdiccional está asociado al título?"
+    def asociado_titulo_jurisdiccional(self):
+        from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
+        return TituloJurisdiccional.objects.filter(titulo = self).exists()
