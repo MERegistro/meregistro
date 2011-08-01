@@ -47,6 +47,6 @@ class Usuario(models.Model):
 
     def asignarPerfil(self, rol, ambito, fechaAsignacion):
         """ Asigna al usuario un perfil """
-        from seguridad.apps.odels import Rol, Ambito, Perfil
+        from apps.seguridad.models import Rol, Ambito, Perfil
         perfil = Perfil(usuario=self, rol=rol, ambito=ambito, fecha_asignacion=fechaAsignacion)
         perfil.save()
