@@ -37,14 +37,15 @@ class TituloJurisdiccional(models.Model):
         super(TituloJurisdiccional, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
 
-    "Sobreescribo para eliminar lo estados"
+    "Sobreescribo para eliminar lo objetos relacionados"
     def delete(self, *args, **kwargs):
         for est in self.estados:
             est.delete()
-        for orientacion in self.orientaciones:
-            orientacion.delete()
-        for normativa in self.normativas:
-            normativa.delete()
+        try:
+            self.modalidad_presencial.delete()
+            self.modalidad_distancia.delete()
+        except:
+            pass
         super(TituloJurisdiccional, self).delete(*args, **kwargs)
 
     "Se eliminan las orientaciones, por ejemplo al cambiar el título"
