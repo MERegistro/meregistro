@@ -52,3 +52,8 @@ class TituloOrientacion(models.Model):
         except:
             estados = {}
         return estados
+
+    "Algún título jurisdiccional está asociado a la orientación?"
+    def asociado_titulo_jurisdiccional(self):
+        from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
+        return TituloJurisdiccional.objects.filter(orientaciones__id = self.id).exists()

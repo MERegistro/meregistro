@@ -5,6 +5,7 @@
 {% block content %}
 <h2>Eliminación de título</h2>
 
+{% if not asociado_titulo_jurisdiccional %}
 <div class="form" id="tituloEliminarForm">
     <form action="" method="post">{% csrf_token %}
 	<input type="hidden" name="titulo_id" value="{{ titulo_id }}" />
@@ -14,6 +15,7 @@
     </form>
 </div>
 
+{% endif %}
 <ul class="actions">
   <li class="back">
     <a href="{% url apps.titulos.views.titulo.index %}"><span>Volver</span></a>

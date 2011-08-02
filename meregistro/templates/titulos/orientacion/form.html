@@ -11,13 +11,11 @@
 			<label for="id_nombre">Nombre:</label>
 			{{ form.nombre }}
 		</div>
-		{% if not is_new %}
 		<div class="form-select">
 			{{ form.estado.errors }}
 			<label for="id_estado">Estado:</label>
 			{{ form.estado }}
 		</div>
-		{% endif %}
 		<div class="form-textarea">
 			{{ form.observaciones.errors }}
 			<label for="observaciones">Observaciones:</label>

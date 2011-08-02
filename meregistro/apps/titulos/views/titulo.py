@@ -141,10 +141,10 @@ def eliminar(request, titulo_id):
     if asociado_titulo_jurisdiccional:
         request.set_flash('warning', 'El título no puede darse de baja porque tiene títulos jurisdiccionales asociados.')
     else:
-        request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
+        request.set_flash('warning', 'Está seguro de eliminar el título? Esta operación no puede deshacerse.')
 
     if request.method == 'POST':
-        if int(request.POST['titulo_id']) is not int(titulo_id):
+        if int(request.POST['titulo_id']) is not int(titulo.id):
             raise Exception('Error en la consulta!')
 
         titulo.delete()

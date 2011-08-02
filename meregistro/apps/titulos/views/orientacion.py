@@ -101,9 +101,7 @@ def create(request, titulo_id = None):
         form = TituloOrientacionForm(request.POST)
         if form.is_valid():
 
-            orientacion = form.save(commit = False)
-            orientacion.estado = EstadoTituloOrientacion.objects.get(nombre = EstadoTituloOrientacion.VIGENTE)
-            orientacion.save()
+            orientacion = form.save()
             orientacion.registrar_estado()
 
             request.set_flash('success', 'Datos guardados correctamente.')
@@ -118,6 +116,9 @@ def create(request, titulo_id = None):
     if titulo:
         form.fields["titulo"].queryset = Titulo.objects.filter(id = titulo.id)
         form.fields["titulo"].empty_label = None
+
+    form.fields["estado"].queryset = EstadoTituloOrientacion.objects.filter(nombre = EstadoTituloOrientacion.VIGENTE)
+    form.fields["estado"].empty_label = None
 
     return my_render(request, 'titulos/orientacion/new.html', {
         'form': form,
@@ -163,4 +164,33 @@ def edit(request, orientacion_id):
         'form': form,
         'titulo': orientacion.titulo,
         'is_new': False,
+    })
+
+
+@login_required
+@credential_required('tit_orientacion_eliminar')
+def eliminar(request, orientacion_id):
+    """
+    Baja de una orientación
+    --- mientras no sea referido por un título jurisdiccional ---
+    """
+    orientacion = TituloOrientacion.objects.get(pk = orientacion_id)
+    asociado_titulo_jurisdiccional = orientacion.asociado_titulo_jurisdiccional()
+    if asociado_titulo_jurisdiccional:
+        request.set_flash('warning', 'La orientación no puede darse de baja porque tiene títulos jurisdiccionales asociados.')
+    else:
+        request.set_flash('warning', 'Está seguro de eliminar la orientación? Esta operación no puede deshacerse.')
+
+    if request.method == 'POST':
+        if int(request.POST['orientacion_id']) is not int(orientacion_id):
+            raise Exception('Error en la consulta!')
+
+        orientacion.delete()
+        request.set_flash('success', 'La orientación fue dada de baja correctamente.')
+        """ Redirecciono para evitar el reenvío del form """
+        return HttpResponseRedirect(reverse('orientaciones'))
+
+    return my_render(request, 'titulos/orientacion/eliminar.html', {
+        'orientacion_id': orientacion.id,
+        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
     })
