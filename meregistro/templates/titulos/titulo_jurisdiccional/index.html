@@ -43,6 +43,7 @@
 
     <tr>
       <th>Nombre</th>
+      <th>Título nacional</th>
       <th>Tipo de título</th>
       <th>Carrera</th>
       <th class="th-estados">Estados</th>
@@ -53,6 +54,7 @@
     {% for titulo_jurisdiccional in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 	<td>{{ titulo_jurisdiccional.nombre }}</td>
+	<td>{{ titulo_jurisdiccional.titulo }}</td>
 	<td>{{ titulo_jurisdiccional.tipo_titulo }}</td>
 	<td>{{ titulo_jurisdiccional.titulo.carrera }}</td>
 	<td>
@@ -66,7 +68,7 @@
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'Referente' %}
 		<li class="edit"><a href="{% url apps.titulos.views.titulo_jurisdiccional.edit titulo_jurisdiccional.id %}" title="Editar"><span>Editar</span></a></li>
-		<li class="orientaciones"><a href="{ url apps.titulos.views.orientacion.orientaciones_por_titulo titulo.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
+		<li class="orientaciones"><a href="{% url apps.titulos.views.titulo_jurisdiccional.orientaciones_por_titulo titulo_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
 		<li class="delete"><a href="{ url apps.titulos.views.titulo.eliminar titulo.id %}" title="Eliminar"><span>Eliminar</span></a></li>
 	    {% endif %}
 	    </ul>
