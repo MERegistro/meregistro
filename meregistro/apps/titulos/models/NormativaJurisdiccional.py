@@ -18,10 +18,9 @@ class NormativaJurisdiccional(models.Model):
         app_label = 'titulos'
         db_table = 'titulos_normativa_jurisdiccional'
 
-    """
     def __unicode__(self):
-        return self.nombre
-    """
+        return str(self.numero_anio)
+
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
@@ -49,10 +48,7 @@ class NormativaJurisdiccional(models.Model):
             estados = {}
         return estados
 
-    # TODO:
-    def __asociado_a_titulo_jurisdiccional(self):
-        return
-
-    # TODO:
-    def isDeletable(self):
-        return
+    "Algún título jurisdiccional está asociado a la normativa?"
+    def asociado_titulo_jurisdiccional(self):
+        from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
+        return TituloJurisdiccional.objects.filter(normativas__id = self.id).exists()

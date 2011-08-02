@@ -4,10 +4,11 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import Titulo, TituloJurisdiccional, EstadoTituloJurisdiccional, EstadoTitulo, \
-    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial, EstadoTituloOrientacion
+from apps.titulos.models import Titulo, TituloJurisdiccional, EstadoTituloJurisdiccional, EstadoTitulo, TituloOrientacion, \
+    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial, EstadoTituloOrientacion, EstadoNormativaJurisdiccional
 from apps.titulos.forms import TituloJurisdiccionalFormFilters, TituloJurisdiccionalForm, TituloJurisdiccionalDatosBasicosForm, \
-    TituloJurisdiccionalOrientacionesForm, TituloJurisdiccionalModalidadPresencialForm, TituloJurisdiccionalModalidadDistanciaForm
+    TituloJurisdiccionalOrientacionesForm, TituloJurisdiccionalModalidadPresencialForm, TituloJurisdiccionalModalidadDistanciaForm, \
+    TituloJurisdiccionalNormativasForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -256,6 +257,82 @@ def editar_modalidades(request, titulo_jurisdiccional_id):
     })
 
 @login_required
+@credential_required('tit_titulo_jurisdiccional_alta')
+@credential_required('tit_titulo_jurisdiccional_modificar')
+def editar_normativas(request, titulo_jurisdiccional_id):
+    """
+    Edición de normativas del título jurisdiccional.
+    """
+    try:
+        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
+    except:
+        # Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
+        return my_render(request, 'titulos/titulo_jurisdiccional/new.html', {
+        'titulo_jurisdiccional': None,
+        'form_template': 'titulos/titulo_jurisdiccional/form_normativas.html',
+        'page_title': 'Normativas',
+        'actual_page': 'normativas',
+    })
+
+    if request.method == 'POST':
+        form = TituloJurisdiccionalNormativasForm(request.POST, instance = titulo_jurisdiccional)
+        if form.is_valid():
+            normativas = form.save()
+
+            request.set_flash('success', 'Datos guardados correctamente.')
+            # redirigir a edit
+            return HttpResponseRedirect(reverse('tituloJurisdiccionalNormativasEdit', args = [titulo_jurisdiccional.id]))
+        else:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+    else:
+        form = TituloJurisdiccionalNormativasForm(instance = titulo_jurisdiccional)
+
+    form.fields['normativas'].queryset = form.fields['normativas'].queryset.filter(jurisdiccion = request.get_perfil().jurisdiccion, estado__nombre = EstadoNormativaJurisdiccional.VIGENTE)
+
+    return my_render(request, 'titulos/titulo_jurisdiccional/edit.html', {
+        'form': form,
+        'titulo_jurisdiccional': titulo_jurisdiccional,
+        'form_template': 'titulos/titulo_jurisdiccional/form_normativas.html',
+        'is_new': False,
+        'page_title': 'Normativas',
+        'actual_page': 'normativas',
+    })
+
+@login_required
+@credential_required('tit_titulo_jurisdiccional_consulta')
+def orientaciones_por_titulo(request, titulo_jurisdiccional_id):
+    "Búsqueda de orientaciones por título jurisdiccional"
+    titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
+    q = TituloOrientacion.objects.filter(titulo__id = titulo_jurisdiccional.id)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
+    return my_render(request, 'titulos/titulo_jurisdiccional/orientaciones_por_titulo.html', {
+        'titulo_jurisdiccional': titulo_jurisdiccional,
+        'objects': objects,
+        'show_paginator': paginator.num_pages > 1,
+        'has_prev': page.has_previous(),
+        'has_next': page.has_next(),
+        'page': page_number,
+        'pages': paginator.num_pages,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1
+    })
+
+
+@login_required
 @credential_required('tit_titulo_jurisdiccional_eliminar')
 def eliminar(request, titulo_id):
     """
@@ -263,7 +340,7 @@ def eliminar(request, titulo_id):
     --- mientras no sea referido por un título jurisdiccional ---
     """
     titulo = Titulo.objects.get(pk = titulo_id)
-    request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
+    request.set_flash('warning', 'Está seguro de eliminar el título? Esta operación no puede deshacerse.')
     if request.method == 'POST':
         if int(request.POST['titulo_id']) is not int(titulo_id):
             raise Exception('Error en la consulta!')

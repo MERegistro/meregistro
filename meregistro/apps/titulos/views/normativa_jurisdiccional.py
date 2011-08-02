@@ -116,22 +116,30 @@ def edit(request, normativa_jurisdiccional_id):
         'is_new': False,
     })
 
-"""
 
 @login_required
-@credential_required('tit_titulo_eliminar')
-def eliminar(request, titulo_id):
-    "Baja de un título    --- mientras no sea referido por un título jurisdiccional ---"
-    titulo = Titulo.objects.get(pk = titulo_id)
-    request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
+@credential_required('tit_nor_jur_eliminar')
+def eliminar(request, normativa_jurisdiccional_id):
+    """
+    Eliminación de una normativa
+    --- mientras no sea referida por un título jurisdiccional ---
+    """
+    normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
+
+    asociado_titulo_jurisdiccional = normativa_jurisdiccional.asociado_titulo_jurisdiccional()
+    if asociado_titulo_jurisdiccional:
+        request.set_flash('warning', 'La normativa no puede eliminarse porque tiene títulos jurisdiccionales asociados.')
+    else:
+        request.set_flash('warning', 'Está seguro de eliminar la normativa? Esta operación no puede deshacerse.')
+
     if request.method == 'POST':
-        if int(request.POST['titulo_id']) is not int(titulo_id):
+        if int(request.POST['normativa_jurisdiccional_id']) is not int(normativa_jurisdiccional.id):
             raise Exception('Error en la consulta!')
-        titulo.delete()
-        request.set_flash('success', 'El título fue dado de baja correctamente.')
-        "Redirecciono para evitar el reenvío del form"
-        return HttpResponseRedirect(reverse('titulosHome'))
-    return my_render(request, 'titulos/titulo/eliminar.html', {
-        'titulo_id': titulo.id,
+        normativa_jurisdiccional.delete()
+        request.set_flash('success', 'La normativa fue eliminada correctamente.')
+        """ Redirecciono para evitar el reenvío del form """
+        return HttpResponseRedirect(reverse('normativaJurisdiccional'))
+    return my_render(request, 'titulos/normativa_jurisdiccional/eliminar.html', {
+        'normativa_jurisdiccional_id': normativa_jurisdiccional.id,
+        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
     })
-"""
