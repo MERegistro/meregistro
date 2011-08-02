@@ -1,22 +1,24 @@
 {% extends "base_titulos.html" %}
 
-    {% block title %}Eliminación de título{% endblock %}
+    {% block title %}Eliminación de normativa jurisdiccional{% endblock %}
 
 {% block content %}
-<h2>Eliminación de título</h2>
+<h2>Eliminación de normativa jurisdiccional</h2>
 
-<div class="form" id="tituloEliminarForm">
+{% if not asociado_titulo_jurisdiccional %}
+<div class="form" id="normativaJurisdiccionalEliminarForm">
     <form action="" method="post">{% csrf_token %}
-	<input type="hidden" name="titulo_id" value="{{ titulo_id }}" />
+	<input type="hidden" name="normativa_jurisdiccional_id" value="{{ normativa_jurisdiccional_id }}" />
 	<div class="form-submit">
 	    <input type="submit" value="Eliminar" />
 	</div>
     </form>
 </div>
 
+{% endif %}
 <ul class="actions">
   <li class="back">
-    <a href="{% url apps.titulos.views.titulo.index %}"><span>Volver</span></a>
+    <a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />
