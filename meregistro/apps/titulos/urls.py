@@ -38,6 +38,8 @@ urlpatterns = patterns('',
     url(r'^titulo_jurisdiccional/editar_modalidades$', 'apps.titulos.views.titulo_jurisdiccional.editar_modalidades', { 'titulo_jurisdiccional_id': None }, name = 'tituloJurisdiccionalModalidadesEdit'),
     url(r'^titulo_jurisdiccional/([0-9]+)/editar_normativas$', 'apps.titulos.views.titulo_jurisdiccional.editar_normativas', name = 'tituloJurisdiccionalNormativasEdit'),
     url(r'^titulo_jurisdiccional/editar_normativas$', 'apps.titulos.views.titulo_jurisdiccional.editar_normativas', { 'titulo_jurisdiccional_id': None }, name = 'tituloJurisdiccionalNormativasEdit'),
+    url(r'^titulo_jurisdiccional/([0-9]+)/editar_cohortes$', 'apps.titulos.views.titulo_jurisdiccional.editar_cohortes', name = 'tituloJurisdiccionalCohortesEdit'),
+    url(r'^titulo_jurisdiccional/editar_cohortes$', 'apps.titulos.views.titulo_jurisdiccional.editar_cohortes', { 'titulo_jurisdiccional_id': None }, name = 'tituloJurisdiccionalCohortesEdit'),
     url(r'^titulo_jurisdiccional/([0-9]+)/edit$', 'apps.titulos.views.titulo_jurisdiccional.edit', name = 'tituloJurisdiccionalEdit'),
     url(r'^titulo_jurisdiccional$', 'apps.titulos.views.titulo_jurisdiccional.index', name = 'tituloJurisdiccional'),
     # AJAX

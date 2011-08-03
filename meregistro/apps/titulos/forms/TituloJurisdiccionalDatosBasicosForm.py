@@ -10,4 +10,4 @@ class TituloJurisdiccionalDatosBasicosForm(forms.ModelForm):
 
     class Meta:
        model = TituloJurisdiccional
-       fields = ('nombre', 'tipo_titulo', 'titulo')
+       fields = ('tipo_titulo', 'titulo')

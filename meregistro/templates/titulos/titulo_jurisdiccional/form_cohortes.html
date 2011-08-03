@@ -1,15 +1,26 @@
 <div class="form tabbed-form" id="tituloJurisdiccionalForm">
+	{% if titulo_jurisdiccional %}
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
-			{{ form.tipo_titulo.errors }}
-			<label for="id_tipo_titulo">Tipo de título:</label>
-			{{ form.tipo_titulo }}
+			{{ form.cohortes_aprobadas.errors }}
+			<label for="id_cohortes_aprobadas">Cohortes aprobadas:</label>
+			{{ form.cohortes_aprobadas }}
 		</div>
 		<div class="form-select">
-			{{ form.titulo.errors }}
-			<label for="id_titulo">Título:</label>
-			{{ form.titulo }}
+			{{ form.anio_primera_cohorte.errors }}
+			<label for="id_anio_primera_cohorte">Año primera cohorte:</label>
+			{{ form.anio_primera_cohorte }}
+		</div>
+		<div class="form-select">
+			{{ form.anio_ultima_cohorte.errors }}
+			<label for="id_anio_ultima_cohorte">Año última cohorte:</label>
+			{{ form.anio_ultima_cohorte }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="id_observaciones">Observaciones:</label>
+			{{ form.observaciones }}
 		</div>
 		<div class="form-submit">
 		{% if anexo %}
@@ -19,6 +30,13 @@
 		{% endif %}
 		</div>
 	</form>
+	{% else %}
+	<form action="">
+		<div class="message">
+			<p>Debe guardar los datos básicos antes de poder editar las cohortes.</p>
+		</div>
+	</form>
+	{% endif %}
 </div>
 <script>
 var dropdown_source = $("select#id_tipo_titulo");

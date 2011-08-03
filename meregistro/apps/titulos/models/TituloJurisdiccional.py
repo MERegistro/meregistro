@@ -13,7 +13,6 @@ Título jurisdiccional
 """
 
 class TituloJurisdiccional(models.Model):
-    nombre = models.CharField(max_length = 200)
     tipo_titulo = models.ForeignKey(TipoTitulo)
     titulo = models.ForeignKey(Titulo)
     orientaciones = models.ManyToManyField(TituloOrientacion, db_table = 'titulos_titulos_jurisd_orientaciones')
@@ -27,10 +26,10 @@ class TituloJurisdiccional(models.Model):
     class Meta:
         app_label = 'titulos'
         db_table = 'titulos_titulo_jurisdiccional'
-        ordering = ['nombre']
+        ordering = ['id']
 
     def __unicode__(self):
-        return self.nombre
+        return self.titulo
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
@@ -50,8 +49,9 @@ class TituloJurisdiccional(models.Model):
 
     "Se eliminan las orientaciones, por ejemplo al cambiar el título"
     def eliminar_orientaciones(self):
-        for orientacion in self.orientaciones.all():
-            orientacion.delete()
+        #for orientacion in self.orientaciones.all():
+        #    orientacion.delete()
+        pass
 
     def registrar_estado(self):
         from apps.titulos.models.TituloJurisdiccionalEstado import TituloJurisdiccionalEstado
