@@ -4,7 +4,7 @@ from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
 
 
 class TituloJurisdiccionalCohorte(models.Model):
-    titulo = models.ForeignKey(TituloJurisdiccional)
+    titulo_jurisdiccional = models.ForeignKey(TituloJurisdiccional)
     cohortes_aprobadas = models.PositiveIntegerField()
     anio_primera_cohorte = models.PositiveIntegerField()
     anio_ultima_cohorte = models.PositiveIntegerField()
@@ -16,4 +16,4 @@ class TituloJurisdiccionalCohorte(models.Model):
         ordering = ['id']
 
     def __unicode__(self):
-        return self.titulo
+        return self.titulo_jurisdiccional

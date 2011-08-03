@@ -5,10 +5,11 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import Titulo, TituloJurisdiccional, EstadoTituloJurisdiccional, EstadoTitulo, TituloOrientacion, \
-    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial, EstadoTituloOrientacion, EstadoNormativaJurisdiccional
+    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial, EstadoTituloOrientacion, EstadoNormativaJurisdiccional, \
+    TituloJurisdiccionalCohorte
 from apps.titulos.forms import TituloJurisdiccionalFormFilters, TituloJurisdiccionalForm, TituloJurisdiccionalDatosBasicosForm, \
     TituloJurisdiccionalOrientacionesForm, TituloJurisdiccionalModalidadPresencialForm, TituloJurisdiccionalModalidadDistanciaForm, \
-    TituloJurisdiccionalNormativasForm
+    TituloJurisdiccionalNormativasForm, TituloJurisdiccionalCohorteForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -296,6 +297,51 @@ def editar_normativas(request, titulo_jurisdiccional_id):
         'is_new': False,
         'page_title': 'Normativas',
         'actual_page': 'normativas',
+    })
+
+@login_required
+@credential_required('tit_titulo_jurisdiccional_alta')
+@credential_required('tit_titulo_jurisdiccional_modificar')
+def editar_cohortes(request, titulo_jurisdiccional_id):
+    """
+    Edición de datos de cohortes del título jurisdiccional.
+    """
+    try:
+        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
+    except:
+        # Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
+        return my_render(request, 'titulos/titulo_jurisdiccional/new.html', {
+        'titulo_jurisdiccional': None,
+        'form_template': 'titulos/titulo_jurisdiccional/form_cohortes.html',
+        'page_title': 'Cohortes',
+        'actual_page': 'cohortes',
+    })
+
+    try:
+        cohorte = TituloJurisdiccionalCohorte.objects.get(titulo_jurisdiccional = titulo_jurisdiccional)
+    except:
+        cohorte = TituloJurisdiccionalCohorte(titulo_jurisdiccional = titulo_jurisdiccional)
+
+    if request.method == 'POST':
+        form = TituloJurisdiccionalCohorteForm(request.POST, instance = cohorte)
+        if form.is_valid():
+            cohorte = form.save()
+
+            request.set_flash('success', 'Datos guardados correctamente.')
+            # redirigir a edit
+            return HttpResponseRedirect(reverse('tituloJurisdiccionalCohortesEdit', args = [titulo_jurisdiccional.id]))
+        else:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+    else:
+        form = TituloJurisdiccionalCohorteForm(instance = cohorte)
+
+    return my_render(request, 'titulos/titulo_jurisdiccional/edit.html', {
+        'form': form,
+        'titulo_jurisdiccional': titulo_jurisdiccional,
+        'form_template': 'titulos/titulo_jurisdiccional/form_cohortes.html',
+        'is_new': False,
+        'page_title': 'Cohortes',
+        'actual_page': 'cohortes',
     })
 
 @login_required
