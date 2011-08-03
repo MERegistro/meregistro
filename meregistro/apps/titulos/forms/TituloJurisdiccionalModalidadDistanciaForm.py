@@ -30,26 +30,22 @@ class TituloJurisdiccionalModalidadDistanciaForm(forms.ModelForm):
             raise ValidationError('Debe elegir la cantidad de cuatrimestres.')
         return cleaned_data
 
+    """
+    Si duración es 4, las horas reloj deeben ser al menos 2600
+    Si duración es 5, las horas reloj deeben ser al menos 2860
+    """
     def clean_horas_reloj(self):
+        try:
+            duracion = int(self.cleaned_data['duracion'])
+        except:
+            duracion = None
+        try:
+            horas_reloj = int(self.cleaned_data['horas_reloj'])
+        except:
+            horas_reloj = None
+
+        if duracion is 4 and (horas_reloj < 2600 or horas_reloj is None):
+            raise ValidationError(u'La duración elegida requiere al menos 2600 horas reloj.')
+        elif duracion is 5 and (horas_reloj < 2800 or horas_reloj is None):
+            raise ValidationError(u'La duración elegida requiere al menos 2860 horas reloj.')
         return self.cleaned_data['horas_reloj']
-
-    """
-    * Si "posee" es True, "duracion" es requerido
-    * Si "duracion" es 4, horas_reloj es...no sé...
-
-    def clean(self):
-        pass
-    """
-"""
----------------------------------
-* A Distancia (check)
-
-Evento del sistema: Si selecciona esta opción el sistema solicita los siguientes datos:
-
- * Años de duración de la carrera: ( Numérico >0 >= 4, requerido)
- * Cuatrimestres: ( Numérico =>0 <= 2, no requerido)
- * Número de dictamen: (texto 50)
-
-Horas reloj:  Si Años de duración de la carrera es 4 ( Numérico >0 >= 2600) o Años de duración de la carrera es 5 ( Numérico >0 >= 2860); requerido
-
-"""
