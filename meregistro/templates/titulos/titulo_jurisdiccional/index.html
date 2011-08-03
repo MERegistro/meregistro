@@ -10,11 +10,6 @@
 <div class="form-filter" id="tituloJurisdiccionalFormFilter">
   <h3>Búsqueda avanzada</h3>
 		{{ form_filters.non_field_errors }}
-		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form_filters.nombre }}
-		</div>
 		<div class="form-select">
 			{{ form_filters.tipo_titulo.errors }}
 			<label for="id_tipo_titulo">Tipo de título:</label>
@@ -42,7 +37,6 @@
   <thead>
 
     <tr>
-      <th>Nombre</th>
       <th>Título nacional</th>
       <th>Tipo de título</th>
       <th>Carrera</th>
@@ -53,7 +47,6 @@
   <tbody>
     {% for titulo_jurisdiccional in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-	<td>{{ titulo_jurisdiccional.nombre }}</td>
 	<td>{{ titulo_jurisdiccional.titulo }}</td>
 	<td>{{ titulo_jurisdiccional.tipo_titulo }}</td>
 	<td>{{ titulo_jurisdiccional.titulo.carrera }}</td>
