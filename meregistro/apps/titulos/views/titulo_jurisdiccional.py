@@ -313,7 +313,7 @@ def editar_cohortes(request, titulo_jurisdiccional_id):
         return my_render(request, 'titulos/titulo_jurisdiccional/new.html', {
         'titulo_jurisdiccional': None,
         'form_template': 'titulos/titulo_jurisdiccional/form_cohortes.html',
-        'page_title': 'Cohortes',
+        'page_title': 'Datos de cohortes',
         'actual_page': 'cohortes',
     })
 
@@ -340,7 +340,7 @@ def editar_cohortes(request, titulo_jurisdiccional_id):
         'titulo_jurisdiccional': titulo_jurisdiccional,
         'form_template': 'titulos/titulo_jurisdiccional/form_cohortes.html',
         'is_new': False,
-        'page_title': 'Cohortes',
+        'page_title': 'Datos de cohortes',
         'actual_page': 'cohortes',
     })
 
