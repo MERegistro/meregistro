@@ -22,3 +22,8 @@ from TituloJurisdiccionalModalidadDistancia import TituloJurisdiccionalModalidad
 from TituloJurisdiccionalModalidadPresencial import TituloJurisdiccionalModalidadPresencial
 from TituloJurisdiccionalEstado import TituloJurisdiccionalEstado
 from EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
+from OpcionPedagogica import OpcionPedagogica
+from TipoHora import TipoHora
+from EstadoTramitePostitulo import EstadoTramitePostitulo
+from Postitulo import Postitulo
+

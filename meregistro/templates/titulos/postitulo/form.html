@@ -1,0 +1,107 @@
+<div class="form" id="tituloForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.establecimiento.errors }}
+			<label for="id_establecimiento">Establecimiento:</label>
+			{{ form.establecimiento }}
+		</div>
+		<div class="form-select">
+			{{ form.anio.errors }}
+			<label for="anio">Años:</label>
+			{{ form.anio }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors  }}
+			<label for="nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-select">
+			{{ form.opcion_pedagogica.errors }}
+			<label for="anio">Opción Pedagógica:</label>
+			{{ form.opcion_pedagogica }}
+		</div>
+		<div class="form-text">
+			{{ form.duracion_anios.errors  }}
+			<label for="duracion_anios">Duración Años:</label>
+			{{ form.duracion_anios }}
+		</div>
+		<div class="form-select">
+			{{ form.duracion_cuatrimestres.errors }}
+			<label for="duracion_cuatrimestres">Duración Cuatrimestres:</label>
+			{{ form.duracion_cuatrimestres }}
+		</div>
+		<div class="form-select">
+			{{ form.primera_cohorte_autorizada.errors }}
+			<label for="primera_cohorte_autorizada">Primera Cohorte Autorizada:</label>
+			{{ form.primera_cohorte_autorizada }}
+		</div>
+		<div class="form-select">
+			{{ form.ultima_cohorte_autorizada.errors }}
+			<label for="ultima_cohorte_autorizada">Última Cohorte Autorizada:</label>
+			{{ form.ultima_cohorte_autorizada }}
+		</div>
+		<div class="form-text">
+			{{ form.ingresantes_09_10.errors  }}
+			<label for="ingresantes_09_10">Ingresantes entre el 30/04/2009 y 30/04/2010:</label>
+			{{ form.ingresantes_09_10 }}
+		</div>
+		<div class="form-text">
+			{{ form.egresados_09_10.errors  }}
+			<label for="egresados_09_10">Egresados entre el 30/04/2009 y 30/04/2010:</label>
+			{{ form.egresados_09_10 }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_horas.errors }}
+			<label for="tipo_horas">Tipo Horas:</label>
+			{{ form.tipo_horas }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad_horas.errors  }}
+			<label for="cantidad_horas">Cantidad Horas:</label>
+			{{ form.cantidad_horas }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_normativa.errors }}
+			<label for="tipo_normativa">Tipo Normativa:</label>
+			{{ form.tipo_normativa }}
+		</div>
+		<div class="form-text">
+			{{ form.normativa.errors  }}
+			<label for="normativa">Nro Normativa / Año:</label>
+			{{ form.normativa }}
+		</div>
+		<div class="form-select">
+			{{ form.estado_tramite.errors }}
+			<label for="estado_tramite">Estado Tramite:</label>
+			{{ form.estado_tramite }}
+		</div>
+		<div class="form-text">
+			{{ form.resolucion_validez_nacional.errors  }}
+			<label for="resolucion_validez_nacional">Resolución Validez Nacional:</label>
+			{{ form.resolucion_validez_nacional }}
+		</div>
+		<div class="form-text">
+			{{ form.nro_dictamen_cfr_epoe.errors  }}
+			<label for="nro_dictamen_cfr_epoe">Nro Dictamen C.F.de R. y E. P.O.E aD:</label>
+			{{ form.nro_dictamen_cfr_epoe }}
+		</div>
+		<div class="form-text">
+			{{ form.fecha_inicio.errors  }}
+			<label for="fecha_inicio">Fecha Inicio:</label>
+			{{ form.fecha_inicio }}
+		</div>
+		<div class="form-text">
+			{{ form.fecha_vencimiento.errors  }}
+			<label for="fecha_vencimiento">Fecha Vencimiento:</label>
+			{{ form.fecha_vencimiento }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

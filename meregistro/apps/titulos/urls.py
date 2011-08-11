@@ -44,4 +44,9 @@ urlpatterns = patterns('',
     url(r'^titulo_jurisdiccional$', 'apps.titulos.views.titulo_jurisdiccional.index', name = 'tituloJurisdiccional'),
     # AJAX
     url(r'^ajax/get_titulos_por_tipo/(?P<tipo_titulo_id>[0-9]+)', 'apps.titulos.views.ajax.get_titulos_por_tipo', name = 'ajaxGetTitulosPorTipo'),
+    # Proyecto
+    url(r'^postitulo/create$', 'apps.titulos.views.postitulo.create', name = 'postituloCreate'),
+    url(r'^postitulo/([0-9]+)/editar$', 'apps.titulos.views.postitulo.edit', name = 'postituloEdit'),
+    url(r'^postitulo/([0-9]+)/delete$', 'apps.titulos.views.postitulo.delete', name = 'postituloDelete'),
+    url(r'^postitulo$', 'apps.titulos.views.postitulo.index', name = 'postitulo'),
 )

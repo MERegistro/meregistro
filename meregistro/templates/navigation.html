@@ -33,6 +33,10 @@
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos' %}
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				{% endif %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos' %}
+				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
+				{% endif %}
+
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
 			</ul>
 		</div>
