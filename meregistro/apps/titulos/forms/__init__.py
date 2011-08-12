@@ -18,3 +18,5 @@ from TituloJurisdiccionalNormativasForm import TituloJurisdiccionalNormativasFor
 from TituloJurisdiccionalCohorteForm import TituloJurisdiccionalCohorteForm
 from TituloJurisdiccionalCohorteFormFilters import TituloJurisdiccionalCohorteFormFilters
 from CohorteForm import CohorteForm
+from PostituloFormFilters import PostituloFormFilters
+from PostituloForm import PostituloForm

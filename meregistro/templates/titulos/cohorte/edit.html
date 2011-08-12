@@ -1,0 +1,22 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Actualización de matricula{% endblock %}
+
+{% block content %}
+<h2>Actualización de cohorte</h2>
+
+{% include "titulos/cohorte/datos_titulo.html" %}
+{% if asignada_establecimiento %}
+    <div class="message notice">
+        <p>La cohorte tiene establecimientos asignados, sólo se puede modificar el campo "Observaciones".</p>
+    </div>
+{% endif %}
+{% include "titulos/cohorte/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo cohorte.titulo_jurisdiccional_id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

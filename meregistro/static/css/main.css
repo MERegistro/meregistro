@@ -469,7 +469,8 @@ td.actions-td ul li.delete a {
 	height: 24px;
 	background: url(../img/icons/delete.png) no-repeat left;
 }
-/* ORIENTACIONES */
+/* ORIENTACIONES - ONE-TO-MANY*/
+td.actions-td ul li.one-many a,
 td.actions-td ul li.orientaciones a {
 	display: block;
 	width: 24px;
@@ -674,6 +675,15 @@ body.orientaciones-por-titulo table.hor-zebra {
 	margin-top: 10px;
 }
 body.orientaciones-por-titulo div#datosTitulo {
+	margin-bottom: 30px;
+}
+/*
+=COHORTES-POR-TITULO
+*/
+body.cohortes-por-titulo table.hor-zebra {
+	margin-top: 10px;
+}
+body.cohortes-por-titulo div#datosTitulo {
 	margin-bottom: 30px;
 }
 

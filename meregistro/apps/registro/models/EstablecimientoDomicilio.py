@@ -7,12 +7,12 @@ from django.core.exceptions import ValidationError
 
 
 class EstablecimientoDomicilio(models.Model):
-    establecimiento = models.ForeignKey(Establecimiento, related_name='domicilio')
+    establecimiento = models.ForeignKey(Establecimiento, related_name = 'domicilio')
     tipo_domicilio = models.ForeignKey(TipoDomicilio)
-    localidad = models.ForeignKey(Localidad, related_name='domicilios_establecimientos')
-    calle = models.CharField(max_length=100)
-    altura = models.CharField(max_length=5)
-    referencia = models.CharField(max_length=255, null=True, blank=True)
+    localidad = models.ForeignKey(Localidad, related_name = 'domicilios_establecimientos')
+    calle = models.CharField(max_length = 100)
+    altura = models.CharField(max_length = 5)
+    referencia = models.CharField(max_length = 255, null = True, blank = True)
     cp = models.CharField(max_length=20)
 
     class Meta:

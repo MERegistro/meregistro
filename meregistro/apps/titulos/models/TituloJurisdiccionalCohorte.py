@@ -2,9 +2,9 @@
 from django.db import models
 from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
 
-
+"Datos generales de cohorte para un título jurisdiccionals"
 class TituloJurisdiccionalCohorte(models.Model):
-    titulo_jurisdiccional = models.ForeignKey(TituloJurisdiccional)
+    titulo_jurisdiccional = models.ForeignKey(TituloJurisdiccional, related_name = 'datos_cohorte')
     cohortes_aprobadas = models.PositiveIntegerField()
     anio_primera_cohorte = models.PositiveIntegerField()
     anio_ultima_cohorte = models.PositiveIntegerField()
