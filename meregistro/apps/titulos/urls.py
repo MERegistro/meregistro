@@ -42,6 +42,14 @@ urlpatterns = patterns('',
     url(r'^titulo_jurisdiccional/editar_cohortes$', 'apps.titulos.views.titulo_jurisdiccional.editar_cohortes', { 'titulo_jurisdiccional_id': None }, name = 'tituloJurisdiccionalCohortesEdit'),
     url(r'^titulo_jurisdiccional/([0-9]+)/edit$', 'apps.titulos.views.titulo_jurisdiccional.edit', name = 'tituloJurisdiccionalEdit'),
     url(r'^titulo_jurisdiccional$', 'apps.titulos.views.titulo_jurisdiccional.index', name = 'tituloJurisdiccional'),
+    # Cohorte
+    url(r'^cohorte/create$', 'apps.titulos.views.cohorte.create', { 'titulo_jurisdiccional_id': None }, name = 'cohorteCreate'),
+    url(r'^cohorte/([0-9]+)/editar$', 'apps.titulos.views.cohorte.edit', name = 'cohorteEdit'),
+    url(r'^titulo_jurisdiccional/([0-9]+)/asignar-cohorte$', 'apps.titulos.views.cohorte.create', name = 'cohorteCreate'),
+    url(r'^titulo_jurisdiccional/([0-9]+)/cohortes$', 'apps.titulos.views.cohorte.cohortes_por_titulo', name = 'cohortesPorTitulo'),
+    url(r'^cohorte/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte.eliminar', name = 'cohorteEliminar'),
+    url(r'^cohorte/([0-9]+)/asignar-establecimientos$', 'apps.titulos.views.cohorte.asignar_establecimientos', name = 'cohorteAsignarEstablecimientos'),
+    url(r'^cohorte$', 'apps.titulos.views.cohorte.index', name = 'cohorte'),
     # AJAX
     url(r'^ajax/get_titulos_por_tipo/(?P<tipo_titulo_id>[0-9]+)', 'apps.titulos.views.ajax.get_titulos_por_tipo', name = 'ajaxGetTitulosPorTipo'),
 )
