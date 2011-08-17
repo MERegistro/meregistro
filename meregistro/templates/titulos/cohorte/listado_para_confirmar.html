@@ -1,0 +1,93 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Administrar cohortes del establecimientos{% endblock %}
+
+{% block content %}
+<h2>Administrar cohortes del establecimientos</h2>
+<form action="" method="get">
+<div class="form-filter" id="confirmarCohorteFormFilter">
+  <h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.anio.errors }}
+			<label for="id_anio">Año:</label>
+			{{ form_filters.anio }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.tipo_titulo.errors }}
+			<label for="id_tipo_titulo">Tipo de título:</label>
+			{{ form_filters.tipo_titulo }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.nombre.errors }}
+			<label for="id_nombre_titulo">Nombre del título:</label>
+			{{ form_filters.nombre_titulo }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.carrera.errors }}
+			<label for="id_carrera">Carrera:</label>
+			{{ form_filters.carrera }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form_filters.estado }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'listado-para-confirmar';" />
+		</div>
+
+</div>
+
+{% if objects %}
+<table class="hor-zebra">
+  <thead>
+
+    <tr>
+      <th>Año</th>
+      <th>Tipo de título</th>
+      <th>Título</th>
+      <th>Carrera</th>
+      <th class="th-estados">Estado</th>
+      <th>Inscriptos</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cohorte_est in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+
+	<td>{{ cohorte_est.cohorte.anio }}</td>
+	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo.tipo_titulo }}</td>
+	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo }}</td>
+	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo.carrera }}</td>
+	<td>{{ cohorte_est.estado }}</td>
+	<td>{% if cohorte_est.inscriptos != None %}{{ cohorte_est.inscriptos }}{% else %}---{% endif %}</td>
+        <td class="actions-td">
+	    <ul>
+	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
+		{% if not cohorte_est.aceptada_por_establecimiento %}
+		    <li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte.confirmar_cohorte cohorte_est.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
+		{% else %}
+		    <li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte.seguimiento_cohorte cohorte_est.id %}" title="Seguimiento de cohorte"><span>Seguimiento de cohorte</span></a></li>
+		{% endif %}
+	    {% endif %}
+	    </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron cohortes.</p>
+</div>
+{% endif %}
+
+<hr />
+{% endblock %}

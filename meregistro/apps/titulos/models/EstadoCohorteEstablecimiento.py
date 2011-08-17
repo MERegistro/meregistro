@@ -6,9 +6,9 @@ Representa las opciones de estados que tiene cada cohorte asignada a un establec
 
 class EstadoCohorteEstablecimiento(models.Model):
 
-    SIN_CONTROLAR = u'Sin controlar'
-    CONTROLADO = u'Controlado'
-    REGISTRADO= u'Registrado'
+    ASIGNADA = u'Asignada'
+    ACEPTADA = u'Aceptada por establecimiento'
+    REGISTRADA = u'Registrada'
 
     nombre = models.CharField(max_length = 50, unique = True)
 

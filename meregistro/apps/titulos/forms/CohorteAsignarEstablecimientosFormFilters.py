@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django import forms
-from apps.registro.models import Establecimiento, DependenciaFuncional, Jurisdiccion, Estado, Localidad
+from apps.registro.models import Establecimiento, DependenciaFuncional, Localidad, Estado
 
 
 class CohorteAsignarEstablecimientosFormFilters(forms.Form):
@@ -10,7 +10,7 @@ class CohorteAsignarEstablecimientosFormFilters(forms.Form):
     dependencia_funcional = forms.ModelChoiceField(queryset = DependenciaFuncional.objects, label = 'Dependencia funcional', required = False)
     localidad = forms.ModelChoiceField(queryset = Localidad.objects, label = 'Localidad', required = False)
 
-    def buildQuery(self, q=None):
+    def buildQuery(self, q = None):
         """
         Crea o refina un query de búsqueda.
         """
@@ -19,14 +19,13 @@ class CohorteAsignarEstablecimientosFormFilters(forms.Form):
         if self.is_valid():
             def filter_by(field):
                 return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None
-        if filter_by('nombre'):
-            q = q.filter(nombre__icontains=self.cleaned_data['nombre'])
-        if filter_by('cue'):
-            q = q.filter(cue__contains=self.cleaned_data['cue'])
-        if filter_by('dependencia_funcional'):
-            q = q.filter(dependencia_funcional=self.cleaned_data['dependencia_funcional'])
-        if filter_by('localidad'):
-            q = q.filter(dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
-        if filter_by('estado'):
-            q = q.filter(estado=self.cleaned_data['estado'])
-        return q
+            if filter_by('nombre'):
+                q = q.filter(nombre__icontains = self.cleaned_data['nombre'])
+            if filter_by('cue'):
+                q = q.filter(cue__contains = self.cleaned_data['cue'])
+            if filter_by('dependencia_funcional'):
+                q = q.filter(dependencia_funcional = self.cleaned_data['dependencia_funcional'])
+            if filter_by('localidad'):
+                q = q.filter(domicilio__localidad = self.cleaned_data['localidad'])
+
+        return q.filter(estado__nombre = Estado.REGISTRADO)

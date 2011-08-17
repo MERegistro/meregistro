@@ -28,7 +28,6 @@ class Cohorte(models.Model):
     def asignada_establecimiento(self):
         return self.establecimientos.exists()
 
-
     "Override del método para poder inertar un mensaje de error personalizado"
     "@see http://stackoverflow.com/questions/3993560/django-how-to-override-unique-together-error-message"
     def unique_error_message(self, model_class, unique_check):
@@ -36,3 +35,21 @@ class Cohorte(models.Model):
             return 'El título elegido ya tiene una cohorte asignada ese año.'
         else:
             return super(Cohorte, self).unique_error_message(model_class, unique_check)
+
+    """
+    Asocia/elimina los establecimientos desde el formulario masivo
+    """
+    def save_establecimientos(self, current_ids, new_ids, estado):
+        from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
+        "Borrar los que se des-chequean"
+        for est_id in current_ids:
+            if est_id not in new_ids: # Si no está en los nuevos ids, borrarlo
+                CohorteEstablecimiento.objects.get(cohorte = self, establecimiento = est_id).delete()
+
+        "Agregar los nuevos"
+        for est_id in new_ids:
+            if est_id not in current_ids:
+                # Lo creo y registro el estado
+                est = Establecimiento.objects.get(pk = est_id)
+                registro = CohorteEstablecimiento.objects.create(cohorte = self, establecimiento = est, estado = estado)
+                registro.registrar_estado()

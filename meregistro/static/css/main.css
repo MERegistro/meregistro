@@ -484,6 +484,20 @@ td.actions-td ul li.registrar_establecimiento a {
 	height: 24px;
 	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
 }
+/* CONFIRMAR COHORTE */
+td.actions-td ul li.confirmar-cohorte a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/success.png) no-repeat left;
+}
+/* SEGUIMIENTO COHORTE */
+td.actions-td ul li.seguimiento-cohorte a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
+}
 /*
 =FORM-FILTER
 */

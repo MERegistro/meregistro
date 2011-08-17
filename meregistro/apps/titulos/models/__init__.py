@@ -25,6 +25,8 @@ from EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
 from CohorteEstablecimientoEstado import CohorteEstablecimientoEstado
 from Cohorte import Cohorte
 from CohorteEstablecimiento import CohorteEstablecimiento
+from CohorteSeguimiento import CohorteSeguimiento
+from EstadoCohorteEstablecimiento import EstadoCohorteEstablecimiento
 from OpcionPedagogica import OpcionPedagogica
 from TipoHora import TipoHora
 from EstadoTramitePostitulo import EstadoTramitePostitulo

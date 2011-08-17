@@ -1,0 +1,13 @@
+<div class="form tabbed-form" id="establecimientoCompletarDatosForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-checkbox-list">
+			{{ form.niveles.errors }}
+			{{ form.niveles }}
+			<hr />
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Actualizar" />
+		</div>
+	</form>
+</div>
