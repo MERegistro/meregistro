@@ -86,7 +86,7 @@
 			<label for="nro_dictamen_cfr_epoe">Nro Dictamen C.F.de R. y E. P.O.E aD:</label>
 			{{ form.nro_dictamen_cfr_epoe }}
 		</div>
-		<div class="form-text">
+		<div class="form-select">
 			{{ form.fecha_inicio.errors  }}
 			<label for="fecha_inicio">Fecha Inicio:</label>
 			{{ form.fecha_inicio }}
@@ -95,6 +95,11 @@
 			{{ form.fecha_vencimiento.errors  }}
 			<label for="fecha_vencimiento">Fecha Vencimiento:</label>
 			{{ form.fecha_vencimiento }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
 		</div>
 		<div class="form-submit">
 		{% if not is_new %}
