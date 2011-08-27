@@ -52,7 +52,7 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
+    {% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo' %}
     <li class="create">
 	<a href="{% url apps.titulos.views.postitulo.create %}"><span>Nuevo</span></a>
     </li>

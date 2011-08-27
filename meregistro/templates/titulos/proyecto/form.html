@@ -2,9 +2,9 @@
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
-			{{ form.establecimiento.errors }}
-			<label for="id_establecimiento">Establecimiento:</label>
-			{{ form.establecimiento }}
+			{{ form.anexo.errors }}
+			<label for="id_anexo">Anexo:</label>
+			{{ form.anexo }}
 		</div>
 		<div class="form-select">
 			{{ form.tipo_proyecto.errors }}

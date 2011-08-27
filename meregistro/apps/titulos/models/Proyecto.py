@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.titulos.models.TipoProyecto import TipoProyecto
-from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.Anexo import Anexo
 import datetime
 
 class Proyecto(models.Model):
@@ -11,7 +11,7 @@ class Proyecto(models.Model):
     anio_presenta = models.PositiveIntegerField()
     cantidad_docentes_participantes = models.PositiveIntegerField()
     cantidad_escuelas_participantes = models.PositiveIntegerField()
-    establecimiento = models.ForeignKey(Establecimiento)
+    anexo = models.ForeignKey(Anexo)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
 
     class Meta:

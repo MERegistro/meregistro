@@ -73,7 +73,7 @@ def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().order_by('establecimiento__nombre', 'cue').filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().order_by('establecimiento__nombre', 'cue').filter(ambito__path__istartswith = request.get_perfil().ambito.path)
 
 
 @login_required

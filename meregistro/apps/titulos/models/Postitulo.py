@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.titulos.models.TipoProyecto import TipoProyecto
-from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.Anexo import Anexo
 from apps.titulos.models import OpcionPedagogica, TipoHora, TipoNormativaJurisdiccional, EstadoTramitePostitulo
 import datetime
 
@@ -26,7 +26,7 @@ class Postitulo(models.Model):
     nro_dictamen_cfr_epoe = models.CharField(max_length = 100, null=True, blank=True)
     fecha_inicio = models.IntegerField(choices = YEARS_CHOICES, null=True, blank=True)
     fecha_vencimiento = models.DateField(null=True, blank=True)
-    establecimiento = models.ForeignKey(Establecimiento)
+    anexo = models.ForeignKey(Anexo)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
 
     class Meta:

@@ -6,14 +6,14 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import Matricula
 from apps.titulos.forms import MatriculaFormFilters, MatriculaForm
-from apps.registro.models import Establecimiento
+from apps.registro.models import Anexo
 from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 50
 
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
-    return filters.buildQuery().order_by('id').filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().order_by('id').filter(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)
 
 @login_required
 @credential_required('tit_matricula_consulta')
@@ -64,7 +64,7 @@ def create(request):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = MatriculaForm()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
     return my_render(request, 'titulos/matricula/new.html', {
         'form': form,
         'is_new': True,
@@ -85,7 +85,7 @@ def edit(request, matricula_id):
     else:
         form = MatriculaForm(instance = matricula)
 
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
     return my_render(request, 'titulos/matricula/edit.html', {
         'form': form,
         'is_new': False,

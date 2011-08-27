@@ -4,6 +4,7 @@ from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Estado import Estado
 from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
+from apps.seguridad.models import Ambito
 import datetime
 
 
@@ -16,6 +17,7 @@ class Anexo(models.Model):
     email = models.EmailField(max_length = 255, null = True, blank = True)
     sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
     turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_anexos_turnos')
+    ambito = models.ForeignKey(Ambito, editable = False, null = True)
 
     class Meta:
         app_label = 'registro'
@@ -76,4 +78,24 @@ class Anexo(models.Model):
         except ObjectDoesNotExist:
             return False
         return True
+    
+    def save(self):
+        self.updateAmbito()
+        self.ambito.vigente = True
+        self.ambito.save()
+        models.Model.save(self)
+
+    def delete(self):
+        estado = Estado.objects.get(nombre = Estado.BAJA)
+        self.registrar_estado(estado)
+
+    def updateAmbito(self):
+        if self.pk is None or self.ambito is None:
+            try:
+                self.ambito = self.establecimiento.ambito.createChild(self.nombre)
+            except Exception:
+                pass
+        else:
+            self.ambito.descripcion = self.nombre
+            self.ambito.save()
 

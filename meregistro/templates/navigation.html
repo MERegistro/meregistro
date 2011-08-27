@@ -22,19 +22,19 @@
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
 				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos establecimiento</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo' %}
 				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo' %}
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos,Anexo' %}
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos,Anexo' %}
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}

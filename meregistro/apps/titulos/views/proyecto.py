@@ -6,14 +6,14 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import Proyecto, TipoProyecto
 from apps.titulos.forms import ProyectoFormFilters, ProyectoForm
-from apps.registro.models import Establecimiento
+from apps.registro.models import Anexo
 from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 50
 
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
-    return filters.buildQuery().order_by('id').filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().order_by('id').filter(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)
 
 @login_required
 @credential_required('tit_proyecto_consulta')
@@ -64,7 +64,7 @@ def create(request):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = ProyectoForm()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
     form.fields["tipo_proyecto"].queryset = TipoProyecto.objects.filter(nombre='Nacional')
     return my_render(request, 'titulos/proyecto/new.html', {
         'form': form,
@@ -86,7 +86,7 @@ def edit(request, proyecto_id):
     else:
         form = ProyectoForm(instance = proyecto)
 
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
     form.fields["tipo_proyecto"].queryset = TipoProyecto.objects.filter(nombre='Nacional')
     return my_render(request, 'titulos/proyecto/edit.html', {
         'form': form,
