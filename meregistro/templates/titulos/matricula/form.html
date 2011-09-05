@@ -1,7 +1,16 @@
 <div class="form" id="tituloForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
-		<div class="form-select">
+		<div class="form-select" style="display: none">
+			{{ form.establecimiento.errors }}
+			<label for="id_establecimiento">Establecimiento:</label>
+			{{ form.establecimiento }}
+		</div>
+		<div class="form-select"
+        {% if not elige_anexo %}
+            style="display: none"
+        {% endif %}
+        >
 			{{ form.anexo.errors }}
 			<label for="id_anexo">Anexo:</label>
 			{{ form.anexo }}
