@@ -701,3 +701,13 @@ body.cohortes-por-titulo div#datosTitulo {
 	margin-bottom: 30px;
 }
 
+/*
+=COHORTE-ASIGNAR-ESTABLECIMIENTOS
+*/
+body.cohorte-asignar-establecimientos table.hor-zebra {
+	margin-top: 10px;
+}
+body.cohorte-asignar-establecimientos div#datosCohorte {
+	margin-top: 30px;
+}
+

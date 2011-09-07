@@ -35,5 +35,5 @@ class AceptarCohorteFormFilters(forms.Form):
             if filter_by('estado'):
                 q = q.filter(estado = self.cleaned_data['estado'])
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-        q = q.filter()
+        #q = q.filter()
         return q

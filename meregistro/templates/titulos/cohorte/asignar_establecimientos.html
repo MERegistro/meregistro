@@ -2,6 +2,12 @@
 
 {% block title %}Asignar la cohorte a establecimientos{% endblock %}
 
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "cohorte-asignar-establecimientos" %}
+{% endblock %}
+
 {% block content %}
 <h2>Asignar la cohorte a establecimientos</h2>
 
@@ -35,6 +41,9 @@
 	</div>
     </div>
 </form>
+
+{% include "titulos/cohorte/datos_cohorte.html" %}
+
 {% if objects %}
 <form action="" method="post">{% csrf_token %}
     <table class="hor-zebra">
@@ -43,6 +52,8 @@
 		<th><input type="checkbox" name="check_all_establecimientos" id="check_all_establecimientos" /></th>
 		<th id="thEstablecimientoCue">CUE</th>
 		<th>Establecimiento</th>
+		<th>Oferta</th>
+		<th>Emite</th>
 		<th>Departamento</th>
 		<th>Localidad</th>
 	    </tr>
@@ -53,6 +64,8 @@
 		<td><input type="checkbox" name="establecimientos" value="{{ est.id }}"{% if est.id in current_establecimientos_ids %} checked="checked"{% endif%} /></td>
 		<td>{{ est.cue }}</td>
 		<td>{{ est.nombre }}</td>
+		<td><input type="checkbox" name="oferta" value="{{ est.id }}"{% if est.id in current_establecimientos_oferta %} checked="checked"{% endif%} /></td>
+		<td><input type="checkbox" name="emite" value="{{ est.id }}"{% if est.id in current_establecimientos_emite %} checked="checked"{% endif%} /></td>
 		<td>{{ est.domicilio.get.localidad.departamento }}</td>
 		<td>{{ est.domicilio.get.localidad }}</td>
 	    </tr>

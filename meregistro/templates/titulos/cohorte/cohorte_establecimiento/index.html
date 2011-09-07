@@ -2,10 +2,10 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar cohortes del establecimientos{% endblock %}
+{% block title %}Administrar cohortes del establecimiento{% endblock %}
 
 {% block content %}
-<h2>Administrar cohortes del establecimientos</h2>
+<h2>Administrar cohortes del establecimiento</h2>
 <form action="" method="get">
 <div class="form-filter" id="confirmarCohorteFormFilter">
   <h3>Búsqueda avanzada</h3>
@@ -69,10 +69,10 @@
         <td class="actions-td">
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
-		{% if not cohorte_est.aceptada_por_establecimiento %}
-		    <li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte.confirmar_cohorte cohorte_est.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
+		{% if not cohorte_est.aceptada %}
+		    <li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_establecimiento.confirmar cohorte_est.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
 		{% else %}
-		    <li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte.seguimiento_cohorte cohorte_est.id %}" title="Seguimiento de cohorte"><span>Seguimiento de cohorte</span></a></li>
+		    <li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_establecimiento.seguimiento cohorte_est.id %}" title="Seguimiento de cohorte"><span>Seguimiento de cohorte</span></a></li>
 		{% endif %}
 	    {% endif %}
 	    </ul>

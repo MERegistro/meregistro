@@ -19,6 +19,7 @@ class Titulo(models.Model):
     normativa = models.CharField(max_length = 50)
     carrera = models.ForeignKey(Carrera)
     tiene_orientaciones = models.BooleanField()
+    horas_reloj = models.PositiveIntegerField(null = True, blank = True)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
     niveles = models.ManyToManyField(Nivel, db_table = 'titulos_titulos_niveles')
     areas = models.ManyToManyField(Area, db_table = 'titulos_titulos_areas')

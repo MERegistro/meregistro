@@ -1,6 +1,11 @@
 <div class="form tabbed-form" id="cohorteSeguimientoDatosBasicosForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.anio.errors }}
+			<label for="id_anio">Año:</label>
+			{{ form.anio }}
+		</div>
 		<div class="form-text">
 			{{ form.solo_cursan_nueva.errors }}
 			<label for="id_solo_cursan_nueva">Sólo cursan nueva unidad:</label>
@@ -26,8 +31,9 @@
 			<label for="id_observaciones">Observaciones:</label>
 			{{ form.observaciones }}
 		</div>
+		{{ form.cohorte_establecimiento.as_hidden }}
 		<div class="form-submit">
-			<input type="submit" value="Actualizar" />
+			<input type="submit" value="Guardar" />
 		</div>
 	</form>
 </div>
