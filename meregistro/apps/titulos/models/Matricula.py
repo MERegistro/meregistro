@@ -4,7 +4,7 @@ from apps.registro.models.Anexo import Anexo
 from apps.registro.models.Establecimiento import Establecimiento
 import datetime
 
-YEARS_CHOICES = tuple((int(n), str(n)) for n in range(2010, datetime.datetime.now().year + 1))
+YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1980, datetime.datetime.now().year + 1))
 
 class Matricula(models.Model):
     anio_lectivo = models.IntegerField(choices = YEARS_CHOICES)
@@ -20,8 +20,18 @@ class Matricula(models.Model):
         db_table = 'titulos_matricula'
 
     def isDeletable(self):
-        return self.anio_lectivo == datetime.date.today().year
+        q = Matricula.objects.filter(anio_lectivo__gt=self.anio_lectivo)
+        if self.establecimiento is not None:
+            q.filter(establecimiento=self.establecimiento)
+        if self.anexo is not None:
+            q.filter(eanexo=self.anexo)
+        return len(q) == 0
 
     def isEditable(self):
-        return self.anio_lectivo == datetime.date.today().year
+        q = Matricula.objects.filter(anio_lectivo__gt=self.anio_lectivo)
+        if self.establecimiento is not None:
+            q.filter(establecimiento=self.establecimiento)
+        if self.anexo is not None:
+            q.filter(eanexo=self.anexo)
+        return len(q) == 0
         

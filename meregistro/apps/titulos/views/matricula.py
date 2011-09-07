@@ -14,7 +14,11 @@ ITEMS_PER_PAGE = 50
 
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
-    return filters.buildQuery().order_by('id').filter(Q(anexo__ambito__path__istartswith = request.get_perfil().ambito.path) | Q(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path))
+    if request.get_perfil().rol.nombre == 'Anexo':
+        q = filters.buildQuery().order_by('id').filter(Q(anexo__ambito__path__istartswith = request.get_perfil().ambito.path))
+    else:
+        q = filters.buildQuery().order_by('id').filter(Q(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path))
+    return q
 
 @login_required
 @credential_required('tit_matricula_consulta')
