@@ -9,6 +9,8 @@ import datetime
 class CohorteEstablecimiento(models.Model):
     establecimiento = models.ForeignKey(Establecimiento, related_name = 'cohortes')
     cohorte = models.ForeignKey(Cohorte)
+    oferta = models.BooleanField()
+    emite = models.BooleanField()
     inscriptos = models.PositiveIntegerField(null = True, blank = True)
     estado = models.ForeignKey(EstadoCohorteEstablecimiento) # Concuerda con el último estado en CohorteEstablecimientoEstado
 
@@ -24,9 +26,10 @@ class CohorteEstablecimiento(models.Model):
     def __init__(self, *args, **kwargs):
         super(CohorteEstablecimiento, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
+        self.aceptada = self.aceptada()
 
     "La cohorte fue aceptada por el establecimiento?"
-    def aceptada_por_establecimiento(self):
+    def aceptada(self):
         return self.estado.nombre == EstadoCohorteEstablecimiento.ACEPTADA
 
     def registrar_estado(self):

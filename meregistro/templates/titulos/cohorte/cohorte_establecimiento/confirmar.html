@@ -4,7 +4,8 @@
 
 {% block content %}
 <h2>Confirmación de cohorte</h2>
-{% if not cohorte_establecimiento.aceptada_por_establecimiento %}
+{% include "titulos/cohorte/datos_cohorte.html" %}
+{% if not cohorte_establecimiento.aceptada %}
 <div class="message warning">
     <p>Una vez aceptada la cohorte no se puede modificar.</p>
 </div>
@@ -23,14 +24,13 @@
 </div>
 {% else %}
 <div class="message notice">
-    <p>La cohorte ya se encuentra aceptada.</p>
+    <p>La cohorte ya se encuentra aceptada con {{ cohorte_establecimiento.inscriptos }} inscriptos y no puede ser modificada.</p>
 </div>
 {% endif %}
 
-
 <ul class="actions">
   <li class="back">
-    <a href="{% url apps.titulos.views.cohorte.listado_para_confirmar %}"><span>Volver</span></a>
+    <a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />

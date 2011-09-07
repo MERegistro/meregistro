@@ -25,8 +25,18 @@ from EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
 from CohorteEstablecimientoEstado import CohorteEstablecimientoEstado
 from Cohorte import Cohorte
 from CohorteEstablecimiento import CohorteEstablecimiento
-from CohorteSeguimiento import CohorteSeguimiento
+from CohorteEstablecimientoSeguimiento import CohorteEstablecimientoSeguimiento
 from EstadoCohorteEstablecimiento import EstadoCohorteEstablecimiento
+#
+from CohorteAnexoEstado import CohorteAnexoEstado
+from CohorteAnexo import CohorteAnexo
+from CohorteAnexoSeguimiento import CohorteAnexoSeguimiento
+from EstadoCohorteAnexo import EstadoCohorteAnexo
+#
+from CohorteUnidadExtensionEstado import CohorteUnidadExtensionEstado
+from CohorteUnidadExtension import CohorteUnidadExtension
+from EstadoCohorteUnidadExtension import EstadoCohorteUnidadExtension
+#
 from OpcionPedagogica import OpcionPedagogica
 from TipoHora import TipoHora
 from EstadoTramitePostitulo import EstadoTramitePostitulo

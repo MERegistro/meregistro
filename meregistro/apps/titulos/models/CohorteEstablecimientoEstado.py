@@ -5,7 +5,7 @@ from apps.titulos.models.EstadoCohorteEstablecimiento import EstadoCohorteEstabl
 import datetime
 
 """
-Representa los estados por los que pasa cada título jurisdiccional
+Representa los estados por los que pasa cada cohorte del establecimiento
 """
 
 class CohorteEstablecimientoEstado(models.Model):

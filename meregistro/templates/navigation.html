@@ -38,7 +38,7 @@
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
-				<li><a href="{% url apps.titulos.views.cohorte.listado_para_confirmar %}">Cohortes</a></li>
+				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}">Cohortes</a></li>
 				{% endif %}
 
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>

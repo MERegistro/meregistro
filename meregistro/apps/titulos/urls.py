@@ -49,10 +49,13 @@ urlpatterns = patterns('',
     url(r'^titulo_jurisdiccional/([0-9]+)/cohortes$', 'apps.titulos.views.cohorte.cohortes_por_titulo', name = 'cohortesPorTitulo'),
     url(r'^cohorte/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte.eliminar', name = 'cohorteEliminar'),
     url(r'^cohorte/([0-9]+)/asignar-establecimientos$', 'apps.titulos.views.cohorte.asignar_establecimientos', name = 'cohorteAsignarEstablecimientos'),
-    url(r'^cohorte/listado-para-confirmar$', 'apps.titulos.views.cohorte.listado_para_confirmar', name = 'cohorteListadoParaConfirmar'),
-    url(r'^cohorte/([0-9]+)/confirmar$', 'apps.titulos.views.cohorte.confirmar_cohorte', name = 'cohorteConfirmar'),
-    url(r'^cohorte/([0-9]+)/seguimiento$', 'apps.titulos.views.cohorte.seguimiento_cohorte', name = 'cohorteSeguimientoHome'),
     url(r'^cohorte$', 'apps.titulos.views.cohorte.index', name = 'cohorte'),
+    # Cohorte establecimiento
+    url(r'^cohorte-establecimiento/([0-9]+)/confirmar$', 'apps.titulos.views.cohorte_establecimiento.confirmar', name = 'cohorteEstablecimientoConfirmar'),
+    url(r'^cohorte-establecimiento$', 'apps.titulos.views.cohorte_establecimiento.index', name = 'cohorteEstablecimientoIndex'),
+    url(r'^cohorte-establecimiento/([0-9]+)/seguimiento$', 'apps.titulos.views.cohorte_establecimiento.seguimiento', name = 'cohorteEstablecimientoSeguimiento'),
+    url(r'^cohorte-establecimiento/([0-9]+)/editar-seguimiento$', 'apps.titulos.views.cohorte_establecimiento.edit_seguimiento', name = 'cohorteEstablecimientoSeguimientoCreate'),
+    url(r'^cohorte-establecimiento/([0-9]+)/crear-seguimiento$', 'apps.titulos.views.cohorte_establecimiento.create_seguimiento', name = 'cohorteEstablecimientoSeguimientoEdit'),
     # AJAX
     url(r'^ajax/get_titulos_por_tipo/(?P<tipo_titulo_id>[0-9]+)', 'apps.titulos.views.ajax.get_titulos_por_tipo', name = 'ajaxGetTitulosPorTipo'),
     # Proyecto

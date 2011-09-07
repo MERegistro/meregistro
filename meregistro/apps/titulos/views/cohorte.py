@@ -5,8 +5,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import TituloJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoTituloJurisdiccional, EstadoCohorteEstablecimiento
-from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters,\
-    AceptarCohorteFormFilters, CohorteConfirmarForm, CohorteSeguimientoForm
+from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -80,8 +79,8 @@ def create(request, titulo_jurisdiccional_id = None):
             cohorte = form.save()
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('cohortesPorTitulo', args = [cohorte.titulo_jurisdiccional.id]))
             request.set_flash('success', 'Datos guardados correctamente.')
+            return HttpResponseRedirect(reverse('cohortesPorTitulo', args = [cohorte.titulo_jurisdiccional.id]))
 
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
@@ -93,7 +92,7 @@ def create(request, titulo_jurisdiccional_id = None):
         form.fields["titulo_jurisdiccional"].empty_label = None
     else:
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-        q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO, datos_cohorte__anio_ultima_cohorte__gte = datetime.date.today().year)
+        q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO, datos_cohorte__anio_ultima_cohorte__lte = datetime.date.today().year)
         form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion = request.get_perfil().jurisdiccion())
 
     form.fields["titulo_jurisdiccional"].queryset = q
@@ -185,7 +184,10 @@ def asignar_establecimientos(request, cohorte_id):
 
     cohorte = Cohorte.objects.get(pk = cohorte_id)
     "Traigo los ids de los establecimientos actualmente asignados a la cohorte"
-    current_establecimientos_ids = __flatten_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte).values_list("establecimiento_id"))
+    current_establecimientos_ids = __flat_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte).values_list("establecimiento_id"))
+    current_establecimientos_oferta = __flat_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte, oferta = True).values_list("establecimiento_id"))
+    current_establecimientos_emite = __flat_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte, emite = True).values_list("establecimiento_id"))
+    #raise Exception(current_establecimientos_oferta)
 
     "Búsqueda de establecimientos"
     if request.method == 'GET':
@@ -194,9 +196,18 @@ def asignar_establecimientos(request, cohorte_id):
         form_filters = CohorteAsignarEstablecimientosFormFilters()
 
         # POST, guardo los datos
-        post_ids = request.POST.getlist("establecimientos")
         estado = EstadoCohorteEstablecimiento.objects.get(nombre = EstadoCohorteEstablecimiento.ASIGNADA)
-        cohorte.save_establecimientos(current_establecimientos_ids, post_ids, estado)
+        values_dict = {
+            'current_establecimientos_ids': current_establecimientos_ids,
+            'current_oferta_ids': current_establecimientos_oferta,
+            'current_emite_ids': current_establecimientos_emite,
+            'post_ids': request.POST.getlist("establecimientos"),
+            'post_oferta_ids': request.POST.getlist("oferta"),
+            'post_emite_ids': request.POST.getlist("emite"),
+            'estado': estado,
+        }
+        #cohorte.save_establecimientos(current_establecimientos_ids, current_establecimientos_oferta, current_establecimientos_emite, post_ids, post_oferta, post_emite, estado)
+        cohorte.save_establecimientos(**values_dict)
 
         request.set_flash('success', 'Datos actualizados correctamente.')
         # redirigir a edit
@@ -212,6 +223,8 @@ def asignar_establecimientos(request, cohorte_id):
     return my_render(request, 'titulos/cohorte/asignar_establecimientos.html', {
         'cohorte': cohorte,
         'current_establecimientos_ids': current_establecimientos_ids,
+        'current_establecimientos_oferta': current_establecimientos_oferta,
+        'current_establecimientos_emite': current_establecimientos_emite,
         'form_filters': form_filters,
         'objects': q,
     })
@@ -257,128 +270,5 @@ def eliminar(request, cohorte_id):
 """
 Método para aplanar las listas
 """
-def __flatten_list(list_to_flatten):
-    return [i for j in list_to_flatten for i in j]
-
-
-def __get_establecimiento_actual(request):
-    """
-    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
-    """
-    try:
-        establecimiento = Establecimiento.objects.get(ambito__id = request.get_perfil().ambito.id)
-        if not bool(establecimiento):
-            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
-        else:
-            return establecimiento
-    except Exception:
-        pass
-
-def build_confirmar_cohortes_query(filters, page, request):
-    """
-    Construye el query de búsqueda a partir de los filtros.
-    """
-    return filters.buildQuery().filter(establecimiento = __get_establecimiento_actual(request))
-
-@login_required
-@credential_required('tit_cohorte_aceptar_asignacion')
-def listado_para_confirmar(request):
-    """
-    Búsqueda de titulos para confirmar cohortes
-    """
-
-    establecimiento = __get_establecimiento_actual(request)
-
-    if request.method == 'GET':
-        form_filter = AceptarCohorteFormFilters(request.GET)
-    else:
-        form_filter = AceptarCohorteFormFilters()
-    q = build_confirmar_cohortes_query(form_filter, 1, request).order_by('id')
-
-    paginator = Paginator(q, ITEMS_PER_PAGE)
-
-    try:
-        page_number = int(request.GET['page'])
-    except (KeyError, ValueError):
-        page_number = 1
-    # chequear los límites
-    if page_number < 1:
-        page_number = 1
-    elif page_number > paginator.num_pages:
-        page_number = paginator.num_pages
-
-    page = paginator.page(page_number)
-    objects = page.object_list
-    return my_render(request, 'titulos/cohorte/listado_para_confirmar.html', {
-        'form_filters': form_filter,
-        'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
-        'pages_range': range(1, paginator.num_pages + 1),
-        'next_page': page_number + 1,
-        'prev_page': page_number - 1
-    })
-
-@login_required
-@credential_required('tit_cohorte_aceptar_asignacion')
-def confirmar_cohorte(request, cohorte_establecimiento_id):
-    """
-    Confirmar cohorte
-    """
-    cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk = cohorte_establecimiento_id)
-
-    if request.method == 'POST':
-        form = CohorteConfirmarForm(request.POST, instance = cohorte_establecimiento)
-        if form.is_valid():
-            cohorte_establecimiento = form.save(commit = False)
-            estado = EstadoCohorteEstablecimiento.objects.get(nombre = EstadoCohorteEstablecimiento.ACEPTADA)
-            cohorte_establecimiento.estado = estado
-            cohorte_establecimiento.save()
-            cohorte_establecimiento.registrar_estado()
-
-            request.set_flash('success', 'La cohorte fue confirmada correctamente.')
-            """ Redirecciono para evitar el reenvío del form """
-            return HttpResponseRedirect(reverse('cohorteListadoParaConfirmar'))
-
-        else:
-            request.set_flash('warning', 'Ocurrió un error confirmando la cohorte.')
-    else:
-        form = CohorteConfirmarForm(instance = cohorte_establecimiento)
-
-
-    return my_render(request, 'titulos/cohorte/confirmar.html', {
-        'cohorte_establecimiento': cohorte_establecimiento,
-        'form': form,
-    })
-
-@login_required
-@credential_required('tit_cohorte_seguimiento')
-def seguimiento_cohorte(request, cohorte_establecimiento_id):
-    """
-    Confirmar cohorte
-    """
-    cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk = cohorte_establecimiento_id)
-
-    if request.method == 'POST':
-        form = CohorteSeguimientoForm(request.POST, instance = cohorte_establecimiento)
-        if form.is_valid():
-            cohorte_seguimiento = form.save()
-
-            request.set_flash('success', 'Datos guardados correctamente.')
-            # redirigir a edit
-            return HttpResponseRedirect(reverse('cohorteSeguimientoHome', args = [cohorte_establecimiento.id]))
-        else:
-            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-    else:
-        form = CohorteSeguimientoForm(instance = cohorte_establecimiento)
-
-    return my_render(request, 'titulos/cohorte/seguimiento/index.html', {
-        'form': form,
-        'cohorte_establecimiento': cohorte_establecimiento,
-        'form_template': 'titulos/cohorte/seguimiento/form_datos_basicos.html',
-        'page_title': 'Datos básicos',
-        'actual_page': 'datos_basicos',
-    })
+def __flat_list(list_to_flat):
+    return [i for j in list_to_flat for i in j]

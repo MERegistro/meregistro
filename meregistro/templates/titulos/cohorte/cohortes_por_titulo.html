@@ -28,9 +28,11 @@
 	    {% if user_perfil.rol.nombre in 'Referente' %}
 		<li class="edit"><a href="{% url apps.titulos.views.cohorte.edit cohorte.id %}" title="Editar"><span>Editar</span></a></li>
 		{% if titulo_jurisdiccional.controlado  %}
-		    <li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_establecimientos cohorte.id %}" title="Asignar cohorte a establecimientos"><span>Asignar cohorte a establecimientos</span></a></li>
+		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_establecimientos cohorte.id %}" title="Asignar cohorte a establecimientos"><span>Asignar cohorte a establecimientos</span></a></li>
 		{% endif %}
+		{% if not cohorte.aceptada_por_establecimiento %}
 		<li class="delete"><a href="{% url apps.titulos.views.cohorte.eliminar cohorte.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+		{% endif %}
 	    {% endif %}
 	    </ul>
         </td>
