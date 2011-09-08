@@ -126,6 +126,10 @@ def seguimiento(request, cohorte_establecimiento_id):
     establecimiento = __get_establecimiento_actual(request)
     cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk = cohorte_establecimiento_id)
 
+    if cohorte_establecimiento.inscriptos is None: # No aceptada
+        request.set_flash('warning', 'No se puede generar años de seguimiento a cohortes no aceptadas.')
+        return HttpResponseRedirect(reverse('cohorteEstablecimientoIndex'))
+
     objects = CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento = cohorte_establecimiento).order_by('anio')
     return my_render(request, 'titulos/cohorte/cohorte_establecimiento/seguimiento.html', {
         'objects': objects,
@@ -139,6 +143,11 @@ def seguimiento(request, cohorte_establecimiento_id):
 def create_seguimiento(request, cohorte_establecimiento_id):
 
     cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk = cohorte_establecimiento_id)
+
+    if cohorte_establecimiento.inscriptos is None: # No aceptada
+        request.set_flash('warning', 'No se puede generar años de seguimiento a cohortes no aceptadas.')
+        return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args = [cohorte_establecimiento.id]))
+
 
     if request.method == 'POST':
         form = CohorteEstablecimientoSeguimientoForm(request.POST, inscriptos_total = cohorte_establecimiento.inscriptos, anio_cohorte = cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id = cohorte_establecimiento.id)
@@ -165,18 +174,15 @@ def create_seguimiento(request, cohorte_establecimiento_id):
 
 @login_required
 @credential_required('tit_cohorte_seguimiento')
-def edit_seguimiento(request, cohorte_establecimiento_seguimiento_id):
+def edit_seguimiento(request, seguimiento_id):
     """
     Confirmar cohorte
     """
-    cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk = cohorte_establecimiento_id)
-    try:
-        instance = cohorte_establecimiento.seguimiento.get()
-    except CohorteEstablecimientoSeguimiento.DoesNotExist:
-        instance = CohorteEstablecimientoSeguimiento()
+    seguimiento = CohorteEstablecimientoSeguimiento.objects.get(pk = seguimiento_id)
+    cohorte_establecimiento = seguimiento.cohorte_establecimiento
 
     if request.method == 'POST':
-        form = CohorteEstablecimientoSeguimientoForm(request.POST, instance = instance, inscriptos_total = cohorte_establecimiento.inscriptos, anio_cohorte = cohorte_establecimiento.cohorte.anio)
+        form = CohorteEstablecimientoSeguimientoForm(request.POST, instance = seguimiento, inscriptos_total = cohorte_establecimiento.inscriptos, anio_cohorte = cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id = cohorte_establecimiento.id)
         if form.is_valid():
             seguimiento = form.save(commit = False)
             seguimiento.cohorte_establecimiento = cohorte_establecimiento
@@ -184,11 +190,11 @@ def edit_seguimiento(request, cohorte_establecimiento_seguimiento_id):
 
             request.set_flash('success', 'Datos guardados correctamente.')
             # redirigir a edit
-            return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimientoHome', args = [cohorte_establecimiento.id]))
+            return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args = [cohorte_establecimiento.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = CohorteEstablecimientoSeguimientoForm(instance = instance, inscriptos_total = cohorte_establecimiento.inscriptos, anio_cohorte = cohorte_establecimiento.cohorte.anio)
+        form = CohorteEstablecimientoSeguimientoForm(instance = seguimiento, inscriptos_total = cohorte_establecimiento.inscriptos, anio_cohorte = cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id = cohorte_establecimiento.id)
 
     return my_render(request, 'titulos/cohorte/cohorte_establecimiento/edit.html', {
         'form': form,
@@ -196,4 +202,26 @@ def edit_seguimiento(request, cohorte_establecimiento_seguimiento_id):
         'form_template': 'titulos/cohorte/cohorte_establecimiento/form_seguimiento.html',
         'page_title': 'Datos de seguimiento',
         'actual_page': 'datos_seguimiento',
+    })
+
+@login_required
+@credential_required('tit_cohorte_seguimiento')
+def eliminar(request, seguimiento_id):
+    """
+    Eliminación de año de seguimiento de cohorte
+    """
+    seguimiento = CohorteEstablecimientoSeguimiento.objects.get(pk = seguimiento_id)
+
+    if request.method == 'POST':
+        if int(request.POST['seguimiento_id']) is not int(seguimiento.id):
+            raise Exception('Error en la consulta!')
+
+        seguimiento.delete()
+        request.set_flash('success', 'El año de seguimiento fue eliminado correctamente.')
+        """ Redirecciono para evitar el reenvío del form """
+        return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args = [seguimiento.cohorte_establecimiento.id]))
+    else:
+        request.set_flash('warning', 'Está seguro de eliminar el año de seguimiento? Esta operación no puede deshacerse.')
+    return my_render(request, 'titulos/cohorte/cohorte_establecimiento/eliminar.html', {
+        'seguimiento_id': seguimiento.id,
     })

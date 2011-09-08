@@ -16,7 +16,7 @@ class CohorteUnidadExtensionEstado(models.Model):
     class Meta:
         app_label = 'titulos'
         ordering = ['fecha']
-        db_table = 'titulos_unidad_extension_estados'
+        db_table = 'titulos_cohorte_unidad_extension_estados'
 
     def __unicode__(self):
         return str(self.cohorte_unidad_extension.cohorte.anio)

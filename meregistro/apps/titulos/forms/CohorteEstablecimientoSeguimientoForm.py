@@ -39,6 +39,6 @@ class CohorteEstablecimientoSeguimientoForm(forms.ModelForm):
             registro = CohorteEstablecimientoSeguimiento.objects.get(cohorte_establecimiento = cohorte_establecimiento_id, anio = self.cleaned_data['anio'])
         except:
             registro = None
-        if registro is not None:
+        if registro is not None and registro.id != self.instance.id:
             raise ValidationError("Ya se realiza el seguimiento para este año")
         return self.cleaned_data['anio']

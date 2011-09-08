@@ -56,6 +56,7 @@ urlpatterns = patterns('',
     url(r'^cohorte-establecimiento/([0-9]+)/seguimiento$', 'apps.titulos.views.cohorte_establecimiento.seguimiento', name = 'cohorteEstablecimientoSeguimiento'),
     url(r'^cohorte-establecimiento/([0-9]+)/editar-seguimiento$', 'apps.titulos.views.cohorte_establecimiento.edit_seguimiento', name = 'cohorteEstablecimientoSeguimientoCreate'),
     url(r'^cohorte-establecimiento/([0-9]+)/crear-seguimiento$', 'apps.titulos.views.cohorte_establecimiento.create_seguimiento', name = 'cohorteEstablecimientoSeguimientoEdit'),
+    url(r'^cohorte-establecimiento/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte_establecimiento.eliminar', name = 'cohorteEstablecimientoSeguimientoEliminar'),
     # AJAX
     url(r'^ajax/get_titulos_por_tipo/(?P<tipo_titulo_id>[0-9]+)', 'apps.titulos.views.ajax.get_titulos_por_tipo', name = 'ajaxGetTitulosPorTipo'),
     # Proyecto
