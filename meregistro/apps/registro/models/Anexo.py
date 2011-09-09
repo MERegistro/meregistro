@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
-from apps.registro.models.Estado import Estado
+from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
@@ -17,6 +17,7 @@ class Anexo(models.Model):
     email = models.EmailField(max_length = 255, null = True, blank = True)
     sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
     turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_anexos_turnos')
+    estado = models.ForeignKey(EstadoAnexo) # Concuerda con el último estado en AnexoEstado
     ambito = models.ForeignKey(Ambito, editable = False, null = True)
 
     class Meta:
@@ -43,9 +44,9 @@ class Anexo(models.Model):
             except Anexo.DoesNotExist:
                 pass
 
-    def registrar_estado(self, estado):
+    def registrar_estado(self):
         from apps.registro.models.AnexoEstado import AnexoEstado
-        registro = AnexoEstado(estado = estado)
+        registro = AnexoEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
         registro.anexo_id = self.id
         registro.save()
@@ -59,26 +60,14 @@ class Anexo(models.Model):
         return estados
 
     def getEstadoActual(self):
-        try:
-            return list(self.estados)[-1].estado
-        except IndexError:
+        if self.id is not None:
+            return self.estado
+        else:
             return None
 
-    def registrarBaja(self, baja):
-        from apps.registro.models.AnexoBaja import AnexoBaja
-        estado = Estado.objects.get(nombre = Estado.BAJA)
-        self.registrar_estado(estado)
-        baja.anexo = self
-        baja.save()
-
     def dadoDeBaja(self):
-        from apps.registro.models.AnexoBaja import AnexoBaja
-        try:
-            baja = AnexoBaja.objects.get(anexo = self)
-        except ObjectDoesNotExist:
-            return False
-        return True
-    
+        return self.estado.nombre == EstadoAnexo.BAJA
+
     def save(self):
         self.updateAmbito()
         self.ambito.vigente = True

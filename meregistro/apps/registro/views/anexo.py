@@ -9,7 +9,7 @@ from apps.seguridad.models import Usuario, Perfil
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Anexo import Anexo
 from apps.registro.models.Localidad import Localidad
-from apps.registro.models.Estado import Estado
+from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoEstado import AnexoEstado
 from apps.registro.models.AnexoDomicilio import AnexoDomicilio
 from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm
@@ -86,13 +86,17 @@ def create(request):
         form = AnexoForm(request.POST)
         domicilio_form = AnexoDomicilioForm(request.POST)
         if form.is_valid() and domicilio_form.is_valid():
-            anexo = form.save()
+
+            anexo = form.save(commit = False)
+            estado = EstadoAnexo.objects.get(nombre = EstadoAnexo.VIGENTE)
+            anexo.estado = estado
+            anexo.save()
+            anexo.registrar_estado()
+
             domicilio = domicilio_form.save(commit = False)
             domicilio.anexo = anexo
             domicilio.save()
 
-            estado = Estado.objects.get(nombre = Estado.VIGENTE)
-            anexo.registrar_estado(estado)
 
             MailHelper.notify_by_email(MailHelper.ANEXO_CREATE, anexo)
             request.set_flash('success', 'Datos guardados correctamente.')
@@ -178,11 +182,17 @@ def baja(request, anexo_id):
         form = AnexoBajaForm(request.POST)
         if form.is_valid():
             baja = form.save(commit = False)
-            anexo.registrarBaja(baja)
+            baja.anexo = anexo
+            baja.save()
+            estado = EstadoAnexo.objects.get(nombre = EstadoAnexo.BAJA)
+            anexo.estado = estado
+            anexo.save()
+            anexo.registrar_estado()
             dado_de_baja = True
+
             request.set_flash('success', 'El anexo fue dado de baja correctamente.')
             """ Redirecciono para evitar el reenvío del form """
-            return HttpResponseRedirect(reverse('anexoBaja', args = [anexo_id]))
+            return HttpResponseRedirect(reverse('anexo'))
         else:
             request.set_flash('warning', 'Ocurrió un error dando de baja el anexo.')
     else:

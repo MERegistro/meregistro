@@ -18,4 +18,4 @@ class UnidadExtensionForm(forms.ModelForm):
 
     class Meta:
         model = UnidadExtension
-        exclude = ['establecimiento']
+        exclude = ('establecimiento', 'estado',)

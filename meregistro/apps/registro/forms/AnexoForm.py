@@ -20,6 +20,7 @@ class AnexoForm(forms.ModelForm):
 
     class Meta:
         model = Anexo
+        exclude = ('estado',)
 
     def clean_cue(self):
         cue = self.cleaned_data['cue']

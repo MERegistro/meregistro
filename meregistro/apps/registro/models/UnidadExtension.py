@@ -2,7 +2,8 @@
 from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.TipoNormativa import TipoNormativa
-from apps.registro.models.Estado import Estado
+from apps.registro.models.EstadoUnidadExtension import EstadoUnidadExtension
+from apps.registro.models.Turno import Turno
 from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
@@ -21,10 +22,12 @@ class UnidadExtension(models.Model):
     telefono = models.CharField(max_length = 100, null = True, blank = True)
     email = models.EmailField(max_length = 255, null = True, blank = True)
     turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_unidades_extension_turnos')
+    estado = models.ForeignKey(EstadoUnidadExtension) # Concuerda con el último estado en UnidadExtensionEstado
 
     class Meta:
         app_label = 'registro'
         ordering = ['nombre']
+        db_table = 'registro_unidad_extension'
 
     def __init__(self, *args, **kwargs):
         super(UnidadExtension, self).__init__(*args, **kwargs)
@@ -34,10 +37,9 @@ class UnidadExtension(models.Model):
     def __unicode__(self):
         return self.nombre
 
-    def registrar_estado(self, estado):
+    def registrar_estado(self):
         from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
-        registro = UnidadExtensionEstado()
-        registro.estado = estado
+        registro = UnidadExtensionEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
         registro.unidad_extension_id = self.id
         registro.save()
@@ -51,22 +53,10 @@ class UnidadExtension(models.Model):
         return estados
 
     def getEstadoActual(self):
-        try:
-            return list(self.estados)[-1].estado
-        except IndexError:
+        if self.id is not None:
+            return self.estado
+        else:
             return None
 
-    def registrarBaja(self, baja):
-        from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
-        estado = Estado.objects.get(nombre = Estado.BAJA)
-        self.registrar_estado(estado)
-        baja.unidad_extension = self
-        baja.save()
-
     def dadaDeBaja(self):
-        from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
-        try:
-            baja = UnidadExtensionBaja.objects.get(unidad_extension = self)
-        except ObjectDoesNotExist:
-            return False
-        return True
+        return self.estado.nombre == EstadoUnidadExtension.BAJA
