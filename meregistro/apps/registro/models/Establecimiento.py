@@ -7,7 +7,7 @@ from apps.registro.models.DependenciaFuncional import DependenciaFuncional
 from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Funcion import Funcion
 from apps.registro.models.Turno import Turno
-from apps.registro.models.Estado import Estado
+from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
@@ -32,7 +32,7 @@ class Establecimiento(models.Model):
     turnos = models.ManyToManyField(Turno, blank = True, null = True, db_table = 'registro_establecimientos_turnos')
     niveles = models.ManyToManyField(Nivel, blank = True, null = True, db_table = 'registro_establecimientos_niveles')
     funciones = models.ManyToManyField(Funcion, blank = True, null = True, db_table = 'registro_establecimientos_funciones')
-    estado = models.ForeignKey(Estado, editable = False, null = True)
+    estado = models.ForeignKey(EstadoEstablecimiento, editable = False, null = True)
 
     class Meta:
         app_label = 'registro'
@@ -70,13 +70,13 @@ class Establecimiento(models.Model):
     def save(self):
         self.updateAmbito()
         if self.id is None: # Nuevo objeto?
-            self.estado = Estado.objects.get(nombre = Estado.PENDIENTE)
-        self.ambito.vigente = (self.estado.nombre != Estado.PENDIENTE)
+            self.estado = EstadoEstablecimiento.objects.get(nombre = EstadoEstablecimiento.PENDIENTE)
+        self.ambito.vigente = (self.estado.nombre != EstadoEstablecimiento.PENDIENTE)
         self.ambito.save()
         models.Model.save(self)
 
     def delete(self):
-        estado = Estado.objects.get(nombre = Estado.BAJA)
+        estado = EstadoEstablecimiento.objects.get(nombre = EstadoEstablecimiento.BAJA)
         self.registrar_estado(estado)
 
     def updateAmbito(self):

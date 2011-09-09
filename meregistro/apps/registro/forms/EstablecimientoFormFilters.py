@@ -2,14 +2,14 @@
 
 from django import forms
 from apps.seguridad.models import TipoDocumento, Usuario
-from apps.registro.models import Establecimiento, DependenciaFuncional, Jurisdiccion, Estado
+from apps.registro.models import Establecimiento, DependenciaFuncional, Jurisdiccion, EstadoEstablecimiento
 
 
 class EstablecimientoFormFilters(forms.Form):
     nombre = forms.CharField(max_length=40, label='Nombre', required=False)
     cue = forms.CharField(max_length=40, label='Cue', required=False)
     dependencia_funcional = forms.ModelChoiceField(queryset=DependenciaFuncional.objects, label='Dependencia funcional', required=False)
-    estado = forms.ModelChoiceField(queryset=Estado.objects, label='Estado', required=False)
+    estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects, label='Estado', required=False)
     jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects.order_by('nombre'), label='Jurisdiccion', required=False)
 
     def buildQuery(self, q=None):

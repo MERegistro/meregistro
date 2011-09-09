@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Estado(models.Model):
+class EstadoEstablecimiento(models.Model):
 
     PENDIENTE = u'Pendiente'
     BAJA = u'Baja'
@@ -14,6 +14,7 @@ class Estado(models.Model):
     class Meta:
         app_label = 'registro'
         ordering = ['nombre']
+        db_table = 'registro_estado_establecimiento'
 
     def __unicode__(self):
         return self.nombre

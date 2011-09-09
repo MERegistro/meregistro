@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from apps.registro.models.Estado import Estado
+from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 
 
 class RegistroEstablecimiento(models.Model):
     establecimiento = models.ForeignKey('Establecimiento')
-    estado = models.ForeignKey('Estado')
-    fecha = models.DateField(null=False, blank=False, editable=False)
-    observaciones = models.TextField(max_length=255, null=True, blank=True)
+    estado = models.ForeignKey('EstadoEstablecimiento')
+    fecha = models.DateField(null = False, blank = False, editable = False)
+    observaciones = models.TextField(max_length = 255, null = True, blank = True)
 
     class Meta:
         app_label = 'registro'

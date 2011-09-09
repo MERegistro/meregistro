@@ -13,7 +13,7 @@ from apps.registro.models.EstablecimientoDomicilio import EstablecimientoDomicil
 from apps.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
 from apps.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
 from apps.registro.models.Localidad import Localidad
-from apps.registro.models.Estado import Estado
+from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from apps.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
 from apps.registro.forms.EstablecimientoForm import EstablecimientoForm
@@ -94,7 +94,7 @@ def create(request):
         form = EstablecimientoForm(request.POST)
         if form.is_valid():
             establecimiento = form.save()
-            establecimiento.registrar_estado(establecimiento.estado)
+            establecimiento.registrar_estado()
 
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
             request.set_flash('success', 'Datos guardados correctamente.')

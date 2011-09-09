@@ -74,10 +74,6 @@ class Anexo(models.Model):
         self.ambito.save()
         models.Model.save(self)
 
-    def delete(self):
-        estado = Estado.objects.get(nombre = Estado.BAJA)
-        self.registrar_estado(estado)
-
     def updateAmbito(self):
         if self.pk is None or self.ambito is None:
             try:
