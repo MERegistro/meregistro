@@ -50,6 +50,7 @@ urlpatterns = patterns('',
     url(r'^cohorte/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte.eliminar', name = 'cohorteEliminar'),
     url(r'^cohorte/([0-9]+)/asignar-establecimientos$', 'apps.titulos.views.cohorte.asignar_establecimientos', name = 'cohorteAsignarEstablecimientos'),
     url(r'^cohorte/([0-9]+)/asignar-anexos$', 'apps.titulos.views.cohorte.asignar_anexos', name = 'cohorteAsignarAnexos'),
+    url(r'^cohorte/([0-9]+)/asignar-unidades-extension$', 'apps.titulos.views.cohorte.asignar_unidades_extension', name = 'cohorteAsignarUnidadesExtension'),
     url(r'^cohorte$', 'apps.titulos.views.cohorte.index', name = 'cohorte'),
     # Cohorte establecimiento
     url(r'^cohorte-establecimiento/([0-9]+)/confirmar$', 'apps.titulos.views.cohorte_establecimiento.confirmar', name = 'cohorteEstablecimientoConfirmar'),

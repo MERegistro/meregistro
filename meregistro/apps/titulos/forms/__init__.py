@@ -29,5 +29,8 @@ from CohorteAnexoSeguimientoForm import CohorteAnexoSeguimientoForm
 from CohorteAsignarAnexosFormFilters import CohorteAsignarAnexosFormFilters
 from AceptarCohorteAnexoFormFilters import AceptarCohorteAnexoFormFilters
 #
+#cohorte unidad de extension
+from CohorteAsignarUnidadesExtensionFormFilters import CohorteAsignarUnidadesExtensionFormFilters
+#
 from PostituloFormFilters import PostituloFormFilters
 from PostituloForm import PostituloForm

@@ -112,3 +112,32 @@ class Cohorte(models.Model):
                 registro.save()
                 if registro.estado != estado:
                     registro.registrar_estado()
+
+    """
+    Asocia/elimina las unidades de extensión desde el formulario masivo
+    XXX: los valores "posts" vienen como strings
+    """
+    def save_unidades_extension(self, current_unidades_extension_ids, current_oferta_ids, post_ids, post_oferta_ids, estado):
+        from apps.titulos.models.CohorteUnidadExtension import CohorteUnidadExtension
+        "Borrar los que se des-chequean"
+        for unidad_extension_id in current_unidades_extension_ids:
+            if str(unidad_extension_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
+                CohorteUnidadExtension.objects.get(cohorte = self, unidad_extension = unidad_extension_id).delete()
+
+        "Agregar los nuevos"
+        oferta = False
+        for unidad_extension_id in post_ids:
+            "Oferta??"
+            if unidad_extension_id in post_oferta_ids:
+                oferta = True
+            "Si no está entre los actuales"
+            if int(unidad_extension_id) not in current_unidades_extension_ids:
+                # Lo creo y registro el estado
+                registro = CohorteUnidadExtension.objects.create(cohorte = self, unidad_extension_id = unidad_extension_id, oferta = oferta, estado = estado)
+                registro.registrar_estado()
+            else:
+                registro = CohorteUnidadExtension.objects.get(cohorte = self, unidad_extension = unidad_extension_id)
+                registro.oferta = oferta
+                registro.save()
+                if registro.estado != estado:
+                    registro.registrar_estado()

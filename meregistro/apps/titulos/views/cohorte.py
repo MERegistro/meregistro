@@ -5,8 +5,9 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import TituloJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoTituloJurisdiccional, EstadoCohorteEstablecimiento, \
-    CohorteAnexo, EstadoCohorteAnexo
-from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, CohorteAsignarAnexosFormFilters
+    CohorteAnexo, EstadoCohorteAnexo, CohorteUnidadExtension, EstadoCohorteUnidadExtension
+from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, \
+    CohorteAsignarAnexosFormFilters, CohorteAsignarUnidadesExtensionFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -301,6 +302,62 @@ def build_asignar_anexos_query(filters, request):
     Construye el query de búsqueda a partir de los filtros.
     """
     return filters.buildQuery().filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+
+@login_required
+@credential_required('tit_cohorte_asignar')
+def asignar_unidades_extension(request, cohorte_id):
+
+    """
+    Asignar cohorte a unidades de extensión
+    """
+
+    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    "Traigo los ids de los anexos actualmente asignados a la cohorte"
+    current_unidades_extension_ids = __flat_list(CohorteUnidadExtension.objects.filter(cohorte = cohorte).values_list("unidad_extension_id"))
+    current_unidades_extension_oferta = __flat_list(CohorteUnidadExtension.objects.filter(cohorte = cohorte, oferta = True).values_list("unidad_extension_id"))
+
+    "Búsqueda de unidades de extensión"
+    if request.method == 'GET':
+        form_filters = CohorteAsignarUnidadesExtensionFormFilters(request.GET)
+    else:
+        form_filters = CohorteAsignarUnidadesExtensionFormFilters()
+
+        # POST, guardo los datos
+        estado = EstadoCohorteUnidadExtension.objects.get(nombre = EstadoCohorteUnidadExtension.ASIGNADA)
+        values_dict = {
+            'current_unidades_extension_ids': current_unidades_extension_ids,
+            'current_oferta_ids': current_unidades_extension_oferta,
+            'post_ids': request.POST.getlist("unidades_extension"),
+            'post_oferta_ids': request.POST.getlist("oferta"),
+            'estado': estado,
+        }
+        cohorte.save_unidades_extension(**values_dict)
+
+        request.set_flash('success', 'Datos actualizados correctamente.')
+        # redirigir a edit
+        return HttpResponseRedirect(reverse('cohorteAsignarUnidadesExtension', args = [cohorte.id]))
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+
+    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion = jurisdiccion)
+    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion = jurisdiccion)
+
+    q = build_asignar_unidades_extension_query(form_filters, request)
+
+    return my_render(request, 'titulos/cohorte/asignar_unidades_extension.html', {
+        'cohorte': cohorte,
+        'current_unidades_extension_ids': current_unidades_extension_ids,
+        'current_unidades_extension_oferta': current_unidades_extension_oferta,
+        'form_filters': form_filters,
+        'objects': q,
+    })
+
+
+def build_asignar_unidades_extension_query(filters, request):
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
 
 
 @login_required
