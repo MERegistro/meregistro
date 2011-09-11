@@ -53,28 +53,26 @@
       <th>Carrera</th>
       <th class="th-estados">Estado</th>
       <th>Inscriptos</th>
-      <th>Años de seguimiento</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
   <tbody>
-    {% for cohorte_est in objects %}
+    {% for cohorte_anexo in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 
-	<td>{{ cohorte_est.cohorte.anio }}</td>
-	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo.tipo_titulo }}</td>
-	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo }}</td>
-	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo.carrera }}</td>
-	<td>{{ cohorte_est.estado }}</td>
-	<td>{% if cohorte_est.inscriptos != None %}{{ cohorte_est.inscriptos }}{% else %}---{% endif %}</td>
-	<td>{{ cohorte_est.anios_seguimiento|implode:", " }}</td>
+	<td>{{ cohorte_anexo.cohorte.anio }}</td>
+	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo.tipo_titulo }}</td>
+	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo }}</td>
+	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo.carrera }}</td>
+	<td>{{ cohorte_anexo.estado }}</td>
+	<td>{% if cohorte_anexo.inscriptos != None %}{{ cohorte_anexo.inscriptos }}{% else %}---{% endif %}</td>
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
-		{% if not cohorte_est.aceptada %}
-		<li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_establecimiento.confirmar cohorte_est.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
+	    {% if user_perfil.rol.nombre in 'Anexo' %}
+		{% if not cohorte_anexo.aceptada %}
+		<li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_anexo.confirmar cohorte_anexo.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
 		{% else %}
-		<li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_establecimiento.seguimiento cohorte_est.id %}" title="Seguimiento de cohorte"><span>Seguimiento de cohorte</span></a></li>
+		<li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_anexo.seguimiento cohorte_anexo.id %}" title="Seguimiento de cohorte"><span>Seguimiento de cohorte</span></a></li>
 		{% endif %}
 	    {% endif %}
 	    </ul>

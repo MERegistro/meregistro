@@ -40,6 +40,9 @@
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
 				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}">Cohortes</a></li>
 				{% endif %}
+				{% if user_perfil.rol.nombre in 'Anexo' %}
+				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}">Cohortes</a></li>
+				{% endif %}
 
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
 			</ul>

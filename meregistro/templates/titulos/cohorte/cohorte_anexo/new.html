@@ -1,0 +1,23 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Seguimiento de la cohorte{% endblock %}
+
+{% block content %}
+<h2>Seguimiento de la cohorte - {{ page_title }}</h2>
+
+{% include "titulos/cohorte/cohorte_anexo/datos_cohorte_anexo.html" %}
+
+{% include "titulos/cohorte/cohorte_anexo/seguimiento_nav.html" %}
+
+{% if form_template %}
+{% include form_template %}
+{% endif %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.titulos.views.cohorte_anexo.seguimiento cohorte_anexo.id %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+
+{% endblock %}

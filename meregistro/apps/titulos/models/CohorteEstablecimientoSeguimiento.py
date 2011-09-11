@@ -20,7 +20,7 @@ class CohorteEstablecimientoSeguimiento(models.Model):
         #unique_together = ('cohorte_establecimiento', 'anio') -> no funciona, valido a mano
 
     def __unicode__(self):
-        return str(self.cohorte_establecimiento.cohorte.anio)
+        return str(self.anio)
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):

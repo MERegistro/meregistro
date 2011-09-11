@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import TituloJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoTituloJurisdiccional, EstadoCohorteEstablecimiento
-from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters
+from apps.titulos.models import TituloJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoTituloJurisdiccional, EstadoCohorteEstablecimiento, \
+    CohorteAnexo, EstadoCohorteAnexo
+from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, CohorteAsignarAnexosFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -67,11 +68,10 @@ def create(request, titulo_jurisdiccional_id = None):
     "Agregar cohorte al título actual o crearla eligiendo el mismo"
     if titulo_jurisdiccional_id is not None:
         titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
-        choices = CohorteForm.ANIOS_COHORTE_CHOICES
         choices = [('', '-------')] + [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
     else:
         titulo_jurisdiccional = None
-        choices = CohorteForm.ANIOS_COHORTE_CHOICES
+        choices = [('', '---Seleccione un título---')]
 
     if request.method == 'POST':
         form = CohorteForm(request.POST)
@@ -92,7 +92,8 @@ def create(request, titulo_jurisdiccional_id = None):
         form.fields["titulo_jurisdiccional"].empty_label = None
     else:
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-        q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO, datos_cohorte__anio_ultima_cohorte__lte = datetime.date.today().year)
+        #q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO, datos_cohorte__anio_ultima_cohorte__lte = datetime.date.today().year)
+        q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO)
         form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion = request.get_perfil().jurisdiccion())
 
     form.fields["titulo_jurisdiccional"].queryset = q
@@ -125,12 +126,17 @@ def edit(request, cohorte_id):
     else:
         form = CohorteForm(instance = cohorte)
 
+    titulo_jurisdiccional = cohorte.titulo_jurisdiccional
+    choices = [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
+    form.fields["anio"].choices = choices
+
     asignada_establecimiento = cohorte.asignada_establecimiento()
     if(asignada_establecimiento):
         # No se puede modificar el título ni el año
         form.fields["titulo_jurisdiccional"].queryset = TituloJurisdiccional.objects.filter(id = cohorte.titulo_jurisdiccional_id)
         form.fields["anio"].choices = [(cohorte.anio, cohorte.anio)]
         form.fields["titulo_jurisdiccional"].empty_label = None
+
     return my_render(request, 'titulos/cohorte/edit.html', {
         'form': form,
         'cohorte': cohorte,
@@ -231,6 +237,66 @@ def asignar_establecimientos(request, cohorte_id):
 
 
 def build_asignar_establecimientos_query(filters, request):
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+
+@login_required
+@credential_required('tit_cohorte_asignar')
+def asignar_anexos(request, cohorte_id):
+
+    """
+    Asignar cohorte a anexos
+    """
+
+    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    "Traigo los ids de los anexos actualmente asignados a la cohorte"
+    current_anexos_ids = __flat_list(CohorteAnexo.objects.filter(cohorte = cohorte).values_list("anexo_id"))
+    current_anexos_oferta = __flat_list(CohorteAnexo.objects.filter(cohorte = cohorte, oferta = True).values_list("anexo_id"))
+    current_anexos_emite = __flat_list(CohorteAnexo.objects.filter(cohorte = cohorte, emite = True).values_list("anexo_id"))
+
+    "Búsqueda de anexos"
+    if request.method == 'GET':
+        form_filters = CohorteAsignarAnexosFormFilters(request.GET)
+    else:
+        form_filters = CohorteAsignarAnexosFormFilters()
+
+        # POST, guardo los datos
+        estado = EstadoCohorteAnexo.objects.get(nombre = EstadoCohorteAnexo.ASIGNADA)
+        values_dict = {
+            'current_anexos_ids': current_anexos_ids,
+            'current_oferta_ids': current_anexos_oferta,
+            'current_emite_ids': current_anexos_emite,
+            'post_ids': request.POST.getlist("anexos"),
+            'post_oferta_ids': request.POST.getlist("oferta"),
+            'post_emite_ids': request.POST.getlist("emite"),
+            'estado': estado,
+        }
+        cohorte.save_anexos(**values_dict)
+
+        request.set_flash('success', 'Datos actualizados correctamente.')
+        # redirigir a edit
+        return HttpResponseRedirect(reverse('cohorteAsignarAnexos', args = [cohorte.id]))
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+
+    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion = jurisdiccion)
+    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion = jurisdiccion)
+
+    q = build_asignar_anexos_query(form_filters, request)
+
+    return my_render(request, 'titulos/cohorte/asignar_anexos.html', {
+        'cohorte': cohorte,
+        'current_anexos_ids': current_anexos_ids,
+        'current_anexos_oferta': current_anexos_oferta,
+        'current_anexos_emite': current_anexos_emite,
+        'form_filters': form_filters,
+        'objects': q,
+    })
+
+
+def build_asignar_anexos_query(filters, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """

@@ -1,0 +1,104 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Asignar la cohorte a anexos{% endblock %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "cohorte-asignar-anexos" %}
+{% endblock %}
+
+{% block content %}
+<h2>Asignar la cohorte a anexos</h2>
+
+<form action="" method="get">
+    <div class="form-filter" id="cohorteAsignarAnexosFormFilter">
+	<h3>Búsqueda avanzada</h3>
+	{{ form_filters.non_field_errors }}
+	<div class="form-select">
+	    {{ form_filters.dependencia_funcional.errors }}
+	    <label for="id_dependencia_funcional">Dependencia funcional:</label>
+	    {{ form_filters.dependencia_funcional }}
+	</div>
+	<div class="form-select">
+	    {{ form_filters.localidad.errors }}
+	    <label for="id_localidad">Localidad:</label>
+	    {{ form_filters.localidad }}
+	</div>
+	<div class="form-text">
+	    {{ form_filters.cue.errors }}
+	    <label for="id_cue">CUE:</label>
+	    {{ form_filters.cue }}
+	</div>
+	<div class="form-text">
+	    {{ form_filters.nombre.errors }}
+	    <label for="id_nombre">Nombre:</label>
+	    {{ form_filters.nombre }}
+	</div>
+	<div class="form-submit">
+		<input type="submit" value="Buscar" />
+		<input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-anexos';" />
+	</div>
+    </div>
+</form>
+
+{% include "titulos/cohorte/datos_cohorte.html" %}
+
+{% if objects %}
+<form action="" method="post">{% csrf_token %}
+    <table class="hor-zebra">
+	<thead>
+	    <tr>
+		<th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /></th>
+		<th id="thEstablecimientoCue">CUE</th>
+		<th>Anexo</th>
+		<th>Nombre</th>
+		<th>Oferta</th>
+		<th>Emite</th>
+		<th>Departamento</th>
+		<th>Localidad</th>
+	    </tr>
+	</thead>
+	<tbody>
+	{% for anexo in objects %}
+	    <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+		<td><input type="checkbox" name="anexos" value="{{ anexo.id }}"{% if anexo.id in current_anexos_ids %} checked="checked"{% endif%} /></td>
+		<td>{{ anexo.establecimiento.cue }}</td>
+		<td>{{ anexo.cue }}</td>
+		<td>{{ anexo.nombre }}</td>
+		<td><input type="checkbox" name="oferta" value="{{ anexo.id }}"{% if anexo.id in current_anexos_oferta %} checked="checked"{% endif%} /></td>
+		<td><input type="checkbox" name="emite" value="{{ anexo.id }}"{% if anexo.id in current_anexos_emite %} checked="checked"{% endif%} /></td>
+		<td>{{ anexo.anexo_domicilio.get.localidad.departamento }}</td>
+		<td>{{ anexo.anexo_domicilio.get.localidad }}</td>
+	    </tr>
+	{% endfor %}
+	</tbody>
+    </table>
+    <div class="form-submit" style="margin-top: 20px;">
+	<input type="submit" value="Asignar anexos seleccionados" />
+    </div>
+</form>
+<script type="text/javascript">
+// init
+anexo_checked = false;
+anexo_checkboxes = $('input[name="anexos"][type="checkbox"]');
+$('#check_all_anexos').checked = false;
+$('#check_all_anexos').attr('checked', anexo_checked);
+$('#check_all_anexos').click(function(){
+    anexo_checked = !anexo_checked;
+    anexo_checkboxes.attr('checked', anexo_checked);
+});
+</script>
+
+{% else %}
+<div class="message warning">
+	<p>No se encontraron anexos.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo cohorte.titulo_jurisdiccional_id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

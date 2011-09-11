@@ -7,4 +7,5 @@
 	<p><strong>Carrera:</strong> {{ cohorte_establecimiento.cohorte.titulo_jurisdiccional.titulo.carrera }}</p>
 	<p><strong>Estado actual:</strong> {{ cohorte_establecimiento.estado }}</p>
 	<p><strong>Cantidad de inscriptos:</strong> {{ cohorte_establecimiento.inscriptos }}</p>
+	<p><strong>Cohortes asignadas:</strong> {{ cohorte_establecimiento.seguimiento.all|implode:", " }}</p>
 </div>

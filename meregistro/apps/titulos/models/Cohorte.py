@@ -77,4 +77,38 @@ class Cohorte(models.Model):
                 registro.emite = emite
                 registro.oferta = oferta
                 registro.save()
+                if str(registro.estado) != str(estado):
+                    registro.registrar_estado()
+
+    """
+    Asocia/elimina los anexos desde el formulario masivo
+    XXX: los valores "posts" vienen como strings
+    """
+    def save_anexos(self, current_anexos_ids, current_oferta_ids, current_emite_ids, post_ids, post_oferta_ids, post_emite_ids, estado):
+        from apps.titulos.models.CohorteAnexo import CohorteAnexo
+        "Borrar los que se des-chequean"
+        for anexo_id in current_anexos_ids:
+            if str(anexo_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
+                CohorteAnexo.objects.get(cohorte = self, anexo = anexo_id).delete()
+
+        "Agregar los nuevos"
+        emite = False
+        oferta = False
+        for anexo_id in post_ids:
+            "Emite u oferta??"
+            if anexo_id in post_emite_ids:
+                emite = True
+            if anexo_id in post_oferta_ids:
+                oferta = True
+            "Si no está entre los actuales"
+            if int(anexo_id) not in current_anexos_ids:
+                # Lo creo y registro el estado
+                registro = CohorteAnexo.objects.create(cohorte = self, anexo_id = anexo_id, emite = emite, oferta = oferta, estado = estado)
                 registro.registrar_estado()
+            else:
+                registro = CohorteAnexo.objects.get(cohorte = self, anexo = anexo_id)
+                registro.emite = emite
+                registro.oferta = oferta
+                registro.save()
+                if registro.estado != estado:
+                    registro.registrar_estado()

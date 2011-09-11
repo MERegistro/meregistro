@@ -1,0 +1,59 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Seguimiento de cohorte del anexo{% endblock %}
+
+{% block content %}
+<h2>Seguimiento de cohorte del anexo</h2>
+
+{% if objects %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Año</th>
+      <th>Sólo cursan nuevas unidades</th>
+      <th>Sólo recursan unidades</th>
+      <th>Recursan y cursan nuevas</th>
+      <th>No cursan</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for seguimiento in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+
+	<td>{{ seguimiento.anio }}</td>
+	<td>{{ seguimiento.solo_cursan_nueva }}</td>
+	<td>{{ seguimiento.solo_recursan }}</td>
+	<td>{{ seguimiento.recursan_cursan }}</td>
+	<td>{{ seguimiento.no_cursan }}</td>
+        <td class="actions-td">
+	    <ul>
+	    {% if forloop.last and user_perfil.rol.nombre in 'Anexo' %}
+		<li class="edit"><a href="{% url apps.titulos.views.cohorte_anexo.edit_seguimiento seguimiento.id %}" title="Editar"><span>Editar</span></a></li>
+		<li class="delete"><a href="{% url apps.titulos.views.cohorte_anexo.eliminar seguimiento.id %}" title="Eliminar"><span>Eliminar</span></a></li>
+	    {% endif %}
+	    </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron datos de seguimiento.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'Anexo' %}
+    <li class="create">
+	<a href="{% url apps.titulos.views.cohorte_anexo.create_seguimiento cohorte_anexo.id %}"><span>Nuevo año de seguimiento</span></a>
+    </li>
+    <li class="back">
+	<a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Volver</span></a>
+    </li>
+    {% endif %}
+</ul>
+<hr />
+
+{% endblock %}

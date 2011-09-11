@@ -1,0 +1,11 @@
+{% load tags_filters %}
+<div class="datos-lectura" id="datosCohorteEstablecimiento">
+	<h3>Datos de la cohorte</h3>
+	<p><strong>Año:</strong> {{ cohorte_anexo.cohorte.anio }}</p>
+	<p><strong>Tipo de título:</strong> {{ cohorte_anexo.cohorte.titulo_jurisdiccional.tipo_titulo }}</p>
+	<p><strong>Título:</strong> {{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo }}</p>
+	<p><strong>Carrera:</strong> {{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo.carrera }}</p>
+	<p><strong>Estado actual:</strong> {{ cohorte_anexo.estado }}</p>
+	<p><strong>Cantidad de inscriptos:</strong> {{ cohorte_anexo.inscriptos }}</p>
+	<p><strong>Cohortes asignadas:</strong> {{ cohorte_anexo.seguimiento.all|implode:", " }}</p>
+</div>

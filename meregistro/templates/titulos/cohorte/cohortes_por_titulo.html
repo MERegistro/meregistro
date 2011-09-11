@@ -16,19 +16,22 @@
   <thead>
     <tr>
       <th>Año</th>
-      <th class="actions">Acciones</th>
+      <th>Observaciones</th>
+      <th class="actions" style="width: 140px;">Acciones</th>
     </tr>
   </thead>
   <tbody>
     {% for cohorte in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 	<td>{{ cohorte.anio }}</td>
+	<td>{{ cohorte.observaciones }}</td>
 	<td class="actions-td">
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'Referente' %}
 		<li class="edit"><a href="{% url apps.titulos.views.cohorte.edit cohorte.id %}" title="Editar"><span>Editar</span></a></li>
 		{% if titulo_jurisdiccional.controlado  %}
 		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_establecimientos cohorte.id %}" title="Asignar cohorte a establecimientos"><span>Asignar cohorte a establecimientos</span></a></li>
+		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_anexos cohorte.id %}" title="Asignar cohorte a anexos"><span>Asignar cohorte a anexos</span></a></li>
 		{% endif %}
 		{% if not cohorte.aceptada_por_establecimiento %}
 		<li class="delete"><a href="{% url apps.titulos.views.cohorte.eliminar cohorte.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>

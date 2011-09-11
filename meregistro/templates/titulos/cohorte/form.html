@@ -25,3 +25,51 @@
 		</div>
 	</form>
 </div>
+{% if not titulo_jurisdiccional %}
+<script type="text/javascript">
+$(document).ready(
+	function(){
+		var dropdown_source = $("select#id_titulo_jurisdiccional");
+		var dropdown_target = $("select#id_anio");
+		dropdown_source.change(function(){
+			if (dropdown_source.val() == '') {
+				dropdown_target.html("<option>---Seleccione un título---</option>");
+				dropdown_target.attr('disabled', true);
+			} else {
+				var url = "/titulos/ajax/get_rango_anios_cohorte/" + $(this).val();
+				$.getJSON(url, function(anios) {
+					var options = '';
+					for (i = 0; i < anios.length; i++) {
+						options += '<option value="' + anios[i] + '">' + anios[i] + '</option>';
+					}
+					dropdown_target.html(options);
+					dropdown_target.attr('disabled', false);
+				});
+			}
+		});
+
+		var current_titulo_id = dropdown_source.val();
+		if(undefined != current_titulo_id){
+			var url = "/titulos/ajax/get_rango_anios_cohorte/" + current_titulo_id ;
+			$.getJSON(url, function(anios){
+				var options = '';
+				for (i = 0; i < anios.length; i++) {
+					options += '<option value="' + anios[i] + '">' + anios[i] + '</option>';
+				}
+				dropdown_target.html(options);
+				dropdown_target.attr('disabled', false);
+			});
+		}
+		if (dropdown_source.val() == '') {
+			dropdown_target.html("<option>---Seleccione un título---</option>");
+			dropdown_target.attr('disabled', true);
+		}
+
+	} // END function
+	// Init
+// Init
+
+
+); // END document.ready
+</script>
+{% endif %}

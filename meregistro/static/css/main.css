@@ -711,3 +711,18 @@ body.cohorte-asignar-establecimientos div#datosCohorte {
 	margin-top: 30px;
 }
 
+/*
+=seguimientoNav
+*/
+div#seguimientoNav {
+	margin: 25px 0 0 11px;
+}
+div#seguimientoNav ul li {
+	border-bottom: 1px #fff solid;
+}
+div#seguimientoNav ul li.active {
+	border-bottom: 1px #D6DEDE solid;
+}
+div#seguimientoNav ul li a span {
+	padding: 5px 14px;
+}

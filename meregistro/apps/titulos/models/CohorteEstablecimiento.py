@@ -46,4 +46,3 @@ class CohorteEstablecimiento(models.Model):
         except:
             estados = {}
         return estados
-
