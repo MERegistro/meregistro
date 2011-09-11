@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Seguimiento de cohorte del establecimiento</h2>
+<div class="datos-lectura">
+    <p><strong>Inscriptos a 1er año:</strong> {{ cohorte_establecimiento.inscriptos }}</p>
+</div>
 
 {% if objects %}
 <table class="hor-zebra">
