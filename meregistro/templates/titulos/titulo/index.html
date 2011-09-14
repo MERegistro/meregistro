@@ -16,9 +16,19 @@
 			{{ form_filters.nombre }}
 		</div>
 		<div class="form-select">
+			{{ form_filters.tipo_titulo.errors }}
+			<label for="id_tipo_titulo">Tipo de título:</label>
+			{{ form_filters.tipo_titulo }}
+		</div>
+		<div class="form-select">
 			{{ form_filters.jurisdiccion.errors }}
 			<label for="id_jurisdiccion">Jurisdicción:</label>
 			{{ form_filters.jurisdiccion }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form_filters.estado }}
 		</div>
 		<div class="form-checkbox">
 			{{ form_filters.tiene_orientaciones.errors }}
