@@ -442,3 +442,13 @@ def datos_establecimiento(request):
         'funciones': establecimiento.funciones.all(),
         'niveles': establecimiento.niveles.all(),
     })
+
+@login_required
+@credential_required('revisar_jurisdiccion')
+def revisar_jurisdiccion(request, establecimiento_id):
+    establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
+    establecimiento.revisado_jurisdiccion = True
+    establecimiento.save()
+    request.set_flash('success', 'Registro revisado.')
+    return HttpResponseRedirect(reverse('establecimiento'))
+

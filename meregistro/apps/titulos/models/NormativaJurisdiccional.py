@@ -13,6 +13,7 @@ class NormativaJurisdiccional(models.Model):
     otorgada_por = models.ForeignKey(NormativaMotivoOtorgamiento)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
     estado = models.ForeignKey(EstadoNormativaJurisdiccional) # Concuerda con el último estado en NormativaJurisdiccionalEstado
+    revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
 
     class Meta:
         app_label = 'titulos'

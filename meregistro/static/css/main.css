@@ -469,6 +469,20 @@ td.actions-td ul li.delete a {
 	height: 24px;
 	background: url(../img/icons/delete.png) no-repeat left;
 }
+/* Revisar */
+td.actions-td ul li.revisar a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/revisar.png) no-repeat left;
+}
+/* Revisado */
+td.actions-td ul li.revisado a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/revisado.png) no-repeat left;
+}
 /* ORIENTACIONES - ONE-TO-MANY*/
 td.actions-td ul li.one-many a,
 td.actions-td ul li.orientaciones a {

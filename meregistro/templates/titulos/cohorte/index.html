@@ -64,7 +64,7 @@
 
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'Referente' %}
+	    {% if user_perfil.rol.nombre in 'Referente,ReferenteRevisor' %}
 		<li class="edit"><a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo titulo_jurisdiccional.id %}" title="Editar cohortes"><span>Editar cohortes</span></a></li>
 	    {% endif %}
 	    </ul>

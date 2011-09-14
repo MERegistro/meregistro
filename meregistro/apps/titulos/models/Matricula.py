@@ -14,6 +14,7 @@ class Matricula(models.Model):
     anexo = models.ForeignKey(Anexo, null = True, blank = True)
     establecimiento = models.ForeignKey(Establecimiento)
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
+    revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
 
     class Meta:
         app_label = 'titulos'
@@ -24,7 +25,7 @@ class Matricula(models.Model):
         if self.establecimiento is not None:
             q.filter(establecimiento=self.establecimiento)
         if self.anexo is not None:
-            q.filter(eanexo=self.anexo)
+            q.filter(anexo=self.anexo)
         return len(q) == 0
 
     def isEditable(self):
@@ -32,6 +33,6 @@ class Matricula(models.Model):
         if self.establecimiento is not None:
             q.filter(establecimiento=self.establecimiento)
         if self.anexo is not None:
-            q.filter(eanexo=self.anexo)
+            q.filter(anexo=self.anexo)
         return len(q) == 0
         

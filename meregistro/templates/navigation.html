@@ -3,11 +3,16 @@
 				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente,RectorDirectorIFD' %}
 				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente' %}
+				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente,ReferenteRevisor' %}
 				<li><a href="{% url apps.registro.views.establecimiento.index %}">Establecimientos</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'Referente,' %}
 				<li><a href="{% url apps.registro.views.dependencia_funcional.index %}">Dep. funcionales</a></li>
+				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
+				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
+				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
+				{% endif %}
+				{% if user_perfil.rol.nombre in 'ReferenteRevisor,' %}
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
@@ -28,7 +33,7 @@
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
 				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo' %}
+				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo,ReferenteRevisor' %}
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				{% endif %}
 				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos,Anexo' %}

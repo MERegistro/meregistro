@@ -19,6 +19,7 @@ class TituloJurisdiccional(models.Model):
     normativas = models.ManyToManyField(NormativaJurisdiccional, db_table = 'titulos_titulos_jurisd_normativas')
     jurisdiccion = models.ForeignKey(Jurisdiccion)
     estado = models.ForeignKey(EstadoTituloJurisdiccional) # Concuerda con el último estado en TituloEstado
+    revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
     # TituloJurisdiccionalCohorte -> datos_cohorte
     # TituloJurisdiccionalModalidadDistacia
     # TituloJurisdiccionalModalidadPresencial

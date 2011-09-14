@@ -14,6 +14,7 @@ class Cohorte(models.Model):
     establecimientos = models.ManyToManyField(Establecimiento, through = "CohorteEstablecimiento")
     anexos = models.ManyToManyField(Anexo, through = "CohorteAnexo")
     unidades_extension = models.ManyToManyField(UnidadExtension, through = "CohorteUnidadExtension")
+    revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
 
     class Meta:
         app_label = 'titulos'

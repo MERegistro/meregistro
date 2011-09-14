@@ -395,3 +395,12 @@ Método para aplanar las listas
 """
 def __flat_list(list_to_flat):
     return [i for j in list_to_flat for i in j]
+
+@login_required
+@credential_required('revisar_jurisdiccion')
+def revisar_jurisdiccion(request, oid):
+    o = Cohorte.objects.get(pk = oid)
+    o.revisado_jurisdiccion = True
+    o.save()
+    request.set_flash('success', 'Registro revisado.')
+    return HttpResponseRedirect(reverse('cohortesPorTitulo', args=[o.titulo_jurisdiccional_id]))

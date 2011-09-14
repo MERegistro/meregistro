@@ -397,3 +397,13 @@ def eliminar(request, titulo_id):
     return my_render(request, 'titulos/titulo/eliminar.html', {
         'titulo_id': titulo.id,
     })
+
+@login_required
+@credential_required('revisar_jurisdiccion')
+def revisar_jurisdiccion(request, oid):
+    o = TituloJurisdiccional.objects.get(pk = oid)
+    o.revisado_jurisdiccion = True
+    o.estado = EstadoTituloJurisdiccional.objects.get(nombre = EstadoTituloJurisdiccional.CONTROLADO)
+    o.registrar_estado()
+    request.set_flash('success', 'Registro revisado.')
+    return HttpResponseRedirect(reverse('tituloJurisdiccional'))

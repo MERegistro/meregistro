@@ -33,6 +33,7 @@ class Establecimiento(models.Model):
     niveles = models.ManyToManyField(Nivel, blank = True, null = True, db_table = 'registro_establecimientos_niveles')
     funciones = models.ManyToManyField(Funcion, blank = True, null = True, db_table = 'registro_establecimientos_funciones')
     estado = models.ForeignKey(EstadoEstablecimiento, editable = False, null = True)
+    revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
 
     class Meta:
         app_label = 'registro'

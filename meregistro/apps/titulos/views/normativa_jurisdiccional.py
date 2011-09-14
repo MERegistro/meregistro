@@ -143,3 +143,13 @@ def eliminar(request, normativa_jurisdiccional_id):
         'normativa_jurisdiccional_id': normativa_jurisdiccional.id,
         'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
     })
+
+@login_required
+@credential_required('revisar_jurisdiccion')
+def revisar_jurisdiccion(request, oid):
+    o = NormativaJurisdiccional.objects.get(pk = oid)
+    o.revisado_jurisdiccion = True
+    o.save()
+    request.set_flash('success', 'Registro revisado.')
+    return HttpResponseRedirect(reverse('normativaJurisdiccional'))
+
