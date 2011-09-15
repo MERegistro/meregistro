@@ -1,0 +1,70 @@
+<div class="form" id="cohorteForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.anio.errors }}
+			<label for="id_anio">Año:</label>
+			{{ form.anio }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad_egresados.errors }}
+			<label for="id_cantidad_egresados">Cantidad de egresados:</label>
+			{{ form.cantidad_egresados }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>
+{% if not titulo_jurisdiccional %}
+<script type="text/javascript">
+$(document).ready(
+	function(){
+		var dropdown_source = $("select#id_titulo_jurisdiccional");
+		var dropdown_target = $("select#id_anio");
+		dropdown_source.change(function(){
+			if (dropdown_source.val() == '') {
+				dropdown_target.html("<option>---Seleccione un título---</option>");
+				dropdown_target.attr('disabled', true);
+			} else {
+				var url = "/titulos/ajax/get_rango_anios_cohorte/" + $(this).val();
+				$.getJSON(url, function(anios) {
+					var options = '';
+					for (i = 0; i < anios.length; i++) {
+						options += '<option value="' + anios[i] + '">' + anios[i] + '</option>';
+					}
+					dropdown_target.html(options);
+					dropdown_target.attr('disabled', false);
+				});
+			}
+		});
+
+		var current_titulo_id = dropdown_source.val();
+		if(undefined != current_titulo_id){
+			var url = "/titulos/ajax/get_rango_anios_cohorte/" + current_titulo_id ;
+			$.getJSON(url, function(anios){
+				var options = '';
+				for (i = 0; i < anios.length; i++) {
+					options += '<option value="' + anios[i] + '">' + anios[i] + '</option>';
+				}
+				dropdown_target.html(options);
+				dropdown_target.attr('disabled', false);
+			});
+		}
+		if (dropdown_source.val() == '') {
+			dropdown_target.html("<option>---Seleccione un título---</option>");
+			dropdown_target.attr('disabled', true);
+		}
+
+	} // END function
+	// Init
+// Init
+
+
+); // END document.ready
+</script>
+{% endif %}

@@ -1,0 +1,22 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Agregar detalles al año de egresados{% endblock %}
+
+{% block content %}
+
+<h2>Agregar detalles al año de egresados</h2>
+{% include "titulos/egresados_establecimiento/datos_titulo.html" %}
+<div class="datos-lectura">
+    <p><strong>Egresados:</strong> {{ egresados.cantidad_egresados }}</p>
+    <p><strong>Año:</strong> {{ egresados.anio }}</p>
+</div>
+
+{% include "titulos/egresados_establecimiento/form_detalle.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.egresados_establecimiento.detalle egresados.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

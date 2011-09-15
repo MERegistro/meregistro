@@ -30,13 +30,14 @@
 			{% endif %}
 			{% if user_perfil.rol.nombre == 'RectorDirectorIFD' %}
 				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
-				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos establecimiento</a></li>
+				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos est.</a></li>
 				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
 				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}">Cohortes</a></li>
+				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}">Egresados</a></li>
 			{% endif %}
 			{% if user_perfil.rol.nombre == 'SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
