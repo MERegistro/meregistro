@@ -39,6 +39,14 @@
 				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}">Cohortes</a></li>
 				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}">Egresados</a></li>
 			{% endif %}
+			{% if user_perfil.rol.nombre == 'Anexo' %}
+				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
+				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
+				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
+				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
+				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}">Cohortes</a></li>
+				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}">Egresados</a></li>
+			{% endif %}
 			{% if user_perfil.rol.nombre == 'SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
 				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
@@ -46,13 +54,6 @@
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
-			{% endif %}
-			{% if user_perfil.rol.nombre == 'Anexo' %}
-				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
-				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
-				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
-				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
-				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}">Cohortes</a></li>
 			{% endif %}
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
 			</ul>

@@ -5,9 +5,9 @@
 {% block content %}
 <h2>Eliminación de detalle de egresados</h2>
 
-<div class="form" id="egresadosEstablecimientoEliminarForm">
+<div class="form" id="egresadosAnexoEliminarForm">
     <form action="" method="post">{% csrf_token %}
-	<input type="hidden" name="egresados_establecimiento_detalle_id" value="{{ detalle.id }}" />
+	<input type="hidden" name="egresados_anexo_detalle_id" value="{{ detalle.id }}" />
 	<div class="form-submit">
 	    <input type="submit" value="Eliminar" />
 	</div>
@@ -16,7 +16,7 @@
 
 <ul class="actions">
   <li class="back">
-    <a href="{% url apps.titulos.views.egresados_establecimiento.detalle egresados.id %}"><span>Volver</span></a>
+    <a href="{% url apps.titulos.views.egresados_anexo.detalle egresados.id %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />

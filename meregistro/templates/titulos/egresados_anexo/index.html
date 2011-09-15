@@ -8,7 +8,7 @@
 <h2>Administrar egresados del título</h2>
 
 <form action="" method="get">
-<div class="form-filter" id="egresadosEstablecimientoFormFilter">
+<div class="form-filter" id="egresadosAnexoFormFilter">
     <h3>Búsqueda avanzada</h3>
     {{ form_filters.non_field_errors }}
     <div class="form-select">
@@ -28,7 +28,7 @@
     </div>
     <div class="form-submit">
 	    <input type="submit" value="Buscar" />
-	    <input type="button" value="Reiniciar" onclick="window.location = '/titulos/establecimiento/egresados';" />
+	    <input type="button" value="Reiniciar" onclick="window.location = '/titulos/anexo/egresados';" />
     </div>
 
 </div>
@@ -69,8 +69,8 @@
 
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
-		<li class="edit"><a href="{% url apps.titulos.views.egresados_establecimiento.egresados_por_titulo titulo_jurisdiccional.id %}" title="Egresados"><span>Egresados</span></a></li>
+	    {% if user_perfil.rol.nombre in 'Anexo' %}
+		<li class="edit"><a href="{% url apps.titulos.views.egresados_anexo.egresados_por_titulo titulo_jurisdiccional.id %}" title="Egresados"><span>Egresados</span></a></li>
 	    {% endif %}
 	    </ul>
         </td>

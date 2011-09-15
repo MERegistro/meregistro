@@ -1,10 +1,10 @@
-<div class="form" id="egresadosEstablecimientoForm">
+<div class="form" id="egresadosAnexoDetalleForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
-			{{ form.anio.errors }}
-			<label for="id_anio">Año:</label>
-			{{ form.anio }}
+			{{ form.anio_ingreso.errors }}
+			<label for="id_anio_ingreso">Año de ingreso:</label>
+			{{ form.anio_ingreso }}
 		</div>
 		<div class="form-text">
 			{{ form.cantidad_egresados.errors }}
