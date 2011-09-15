@@ -86,6 +86,6 @@ urlpatterns = patterns('',
     url(r'^establecimiento/egresados/([0-9]+)/editar-detalle$', 'apps.titulos.views.egresados_establecimiento.edit_detalle', name = 'establecimientoEgresadosEditDetalle'),
     url(r'^establecimiento/titulo/([0-9]+)/egresados$', 'apps.titulos.views.egresados_establecimiento.egresados_por_titulo', name = 'establecimientoEgresadosPorTitulo'),
     url(r'^establecimiento/egresados$', 'apps.titulos.views.egresados_establecimiento.index', name = 'establecimientoEgresados'),
-    url(r'^establecimiento/([0-9]+)/eliminar$', 'apps.titulos.views.egresados_establecimiento.eliminar', name = 'establecimientoEgresadosEliminar'),
+    url(r'^establecimiento/egresados/([0-9]+)/eliminar$', 'apps.titulos.views.egresados_establecimiento.eliminar', name = 'establecimientoEgresadosEliminar'),
     url(r'^establecimiento/egresados/([0-9]+)/eliminar_detalle$', 'apps.titulos.views.egresados_establecimiento.eliminar_detalle', name = 'establecimientoEgresadosDetalleEliminar'),
 )
