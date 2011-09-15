@@ -53,6 +53,7 @@
       <th>Carrera</th>
       <th class="th-estados">Estado</th>
       <th>Inscriptos</th>
+      <th>Años de seguimiento</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -66,6 +67,7 @@
 	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo.carrera }}</td>
 	<td>{{ cohorte_anexo.estado }}</td>
 	<td>{% if cohorte_anexo.inscriptos != None %}{{ cohorte_anexo.inscriptos }}{% else %}---{% endif %}</td>
+	<td>{{ cohorte_anexo.seguimiento.all|implode:", " }}</td>
         <td class="actions-td">
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'Anexo' %}
