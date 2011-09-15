@@ -16,9 +16,11 @@ class MatriculaForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         q = Matricula.objects.filter(anio_lectivo=cleaned_data['anio_lectivo'])
         if cleaned_data['establecimiento'] is not None:
-            q.filter(establecimiento = cleaned_data['establecimiento'])
+            q = q.filter(establecimiento = cleaned_data['establecimiento'])
         if cleaned_data['anexo'] is not None:
-            q.filter(anexo = cleaned_data['anexo'])
+            q = q.filter(anexo = cleaned_data['anexo'])
+        if self.instance is not None:
+            q = q.exclude(pk=self.instance.id)
         if len(q) > 0:
             raise ValidationError(u'Ya está cargado el año ingresado.')
         return cleaned_data

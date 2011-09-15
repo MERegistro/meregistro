@@ -100,7 +100,7 @@ def edit(request, matricula_id):
 
 def customize_form(form, request):
     form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(Q(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)|Q(ambito__path__istartswith = request.get_perfil().ambito.path))
     if request.get_perfil().rol.nombre == 'Anexo':
         form.fields['anexo'].empty_label = None
 
@@ -113,3 +113,13 @@ def delete(request, matricula_id):
     else:
         request.set_flash('warning', 'No se puede eliminar la matricula.')
     return HttpResponseRedirect(reverse('matricula'))
+
+@login_required
+@credential_required('revisar_jurisdiccion')
+def revisar_jurisdiccion(request, oid):
+    o = Matricula.objects.get(pk = oid)
+    o.revisado_jurisdiccion = True
+    o.save()
+    request.set_flash('success', 'Registro revisado.')
+    return HttpResponseRedirect(reverse('matricula'))
+
