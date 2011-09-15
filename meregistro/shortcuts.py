@@ -9,4 +9,5 @@ def my_render(request, template, context={}):
     context['flash'] = request.get_flash()
     context['user'] = request.user
     context['user_perfil'] = request.get_perfil()
+    context['credenciales'] = request.get_credenciales()
     return render_to_response(template, context)
