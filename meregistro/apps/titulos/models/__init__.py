@@ -41,3 +41,9 @@ from OpcionPedagogica import OpcionPedagogica
 from TipoHora import TipoHora
 from EstadoTramitePostitulo import EstadoTramitePostitulo
 from Postitulo import Postitulo
+#
+from EgresadosEstablecimiento import EgresadosEstablecimiento
+from EgresadosEstablecimientoDetalle import EgresadosEstablecimientoDetalle
+#
+from EgresadosAnexo import EgresadosAnexo
+from EgresadosAnexoDetalle import EgresadosAnexoDetalle

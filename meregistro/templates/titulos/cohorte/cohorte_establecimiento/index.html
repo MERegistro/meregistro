@@ -67,7 +67,7 @@
 	<td>{{ cohorte_est.cohorte.titulo_jurisdiccional.titulo.carrera }}</td>
 	<td>{{ cohorte_est.estado }}</td>
 	<td>{% if cohorte_est.inscriptos != None %}{{ cohorte_est.inscriptos }}{% else %}---{% endif %}</td>
-	<td>{{ cohorte_est.anios_seguimiento|implode:", " }}</td>
+	<td>{{ cohorte_est.seguimiento.all|implode:", " }}</td>
         <td class="actions-td">
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}

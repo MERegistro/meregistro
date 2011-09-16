@@ -1,54 +1,60 @@
 		<div class="nav" id="mainNav">
 			<ul>
-				{% if user_perfil.rol.nombre in 'AdminSeguridad,AdminSistema,Referente,RectorDirectorIFD' %}
+			{% if user_perfil.rol.nombre == 'AdminSeguridad' %}
 				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminTitulos,Referente,ReferenteRevisor' %}
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'AdminSistema' %}
+				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'AdminTitulos' %}
 				<li><a href="{% url apps.registro.views.establecimiento.index %}">Establecimientos</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'Referente,' %}
+				<li><a href="{% url apps.titulos.views.titulo.index %}">Títulos</a></li>
+				<li><a href="{% url apps.titulos.views.orientacion.index %}">Orientaciones</a></li>
+				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
+				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'Referente' %}
+				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
+				<li><a href="{% url apps.registro.views.establecimiento.index %}">Establecimientos</a></li>
 				<li><a href="{% url apps.registro.views.dependencia_funcional.index %}">Dep. funcionales</a></li>
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'ReferenteRevisor,' %}
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
+				<li><a href="{% url apps.registro.views.establecimiento.index %}">Establecimientos</a></li>
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'AdminTitulos' %}
-				<li><a href="{% url apps.titulos.views.titulo.index %}">Títulos</a></li>
-				<li><a href="{% url apps.titulos.views.orientacion.index %}">Orientaciones</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'SecretarioIFD' %}
-				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
-				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos establecimiento</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo' %}
-				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD' %}
-				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo,ReferenteRevisor' %}
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos,Anexo' %}
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'RectorDirectorIFD' %}
+				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
+				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos est.</a></li>
+				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
+				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
+				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,AdminTitulos,Anexo' %}
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
 				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}">Cohortes</a></li>
-				{% endif %}
-				{% if user_perfil.rol.nombre in 'Anexo' %}
+				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}">Egresados</a></li>
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'Anexo' %}
+				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
+				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
+				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
+				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}">Cohortes</a></li>
-				{% endif %}
-
+				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}">Egresados</a></li>
+			{% endif %}
+			{% if user_perfil.rol.nombre == 'SecretarioIFD' %}
+				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
+				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
+				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
+				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
+				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
+				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
+			{% endif %}
 				<li id="linkAyuda"><a href="#">Ayuda</a></li>
 			</ul>
 		</div>

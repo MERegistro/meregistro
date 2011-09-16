@@ -34,3 +34,11 @@ from CohorteAsignarUnidadesExtensionFormFilters import CohorteAsignarUnidadesExt
 #
 from PostituloFormFilters import PostituloFormFilters
 from PostituloForm import PostituloForm
+#
+from EgresadosEstablecimientoForm import EgresadosEstablecimientoForm
+from EgresadosEstablecimientoDetalleForm import EgresadosEstablecimientoDetalleForm
+from EgresadosEstablecimientoFormFilters import EgresadosEstablecimientoFormFilters
+#
+from EgresadosAnexoForm import EgresadosAnexoForm
+from EgresadosAnexoDetalleForm import EgresadosAnexoDetalleForm
+from EgresadosAnexoFormFilters import EgresadosAnexoFormFilters

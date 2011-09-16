@@ -15,9 +15,9 @@ class CohorteAnexoSeguimiento(models.Model):
 
     class Meta:
         app_label = 'titulos'
-        ordering = ['cohorte_anexo__cohorte__anio']
+        ordering = ['cohorte_anexo__cohorte__anio', 'anio']
         db_table = 'titulos_cohorte_anexo_seguimiento'
-        #unique_together = ('cohorte_anexo', 'anio') -> no funciona, valido a mano
+        unique_together = ('cohorte_anexo', 'anio') # -> no funciona, valido a mano
 
     def __unicode__(self):
         return str(self.anio)
