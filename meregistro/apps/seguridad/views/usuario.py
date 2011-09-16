@@ -115,6 +115,9 @@ def bloquear(request, userId):
   Bloquea un usuario.
   """
   usuario = Usuario.objects.get(pk=userId)
+  if not request.get_perfil().ve_usuario(usuario):
+    request.set_flash('warning', 'No puede bloquear el usuario seleccionado.')
+    return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))    
   if request.method == 'POST':
     form = BloquearUsuarioForm(request.POST)
     if form.is_valid():

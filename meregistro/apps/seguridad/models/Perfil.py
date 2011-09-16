@@ -22,3 +22,7 @@ class Perfil(models.Model):
                 jurisdiccion = ambito.jurisdiccion_set.all()[0]
             ambito = ambito.parent
         return jurisdiccion
+    
+    def ve_usuario(self, usuario):
+        q = usuario.perfiles.filter(ambito__path__istartswith=self.ambito.path)
+        return len(q) > 0
