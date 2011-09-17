@@ -36,7 +36,7 @@ def build_query(filters, page, request):
     return filters.buildQuery().filter(cohortes__cohorteanexo__anexo = anexo, estado__nombre = estado).order_by('titulo__nombre')
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def index(request):
     """
     Index de egresados
@@ -77,7 +77,7 @@ def index(request):
 
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def egresados_por_titulo(request, titulo_jurisdiccional_id):
     
     anexo = __get_anexo_actual(request)
@@ -91,7 +91,7 @@ def egresados_por_titulo(request, titulo_jurisdiccional_id):
 
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def create(request, titulo_jurisdiccional_id):
     """
     Alta de egresados en anexo.
@@ -124,7 +124,7 @@ def create(request, titulo_jurisdiccional_id):
 
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def edit(request, egresados_anexo_id):
     """
     Edición de egresados.
@@ -151,7 +151,7 @@ def edit(request, egresados_anexo_id):
     })
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def eliminar(request, egresados_anexo_id):
     """
     Baja de un dato de egresados
@@ -176,7 +176,7 @@ def eliminar(request, egresados_anexo_id):
     })
     
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def detalle(request, egresados_anexo_id):
     
     egresados = EgresadosAnexo.objects.get(pk = egresados_anexo_id)
@@ -190,7 +190,7 @@ def detalle(request, egresados_anexo_id):
     })
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def agregar_detalle(request, egresados_anexo_id):
     """
     Agregar detalles de egresados en anexo.
@@ -222,7 +222,7 @@ def agregar_detalle(request, egresados_anexo_id):
     })
     
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def edit_detalle(request, detalle_id):
     """
     Edición de detalle de egresados.
@@ -252,7 +252,7 @@ def edit_detalle(request, detalle_id):
     })
 
 @login_required
-#@credential_required('tit_egresados_anexo')
+@credential_required('tit_egresados_anexo')
 def eliminar_detalle(request, detalle_id):
     """
     Baja de un dato de detalle de egresados
