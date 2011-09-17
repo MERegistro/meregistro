@@ -6,7 +6,7 @@ from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
 class TituloJurisdiccionalModalidadPresencial(models.Model):
     titulo = models.ForeignKey(TituloJurisdiccional, related_name = 'modalidad_presencial')
     duracion = models.PositiveIntegerField(null = True, blank = True)
-    cuatrimestres = models.PositiveIntegerField()
+    cuatrimestres = models.PositiveIntegerField(null = True, blank = True)
 
     class Meta:
         app_label = 'titulos'
