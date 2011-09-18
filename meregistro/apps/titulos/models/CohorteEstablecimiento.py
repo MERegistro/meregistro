@@ -9,8 +9,8 @@ import datetime
 class CohorteEstablecimiento(models.Model):
     establecimiento = models.ForeignKey(Establecimiento, related_name = 'cohortes')
     cohorte = models.ForeignKey(Cohorte)
-    oferta = models.BooleanField()
-    emite = models.BooleanField()
+    oferta = models.NullBooleanField()
+    emite = models.NullBooleanField()
     inscriptos = models.PositiveIntegerField(null = True, blank = True)
     estado = models.ForeignKey(EstadoCohorteEstablecimiento) # Concuerda con el último estado en CohorteEstablecimientoEstado
 
@@ -18,6 +18,7 @@ class CohorteEstablecimiento(models.Model):
         app_label = 'titulos'
         ordering = ['cohorte__anio']
         db_table = 'titulos_cohortes_establecimientos'
+        unique_together = ('establecimiento', 'cohorte')
 
     def __unicode__(self):
         return str(self.establecimiento) + ' - ' + str(self.cohorte)

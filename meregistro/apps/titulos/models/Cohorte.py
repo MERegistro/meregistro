@@ -60,8 +60,8 @@ class Cohorte(models.Model):
                 CohorteEstablecimiento.objects.get(cohorte = self, establecimiento = est_id).delete()
 
         "Agregar los nuevos"
-        emite = False
-        oferta = False
+        emite = None
+        oferta = None
         for est_id in post_ids:
             "Emite u oferta??"
             if est_id in post_emite_ids:
@@ -93,8 +93,8 @@ class Cohorte(models.Model):
                 CohorteAnexo.objects.get(cohorte = self, anexo = anexo_id).delete()
 
         "Agregar los nuevos"
-        emite = False
-        oferta = False
+        emite = None
+        oferta = None
         for anexo_id in post_ids:
             "Emite u oferta??"
             if anexo_id in post_emite_ids:
@@ -126,7 +126,7 @@ class Cohorte(models.Model):
                 CohorteUnidadExtension.objects.get(cohorte = self, unidad_extension = unidad_extension_id).delete()
 
         "Agregar los nuevos"
-        oferta = False
+        oferta = None
         for unidad_extension_id in post_ids:
             "Oferta??"
             if unidad_extension_id in post_oferta_ids:

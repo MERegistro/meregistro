@@ -9,7 +9,7 @@ import datetime
 class CohorteUnidadExtension(models.Model):
     unidad_extension = models.ForeignKey(UnidadExtension, related_name = 'unidad_extension_cohortes')
     cohorte = models.ForeignKey(Cohorte)
-    oferta = models.BooleanField()
+    oferta = models.NullBooleanField()
     inscriptos = models.PositiveIntegerField(null = True, blank = True)
     estado = models.ForeignKey(EstadoCohorteUnidadExtension) # Concuerda con el último estado en CohorteUnidadExtensionEstado
 
@@ -17,6 +17,7 @@ class CohorteUnidadExtension(models.Model):
         app_label = 'titulos'
         ordering = ['cohorte__anio']
         db_table = 'titulos_cohortes_unidades_extension'
+        unique_together = ('unidad_extension', 'cohorte')
 
     def __unicode__(self):
         return str(self.unidad_extension) + ' - ' + str(self.cohorte)
