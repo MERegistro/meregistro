@@ -27,6 +27,8 @@ class Ambito(models.Model):
         child.level = self.level + 1
         child.parent = self
         child.save()
-        child.path = self.path + '/' + str(child.id) +'/'
+        if self.path[-1] == '/': c = ''
+        else: c = '/'
+        child.path = self.path + c + str(child.id) +'/'
         child.save()
         return child
