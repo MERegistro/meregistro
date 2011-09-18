@@ -21,6 +21,7 @@ class EgresadosAnexoDetalleForm(forms.ModelForm):
     "Le agrego datos para chequear"
     def __init__(self, *args, **kwargs):
         self.egresados_anexo_id = kwargs.pop('egresados_anexo_id')
+        self.max_egresados = kwargs.pop('max_egresados')
         super(EgresadosAnexoDetalleForm, self).__init__(*args, **kwargs)
 
     def clean_anio_ingreso(self):
@@ -35,3 +36,9 @@ class EgresadosAnexoDetalleForm(forms.ModelForm):
         if registro is not None and registro.id != self.instance.id:
             raise ValidationError("Ya se detalló ese año para el año de egresados")
         return self.cleaned_data['anio_ingreso']
+
+    def clean_cantidad_egresados(self):
+        if self.cleaned_data['cantidad_egresados'] > self.max_egresados:
+            raise ValidationError("La cantidad de egresados es mayor que la declarada.")
+        return self.cleaned_data['cantidad_egresados']
+            

@@ -200,7 +200,7 @@ def agregar_detalle(request, egresados_anexo_id):
     titulo_jurisdiccional = egresados.titulo_jurisdiccional
     
     if request.method == 'POST':
-        form = EgresadosAnexoDetalleForm(request.POST, egresados_anexo_id = egresados.id)
+        form = EgresadosAnexoDetalleForm(request.POST, egresados_anexo_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
             detalle = form.save(commit = False)
             detalle.egresados_anexo = egresados
@@ -212,7 +212,7 @@ def agregar_detalle(request, egresados_anexo_id):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = EgresadosAnexoDetalleForm(egresados_anexo_id = egresados.id)
+        form = EgresadosAnexoDetalleForm(egresados_anexo_id = egresados.id, max_egresados = egresados.cantidad_egresados)
 
     return my_render(request, 'titulos/egresados_anexo/new_detalle.html', {
         'form': form,
@@ -232,16 +232,16 @@ def edit_detalle(request, detalle_id):
     titulo_jurisdiccional = egresados.titulo_jurisdiccional
 
     if request.method == 'POST':
-        form = EgresadosAnexoDetalleForm(request.POST, instance = detalle, egresados_anexo_id = egresados.id)
+        form = EgresadosAnexoDetalleForm(request.POST, instance = detalle, egresados_anexo_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
             egresados = form.save()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
+            return HttpResponseRedirect(reverse('anexoEgresadosDetalle', args = [egresados.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-            return HttpResponseRedirect(reverse('anexoEgresadosDetalle', args = [egresados.id]))
     else:
-        form = EgresadosAnexoDetalleForm(instance = detalle, egresados_anexo_id = egresados.id)
+        form = EgresadosAnexoDetalleForm(instance = detalle, egresados_anexo_id = egresados.id, max_egresados = egresados.cantidad_egresados)
 
     return my_render(request, 'titulos/egresados_anexo/edit_detalle.html', {
         'form': form,

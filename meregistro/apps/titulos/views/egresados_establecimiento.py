@@ -201,7 +201,7 @@ def agregar_detalle(request, egresados_establecimiento_id):
     titulo_jurisdiccional = egresados.titulo_jurisdiccional
     
     if request.method == 'POST':
-        form = EgresadosEstablecimientoDetalleForm(request.POST, egresados_establecimiento_id = egresados.id)
+        form = EgresadosEstablecimientoDetalleForm(request.POST, egresados_establecimiento_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
             detalle = form.save(commit = False)
             detalle.egresados_establecimiento = egresados
@@ -213,7 +213,7 @@ def agregar_detalle(request, egresados_establecimiento_id):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = EgresadosEstablecimientoDetalleForm(egresados_establecimiento_id = egresados.id)
+        form = EgresadosEstablecimientoDetalleForm(egresados_establecimiento_id = egresados.id, max_egresados = egresados.cantidad_egresados)
 
     return my_render(request, 'titulos/egresados_establecimiento/new_detalle.html', {
         'form': form,
@@ -233,16 +233,16 @@ def edit_detalle(request, detalle_id):
     titulo_jurisdiccional = egresados.titulo_jurisdiccional
 
     if request.method == 'POST':
-        form = EgresadosEstablecimientoDetalleForm(request.POST, instance = detalle, egresados_establecimiento_id = egresados.id)
+        form = EgresadosEstablecimientoDetalleForm(request.POST, instance = detalle, egresados_establecimiento_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
             egresados = form.save()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
+            return HttpResponseRedirect(reverse('establecimientoEgresadosDetalle', args = [egresados.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-            return HttpResponseRedirect(reverse('establecimientoEgresadosDetalle', args = [egresados.id]))
     else:
-        form = EgresadosEstablecimientoDetalleForm(instance = detalle, egresados_establecimiento_id = egresados.id)
+        form = EgresadosEstablecimientoDetalleForm(instance = detalle, egresados_establecimiento_id = egresados.id, max_egresados = egresados.cantidad_egresados)
 
     return my_render(request, 'titulos/egresados_establecimiento/edit_detalle.html', {
         'form': form,
