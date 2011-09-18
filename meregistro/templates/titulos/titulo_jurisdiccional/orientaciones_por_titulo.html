@@ -44,6 +44,7 @@
 {% else %}
 <div class="message notice">
   <p>El título aún no tiene orientaciones.</p>
+  <p>Puede asignar/quitar orientaciones desde el <a href="{% url apps.titulos.views.titulo_jurisdiccional.editar_orientaciones titulo_jurisdiccional.id %}" title="Editar orientaciones"><span>formulario de edición</span></a> del título.</p>
 </div>
 {% endif %}
 <ul class="actions">

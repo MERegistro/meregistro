@@ -24,7 +24,7 @@
     {% for cohorte in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 	<td>{{ cohorte.anio }}</td>
-	<td>{{ cohorte.observaciones }}</td>
+	<td>{% if cohorte.observaciones %}{{ cohorte.observaciones }}{% else %}{% endif %}</td>
 	<td class="actions-td">
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'Referente,ReferenteRevisor' %}

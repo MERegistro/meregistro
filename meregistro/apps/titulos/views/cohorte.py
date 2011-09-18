@@ -95,7 +95,7 @@ def create(request, titulo_jurisdiccional_id = None):
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
         #q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO, datos_cohorte__anio_ultima_cohorte__lte = datetime.date.today().year)
         q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO)
-        form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion = request.get_perfil().jurisdiccion())
+        form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion = request.get_perfil().jurisdiccion()).order_by('titulo__nombre')
 
     form.fields["titulo_jurisdiccional"].queryset = q
     form.fields["anio"].choices = choices
@@ -301,7 +301,7 @@ def build_asignar_anexos_query(filters, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().filter(ambito__path__istartswith = request.get_perfil().ambito.path).order_by('nombre')
 
 @login_required
 @credential_required('tit_cohorte_asignar')
