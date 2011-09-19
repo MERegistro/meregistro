@@ -27,6 +27,11 @@
 				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
+<!--
+				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}">Egresados Anexo</a></li>
+				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}">Egresados Establecimiento</a></li>
+-->
+			    <li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos est.</a></li>
 			{% endif %}
 			{% if user_perfil.rol.nombre == 'RectorDirectorIFD' %}
 				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>

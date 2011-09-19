@@ -117,6 +117,7 @@ def edit(request, establecimiento_id):
     """
     Edición de los datos de un establecimiento.
     """
+    request.session['establecimiento_seleccionado_id'] = establecimiento_id
     establecimiento = Establecimiento.objects.get(pk = establecimiento_id)
     if request.method == 'POST':
         form = EstablecimientoForm(request.POST, instance = establecimiento)
@@ -197,14 +198,16 @@ def __get_establecimiento_actual(request):
     """
     Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
     """
-    try:
-        establecimiento = Establecimiento.objects.get(ambito__id = request.get_perfil().ambito.id)
-        if not bool(establecimiento):
-            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+    establecimientos = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    if len(establecimientos) == 0:
+        raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+    elif len(establecimientos) == 1:
+        return establecimientos[0]
+    else:
+        if request.session.has_key('establecimiento_seleccionado_id'):
+            return Establecimiento.objects.get(pk=int(request.session['establecimiento_seleccionado_id']))
         else:
-            return establecimiento
-    except Exception:
-        pass
+            request.set_flash('warning', 'Debe seleccionar un establecimiento.')
 
 @login_required
 @credential_required('reg_establecimiento_completar')
