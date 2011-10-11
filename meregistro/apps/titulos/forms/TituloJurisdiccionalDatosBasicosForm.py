@@ -7,6 +7,7 @@ from apps.titulos.forms import TituloJurisdiccionalForm
 
 
 class TituloJurisdiccionalDatosBasicosForm(forms.ModelForm):
+    titulo = forms.ChoiceField(label = 'Título', choices = [], required = True)
 
     class Meta:
        model = TituloJurisdiccional

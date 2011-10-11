@@ -51,6 +51,7 @@ var current_titulo_id = {{ titulo_jurisdiccional.titulo_id }};
 {% else %}
 var current_titulo_id = null;
 {% endif %}
+//alert(dropdown_source.val());
 if (dropdown_source.val() == '') {
 	dropdown_target.html("<option>---Seleccione un tipo de título---</option>");
 	dropdown_target.attr('disabled', true);

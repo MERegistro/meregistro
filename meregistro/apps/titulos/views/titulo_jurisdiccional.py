@@ -86,7 +86,7 @@ def create(request):
     else:
         form = TituloJurisdiccionalDatosBasicosForm()
     # Agrego el filtro por jurisdicción
-    form.fields['titulo'].queryset = form.fields['titulo'].queryset.filter(jurisdicciones__id = request.get_perfil().jurisdiccion().id)
+    #form.fields['titulo'].queryset = form.fields['titulo'].queryset.filter(jurisdicciones__id = request.get_perfil().jurisdiccion().id, estado__nombre = EstadoTitulo.VIGENTE)
     return my_render(request, 'titulos/titulo_jurisdiccional/new.html', {
         'form': form,
         'form_template': 'titulos/titulo_jurisdiccional/form_datos_basicos.html',
