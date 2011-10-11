@@ -131,6 +131,8 @@ def edit(request, establecimiento_id):
     else:
         form = EstablecimientoForm(instance = establecimiento)
 
+    if request.get_perfil().jurisdiccion() is not None:
+        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion = request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/edit.html', {
         'form': form,
         'establecimiento': establecimiento,
