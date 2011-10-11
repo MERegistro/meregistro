@@ -39,6 +39,13 @@
       </tr>
     {% endfor %}
   </tbody>
+  <tfoot>
+    <tr>
+	<td colspan="2"></td>
+	<td><strong>Total: {{ egresados.get_suma_egresados_detalle }}</strong></td>
+	<td></td>
+    </tr>
+  </tfoot>
 </table>
 </form>
 {% else %}

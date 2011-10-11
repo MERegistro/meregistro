@@ -38,6 +38,18 @@ class EgresadosEstablecimientoDetalleForm(forms.ModelForm):
         return self.cleaned_data['anio_ingreso']
 
     def clean_cantidad_egresados(self):
-        if self.cleaned_data['cantidad_egresados'] > self.max_egresados:
-            raise ValidationError("La cantidad de egresados es mayor que la declarada.")
+        # egresados = self.instance.egresados_establecimiento # No lo puedo hacer así porque al crearlo no tiene instance
+        egresados = EgresadosEstablecimiento.objects.get(pk = self.egresados_establecimiento_id)
+        egresados.get_suma_egresados_detalle()
+        if self.cleaned_data['cantidad_egresados'] > egresados.cantidad_egresados:
+            raise ValidationError("La cantidad de egresados es mayor que la cantidad declarada.")
+        else:
+            # Verificar que la suma de los detalles anteriores y el actual no sea mayor que el máximo
+            suma_detalle = egresados.get_suma_egresados_detalle()
+            if self.instance.id is not None: # Se está editando?
+                suma_detalle -= self.instance.cantidad_egresados
+
+            if suma_detalle is not None and (suma_detalle + self.cleaned_data['cantidad_egresados']) > egresados.cantidad_egresados:
+                raise ValidationError("La suma de los egresados de todos los años es mayor que la cantidad declarada.")
+                
         return self.cleaned_data['cantidad_egresados']

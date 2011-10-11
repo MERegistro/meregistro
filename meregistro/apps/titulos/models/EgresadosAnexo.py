@@ -6,6 +6,9 @@ import datetime
 
 
 class EgresadosAnexo(models.Model):
+
+    ANIO_MAXIMO_EGRESADOS = 2008
+    
     anexo = models.ForeignKey(Anexo, related_name = 'egresados')
     titulo_jurisdiccional = models.ForeignKey(TituloJurisdiccional)
     anio = models.PositiveIntegerField()
@@ -24,3 +27,9 @@ class EgresadosAnexo(models.Model):
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
         super(EgresadosAnexo, self).__init__(*args, **kwargs)
+
+    def get_suma_egresados_detalle(self):
+        detalle = self.detalle.all()
+        if not detalle:
+            return None
+        return sum([e.cantidad_egresados for e in detalle])

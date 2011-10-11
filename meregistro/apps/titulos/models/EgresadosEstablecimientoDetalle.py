@@ -20,3 +20,4 @@ class EgresadosEstablecimientoDetalle(models.Model):
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
         super(EgresadosEstablecimientoDetalle, self).__init__(*args, **kwargs)
+

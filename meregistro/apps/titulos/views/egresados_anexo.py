@@ -14,7 +14,7 @@ ITEMS_PER_PAGE = 50
 
 def __get_anexo_actual(request):
     """
-    Trae el único anexo que tiene asignado, por ejemplo, un rector/director
+    Trae el único anexo que tiene asignado el usuario anexo
     """
     try:
         anexo = Anexo.objects.get(ambito__id = request.get_perfil().ambito.id)
@@ -234,7 +234,7 @@ def edit_detalle(request, detalle_id):
     if request.method == 'POST':
         form = EgresadosAnexoDetalleForm(request.POST, instance = detalle, egresados_anexo_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
-            egresados = form.save()
+            detalle = form.save()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
             return HttpResponseRedirect(reverse('anexoEgresadosDetalle', args = [egresados.id]))

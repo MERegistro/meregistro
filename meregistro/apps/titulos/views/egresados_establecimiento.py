@@ -235,7 +235,7 @@ def edit_detalle(request, detalle_id):
     if request.method == 'POST':
         form = EgresadosEstablecimientoDetalleForm(request.POST, instance = detalle, egresados_establecimiento_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
-            egresados = form.save()
+            detalle = form.save()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
             return HttpResponseRedirect(reverse('establecimientoEgresadosDetalle', args = [egresados.id]))
