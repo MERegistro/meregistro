@@ -8,7 +8,6 @@ class TituloJurisdiccionalModalidadDistancia(models.Model):
     duracion = models.PositiveIntegerField()
     cuatrimestres = models.PositiveIntegerField(null = True, blank = True)
     nro_dictamen = models.CharField(max_length = 50, null = True, blank = True)
-    horas_reloj = models.PositiveIntegerField(null = True, blank = True)
 
     class Meta:
         app_label = 'titulos'

@@ -18,6 +18,7 @@ class TituloJurisdiccional(models.Model):
     orientaciones = models.ManyToManyField(TituloOrientacion, db_table = 'titulos_titulos_jurisd_orientaciones')
     normativas = models.ManyToManyField(NormativaJurisdiccional, db_table = 'titulos_titulos_jurisd_normativas')
     jurisdiccion = models.ForeignKey(Jurisdiccion)
+    horas_reloj = models.PositiveIntegerField(null = True, blank = True)
     estado = models.ForeignKey(EstadoTituloJurisdiccional) # Concuerda con el último estado en TituloEstado
     revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
     # TituloJurisdiccionalCohorte -> datos_cohorte

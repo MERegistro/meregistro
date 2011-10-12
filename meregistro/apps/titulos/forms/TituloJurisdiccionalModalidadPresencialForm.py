@@ -20,10 +20,12 @@ class TituloJurisdiccionalModalidadPresencialForm(forms.ModelForm):
         cleaned_data = self.cleaned_data
         # Modalidad presencial
         posee_mod_presencial = cleaned_data['posee_mod_presencial']
-        if not posee_mod_presencial:
-            cleaned_data['duracion'] = 1
+        if not posee_mod_presencial: # Los reseteo, pero en la vista los elimino
+            cleaned_data['duracion'] = None
+            cleaned_data['cuatrimestres'] = None
         elif str(cleaned_data['duracion']) == '':
             raise ValidationError('Debe elegir la duración.')
         elif str(cleaned_data['cuatrimestres']) == '':
-            raise ValidationError('Debe elegir la cantidad de cuatrimestres.')
+            cleaned_data['cuatrimestres'] = None # sino arroja: "invalid literal for int() with base 10: ''"
+    
         return cleaned_data

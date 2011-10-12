@@ -9,7 +9,7 @@ from apps.titulos.models import Titulo, TituloJurisdiccional, EstadoTituloJurisd
     TituloJurisdiccionalCohorte
 from apps.titulos.forms import TituloJurisdiccionalFormFilters, TituloJurisdiccionalForm, TituloJurisdiccionalDatosBasicosForm, \
     TituloJurisdiccionalOrientacionesForm, TituloJurisdiccionalModalidadPresencialForm, TituloJurisdiccionalModalidadDistanciaForm, \
-    TituloJurisdiccionalNormativasForm, TituloJurisdiccionalCohorteForm
+    TituloJurisdiccionalDuracionForm, TituloJurisdiccionalNormativasForm, TituloJurisdiccionalCohorteForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -210,7 +210,21 @@ def editar_modalidades(request, titulo_jurisdiccional_id):
         form_modalidad_presencial = TituloJurisdiccionalModalidadPresencialForm(request.POST, instance = modalidad_presencial, prefix = prefix_mod_presencial)
         form_modalidad_distancia = TituloJurisdiccionalModalidadDistanciaForm(request.POST, instance = modalidad_distancia, prefix = prefix_mod_distancia)
 
-        if form_modalidad_presencial.is_valid() and form_modalidad_distancia.is_valid():
+        try:
+            duracion_mod_distancia = request.POST['mod_distancia-duracion']
+        except:
+            duracion_mod_distancia = None
+            
+        try:
+            duracion_mod_presencial = request.POST['mod_presencial-duracion']
+        except:
+            duracion_mod_presencial = None
+            
+        form_duracion = TituloJurisdiccionalDuracionForm(request.POST, instance = titulo_jurisdiccional, duracion_mod_distancia = duracion_mod_distancia, duracion_mod_presencial = duracion_mod_presencial)
+
+        if form_modalidad_presencial.is_valid() and form_modalidad_distancia.is_valid() and form_duracion.is_valid():
+        
+            
             # Eliminarlo si se des-checkeó el checkbox y ya existe el objecto
             try:
                 if request.POST['mod_presencial-posee_mod_presencial'] == 'on':
@@ -218,24 +232,18 @@ def editar_modalidades(request, titulo_jurisdiccional_id):
             except KeyError: # No se activó el checkbox
                 if modalidad_presencial.id:
                     modalidad_presencial.delete()
-
+                    
+            # Eliminarlo si se des-checkeó el checkbox y ya existe el objecto
             try:
-                if request.POST['mod_distancia-posee_mod_distancia'] != 'on' and modalidad_distancia.id:
-                    #raise Exception('a')
-                    modalidad_distancia.delete()
-                else:
-                    #raise Exception('b')
+                if request.POST['mod_distancia-posee_mod_distancia'] == 'on':
                     modalidad_distancia = form_modalidad_distancia.save()
             except KeyError: # No se activó el checkbox
-                #raise Exception('c')
                 if modalidad_distancia.id:
                     modalidad_distancia.delete()
-
-            #if request.POST['mod_distancia-posee_mod_distancia'] != 'on' and modalidad_distancia.id:
-            #    modalidad_distancia.delete()
-            #else:
-            #    modalidad_distancia = form_modalidad_distancia.save()
-
+                    
+            #if form_duracion.is_valid():
+            titulo_duracion = form_duracion.save()
+                
             request.set_flash('success', 'Datos guardados correctamente.')
             # redirigir a edit
             return HttpResponseRedirect(reverse('tituloJurisdiccionalModalidadesEdit', args = [titulo_jurisdiccional.id]))
@@ -244,12 +252,14 @@ def editar_modalidades(request, titulo_jurisdiccional_id):
     else:
         form_modalidad_presencial = TituloJurisdiccionalModalidadPresencialForm(instance = modalidad_presencial, prefix = prefix_mod_presencial)
         form_modalidad_distancia = TituloJurisdiccionalModalidadDistanciaForm(instance = modalidad_distancia, prefix = prefix_mod_distancia)
-
+        form_duracion = TituloJurisdiccionalDuracionForm(instance = titulo_jurisdiccional, duracion_mod_distancia = None, duracion_mod_presencial = None)
+        
     return my_render(request, 'titulos/titulo_jurisdiccional/edit.html', {
         'modalidad_presencial': modalidad_presencial,
         'modalidad_distancia': modalidad_distancia,
         'form_modalidad_presencial': form_modalidad_presencial,
         'form_modalidad_distancia': form_modalidad_distancia,
+        'form_duracion': form_duracion,
         'titulo_jurisdiccional': titulo_jurisdiccional,
         'form_template': 'titulos/titulo_jurisdiccional/form_modalidades.html',
         'is_new': False,

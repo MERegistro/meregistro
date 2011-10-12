@@ -15,19 +15,3 @@ class TituloJurisdiccionalModalidadPresencial(models.Model):
 
     def __unicode__(self):
         return self.titulo
-
-
-"""
----------------------------------
-Opciones pedagógicas:
-
-El usuario puede seleccionar una o ambas opciones.
-
-* Presencial (check)
-
-Evento del sistema: Si selecciona esta opción el sistema solicita los siguientes datos:
-
- * Años de duración de la carrera: ( Numérico >0 >= 4, no requerido))
- * Cuatrimestres: ( Numérico =>0 <= 2)
-
-"""
