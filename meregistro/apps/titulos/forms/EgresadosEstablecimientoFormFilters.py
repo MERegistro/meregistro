@@ -21,7 +21,7 @@ class EgresadosEstablecimientoFormFilters(forms.Form):
                 return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None
             
             if filter_by('tipo_titulo'):
-                q = q.filter(tipo_titulo = self.cleaned_data['tipo_titulo'])
+                q = q.filter(titulo__tipo_titulo = self.cleaned_data['tipo_titulo'])
             if filter_by('nombre_titulo'):
                 q = q.filter(titulo__nombre__icontains = self.cleaned_data['nombre'])
             if filter_by('carrera'):

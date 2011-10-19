@@ -11,8 +11,8 @@ class TituloJurisdiccionalCohorteForm(forms.ModelForm):
     COHORTES_APROBADAS_CHOICES = [('', '-------')] + [(i, i) for i in range(1, 6)]
     ANIOS_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(2000, 2021)]
     cohortes_aprobadas = forms.ChoiceField(label = 'Duración', choices = COHORTES_APROBADAS_CHOICES, required = True)
-    anio_primera_cohorte = forms.ChoiceField(label = 'Cuatrimestres', choices = ANIOS_COHORTE_CHOICES, required = True)
-    anio_ultima_cohorte = forms.ChoiceField(label = 'Cuatrimestres', choices = ANIOS_COHORTE_CHOICES, required = True)
+    anio_primera_cohorte = forms.ChoiceField(label = 'Año primera cohorte', choices = ANIOS_COHORTE_CHOICES, required = True)
+    anio_ultima_cohorte = forms.ChoiceField(label = 'Año última cohorte', choices = ANIOS_COHORTE_CHOICES, required = True)
     observaciones = forms.CharField(widget = forms.Textarea, required = False)
 
     class Meta:

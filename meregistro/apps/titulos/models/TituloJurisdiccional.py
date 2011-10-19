@@ -13,7 +13,7 @@ Título jurisdiccional
 """
 
 class TituloJurisdiccional(models.Model):
-    tipo_titulo = models.ForeignKey(TipoTitulo)
+    #tipo_titulo = models.ForeignKey(TipoTitulo) -> Hereda del título
     titulo = models.ForeignKey(Titulo)
     orientaciones = models.ManyToManyField(TituloOrientacion, db_table = 'titulos_titulos_jurisd_orientaciones')
     normativas = models.ManyToManyField(NormativaJurisdiccional, db_table = 'titulos_titulos_jurisd_normativas')

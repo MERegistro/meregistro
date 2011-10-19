@@ -27,7 +27,7 @@ class AceptarCohorteAnexoFormFilters(forms.Form):
             if filter_by('anio'):
                 q = q.filter(cohorte__anio = self.cleaned_data['anio'])
             if filter_by('tipo_titulo'):
-                q = q.filter(cohorte__titulo_jurisdiccional__tipo_titulo = self.cleaned_data['tipo_titulo'])
+                q = q.filter(cohorte__titulo_jurisdiccional__titulo__tipo_titulo = self.cleaned_data['tipo_titulo'])
             if filter_by('nombre_titulo'):
                 q = q.filter(cohorte__titulo_jurisdiccional__titulo__nombre__icontains = self.cleaned_data['nombre_titulo'])
             if filter_by('carrera'):

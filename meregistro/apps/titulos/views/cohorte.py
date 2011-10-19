@@ -19,7 +19,7 @@ def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter(jurisdiccion = request.get_perfil().jurisdiccion()).order_by('id')
+    return filters.buildQuery().filter(jurisdiccion = request.get_perfil().jurisdiccion())
 
 @login_required
 @credential_required('tit_cohorte_consulta')
@@ -31,7 +31,7 @@ def index(request):
         form_filter = TituloJurisdiccionalCohorteFormFilters(request.GET)
     else:
         form_filter = TituloJurisdiccionalCohorteFormFilters()
-    q = build_query(form_filter, 1, request).filter(jurisdiccion = request.get_perfil().jurisdiccion()).order_by('id')
+    q = build_query(form_filter, 1, request).filter(jurisdiccion = request.get_perfil().jurisdiccion())
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -66,9 +66,12 @@ def create(request, titulo_jurisdiccional_id = None):
     """
     Alta de cohorte
     """
+    """
+    Ya no se crea la cohorte eligiendo el título en un combo, sino que hay que especificarlo sí o sí (en la url)
+    """
     "Agregar cohorte al título actual o crearla eligiendo el mismo"
     if titulo_jurisdiccional_id is not None:
-        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
+        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id, jurisdiccion = request.get_perfil().jurisdiccion())
         choices = [('', '-------')] + [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
     else:
         titulo_jurisdiccional = None

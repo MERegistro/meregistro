@@ -25,6 +25,16 @@
 			<label for="id_carrera">Carrera:</label>
 			{{ form_filters.carrera }}
 		</div>
+		<div class="form-select">
+			{{ form_filters.anio_primera_cohorte.errors }}
+			<label for="id_anio_primera_cohorte">Año primera cohorte:</label>
+			{{ form_filters.anio_primera_cohorte }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form_filters.estado }}
+		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
 			<input type="button" value="Reiniciar" onclick="window.location = 'cohorte';" />
@@ -35,11 +45,12 @@
 {% if objects %}
 <table class="hor-zebra">
   <thead>
-
     <tr>
+      <th>ID</th>
       <th>Título nacional</th>
       <th>Tipo de título</th>
       <th>Carrera</th>
+      <th>Inicio-fin cohortes</th>
       <th>Cohortes asignadas</th>
       <th class="th-estados">Estados</th>
       <th class="actions">Acciones</th>
@@ -48,9 +59,11 @@
   <tbody>
     {% for titulo_jurisdiccional in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ titulo_jurisdiccional.id }}</td>
 	<td>{{ titulo_jurisdiccional.titulo }}</td>
-	<td>{{ titulo_jurisdiccional.tipo_titulo }}</td>
+	<td>{{ titulo_jurisdiccional.titulo.tipo_titulo }}</td>
 	<td>{{ titulo_jurisdiccional.titulo.carrera }}</td>
+	<td>{{ titulo_jurisdiccional.datos_cohorte.get.anio_primera_cohorte }}-{{ titulo_jurisdiccional.datos_cohorte.get.anio_ultima_cohorte }}</td>
 	<td>
 	    <p>{{ titulo_jurisdiccional.cohortes.all|implode:", " }}</p>
 	</td>
@@ -65,6 +78,7 @@
         <td class="actions-td">
 	    <ul>
 	    {% if user_perfil.rol.nombre in 'Referente,ReferenteRevisor' %}
+		<li class="create"><a href="{% url apps.titulos.views.cohorte.create titulo_jurisdiccional.id %}" title="Agregar nueva cohorte"><span>Agregar nueva cohorte</span></a></li>
 		<li class="edit"><a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo titulo_jurisdiccional.id %}" title="Editar cohortes"><span>Editar cohortes</span></a></li>
 	    {% endif %}
 	    </ul>
@@ -80,12 +94,5 @@
   <p>No se encontraron títulos.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    {% if user_perfil.rol.nombre in 'Referente' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.cohorte.create %}"><span>Nueva cohorte</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 {% endblock %}

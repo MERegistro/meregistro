@@ -48,7 +48,7 @@
     {% for titulo_jurisdiccional in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 	<td>{{ titulo_jurisdiccional.titulo }}</td>
-	<td>{{ titulo_jurisdiccional.tipo_titulo }}</td>
+	<td>{{ titulo_jurisdiccional.titulo.tipo_titulo }}</td>
 	<td>{{ titulo_jurisdiccional.titulo.carrera }}</td>
 	<td>
 	    <div class="estados">

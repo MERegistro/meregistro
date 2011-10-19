@@ -40,8 +40,7 @@ def build_confirmar_cohortes_query(filters, page, request):
     establecimiento = __get_establecimiento_actual(request)
     estado = EstadoTituloJurisdiccional.objects.get(nombre = EstadoTituloJurisdiccional.CONTROLADO)
     # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-    return filters.buildQuery().filter(establecimiento = establecimiento, cohorte__titulo_jurisdiccional__estado__nombre = estado, \
-        cohorte__titulo_jurisdiccional__datos_cohorte__anio_ultima_cohorte__gte = datetime.date.today().year).order_by('cohorte__titulo_jurisdiccional__titulo__nombre', '-cohorte__anio')
+    return filters.buildQuery().filter(establecimiento = establecimiento, cohorte__titulo_jurisdiccional__estado__nombre = estado).order_by('cohorte__titulo_jurisdiccional__titulo__nombre', '-cohorte__anio')
 
 @login_required
 @credential_required('tit_cohorte_aceptar_asignacion')

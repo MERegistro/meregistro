@@ -469,6 +469,13 @@ td.actions-td ul li.delete a {
 	height: 24px;
 	background: url(../img/icons/delete.png) no-repeat left;
 }
+/* CREATE */
+td.actions-td  ul li.create a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/add.png) no-repeat left;
+}
 /* Revisar */
 td.actions-td ul li.revisar a {
 	display: block;
@@ -536,10 +543,13 @@ div.form-filter label {
 }
 
 div.form-filter div.form-text input,
-div.form-filter div.form-select select,
+/*div.form-filter div.form-select select,*/
 div.form-filter div.form-textarea textarea {
 	margin-top: -3px;
 	width: 300px;
+}
+div.form-filter div.form-select select {
+	margin-top: -3px;
 }
 div.form-filter div.form-text input,
 div.form-filter div.form-textarea textarea {

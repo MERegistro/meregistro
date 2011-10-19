@@ -68,7 +68,7 @@ def create(request):
     Alta de título jurisdiccional.
     """
     if request.method == 'POST':
-        form = TituloJurisdiccionalDatosBasicosForm(request.POST)
+        form = TituloJurisdiccionalDatosBasicosForm(request.POST, jurisdiccion_id = request.get_perfil().jurisdiccion().id)
         if form.is_valid():
             titulo_jurisdiccional = form.save(commit = False)
             titulo_jurisdiccional.estado = EstadoTituloJurisdiccional.objects.get(nombre = EstadoTituloJurisdiccional.CONTROLADO)
@@ -84,7 +84,7 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = TituloJurisdiccionalDatosBasicosForm()
+        form = TituloJurisdiccionalDatosBasicosForm(jurisdiccion_id = request.get_perfil().jurisdiccion().id)
     # Agrego el filtro por jurisdicción
     #form.fields['titulo'].queryset = form.fields['titulo'].queryset.filter(jurisdicciones__id = request.get_perfil().jurisdiccion().id, estado__nombre = EstadoTitulo.VIGENTE)
     return my_render(request, 'titulos/titulo_jurisdiccional/new.html', {
@@ -106,7 +106,7 @@ def edit(request, titulo_jurisdiccional_id):
     titulo_anterior_id = int(titulo_jurisdiccional.titulo_id)
 
     if request.method == 'POST':
-        form = TituloJurisdiccionalDatosBasicosForm(request.POST, instance = titulo_jurisdiccional)
+        form = TituloJurisdiccionalDatosBasicosForm(request.POST, instance = titulo_jurisdiccional, jurisdiccion_id = request.get_perfil().jurisdiccion().id)
         if form.is_valid():
 
             # Cambió el título? Borrar las orientaciones
@@ -120,7 +120,7 @@ def edit(request, titulo_jurisdiccional_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = TituloJurisdiccionalDatosBasicosForm(instance = titulo_jurisdiccional)
+        form = TituloJurisdiccionalDatosBasicosForm(instance = titulo_jurisdiccional, jurisdiccion_id = request.get_perfil().jurisdiccion().id)
 
     return my_render(request, 'titulos/titulo_jurisdiccional/edit.html', {
         'form': form,

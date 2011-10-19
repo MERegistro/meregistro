@@ -48,6 +48,7 @@ $(document).ready(
 // Init
 {% if titulo_jurisdiccional %}
 var current_titulo_id = {{ titulo_jurisdiccional.titulo_id }};
+dropdown_source.val({{ titulo_jurisdiccional.titulo.tipo_titulo_id }});
 {% else %}
 var current_titulo_id = null;
 {% endif %}

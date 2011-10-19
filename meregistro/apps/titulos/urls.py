@@ -46,7 +46,7 @@ urlpatterns = patterns('',
     url(r'^titulo_jurisdiccional$', 'apps.titulos.views.titulo_jurisdiccional.index', name = 'tituloJurisdiccional'),
     url(r'^titulo_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.titulo_jurisdiccional.revisar_jurisdiccion', name = 'tituloJurisdiccionalRevisarJurisdiccion'),
     # Cohorte
-    url(r'^cohorte/create$', 'apps.titulos.views.cohorte.create', { 'titulo_jurisdiccional_id': None }, name = 'cohorteCreate'),
+    #url(r'^cohorte/create$', 'apps.titulos.views.cohorte.create', { 'titulo_jurisdiccional_id': None }, name = 'cohorteCreate'), # Ya no se utiliza, sino que se asigna una cohorte al título
     url(r'^cohorte/([0-9]+)/editar$', 'apps.titulos.views.cohorte.edit', name = 'cohorteEdit'),
     url(r'^titulo_jurisdiccional/([0-9]+)/asignar-cohorte$', 'apps.titulos.views.cohorte.create', name = 'cohorteCreate'),
     url(r'^titulo_jurisdiccional/([0-9]+)/cohortes$', 'apps.titulos.views.cohorte.cohortes_por_titulo', name = 'cohortesPorTitulo'),
