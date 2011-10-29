@@ -4,10 +4,10 @@ from apps.seguridad.models import Ambito
 
 
 class Jurisdiccion(models.Model):
-    prefijo = models.IntegerField(null=True)
+    prefijo = models.CharField(null = True, max_length = 3)
     region = models.ForeignKey(Region)
-    nombre = models.CharField(max_length=50)
-    ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    nombre = models.CharField(max_length = 50)
+    ambito = models.ForeignKey(Ambito, editable = False, null =True)
 
     class Meta:
         app_label = 'registro'
