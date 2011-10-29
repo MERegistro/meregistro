@@ -61,6 +61,9 @@
             <th id="thPrefijo">Prefijo</th>
             <th id="thEstablecimientoCue">CUE</th>
             <th>Nombre</th>
+	{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+            <th>Jurisdicción</th>
+	{% endif %}
             <th>Departamento</th>
             <th>Localidad</th>
             <th class="th-estados">Estados</th>
@@ -73,6 +76,9 @@
                 <td>{{ est.dependencia_funcional.jurisdiccion.prefijo }}</td>
                 <td>{{ est.cue }}</td>
                 <td>{{ est.nombre }}</td>
+	    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+                <td>{{ est.domicilio.get.localidad.departamento.jurisdiccion }}</td>
+	    {% endif %}
                 <td>{{ est.domicilio.get.localidad.departamento }}</td>
                 <td>{{ est.domicilio.get.localidad }}</td>
                 <td>
