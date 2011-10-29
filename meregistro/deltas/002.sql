@@ -13,7 +13,7 @@ CREATE TABLE "titulos_titulo_jurisdiccional_new" (
     "estado_id" integer NOT NULL REFERENCES "titulos_estado_titulo_jurisdiccional" ("id")
 , "revisado_jurisdiccion", horas_reloj integer unsigned);
 -- Copio los datos
-INSERT INTO titulos_titulo_jurisd_modalidad_distancia_new (id, titulo_id, jurisdiccion_id, estado_id, revisado_jurisdiccion, horas_reloj)
+INSERT INTO titulos_titulo_jurisdiccional_new (id, titulo_id, jurisdiccion_id, estado_id, revisado_jurisdiccion, horas_reloj)
 SELECT id, titulo_id, jurisdiccion_id, estado_id, revisado_jurisdiccion, horas_reloj FROM titulos_titulo_jurisdiccional;
 -- Elimino la tabla
 DROP TABLE titulos_titulo_jurisdiccional;
