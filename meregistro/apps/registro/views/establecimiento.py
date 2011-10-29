@@ -39,13 +39,34 @@ ITEMS_PER_PAGE = 50
 @credential_required('reg_establecimiento_consulta')
 def index(request):
 
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    
+    if jurisdiccion is not None: # el usuario puede ser un referente o el admin de títulos
+        jurisdiccion_id = jurisdiccion.id
+    else:
+        try:
+            jurisdiccion_id = request.GET['jurisdiccion']
+            if request.GET['jurisdiccion'] == '':
+                jurisdiccion_id = None            
+        except KeyError:
+            jurisdiccion_id = None        
+  
+    #raise Exception(jurisdiccion_id)
+    
+    try:
+        departamento_id = request.GET['departamento']
+        if request.GET['departamento'] == '':
+            departamento_id = None            
+    except KeyError:
+        departamento_id = None
+
     """
     Búsqueda de establecimientos
     """
     if request.method == 'GET':
-        form_filter = EstablecimientoFormFilters(request.GET)
+        form_filter = EstablecimientoFormFilters(request.GET, jurisdiccion_id = jurisdiccion_id, departamento_id = departamento_id)
     else:
-        form_filter = EstablecimientoFormFilters()
+        form_filter = EstablecimientoFormFilters(jurisdiccion_id = jurisdiccion_id, departamento_id = departamento_id)
     q = build_query(form_filter, 1, request)
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
@@ -60,8 +81,8 @@ def index(request):
     elif page_number > paginator.num_pages:
         page_number = paginator.num_pages
 
-    if request.get_perfil().jurisdiccion() is not None:
-        form_filter.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion = request.get_perfil().jurisdiccion())
+    if jurisdiccion is not None:
+        form_filter.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion = jurisdiccion)
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'registro/establecimiento/index.html', {

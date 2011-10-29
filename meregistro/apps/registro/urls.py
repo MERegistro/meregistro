@@ -31,4 +31,7 @@ urlpatterns = patterns('',
     url(r'^dependencia_funcional/([0-9]+)/edit', 'apps.registro.views.dependencia_funcional.edit', name = 'dependenciaFuncionalEdit'),
     url(r'^dependencia_funcional/create', 'apps.registro.views.dependencia_funcional.create', name = 'dependenciaFuncionalCreate'),
     url(r'^dependencia_funcional/([0-9]+)/delete', 'apps.registro.views.dependencia_funcional.delete', name = 'dependenciaFuncionalDelete'),
-)
+    # AJAX
+    url(r'^ajax/get_localidades_por_departamento/(?P<departamento_id>[0-9]+)', 'apps.registro.views.ajax.get_localidades_por_departamento', name = 'ajaxGetLocalidadesPorTipo'),
+    url(r'^ajax/get_departamentos_por_jurisdiccion/(?P<jurisdiccion_id>[0-9]+)', 'apps.registro.views.ajax.get_departamentos_por_jurisdiccion', name = 'ajaxGetDepartamentosPorJurisdiccion'),
+   )

@@ -8,104 +8,202 @@
 <form action="" method="get">
 {% if user_perfil.rol.nombre in 'AdminTitulos,Referente,AdminSistema,SecretarioIFD' %}
 <div class="form-filter" id="establecimientoFormFilter">
-	<h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
+    <h3>Búsqueda avanzada</h3>
+        {{ form_filters.non_field_errors }}
+        <div class="form-select">
+            {{ form_filters.dependencia_funcional.errors }}
+            <label for="id_dependencia_funcional">Dependencia funcional:</label>
+            {{ form_filters.dependencia_funcional }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.cue.errors }}
+            <label for="id_cue">CUE:</label>
+            {{ form_filters.cue }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.nombre.errors }}
+            <label for="id_nombre">Nombre:</label>
+            {{ form_filters.nombre }}
+        </div>
         {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
-		<div class="form-select">
-			{{ form_filters.jurisdiccion.errors }}
-			<label for="id_jurisdiccion">Jurisdiccion:</label>
-			{{ form_filters.jurisdiccion }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.estado.errors }}
-			<label for="id_estado">Estado:</label>
-			{{ form_filters.estado }}
-		</div>
+        <div class="form-select">
+            {{ form_filters.estado.errors }}
+            <label for="id_estado">Estado:</label>
+            {{ form_filters.estado }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.jurisdiccion.errors }}
+            <label for="id_jurisdiccion">Jurisdiccion:</label>
+            {{ form_filters.jurisdiccion }}
+        </div>
         {% endif %}
-		<div class="form-select">
-			{{ form_filters.dependencia_funcional.errors }}
-			<label for="id_dependencia_funcional">Dependencia funcional:</label>
-			{{ form_filters.dependencia_funcional }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.cue.errors }}
-			<label for="id_cue">CUE:</label>
-			{{ form_filters.cue }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form_filters.nombre }}
-		</div>
-		<div class="form-submit">
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
-		</div>
-
+        <div class="form-select">
+            {{ form_filters.departamento.errors }}
+            <label for="id_departamento">Departamento:</label>
+            {{ form_filters.departamento }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.localidad.errors }}
+            <label for="id_localidad">Localidad:</label>
+            {{ form_filters.localidad }}
+        </div>
+        <div class="form-submit">
+            <input type="submit" value="Buscar" />
+            <input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
+        </div>
+    
 </div>
 {% endif %}
 {% if objects %}
 <table class="hor-zebra">
-	<thead>
-		<tr>
-			<th id="thEstablecimientoCue">CUE</th>
-			<th>Establecimiento</th>
-			<th class="th-estados">Estados</th>
-			<th class="actions">Acciones</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for est in objects %}
-			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-				<td><!-- {{ est.dependencia_funcional.jurisdiccion.prefijo }} - -->{{ est.cue }}</td>
-				<td>{{ est.nombre }}</td>
-				<td>
-				    <div class="estados">
-				    {% for registro_estado in est.registro_estados %}
-					<p class="estado-{{ registro_estado.estado.nombre|slugify }}">{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
-				    {% endfor %}
-				    </div>
-				</td>
-				<td class="actions-td">
-					<ul>
-					{% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
-					    {% if est.estado_actual == 'Pendiente' %}
-					    <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
-					    {% endif %}
-					    {% if est.isDeletable %}
-					    <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-					    {% endif %}
-					{% endif %}
-					{% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
-					    <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
-                        {% if est.revisado_jurisdiccion  %}
-    					    <li class="revisado"><a href="{% url apps.registro.views.establecimiento.revisar_jurisdiccion est.id %}" title="Revisar"><span>Revisado</span></a></li>
-                        {% else %}
-    					    <li class="revisar"><a href="{% url apps.registro.views.establecimiento.revisar_jurisdiccion est.id %}" title="Revisar"><span>Revisar</span></a></li>
+    <thead>
+        <tr>
+            <th id="thPrefijo">Prefijo</th>
+            <th id="thEstablecimientoCue">CUE</th>
+            <th>Nombre</th>
+            <th>Departamento</th>
+            <th>Localidad</th>
+            <th class="th-estados">Estados</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for est in objects %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                <td>{{ est.dependencia_funcional.jurisdiccion.prefijo }}</td>
+                <td>{{ est.cue }}</td>
+                <td>{{ est.nombre }}</td>
+                <td>{{ est.domicilio.get.localidad.departamento }}</td>
+                <td>{{ est.domicilio.get.localidad }}</td>
+                <td>
+                    <div class="estados">
+                    {% for registro_estado in est.registro_estados %}
+                    <p class="estado-{{ registro_estado.estado.nombre|slugify }}">{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
+                    {% endfor %}
+                    </div>
+                </td>
+                <td class="actions-td">
+                    <ul>
+                    {% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
+                        {% if est.estado_actual == 'Pendiente' %}
+                        <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
-					{% endif %}
-					{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
-					    <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
-					{% endif %}
-					</ul>
-				</td>
-			</tr>
-		{% endfor %}
-	</tbody>
+                        {% if est.isDeletable %}
+                        <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                        {% endif %}
+                    {% endif %}
+                    {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
+                        <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
+                        {% if est.revisado_jurisdiccion  %}
+                            <li class="revisado"><a href="{% url apps.registro.views.establecimiento.revisar_jurisdiccion est.id %}" title="Revisar"><span>Revisado</span></a></li>
+                        {% else %}
+                            <li class="revisar"><a href="{% url apps.registro.views.establecimiento.revisar_jurisdiccion est.id %}" title="Revisar"><span>Revisar</span></a></li>
+                        {% endif %}
+                    {% endif %}
+                    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+                        <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
+                    {% endif %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
 </table>
 {% include "paginator.html" %}
 </form>
 {% else %}
 <div class="message warning">
-	<p>No se encontraron establecimientos.</p>
+    <p>No se encontraron establecimientos.</p>
 </div>
 {% endif %}
 {% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
 <ul class="actions">
-	<li class="create">
-		<a href="{% url apps.registro.views.establecimiento.create %}"><span>Nuevo establecimiento</span></a>
-	</li>
+    <li class="create">
+        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nuevo establecimiento</span></a>
+    </li>
 </ul>
 {% endif %}
 <hr />
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+var dropdown_dependencia = $("select#id_dependencia_funcional");
+
+$(document).ready(
+    function(){
+    dropdown_departamento.change(function(){        
+	if (dropdown_departamento.val() == '') {
+	    dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+	} else {
+	    var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+	    $.getJSON(url, function(models) {
+		var options = '<option value="">----</option>';
+		for (var i = 0; i < models.length; i++) {
+		    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+		}
+		dropdown_localidad.html(options);
+	    });
+	}
+	});
+    } // END function
+); // END document.ready
+
+// Init
+
+if (dropdown_departamento.val() == '') {
+    dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+} else {
+    var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">----</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_localidad.html(options);
+    dropdown_localidad.val(get_url_param('localidad'));
+
+    });
+}
+
+{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+//
+//
+// Admin de títulos ve todas las jurisdicciones
+//
+//
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+
+if (dropdown_jurisdiccion.val() == '') {
+    dropdown_departamento.html("<option value=''>---Elegir jurisdicción---</option>");
+} else {
+    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">----</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_departamento.html(options);
+    dropdown_departamento.val(get_url_param('departamento'));
+    });
+}
+
+dropdown_jurisdiccion.change(function(){
+    if (dropdown_jurisdiccion.val() == '') {
+	dropdown_departamento.html("<option value=''>---Elegir jurisdicción---</option>");
+    } else {
+	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
+	$.getJSON(url, function(models) {
+	    var options = '<option value="">----</option>';
+	    for (var i = 0; i < models.length; i++) {
+	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+	    }
+	    dropdown_departamento.html(options);
+	});
+    }
+    dropdown_departamento.change();
+});
+{% endif %}
+</script>
+
 {% endblock %}

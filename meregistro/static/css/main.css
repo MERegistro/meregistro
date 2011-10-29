@@ -377,7 +377,7 @@ p.estado-no-vigente {
 }
 /* TABLE Establecimientos */
 th#thEstablecimientoCue {
-	width: 100px;
+	width: 30px;
 }
 th.th-estados {
 	width: 170px;
@@ -525,7 +525,7 @@ td.actions-td ul li.seguimiento-cohorte a {
 div.form-filter {
 	margin: 10px 0 0;
 	border: 1px #ceccca solid;
-	width: 500px;
+	width: 550px;
 	background: #f2f1f0;
 }
 div.form-filter h3 {
