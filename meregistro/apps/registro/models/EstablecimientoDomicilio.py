@@ -24,7 +24,8 @@ class EstablecimientoDomicilio(models.Model):
             cp = " (CP: " + self.cp + ")"
         else:
             cp = ""
-        return str(self.calle) + " " + str(self.altura) + " - " + self.localidad.nombre + cp
+        #raise Exception(self.calle)
+        return self.calle + " " + str(self.altura) + " - " + self.localidad.nombre + cp
 
     def __init__(self, *args, **kwargs):
         super(EstablecimientoDomicilio, self).__init__(*args, **kwargs)
