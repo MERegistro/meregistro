@@ -109,6 +109,7 @@
                     {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
                         <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
                     {% endif %}
+			<li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
                     </ul>
                 </td>
             </tr>

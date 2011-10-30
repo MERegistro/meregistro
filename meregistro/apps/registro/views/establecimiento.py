@@ -468,6 +468,21 @@ def datos_establecimiento(request):
         'funciones': establecimiento.funciones.all(),
         'niveles': establecimiento.niveles.all(),
     })
+    
+@credential_required('reg_establecimiento_ver')
+def detalle(request, establecimiento_id):
+    "Ver de juntar con la función datos_establecimiento"
+    try:
+        establecimiento = Establecimiento.objects.get(pk = establecimiento_id, ambito__path__istartswith = request.get_perfil().ambito.path)
+    except Establecimiento.DoesNotExist:
+        raise Exception('El establecimiento no pertenece a su ámbito.')
+        
+    return my_render(request, 'registro/establecimiento/datos_establecimiento.html', {
+        'establecimiento': establecimiento,
+        'turnos': establecimiento.turnos.all(),
+        'funciones': establecimiento.funciones.all(),
+        'niveles': establecimiento.niveles.all(),
+    })
 
 @login_required
 @credential_required('revisar_jurisdiccion')
