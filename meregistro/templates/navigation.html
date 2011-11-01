@@ -45,6 +45,7 @@
 				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}">Egresados</a></li>
 			{% endif %}
 			{% if user_perfil.rol.nombre == 'Anexo' %}
+				<li><a href="{% url apps.registro.views.anexo.completar_datos_basicos %}">Completar datos anexo</a></li>
 				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>

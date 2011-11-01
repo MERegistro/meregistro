@@ -18,3 +18,5 @@ from UnidadExtensionForm import UnidadExtensionForm
 from UnidadExtensionDomicilioForm import UnidadExtensionDomicilioForm
 from UnidadExtensionFormFilters import UnidadExtensionFormFilters
 from UnidadExtensionBajaForm import UnidadExtensionBajaForm
+from AnexoDatosBasicosForm import AnexoDatosBasicosForm
+from AnexoTurnosForm import AnexoTurnosForm

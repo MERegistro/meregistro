@@ -12,7 +12,7 @@ from apps.registro.models.Localidad import Localidad
 from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoEstado import AnexoEstado
 from apps.registro.models.AnexoDomicilio import AnexoDomicilio
-from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm
+from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnosForm, AnexoDomicilioForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -201,4 +201,101 @@ def baja(request, anexo_id):
         'form': form,
         'anexo': anexo,
         'dado_de_baja': dado_de_baja,
+    })
+
+def __get_anexo_actual(request):
+    """
+    Trae el único anexo que tiene asignado el usuario
+    """
+    anexos = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    if len(anexos) == 0:
+        raise Exception('ERROR: El usuario no tiene asignado un anexo.')
+    elif len(anexos) == 1:
+        return anexos[0]
+    else:
+        pass
+
+@login_required
+#@credential_required('reg_establecimiento_completar')
+def completar_datos_basicos(request):
+    anexo = __get_anexo_actual(request)
+    if request.method == 'POST':
+        form = AnexoDatosBasicosForm(request.POST, instance = anexo)
+        if form.is_valid():
+            anexo = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoDatosBasicosForm(instance = anexo)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_datos_basicos.html',
+        'anexo': anexo,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos',
+    })
+
+@login_required
+#@credential_required('reg_establecimiento_completar')
+def completar_turnos(request):
+    """
+    CU 26
+    """
+    anexo = __get_anexo_actual(request)
+
+    if request.method == 'POST':
+        form = AnexoTurnosForm(request.POST, instance = anexo)
+        if form.is_valid():
+            turnos = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoTurnosForm(instance = anexo)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_turnos.html',
+        'anexo': anexo,
+        'page_title': 'Turnos',
+        'actual_page': 'turnos',
+    })
+
+@login_required
+#@credential_required('reg_establecimiento_completar')
+def completar_domicilio(request):
+    """
+    CU 26
+    """
+    anexo = __get_anexo_actual(request)
+    try:
+        domicilio = anexo.anexo_domicilio.get()
+    except:
+        domicilio = AnexoDomicilio()
+        domicilio.anexo = anexo
+
+    if request.method == 'POST':
+        form = AnexoDomicilioForm(request.POST, instance = domicilio)
+        if form.is_valid():
+            domicilio = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoDomicilioForm(instance = domicilio)
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_domicilio.html',
+        'anexo': anexo,
+        'page_title': 'Domicilio',
+        'actual_page': 'domicilio',
     })

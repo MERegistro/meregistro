@@ -1,0 +1,24 @@
+<div class="form tabbed-form" id="anexoCompletarDatosForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.telefono.errors }}
+			<label for="telefono">Teléfono:</label>
+			{{ form.telefono }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="email">Email:</label>
+			{{ form.email }}
+		</div>
+		<div class="form-text">
+			{{ form.sitio_web.errors }}
+			<label for="sitio_web">Sitio web:</label>
+			{{ form.sitio_web }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Actualizar" />
+		</div>
+	</form>
+</div>
+
