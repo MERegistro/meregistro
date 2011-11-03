@@ -7,6 +7,7 @@ from TipoGestion import TipoGestion
 from TipoNormativa import TipoNormativa
 from TipoDependenciaFuncional import TipoDependenciaFuncional
 from TipoDominio import TipoDominio
+from TipoEducacion import TipoEducacion
 from DependenciaFuncional import DependenciaFuncional
 from Establecimiento import Establecimiento
 from EstadoEstablecimiento import EstadoEstablecimiento

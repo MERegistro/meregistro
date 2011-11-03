@@ -2,6 +2,7 @@ from django.db import models
 from apps.registro.models.Jurisdiccion import Jurisdiccion
 from apps.registro.models.GestionJurisdiccion import GestionJurisdiccion
 from apps.registro.models.TipoGestion import TipoGestion
+from apps.registro.models.TipoEducacion import TipoEducacion
 from apps.registro.models.TipoDependenciaFuncional import TipoDependenciaFuncional
 from apps.seguridad.models import Ambito
 
@@ -12,7 +13,8 @@ class DependenciaFuncional(models.Model):
     gestion_jurisdiccion = models.ForeignKey(GestionJurisdiccion)
     tipo_gestion = models.ForeignKey(TipoGestion)
     tipo_dependencia_funcional = models.ForeignKey(TipoDependenciaFuncional)
-    ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    tipo_educacion = models.ForeignKey(TipoEducacion)
+    ambito = models.ForeignKey(Ambito, editable = False, null = True)
 
     class Meta:
         app_label = 'registro'

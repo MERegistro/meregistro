@@ -21,6 +21,11 @@
 			<label for="id_tipo_dependencia_funcional">Tipo de dependencia:</label>
 			{{ form.tipo_dependencia_funcional }}
 		</div>
+		<div class="form-select">
+			{{ form.tipo_educacion.errors }}
+			<label for="id_tipo_educacion">Tipo de educación:</label>
+			{{ form.tipo_educacion }}
+		</div>
 
 		<div class="form-text">
 			{{ form.nombre.errors }}

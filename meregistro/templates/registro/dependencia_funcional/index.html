@@ -31,6 +31,11 @@
 			<label for="id_gestion_jurisdiccion">Gestión jurisdiccional:</label>
 			{{ form_filters.gestion_jurisdiccion }}
 		</div>
+		<div class="form-select">
+			{{ form_filters.tipo_educacion.errors }}
+			<label for="id_tipo_educacion">Tipo de educación:</label>
+			{{ form_filters.tipo_educacion }}
+		</div>
 		<div class="form-text">
 			{{ form_filters.nombre.errors }}
 			<label for="id_nombre">Nombre:</label>
@@ -51,6 +56,7 @@
       <th>Jurisdiccion</th>
       <th>Tipo de gestión</th>
       <th>Tipo de dependencia</th>
+      <th>Tipo de educación</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -61,6 +67,7 @@
 		<td>{{ dep.jurisdiccion }}</td>
 		<td>{{ dep.tipo_gestion }}</td>
 		<td>{{ dep.tipo_dependencia_funcional }}</td>
+		<td>{{ dep.tipo_educacion }}</td>
         <td class="actions-td">
           <ul>
             <li class="edit"><a href="{% url apps.registro.views.dependencia_funcional.edit dep.id %}" title="Editar"><span>Editar</span></a></li>
