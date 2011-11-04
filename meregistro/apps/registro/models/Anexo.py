@@ -3,6 +3,8 @@ from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.Turno import Turno
+from apps.registro.models.Nivel import Nivel
+from apps.registro.models.Funcion import Funcion
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
@@ -20,6 +22,8 @@ class Anexo(models.Model):
     estado = models.ForeignKey(EstadoAnexo) # Concuerda con el último estado en AnexoEstado
     ambito = models.ForeignKey(Ambito, editable = False, null = True)
     revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
+    niveles = models.ManyToManyField(Nivel, blank = True, null = True, db_table = 'registro_anexos_niveles')
+    funciones = models.ManyToManyField(Funcion, blank = True, null = True, db_table = 'registro_anexos_funciones')
 
     class Meta:
         app_label = 'registro'

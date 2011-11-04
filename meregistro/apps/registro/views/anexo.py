@@ -12,7 +12,15 @@ from apps.registro.models.Localidad import Localidad
 from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoEstado import AnexoEstado
 from apps.registro.models.AnexoDomicilio import AnexoDomicilio
+from apps.registro.models.AnexoInformacionEdilicia import AnexoInformacionEdilicia
+from apps.registro.models.AnexoConexionInternet import AnexoConexionInternet
+from apps.registro.models.TipoDominio import TipoDominio
+from apps.registro.models.TipoCompartido import TipoCompartido
 from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnosForm, AnexoDomicilioForm
+from apps.registro.forms.AnexoNivelesForm import AnexoNivelesForm
+from apps.registro.forms.AnexoFuncionesForm import AnexoFuncionesForm
+from apps.registro.forms.AnexoInformacionEdiliciaForm import AnexoInformacionEdiliciaForm
+from apps.registro.forms.AnexoConexionInternetForm import AnexoConexionInternetForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -299,3 +307,130 @@ def completar_domicilio(request):
         'page_title': 'Domicilio',
         'actual_page': 'domicilio',
     })
+
+@login_required
+#@credential_required('reg_establecimiento_completar')
+def completar_niveles(request):
+    """
+    CU 26
+    """
+    anexo = __get_anexo_actual(request)
+
+    if request.method == 'POST':
+        form = AnexoNivelesForm(request.POST, instance = anexo)
+        if form.is_valid():
+            niveles = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoNivelesForm(instance = anexo)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_niveles.html',
+        'anexo': anexo,
+        'page_title': 'Niveles',
+        'actual_page': 'niveles',
+    })
+
+@login_required
+#@credential_required('reg_establecimiento_completar')
+def completar_funciones(request):
+    """
+    CU 26
+    """
+    anexo = __get_anexo_actual(request)
+
+    if request.method == 'POST':
+        form = AnexoFuncionesForm(request.POST, instance = anexo)
+        if form.is_valid():
+            funciones = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoFuncionesForm(instance = anexo)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_funciones.html',
+        'anexo': anexo,
+        'page_title': 'Funciones',
+        'actual_page': 'funciones',
+    })
+
+
+@login_required
+#@credential_required('reg_establecimiento_completar')
+def completar_informacion_edilicia(request):
+    """
+    CU 26
+    """
+    anexo = __get_anexo_actual(request)
+
+    try:
+        informacion_edilicia = AnexoInformacionEdilicia.objects.get(anexo = anexo)
+    except:
+        informacion_edilicia = AnexoInformacionEdilicia()
+        informacion_edilicia.anexo = anexo
+
+    if request.method == 'POST':
+        form = AnexoInformacionEdiliciaForm(request.POST, instance = informacion_edilicia)
+        if form.is_valid():
+            informacion_edilicia = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, anexo)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoInformacionEdiliciaForm(instance = informacion_edilicia)
+
+    es_dominio_compartido_id = TipoDominio.objects.get(descripcion = 'Compartido').id
+    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion = 'Establecimiento de otro nivel').id
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_informacion_edilicia.html',
+        'anexo': anexo,
+        'es_dominio_compartido_id': es_dominio_compartido_id,
+        'comparte_otro_nivel_id': comparte_otro_nivel_id,
+        'page_title': 'Información edilicia',
+        'actual_page': 'informacion_edilicia',
+    })
+
+@login_required
+#@credential_required('reg_anexo_completar')
+def completar_conexion_internet(request):
+    """
+    CU 26
+    """
+    anexo = __get_anexo_actual(request)
+    try:
+        conexion = AnexoConexionInternet.objects.get(anexo = anexo)
+    except:
+        conexion = AnexoConexionInternet()
+        conexion.anexo = anexo
+
+    if request.method == 'POST':
+        form = AnexoConexionInternetForm(request.POST, instance = conexion)
+        if form.is_valid():
+            conexion = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, anexo)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoConexionInternetForm(instance = conexion)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_conexion_internet.html',
+        'anexo': anexo,
+        'page_title': 'Conexión a internet',
+        'actual_page': 'conexion_internet',
+    })
+
+

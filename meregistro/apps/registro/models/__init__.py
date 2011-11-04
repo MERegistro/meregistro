@@ -29,3 +29,5 @@ from UnidadExtensionDomicilio import UnidadExtensionDomicilio
 from UnidadExtensionEstado import UnidadExtensionEstado
 from UnidadExtensionBaja import UnidadExtensionBaja
 from UnidadExtensionEstado import UnidadExtensionEstado
+from AnexoInformacionEdilicia import AnexoInformacionEdilicia
+from AnexoConexionInternet import AnexoConexionInternet
