@@ -6,9 +6,9 @@ from apps.registro.models import Establecimiento, Anexo
 
 
 class AnexoFormFilters(forms.Form):
-    nombre  =  forms.CharField(max_length = 40, label = 'Nombre', required = False)
-    cue  =  forms.CharField(max_length = 40, label = 'Cue', required = False)
-    establecimiento  =  forms.ModelChoiceField(queryset = Establecimiento.objects.order_by('nombre'), label = 'Establecimiento', required = False)
+    nombre = forms.CharField(max_length = 40, label = 'Nombre', required = False)
+    cue = forms.CharField(max_length = 40, label = 'Cue', required = False)
+    establecimiento = forms.ModelChoiceField(queryset = Establecimiento.objects.order_by('nombre'), label = 'Establecimiento', required = False)
 
     def buildQuery(self, q = None):
         """

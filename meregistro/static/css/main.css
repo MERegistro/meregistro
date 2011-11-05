@@ -332,6 +332,10 @@ div.tabbed-form {
 div.tabbed-form form {
 	padding: 10px 0;
 }
+/* establecimientoCompletarDatosForm */
+div#establecimientoCompletarDatosForm {
+	width: 850px;
+}	
 /*
 =TABLE
 */
