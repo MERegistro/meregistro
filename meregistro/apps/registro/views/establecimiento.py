@@ -360,14 +360,16 @@ def completar_domicilio(request):
     CU 26
     """
     establecimiento = __get_establecimiento_actual(request)
+    jurisdiccion = establecimiento.dependencia_funcional.jurisdiccion
+
     try:
         domicilio = establecimiento.domicilio.get()
     except:
         domicilio = EstablecimientoDomicilio()
         domicilio.establecimiento = establecimiento
-
+        
     if request.method == 'POST':
-        form = EstablecimientoDomicilioForm(request.POST, instance = domicilio)
+        form = EstablecimientoDomicilioForm(request.POST, instance = domicilio, jurisdiccion_id = jurisdiccion.id)
         if form.is_valid():
             domicilio = form.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
@@ -375,15 +377,14 @@ def completar_domicilio(request):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = EstablecimientoDomicilioForm(instance = domicilio)
+        form = EstablecimientoDomicilioForm(instance = domicilio, jurisdiccion_id = jurisdiccion.id)
 
-    jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
-
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_domicilio.html',
         'establecimiento': establecimiento,
+        'domicilio': domicilio,
         'page_title': 'Domicilio',
         'actual_page': 'domicilio',
     })

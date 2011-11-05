@@ -17,6 +17,11 @@
 			{{ form.altura }}
 		</div>
 		<div class="form-select">
+			{{ form.departamento.errors }}
+			<label for="id_departamento">Departamento:</label>
+			{{ form.departamento }}
+		</div>
+		<div class="form-select">
 			{{ form.localidad.errors }}
 			<label for="id_localidad">Localidad:</label>
 			{{ form.localidad }}
@@ -36,3 +41,48 @@
 		</div>
 	</form>
 </div>
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+
+$(document).ready(
+    function(){
+		dropdown_departamento.change(function(){        
+			if(dropdown_departamento.val() == ''){
+				dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+			} else {
+				var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+				$.getJSON(url, function(models) {
+					var options = '';
+					for(var i = 0; i < models.length; i++){
+						options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+					}
+					dropdown_localidad.html(options);
+				});
+			}
+		});
+		
+		// Init
+		{% if domicilio.id %}
+		dropdown_departamento.val({{ domicilio.localidad.departamento.id }});
+		{% endif %}
+		if (dropdown_departamento.val() == ''){
+			dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+		} else {
+			var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+			$.getJSON(url, function(models) {
+				var options = '';
+				for (var i = 0; i < models.length; i++){
+					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+				}
+				dropdown_localidad.html(options);
+				dropdown_localidad.val({{ domicilio.localidad.id }});
+			});
+		}
+		
+	} // END function
+
+); // END document.ready
+
+</script>
