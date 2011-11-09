@@ -60,7 +60,7 @@ class Establecimiento(models.Model):
         except ObjectDoesNotExist:
             pass
 
-    def registrar_estado(self, estado, observaciones=''):
+    def registrar_estado(self, estado, observaciones = ''):
         registro = RegistroEstablecimiento(estado = estado)
         registro.fecha = datetime.date.today()
         registro.establecimiento_id = self.id
@@ -71,9 +71,8 @@ class Establecimiento(models.Model):
 
     def save(self):
         self.updateAmbito()
-        if self.id is None: # Nuevo objeto?
-            self.estado = EstadoEstablecimiento.objects.get(nombre = EstadoEstablecimiento.PENDIENTE)
-        self.ambito.vigente = (self.estado.nombre != EstadoEstablecimiento.PENDIENTE)
+        if self.id is not None:
+            self.ambito.vigente = (self.estado.nombre != EstadoEstablecimiento.PENDIENTE)
         self.ambito.save()
         models.Model.save(self)
 
