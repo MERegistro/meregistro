@@ -109,10 +109,11 @@ def create(request):
             unidad_extension.save()
             unidad_extension.registrar_estado()
 
+            form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+            
             domicilio = domicilio_form.save(commit = False)
             domicilio.unidad_extension = unidad_extension
             domicilio.save()
-
 
             MailHelper.notify_by_email(MailHelper.UNIDAD_EXTENSION_CREATE, unidad_extension)
             request.set_flash('success', 'Datos guardados correctamente.')

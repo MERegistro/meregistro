@@ -105,7 +105,8 @@ def create(request):
             domicilio.anexo = anexo
             domicilio.save()
 
-
+            form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+            
             MailHelper.notify_by_email(MailHelper.ANEXO_CREATE, anexo)
             request.set_flash('success', 'Datos guardados correctamente.')
 
