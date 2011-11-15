@@ -7,7 +7,7 @@ from apps.seguridad.authenticate import *
 
 
 class LoginForm(forms.Form):
-    tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects, required=True)
+    tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects.order_by('id'), required=True)
     documento = forms.CharField(max_length=20, label='documento')
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), label='contraseña')
 
@@ -15,6 +15,7 @@ class LoginForm(forms.Form):
         '''
         Chequea que el usuario exista en la base de datos
         '''
+        self.cleaned_data['documento']
         documento = self.cleaned_data['documento']
         if not re.search(r'^\w+$', documento):
             raise forms.ValidationError(u'Este campo sólo puede contener letras del alfabeto y números')
@@ -33,6 +34,7 @@ class LoginForm(forms.Form):
         tipo_documento = cleaned_data.get("tipo_documento")
         documento = cleaned_data.get("documento")
         password = cleaned_data.get("password")
+        password = password.strip()
 
         # Chequea si el password corresponde al usuario
         if documento and password:
