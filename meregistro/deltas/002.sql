@@ -1,9 +1,11 @@
+-- Cambiar Estatal por Especial en tipos de educación
 BEGIN;
+--
+UPDATE registro_tipo_educacion
+SET descripcion = 'Especial'
+WHERE descripcion = 'Estatal';
 
-DELETE FROM seguridad_perfil WHERE ambito_id > 25;
-DELETE FROM seguridad_ambito WHERE id > 25;
-
-insert into deltas_sql (numero, app, comentario) values ('002', 'Seguridad', 'Borrado de ambitos que no representan nada en el modelo.');
-
+INSERT INTO deltas_sql (numero, app, comentario) VALUES ('002', 'Registro', 'Se cambió "Estatal" por "Especial" en "tipos de educación" - Ticket #80');
+--
 COMMIT;
 
