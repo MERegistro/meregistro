@@ -28,7 +28,7 @@ def login(request):
       user = authenticate(
         form.cleaned_data['tipo_documento'],
         form.cleaned_data['documento'],
-        form.cleaned_data['password'],
+        form.cleaned_data['password'].strip(),
       )
       if user:
         if user.is_active:
