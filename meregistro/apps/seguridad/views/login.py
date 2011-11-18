@@ -6,7 +6,7 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.forms import LoginForm, SeleccionarPerfilForm
 from apps.seguridad.authenticate import authenticate
 from apps.seguridad.decorators import login_required
-
+from apps.seguridad.models import TipoDocumento
 
 def logout(request):
   """
@@ -38,7 +38,12 @@ def login(request):
         else:
           request.set_flash('warning', 'No puede iniciar sesión: usuario bloqueado')
   else:
-    form = LoginForm()
+    init={}
+    try:
+        init['tipo_documento'] = TipoDocumento.objects.get(abreviatura='DNI').id
+    except:
+        pass
+    form = LoginForm(initial=init)
   return my_render(request, 'seguridad/login/login.html', {'form': form})
 
 

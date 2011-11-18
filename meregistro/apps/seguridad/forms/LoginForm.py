@@ -7,7 +7,7 @@ from apps.seguridad.authenticate import *
 
 
 class LoginForm(forms.Form):
-    tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects.order_by('id'), required=True)
+    tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects.order_by('abreviatura'), required=True)
     documento = forms.CharField(max_length=20, label='documento')
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), label='contraseña')
 
@@ -34,7 +34,8 @@ class LoginForm(forms.Form):
         tipo_documento = cleaned_data.get("tipo_documento")
         documento = cleaned_data.get("documento")
         password = cleaned_data.get("password")
-        password = password.strip()
+        if password is not None:
+            password = password.strip()
 
         # Chequea si el password corresponde al usuario
         if documento and password:
