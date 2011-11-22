@@ -33,9 +33,9 @@ from CohorteAnexo import CohorteAnexo
 from CohorteAnexoSeguimiento import CohorteAnexoSeguimiento
 from EstadoCohorteAnexo import EstadoCohorteAnexo
 #
-from CohorteUnidadExtensionEstado import CohorteUnidadExtensionEstado
-from CohorteUnidadExtension import CohorteUnidadExtension
-from EstadoCohorteUnidadExtension import EstadoCohorteUnidadExtension
+from CohorteExtensionAulicaEstado import CohorteExtensionAulicaEstado
+from CohorteExtensionAulica import CohorteExtensionAulica
+from EstadoCohorteExtensionAulica import EstadoCohorteExtensionAulica
 #
 from OpcionPedagogica import OpcionPedagogica
 from TipoHora import TipoHora

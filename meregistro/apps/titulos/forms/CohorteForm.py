@@ -15,4 +15,4 @@ class CohorteForm(forms.ModelForm):
 
     class Meta:
         model = Cohorte
-        exclude = ('establecimientos', 'anexos', 'unidades_extension',)
+        exclude = ('establecimientos', 'anexos', 'extensiones_aulicas',)

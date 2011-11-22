@@ -32,7 +32,7 @@
 		{% if titulo_jurisdiccional.controlado  %}
 		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_establecimientos cohorte.id %}" title="Asignar cohorte a establecimientos"><span>Asignar cohorte a establecimientos</span></a></li>
 		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_anexos cohorte.id %}" title="Asignar cohorte a anexos"><span>Asignar cohorte a anexos</span></a></li>
-		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_unidades_extension cohorte.id %}" title="Asignar cohorte a unidades de extensión"><span>Asignar cohorte a unidades de extensión</span></a></li>
+		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_extensiones_aulicas cohorte.id %}" title="Asignar cohorte a extensiones áulicas"><span>Asignar cohorte a extensiones áulicas</span></a></li>
 		{% endif %}
 		{% if not cohorte.aceptada_por_establecimiento %}
 		<li class="delete"><a href="{% url apps.titulos.views.cohorte.eliminar cohorte.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>

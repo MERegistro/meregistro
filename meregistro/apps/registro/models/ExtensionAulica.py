@@ -2,7 +2,7 @@
 from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.TipoNormativa import TipoNormativa
-from apps.registro.models.EstadoUnidadExtension import EstadoUnidadExtension
+from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.Turno import Turno
 from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
@@ -10,7 +10,7 @@ import datetime
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
-class UnidadExtension(models.Model):
+class ExtensionAulica(models.Model):
     establecimiento = models.ForeignKey(Establecimiento, editable = False)
     nombre = models.CharField(max_length = 255)
     observaciones = models.CharField(max_length = 255)
@@ -21,17 +21,17 @@ class UnidadExtension(models.Model):
     sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
     telefono = models.CharField(max_length = 100, null = True, blank = True)
     email = models.EmailField(max_length = 255, null = True, blank = True)
-    turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_unidades_extension_turnos')
-    estado = models.ForeignKey(EstadoUnidadExtension) # Concuerda con el último estado en UnidadExtensionEstado
+    turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_extensiones_aulicas_turnos')
+    estado = models.ForeignKey(EstadoExtensionAulica) # Concuerda con el último estado en ExtensionAulicaEstado
     old_id = models.IntegerField(null = True, blank = True, editable = False)
 
     class Meta:
         app_label = 'registro'
         ordering = ['nombre']
-        db_table = 'registro_unidad_extension'
+        db_table = 'registro_extension_aulica'
 
     def __init__(self, *args, **kwargs):
-        super(UnidadExtension, self).__init__(*args, **kwargs)
+        super(ExtensionAulica, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
 
@@ -39,16 +39,16 @@ class UnidadExtension(models.Model):
         return self.nombre
 
     def registrar_estado(self):
-        from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
-        registro = UnidadExtensionEstado(estado = self.estado)
+        from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
+        registro = ExtensionAulicaEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
-        registro.unidad_extension_id = self.id
+        registro.extension_aulica_id = self.id
         registro.save()
 
     def getEstados(self):
-        from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
+        from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
         try:
-            estados = UnidadExtensionEstado.objects.filter(unidad_extension = self).order_by('fecha', 'id')
+            estados = ExtensionAulicaEstado.objects.filter(extension_aulica = self).order_by('fecha', 'id')
         except:
             estados = {}
         return estados
@@ -60,4 +60,4 @@ class UnidadExtension(models.Model):
             return None
 
     def dadaDeBaja(self):
-        return self.estado.nombre == EstadoUnidadExtension.BAJA
+        return self.estado.nombre == EstadoExtensionAulica.BAJA

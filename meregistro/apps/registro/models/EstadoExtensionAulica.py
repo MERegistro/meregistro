@@ -1,11 +1,11 @@
 from django.db import models
 
 
-class EstadoUnidadExtension(models.Model):
+class EstadoExtensionAulica(models.Model):
 
     PENDIENTE = u'Pendiente'
     BAJA = u'Baja'
-    REGISTRADO = u'Registrado'
+    REGISTRADA = u'Registrada'
     NO_VIGENTE = u'No vigente'
     VIGENTE = u'Vigente'
 
@@ -14,7 +14,7 @@ class EstadoUnidadExtension(models.Model):
     class Meta:
         app_label = 'registro'
         ordering = ['nombre']
-        db_table = 'registro_estado_unidad_extension'
+        db_table = 'registro_estado_extension_aulica'
 
     def __unicode__(self):
         return self.nombre

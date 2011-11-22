@@ -18,9 +18,9 @@ class MailHelper():
     ANEXO_UPDATE = u'AnexoUpdate'
     ANEXO_DELETE = u'AnexoDelete'
 
-    UNIDAD_EXTENSION_CREATE = u'UnidadExtensionCreate'
-    UNIDAD_EXTENSION_UPDATE = u'UnidadExtensionUpdate'
-    UNIDAD_EXTENSION_DELETE = u'UnidadExtensionDelete'
+    EXTENSION_AULICA_CREATE = u'ExtensionAulicaCreate'
+    EXTENSION_AULICA_UPDATE = u'ExtensionAulicaUpdate'
+    EXTENSION_AULICA_DELETE = u'ExtensionAulicaDelete'
 
     TITULO_CREATE = u'TituloCreate'
     TITULO_UPDATE = u'TituloUpdate'
@@ -39,9 +39,9 @@ class MailHelper():
             MailHelper.ANEXO_CREATE: MailHelper.anexo_create,
             MailHelper.ANEXO_UPDATE: MailHelper.anexo_update,
             MailHelper.ANEXO_DELETE: MailHelper.anexo_delete,
-            MailHelper.UNIDAD_EXTENSION_CREATE: MailHelper.unidad_extension_create,
-            MailHelper.UNIDAD_EXTENSION_UPDATE: MailHelper.unidad_extension_update,
-            MailHelper.UNIDAD_EXTENSION_DELETE: MailHelper.unidad_extension_delete,
+            MailHelper.EXTENSION_AULICA_CREATE: MailHelper.extension_aulica_create,
+            MailHelper.EXTENSION_AULICA_UPDATE: MailHelper.extension_aulica_update,
+            MailHelper.EXTENSION_AULICA_DELETE: MailHelper.extension_aulica_delete,
             MailHelper.TITULO_CREATE: MailHelper.titulo_create,
             MailHelper.TITULO_UPDATE: MailHelper.titulo_update,
             MailHelper.TITULO_DELETE: MailHelper.titulo_delete,
@@ -142,31 +142,31 @@ class MailHelper():
 
     """
 
-    Mails para las unidades de extensión
+    Mails para las extensiones áulicas
 
     """
     @staticmethod
-    def unidad_extension_create(unidad_extension):
+    def extension_aulica_create(extension_aulica):
         return {
-            'subject': u'Creación de unidad de extensión',
-            'message': u'Se ha creado una nueva unidad de extensión',
+            'subject': u'Creación de extensión áulica',
+            'message': u'Se ha creado una nueva extensión áulica',
             'recipients': [u'user@example.com', u'admin@example.com'],
         }
 
     @staticmethod
-    def unidad_extension_update(unidad_extension):
+    def extension_aulica_update(extension_aulica):
         return {
-            'subject': u'Actualizacióm de datos de unidad de extensión',
-            'message': u'Se ha modificado la unidad de extensión',
+            'subject': u'Actualizacióm de datos de extensión áulica',
+            'message': u'Se ha modificado la extensión áulica',
             'email_from': u'pepe@example.com',
             'recipients': ['user@example.com', 'admin@example.com'],
         }
 
     @staticmethod
-    def unidad_extension_delete(unidad_extension):
+    def extension_aulica_delete(extension_aulica):
         return {
-            'subject': u'Baja de unidad de extensión',
-            'message': u'Se ha dado de baja la unidad de extensión',
+            'subject': u'Baja de extensión áulica',
+            'message': u'Se ha dado de baja la extensión áulica',
             'recipients': ['user@example.com', 'admin@example.com'],
         }
 

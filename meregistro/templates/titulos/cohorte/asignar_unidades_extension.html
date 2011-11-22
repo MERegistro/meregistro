@@ -1,18 +1,18 @@
 {% extends "base_titulos.html" %}
 
-{% block title %}Asignar la cohorte a unidades de extensión{% endblock %}
+{% block title %}Asignar la cohorte a extensiones áulicas{% endblock %}
 
 {% load tags_filters %}
 
 {% block css_body_classes %}
-{% css_classes "cohorte-asignar-unidades-extension" %}
+{% css_classes "cohorte-asignar-extensiones-aulicas" %}
 {% endblock %}
 
 {% block content %}
-<h2>Asignar la cohorte a unidades de extensión</h2>
+<h2>Asignar la cohorte a extensiones áulicas</h2>
 
 <form action="" method="get">
-    <div class="form-filter" id="cohorteAsignarUnidadesExtensionFormFilter">
+    <div class="form-filter" id="cohorteAsignarExtensionesAulicasFormFilter">
 	<h3>Búsqueda avanzada</h3>
 	{{ form_filters.non_field_errors }}
 	<div class="form-select">
@@ -37,7 +37,7 @@
 	</div>
 	<div class="form-submit">
 		<input type="submit" value="Buscar" />
-		<input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-unidades-extension';" />
+		<input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-extensiones-aulicas';" />
 	</div>
     </div>
 </form>
@@ -49,9 +49,9 @@
     <table class="hor-zebra">
 	<thead>
 	    <tr>
-		<th><input type="checkbox" name="check_all_unidades_extension" id="check_all_unidades_extension" /></th>
+		<th><input type="checkbox" name="check_all_extensiones_aulicas" id="check_all_extensiones_aulicas" /></th>
 		<th id="thEstablecimientoCue">CUE</th>
-		<th>Unidad de extensión</th>
+		<th>Extensiones áulicas</th>
 		<th>Nombre</th>
 		<th>Oferta</th>
 		<th>Departamento</th>
@@ -59,38 +59,38 @@
 	    </tr>
 	</thead>
 	<tbody>
-	{% for unidad_extension in objects %}
+	{% for extension_aulica in objects %}
 	    <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-		<td><input type="checkbox" name="unidades_extension" value="{{ unidad_extension.id }}"{% if unidad_extension.id in current_unidades_extension_ids %} checked="checked"{% endif%} /></td>
-		<td>{{ unidad_extension.establecimiento.cue }}</td>
-		<td>{{ unidad_extension.cue }}</td>
-		<td>{{ unidad_extension.nombre }}</td>
-		<td><input type="checkbox" name="oferta" value="{{ unidad_extension.id }}"{% if unidad_extension.id in current_unidades_extension_oferta %} checked="checked"{% endif%} /></td>
-		<td>{{ unidad_extension.unidad_extension_domicilio.get.localidad.departamento }}</td>
-		<td>{{ unidad_extension.unidad_extension_domicilio.get.localidad }}</td>
+		<td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_ids %} checked="checked"{% endif%} /></td>
+		<td>{{ extension_aulica.establecimiento.cue }}</td>
+		<td>{{ extension_aulica.cue }}</td>
+		<td>{{ extension_aulica.nombre }}</td>
+		<td><input type="checkbox" name="oferta" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_oferta %} checked="checked"{% endif%} /></td>
+		<td>{{ extension_aulica.domicilio.get.localidad.departamento }}</td>
+		<td>{{ extension_aulica.domicilio.get.localidad }}</td>
 	    </tr>
 	{% endfor %}
 	</tbody>
     </table>
     <div class="form-submit" style="margin-top: 20px;">
-	<input type="submit" value="Asignar unidades de extensión seleccionadas" />
+	<input type="submit" value="Asignar extensiones áulicas seleccionadas" />
     </div>
 </form>
 <script type="text/javascript">
 // init
-unidad_extension_checked = false;
-unidad_extension_checkboxes = $('input[name="unidades_extension"][type="checkbox"]');
-$('#check_all_unidades_extension').checked = false;
-$('#check_all_unidades_extension').attr('checked', unidad_extension_checked);
-$('#check_all_unidades_extension').click(function(){
-    unidad_extension_checked = !unidad_extension_checked;
-    unidad_extension_checkboxes.attr('checked', unidad_extension_checked);
+extension_aulica_checked = false;
+extension_aulica_checkboxes = $('input[name="extensiones_aulicas"][type="checkbox"]');
+$('#check_all_extensiones_aulicas').checked = false;
+$('#check_all_extensiones_aulicas').attr('checked', extension_aulica_checked);
+$('#check_all_extensiones_aulicas').click(function(){
+    extension_aulica_checked = !extension_aulica_checked;
+    extension_aulica_checkboxes.attr('checked', extension_aulica_checked);
 });
 </script>
 
 {% else %}
 <div class="message warning">
-	<p>No se encontraron unidades de extensión.</p>
+	<p>No se encontraron extensiones áulicas.</p>
 </div>
 {% endif %}
 <ul class="actions">
