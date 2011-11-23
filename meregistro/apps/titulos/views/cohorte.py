@@ -5,9 +5,9 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import TituloJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoTituloJurisdiccional, EstadoCohorteEstablecimiento, \
-    CohorteAnexo, EstadoCohorteAnexo, CohorteUnidadExtension, EstadoCohorteUnidadExtension
+    CohorteAnexo, EstadoCohorteAnexo, CohorteExtensionAulica, EstadoCohorteExtensionAulica
 from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, \
-    CohorteAsignarAnexosFormFilters, CohorteAsignarUnidadesExtensionFormFilters
+    CohorteAsignarAnexosFormFilters, CohorteAsignarExtensionesAulicasFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -308,55 +308,55 @@ def build_asignar_anexos_query(filters, request):
 
 @login_required
 @credential_required('tit_cohorte_asignar')
-def asignar_unidades_extension(request, cohorte_id):
+def asignar_extensiones_aulicas(request, cohorte_id):
 
     """
-    Asignar cohorte a unidades de extensión
+    Asignar cohorte a extensiones áulicas
     """
 
     cohorte = Cohorte.objects.get(pk = cohorte_id)
     "Traigo los ids de los anexos actualmente asignados a la cohorte"
-    current_unidades_extension_ids = __flat_list(CohorteUnidadExtension.objects.filter(cohorte = cohorte).values_list("unidad_extension_id"))
-    current_unidades_extension_oferta = __flat_list(CohorteUnidadExtension.objects.filter(cohorte = cohorte, oferta = True).values_list("unidad_extension_id"))
+    current_extensiones_aulicas_ids = __flat_list(CohorteExtensionAulica.objects.filter(cohorte = cohorte).values_list("extension_aulica_id"))
+    current_extensiones_aulicas_oferta = __flat_list(CohorteExtensionAulica.objects.filter(cohorte = cohorte, oferta = True).values_list("extension_aulica_id"))
 
-    "Búsqueda de unidades de extensión"
+    "Búsqueda de extensiones áulicas"
     if request.method == 'GET':
-        form_filters = CohorteAsignarUnidadesExtensionFormFilters(request.GET)
+        form_filters = CohorteAsignarExtensionesAulicasFormFilters(request.GET)
     else:
-        form_filters = CohorteAsignarUnidadesExtensionFormFilters()
+        form_filters = CohorteAsignarExtensionesAulicasFormFilters()
 
         # POST, guardo los datos
-        estado = EstadoCohorteUnidadExtension.objects.get(nombre = EstadoCohorteUnidadExtension.ASIGNADA)
+        estado = EstadoCohorteExtensionAulica.objects.get(nombre = EstadoCohorteExtensionAulica.ASIGNADA)
         values_dict = {
-            'current_unidades_extension_ids': current_unidades_extension_ids,
-            'current_oferta_ids': current_unidades_extension_oferta,
-            'post_ids': request.POST.getlist("unidades_extension"),
+            'current_extensiones_aulicas_ids': current_extensiones_aulicas_ids,
+            'current_oferta_ids': current_extensiones_aulicas_oferta,
+            'post_ids': request.POST.getlist("extensiones_aulicas"),
             'post_oferta_ids': request.POST.getlist("oferta"),
             'estado': estado,
         }
-        cohorte.save_unidades_extension(**values_dict)
+        cohorte.save_extensiones_aulicas(**values_dict)
 
         request.set_flash('success', 'Datos actualizados correctamente.')
         # redirigir a edit
-        return HttpResponseRedirect(reverse('cohorteAsignarUnidadesExtension', args = [cohorte.id]))
+        return HttpResponseRedirect(reverse('cohorteAsignarExtensionesAulicas', args = [cohorte.id]))
 
     jurisdiccion = request.get_perfil().jurisdiccion()
 
     form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion = jurisdiccion)
     form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion = jurisdiccion)
 
-    q = build_asignar_unidades_extension_query(form_filters, request)
+    q = build_asignar_extensiones_aulicas_query(form_filters, request)
 
-    return my_render(request, 'titulos/cohorte/asignar_unidades_extension.html', {
+    return my_render(request, 'titulos/cohorte/asignar_extensiones_aulicas.html', {
         'cohorte': cohorte,
-        'current_unidades_extension_ids': current_unidades_extension_ids,
-        'current_unidades_extension_oferta': current_unidades_extension_oferta,
+        'current_extensiones_aulicas_ids': current_extensiones_aulicas_ids,
+        'current_extensiones_aulicas_oferta': current_extensiones_aulicas_oferta,
         'form_filters': form_filters,
         'objects': q,
     })
 
 
-def build_asignar_unidades_extension_query(filters, request):
+def build_asignar_extensiones_aulicas_query(filters, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """

@@ -2,10 +2,10 @@
 
 from django import forms
 from apps.seguridad.models import TipoDocumento, Usuario
-from apps.registro.models import Establecimiento, UnidadExtension
+from apps.registro.models import Establecimiento, ExtensionAulica
 
 
-class UnidadExtensionFormFilters(forms.Form):
+class ExtensionAulicaFormFilters(forms.Form):
     nombre = forms.CharField(max_length = 40, label = 'Nombre', required = False)
     establecimiento = forms.ModelChoiceField(queryset = Establecimiento.objects.order_by('nombre'), label ='Establecimiento', required = False)
 
@@ -14,7 +14,7 @@ class UnidadExtensionFormFilters(forms.Form):
         Crea o refina un query de búsqueda.
         """
         if q is None:
-            q = UnidadExtension.objects.all()
+            q = ExtensionAulica.objects.all()
         if self.is_valid():
             def filter_by(field):
                 return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None

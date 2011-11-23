@@ -37,7 +37,7 @@
 				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
 				<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}">Completar datos est.</a></li>
 				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
-				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
+				<li><a href="{% url apps.registro.views.extension_aulica.index %}">Ext. áulicas</a></li>
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
@@ -56,7 +56,7 @@
 			{% if user_perfil.rol.nombre == 'SecretarioIFD' %}
 				<li><a href="{% url apps.registro.views.establecimiento.datos_establecimiento %}">Datos del establecimiento</a></li>
 				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
-				<li><a href="{% url apps.registro.views.unidad_extension.index %}">Unidades de ext.</a></li>
+				<li><a href="{% url apps.registro.views.extension_aulica.index %}">Ext. áulicas</a></li>
 				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				<li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>

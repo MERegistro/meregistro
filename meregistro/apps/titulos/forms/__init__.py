@@ -30,8 +30,8 @@ from CohorteAnexoSeguimientoForm import CohorteAnexoSeguimientoForm
 from CohorteAsignarAnexosFormFilters import CohorteAsignarAnexosFormFilters
 from AceptarCohorteAnexoFormFilters import AceptarCohorteAnexoFormFilters
 #
-#cohorte unidad de extension
-from CohorteAsignarUnidadesExtensionFormFilters import CohorteAsignarUnidadesExtensionFormFilters
+#cohorte extension aulica
+from CohorteAsignarExtensionesAulicasFormFilters import CohorteAsignarExtensionesAulicasFormFilters
 #
 from PostituloFormFilters import PostituloFormFilters
 from PostituloForm import PostituloForm

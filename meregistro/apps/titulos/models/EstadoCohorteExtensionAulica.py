@@ -4,10 +4,10 @@ from django.db import models
 Representa las opciones de estados que tiene cada cohorte asignada a un anexo
 """
 
-class EstadoCohorteUnidadExtension(models.Model):
+class EstadoCohorteExtensionAulica(models.Model):
 
     ASIGNADA = u'Asignada'
-    ACEPTADA = u'Aceptada por unidad de extensión'
+    ACEPTADA = u'Aceptada por extensión áulica'
     REGISTRADA = u'Registrada'
 
     nombre = models.CharField(max_length = 50, unique = True)
@@ -15,7 +15,7 @@ class EstadoCohorteUnidadExtension(models.Model):
     class Meta:
         app_label = 'titulos'
         ordering = ['nombre']
-        db_table = 'titulos_estado_cohorte_unidad_extension'
+        db_table = 'titulos_estado_cohorte_extension_aulica'
 
     def __unicode__(self):
         return self.nombre

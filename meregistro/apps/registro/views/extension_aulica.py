@@ -8,12 +8,12 @@ from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Localidad import Localidad
-from apps.registro.models.EstadoUnidadExtension import EstadoUnidadExtension
-from apps.registro.models.UnidadExtension import UnidadExtension
-from apps.registro.models.UnidadExtensionEstado import UnidadExtensionEstado
-from apps.registro.models.UnidadExtensionDomicilio import UnidadExtensionDomicilio
-from apps.registro.models.UnidadExtensionBaja import UnidadExtensionBaja
-from apps.registro.forms import UnidadExtensionFormFilters, UnidadExtensionForm, UnidadExtensionDomicilioForm, UnidadExtensionBajaForm
+from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
+from apps.registro.models.ExtensionAulica import ExtensionAulica
+from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
+from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicilio
+from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -21,10 +21,10 @@ import datetime
 ITEMS_PER_PAGE = 50
 
 """
-La unidad de extensión pertenece al establecimiento?
+La extensión áulica pertenece al establecimiento?
 """
-def __pertenece_al_establecimiento(request, unidad_extension):
-    return unidad_extension.establecimiento.ambito.path == request.get_perfil().ambito.path
+def __pertenece_al_establecimiento(request, extension_aulica):
+    return extension_aulica.establecimiento.ambito.path == request.get_perfil().ambito.path
 
 """
 Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
@@ -40,15 +40,15 @@ def __get_establecimiento_actual(request):
         pass
 
 @login_required
-@credential_required('reg_unidad_extension_consulta')
+@credential_required('reg_extension_aulica_consulta')
 def index(request):
     """
-    Búsqueda de unidades de extensión
+    Búsqueda de extensiones áulicas
     """
     if request.method == 'GET':
-        form_filter = UnidadExtensionFormFilters(request.GET)
+        form_filter = ExtensionAulicaFormFilters(request.GET)
     else:
-        form_filter = UnidadExtensionFormFilters()
+        form_filter = ExtensionAulicaFormFilters()
     q = build_query(form_filter, 1, request)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
@@ -69,7 +69,7 @@ def index(request):
 
     page = paginator.page(page_number)
     objects = page.object_list
-    return my_render(request, 'registro/unidad_extension/index.html', {
+    return my_render(request, 'registro/extension_aulica/index.html', {
         'form_filters': form_filter,
         'objects': objects,
         'show_paginator': paginator.num_pages > 1,
@@ -91,46 +91,46 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('reg_unidad_extension_alta')
+@credential_required('reg_extension_aulica_alta')
 def create(request):
     """
-    Alta de unidad de extensión.
+    Alta de extensión áulica.
     """
     establecimiento = __get_establecimiento_actual(request)
     if request.method == 'POST':
-        form = UnidadExtensionForm(request.POST)
-        domicilio_form = UnidadExtensionDomicilioForm(request.POST)
+        form = ExtensionAulicaForm(request.POST)
+        domicilio_form = ExtensionAulicaDomicilioForm(request.POST)
         if form.is_valid() and domicilio_form.is_valid():
 
-            unidad_extension = form.save(commit = False)
-            estado = EstadoUnidadExtension.objects.get(nombre = EstadoUnidadExtension.VIGENTE)
-            unidad_extension.estado = estado
-            unidad_extension.establecimiento = establecimiento
-            unidad_extension.save()
-            unidad_extension.registrar_estado()
+            extension_aulica = form.save(commit = False)
+            estado = EstadoExtensionAulica.objects.get(nombre = EstadoExtensionAulica.VIGENTE)
+            extension_aulica.estado = estado
+            extension_aulica.establecimiento = establecimiento
+            extension_aulica.save()
+            extension_aulica.registrar_estado()
 
             form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
             
             domicilio = domicilio_form.save(commit = False)
-            domicilio.unidad_extension = unidad_extension
+            domicilio.extension_aulica = extension_aulica
             domicilio.save()
 
-            MailHelper.notify_by_email(MailHelper.UNIDAD_EXTENSION_CREATE, unidad_extension)
+            MailHelper.notify_by_email(MailHelper.EXTENSION_AULICA_CREATE, extension_aulica)
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('unidadExtensionEdit', args = [unidad_extension.id]))
+            return HttpResponseRedirect(reverse('extensionAulicaEdit', args = [extension_aulica.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = UnidadExtensionForm()
-        domicilio_form = UnidadExtensionDomicilioForm()
+        form = ExtensionAulicaForm()
+        domicilio_form = ExtensionAulicaDomicilioForm()
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
         domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
 
-    return my_render(request, 'registro/unidad_extension/new.html', {
+    return my_render(request, 'registro/extension_aulica/new.html', {
         'form': form,
         'domicilio_form': domicilio_form,
         'is_new': True,
@@ -138,83 +138,83 @@ def create(request):
 
 
 @login_required
-@credential_required('reg_unidad_extension_modificar')
-def edit(request, unidad_extension_id):
+@credential_required('reg_extension_aulica_modificar')
+def edit(request, extension_aulica_id):
     """
-    Edición de los datos de una unidad de extensión.
+    Edición de los datos de una extensión áulica.
     """
-    unidad_extension = UnidadExtension.objects.get(pk = unidad_extension_id)
-    domicilio = unidad_extension.unidad_extension_domicilio.get()
+    extension_aulica = ExtensionAulica.objects.get(pk = extension_aulica_id)
+    domicilio = extension_aulica.domicilio.get()
 
-    if unidad_extension.dadaDeBaja():
-        raise Exception('La unidad de extensión se encuentra dada de baja.')
+    if extension_aulica.dadaDeBaja():
+        raise Exception('La extensión áulica se encuentra dada de baja.')
 
-    if not __pertenece_al_establecimiento(request, unidad_extension):
-        raise Exception('La unidad de extensión no pertenece a su establecimiento.')
+    if not __pertenece_al_establecimiento(request, extension_aulica):
+        raise Exception('La extensión áulica no pertenece a su establecimiento.')
 
     if request.method == 'POST':
-        form = UnidadExtensionForm(request.POST, instance = unidad_extension)
-        domicilio_form = UnidadExtensionDomicilioForm(request.POST, instance = domicilio)
+        form = ExtensionAulicaForm(request.POST, instance = extension_aulica)
+        domicilio_form = ExtensionAulicaDomicilioForm(request.POST, instance = domicilio)
         if form.is_valid() and domicilio_form.is_valid():
-            unidad_extension = form.save()
+            extension_aulica = form.save()
             domicilio = domicilio_form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = UnidadExtensionForm(instance = unidad_extension)
-        domicilio_form = UnidadExtensionDomicilioForm(instance = domicilio)
+        form = ExtensionAulicaForm(instance = extension_aulica)
+        domicilio_form = ExtensionAulicaDomicilioForm(instance = domicilio)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
         domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
 
-    return my_render(request, 'registro/unidad_extension/edit.html', {
+    return my_render(request, 'registro/extension_aulica/edit.html', {
         'form': form,
         'domicilio_form': domicilio_form,
         'domicilio': domicilio,
-        'unidad_extension': unidad_extension,
+        'extension_aulica': extension_aulica,
     })
 
 @login_required
-@credential_required('reg_unidad_extension_baja')
-def baja(request, unidad_extension_id):
+@credential_required('reg_extension_aulica_baja')
+def baja(request, extension_aulica_id):
     """
-    Baja de un unidad de extensión
+    Baja de un extensión áulica
     CU 28
     """
-    unidad_extension = UnidadExtension.objects.get(pk = unidad_extension_id)
+    extension_aulica = ExtensionAulica.objects.get(pk = extension_aulica_id)
     """ Pertenece al establecimiento? """
-    pertenece_al_establecimiento = __pertenece_al_establecimiento(request, unidad_extension)
+    pertenece_al_establecimiento = __pertenece_al_establecimiento(request, extension_aulica)
     if not pertenece_al_establecimiento:
-        raise Exception('La unidad de extensión no pertenece al establecimiento.')
-    """ La unidad de extensión ya fue dada de baja? """
-    dada_de_baja = unidad_extension.dadaDeBaja()
+        raise Exception('La extensión áulica no pertenece al establecimiento.')
+    """ La extensión áulica ya fue dada de baja? """
+    dada_de_baja = extension_aulica.dadaDeBaja()
     if dada_de_baja:
-        request.set_flash('notice', 'La unidad de extensión ya se encuentra dada de baja.')
+        request.set_flash('notice', 'La extensión áulica ya se encuentra dada de baja.')
     """ Continuar """
     if request.method == 'POST':
-        form = UnidadExtensionBajaForm(request.POST)
+        form = ExtensionAulicaBajaForm(request.POST)
         if form.is_valid():
             baja = form.save(commit = False)
-            baja.unidad_extension = unidad_extension
+            baja.extension_aulica = extension_aulica
             baja.save()
-            estado = EstadoUnidadExtension.objects.get(nombre = EstadoUnidadExtension.BAJA)
-            unidad_extension.estado = estado
-            unidad_extension.save()
-            unidad_extension.registrar_estado()
+            estado = EstadoExtensionAulica.objects.get(nombre = EstadoExtensionAulica.BAJA)
+            extension_aulica.estado = estado
+            extension_aulica.save()
+            extension_aulica.registrar_estado()
 
             dado_de_baja = True
 
-            request.set_flash('success', 'La unidad de extensión fue dada de baja correctamente.')
+            request.set_flash('success', 'La extensión áulica fue dada de baja correctamente.')
             """ Redirecciono para evitar el reenvío del form """
-            return HttpResponseRedirect(reverse('unidad_extension'))
+            return HttpResponseRedirect(reverse('extension_aulica'))
         else:
-            request.set_flash('warning', 'Ocurrió un error dando de baja la unidad de extensión.')
+            request.set_flash('warning', 'Ocurrió un error dando de baja la extensión áulica.')
     else:
-        form = UnidadExtensionBajaForm()
-    return my_render(request, 'registro/unidad_extension/baja.html', {
+        form = ExtensionAulicaBajaForm()
+    return my_render(request, 'registro/extension_aulica/baja.html', {
         'form': form,
-        'unidad_extension': unidad_extension,
+        'extension_aulica': extension_aulica,
         'dada_de_baja': dada_de_baja,
     })

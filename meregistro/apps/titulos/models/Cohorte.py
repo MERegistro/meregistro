@@ -2,7 +2,7 @@
 from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Anexo import Anexo
-from apps.registro.models.UnidadExtension import UnidadExtension
+from apps.registro.models.ExtensionAulica import ExtensionAulica
 from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
 import datetime
 
@@ -13,7 +13,7 @@ class Cohorte(models.Model):
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
     establecimientos = models.ManyToManyField(Establecimiento, through = "CohorteEstablecimiento")
     anexos = models.ManyToManyField(Anexo, through = "CohorteAnexo")
-    unidades_extension = models.ManyToManyField(UnidadExtension, through = "CohorteUnidadExtension")
+    extensiones_aulicas = models.ManyToManyField(ExtensionAulica, through = "CohorteExtensionAulica")
     revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
 
     class Meta:
@@ -115,29 +115,29 @@ class Cohorte(models.Model):
                     registro.registrar_estado()
 
     """
-    Asocia/elimina las unidades de extensión desde el formulario masivo
+    Asocia/elimina las extensiones áulicas desde el formulario masivo
     XXX: los valores "posts" vienen como strings
     """
-    def save_unidades_extension(self, current_unidades_extension_ids, current_oferta_ids, post_ids, post_oferta_ids, estado):
-        from apps.titulos.models.CohorteUnidadExtension import CohorteUnidadExtension
+    def save_extensiones_aulicas(self, current_extensiones_aulicas_ids, current_oferta_ids, post_ids, post_oferta_ids, estado):
+        from apps.titulos.models.CohorteExtensionAulica import CohorteExtensionAulica
         "Borrar los que se des-chequean"
-        for unidad_extension_id in current_unidades_extension_ids:
-            if str(unidad_extension_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
-                CohorteUnidadExtension.objects.get(cohorte = self, unidad_extension = unidad_extension_id).delete()
+        for extension_aulica_id in current_extensiones_aulicas_ids:
+            if str(extension_aulica_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
+                CohorteExtensionAulica.objects.get(cohorte = self, extension_aulica = extension_aulica_id).delete()
 
         "Agregar los nuevos"
         oferta = None
-        for unidad_extension_id in post_ids:
+        for extension_aulica_id in post_ids:
             "Oferta??"
-            if unidad_extension_id in post_oferta_ids:
+            if extension_aulica_id in post_oferta_ids:
                 oferta = True
             "Si no está entre los actuales"
-            if int(unidad_extension_id) not in current_unidades_extension_ids:
+            if int(extension_aulica_id) not in current_extensiones_aulicas_ids:
                 # Lo creo y registro el estado
-                registro = CohorteUnidadExtension.objects.create(cohorte = self, unidad_extension_id = unidad_extension_id, oferta = oferta, estado = estado)
+                registro = CohorteExtensionAulica.objects.create(cohorte = self, extension_aulica_id = extension_aulica_id, oferta = oferta, estado = estado)
                 registro.registrar_estado()
             else:
-                registro = CohorteUnidadExtension.objects.get(cohorte = self, unidad_extension = unidad_extension_id)
+                registro = CohorteExtensionAulica.objects.get(cohorte = self, extension_aulica = extension_aulica_id)
                 registro.oferta = oferta
                 registro.save()
                 if registro.estado != estado:

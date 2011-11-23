@@ -1,0 +1,18 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Baja de extensión áulica{% endblock %}
+
+{% block content %}
+<h2>Baja de uextensión áulica</h2>
+
+{% if not dada_de_baja %}
+{% include "registro/extension_aulica/form_baja.html" %}
+{% endif %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.extension_aulica.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}
