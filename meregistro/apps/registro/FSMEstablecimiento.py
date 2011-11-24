@@ -1,5 +1,6 @@
 from models.EstadoEstablecimiento import EstadoEstablecimiento
 
+
 class FSMEstablecimiento:
     def __init__(self):
         self.estados = {}
