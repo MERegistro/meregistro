@@ -5,7 +5,7 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required
-from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo
+from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo, Rol
 from apps.seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm
 from apps.seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm
 
@@ -20,6 +20,7 @@ def index(request):
   else:
     form_filter = UsuarioFormFilters()
   q = build_query(form_filter, 1)
+  q.filter(perfiles__ambito__path__istartswith=request.get_perfil().ambito.path)
   return my_render(request, 'seguridad/usuario/index.html', {
     'form_filters': form_filter,
     'objects': q
@@ -80,6 +81,7 @@ def create(request):
       request.set_flash('warning', 'Ocurrió un error guardando los datos.')
   else:
     form = UsuarioCreateForm()
+  form.fields['rol'].queryset = request.get_perfil().rol.roles_asignables.all()
 
   return my_render(request, 'seguridad/usuario/new.html', {
     'form': form,
