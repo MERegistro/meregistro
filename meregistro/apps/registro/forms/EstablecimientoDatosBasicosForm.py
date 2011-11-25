@@ -9,4 +9,5 @@ class EstablecimientoDatosBasicosForm(ModelForm):
 
     class Meta:
         model = Establecimiento
-        fields = ['tipo_normativa', 'norma_creacion', 'anio_creacion', 'unidad_academica', 'nombre_unidad_academica', 'sitio_web', 'email', 'telefono']
+        fields = ['tipo_normativa', 'norma_creacion', 'anio_creacion', 'unidad_academica', 'nombre_unidad_academica', \
+            'identificacion_provincial', 'posee_subsidio', 'sitio_web', 'email', 'telefono', 'fax']

@@ -8,12 +8,12 @@
 		</div>
 		<div class="form-text">
 			{{ form.norma_creacion.errors }}
-			<label for="norma_creacion">Norma de creación:</label>
+			<label for="id_norma_creacion">Norma de creación:</label>
 			{{ form.norma_creacion }}
 		</div>
 		<div class="form-text">
 			{{ form.anio_creacion.errors }}
-			<label for="anio_creacion">Año de creación:</label>
+			<label for="id_anio_creacion">Año de creación:</label>
 			{{ form.anio_creacion }}
 		</div>
 		<div class="form-checkbox">
@@ -23,22 +23,37 @@
 		</div>
 		<div class="form-text">
 			{{ form.nombre_unidad_academica.errors }}
-			<label for="nombre_unidad_academica">Nombre un. académica:</label>
+			<label for="id_nombre_unidad_academica">Nombre un. académica:</label>
 			{{ form.nombre_unidad_academica }}
 		</div>
 		<div class="form-text">
+			{{ form.identificacion_provincial.errors }}
+			<label for="id_identificacion_provincial">Identificación provincial:</label>
+			{{ form.identificacion_provincial }}
+		</div>
+		<div class="form-checkbox">
+			{{ form.posee_subsidio.errors }}
+			<label for="id_posee_subsidio">Posee subsidio:</label>
+			{{ form.posee_subsidio }}
+		</div>
+		<div class="form-text">
 			{{ form.telefono.errors }}
-			<label for="telefono">Teléfono:</label>
+			<label for="id_telefono">Teléfono:</label>
 			{{ form.telefono }}
 		</div>
 		<div class="form-text">
+			{{ form.fax.errors }}
+			<label for="id_fax">Fax:</label>
+			{{ form.fax }}
+		</div>
+		<div class="form-text">
 			{{ form.email.errors }}
-			<label for="email">Email:</label>
+			<label for="id_email">Email:</label>
 			{{ form.email }}
 		</div>
 		<div class="form-text">
 			{{ form.sitio_web.errors }}
-			<label for="sitio_web">Sitio web:</label>
+			<label for="id_sitio_web">Sitio web:</label>
 			{{ form.sitio_web }}
 		</div>
 		<div class="form-submit">
