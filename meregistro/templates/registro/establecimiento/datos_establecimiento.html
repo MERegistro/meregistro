@@ -46,6 +46,16 @@
     <hr />
     {% endif %}
     <p><strong>Estado actual:</strong> {{ establecimiento.estado }}</p>
+    {% if autoridades %}
+    <ul>
+	<h4>Autoridades:</h4>
+    {% for aut in autoridades %}
+	<li>{{ aut }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    
 </div>
 
 <hr />

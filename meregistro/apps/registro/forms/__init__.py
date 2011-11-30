@@ -20,3 +20,5 @@ from ExtensionAulicaFormFilters import ExtensionAulicaFormFilters
 from ExtensionAulicaBajaForm import ExtensionAulicaBajaForm
 from AnexoDatosBasicosForm import AnexoDatosBasicosForm
 from AnexoTurnosForm import AnexoTurnosForm
+from EstablecimientoAutoridadForm import EstablecimientoAutoridadForm
+from EstablecimientoAutoridadFormFilters import EstablecimientoAutoridadFormFilters

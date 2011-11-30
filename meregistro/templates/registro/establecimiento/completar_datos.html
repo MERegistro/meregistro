@@ -5,18 +5,13 @@
 {% block content %}
 <h2>Completar datos del establecimiento - {{ page_title }}</h2>
 <h3>{{ establecimiento }}</h3>
-
+<div id="establecimientoActions" style="margin: 20px;">
+    <a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a>
+</div>
 {% include "registro/establecimiento/completar_datos_nav.html" %}
 
 {% if form_template %}
 {% include form_template %}
 {% endif %}
-<ul class="actions">
-<!--
-    <li class="back">
-	<a href="{% url apps.registro.views.establecimiento.index %}"><span>Volver</span></a>
-    </li>
--->
-</ul>
 <hr />
 {% endblock %}
