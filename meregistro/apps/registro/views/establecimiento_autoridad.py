@@ -21,12 +21,13 @@ def __get_establecimiento_actual(request):
     Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
     """
     try:
-        establecimiento = Establecimiento.objects.get(ambito__path = request.get_perfil().ambito.path)
+        establecimiento = Establecimiento.objects.get(ambito__path=request.get_perfil().ambito.path)
     except Establecimiento.DoesNotExist:
         raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
 
     return establecimiento
-    
+
+
 @login_required
 @credential_required('reg_establecimiento_autoridad_consulta')
 def index(request):
@@ -37,10 +38,10 @@ def index(request):
     Búsqueda de establecimientos
     """
     if request.method == 'GET':
-        form_filter = EstablecimientoAutoridadFormFilters(request.GET, establecimiento_id = establecimiento.id)
+        form_filter = EstablecimientoAutoridadFormFilters(request.GET, establecimiento_id=establecimiento.id)
     else:
-        form_filter = EstablecimientoFormFilters(establecimiento_id = establecimiento.id)
-        
+        form_filter = EstablecimientoFormFilters(establecimiento_id=establecimiento.id)
+
     q = build_query(form_filter, 1, request)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -76,6 +77,7 @@ def build_query(filters, page, request):
     """
     return filters.buildQuery()
 
+
 @login_required
 @credential_required('reg_establecimiento_autoridad_create')
 def create(request):
@@ -83,14 +85,14 @@ def create(request):
     Alta de autoridad.
     """
     establecimiento = __get_establecimiento_actual(request)
-    
+
     if request.method == 'POST':
         form = EstablecimientoAutoridadForm(request.POST)
         if form.is_valid():
-            autoridad = form.save(commit = False)
+            autoridad = form.save(commit=False)
             autoridad.establecimiento_id = establecimiento.id
             autoridad.save()
-            
+
             request.set_flash('success', 'Datos guardados correctamente.')
             return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex'))
         else:
@@ -109,11 +111,11 @@ def edit(request, autoridad_id):
     Edición de los datos de una autoridad.
     """
     establecimiento = __get_establecimiento_actual(request)
-    autoridad = EstablecimientoAutoridad.objects.get(pk = autoridad_id, establecimiento__id = establecimiento.id)
+    autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id, establecimiento__id=establecimiento.id)
     raise Exception(autoridad)
 
     if request.method == 'POST':
-        form = EstablecimientoForm(request.POST, instance = establecimiento)
+        form = EstablecimientoForm(request.POST, instance=establecimiento)
         if form.is_valid():
             establecimiento = form.save()
 
@@ -122,10 +124,10 @@ def edit(request, autoridad_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = EstablecimientoForm(instance = establecimiento)
+        form = EstablecimientoForm(instance=establecimiento)
 
     if request.get_perfil().jurisdiccion() is not None:
-        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion = request.get_perfil().jurisdiccion())
+        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/edit.html', {
         'form': form,
         'establecimiento': establecimiento,
@@ -136,7 +138,7 @@ def edit(request, autoridad_id):
 @credential_required('reg_establecimiento_autoridad_delete')
 def delete(request, autoridad_id):
     establecimiento = __get_establecimiento_actual(request)
-    autoridad = EstablecimientoAutoridad.objects.get(pk = autoridad_id, establecimiento__id = establecimiento.id)
+    autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id, establecimiento__id=establecimiento.id)
     autoridad.delete()
     request.set_flash('success', 'Datos de la autoridad eliminados correctamente.')
     return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex'))
