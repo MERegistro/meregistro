@@ -3,6 +3,7 @@
 {% block title %}Asignación de perfil{% endblock %}
 
 {% block content %}
+<script src="{{ STATIC_URL }}js/selector_ambito.js" type="text/javascript"></script>
 <h2>Asignación de perfil</h2>
 
 <div class="form" id="perfilForm">
@@ -32,9 +33,12 @@
 		<div class="form-select">
 			{{ form.ambito.errors }}
 			<label for="id_ambito">Ambito:</label>
-<input type="hidden" name="ambito" id="ambito" value="{{ form.data.ambito }}"/>
+
+            <span id="ambito_div_0"></span>
+            <input type="hidden" name="ambito" id="ambito" value="{{ form.data.ambito }}" />
+<!--<input type="hidden" name="ambito" id="ambito" value="{{ form.data.ambito }}"/>
 <span id="ambito_nombre"></span>  <a href="#" onclick="seleccionarAmbito('#ambito_selector', '#ambito', '#ambito_nombre')">seleccionar</a>
-<div id="ambito_selector" class="popup_selector_ambito"></div>
+<div id="ambito_selector" class="popup_selector_ambito"></div>-->
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Asignar" />
@@ -48,4 +52,8 @@
   </li>
 </ul>
 <hr />
+
+<script>
+</script>
+
 {% endblock %}
