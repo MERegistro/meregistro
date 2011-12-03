@@ -2,7 +2,6 @@
 
 from Region import Region
 from Jurisdiccion import Jurisdiccion
-from GestionJurisdiccion import GestionJurisdiccion
 from TipoGestion import TipoGestion
 from TipoNormativa import TipoNormativa
 from TipoDependenciaFuncional import TipoDependenciaFuncional

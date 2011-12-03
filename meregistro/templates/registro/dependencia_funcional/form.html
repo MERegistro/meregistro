@@ -7,11 +7,6 @@
 			{{ form.jurisdiccion }}
 		</div>
 		<div class="form-select">
-			{{ form.gestion_jurisdiccion.errors }}
-			<label for="id_gestion_jurisdiccion">Gestión jurisdiccional:</label>
-			{{ form.gestion_jurisdiccion }}
-		</div>
-		<div class="form-select">
 			{{ form.tipo_gestion.errors }}
 			<label for="id_tipo_gestion">Tipo de gestión:</label>
 			{{ form.tipo_gestion }}
@@ -21,16 +16,10 @@
 			<label for="id_tipo_dependencia_funcional">Tipo de dependencia:</label>
 			{{ form.tipo_dependencia_funcional }}
 		</div>
-		<div class="form-select">
-			{{ form.tipo_educacion.errors }}
-			<label for="id_tipo_educacion">Tipo de educación:</label>
-			{{ form.tipo_educacion }}
-		</div>
-
 		<div class="form-text">
-			{{ form.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form.nombre }}
+			<label>Nombre:</label>
+			<p id="id_nombre_generado"></p>
+			<hr />
 		</div>
 		<div class="form-submit">
 		{% if establecimiento %}
@@ -41,3 +30,28 @@
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+var dropdown_tipo_dependencia_funcional = $("select#id_tipo_dependencia_funcional");
+var dropdown_tipo_gestion = $("select#id_tipo_gestion");
+var nombre_generado = $("p#id_nombre_generado");
+
+$(document).ready(
+    function(){
+		// Armo el nombre según lo seleccionado
+		$.each([dropdown_jurisdiccion, dropdown_tipo_dependencia_funcional, dropdown_tipo_gestion], function(i, dropdown){
+			dropdown.change(
+				function(){					
+					val = $("select#id_tipo_dependencia_funcional :selected").text() + " de Gestión " + $("select#id_tipo_gestion :selected").text() + " de " + $("select#id_jurisdiccion :selected").text();
+					nombre_generado.html(val);
+				}
+			);
+		});
+		
+		// Init
+		val = $("select#id_tipo_dependencia_funcional :selected").text() + " de Gestión " + $("select#id_tipo_gestion :selected").text() + " de " + $("select#id_jurisdiccion :selected").text();
+		nombre_generado.html(val);
+    } // END function
+); // END document.ready
+
+</script>

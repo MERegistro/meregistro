@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
-from apps.registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion, GestionJurisdiccion
+from apps.registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion
 from apps.registro.forms import DependenciaFuncionalFormFilters, DependenciaFuncionalForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
@@ -109,6 +109,8 @@ def edit(request, dependencia_funcional_id):
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = DependenciaFuncionalForm(instance=dependencia_funcional)
+    if request.get_perfil().jurisdiccion() is not None:
+        form.fields['jurisdiccion'].queryset = Jurisdiccion.objects.filter(id=request.get_perfil().jurisdiccion().id)
 
     return my_render(request, 'registro/dependencia_funcional/edit.html', {
         'form': form,
