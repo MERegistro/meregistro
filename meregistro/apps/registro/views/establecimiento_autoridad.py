@@ -112,25 +112,21 @@ def edit(request, autoridad_id):
     """
     establecimiento = __get_establecimiento_actual(request)
     autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id, establecimiento__id=establecimiento.id)
-    raise Exception(autoridad)
 
     if request.method == 'POST':
-        form = EstablecimientoForm(request.POST, instance=establecimiento)
+        form = EstablecimientoAutoridadForm(request.POST, instance=autoridad)
         if form.is_valid():
-            establecimiento = form.save()
+            autoridad = form.save()
 
-            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = EstablecimientoForm(instance=establecimiento)
+        form = EstablecimientoAutoridadForm(instance=autoridad)
 
-    if request.get_perfil().jurisdiccion() is not None:
-        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
-    return my_render(request, 'registro/establecimiento/edit.html', {
+    return my_render(request, 'registro/establecimiento/autoridades/edit.html', {
         'form': form,
-        'establecimiento': establecimiento,
+        'autoridad': autoridad,
     })
 
 
