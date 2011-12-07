@@ -98,14 +98,6 @@
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
                         {% endif %}
                     {% endif %}
-                    {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
-                        <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
-                        {% if est.revisado_jurisdiccion  %}
-                            <li class="revisado"><a href="{% url apps.registro.views.establecimiento.revisar_jurisdiccion est.id %}" title="Revisar"><span>Revisado</span></a></li>
-                        {% else %}
-                            <li class="revisar"><a href="{% url apps.registro.views.establecimiento.revisar_jurisdiccion est.id %}" title="Revisar"><span>Revisar</span></a></li>
-                        {% endif %}
-                    {% endif %}
                     {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
                         <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
                     {% endif %}
