@@ -70,7 +70,7 @@ div#header h2 span {
 div#content {
 	width: 956px;
 	min-height: 300px;
-	margin: 10px auto;
+	margin: 0 auto;
 	position: relative;
 }
 div#content h2 {
@@ -79,6 +79,7 @@ div#content h2 {
 /*
 =MAINNAV
 */
+/*
 div#mainNav {
 	width: 966px;
 	margin: 0 auto;
@@ -107,6 +108,7 @@ div#mainNav ul li#linkAyuda {
 	border-right: none;
 	border-left: 1px #bbb solid;
 }
+*/ 
 /*
 =TAB-NAV
 */
@@ -139,6 +141,16 @@ div.tab-nav ul li.active a {
 div.tab-nav ul li a span {
 	display: block;
 	padding: 5px 8px;
+}
+/*
+=establecimientoActions
+*/
+div#establecimientoActions {
+	margin: 20px;
+}
+div#establecimientoActions a:link,
+div#establecimientoActions a:visited {
+	color: #2166A4;
 }
 /*
 =establecimientoCompletarDatosNav
@@ -418,7 +430,7 @@ ul.actions li.create {
 	color: #000;
 	background: #fff url(../img/icons/add.png) no-repeat left;
 	position: absolute;
-	top: 3px;
+	top: 33px;
 	right: -10px;
 	padding: 3px 5px 2px;
 }
@@ -536,7 +548,7 @@ td.actions-td ul li.seguimiento-cohorte a {
 div.form-filter {
 	margin: 10px 0 0;
 	border: 1px #ceccca solid;
-	width: 550px;
+	width: 600px;
 	background: #f2f1f0;
 }
 div.form-filter h3 {
