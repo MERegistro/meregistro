@@ -7,3 +7,4 @@ from UsuarioChangePasswordForm import UsuarioChangePasswordForm
 from BloquearUsuarioForm import BloquearUsuarioForm
 from DesbloquearUsuarioForm import DesbloquearUsuarioForm
 from AsignarPerfilForm import AsignarPerfilForm
+from UsuarioEditarDatosForm import UsuarioEditarDatosForm

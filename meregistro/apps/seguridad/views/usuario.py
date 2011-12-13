@@ -7,7 +7,7 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required
 from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo, Rol
 from apps.seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm
-from apps.seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm
+from apps.seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm, UsuarioEditarDatosForm
 
 
 @login_required
@@ -154,5 +154,24 @@ def desbloquear(request, userId):
     form = DesbloquearUsuarioForm()
   return my_render(request, 'seguridad/usuario/desbloquear.html', {
     'usuario': usuario,
+    'form': form
+  })
+
+@login_required
+def editarDatosPropios(request):
+  if request.method == 'POST':
+    form = UsuarioEditarDatosForm(request.POST)
+    if form.is_valid():
+      usuario = form.save(commit=False)
+      request.user.nombre = usuario.nombre
+      request.user.apellido = usuario.apellido
+      request.user.email = usuario.email
+      request.user.save()
+      request.set_flash('success', 'Datos guardados correctamente')
+    else:
+      request.set_flash('warning', 'Ocurrió un error guardando los datos')
+  else:
+    form = UsuarioEditarDatosForm(instance=request.user)
+  return my_render(request, 'seguridad/usuario/editarDatosPropios.html', {
     'form': form
   })

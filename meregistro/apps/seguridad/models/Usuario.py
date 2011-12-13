@@ -10,7 +10,7 @@ class Usuario(models.Model):
     documento = models.CharField(max_length=20)
     apellido = models.CharField(max_length=40)
     nombre = models.CharField(max_length=40)
-    email = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255, null=True, editable=False)
     last_login = models.IntegerField(null=True, blank=True, editable=False)
     is_active = models.BooleanField(null=False, blank=False, editable=False)
