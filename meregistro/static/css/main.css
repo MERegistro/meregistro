@@ -348,6 +348,25 @@ div.tabbed-form form {
 div#establecimientoCompletarDatosForm {
 	width: 850px;
 }	
+/* establecimientoForm */
+div#establecimientoForm form input#id_codigo_jurisdiccion,
+div#establecimientoForm form input#id_cue,
+div#establecimientoForm form input#id_codigo_tipo_unidad_educativa {
+	display: inline;
+	text-align: center;
+	font-weight: bold;
+	border: 2px #666 solid;
+}	
+div#establecimientoForm form input#id_codigo_jurisdiccion,
+div#establecimientoForm form input#id_codigo_tipo_unidad_educativa {
+	width: 1.8em;
+	background: #ccc;
+}
+div#establecimientoForm form input#id_cue {
+	width: 4em;
+	border-left: none;
+	border-right: none;
+}
 /*
 =TABLE
 */

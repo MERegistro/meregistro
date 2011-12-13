@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
-from apps.registro.models import Establecimiento
+from django import forms
+from apps.registro.models import Establecimiento, Jurisdiccion
 from django.core.exceptions import ValidationError
 
 
 class EstablecimientoForm(ModelForm):
+    codigo_jurisdiccion = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    cue = forms.IntegerField(label='CUE', required=True, widget=forms.TextInput(attrs={'size': 5, 'maxlength': 5}))
+    codigo_tipo_unidad_educativa = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     class Meta:
         model = Establecimiento
@@ -17,3 +21,21 @@ class EstablecimientoForm(ModelForm):
         except ValidationError:
             pass
         return anio_creacion
+
+    def clean_cue(self):
+        cue = str(self.cleaned_data['cue'])
+        if len(cue) != 5:
+            raise ValidationError('El CUE debe tener 9 dígitos en total')  # Para dar un mensaje más claro
+        return cue
+
+    def clean(self):
+        # Armar el CUE correctamente
+        cleaned_data = self.cleaned_data
+        try:
+            cue = cleaned_data['cue']
+            codigo_jurisdiccion = cleaned_data['codigo_jurisdiccion']
+            codigo_tipo_unidad_educativa = cleaned_data['codigo_tipo_unidad_educativa']
+            cleaned_data['cue'] = str(codigo_jurisdiccion) + str(cue) + str(codigo_tipo_unidad_educativa)
+        except KeyError:
+            pass
+        return cleaned_data

@@ -16,27 +16,30 @@ YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.no
 
 
 class Establecimiento(models.Model):
+
+    CODIGO_TIPO_UNIDAD_EDUCATIVA = '00'  # Para completar el CUE
+
     dependencia_funcional = models.ForeignKey(DependenciaFuncional)
-    cue = models.CharField(max_length = 5)
-    nombre = models.CharField(max_length = 255)
+    cue = models.CharField(max_length=9)
+    nombre = models.CharField(max_length=255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
-    nombre_unidad_academica = models.CharField(max_length = 100, null = True, blank = True)
-    identificacion_provincial = models.CharField(max_length = 100, null = True, blank = True)
+    nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
+    identificacion_provincial = models.CharField(max_length=100, null=True, blank=True)
     posee_subsidio = models.BooleanField()
-    norma_creacion = models.CharField(max_length = 100)
-    observaciones = models.TextField(max_length = 255, null = True, blank = True)
-    anio_creacion = models.IntegerField(null = True, blank = True, choices = YEARS_CHOICES)
-    telefono = models.CharField(max_length = 100, null = True, blank = True)
-    fax = models.CharField(max_length = 100, null = True, blank = True)
-    email = models.EmailField(max_length = 255, null = True, blank = True)
-    sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
-    ambito = models.ForeignKey(Ambito, editable = False, null = True)
-    turnos = models.ManyToManyField(Turno, blank = True, null = True, db_table = 'registro_establecimientos_turnos')
-    niveles = models.ManyToManyField(Nivel, blank = True, null = True, db_table = 'registro_establecimientos_niveles')
-    funciones = models.ManyToManyField(Funcion, blank = True, null = True, db_table = 'registro_establecimientos_funciones')
-    estado = models.ForeignKey(EstadoEstablecimiento, editable = False, null = True)
-    old_id = models.IntegerField(null = True, blank = True, editable = False)
+    norma_creacion = models.CharField(max_length=100)
+    observaciones = models.TextField(max_length=255, null=True, blank=True)
+    anio_creacion = models.IntegerField(null=True, blank=True, choices=YEARS_CHOICES)
+    telefono = models.CharField(max_length=100, null=True, blank=True)
+    fax = models.CharField(max_length=100, null=True, blank=True)
+    email = models.EmailField(max_length=255, null=True, blank=True)
+    sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
+    ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    turnos = models.ManyToManyField(Turno, blank=True, null=True, db_table='registro_establecimientos_turnos')
+    niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_establecimientos_niveles')
+    funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_establecimientos_funciones')
+    estado = models.ForeignKey(EstadoEstablecimiento, editable=False, null=True)
+    old_id = models.IntegerField(null=True, blank=True, editable=False)
 
     class Meta:
         app_label = 'registro'
@@ -47,23 +50,23 @@ class Establecimiento(models.Model):
     """
     def __init__(self, *args, **kwargs):
         super(Establecimiento, self).__init__(*args, **kwargs)
-        self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento = self).order_by('id')
+        self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento=self).order_by('id')
         self.estado_actual = self.getEstadoActual()
 
     def __unicode__(self):
         return str(self.cue) + ' - ' + self.nombre
 
     def clean(self):
-        #Chequea que la combinación entre jurisdiccion y cue sea única
+        # Chequea que la combinación entre jurisdiccion y cue sea única
         try:
-            est = Establecimiento.objects.get(cue = self.cue, dependencia_funcional__jurisdiccion__id = self.dependencia_funcional.jurisdiccion.id)
+            est = Establecimiento.objects.get(cue=self.cue, dependencia_funcional__jurisdiccion__id=self.dependencia_funcional.jurisdiccion.id)
             if est and est != self:
                 raise ValidationError('Ya existe un establecimiento con ese CUE en su jurisdicción.')
         except ObjectDoesNotExist:
             pass
 
-    def registrar_estado(self, estado, observaciones = ''):
-        registro = RegistroEstablecimiento(estado = estado)
+    def registrar_estado(self, estado, observaciones=''):
+        registro = RegistroEstablecimiento(estado=estado)
         registro.fecha = datetime.date.today()
         registro.establecimiento_id = self.id
         registro.observaciones = observaciones
@@ -79,7 +82,7 @@ class Establecimiento(models.Model):
         models.Model.save(self)
 
     def delete(self):
-        estado = EstadoEstablecimiento.objects.get(nombre = EstadoEstablecimiento.BAJA)
+        estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.BAJA)
         self.registrar_estado(estado)
 
     def updateAmbito(self):
@@ -94,7 +97,7 @@ class Establecimiento(models.Model):
 
     def hasAnexos(self):
         from apps.registro.models.Anexo import Anexo
-        anexos = Anexo.objects.filter(establecimiento = self)
+        anexos = Anexo.objects.filter(establecimiento=self)
         return anexos.count() > 0
 
     def getEstadoActual(self):
@@ -118,3 +121,32 @@ class Establecimiento(models.Model):
         cant_estados = len(self.registro_estados) is 1
         es_pendiente = self.estado_actual == u'Pendiente'
         return cant_estados == 1 and es_pendiente
+
+    """
+    Obtener las partes del cue desde una instancia
+    """
+    def get_cue_parts(self):
+        parts = {
+            'codigo_jurisdiccion': self.cue[0:2],
+            'cue': self.cue[2:7],
+            'codigo_tipo_unidad_educativa': self.cue[7:9],
+        }
+        return parts
+
+    """
+    Obtener las partes del cue desde la clase, dando el cue como parámetro
+    """
+    @classmethod
+    def get_parts_from_cue(cls, cue):
+        try:
+            tmp = int(cue)
+        except ValueError:  # Tiene más que números
+            return None
+        if len(cue) != 9:  # CUE inválido
+            return None
+        parts = {
+            'codigo_jurisdiccion': cue[0:2],
+            'cue': cue[2:7],
+            'codigo_tipo_unidad_educativa': cue[7:9],
+        }
+        return parts

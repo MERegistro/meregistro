@@ -9,7 +9,6 @@ from apps.seguridad.models import Usuario, Perfil
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
-from apps.registro.models.EstablecimientoDomicilio import EstablecimientoDomicilio
 from apps.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
 from apps.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
 from apps.registro.models.Localidad import Localidad
@@ -24,7 +23,6 @@ from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoD
 from apps.registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm
 from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
 from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
-from apps.registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
 from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
 from apps.registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
 from apps.registro.FSMEstablecimiento import FSMEstablecimiento
@@ -127,6 +125,7 @@ def create(request):
     else:
         form = EstablecimientoForm()
     if request.get_perfil().jurisdiccion() is not None:
+        form.initial = {'codigo_jurisdiccion': request.get_perfil().jurisdiccion().prefijo, 'codigo_tipo_unidad_educativa': Establecimiento.CODIGO_TIPO_UNIDAD_EDUCATIVA, }
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/new.html', {
         'form': form,
@@ -154,7 +153,11 @@ def edit(request, establecimiento_id):
     else:
         form = EstablecimientoForm(instance=establecimiento)
 
+    parts = establecimiento.get_cue_parts()
     if request.get_perfil().jurisdiccion() is not None:
+        form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
+        form.initial['cue'] = parts['cue']
+        form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
     return my_render(request, 'registro/establecimiento/edit.html', {
         'form': form,
@@ -359,43 +362,6 @@ def completar_funciones(request):
         'establecimiento': establecimiento,
         'page_title': 'Funciones',
         'actual_page': 'funciones',
-    })
-
-
-@login_required
-@credential_required('reg_establecimiento_completar')
-def completar_domicilio(request):
-    """
-    CU 26
-    """
-    establecimiento = __get_establecimiento_actual(request)
-    jurisdiccion = establecimiento.dependencia_funcional.jurisdiccion
-
-    try:
-        domicilio = establecimiento.domicilio.get()
-    except:
-        domicilio = EstablecimientoDomicilio()
-        domicilio.establecimiento = establecimiento
-
-    if request.method == 'POST':
-        form = EstablecimientoDomicilioForm(request.POST, instance=domicilio, jurisdiccion_id=jurisdiccion.id)
-        if form.is_valid():
-            domicilio = form.save()
-            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = EstablecimientoDomicilioForm(instance=domicilio, jurisdiccion_id=jurisdiccion.id)
-
-    form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
-    return my_render(request, 'registro/establecimiento/completar_datos.html', {
-        'form': form,
-        'form_template': 'registro/establecimiento/form_domicilio.html',
-        'establecimiento': establecimiento,
-        'domicilio': domicilio,
-        'page_title': 'Domicilio',
-        'actual_page': 'domicilio',
     })
 
 
