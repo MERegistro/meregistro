@@ -5,10 +5,16 @@
 {% block content %}
 <h2>Completar datos del establecimiento - {{ page_title }}</h2>
 <h3>{{ establecimiento }}</h3>
-<div id="establecimientoActions" style="margin: 20px;">
-    <a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a>
+<div id="establecimientoActions">
+    <ul class="context-actions">
+        <li id="linkAutoridades">
+            <a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a>
+        </li>
+        <li id="linkDomicilios">
+            <a href="{% url apps.registro.views.establecimiento_domicilio.index %}" title="Domicilios"><span>Domicilios</span></a>
+        </li>
+    </ul>
 </div>
-{% include "registro/establecimiento/completar_datos_nav.html" %}
 
 {% if form_template %}
 {% include form_template %}
