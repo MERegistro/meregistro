@@ -68,8 +68,10 @@
                     <li><a href="{% url apps.registro.views.establecimiento.completar_turnos %}" title="Turnos"><span>Turnos</span></a></li>
                     <li><a href="{% url apps.registro.views.establecimiento.completar_funciones %}" title="Funciones"><span>Funciones</span></a></li>
                     <li><a href="{% url apps.registro.views.establecimiento.completar_informacion_edilicia %}" title="Información edilicia"><span>Información edilicia</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet %}" title="Conectividad"><span>Conectividad</span></a></li>	
-                </ul>
+                    <li><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet %}" title="Conectividad"><span>Conectividad</span></a></li>
+                    <li><a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a></li>
+                    <li><a href="{% url apps.registro.views.establecimiento_domicilio.index %}" title="Domicilios"><span>Domicilios</span></a></li>
+                </ul> 
             </li>
         {% endif %}
         {% if 'reg_unidad_extension_consulta' in credenciales %}

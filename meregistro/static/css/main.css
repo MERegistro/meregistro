@@ -347,6 +347,7 @@ div.tabbed-form form {
 /* establecimientoCompletarDatosForm */
 div#establecimientoCompletarDatosForm {
 	width: 850px;
+	margin-bottom: 30px;
 }	
 /* establecimientoForm */
 div#establecimientoForm form input#id_codigo_jurisdiccion,
@@ -423,6 +424,8 @@ table.hor-zebra th.actions {
 }
 ul.actions {
 	margin-top: 20px;
+	padding-bottom: 1px;
+	margin-bottom: 30px;
 }
 ul.actions li {
 	height: 24px;
@@ -449,7 +452,7 @@ ul.actions li.create {
 	color: #000;
 	background: #fff url(../img/icons/add.png) no-repeat left;
 	position: absolute;
-	top: 33px;
+	top: 48px;
 	right: -10px;
 	padding: 3px 5px 2px;
 }
@@ -727,14 +730,31 @@ div.datos-lectura {
 }
 div.datos-lectura p {
 	margin: 5px 0 0;
+	font-style: italic;
+	color: #222;
+}
+div.datos-lectura p strong {
+	font-style: normal;
+	color: #000;
 }
 div.datos-lectura ul {
 	list-style: square;
 	list-style-position: inside;
-	margin: 5px 0 0;
+	margin: 10px 0 5px;
+}
+div.datos-lectura ul h4 {
+	margin: 0 0 5px;
 }
 div.datos-lectura ul li {
-	margin: 0 0 0 1px;
+	margin: 0 0 0 20px;
+	font-style: italic;
+	color: #222;
+}
+/*
+=datosEstablecimiento
+*/
+div#datosEstablecimiento {
+	margin-bottom: 20px;
 }
 /*
 =USUARIODATA

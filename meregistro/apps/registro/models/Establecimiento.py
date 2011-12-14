@@ -20,7 +20,7 @@ class Establecimiento(models.Model):
     CODIGO_TIPO_UNIDAD_EDUCATIVA = '00'  # Para completar el CUE
 
     dependencia_funcional = models.ForeignKey(DependenciaFuncional)
-    cue = models.CharField(max_length=9)
+    cue = models.CharField(max_length=9, unique=True)
     nombre = models.CharField(max_length=255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
@@ -150,3 +150,10 @@ class Establecimiento(models.Model):
             'codigo_tipo_unidad_educativa': cue[7:9],
         }
         return parts
+
+    def get_first_domicilio(self):
+        try:
+            dom = self.domicilios.all()[0]
+        except IndexError:
+            return None
+        return dom

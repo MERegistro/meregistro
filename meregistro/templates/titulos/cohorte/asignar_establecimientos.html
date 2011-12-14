@@ -66,8 +66,8 @@
 		<td>{{ est.nombre }}</td>
 		<td><input type="checkbox" name="oferta" value="{{ est.id }}"{% if est.id in current_establecimientos_oferta %} checked="checked"{% endif%} /></td>
 		<td><input type="checkbox" name="emite" value="{{ est.id }}"{% if est.id in current_establecimientos_emite %} checked="checked"{% endif%} /></td>
-		<td>{{ est.domicilio.get.localidad.departamento }}</td>
-		<td>{{ est.domicilio.get.localidad }}</td>
+		<td>{{ est.domicilio.get_first_domicilio.localidad.departamento }}</td>
+		<td>{{ est.domicilio.get_first_domicilio.localidad }}</td>
 	    </tr>
 	{% endfor %}
 	</tbody>

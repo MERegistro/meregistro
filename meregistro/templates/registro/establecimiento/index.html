@@ -58,7 +58,6 @@
 <table class="hor-zebra">
     <thead>
         <tr>
-            <th id="thPrefijo">Prefijo</th>
             <th id="thEstablecimientoCue">CUE</th>
             <th>Nombre</th>
 	{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
@@ -73,14 +72,13 @@
     <tbody>
         {% for est in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-                <td>{{ est.dependencia_funcional.jurisdiccion.prefijo }}</td>
                 <td>{{ est.cue }}</td>
                 <td>{{ est.nombre }}</td>
 	    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
-                <td>{{ est.domicilio.get.localidad.departamento.jurisdiccion }}</td>
+                <td>{{ est.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 	    {% endif %}
-                <td>{{ est.domicilio.get.localidad.departamento }}</td>
-                <td>{{ est.domicilio.get.localidad }}</td>
+                <td>{{ est.get_first_domicilio.localidad.departamento }}</td>
+                <td>{{ est.get_first_domicilio.localidad }}</td>
                 <td>
                     <div class="estados">
                     {% for registro_estado in est.registro_estados %}

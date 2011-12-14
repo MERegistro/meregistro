@@ -447,6 +447,7 @@ def datos_establecimiento(request):
         'funciones': establecimiento.funciones.all(),
         'autoridades': establecimiento.autoridades.all(),
         'niveles': establecimiento.niveles.all(),
+        'domicilios': establecimiento.domicilios.all(),
     })
 
 
@@ -462,7 +463,9 @@ def detalle(request, establecimiento_id):
         'establecimiento': establecimiento,
         'turnos': establecimiento.turnos.all(),
         'funciones': establecimiento.funciones.all(),
+        'autoridades': establecimiento.autoridades.all(),
         'niveles': establecimiento.niveles.all(),
+        'domicilios': establecimiento.domicilios.all(),
     })
 
 
