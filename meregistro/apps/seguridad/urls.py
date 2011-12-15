@@ -14,4 +14,8 @@ urlpatterns = patterns('',
     url(r'^usuario/([0-9]+)/asignarPerfil', 'apps.seguridad.views.perfil.create', name='asignarPerfilUsuario'),
     url(r'^ambito/selector', 'apps.seguridad.views.ambito.selector_ambito', name='selectorAmbito'),
     url(r'^usuario/editarDatosPropios$', 'apps.seguridad.views.usuario.editarDatosPropios', name='editarDatosPropios'),
+    url(r'^rol$', 'apps.seguridad.views.rol.index', name='rol'),
+    url(r'^rol/([0-9]+)/edit', 'apps.seguridad.views.rol.edit', name='rolEdit'),
+    url(r'^rol/create', 'apps.seguridad.views.rol.create', name='rolCreate'),
+    url(r'^rol/([0-9]+)/delete', 'apps.seguridad.views.rol.delete', name='rolDelete'),
 )

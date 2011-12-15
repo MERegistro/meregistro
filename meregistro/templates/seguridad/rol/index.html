@@ -1,0 +1,66 @@
+{% extends "base_seguridad.html" %}
+
+{% block title %}Administrar roles{% endblock %}
+
+{% block content %}
+<h2>Administrar roles</h2>
+<form action="" method="get">
+<div class="form-filter" id="rolFormFilter">
+  <h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-text">
+			{{ form_filters.descripcion.errors }}
+			<label for="id_nombre">Descripcion:</label>
+			{{ form_filters.descripcion }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form_filters.nombre }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'rol';" />
+		</div>
+
+</div>
+
+{% if objects %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Descripcion</th>
+      <th>Nombre</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rol in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ rol.descripcion }}</td>
+	<td>{{ rol.nombre }}</td>
+	<td class="actions-td">
+          <ul>
+            <li class="edit"><a href="{% url apps.seguridad.views.rol.edit rol.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url apps.seguridad.views.rol.delete rol.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+          </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message warning">
+  <p>No se encontraron roles.</p>
+</div>
+{% endif %}
+<ul class="actions">
+  <li class="create">
+    <a href="{% url apps.seguridad.views.rol.create %}"><span>Nuevo Rol</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}
+

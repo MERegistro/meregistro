@@ -8,3 +8,5 @@ from BloquearUsuarioForm import BloquearUsuarioForm
 from DesbloquearUsuarioForm import DesbloquearUsuarioForm
 from AsignarPerfilForm import AsignarPerfilForm
 from UsuarioEditarDatosForm import UsuarioEditarDatosForm
+from RolFormFilters import RolFormFilters
+from RolForm import RolForm
