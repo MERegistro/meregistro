@@ -611,6 +611,12 @@ div.form-filter ul.errorlist {
 	margin: 0  0 4px 150px;
 }
 /*
+=establecimientoFormFilter
+*/
+div#establecimientoFormFilter {
+	width: 650px;
+}
+/*
 =MESSAGE
 */
 div.message {
@@ -632,6 +638,15 @@ div.notice {
   padding-left: 40px;
   background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
   border: 1px #FF7800 solid;
+}
+/*
+=COUNTER
+*/
+div#counter {
+	margin: 20px 0 -40px;
+}
+div#counter span {
+	font-weight: bold;
 }
 /*
 =PAGINATOR
