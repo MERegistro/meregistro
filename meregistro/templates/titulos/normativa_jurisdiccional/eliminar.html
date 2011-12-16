@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Eliminación de normativa jurisdiccional</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% if not asociado_titulo_jurisdiccional %}
 <div class="form" id="normativaJurisdiccionalEliminarForm">

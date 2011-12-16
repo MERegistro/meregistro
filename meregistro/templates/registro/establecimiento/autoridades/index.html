@@ -4,8 +4,12 @@
 
 {% block content %}
 <h2>Administrar autoridades del establecimiento</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
     <thead>
         <tr>

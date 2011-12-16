@@ -4,6 +4,10 @@
 
 {% block content %}
 <h2>Eliminación de cohorte</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% if not asignada_establecimiento %}
 
 <div class="form" id="cohorteEliminarForm">

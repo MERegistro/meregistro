@@ -4,4 +4,8 @@
 
 {% block content %}
 <h2>Registro Federal de Ofertas e Instituciones de Formación Docente</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% endblock %}

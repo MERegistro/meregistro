@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Baja de uextensión áulica</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% if not dada_de_baja %}
 {% include "registro/extension_aulica/form_baja.html" %}

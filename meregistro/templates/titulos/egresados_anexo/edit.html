@@ -5,6 +5,10 @@
 {% block content %}
 <h2>Actualización de egresados al título</h2>
 {% include "titulos/egresados_anexo/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 
 {% include "titulos/egresados_anexo/form.html" %}
 

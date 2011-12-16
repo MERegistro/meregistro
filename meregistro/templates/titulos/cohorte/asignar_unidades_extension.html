@@ -10,6 +10,9 @@
 
 {% block content %}
 <h2>Asignar la cohorte a extensiones áulicas</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <form action="" method="get">
     <div class="form-filter" id="cohorteAsignarExtensionesAulicasFormFilter">
@@ -45,6 +48,7 @@
 {% include "titulos/cohorte/datos_cohorte.html" %}
 
 {% if objects %}
+{% include "counter.html" %}
 <form action="" method="post">{% csrf_token %}
     <table class="hor-zebra">
 	<thead>
@@ -72,6 +76,7 @@
 	{% endfor %}
 	</tbody>
     </table>
+{% include "paginator.html" %}
     <div class="form-submit" style="margin-top: 20px;">
 	<input type="submit" value="Asignar extensiones áulicas seleccionadas" />
     </div>

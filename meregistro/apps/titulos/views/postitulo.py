@@ -41,11 +41,9 @@ def index(request):
     return my_render(request, 'titulos/postitulo/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
@@ -79,7 +77,6 @@ def edit(request, postitulo_id):
         if form.is_valid():
             postitulo = form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('postituloEdit', args = [postitulo_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:

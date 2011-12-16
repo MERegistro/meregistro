@@ -7,8 +7,12 @@
 {% block content %}
 <h2>Administrar egresados</h2>
 {% include "titulos/egresados_anexo/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
 
@@ -36,6 +40,7 @@
     {% endfor %}
   </tbody>
 </table>
+{% include "paginator.html" %}
 </form>
 {% else %}
 <div class="message notice">

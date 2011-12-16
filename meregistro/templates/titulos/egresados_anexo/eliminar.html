@@ -9,6 +9,9 @@
     <p><strong>Año:</strong> {{ egresados.anio }}</p>
 </div>
 <h2>Eliminación de datos de egresados</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="egresadosEstablecimientoEliminarForm">
     <form action="" method="post">{% csrf_token %}

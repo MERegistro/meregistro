@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Ingresar al sistema</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 <div class="form" id="loginForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}

@@ -10,7 +10,12 @@
 {% block content %}
 <h2>Administrar orientaciones del título</h2>
 {% include "titulos/titulo/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% if objects %}
+{% include "counter.html" %}
 <h3>Orientaciones</h3>
 <table class="hor-zebra">
   <thead>

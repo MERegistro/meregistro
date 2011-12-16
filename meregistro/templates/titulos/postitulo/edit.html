@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Actualización de postitulo</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "titulos/postitulo/form.html" %}
 

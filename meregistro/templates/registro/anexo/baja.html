@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Baja de anexo</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 {% if not dado_de_baja %}
 {% include "registro/anexo/form_baja.html" %}
 {% endif %}

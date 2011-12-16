@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Perfiles de usuario</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 <div id="usuarioData">
     <h3>Usuario</h3>
     <p><strong>Tipo de documento:</strong> {{ usuario.tipo_documento }}</p>

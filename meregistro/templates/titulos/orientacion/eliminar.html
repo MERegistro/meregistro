@@ -6,6 +6,10 @@
 {% if not asociado_titulo_jurisdiccional %}
 
 <h2>Eliminación de orientación</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 <div class="form" id="orientacionEliminarForm">
     <form action="" method="post">{% csrf_token %}
 	<input type="hidden" name="orientacion_id" value="{{ orientacion_id }}" />

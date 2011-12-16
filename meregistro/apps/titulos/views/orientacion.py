@@ -12,9 +12,11 @@ from helpers.MailHelper import MailHelper
 
 ITEMS_PER_PAGE = 50
 
+
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
     return filters.buildQuery().order_by('nombre', 'titulo__nombre')
+
 
 @login_required
 @credential_required('tit_orientacion_consulta')
@@ -45,22 +47,21 @@ def index(request):
     return my_render(request, 'titulos/orientacion/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
     })
+
 
 @login_required
 @credential_required('tit_orientacion_consulta')
 def orientaciones_por_titulo(request, titulo_id):
     "Búsqueda de orientaciones por título"
     titulo = Titulo.objects.get(pk = titulo_id)
-    q = TituloOrientacion.objects.filter(titulo__id = titulo.id)
+    q = TituloOrientacion.objects.filter(titulo__id=titulo.id)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -76,24 +77,23 @@ def orientaciones_por_titulo(request, titulo_id):
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'titulos/orientacion/orientaciones_por_titulo.html', {
-        'titulo': titulo,
+        'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
     })
+
 
 @login_required
 @credential_required('tit_orientacion_alta')
 def create(request, titulo_id = None):
     "Agregar orientación al título actual o crearla eligiendo el mismo"
     if titulo_id is not None:
-        titulo = Titulo.objects.get(pk = titulo_id)
+        titulo = Titulo.objects.get(pk=titulo_id)
     else:
         titulo = None
 
@@ -107,17 +107,17 @@ def create(request, titulo_id = None):
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('orientacionesPorTitulo', args = [orientacion.titulo.id]))
+            return HttpResponseRedirect(reverse('orientacionesPorTitulo', args=[orientacion.titulo.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = TituloOrientacionForm()
 
     if titulo:
-        form.fields["titulo"].queryset = Titulo.objects.filter(id = titulo.id)
+        form.fields["titulo"].queryset = Titulo.objects.filter(id=titulo.id)
         form.fields["titulo"].empty_label = None
 
-    form.fields["estado"].queryset = EstadoTituloOrientacion.objects.filter(nombre = EstadoTituloOrientacion.VIGENTE)
+    form.fields["estado"].queryset = EstadoTituloOrientacion.objects.filter(nombre=EstadoTituloOrientacion.VIGENTE)
     form.fields["estado"].empty_label = None
 
     return my_render(request, 'titulos/orientacion/new.html', {
@@ -126,11 +126,12 @@ def create(request, titulo_id = None):
         'is_new': True,
     })
 
+
 @login_required
 @credential_required('tit_orientacion_modificar')
 def edit(request, orientacion_id):
     " Edición de los datos de una orientación "
-    orientacion = TituloOrientacion.objects.get(pk = orientacion_id)
+    orientacion = TituloOrientacion.objects.get(pk=orientacion_id)
     fecha_alta = orientacion.fecha_alta
 
     estado_actual = orientacion.estado
@@ -140,10 +141,10 @@ def edit(request, orientacion_id):
         estado_actual_id = estado_actual.id
 
     if request.method == 'POST':
-        form = TituloOrientacionForm(request.POST, instance = orientacion, initial = {'estado': estado_actual_id})
+        form = TituloOrientacionForm(request.POST, instance=orientacion, initial={'estado': estado_actual_id})
         if form.is_valid():
             orientacion = form.save(commit = False)
-            orientacion.fecha_alta = fecha_alta # No sé por qué lo borraba la fecha al editarlo
+            orientacion.fecha_alta = fecha_alta  # No sé por qué lo borraba la fecha al editarlo
             orientacion.save()
 
             "Cambiar el estado?"
@@ -151,13 +152,13 @@ def edit(request, orientacion_id):
                 orientacion.registrar_estado()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('orientacionesPorTitulo', args = [orientacion.titulo.id]))
+            return HttpResponseRedirect(reverse('orientacionesPorTitulo', args=[orientacion.titulo.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = TituloOrientacionForm(instance = orientacion, initial = {'estado': estado_actual_id})
+        form = TituloOrientacionForm(instance = orientacion, initial={'estado': estado_actual_id})
 
-    form.fields["titulo"].queryset = Titulo.objects.filter(id = orientacion.titulo.id)
+    form.fields["titulo"].queryset = Titulo.objects.filter(id=orientacion.titulo.id)
     form.fields["titulo"].empty_label = None
 
     return my_render(request, 'titulos/orientacion/edit.html', {
@@ -174,7 +175,7 @@ def eliminar(request, orientacion_id):
     Baja de una orientación
     --- mientras no sea referido por un título jurisdiccional ---
     """
-    orientacion = TituloOrientacion.objects.get(pk = orientacion_id)
+    orientacion = TituloOrientacion.objects.get(pk=orientacion_id)
     asociado_titulo_jurisdiccional = orientacion.asociado_titulo_jurisdiccional()
     if asociado_titulo_jurisdiccional:
         request.set_flash('warning', 'La orientación no puede darse de baja porque tiene títulos jurisdiccionales asociados.')

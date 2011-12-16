@@ -9,6 +9,9 @@
 {% else %}
 <h2>Alta de orientación</h2>
 {% endif %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "titulos/orientacion/form.html" %}
 

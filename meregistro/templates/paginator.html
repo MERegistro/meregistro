@@ -1,6 +1,6 @@
-{% if show_paginator %}
+{% if paginator.num_pages %}
 <div class="paginator">
-	<p class="paginator-summary">(Página {{ page }} de {{ pages }})</p>
+	<p class="paginator-summary">(Página {{ page_number }} de {{ paginator.num_pages }})</p>
 	<ul>
 	<!--
 {% if has_prev %}
@@ -10,7 +10,7 @@
 {% endif %}
 -->
 {% for page_num in pages_range %}
-	{% if page_num = page %}
+	{% if page_num = page_number %}
 		<li class="page-number current"><span>{{ page_num }}</span></li>
 	{% else %}
 		<li class="page-number"><input type="submit" name="page" value="{{ page_num }}" /></li>
