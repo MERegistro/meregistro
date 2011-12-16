@@ -11,3 +11,6 @@ class Credencial(models.Model):
 
     class Meta:
         app_label = 'seguridad'
+
+    def __unicode__(self):
+        return self.descripcion

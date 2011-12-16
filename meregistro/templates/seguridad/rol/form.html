@@ -11,6 +11,20 @@
 			<label for="id_descripcion">Descripcion:</label>
 			{{ form.descripcion }}
 		</div>
+		{% if rol %}
+		<div class="form-checkbox-list">
+			{{ form.credenciales.errors }}
+			<label for="id_credenciales">Credenciales:</label>
+			{{ form.credenciales }}
+			<hr />
+		</div>
+		<div class="form-checkbox-list">
+			{{ form.roles_asignables.errors }}
+			<label for="id_roles_asignables">Roles asignables:</label>
+			{{ form.roles_asignables }}
+			<hr />
+		</div>
+		{% endif %}
 		<div class="form-submit">
 		{% if rol %}
 			<input type="submit" value="Actualizar" />
