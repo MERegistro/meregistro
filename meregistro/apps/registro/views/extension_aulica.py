@@ -20,24 +20,27 @@ import datetime
 
 ITEMS_PER_PAGE = 50
 
-"""
-La extensión áulica pertenece al establecimiento?
-"""
+
 def __pertenece_al_establecimiento(request, extension_aulica):
+    """
+    La extensión áulica pertenece al establecimiento?
+    """
     return extension_aulica.establecimiento.ambito.path == request.get_perfil().ambito.path
 
-"""
-Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
-"""
+
 def __get_establecimiento_actual(request):
+    """
+    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
+    """
     try:
-        establecimiento = Establecimiento.objects.get(ambito__path = request.get_perfil().ambito.path)
+        establecimiento = Establecimiento.objects.get(ambito__path=request.get_perfil().ambito.path)
         if not bool(establecimiento):
             raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
         else:
             return establecimiento
     except Exception:
         pass
+
 
 @login_required
 @credential_required('reg_extension_aulica_consulta')
@@ -53,8 +56,8 @@ def index(request):
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
-        form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id = jurisdiccion.id)
-    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+        form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
+    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -72,11 +75,9 @@ def index(request):
     return my_render(request, 'registro/extension_aulica/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
@@ -87,7 +88,7 @@ def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().order_by('nombre').filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().order_by('nombre').filter(establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
 
 
 @login_required
@@ -102,16 +103,16 @@ def create(request):
         domicilio_form = ExtensionAulicaDomicilioForm(request.POST)
         if form.is_valid() and domicilio_form.is_valid():
 
-            extension_aulica = form.save(commit = False)
-            estado = EstadoExtensionAulica.objects.get(nombre = EstadoExtensionAulica.VIGENTE)
+            extension_aulica = form.save(commit=False)
+            estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.VIGENTE)
             extension_aulica.estado = estado
             extension_aulica.establecimiento = establecimiento
             extension_aulica.save()
             extension_aulica.registrar_estado()
 
-            form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
-            
-            domicilio = domicilio_form.save(commit = False)
+            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+
+            domicilio = domicilio_form.save(commit=False)
             domicilio.extension_aulica = extension_aulica
             domicilio.save()
 
@@ -119,7 +120,7 @@ def create(request):
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('extensionAulicaEdit', args = [extension_aulica.id]))
+            return HttpResponseRedirect(reverse('extensionAulicaEdit', args=[extension_aulica.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -143,7 +144,7 @@ def edit(request, extension_aulica_id):
     """
     Edición de los datos de una extensión áulica.
     """
-    extension_aulica = ExtensionAulica.objects.get(pk = extension_aulica_id)
+    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
     domicilio = extension_aulica.domicilio.get()
 
     if extension_aulica.dadaDeBaja():
@@ -153,8 +154,8 @@ def edit(request, extension_aulica_id):
         raise Exception('La extensión áulica no pertenece a su establecimiento.')
 
     if request.method == 'POST':
-        form = ExtensionAulicaForm(request.POST, instance = extension_aulica)
-        domicilio_form = ExtensionAulicaDomicilioForm(request.POST, instance = domicilio)
+        form = ExtensionAulicaForm(request.POST, instance=extension_aulica)
+        domicilio_form = ExtensionAulicaDomicilioForm(request.POST, instance=domicilio)
         if form.is_valid() and domicilio_form.is_valid():
             extension_aulica = form.save()
             domicilio = domicilio_form.save()
@@ -162,12 +163,12 @@ def edit(request, extension_aulica_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = ExtensionAulicaForm(instance = extension_aulica)
-        domicilio_form = ExtensionAulicaDomicilioForm(instance = domicilio)
+        form = ExtensionAulicaForm(instance=extension_aulica)
+        domicilio_form = ExtensionAulicaDomicilioForm(instance=domicilio)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
-        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id = jurisdiccion.id)
+        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
 
     return my_render(request, 'registro/extension_aulica/edit.html', {
         'form': form,
@@ -176,6 +177,7 @@ def edit(request, extension_aulica_id):
         'extension_aulica': extension_aulica,
     })
 
+
 @login_required
 @credential_required('reg_extension_aulica_baja')
 def baja(request, extension_aulica_id):
@@ -183,7 +185,7 @@ def baja(request, extension_aulica_id):
     Baja de un extensión áulica
     CU 28
     """
-    extension_aulica = ExtensionAulica.objects.get(pk = extension_aulica_id)
+    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
     """ Pertenece al establecimiento? """
     pertenece_al_establecimiento = __pertenece_al_establecimiento(request, extension_aulica)
     if not pertenece_al_establecimiento:
@@ -196,10 +198,10 @@ def baja(request, extension_aulica_id):
     if request.method == 'POST':
         form = ExtensionAulicaBajaForm(request.POST)
         if form.is_valid():
-            baja = form.save(commit = False)
+            baja = form.save(commit=False)
             baja.extension_aulica = extension_aulica
             baja.save()
-            estado = EstadoExtensionAulica.objects.get(nombre = EstadoExtensionAulica.BAJA)
+            estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.BAJA)
             extension_aulica.estado = estado
             extension_aulica.save()
             extension_aulica.registrar_estado()

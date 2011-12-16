@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Eliminación de año de seguimiento de cohorte</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="anioSeguimientoEliminarForm">
     <form action="" method="post">{% csrf_token %}

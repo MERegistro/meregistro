@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Alta de rol</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "seguridad/rol/form.html" %}
 

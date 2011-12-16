@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Seguimiento de la cohorte - {{ page_title }}</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "titulos/cohorte/cohorte_anexo/datos_cohorte_anexo.html" %}
 

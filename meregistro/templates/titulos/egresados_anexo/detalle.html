@@ -6,12 +6,18 @@
 
 {% block content %}
 <h2>Administración de detalle de egresados</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% include "titulos/egresados_anexo/datos_titulo.html" %}
 <div class="datos-lectura">
     <p><strong>Egresados:</strong> {{ egresados.cantidad_egresados }}</p>
     <p><strong>Año:</strong> {{ egresados.anio }}</p>
 </div>
+
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
 
@@ -47,6 +53,7 @@
     </tr>
   </tfoot>
 </table>
+{% include "paginator.html" %}
 </form>
 {% else %}
 <div class="message notice">

@@ -15,9 +15,9 @@ ITEMS_PER_PAGE = 50
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
     if request.get_perfil().rol.nombre == 'Anexo':
-        q = filters.buildQuery().order_by('id').filter(Q(anexo__ambito__path__istartswith = request.get_perfil().ambito.path))
+        q = filters.buildQuery().order_by('id').filter(Q(anexo__ambito__path__istartswith=request.get_perfil().ambito.path))
     else:
-        q = filters.buildQuery().order_by('id').filter(Q(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path))
+        q = filters.buildQuery().order_by('id').filter(Q(establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path))
     return q
 
 @login_required
@@ -46,11 +46,9 @@ def index(request):
     return my_render(request, 'titulos/matricula/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
@@ -64,7 +62,7 @@ def create(request):
         if form.is_valid():
             matricula = form.save()
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('matriculaEdit', args = [matricula.id]))
+            return HttpResponseRedirect(reverse('matriculaEdit', args=[matricula.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -85,11 +83,11 @@ def edit(request, matricula_id):
         if form.is_valid():
             matricula = form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('matriculaEdit', args = [matricula_id]))
+            return HttpResponseRedirect(reverse('matriculaEdit', args=[matricula_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = MatriculaForm(instance = matricula)
+        form = MatriculaForm(instance=matricula)
 
     customize_form(form, request)
     return my_render(request, 'titulos/matricula/edit.html', {
@@ -99,8 +97,8 @@ def edit(request, matricula_id):
     })
 
 def customize_form(form, request):
-    form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith = request.get_perfil().ambito.path)
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(Q(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)|Q(ambito__path__istartswith = request.get_perfil().ambito.path))
+    form.fields["anexo"].queryset = Anexo.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(Q(anexo__ambito__path__istartswith=request.get_perfil().ambito.path) | Q(ambito__path__istartswith=request.get_perfil().ambito.path))
     if request.get_perfil().rol.nombre == 'Anexo':
         form.fields['anexo'].empty_label = None
 
@@ -117,9 +115,8 @@ def delete(request, matricula_id):
 @login_required
 @credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
-    o = Matricula.objects.get(pk = oid)
+    o = Matricula.objects.get(pk=oid)
     o.revisado_jurisdiccion = True
     o.save()
     request.set_flash('success', 'Registro revisado.')
     return HttpResponseRedirect(reverse('matricula'))
-

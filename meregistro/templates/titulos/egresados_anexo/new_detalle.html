@@ -6,6 +6,10 @@
 
 <h2>Agregar detalles al año de egresados</h2>
 {% include "titulos/egresados_anexo/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 <div class="datos-lectura">
     <p><strong>Egresados:</strong> {{ egresados.cantidad_egresados }}</p>
     <p><strong>Año:</strong> {{ egresados.anio }}</p>

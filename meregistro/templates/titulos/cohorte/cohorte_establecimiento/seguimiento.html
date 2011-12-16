@@ -4,11 +4,16 @@
 
 {% block content %}
 <h2>Seguimiento de cohorte del establecimiento</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 <div class="datos-lectura">
     <p><strong>Inscriptos a 1er año:</strong> {{ cohorte_establecimiento.inscriptos }}</p>
 </div>
 
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
     <tr>
@@ -41,6 +46,7 @@
     {% endfor %}
   </tbody>
 </table>
+{% include "paginator.html" %}
 </form>
 {% else %}
 <div class="message notice">

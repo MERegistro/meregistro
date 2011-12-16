@@ -6,6 +6,10 @@
 
 {% block content %}
 <h2>Administrar matriculas</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 <form action="" method="get">
 {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
     <div class="form-filter" id="matriculaFormFilter">
@@ -22,6 +26,7 @@
     </div>
 {% endif %}
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
     <tr>

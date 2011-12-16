@@ -5,6 +5,9 @@
 {% block content %}
 <h2>Actualización de título jurisdiccional</h2>
 <h3>{{ page_title }}</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "titulos/titulo_jurisdiccional/completar_datos_nav.html" %}
 

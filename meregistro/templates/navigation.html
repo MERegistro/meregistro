@@ -1,82 +1,79 @@
 <div id="mainNav">
-	<ul class="sf-menu">
+    <ul class="sf-menu">
         {% if 'seg_usuario_buscar' in credenciales %}
-		    <li><a href="#" class="inactive">Seguridad</a>
-			    <ul>
-				    <li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
-			    </ul>
-		    </li>
+        <li><a href="#" class="inactive">Seguridad</a>
+	    <ul>
+		<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
+	    </ul>
+        </li>
+        {% endif %}
+	{% if 'reg_establecimiento_completar' in credenciales %}
+	<li><a href="#" class="inactive"><span>Mi Establecimiento</a>
+	    <ul>
+		<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento.completar_niveles %}" title="Niveles"><span>Niveles</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento.completar_turnos %}" title="Turnos"><span>Turnos</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento.completar_funciones %}" title="Funciones"><span>Funciones</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento.completar_informacion_edilicia %}" title="Información edilicia"><span>Información edilicia</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet %}" title="Conectividad"><span>Conectividad</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a></li>
+		<li><a href="{% url apps.registro.views.establecimiento_domicilio.index %}" title="Domicilios"><span>Domicilios</span></a></li>
+	    </ul> 
+	</li>
         {% endif %}
         {% if 'reg_establecimiento_consulta' in credenciales %}
-    		<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Establecimientos</span></a></li>
+	<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Establecimientos</span></a></li>
         {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
-    		<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
+	<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
         {% endif %}
         {% if 'reg_anexo_consulta' in credenciales or 'reg_anexo_completar' in credenciales%}
-		    <li><a href="{% url apps.registro.views.anexo.index %}"><span>Anexos</span></a>
-			    <ul>
-                    {% if 'reg_anexo_completar' in credenciales %}
-				    <li><a href="{% url apps.registro.views.anexo.completar_datos_basicos %}"><span>Datos básicos</span></a></li>
-                    {% endif %}
-			    </ul>
-            </li>
-        {% endif %}
+	<li><a href="{% url apps.registro.views.anexo.index %}"><span>Anexos</span></a>
+	{% endif %}
+	{% if 'reg_anexo_completar' in credenciales %}
+	<li><a href="{% url apps.registro.views.anexo.completar_datos_basicos %}"><span>Datos básicos</span></a></li>
+	{% endif %}		
         {% if 'tit_egresados_anexo' in credenciales or 'tit_egresados_establecimiento' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_titulo_jurisdiccional_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_titulo_consulta' in credenciales or 'tit_orientacion_consulta' in credenciales %}
-		    <li><a href="#" class="inactive">Títulos</a>
-			    <ul>
-                    {% if 'tit_egresados_anexo' in credenciales %}
-        				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Cohortes</span></a></li>
-                    {% endif %}
-                    {% if 'tit_egresados_anexo' in credenciales %}
-        				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}"><span>Egresados</span></a></li>
-                    {% endif %}
-                    {% if 'tit_egresados_establecimiento' in credenciales %}
-        				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Cohortes</span></a></li>
-                    {% endif %}
-                    {% if 'tit_egresados_establecimiento' in credenciales %}
-				        <li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}"><span>Egresados</span></a></li>
-                    {% endif %}
-                    {% if 'tit_nor_jur_consulta' in credenciales %}
-				        <li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Normativas</span></a></li>		
-                    {% endif %}
-                    {% if 'tit_titulo_jurisdiccional_consulta' in credenciales %}
-				        <li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}"><span>Títulos jurisdiccionales</span></a></li>
-                    {% endif %}
-                    {% if 'tit_cohorte_consulta' in credenciales %}
-				        <li><a href="{% url apps.titulos.views.cohorte.index %}"><span>Cohortes</span></a></li>
-                    {% endif %}
-                    {% if 'tit_titulo_consulta' in credenciales %}
-        		        <li><a href="{% url apps.titulos.views.titulo.index %}"><span>Títulos</span></a></li>
-                    {% endif %}
-                    {% if 'tit_orientacion_consulta' in credenciales %}
-		                <li><a href="{% url apps.titulos.views.orientacion.index %}"><span>Orientaciones</span></a></li>
-                    {% endif %}
-                    {% if 'en_construccion' in credenciales %}
-		                <li><a href="{% url apps.titulos.views.proyecto.index %}"><span>Proyectos</span></a></li>
-        		        <li><a href="{% url apps.titulos.views.postitulo.index %}"><span>Postitulo</span></a></li>
-	        			<li><a href="{% url apps.titulos.views.matricula.index %}"><span>Matriculas</span></a></li>
-                    {% endif %}
-			    </ul>
-		    </li>
-        {% endif %}	
-        {% if 'reg_establecimiento_completar' in credenciales %}
-            <li><a href="#" class="inactive"><span>Mi Establecimiento</a>
-                <ul>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}" title="Datos básicos"><span>Datos básicos</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_niveles %}" title="Niveles"><span>Niveles</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_turnos %}" title="Turnos"><span>Turnos</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_funciones %}" title="Funciones"><span>Funciones</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_informacion_edilicia %}" title="Información edilicia"><span>Información edilicia</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet %}" title="Conectividad"><span>Conectividad</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a></li>
-                    <li><a href="{% url apps.registro.views.establecimiento_domicilio.index %}" title="Domicilios"><span>Domicilios</span></a></li>
-                </ul> 
-            </li>
+        <li><a href="#" class="inactive">Títulos</a>
+	    <ul>
+        {% if 'tit_egresados_anexo' in credenciales %}
+		<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Cohortes</span></a></li>
+        {% endif %}
+        {% if 'tit_egresados_anexo' in credenciales %}
+		<li><a href="{% url apps.titulos.views.egresados_anexo.index %}"><span>Egresados</span></a></li>
+        {% endif %}
+        {% if 'tit_egresados_establecimiento' in credenciales %}
+		<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Cohortes</span></a></li>
+        {% endif %}
+        {% if 'tit_egresados_establecimiento' in credenciales %}
+		<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}"><span>Egresados</span></a></li>
+        {% endif %}
+        {% if 'tit_nor_jur_consulta' in credenciales %}
+		<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Normativas</span></a></li>        
+        {% endif %}
+        {% if 'tit_titulo_jurisdiccional_consulta' in credenciales %}
+		<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}"><span>Títulos jurisdiccionales</span></a></li>
+        {% endif %}
+        {% if 'tit_cohorte_consulta' in credenciales %}
+		<li><a href="{% url apps.titulos.views.cohorte.index %}"><span>Cohortes</span></a></li>
+        {% endif %}
+        {% if 'tit_titulo_consulta' in credenciales %}
+		<li><a href="{% url apps.titulos.views.titulo.index %}"><span>Títulos</span></a></li>
+        {% endif %}
+        {% if 'tit_orientacion_consulta' in credenciales %}
+		<li><a href="{% url apps.titulos.views.orientacion.index %}"><span>Orientaciones</span></a></li>
+        {% endif %}
+        {% if 'en_construccion' in credenciales %}
+		<li><a href="{% url apps.titulos.views.proyecto.index %}"><span>Proyectos</span></a></li>
+		<li><a href="{% url apps.titulos.views.postitulo.index %}"><span>Postitulo</span></a></li>
+		<li><a href="{% url apps.titulos.views.matricula.index %}"><span>Matriculas</span></a></li>
+	{% endif %}
+	    </ul>
+        </li>
         {% endif %}
         {% if 'reg_unidad_extension_consulta' in credenciales %}
-    		<li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
+	<li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
         {% endif %}
-		<li id="linkAyuda"><a href="#">Ayuda</span></a></li>
-	</ul>
+        <li id="linkAyuda"><a href="#">Ayuda</span></a></li>
+    </ul>
 </div>

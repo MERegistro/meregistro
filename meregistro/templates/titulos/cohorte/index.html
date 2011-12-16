@@ -6,6 +6,10 @@
 
 {% block content %}
 <h2>Administrar cohortes de títulos jurisdiccionales</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 <form action="" method="get">
 <div class="form-filter" id="tituloJurisdiccionalCohorteFormFilter">
   <h3>Búsqueda avanzada</h3>
@@ -43,6 +47,7 @@
 </div>
 
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
     <tr>

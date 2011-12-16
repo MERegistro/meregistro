@@ -4,6 +4,9 @@
 {% block content %}
 <script src="{{ STATIC_URL }}js/selector_ambito.js" type="text/javascript"></script>
 <h2>Alta de usuario</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="usuarioForm">
 	<form action="" method="post">{% csrf_token %}

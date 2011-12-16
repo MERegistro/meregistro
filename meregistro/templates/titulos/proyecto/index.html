@@ -6,9 +6,12 @@
 
 {% block content %}
 <h2>Administrar proyectos</h2>
-<form action="" method="get">
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
     <tr>

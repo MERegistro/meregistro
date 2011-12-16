@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Alta de extensión áulica</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "registro/extension_aulica/form.html" %}
 

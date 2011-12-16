@@ -4,10 +4,13 @@
 
 {% block content %}
 <h2>Administrar usuarios</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form-filter" id="usuarioFormFilter">
   <h3>Búsqueda avanzada</h3>
-	<form action="" method="post">{% csrf_token %}
+	<form action="" method="get">
 		{{ form_filters.non_field_errors }}
 		<div class="form-select">
 			{{ form_filters.tipo_documento.errors }}
@@ -38,10 +41,10 @@
 			<input type="submit" value="Buscar" />
       <input type="button" value="Reiniciar" onclick="window.location = 'usuario';" />
 		</div>
-	</form>
 </div>
 
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
   <thead>
     <tr>
@@ -69,6 +72,8 @@
     {% endfor %}
   </tbody>
 </table>
+{% include "paginator.html" %}
+</form>
 {% else %}
 <div class="message warning">
   <p>No se encontraron usuarios con ese criterio de búsqueda</p>

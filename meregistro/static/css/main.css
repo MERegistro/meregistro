@@ -77,39 +77,6 @@ div#content h2 {
 	margin: 25px 0 10px;
 }
 /*
-=MAINNAV
-*/
-/*
-div#mainNav {
-	width: 966px;
-	margin: 0 auto;
-	background: url(../img/bg-10x25.gif) repeat-x;
-	border-top: 2px #fff solid;
-}
-div#mainNav ul {
-  height: 25px;
-}
-div#mainNav ul li {
-	float: left;
-	padding: 5px;
-	text-transform: uppercase;
-	border-right: 1px #bbb solid;
-}
-div#mainNav ul li a:link,
-div#mainNav ul li a:visited {
-	color: #fff;
-	text-decoration: none;
-}
-div#mainNav ul li a:hover {
-	color: #bbb;
-}
-div#mainNav ul li#linkAyuda {
-	float: right;
-	border-right: none;
-	border-left: 1px #bbb solid;
-}
-*/ 
-/*
 =TAB-NAV
 */
 div.tab-nav {
@@ -280,11 +247,11 @@ div.form div.form-submit {
 }
 div.form ul.errorlist { /* Errores globales */
 	color: #f00;
-	margin: 10px  0 4px 180px;
+	margin: 10px	0 4px 180px;
 }
 div.form div ul.errorlist { /* Error de cada campo */
 	color: #f00;
-	margin: 0  0 4px 170px;
+	margin: 0	0 4px 170px;
 }
 div.form ul.errorlist li { /* Cada error */
 	padding-left: 20px;
@@ -323,7 +290,7 @@ div.form fieldset div.form-checkbox-list label {
 	float: none;
 }
 div.form fieldset div.form-checkbox-list ul.errorlist { /* Error de cada campo */
-	margin: 0  20px 4px 150px;
+	margin: 0	20px 4px 150px;
 }
 /* SUBFORM */
 div.form fieldset {
@@ -398,13 +365,13 @@ tr.hor-zebra_odd {
 	background: #e8edff;
 }
 .hor-zebra a {
-    color: #303030;
-    outline-style: none;
-    text-decoration: none;
-    font-size: 12px;
+		color: #303030;
+		outline-style: none;
+		text-decoration: none;
+		font-size: 12px;
 }
 .hor-zebra a:hover {
-    text-decoration: underline;
+		text-decoration: underline;
 }
 /* ESTADOS */
 p.estado-baja,
@@ -491,7 +458,7 @@ td.actions-td ul li a {
 	margin: 0 2px 0 0;
 }
 td.actions-td ul li span {
-  display: none;
+	display: none;
 }
 /* EDIT */
 td.actions-td ul li.edit a {
@@ -508,7 +475,7 @@ td.actions-td ul li.delete a {
 	background: url(../img/icons/delete.png) no-repeat left;
 }
 /* CREATE */
-td.actions-td  ul li.create a {
+td.actions-td	ul li.create a {
 	display: block;
 	width: 24px;
 	height: 24px;
@@ -529,7 +496,7 @@ td.actions-td ul li.revisado a {
 	background: url(../img/icons/revisado.png) no-repeat left;
 }
 /* DETALLES */
-td.actions-td  ul li.details a {
+td.actions-td	ul li.details a {
 	display: block;
 	width: 24px;
 	height: 24px;
@@ -608,30 +575,45 @@ div.form-filter div.form-submit {
 }
 div.form-filter ul.errorlist {
 	color: #f00;
-	margin: 0  0 4px 150px;
+	margin: 0	0 4px 150px;
+}
+/*
+=establecimientoFormFilter
+*/
+div#establecimientoFormFilter {
+	width: 650px;
 }
 /*
 =MESSAGE
 */
 div.message {
-  margin: 20px 0 20px;
-  padding: 10px;
+	margin: 20px 0 20px;
+	padding: 10px;
 }
 div.warning {
-  color: #fff ;
-  padding-left: 40px;
-  background: #F20909 url(../img/icons/warning.png) no-repeat 10px;
+	color: #fff ;
+	padding-left: 40px;
+	background: #F20909 url(../img/icons/warning.png) no-repeat 10px;
 }
 div.success {
-  color: #fff;
-  padding-left: 40px;
-  background: #6E972E url(../img/icons/success.png) no-repeat 10px;
+	color: #fff;
+	padding-left: 40px;
+	background: #6E972E url(../img/icons/success.png) no-repeat 10px;
 }
 div.notice {
-  color: #000;
-  padding-left: 40px;
-  background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
-  border: 1px #FF7800 solid;
+	color: #000;
+	padding-left: 40px;
+	background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
+	border: 1px #FF7800 solid;
+}
+/*
+=COUNTER
+*/
+div#counter {
+	margin: 20px 0 -40px;
+}
+div#counter span {
+	font-weight: bold;
 }
 /*
 =PAGINATOR
@@ -796,7 +778,6 @@ body.cohorte-asignar-establecimientos table.hor-zebra {
 body.cohorte-asignar-establecimientos div#datosCohorte {
 	margin-top: 30px;
 }
-
 /*
 =seguimientoNav
 */

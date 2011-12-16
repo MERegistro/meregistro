@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Administrar establecimientos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <form action="" method="get">
 {% if user_perfil.rol.nombre in 'AdminTitulos,Referente,AdminSistema,SecretarioIFD' %}
@@ -55,6 +58,7 @@
 </div>
 {% endif %}
 {% if objects %}
+{% include "counter.html" %}
 <table class="hor-zebra">
     <thead>
         <tr>

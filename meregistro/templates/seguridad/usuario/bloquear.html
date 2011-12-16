@@ -4,6 +4,9 @@
 
 {% block content %}
 <h2>Bloquear usuario</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="bloquearUsuarioForm" onsubmit="return confirm('Está seguro que desea bloquear al usuario ?');">
 	<form action="" method="post">{% csrf_token %}

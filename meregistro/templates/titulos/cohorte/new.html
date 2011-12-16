@@ -7,6 +7,10 @@
 {% if titulo_jurisdiccional %}
 <h2>Asignar nueva cohorte al título</h2>
 {% include "titulos/cohorte/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% else %}
 <h2>Alta de cohorte</h2>
 {% endif %}

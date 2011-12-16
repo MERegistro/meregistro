@@ -12,6 +12,7 @@ import datetime
 
 ITEMS_PER_PAGE = 50
 
+
 def __get_anexo_actual(request):
     """
     Trae el único anexo que tiene asignado el usuario anexo
@@ -65,11 +66,9 @@ def index(request):
     return my_render(request, 'titulos/egresados_anexo/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
@@ -79,11 +78,11 @@ def index(request):
 @login_required
 @credential_required('tit_egresados_anexo')
 def egresados_por_titulo(request, titulo_jurisdiccional_id):
-    
+
     anexo = __get_anexo_actual(request)
     titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
     objects = EgresadosAnexo.objects.filter(titulo_jurisdiccional = titulo_jurisdiccional_id, anexo = anexo)
-    
+
     return my_render(request, 'titulos/egresados_anexo/egresados_por_titulo.html', {
         'objects': objects,
         'titulo_jurisdiccional': titulo_jurisdiccional
@@ -99,7 +98,7 @@ def create(request, titulo_jurisdiccional_id):
     anexo = __get_anexo_actual(request)
 
     titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
-    
+
     if request.method == 'POST':
         form = EgresadosAnexoForm(request.POST, anexo_id = anexo.id, titulo_jurisdiccional_id = titulo_jurisdiccional.id)
         if form.is_valid():
@@ -150,6 +149,7 @@ def edit(request, egresados_anexo_id):
         'is_new': False,
     })
 
+
 @login_required
 @credential_required('tit_egresados_anexo')
 def eliminar(request, egresados_anexo_id):
@@ -169,25 +169,27 @@ def eliminar(request, egresados_anexo_id):
         return HttpResponseRedirect(reverse('anexoEgresadosPorTitulo', args = [titulo_jurisdiccional_id]))
     else:
         request.set_flash('warning', 'Está seguro de eliminar el registro? Esta operación no puede deshacerse.')
-        
+
     return my_render(request, 'titulos/egresados_anexo/eliminar.html', {
         'egresados_id': egresados.id,
         'titulo_jurisdiccional_id': titulo_jurisdiccional_id,
     })
-    
+
+
 @login_required
 @credential_required('tit_egresados_anexo')
 def detalle(request, egresados_anexo_id):
-    
+
     egresados = EgresadosAnexo.objects.get(pk = egresados_anexo_id)
-   
+
     objects = EgresadosAnexoDetalle.objects.filter(egresados_anexo = egresados.id)
-    
+
     return my_render(request, 'titulos/egresados_anexo/detalle.html', {
         'objects': objects,
         'egresados': egresados,
         'titulo_jurisdiccional': egresados.titulo_jurisdiccional,
     })
+
 
 @login_required
 @credential_required('tit_egresados_anexo')
@@ -198,7 +200,7 @@ def agregar_detalle(request, egresados_anexo_id):
     anexo = __get_anexo_actual(request)
     egresados = EgresadosAnexo.objects.get(pk = egresados_anexo_id)
     titulo_jurisdiccional = egresados.titulo_jurisdiccional
-    
+
     if request.method == 'POST':
         form = EgresadosAnexoDetalleForm(request.POST, egresados_anexo_id = egresados.id, max_egresados = egresados.cantidad_egresados)
         if form.is_valid():
@@ -220,7 +222,8 @@ def agregar_detalle(request, egresados_anexo_id):
         'titulo_jurisdiccional': titulo_jurisdiccional,
         'is_new': False,
     })
-    
+
+
 @login_required
 @credential_required('tit_egresados_anexo')
 def edit_detalle(request, detalle_id):
@@ -251,6 +254,7 @@ def edit_detalle(request, detalle_id):
         'is_new': False,
     })
 
+
 @login_required
 @credential_required('tit_egresados_anexo')
 def eliminar_detalle(request, detalle_id):
@@ -276,4 +280,3 @@ def eliminar_detalle(request, detalle_id):
         'egresados': egresados,
         'titulo_jurisdiccional': titulo_jurisdiccional,
     })
-    

@@ -6,6 +6,9 @@
 
 <h2>Agregar egresados al título</h2>
 {% include "titulos/egresados_establecimiento/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 {% include "titulos/egresados_establecimiento/form.html" %}
 

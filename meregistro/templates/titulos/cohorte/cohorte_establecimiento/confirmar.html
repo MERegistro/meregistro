@@ -5,6 +5,10 @@
 {% block content %}
 <h2>Confirmación de cohorte</h2>
 {% include "titulos/cohorte/datos_cohorte.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% if not cohorte_establecimiento.aceptada %}
 <div class="message warning">
     <p>Una vez aceptada la cohorte no se puede modificar.</p>

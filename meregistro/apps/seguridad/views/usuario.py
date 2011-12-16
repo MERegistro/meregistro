@@ -8,6 +8,9 @@ from apps.seguridad.decorators import login_required
 from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo, Rol
 from apps.seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm
 from apps.seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm, UsuarioEditarDatosForm
+from django.core.paginator import Paginator
+
+ITEMS_PER_PAGE = 50
 
 
 @login_required
@@ -15,15 +18,35 @@ def index(request):
     """
     Búsqueda de usuarios
     """
-    if request.method == 'POST':
-        form_filter = UsuarioFormFilters(request.POST)
+    if request.method == 'GET':
+        form_filter = UsuarioFormFilters(request.GET)
     else:
         form_filter = UsuarioFormFilters()
     q = build_query(form_filter, 1)
     q.filter(perfiles__ambito__path__istartswith=request.get_perfil().ambito.path)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
     return my_render(request, 'seguridad/usuario/index.html', {
         'form_filters': form_filter,
-        'objects': q
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1
     })
 
 

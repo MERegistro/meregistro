@@ -15,11 +15,13 @@ import datetime
 
 ITEMS_PER_PAGE = 50
 
+
 def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter(jurisdiccion = request.get_perfil().jurisdiccion())
+    return filters.buildQuery().filter(jurisdiccion=request.get_perfil().jurisdiccion())
+
 
 @login_required
 @credential_required('tit_cohorte_consulta')
@@ -31,7 +33,7 @@ def index(request):
         form_filter = TituloJurisdiccionalCohorteFormFilters(request.GET)
     else:
         form_filter = TituloJurisdiccionalCohorteFormFilters()
-    q = build_query(form_filter, 1, request).filter(jurisdiccion = request.get_perfil().jurisdiccion())
+    q = build_query(form_filter, 1, request).filter(jurisdiccion=request.get_perfil().jurisdiccion())
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -50,19 +52,18 @@ def index(request):
     return my_render(request, 'titulos/cohorte/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
     })
 
+
 @login_required
 @credential_required('tit_cohorte_alta')
-def create(request, titulo_jurisdiccional_id = None):
+def create(request, titulo_jurisdiccional_id=None):
     """
     Alta de cohorte
     """
@@ -71,7 +72,7 @@ def create(request, titulo_jurisdiccional_id = None):
     """
     "Agregar cohorte al título actual o crearla eligiendo el mismo"
     if titulo_jurisdiccional_id is not None:
-        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id, jurisdiccion = request.get_perfil().jurisdiccion())
+        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id, jurisdiccion=request.get_perfil().jurisdiccion())
         choices = [('', '-------')] + [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
     else:
         titulo_jurisdiccional = None
@@ -84,7 +85,7 @@ def create(request, titulo_jurisdiccional_id = None):
 
             # redirigir a edit
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('cohortesPorTitulo', args = [cohorte.titulo_jurisdiccional.id]))
+            return HttpResponseRedirect(reverse('cohortesPorTitulo', args=[cohorte.titulo_jurisdiccional.id]))
 
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
@@ -92,13 +93,12 @@ def create(request, titulo_jurisdiccional_id = None):
         form = CohorteForm()
 
     if titulo_jurisdiccional:
-        q = TituloJurisdiccional.objects.filter(id = titulo_jurisdiccional.id)
+        q = TituloJurisdiccional.objects.filter(id=titulo_jurisdiccional.id)
         form.fields["titulo_jurisdiccional"].empty_label = None
     else:
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-        #q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO, datos_cohorte__anio_ultima_cohorte__lte = datetime.date.today().year)
-        q = TituloJurisdiccional.objects.filter(estado__nombre = EstadoTituloJurisdiccional.CONTROLADO)
-        form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion = request.get_perfil().jurisdiccion()).order_by('titulo__nombre')
+        q = TituloJurisdiccional.objects.filter(estado__nombre=EstadoTituloJurisdiccional.CONTROLADO)
+        form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('titulo__nombre')
 
     form.fields["titulo_jurisdiccional"].queryset = q
     form.fields["anio"].choices = choices
@@ -109,6 +109,7 @@ def create(request, titulo_jurisdiccional_id = None):
         'is_new': True,
     })
 
+
 @login_required
 @credential_required('tit_cohorte_modificar')
 # Editar datos básicos
@@ -116,10 +117,10 @@ def edit(request, cohorte_id):
     """
     Edición de los datos de una cohorte.
     """
-    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    cohorte = Cohorte.objects.get(pk=cohorte_id)
 
     if request.method == 'POST':
-        form = CohorteForm(request.POST, instance = cohorte)
+        form = CohorteForm(request.POST, instance=cohorte)
         if form.is_valid():
 
             cohorte = form.save()
@@ -128,7 +129,7 @@ def edit(request, cohorte_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = CohorteForm(instance = cohorte)
+        form = CohorteForm(instance=cohorte)
 
     titulo_jurisdiccional = cohorte.titulo_jurisdiccional
     choices = [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
@@ -137,7 +138,7 @@ def edit(request, cohorte_id):
     asignada_establecimiento = cohorte.asignada_establecimiento()
     if(asignada_establecimiento):
         # No se puede modificar el título ni el año
-        form.fields["titulo_jurisdiccional"].queryset = TituloJurisdiccional.objects.filter(id = cohorte.titulo_jurisdiccional_id)
+        form.fields["titulo_jurisdiccional"].queryset = TituloJurisdiccional.objects.filter(id=cohorte.titulo_jurisdiccional_id)
         form.fields["anio"].choices = [(cohorte.anio, cohorte.anio)]
         form.fields["titulo_jurisdiccional"].empty_label = None
 
@@ -154,8 +155,8 @@ def edit(request, cohorte_id):
 @credential_required('tit_cohorte_consulta')
 def cohortes_por_titulo(request, titulo_jurisdiccional_id):
     "Cohortes por título"
-    titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk = titulo_jurisdiccional_id)
-    q = Cohorte.objects.filter(titulo_jurisdiccional__id = titulo_jurisdiccional.id)
+    titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
+    q = Cohorte.objects.filter(titulo_jurisdiccional__id=titulo_jurisdiccional.id)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -171,13 +172,11 @@ def cohortes_por_titulo(request, titulo_jurisdiccional_id):
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'titulos/cohorte/cohortes_por_titulo.html', {
-        'titulo_jurisdiccional': titulo_jurisdiccional,
+        'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
@@ -192,11 +191,11 @@ def asignar_establecimientos(request, cohorte_id):
     Asignar cohorte a establecimientos
     """
 
-    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    cohorte = Cohorte.objects.get(pk=cohorte_id)
     "Traigo los ids de los establecimientos actualmente asignados a la cohorte"
-    current_establecimientos_ids = __flat_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte).values_list("establecimiento_id"))
-    current_establecimientos_oferta = __flat_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte, oferta = True).values_list("establecimiento_id"))
-    current_establecimientos_emite = __flat_list(CohorteEstablecimiento.objects.filter(cohorte = cohorte, emite = True).values_list("establecimiento_id"))
+    current_establecimientos_ids = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte).values_list("establecimiento_id"))
+    current_establecimientos_oferta = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte, oferta=True).values_list("establecimiento_id"))
+    current_establecimientos_emite = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte, emite=True).values_list("establecimiento_id"))
     #raise Exception(current_establecimientos_oferta)
 
     "Búsqueda de establecimientos"
@@ -206,7 +205,7 @@ def asignar_establecimientos(request, cohorte_id):
         form_filters = CohorteAsignarEstablecimientosFormFilters()
 
         # POST, guardo los datos
-        estado = EstadoCohorteEstablecimiento.objects.get(nombre = EstadoCohorteEstablecimiento.ASIGNADA)
+        estado = EstadoCohorteEstablecimiento.objects.get(nombre=EstadoCohorteEstablecimiento.ASIGNADA)
         values_dict = {
             'current_establecimientos_ids': current_establecimientos_ids,
             'current_oferta_ids': current_establecimientos_oferta,
@@ -221,12 +220,12 @@ def asignar_establecimientos(request, cohorte_id):
 
         request.set_flash('success', 'Datos actualizados correctamente.')
         # redirigir a edit
-        return HttpResponseRedirect(reverse('cohorteAsignarEstablecimientos', args = [cohorte.id]))
+        return HttpResponseRedirect(reverse('cohorteAsignarEstablecimientos', args=[cohorte.id]))
 
     jurisdiccion = request.get_perfil().jurisdiccion()
 
-    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion = jurisdiccion)
-    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion = jurisdiccion)
+    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion=jurisdiccion)
+    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion=jurisdiccion)
 
     q = build_asignar_establecimientos_query(form_filters, request)
 
@@ -244,21 +243,20 @@ def build_asignar_establecimientos_query(filters, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter(ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
 
 @login_required
 @credential_required('tit_cohorte_asignar')
 def asignar_anexos(request, cohorte_id):
-
     """
     Asignar cohorte a anexos
     """
-
-    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    cohorte = Cohorte.objects.get(pk=cohorte_id)
     "Traigo los ids de los anexos actualmente asignados a la cohorte"
-    current_anexos_ids = __flat_list(CohorteAnexo.objects.filter(cohorte = cohorte).values_list("anexo_id"))
-    current_anexos_oferta = __flat_list(CohorteAnexo.objects.filter(cohorte = cohorte, oferta = True).values_list("anexo_id"))
-    current_anexos_emite = __flat_list(CohorteAnexo.objects.filter(cohorte = cohorte, emite = True).values_list("anexo_id"))
+    current_anexos_ids = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte).values_list("anexo_id"))
+    current_anexos_oferta = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte, oferta=True).values_list("anexo_id"))
+    current_anexos_emite = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte, emite=True).values_list("anexo_id"))
 
     "Búsqueda de anexos"
     if request.method == 'GET':
@@ -267,7 +265,7 @@ def asignar_anexos(request, cohorte_id):
         form_filters = CohorteAsignarAnexosFormFilters()
 
         # POST, guardo los datos
-        estado = EstadoCohorteAnexo.objects.get(nombre = EstadoCohorteAnexo.ASIGNADA)
+        estado = EstadoCohorteAnexo.objects.get(nombre=EstadoCohorteAnexo.ASIGNADA)
         values_dict = {
             'current_anexos_ids': current_anexos_ids,
             'current_oferta_ids': current_anexos_oferta,
@@ -281,12 +279,12 @@ def asignar_anexos(request, cohorte_id):
 
         request.set_flash('success', 'Datos actualizados correctamente.')
         # redirigir a edit
-        return HttpResponseRedirect(reverse('cohorteAsignarAnexos', args = [cohorte.id]))
+        return HttpResponseRedirect(reverse('cohorteAsignarAnexos', args=[cohorte.id]))
 
     jurisdiccion = request.get_perfil().jurisdiccion()
 
-    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion = jurisdiccion)
-    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion = jurisdiccion)
+    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion=jurisdiccion)
+    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion=jurisdiccion)
 
     q = build_asignar_anexos_query(form_filters, request)
 
@@ -304,7 +302,8 @@ def build_asignar_anexos_query(filters, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter(ambito__path__istartswith = request.get_perfil().ambito.path).order_by('nombre')
+    return filters.buildQuery().filter(ambito__path__istartswith=request.get_perfil().ambito.path).order_by('nombre')
+
 
 @login_required
 @credential_required('tit_cohorte_asignar')
@@ -314,10 +313,10 @@ def asignar_extensiones_aulicas(request, cohorte_id):
     Asignar cohorte a extensiones áulicas
     """
 
-    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    cohorte = Cohorte.objects.get(pk=cohorte_id)
     "Traigo los ids de los anexos actualmente asignados a la cohorte"
-    current_extensiones_aulicas_ids = __flat_list(CohorteExtensionAulica.objects.filter(cohorte = cohorte).values_list("extension_aulica_id"))
-    current_extensiones_aulicas_oferta = __flat_list(CohorteExtensionAulica.objects.filter(cohorte = cohorte, oferta = True).values_list("extension_aulica_id"))
+    current_extensiones_aulicas_ids = __flat_list(CohorteExtensionAulica.objects.filter(cohorte=cohorte).values_list("extension_aulica_id"))
+    current_extensiones_aulicas_oferta = __flat_list(CohorteExtensionAulica.objects.filter(cohorte=cohorte, oferta=True).values_list("extension_aulica_id"))
 
     "Búsqueda de extensiones áulicas"
     if request.method == 'GET':
@@ -326,7 +325,7 @@ def asignar_extensiones_aulicas(request, cohorte_id):
         form_filters = CohorteAsignarExtensionesAulicasFormFilters()
 
         # POST, guardo los datos
-        estado = EstadoCohorteExtensionAulica.objects.get(nombre = EstadoCohorteExtensionAulica.ASIGNADA)
+        estado = EstadoCohorteExtensionAulica.objects.get(nombre=EstadoCohorteExtensionAulica.ASIGNADA)
         values_dict = {
             'current_extensiones_aulicas_ids': current_extensiones_aulicas_ids,
             'current_oferta_ids': current_extensiones_aulicas_oferta,
@@ -338,12 +337,12 @@ def asignar_extensiones_aulicas(request, cohorte_id):
 
         request.set_flash('success', 'Datos actualizados correctamente.')
         # redirigir a edit
-        return HttpResponseRedirect(reverse('cohorteAsignarExtensionesAulicas', args = [cohorte.id]))
+        return HttpResponseRedirect(reverse('cohorteAsignarExtensionesAulicas', args=[cohorte.id]))
 
     jurisdiccion = request.get_perfil().jurisdiccion()
 
-    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion = jurisdiccion)
-    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion = jurisdiccion)
+    form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion=jurisdiccion)
+    form_filters.fields["localidad"].queryset = form_filters.fields["localidad"].queryset.filter(departamento__jurisdiccion=jurisdiccion)
 
     q = build_asignar_extensiones_aulicas_query(form_filters, request)
 
@@ -360,7 +359,7 @@ def build_asignar_extensiones_aulicas_query(filters, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter(establecimiento__ambito__path__istartswith = request.get_perfil().ambito.path)
+    return filters.buildQuery().filter(establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
 
 
 @login_required
@@ -370,7 +369,7 @@ def eliminar(request, cohorte_id):
     Baja de una cohorte
     --- mientras no estén asignadas a un establecimiento ---
     """
-    cohorte = Cohorte.objects.get(pk = cohorte_id)
+    cohorte = Cohorte.objects.get(pk=cohorte_id)
     asignada_establecimiento = cohorte.asignada_establecimiento()
 
     if asignada_establecimiento:
@@ -393,16 +392,16 @@ def eliminar(request, cohorte_id):
         'asignada_establecimiento': asignada_establecimiento,
     })
 
-"""
-Método para aplanar las listas
-"""
+
 def __flat_list(list_to_flat):
+    "Método para aplanar las listas"
     return [i for j in list_to_flat for i in j]
+
 
 @login_required
 @credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
-    o = Cohorte.objects.get(pk = oid)
+    o = Cohorte.objects.get(pk=oid)
     o.revisado_jurisdiccion = True
     o.save()
     request.set_flash('success', 'Registro revisado.')

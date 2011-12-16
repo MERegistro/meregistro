@@ -12,9 +12,11 @@ from helpers.MailHelper import MailHelper
 
 ITEMS_PER_PAGE = 50
 
+
 def build_query(filters, page, request):
     "Construye el query de búsqueda a partir de los filtros."
     return filters.buildQuery().order_by('id').filter(jurisdiccion = request.get_perfil().jurisdiccion())
+
 
 @login_required
 @credential_required('tit_nor_jur_consulta')
@@ -43,11 +45,9 @@ def index(request):
     return my_render(request, 'titulos/normativa_jurisdiccional/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
@@ -81,6 +81,7 @@ def create(request):
         'form': form,
         'is_new': True,
     })
+
 
 @login_required
 @credential_required('tit_nor_jur_modificar')
@@ -144,6 +145,7 @@ def eliminar(request, normativa_jurisdiccional_id):
         'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
     })
 
+
 @login_required
 @credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
@@ -152,4 +154,3 @@ def revisar_jurisdiccion(request, oid):
     o.save()
     request.set_flash('success', 'Registro revisado.')
     return HttpResponseRedirect(reverse('normativaJurisdiccional'))
-

@@ -9,8 +9,14 @@
 {% block title %}Administrar cohortes del título jurisdiccional{% endblock %}
 {% block content %}
 <h2>Administrar cohortes del título jurisdiccional</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
 {% include "titulos/egresados_establecimiento/datos_titulo.html" %}
+
 {% if objects %}
+{% include "counter.html" %}
 <h3>Cohortes</h3>
 <table class="hor-zebra">
   <thead>
