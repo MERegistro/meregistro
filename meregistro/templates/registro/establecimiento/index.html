@@ -9,7 +9,6 @@
 {% endif %}
 
 <form action="" method="get">
-{% if user_perfil.rol.nombre in 'AdminTitulos,Referente,AdminSistema,SecretarioIFD' %}
 <div class="form-filter" id="establecimientoFormFilter">
     <h3>Búsqueda avanzada</h3>
         {{ form_filters.non_field_errors }}
@@ -56,7 +55,7 @@
         </div>
     
 </div>
-{% endif %}
+
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -92,15 +91,17 @@
                 </td>
                 <td class="actions-td">
                     <ul>
-                    {% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
+                    {% if 'reg_establecimiento_modificar' in credenciales %}
                         {% if est.estado_actual == 'Pendiente' %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
+                    {% endif %}
+                    {% if 'reg_establecimiento_baja' in credenciales %}
                         {% if est.isDeletable %}
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
                         {% endif %}
                     {% endif %}
-                    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+                    {% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
                     {% endif %}
 			<li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
@@ -117,7 +118,7 @@
     <p>No se encontraron establecimientos.</p>
 </div>
 {% endif %}
-{% if user_perfil.rol.nombre in 'Referente,AdminSistema' %}
+{% if 'reg_establecimiento_nueva' in credenciales %}
 <ul class="actions">
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nuevo establecimiento</span></a>
