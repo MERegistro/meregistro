@@ -10,3 +10,4 @@ from AsignarPerfilForm import AsignarPerfilForm
 from UsuarioEditarDatosForm import UsuarioEditarDatosForm
 from RolFormFilters import RolFormFilters
 from RolForm import RolForm
+from RememberPasswordForm import RememberPasswordForm
