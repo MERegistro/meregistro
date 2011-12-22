@@ -59,6 +59,11 @@
 {% endif %}
 {% if objects %}
 {% include "counter.html" %}
+<ul class="reportes-actions">
+    <li class="export">
+	<a href="{{ export_url }}"><span>Exportar resultado</span></a>
+    </li>
+</ul>
 <table class="hor-zebra">
     <thead>
         <tr>
@@ -132,7 +137,7 @@ var dropdown_localidad = $("select#id_localidad");
 var dropdown_dependencia = $("select#id_dependencia_funcional");
 
 $(document).ready(
-    function(){
+
     dropdown_departamento.change(function(){        
 	if (dropdown_departamento.val() == '') {
 	    dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
