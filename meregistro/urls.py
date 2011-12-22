@@ -8,6 +8,7 @@ import apps.reportes.urls as reportes_urls
 urlpatterns = patterns('',
     url(r'^login', 'apps.seguridad.views.login', name='login'),
     url(r'^logout', 'apps.seguridad.views.logout', name='logout'),
+    url(r'^remember_password', 'apps.seguridad.views.remember_password', name='remember_password'),
     url(r'^seguridad/', include(seguridad_urls)),
     url(r'^registro/', include(registro_urls)),
     url(r'^titulos/', include(titulos_urls)),

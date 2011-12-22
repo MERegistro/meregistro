@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required
 from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo, Rol
-from apps.seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm
+from apps.seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm, UsuarioPasswordForm
 from apps.seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm, UsuarioEditarDatosForm
 from django.core.paginator import Paginator
 
@@ -46,8 +46,7 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
-    })
+        'prev_page': page_number - 1})
 
 
 def build_query(filters, page):
@@ -155,8 +154,7 @@ def bloquear(request, userId):
         form = BloquearUsuarioForm()
     return my_render(request, 'seguridad/usuario/bloquear.html', {
         'usuario': usuario,
-        'form': form
-    })
+        'form': form})
 
 
 @login_required
@@ -177,8 +175,7 @@ def desbloquear(request, userId):
         form = DesbloquearUsuarioForm()
     return my_render(request, 'seguridad/usuario/desbloquear.html', {
         'usuario': usuario,
-        'form': form
-    })
+        'form': form})
 
 
 @login_required
@@ -197,5 +194,24 @@ def editarDatosPropios(request):
     else:
         form = UsuarioEditarDatosForm(instance=request.user)
     return my_render(request, 'seguridad/usuario/editarDatosPropios.html', {
-        'form': form
-    })
+        'form': form})
+
+
+@login_required
+def editarPasswordPropia(request):
+    if request.method == 'POST':
+        form = UsuarioPasswordForm(request.POST)
+        from apps.seguridad.authenticate import encrypt_password
+        if form.is_valid():
+            if request.user.password == encrypt_password(form.cleaned_data['password_actual']):
+                request.user.set_password(form.cleaned_data['password'])
+                request.user.save()
+                request.set_flash('success', 'Datos guardados correctamente')
+            else:
+                request.set_flash('warning', 'La contraseña actual no es correcta')
+        else:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos')
+    else:
+        form = UsuarioPasswordForm()
+    return my_render(request, 'seguridad/usuario/editarPasswordPropia.html', {
+        'form': form})
