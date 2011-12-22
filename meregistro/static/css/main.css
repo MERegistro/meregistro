@@ -341,7 +341,7 @@ div#establecimientoForm form input#id_cue {
 table.hor-zebra {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 11px;
-	margin: 45px 10px 0 0;
+	margin: 10px 10px 0 0;
 	width: 100%;
 	text-align: left;
 	border-collapse: collapse;
@@ -531,6 +531,28 @@ td.actions-td ul li.seguimiento-cohorte a {
 	height: 24px;
 	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
 }
+/* REPORTES */
+ul.reportes-actions {
+	float: left;
+	margin: 32px 0 0 20px;
+	height: 24px;
+}
+ul.reportes-actions li {
+	height: 24px;
+}
+ul.reportes-actions li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+ul.reportes-actions li a span {
+	display: none;
+}
+ul.reportes-actions li.export-csv {
+	width: 22px;
+	height: 24px;
+	background: url(../img/icons/LibreOffice_Calc_icon_24px.png) no-repeat left;
+}
 /*
 =FORM-FILTER
 */
@@ -616,16 +638,8 @@ div.notice {
 =COUNTER
 */
 div#counter {
-	margin: 20px 0 -40px;
-}
-div#counter span {
-	font-weight: bold;
-}
-/*
-=COUNTER
-*/
-div#counter {
-	margin: 20px 0 -40px;
+	margin: 40px 0 0;
+	float: left;
 }
 div#counter span {
 	font-weight: bold;

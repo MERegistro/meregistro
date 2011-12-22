@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'apps.seguridad',
     'apps.titulos',
     'custom_tags_filters',
+    'apps.reportes',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

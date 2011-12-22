@@ -24,6 +24,8 @@ from apps.registro.forms.AnexoConexionInternetForm import AnexoConexionInternetF
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
+from apps.reportes.views.anexo import anexos as reporte_anexos
+from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
@@ -46,6 +48,12 @@ def index(request):
     else:
         form_filter = AnexoFormFilters()
     q = build_query(form_filter, 1, request)
+
+    try:
+        if request.GET['export'] == '1':
+            return reporte_anexos(request, q)
+    except KeyError:
+        pass
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
@@ -73,7 +81,8 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 

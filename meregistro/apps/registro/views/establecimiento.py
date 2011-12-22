@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
@@ -27,6 +27,8 @@ from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import Estableci
 from apps.registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
 from apps.registro.FSMEstablecimiento import FSMEstablecimiento
 from apps.registro.models import DependenciaFuncional
+from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
+from apps.reportes.models import Reporte
 
 fsmEstablecimiento = FSMEstablecimiento()
 
@@ -49,15 +51,13 @@ def index(request):
         except KeyError:
             jurisdiccion_id = None
 
-    #raise Exception(jurisdiccion_id)
-
     try:
         departamento_id = request.GET['departamento']
         if request.GET['departamento'] == '':
             departamento_id = None
     except KeyError:
         departamento_id = None
-
+        
     """
     Búsqueda de establecimientos
     """
@@ -66,6 +66,12 @@ def index(request):
     else:
         form_filter = EstablecimientoFormFilters(jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
     q = build_query(form_filter, 1, request)
+
+    try:
+        if request.GET['export'] == '1':
+            return reporte_establecimientos(request, q)
+    except KeyError:
+        pass
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -78,7 +84,7 @@ def index(request):
         page_number = 1
     elif page_number > paginator.num_pages:
         page_number = paginator.num_pages
-
+        
     if jurisdiccion is not None:
         form_filter.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=jurisdiccion)
     page = paginator.page(page_number)
@@ -91,7 +97,8 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 

@@ -17,6 +17,8 @@ from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm,
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
+from apps.reportes.views.extension_aulica import extensiones_aulicas as reporte_extensiones_aulicas
+from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
@@ -54,6 +56,12 @@ def index(request):
         form_filter = ExtensionAulicaFormFilters()
     q = build_query(form_filter, 1, request)
 
+    try:
+        if request.GET['export'] == '1':
+            return reporte_extensiones_aulicas(request, q)
+    except KeyError:
+        pass
+
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
         form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
@@ -80,7 +88,8 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 

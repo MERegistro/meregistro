@@ -59,8 +59,8 @@
 {% if objects %}
 {% include "counter.html" %}
 <ul class="reportes-actions">
-    <li class="export">
-	<a href="{{ export_url }}"><span>Exportar resultado</span></a>
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar resultado</span></a>
     </li>
 </ul>
 <table class="hor-zebra">

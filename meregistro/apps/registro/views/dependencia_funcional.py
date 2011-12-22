@@ -11,6 +11,8 @@ from apps.registro.forms import DependenciaFuncionalFormFilters, DependenciaFunc
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
+from apps.reportes.views.dependencia_funcional import dependencias_funcionales as reporte_dependencias_funcionales
+from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
@@ -27,6 +29,12 @@ def index(request):
         form_filter = DependenciaFuncionalFormFilters()
     q = build_query(form_filter, 1)
     q = q.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
+    try:
+        if request.GET['export'] == '1':
+            return reporte_dependencias_funcionales(request, q)
+    except KeyError:
+        pass
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -53,7 +61,8 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 
