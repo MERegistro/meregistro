@@ -456,7 +456,7 @@ def datos_establecimiento(request):
     })
 
 
-@credential_required('reg_establecimiento_ver')
+#@credential_required('reg_establecimiento_ver')
 def detalle(request, establecimiento_id):
     "Ver de juntar con la función datos_establecimiento"
     try:
