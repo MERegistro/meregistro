@@ -15,9 +15,9 @@ class Reporte():
     def as_csv(self):    
 	filename = self.filename
 	if filename is None:
-	    filename = str(datetime.now()) + '.csv'
+	    filename = str(date.today()) + '.csv'
 	self.response = HttpResponse(mimetype='text/csv')
-	self.response['Content-Disposition'] = 'attachment; filename=' + filename
+	self.response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
 	writer = csv.writer(self.response)
 	writer.writerow(self.headers)
 	

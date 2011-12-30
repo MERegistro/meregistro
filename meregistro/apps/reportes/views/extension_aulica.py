@@ -12,7 +12,7 @@ from apps.reportes.models import Reporte
 @login_required
 @credential_required('reportes_listado_extensiones_aulicas')
 def extensiones_aulicas(request, q):
-	filename = 'extensiones_aulicas_' + str(datetime.now()) + '.csv'
+	filename = 'extensiones_aulicas_' + str(date.today()) + '.csv'
 	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
 	for extension_aulica in q:
 		fecha = extension_aulica.fecha_alta.strftime('%d/%m/%Y')
