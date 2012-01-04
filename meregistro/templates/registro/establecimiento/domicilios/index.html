@@ -44,7 +44,7 @@
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
-{% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
+{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 <ul class="actions">
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento_domicilio.create %}"><span>Nuevo domicilio</span></a>

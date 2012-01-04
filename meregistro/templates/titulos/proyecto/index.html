@@ -50,7 +50,7 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'RectorDirectorIFD,SecretarioIFD,Anexo' %}
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional,SecretarioIFD,Anexo' %}
     <li class="create">
 	<a href="{% url apps.titulos.views.proyecto.create %}"><span>Nuevo</span></a>
     </li>

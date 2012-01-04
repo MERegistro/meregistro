@@ -73,7 +73,7 @@
 
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
+	    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 		<li class="edit"><a href="{% url apps.titulos.views.egresados_establecimiento.egresados_por_titulo titulo_jurisdiccional.id %}" title="Egresados"><span>Egresados</span></a></li>
 	    {% endif %}
 	    </ul>

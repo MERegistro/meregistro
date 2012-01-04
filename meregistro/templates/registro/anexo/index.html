@@ -83,7 +83,7 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
     <li class="create">
 	<a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
     </li>
