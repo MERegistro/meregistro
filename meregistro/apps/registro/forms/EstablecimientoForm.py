@@ -27,9 +27,11 @@ class EstablecimientoForm(ModelForm):
         try:
             intval = int(cue)
         except ValueError:
-            raise ValidationError('Por favor ingrese sólo números')  # Para dar un mensaje más claro
+            raise ValidationError('Por favor ingrese sólo números positivos')
+        if int(cue) < 0:
+            raise ValidationError('Por favor ingrese sólo números positivos') 
         if len(cue) != 5:
-            raise ValidationError('El CUE debe tener 9 dígitos en total')  # Para dar un mensaje más claro
+            raise ValidationError('El CUE debe tener 9 dígitos en total') 
         return cue
 
     def clean(self):
