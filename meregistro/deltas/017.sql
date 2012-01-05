@@ -9,7 +9,7 @@ INSERT INTO seguridad_credencial (nombre, descripcion, aplicacion_id) VALUES ('r
 
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'Referente'), 
+(SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteJurisdiccional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_establecimientos')
 );
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
@@ -22,7 +22,7 @@ INSERT INTO seguridad_credencial (nombre, descripcion, aplicacion_id) VALUES ('r
 
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'RectorDirectorIFD'), 
+(SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteInstitucional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_anexos')
 );
 -- Extensiones áulicas
@@ -30,7 +30,7 @@ INSERT INTO seguridad_credencial (nombre, descripcion, aplicacion_id) VALUES ('r
 
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'RectorDirectorIFD'), 
+(SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteInstitucional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_extensiones_aulicas')
 );
 -- Dependencias funcionales
@@ -38,7 +38,7 @@ INSERT INTO seguridad_credencial (nombre, descripcion, aplicacion_id) VALUES ('r
 
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'Referente'), 
+(SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteJurisdiccional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_dependencias_funcionales')
 );
 -- Usuarios
@@ -46,7 +46,7 @@ INSERT INTO seguridad_credencial (nombre, descripcion, aplicacion_id) VALUES ('r
 
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'Referente'), 
+(SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteJurisdiccional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_usuarios')
 );
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
@@ -56,15 +56,9 @@ INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 );
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'AdminSistema'), 
+(SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteInstitucional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_usuarios')
 );
-INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
-(
-(SELECT id FROM seguridad_rol WHERE nombre = 'RectorDirectorIFD'), 
-(SELECT id FROM seguridad_credencial WHERE nombre = 'reportes_listado_usuarios')
-);
-
 ---------------------------------------
 
 INSERT INTO deltas_sql (numero, app, comentario) VALUES ('017', 'Reportes', 'Nueva aplicación de reportes');

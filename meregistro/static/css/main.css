@@ -605,11 +605,9 @@ div.form-filter ul.errorlist {
 div#establecimientoFormFilter {
 	width: 650px;
 }
-/*
-=establecimientoFormFilter
-*/
-div#establecimientoFormFilter {
-	width: 650px;
+/* select filter establecimiento */
+div.form-filter select#id_establecimiento {
+	width: 400px;
 }
 /*
 =MESSAGE

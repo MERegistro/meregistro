@@ -75,7 +75,7 @@
 	<td>{{ cohorte_est.seguimiento.all|implode:", " }}</td>
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'RectorDirectorIFD' %}
+	    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 		{% if not cohorte_est.aceptada %}
 		<li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_establecimiento.confirmar cohorte_est.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
 		{% else %}

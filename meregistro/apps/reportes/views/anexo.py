@@ -12,7 +12,7 @@ from apps.reportes.models import Reporte
 @login_required
 @credential_required('reportes_listado_anexos')
 def anexos(request, q):
-	filename = 'anexos_' + str(datetime.now()) + '.csv'
+	filename = 'anexos_' + str(date.today()) + '.csv'
 	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
 	for anexo in q:
 		fecha = anexo.fecha_alta.strftime('%d/%m/%Y')
