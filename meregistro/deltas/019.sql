@@ -1,65 +1,124 @@
 BEGIN;
 
 ALTER TABLE registro_anexo ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexo ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexo ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexo_conexion_internet ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexo_conexion_internet ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexo_conexion_internet ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexo_domicilio ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexo_domicilio ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexo_domicilio ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexo_edificio_compartido_niveles ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexo_edificio_compartido_niveles ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexo_edificio_compartido_niveles ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexo_informacion_edilicia ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexo_informacion_edilicia ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexo_informacion_edilicia ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexos_funciones ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexos_funciones ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexos_funciones ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexos_niveles ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexos_niveles ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexos_niveles ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_anexos_turnos ADD COLUMN last_user_id integer;
+ALTER TABLE registro_anexos_turnos ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_anexos_turnos ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_autoridad_cargo ADD COLUMN last_user_id integer;
+ALTER TABLE registro_autoridad_cargo ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_autoridad_cargo ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_dependencia_funcional ADD COLUMN last_user_id integer;
+ALTER TABLE registro_dependencia_funcional ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_dependencia_funcional ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimiento ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimiento ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimiento ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimiento_autoridades ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimiento_autoridades ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimiento_autoridades ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimiento_conexion_internet ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimiento_conexion_internet ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimiento_conexion_internet ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimiento_domicilio ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimiento_domicilio ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimiento_domicilio ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimiento_edificio_compartido_niveles ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimiento_edificio_compartido_niveles ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimiento_edificio_compartido_niveles ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimiento_informacion_edilicia ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimiento_informacion_edilicia ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimiento_informacion_edilicia ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimientos_funciones ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimientos_funciones ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimientos_funciones ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimientos_niveles ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimientos_niveles ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimientos_niveles ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_establecimientos_turnos ADD COLUMN last_user_id integer;
+ALTER TABLE registro_establecimientos_turnos ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_establecimientos_turnos ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_estado_anexo ADD COLUMN last_user_id integer;
+ALTER TABLE registro_estado_anexo ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_estado_anexo ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_estado_establecimiento ADD COLUMN last_user_id integer;
+ALTER TABLE registro_estado_establecimiento ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_estado_establecimiento ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_estado_extension_aulica ADD COLUMN last_user_id integer;
+ALTER TABLE registro_estado_extension_aulica ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_estado_extension_aulica ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_extension_aulica ADD COLUMN last_user_id integer;
+ALTER TABLE registro_extension_aulica ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_extension_aulica ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_extension_aulica_domicilio ADD COLUMN last_user_id integer;
+ALTER TABLE registro_extension_aulica_domicilio ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_extension_aulica_domicilio ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_extension_aulica_estados ADD COLUMN last_user_id integer;
+ALTER TABLE registro_extension_aulica_estados ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_extension_aulica_estados ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_extensiones_aulicas_turnos ADD COLUMN last_user_id integer;
+ALTER TABLE registro_extensiones_aulicas_turnos ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_extensiones_aulicas_turnos ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE registro_registro_establecimiento ADD COLUMN last_user_id integer;
+ALTER TABLE registro_registro_establecimiento ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE registro_registro_establecimiento ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE seguridad_bloqueo_log ADD COLUMN last_user_id integer;
+ALTER TABLE seguridad_bloqueo_log ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE seguridad_bloqueo_log ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE seguridad_perfil ADD COLUMN last_user_id integer;
+ALTER TABLE seguridad_perfil ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE seguridad_perfil ADD COLUMN updated_at timestamp without time zone;
 
 ALTER TABLE seguridad_usuario ADD COLUMN last_user_id integer;
-
+ALTER TABLE seguridad_usuario ADD COLUMN created_at timestamp without time zone;
+ALTER TABLE seguridad_usuario ADD COLUMN updated_at timestamp without time zone;
 
 
 DROP TABLE IF EXISTS registro_anexo_version;
@@ -100,6 +159,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexo_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_anexo_version(
 
@@ -258,6 +322,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexo_conexion_internet_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_anexo_conexion_internet_version(
 
   id ,
@@ -400,6 +469,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexo_domicilio_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_anexo_domicilio_version(
 
   id ,
@@ -541,6 +615,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexo_edificio_compartido_niveles_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_anexo_edificio_compartido_niveles_version(
 
   id ,
@@ -662,6 +741,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexo_informacion_edilicia_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_anexo_informacion_edilicia_version(
 
@@ -788,6 +872,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexos_funciones_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_anexos_funciones_version(
 
   id ,
@@ -908,6 +997,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexos_niveles_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_anexos_niveles_version(
 
@@ -1030,6 +1124,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_anexos_turnos_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_anexos_turnos_version(
 
   id ,
@@ -1150,6 +1249,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_autoridad_cargo_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_autoridad_cargo_version(
 
   id ,
@@ -1269,6 +1373,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_dependencia_funcional_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_dependencia_funcional_version(
 
@@ -1418,6 +1527,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimiento_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_establecimiento_version(
 
@@ -1612,6 +1726,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimiento_autoridades_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_establecimiento_autoridades_version(
 
   id ,
@@ -1769,6 +1888,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimiento_conexion_internet_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_establecimiento_conexion_internet_version(
 
   id ,
@@ -1911,6 +2035,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimiento_domicilio_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_establecimiento_domicilio_version(
 
   id ,
@@ -2052,6 +2181,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimiento_edificio_compartido_niveles_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_establecimiento_edificio_compartido_niveles_version(
 
   id ,
@@ -2173,6 +2307,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimiento_informacion_edilicia_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_establecimiento_informacion_edilicia_version(
 
@@ -2299,6 +2438,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimientos_funciones_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_establecimientos_funciones_version(
 
   id ,
@@ -2419,6 +2563,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimientos_niveles_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_establecimientos_niveles_version(
 
@@ -2541,6 +2690,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_establecimientos_turnos_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_establecimientos_turnos_version(
 
   id ,
@@ -2661,6 +2815,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_estado_anexo_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_estado_anexo_version(
 
   id ,
@@ -2777,6 +2936,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_estado_establecimiento_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_estado_establecimiento_version(
 
   id ,
@@ -2892,6 +3056,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_estado_extension_aulica_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_estado_extension_aulica_version(
 
@@ -3019,6 +3188,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_extension_aulica_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_extension_aulica_version(
 
@@ -3186,6 +3360,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_extension_aulica_domicilio_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_extension_aulica_domicilio_version(
 
   id ,
@@ -3328,6 +3507,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_extension_aulica_estados_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_extension_aulica_estados_version(
 
   id ,
@@ -3453,6 +3637,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_extensiones_aulicas_turnos_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO registro_extensiones_aulicas_turnos_version(
 
   id ,
@@ -3575,6 +3764,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM registro_registro_establecimiento_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO registro_registro_establecimiento_version(
 
@@ -3706,6 +3900,11 @@ SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM seguridad_bloqueo_log_version
 WHERE id = NEW.id;
 
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
 INSERT INTO seguridad_bloqueo_log_version(
 
   id ,
@@ -3833,6 +4032,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM seguridad_perfil_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO seguridad_perfil_version(
 
@@ -3972,6 +4176,11 @@ BEGIN
 SELECT INTO vers COALESCE(MAX("version"),0 )+1
 FROM seguridad_usuario_version
 WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
 
 INSERT INTO seguridad_usuario_version(
 
