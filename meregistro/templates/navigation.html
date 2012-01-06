@@ -1,9 +1,9 @@
 <div id="mainNav">
     <ul class="sf-menu">
-        {% if 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales %}
+        {% if 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
 	<li><a href="#" class="inactive">Seguridad</a>
 	    <ul>
-	{% if 'seg_usuario_buscar' in credenciales %}
+	{% if 'seg_usuario_buscar' in credenciales or 'seg_usuario_alta' in credenciales %}
 		<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
 	{% endif %}
 	{% if 'seg_rol_registrar' in credenciales %}
