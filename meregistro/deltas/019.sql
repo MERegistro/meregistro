@@ -206,7 +206,7 @@ OLD.old_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -347,7 +347,7 @@ OLD.cantidad,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -493,7 +493,7 @@ OLD.cp,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -614,7 +614,7 @@ OLD.nivel_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -740,7 +740,7 @@ OLD.tipo_compartido_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -861,7 +861,7 @@ OLD.funcion_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -982,7 +982,7 @@ OLD.nivel_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -1103,7 +1103,7 @@ OLD.turno_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -1219,7 +1219,7 @@ OLD.descripcion,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -1355,7 +1355,7 @@ OLD.ambito_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -1556,7 +1556,7 @@ OLD.fax,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -1717,7 +1717,7 @@ OLD.email,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -1858,7 +1858,7 @@ OLD.cantidad,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2004,7 +2004,7 @@ OLD.cp,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2125,7 +2125,7 @@ OLD.nivel_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2251,7 +2251,7 @@ OLD.tipo_compartido_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2372,7 +2372,7 @@ OLD.funcion_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2493,7 +2493,7 @@ OLD.nivel_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2614,7 +2614,7 @@ OLD.turno_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2730,7 +2730,7 @@ OLD.nombre,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2846,7 +2846,7 @@ OLD.nombre,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -2962,7 +2962,7 @@ OLD.nombre,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3133,7 +3133,7 @@ OLD.old_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3279,7 +3279,7 @@ OLD.cp,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3405,7 +3405,7 @@ OLD.fecha,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3526,7 +3526,7 @@ OLD.turno_id,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3657,7 +3657,7 @@ OLD.observaciones,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3783,7 +3783,7 @@ OLD.fecha,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -3919,7 +3919,7 @@ OLD.fecha_desasignacion,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
@@ -4070,7 +4070,7 @@ OLD.is_active,
   CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
   NOW(),
   vers,
-  FALSE
+  TRUE
 );
 
 RETURN NEW;
