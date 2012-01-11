@@ -2,8 +2,9 @@
 from django.db import models
 from apps.registro.models.ExtensionAulica import ExtensionAulica
 from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
+from apps.seguridad.audit import audit
 
-
+@audit
 class ExtensionAulicaEstado(models.Model):
     extension_aulica = models.ForeignKey(ExtensionAulica)
     estado = models.ForeignKey(EstadoExtensionAulica)

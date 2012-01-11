@@ -3,8 +3,9 @@
 from django.db import models
 from apps.seguridad.models import TipoDocumento
 from datetime import datetime
+from apps.seguridad.audit import audit
 
-
+@audit
 class Usuario(models.Model):
     tipo_documento = models.ForeignKey(TipoDocumento)
     documento = models.CharField(max_length=20)

@@ -11,10 +11,12 @@ from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
+from apps.seguridad.audit import audit
+
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
-
+@audit
 class Establecimiento(models.Model):
 
     CODIGO_TIPO_UNIDAD_EDUCATIVA = '00'  # Para completar el CUE

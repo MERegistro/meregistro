@@ -8,8 +8,9 @@ from apps.registro.models.Funcion import Funcion
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
+from apps.seguridad.audit import audit
 
-
+@audit
 class Anexo(models.Model):
     establecimiento = models.ForeignKey(Establecimiento)
     cue = models.CharField(max_length = 2, help_text = u'2 dígitos, ej: 01...02')

@@ -1,8 +1,9 @@
 from django.db import models
 from apps.registro.models.TipoConexion import TipoConexion
 from apps.registro.models.Anexo import Anexo
+from apps.seguridad.audit import audit
 
-
+@audit
 class AnexoConexionInternet(models.Model):
     anexo = models.ForeignKey('Anexo')
     tipo_conexion = models.ForeignKey('TipoConexion')

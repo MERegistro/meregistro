@@ -5,8 +5,9 @@ from apps.registro.models.TipoGestion import TipoGestion
 from apps.registro.models.TipoEducacion import TipoEducacion
 from apps.registro.models.TipoDependenciaFuncional import TipoDependenciaFuncional
 from apps.seguridad.models import Ambito
+from apps.seguridad.audit import audit
 
-
+@audit
 class DependenciaFuncional(models.Model):
     nombre = models.CharField(max_length=255)
     jurisdiccion = models.ForeignKey(Jurisdiccion)

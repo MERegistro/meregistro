@@ -4,8 +4,9 @@ from apps.registro.models.TipoDomicilio import TipoDomicilio
 from apps.registro.models.Localidad import Localidad
 from apps.registro.models.ExtensionAulica import ExtensionAulica
 from django.core.exceptions import ValidationError
+from apps.seguridad.audit import audit
 
-
+@audit
 class ExtensionAulicaDomicilio(models.Model):
     extension_aulica = models.ForeignKey(ExtensionAulica, related_name = 'domicilio', editable = False)
     tipo_domicilio = models.ForeignKey(TipoDomicilio)

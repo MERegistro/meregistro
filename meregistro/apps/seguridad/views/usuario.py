@@ -82,7 +82,6 @@ def edit(request, userId):
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = UsuarioForm(instance=usuario)
-
     return my_render(request, 'seguridad/usuario/edit.html', {
         'form': form,
         'usuario': usuario,

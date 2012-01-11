@@ -4,7 +4,9 @@ from apps.registro.models.Anexo import Anexo
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
 from apps.registro.models.Nivel import Nivel
+from apps.seguridad.audit import audit
 
+@audit
 class AnexoInformacionEdilicia(models.Model):
     anexo = models.ForeignKey(Anexo)
     tipo_dominio = models.ForeignKey(TipoDominio, null = True)

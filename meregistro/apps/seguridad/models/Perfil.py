@@ -2,8 +2,9 @@
 
 from django.db import models
 from apps.seguridad.models import Ambito, Rol, Usuario
+from apps.seguridad.audit import audit
 
-
+@audit
 class Perfil(models.Model):
     usuario = models.ForeignKey(Usuario, related_name='perfiles')
     ambito = models.ForeignKey(Ambito)

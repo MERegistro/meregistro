@@ -7,9 +7,11 @@ from apps.registro.models.Turno import Turno
 from apps.registro.models.Turno import Turno
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
+from apps.seguridad.audit import audit
 
 YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
+@audit
 class ExtensionAulica(models.Model):
     establecimiento = models.ForeignKey(Establecimiento, editable = False)
     nombre = models.CharField(max_length = 255)

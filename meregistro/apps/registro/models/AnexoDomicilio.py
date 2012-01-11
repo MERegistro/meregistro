@@ -4,8 +4,9 @@ from apps.registro.models.TipoDomicilio import TipoDomicilio
 from apps.registro.models.Localidad import Localidad
 from apps.registro.models.Anexo import Anexo
 from django.core.exceptions import ValidationError
+from apps.seguridad.audit import audit
 
-
+@audit
 class AnexoDomicilio(models.Model):
     anexo = models.ForeignKey(Anexo, related_name = 'anexo_domicilio')
     tipo_domicilio = models.ForeignKey(TipoDomicilio)
