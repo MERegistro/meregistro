@@ -26,3 +26,9 @@ class Perfil(models.Model):
     def ve_usuario(self, usuario):
         q = usuario.perfiles.filter(ambito__path__istartswith=self.ambito.path)
         return len(q) > 0
+
+    def is_deletable(self):
+        total = self.usuario.perfiles.filter(fecha_desasignacion=None).count()
+        mas_de_uno = total > 1
+        no_desasignado = self.fecha_desasignacion is None
+        return mas_de_uno and no_desasignado

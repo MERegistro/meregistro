@@ -50,3 +50,7 @@ class Usuario(models.Model):
         from apps.seguridad.models import Rol, Ambito, Perfil
         perfil = Perfil(usuario=self, rol=rol, ambito=ambito, fecha_asignacion=fechaAsignacion)
         perfil.save()
+
+    def can_delete_perfil(self, perfil):
+        """ Chequea (de alguna manera) que el usuario puede eliminar el perfil """
+        return True
