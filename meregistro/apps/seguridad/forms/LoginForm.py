@@ -19,10 +19,6 @@ class LoginForm(forms.Form):
         documento = self.cleaned_data['documento']
         if not re.search(r'^\w+$', documento):
             raise forms.ValidationError(u'Este campo sólo puede contener letras del alfabeto y números')
-        try:
-            Usuario.objects.get(documento=documento)
-        except Usuario.DoesNotExist:
-            raise forms.ValidationError(u'Usuario inexistente')
         return documento
 
     def clean(self):
@@ -41,5 +37,5 @@ class LoginForm(forms.Form):
         if documento and password:
             res = authenticate(tipo_documento, documento, password)
             if  res == False:
-                self._errors['password'] = self.error_class([u'Password erróneo'])
+                raise forms.ValidationError('Los datos ingresados son incorrectos.')
         return cleaned_data

@@ -820,3 +820,12 @@ div#seguimientoNav ul li.active {
 div#seguimientoNav ul li a span {
 	padding: 5px 14px;
 }
+/*
+=PERFILESUSUARIO
+*/
+table#perfilesUsuario tr.desasignado td {
+	background: #D71F08;
+	color: #fff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
