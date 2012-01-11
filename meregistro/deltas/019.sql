@@ -1,5 +1,7 @@
 BEGIN;
 
+CREATE LANGUAGE plpgsql;
+
 ALTER TABLE registro_anexo ADD COLUMN last_user_id integer;
 ALTER TABLE registro_anexo ADD COLUMN created_at timestamp without time zone;
 ALTER TABLE registro_anexo ADD COLUMN updated_at timestamp without time zone;
