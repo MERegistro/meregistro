@@ -24,15 +24,20 @@
 			{{ form.password.errors }}
 			<label for="id_password">Contraseña:</label>
 			{{ form.password }}
+
 		</div>
+		<div class="form-text" style="margin-left: 150px; margin-top: -20px">
+            <ul class="actions">
+              <li class="action">
+                <a href="{% url apps.seguridad.views.remember_password %}"><span>Olvidé mi contraseña</span></a>
+              </li>
+            </ul>
+		</div>        
 		<div class="form-submit">
 			
             <ul class="actions">
               <li class="action">
                 <input type="submit" value="Acceder" />
-              </li>
-              <li class="action">
-                <a href="{% url apps.seguridad.views.remember_password %}"><span>Olvide mi contraseña</span></a>
               </li>
             </ul>
 		</div>

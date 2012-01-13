@@ -9,8 +9,8 @@ from apps.seguridad.decorators import login_required
 from apps.seguridad.models import TipoDocumento, Usuario, PasswordRememberKey
 from hashlib import sha1
 import random
-from helpers.MailHelper import MailHelper
-
+from django.core.mail import EmailMessage
+from meregistro import settings
 
 def logout(request):
     """
@@ -66,15 +66,42 @@ def remember_password(request):
   if request.method == 'POST':
     form = RememberPasswordForm(request.POST)
     if form.is_valid():
-      request.set_flash('success', 'Se el ha enviado un mail con instrucciones para resetear su contraseña.')
       user = Usuario.objects.filter(documento=form.cleaned_data['documento']).filter(tipo_documento=form.cleaned_data['tipo_documento']).all()[0]
       key = PasswordRememberKey()
       key.usuario = user
       tmp = ''.join(random.sample("1234567890qwertyuiopasdfghjklzxcvbnm", 32))
       key.key = sha1(str(user.id)).hexdigest() + tmp
       key.save()
-      #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+      html_content = 'Haga click en el siguiente link para resetear su contraseña:'
+      html_content += '<a href="'+settings.BASE_URL+'reset_password/'+key.key+'">Resetear contraseña</a>'
+      msg = EmailMessage("Recordatorio de contraseña", html_content, settings.EMAIL_FROM, [user.email])
+      msg.content_subtype = "html"  # Main content is now text/html
+      msg.send()
+      request.set_flash('success', 'Se le ha enviado un mail con instrucciones a ' + user.email + ' para volver a acceder al sistema.')
   else:
-    form = RememberPasswordForm()
+    init = {}
+    try:
+        init['tipo_documento'] = TipoDocumento.objects.get(abreviatura='DNI').id
+    except:
+        pass
+    form = RememberPasswordForm(init)
   return my_render(request, 'seguridad/login/rememberPassword.html', {'form': form})
 
+def reset_password(request, key):
+    try:
+        prk = PasswordRememberKey.objects.get(key=key)
+        new_pass = ''.join(random.sample("1234567890qwertyuiopasdfghjklzxcvbnm", 8))
+        prk.usuario.set_password(new_pass)
+        user = prk.usuario
+        user.save()
+        prk.delete()
+        html_content = 'Su nueva contraseña es: '+new_pass+'<br />'
+        html_content += 'Haga click en el siguiente link para ingresar al sistema:'
+        html_content += '<a href="'+settings.BASE_URL+'">Ingresar al sistema</a>'
+        msg = EmailMessage("Nueva contraseña", html_content, settings.EMAIL_FROM, [user.email])
+        msg.content_subtype = "html"  # Main content is now text/html
+        msg.send()
+        request.set_flash('success', 'Se le ha enviado un mail con su nueva contraseña para volver a acceder al sistema.')
+    except:
+      request.set_flash('warning', 'Link inválido')
+    return my_render(request, 'seguridad/login/resetPassword.html', {})
