@@ -21,7 +21,7 @@ def build_query(filters, page, request):
     return q
 
 @login_required
-@credential_required('tit_matricula_consulta')
+#@credential_required('tit_matricula_consulta')
 def index(request):
     if request.method == 'GET':
         form_filter = MatriculaFormFilters(request.GET)
@@ -55,7 +55,7 @@ def index(request):
     })
 
 
-@credential_required('tit_matricula_alta')
+#@credential_required('tit_matricula_alta')
 def create(request):
     if request.method == 'POST':
         form = MatriculaForm(request.POST)
@@ -75,7 +75,7 @@ def create(request):
     })
 
 @login_required
-@credential_required('tit_matricula_modificar')
+#@credential_required('tit_matricula_modificar')
 def edit(request, matricula_id):
     matricula = Matricula.objects.get(pk = matricula_id)
     if request.method == 'POST':
@@ -102,7 +102,7 @@ def customize_form(form, request):
     if request.get_perfil().rol.nombre == 'Anexo':
         form.fields['anexo'].empty_label = None
 
-@credential_required('tit_matricula_eliminar')
+#@credential_required('tit_matricula_eliminar')
 def delete(request, matricula_id):
     matricula = Matricula.objects.get(pk=matricula_id)
     if matricula.isDeletable():
@@ -113,7 +113,7 @@ def delete(request, matricula_id):
     return HttpResponseRedirect(reverse('matricula'))
 
 @login_required
-@credential_required('revisar_jurisdiccion')
+#@credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
     o = Matricula.objects.get(pk=oid)
     o.revisado_jurisdiccion = True

@@ -64,21 +64,10 @@
 	</td>
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'Referente' %}
+	    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
 		<li class="edit"><a href="{% url apps.titulos.views.titulo_jurisdiccional.edit titulo_jurisdiccional.id %}" title="Editar"><span>Editar</span></a></li>
 		<li class="orientaciones"><a href="{% url apps.titulos.views.titulo_jurisdiccional.orientaciones_por_titulo titulo_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
 		<li class="delete"><a href="{ url apps.titulos.views.titulo.eliminar titulo.id %}" title="Eliminar"><span>Eliminar</span></a></li>
-	    {% else %}
-	    {% if user_perfil.rol.nombre in 'ReferenteRevisor' %}
-		<li class="edit"><a href="{% url apps.titulos.views.titulo_jurisdiccional.edit titulo_jurisdiccional.id %}" title="Editar"><span>Editar</span></a></li>
-		<li class="orientaciones"><a href="{% url apps.titulos.views.titulo_jurisdiccional.orientaciones_por_titulo titulo_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
-		<li class="delete"><a href="{ url apps.titulos.views.titulo.eliminar titulo.id %}" title="Eliminar"><span>Eliminar</span></a></li>
-            {% if titulo_jurisdiccional.revisado_jurisdiccion  %}
-		        <li class="revisado"><a href="{% url apps.titulos.views.titulo_jurisdiccional.revisar_jurisdiccion titulo_jurisdiccional.id %}" title="Revisar"><span>Revisado</span></a></li>
-            {% else %}
-		        <li class="revisar"><a href="{% url apps.titulos.views.titulo_jurisdiccional.revisar_jurisdiccion titulo_jurisdiccional.id %}" title="Revisar"><span>Revisar</span></a></li>
-            {% endif %}
-	    {% endif %}
 	    {% endif %}
 	    </ul>
         </td>
@@ -94,7 +83,7 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'Referente' %}
+    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
     <li class="create">
 	<a href="{% url apps.titulos.views.titulo_jurisdiccional.create %}"><span>Nuevo título</span></a>
     </li>

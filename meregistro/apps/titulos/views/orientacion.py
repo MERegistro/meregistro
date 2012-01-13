@@ -19,7 +19,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('tit_orientacion_consulta')
+#@credential_required('tit_orientacion_consulta')
 def index(request):
     """
     Búsqueda de orientaciones
@@ -57,7 +57,7 @@ def index(request):
 
 
 @login_required
-@credential_required('tit_orientacion_consulta')
+#@credential_required('tit_orientacion_consulta')
 def orientaciones_por_titulo(request, titulo_id):
     "Búsqueda de orientaciones por título"
     titulo = Titulo.objects.get(pk = titulo_id)
@@ -89,7 +89,7 @@ def orientaciones_por_titulo(request, titulo_id):
 
 
 @login_required
-@credential_required('tit_orientacion_alta')
+#@credential_required('tit_orientacion_alta')
 def create(request, titulo_id = None):
     "Agregar orientación al título actual o crearla eligiendo el mismo"
     if titulo_id is not None:
@@ -128,7 +128,7 @@ def create(request, titulo_id = None):
 
 
 @login_required
-@credential_required('tit_orientacion_modificar')
+#@credential_required('tit_orientacion_modificar')
 def edit(request, orientacion_id):
     " Edición de los datos de una orientación "
     orientacion = TituloOrientacion.objects.get(pk=orientacion_id)
@@ -169,7 +169,7 @@ def edit(request, orientacion_id):
 
 
 @login_required
-@credential_required('tit_orientacion_eliminar')
+#@credential_required('tit_orientacion_eliminar')
 def eliminar(request, orientacion_id):
     """
     Baja de una orientación

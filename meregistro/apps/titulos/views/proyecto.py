@@ -16,7 +16,7 @@ def build_query(filters, page, request):
     return filters.buildQuery().order_by('id').filter(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)
 
 @login_required
-@credential_required('tit_proyecto_consulta')
+#@credential_required('tit_proyecto_consulta')
 def index(request):
     if request.method == 'GET':
         form_filter = ProyectoFormFilters(request.GET)
@@ -50,7 +50,7 @@ def index(request):
     })
 
 
-@credential_required('tit_proyecto_alta')
+#@credential_required('tit_proyecto_alta')
 def create(request):
     if request.method == 'POST':
         form = ProyectoForm(request.POST)
@@ -70,7 +70,7 @@ def create(request):
     })
 
 @login_required
-@credential_required('tit_proyecto_modificar')
+#@credential_required('tit_proyecto_modificar')
 def edit(request, proyecto_id):
     proyecto = Proyecto.objects.get(pk = proyecto_id)
     if request.method == 'POST':
@@ -90,7 +90,7 @@ def edit(request, proyecto_id):
         'is_new': False,
     })
 
-@credential_required('tit_proyecto_eliminar')
+#@credential_required('tit_proyecto_eliminar')
 def delete(request, proyecto_id):
     proyecto = Proyecto.objects.get(pk=proyecto_id)
     request.set_flash('success', 'Registro eliminado correctamente.')

@@ -16,7 +16,7 @@ def build_query(filters, page, request):
     return filters.buildQuery().order_by('id').filter(anexo__ambito__path__istartswith = request.get_perfil().ambito.path)
 
 @login_required
-@credential_required('tit_postitulo_consulta')
+#@credential_required('tit_postitulo_consulta')
 def index(request):
     if request.method == 'GET':
         form_filter = PostituloFormFilters(request.GET)
@@ -50,7 +50,7 @@ def index(request):
     })
 
 
-@credential_required('tit_postitulo_alta')
+#@credential_required('tit_postitulo_alta')
 def create(request):
     if request.method == 'POST':
         form = PostituloForm(request.POST)
@@ -69,7 +69,7 @@ def create(request):
     })
 
 @login_required
-@credential_required('tit_postitulo_modificar')
+#@credential_required('tit_postitulo_modificar')
 def edit(request, postitulo_id):
     postitulo = Postitulo.objects.get(pk = postitulo_id)
     if request.method == 'POST':
@@ -88,7 +88,7 @@ def edit(request, postitulo_id):
         'is_new': False,
     })
 
-@credential_required('tit_postitulo_eliminar')
+#@credential_required('tit_postitulo_eliminar')
 def delete(request, postitulo_id):
     postitulo = Postitulo.objects.get(pk=postitulo_id)
     request.set_flash('success', 'Registro eliminado correctamente.')

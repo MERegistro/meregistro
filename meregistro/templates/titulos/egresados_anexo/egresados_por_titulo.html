@@ -29,7 +29,7 @@
 	<td>{{ dato_egresados.cantidad_egresados }}</td>
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'Anexo' %}
+	    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 		<li class="edit"><a href="{% url apps.titulos.views.egresados_anexo.edit dato_egresados.id %}" title="Editar"><span>Editar</span></a></li>
 		<li class="edit one-many"><a href="{% url apps.titulos.views.egresados_anexo.detalle dato_egresados.id %}" title="Detalle"><span>Detalle</span></a></li>
 	    	<li class="delete"><a href="{% url apps.titulos.views.egresados_anexo.eliminar dato_egresados.id %}" title="Eliminar"><span>Eliminar</span></a></li>
@@ -48,7 +48,7 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'Anexo' %}
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
     <li class="create">
 	<a href="{% url apps.titulos.views.egresados_anexo.create titulo_jurisdiccional.id %}"><span>Nuevo</span></a>
     </li>

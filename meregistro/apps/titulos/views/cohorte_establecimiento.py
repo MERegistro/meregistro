@@ -44,7 +44,7 @@ def build_confirmar_cohortes_query(filters, page, request):
 
 
 @login_required
-@credential_required('tit_cohorte_aceptar_asignacion')
+#@credential_required('tit_cohorte_aceptar_asignacion')
 def index(request):
     """
     Index de cohorte establecimiento
@@ -84,7 +84,7 @@ def index(request):
 
 
 @login_required
-@credential_required('tit_cohorte_aceptar_asignacion')
+#@credential_required('tit_cohorte_aceptar_asignacion')
 def confirmar(request, cohorte_establecimiento_id):
     """
     Confirmar cohorte
@@ -117,7 +117,7 @@ def confirmar(request, cohorte_establecimiento_id):
 
 
 @login_required
-@credential_required('tit_cohorte_seguimiento')
+#@credential_required('tit_cohorte_seguimiento')
 def seguimiento(request, cohorte_establecimiento_id):
     """
     Seguimiento de cohorte establecimiento
@@ -139,7 +139,7 @@ def seguimiento(request, cohorte_establecimiento_id):
 
 
 @login_required
-@credential_required('tit_cohorte_seguimiento')
+#@credential_required('tit_cohorte_seguimiento')
 def create_seguimiento(request, cohorte_establecimiento_id):
 
     cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk=cohorte_establecimiento_id)
@@ -172,7 +172,7 @@ def create_seguimiento(request, cohorte_establecimiento_id):
 
 
 @login_required
-@credential_required('tit_cohorte_seguimiento')
+#@credential_required('tit_cohorte_seguimiento')
 def edit_seguimiento(request, seguimiento_id):
     """
     Confirmar cohorte
@@ -205,7 +205,7 @@ def edit_seguimiento(request, seguimiento_id):
 
 
 @login_required
-@credential_required('tit_cohorte_seguimiento')
+#@credential_required('tit_cohorte_seguimiento')
 def eliminar(request, seguimiento_id):
     """
     Eliminación de año de seguimiento de cohorte

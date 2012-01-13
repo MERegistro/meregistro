@@ -33,7 +33,7 @@
 	<td>{% if cohorte.observaciones %}{{ cohorte.observaciones }}{% else %}{% endif %}</td>
 	<td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'Referente,ReferenteRevisor' %}
+	    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
 		<li class="edit"><a href="{% url apps.titulos.views.cohorte.edit cohorte.id %}" title="Editar"><span>Editar</span></a></li>
 		{% if titulo_jurisdiccional.controlado  %}
 		<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_establecimientos cohorte.id %}" title="Asignar cohorte a establecimientos"><span>Asignar cohorte a establecimientos</span></a></li>
@@ -45,13 +45,6 @@
 		{% endif %}
 	    {% endif %}
 
-        {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
-            {% if cohorte.revisado_jurisdiccion  %}
-	            <li class="revisado"><a href="{% url apps.titulos.views.cohorte.revisar_jurisdiccion titulo_jurisdiccional.id %}" title="Revisar"><span>Revisado</span></a></li>
-            {% else %}
-	            <li class="revisar"><a href="{% url apps.titulos.views.cohorte.revisar_jurisdiccion titulo_jurisdiccional.id %}" title="Revisar"><span>Revisar</span></a></li>
-            {% endif %}
-        {% endif %}
 	    </ul>
         </td>
       </tr>

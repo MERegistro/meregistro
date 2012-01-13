@@ -24,7 +24,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('tit_cohorte_consulta')
+#@credential_required('tit_cohorte_consulta')
 def index(request):
     """
     Búsqueda de titulos
@@ -62,7 +62,7 @@ def index(request):
 
 
 @login_required
-@credential_required('tit_cohorte_alta')
+#@credential_required('tit_cohorte_alta')
 def create(request, titulo_jurisdiccional_id=None):
     """
     Alta de cohorte
@@ -111,7 +111,7 @@ def create(request, titulo_jurisdiccional_id=None):
 
 
 @login_required
-@credential_required('tit_cohorte_modificar')
+#@credential_required('tit_cohorte_modificar')
 # Editar datos básicos
 def edit(request, cohorte_id):
     """
@@ -152,7 +152,7 @@ def edit(request, cohorte_id):
 
 
 @login_required
-@credential_required('tit_cohorte_consulta')
+#@credential_required('tit_cohorte_consulta')
 def cohortes_por_titulo(request, titulo_jurisdiccional_id):
     "Cohortes por título"
     titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
@@ -184,7 +184,7 @@ def cohortes_por_titulo(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_cohorte_asignar')
+#@credential_required('tit_cohorte_asignar')
 def asignar_establecimientos(request, cohorte_id):
 
     """
@@ -247,7 +247,7 @@ def build_asignar_establecimientos_query(filters, request):
 
 
 @login_required
-@credential_required('tit_cohorte_asignar')
+#@credential_required('tit_cohorte_asignar')
 def asignar_anexos(request, cohorte_id):
     """
     Asignar cohorte a anexos
@@ -306,7 +306,7 @@ def build_asignar_anexos_query(filters, request):
 
 
 @login_required
-@credential_required('tit_cohorte_asignar')
+#@credential_required('tit_cohorte_asignar')
 def asignar_extensiones_aulicas(request, cohorte_id):
 
     """
@@ -363,7 +363,7 @@ def build_asignar_extensiones_aulicas_query(filters, request):
 
 
 @login_required
-@credential_required('tit_cohorte_eliminar')
+#@credential_required('tit_cohorte_eliminar')
 def eliminar(request, cohorte_id):
     """
     Baja de una cohorte
@@ -399,7 +399,7 @@ def __flat_list(list_to_flat):
 
 
 @login_required
-@credential_required('revisar_jurisdiccion')
+#@credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
     o = Cohorte.objects.get(pk=oid)
     o.revisado_jurisdiccion = True

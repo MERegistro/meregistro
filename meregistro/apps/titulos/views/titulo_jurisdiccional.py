@@ -25,7 +25,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_consulta')
+#@credential_required('tit_titulo_jurisdiccional_consulta')
 def index(request):
     """
     Búsqueda de titulos
@@ -63,7 +63,7 @@ def index(request):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_alta')
+#@credential_required('tit_titulo_jurisdiccional_alta')
 def create(request):
     """
     Alta de título jurisdiccional.
@@ -97,7 +97,7 @@ def create(request):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_modificar')
+#@credential_required('tit_titulo_jurisdiccional_modificar')
 # Editar datos básicos
 def edit(request, titulo_jurisdiccional_id):
     """
@@ -134,8 +134,8 @@ def edit(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_alta')
-@credential_required('tit_titulo_jurisdiccional_modificar')
+#@credential_required('tit_titulo_jurisdiccional_alta')
+#@credential_required('tit_titulo_jurisdiccional_modificar')
 def editar_orientaciones(request, titulo_jurisdiccional_id):
     """
     Edición de orientaciones del título jurisdiccional.
@@ -177,8 +177,8 @@ def editar_orientaciones(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_alta')
-@credential_required('tit_titulo_jurisdiccional_modificar')
+#@credential_required('tit_titulo_jurisdiccional_alta')
+#@credential_required('tit_titulo_jurisdiccional_modificar')
 def editar_modalidades(request, titulo_jurisdiccional_id):
     """
     Edición de modalidades del título jurisdiccional.
@@ -271,8 +271,8 @@ def editar_modalidades(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_alta')
-@credential_required('tit_titulo_jurisdiccional_modificar')
+#@credential_required('tit_titulo_jurisdiccional_alta')
+#@credential_required('tit_titulo_jurisdiccional_modificar')
 def editar_normativas(request, titulo_jurisdiccional_id):
     """
     Edición de normativas del título jurisdiccional.
@@ -314,8 +314,8 @@ def editar_normativas(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_alta')
-@credential_required('tit_titulo_jurisdiccional_modificar')
+#@credential_required('tit_titulo_jurisdiccional_alta')
+#@credential_required('tit_titulo_jurisdiccional_modificar')
 def editar_cohortes(request, titulo_jurisdiccional_id):
     """
     Edición de datos de cohortes del título jurisdiccional.
@@ -360,7 +360,7 @@ def editar_cohortes(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_consulta')
+#@credential_required('tit_titulo_jurisdiccional_consulta')
 def orientaciones_por_titulo(request, titulo_jurisdiccional_id):
     "Búsqueda de orientaciones por título jurisdiccional"
     titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
@@ -392,7 +392,7 @@ def orientaciones_por_titulo(request, titulo_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_titulo_jurisdiccional_eliminar')
+#@credential_required('tit_titulo_jurisdiccional_eliminar')
 def eliminar(request, titulo_id):
     """
     Baja de un título
@@ -413,7 +413,7 @@ def eliminar(request, titulo_id):
 
 
 @login_required
-@credential_required('revisar_jurisdiccion')
+#@credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
     o = TituloJurisdiccional.objects.get(pk=oid)
     o.revisado_jurisdiccion = True

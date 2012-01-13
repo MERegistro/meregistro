@@ -19,7 +19,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('tit_nor_jur_consulta')
+#@credential_required('tit_nor_jur_consulta')
 def index(request):
     " Búsqueda de orientaciones "
     if request.method == 'GET':
@@ -55,7 +55,7 @@ def index(request):
 
 
 @login_required
-@credential_required('tit_nor_jur_alta')
+#@credential_required('tit_nor_jur_alta')
 def create(request):
     " Crear nueva normativa "
 
@@ -84,7 +84,7 @@ def create(request):
 
 
 @login_required
-@credential_required('tit_nor_jur_modificar')
+#@credential_required('tit_nor_jur_modificar')
 def edit(request, normativa_jurisdiccional_id):
     " Edición de los datos de una normativa jurisdiccional "
     normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
@@ -119,7 +119,7 @@ def edit(request, normativa_jurisdiccional_id):
 
 
 @login_required
-@credential_required('tit_nor_jur_eliminar')
+#@credential_required('tit_nor_jur_eliminar')
 def eliminar(request, normativa_jurisdiccional_id):
     """
     Eliminación de una normativa
@@ -147,7 +147,7 @@ def eliminar(request, normativa_jurisdiccional_id):
 
 
 @login_required
-@credential_required('revisar_jurisdiccion')
+#@credential_required('revisar_jurisdiccion')
 def revisar_jurisdiccion(request, oid):
     o = NormativaJurisdiccional.objects.get(pk = oid)
     o.revisado_jurisdiccion = True

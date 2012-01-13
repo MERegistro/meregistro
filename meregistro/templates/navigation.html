@@ -81,5 +81,24 @@
         {% endif %}
         <li id="linkAyuda"><a href="#">Ayuda</span></a></li>
         <li id="linkAyuda"><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
+	<!--
+	Habilitación temporal
+	-->
+        <li><a href="#" class="inactive">Títulos</a>
+	    <ul style="width: 250px;">
+		<li><a href="{% url apps.titulos.views.titulo.index %}"><span>Títulos</span></a></li>
+		<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Normativas jurisdiccionales</span></a></li>     
+		<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}"><span>Títulos jurisdiccionales</span></a></li>   
+		<li><a href="{% url apps.titulos.views.cohorte.index %}"><span>Cohortes</span></a></li>
+		<li><a href="{% url apps.titulos.views.orientacion.index %}"><span>Orientaciones</span></a></li>
+		<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Cohortes de anexo</span></a></li>
+		<li><a href="{% url apps.titulos.views.egresados_anexo.index %}"><span>Egresados de anexo</span></a></li>
+		<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Cohortes de establecimiento</span></a></li>
+		<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}"><span>Egresados de establecimiento</span></a></li>
+		<li><a href="{% url apps.titulos.views.proyecto.index %}"><span>Proyectos</span></a></li>
+		<li><a href="{% url apps.titulos.views.postitulo.index %}"><span>Postitulo</span></a></li>
+		<li><a href="{% url apps.titulos.views.matricula.index %}"><span>Matriculas</span></a></li>
+	    </ul>
+        </li>
     </ul>
 </div>
