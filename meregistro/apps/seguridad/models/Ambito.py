@@ -15,10 +15,6 @@ class Ambito(models.Model):
 
     def __unicode__(self):
         s = self.descripcion
-        parent = self.parent
-        while parent is not None:
-            s = parent.descripcion + '-' + s
-            parent = parent.parent
         return s
 
     def createChild(self, childDescripcion):
