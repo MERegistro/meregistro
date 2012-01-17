@@ -18,7 +18,7 @@ class Reporte():
 	    filename = str(date.today()) + '.csv'
 	self.response = HttpResponse(mimetype='text/csv')
 	self.response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
-	writer = csv.writer(self.response)
+	writer = csv.writer(self.response, delimiter=';')
 	writer.writerow(self.headers)
 	
 	for row in self.rows:
