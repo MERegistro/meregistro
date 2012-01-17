@@ -57,6 +57,7 @@ def index(request):
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
         'export_url': Reporte.build_export_url(request.build_absolute_uri()),
+        'usuario_activo_id': request.get_perfil().usuario.id,
     })
 
 
@@ -225,3 +226,18 @@ def editarPasswordPropia(request):
         form = UsuarioPasswordForm()
     return my_render(request, 'seguridad/usuario/editarPasswordPropia.html', {
         'form': form})
+
+
+# Falta designar credenciales
+@login_required
+def delete(request, usuario_id):
+    usuario_actual = request.get_perfil().usuario
+    usuario_a_aliminar = Usuario.objects.get(pk=usuario_id)
+    if usuario_actual == usuario_a_aliminar:
+        request.set_flash('warning', 'El usuario no puede eliminarse a sí mismo.')
+    elif usuario_a_aliminar.is_deletable() and usuario_actual.can_delete_usuario(usuario_a_aliminar):
+        usuario_a_aliminar.delete()
+        request.set_flash('success', 'Usuario eliminado correctamente.')
+    else: 
+        request.set_flash('warning', 'El usuario no se puede eliminar.')
+    return HttpResponseRedirect(reverse('usuario'))

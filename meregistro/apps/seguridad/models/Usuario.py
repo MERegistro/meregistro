@@ -13,7 +13,7 @@ class Usuario(models.Model):
     nombre = models.CharField(max_length=40)
     email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255, null=True, editable=False)
-    last_login = models.IntegerField(null=True, blank=True, editable=False)
+    last_login = models.DateTimeField(null=True, blank=True, editable=False)
     is_active = models.BooleanField(null=False, blank=False, editable=False)
 
     class Meta:
@@ -53,5 +53,17 @@ class Usuario(models.Model):
         perfil.save()
 
     def can_delete_perfil(self, perfil):
-        """ Chequea (de alguna manera) que el usuario puede eliminar el perfil """
+        """ TODO: Chequea (de alguna manera) que el usuario puede eliminar el perfil """
         return True
+
+    def can_delete_usuario(self, usuario):
+        """ Chequea (de alguna manera) que el usuario puede eliminar al usuario pasado como argumento """
+        return True
+
+    def update_last_login(self):
+        self.last_login = datetime.now()
+        self.save()
+
+    def is_deletable(self):
+        nunca_logueado = self.last_login is None
+        return nunca_logueado

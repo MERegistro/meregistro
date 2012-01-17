@@ -36,6 +36,7 @@ def login(request):
       )
       if user:
         if user.is_active:
+          #user.update_last_login()
           request.session['user_id'] = user.id
           # Se logueo bien, lo redirijo a seleccionarPerfil
           return HttpResponseRedirect(reverse('seleccionarPerfil'))
