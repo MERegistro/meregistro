@@ -15,5 +15,18 @@ DATABASES = {
     }
 }
 """
+"""
+STATIC_URL_PATH = 'static'
+STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
+STATIC_DOC_ROOT = os.path.join(PROJECT_ROOT, 'static')
 
-# STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'xxx@gmail.com'
+EMAIL_HOST_PASSWORD = 'xxxxx'
+EMAIL_PORT = 587
+EMAIL_FROM = 'xxx@gmail.com'
+
+BASE_URL = 'http://localhost:8080/'
+
+"""

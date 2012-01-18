@@ -98,14 +98,3 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
-STATIC_URL_PATH = 'static'
-STATIC_DOC_ROOT = os.path.join(PROJECT_ROOT, 'static')
-
-EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'xxx@gmail.com'
-EMAIL_HOST_PASSWORD = 'xxxxx'
-EMAIL_PORT = 587
-EMAIL_FROM = 'xxx@gmail.com'
-
-BASE_URL = 'http://localhost:8080/'
