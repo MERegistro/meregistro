@@ -1,9 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Alta de establecimiento{% endblock %}
+{% block title %}Solicitud de Registro de Nueva Sede{% endblock %}
 
 {% block content %}
-<h2>Alta de establecimiento</h2>
+<h2>Solicitud de Registro de Nueva Sede</h2>
+<h3>Fecha de solicitud de registro: {% now "d/m/Y" %}</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}

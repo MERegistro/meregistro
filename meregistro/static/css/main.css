@@ -239,6 +239,9 @@ div.form div.form-text input,
 div.form div.form-textarea textarea {
 	border: 1px #CECECE solid;
 }
+div.form div.form-textarea textarea {
+	height: 6em;
+}
 div.form div.form-text input {
 	padding: 2px 3px;
 }
@@ -247,11 +250,11 @@ div.form div.form-submit {
 }
 div.form ul.errorlist { /* Errores globales */
 	color: #f00;
-	margin: 10px	0 4px 180px;
+	margin: 10px 0 4px 180px;
 }
 div.form div ul.errorlist { /* Error de cada campo */
 	color: #f00;
-	margin: 0	0 4px 170px;
+	margin: 0 0 4px 170px;
 }
 div.form ul.errorlist li { /* Cada error */
 	padding-left: 20px;
@@ -419,8 +422,8 @@ ul.actions li.create {
 	color: #000;
 	background: #fff url(../img/icons/add.png) no-repeat left;
 	position: absolute;
-	top: 48px;
-	right: -10px;
+	top: 78px;
+	left: 0px;
 	padding: 3px 5px 2px;
 }
 ul.actions li.create a {
@@ -557,7 +560,7 @@ ul.reportes-actions li.export-csv {
 =FORM-FILTER
 */
 div.form-filter {
-	margin: 10px 0 0;
+	margin: 40px 0 0;
 	border: 1px #ceccca solid;
 	width: 600px;
 	background: #f2f1f0;
@@ -613,7 +616,7 @@ div.form-filter select#id_establecimiento {
 =MESSAGE
 */
 div.message {
-	margin: 20px 0 20px;
+	margin: 40px 0 20px;
 	padding: 10px;
 }
 div.warning {

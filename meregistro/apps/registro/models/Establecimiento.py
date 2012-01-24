@@ -14,8 +14,6 @@ import datetime
 from apps.seguridad.audit import audit
 
 
-YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
-
 @audit
 class Establecimiento(models.Model):
 
@@ -24,14 +22,14 @@ class Establecimiento(models.Model):
     dependencia_funcional = models.ForeignKey(DependenciaFuncional)
     cue = models.CharField(max_length=9, unique=True)
     nombre = models.CharField(max_length=255)
-    tipo_normativa = models.ForeignKey(TipoNormativa)
+    tipo_normativa = models.ForeignKey(TipoNormativa, null=True, blank=True)
     unidad_academica = models.BooleanField()
     nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
     identificacion_provincial = models.CharField(max_length=100, null=True, blank=True)
     posee_subsidio = models.BooleanField()
     norma_creacion = models.CharField(max_length=100)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
-    anio_creacion = models.IntegerField(null=True, blank=True, choices=YEARS_CHOICES)
+    anio_creacion = models.IntegerField(null=True, blank=True)
     telefono = models.CharField(max_length=100, null=True, blank=True)
     fax = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
@@ -63,7 +61,7 @@ class Establecimiento(models.Model):
         try:
             est = Establecimiento.objects.get(cue=self.cue, dependencia_funcional__jurisdiccion__id=self.dependencia_funcional.jurisdiccion.id)
             if est and est != self:
-                raise ValidationError('Ya existe un establecimiento con ese CUE en su jurisdicción.')
+                raise ValidationError('Los datos ingresados corresponden a una Sede que ya se encuentra registrada.')
         except ObjectDoesNotExist:
             pass
 
@@ -159,3 +157,11 @@ class Establecimiento(models.Model):
         except IndexError:
             return None
         return dom
+
+    def get_fecha_solicitud(self):
+        try:
+            fecha = self.registro_estados.all()[0].fecha.strftime("%d/%m/%Y")
+        except IndexError:
+            return "---"
+        return fecha
+            

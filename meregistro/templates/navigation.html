@@ -26,17 +26,26 @@
 	    </ul> 
 	</li>
         {% endif %}
-        {% if 'reg_establecimiento_consulta' in credenciales %}
-	<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Establecimientos</span></a></li>
+	{% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
+	<li><a href="#" class="inactive"><span>Unidades educativas</a>
+	    <ul>
+	    {% if 'reg_establecimiento_consulta' in credenciales %}
+		<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Sedes</span></a></li>
+	    {% endif %}
+	    {% if 'reg_anexo_consulta' in credenciales or 'reg_anexo_completar' in credenciales %}
+		<li><a href="{% url apps.registro.views.anexo.index %}"><span>Anexos</span></a></li>
+	    {% endif %}
+	    {% if 'reg_extension_aulica_consulta' in credenciales %}
+		<li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
+	    {% endif %}
+	    </ul> 
+	</li>
         {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
 	<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
         {% endif %}
-        {% if 'reg_anexo_consulta' in credenciales or 'reg_anexo_completar' in credenciales%}
-	<li><a href="{% url apps.registro.views.anexo.index %}"><span>Anexos</span></a>
-	{% endif %}
 	{% if 'reg_anexo_completar' in credenciales %}
-	<li><a href="{% url apps.registro.views.anexo.completar_datos_basicos %}"><span>Datos básicos</span></a></li>
+	<li><a href="{% url apps.registro.views.anexo.completar_datos_basicos %}"><span>Datos básicos del anexo</span></a></li>
 	{% endif %}		
         {% if 'tit_egresados_anexo' in credenciales or 'tit_egresados_establecimiento' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_titulo_jurisdiccional_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_titulo_consulta' in credenciales or 'tit_orientacion_consulta' in credenciales %}
         <li><a href="#" class="inactive">Títulos</a>

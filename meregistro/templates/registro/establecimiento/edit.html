@@ -1,9 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Actualización de establecimiento{% endblock %}
+{% block title %}Actualización de sede{% endblock %}
 
 {% block content %}
-<h2>Actualización de establecimiento</h2>
+<h2>Actualización de sede</h2>
+<h3>Fecha de solicitud de registro: {{ establecimiento.get_fecha_solicitud }}</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}

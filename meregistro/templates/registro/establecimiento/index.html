@@ -1,9 +1,9 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar establecimientos{% endblock %}
+{% block title %}Administrar sedes{% endblock %}
 
 {% block content %}
-<h2>Administrar establecimientos</h2>
+<h2>Administrar sedes</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -101,10 +101,8 @@
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
                     {% endif %}
-                    {% if 'reg_establecimiento_baja' in credenciales %}
-                        {% if est.isDeletable %}
+                    {% if 'reg_establecimiento_baja' in credenciales and est.isDeletable %}
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-                        {% endif %}
                     {% endif %}
                     {% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
@@ -120,13 +118,13 @@
 </form>
 {% else %}
 <div class="message warning">
-    <p>No se encontraron establecimientos.</p>
+    <p>No se encontraron sedes.</p>
 </div>
 {% endif %}
-{% if 'reg_establecimiento_nueva' in credenciales %}
+{% if 'reg_unidad_educativa_solicitud_registro' in credenciales %}
 <ul class="actions">
     <li class="create">
-        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nuevo establecimiento</span></a>
+        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva sede</span></a>
     </li>
 </ul>
 {% endif %}
@@ -138,22 +136,21 @@ var dropdown_localidad = $("select#id_localidad");
 var dropdown_dependencia = $("select#id_dependencia_funcional");
 
 $(document).ready(
-
-    dropdown_departamento.change(function(){        
-	if (dropdown_departamento.val() == '') {
-	    dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
-	} else {
-	    var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
-	    $.getJSON(url, function(models) {
-		var options = '<option value="">----</option>';
-		for (var i = 0; i < models.length; i++) {
-		    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-		}
-		dropdown_localidad.html(options);
-	    });
-	}
-	});
-    } // END function
+    dropdown_departamento.change(
+	function(){
+	    if (dropdown_departamento.val() == '') {
+		dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+	    } else {
+		var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+		$.getJSON(url, function(models){
+		    var options = '<option value="">----</option>';
+		    for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+		    }
+		    dropdown_localidad.html(options);
+		});
+	    } // END if
+	}) // END function
 ); // END document.ready
 
 // Init
