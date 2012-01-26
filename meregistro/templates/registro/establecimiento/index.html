@@ -121,7 +121,7 @@
     <p>No se encontraron sedes.</p>
 </div>
 {% endif %}
-{% if 'reg_unidad_educativa_solicitud_registro' in credenciales %}
+{% if 'reg_establecimiento_nueva' in credenciales %}
 <ul class="actions">
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva sede</span></a>
