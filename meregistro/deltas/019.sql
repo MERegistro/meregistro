@@ -127,17 +127,17 @@ DROP TABLE IF EXISTS registro_anexo_version;
 CREATE TABLE registro_anexo_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  cue character varying(2) NOT NULL ,
-  fecha_alta date ,
-  nombre character varying(255) NOT NULL ,
-  telefono character varying(100) ,
-  email character varying(255) ,
-  sitio_web character varying(255) ,
-  estado_id integer NOT NULL ,
-  ambito_id integer ,
-  old_id integer ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  cue character varying(2) NOT NULL,
+  fecha_alta date,
+  nombre character varying(255) NOT NULL,
+  telefono character varying(100),
+  email character varying(255),
+  sitio_web character varying(255),
+  estado_id integer NOT NULL,
+  ambito_id integer,
+  old_id integer,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -169,17 +169,17 @@ END IF;
 
 INSERT INTO registro_anexo_version(
 
-  id ,
-  establecimiento_id ,
-  cue ,
-  fecha_alta ,
-  nombre ,
-  telefono ,
-  email ,
-  sitio_web ,
-  estado_id ,
-  ambito_id ,
-  old_id ,
+  id,
+  establecimiento_id,
+  cue,
+  fecha_alta,
+  nombre,
+  telefono,
+  email,
+  sitio_web,
+  estado_id,
+  ambito_id,
+  old_id,
 
   last_user_id,
   created_at,
@@ -235,17 +235,17 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexo_version(
 
-  id ,
-  establecimiento_id ,
-  cue ,
-  fecha_alta ,
-  nombre ,
-  telefono ,
-  email ,
-  sitio_web ,
-  estado_id ,
-  ambito_id ,
-  old_id ,
+  id,
+  establecimiento_id,
+  cue,
+  fecha_alta,
+  nombre,
+  telefono,
+  email,
+  sitio_web,
+  estado_id,
+  ambito_id,
+  old_id,
 
   last_user_id,
   created_at,
@@ -283,7 +283,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexo;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexo
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexo_del();
@@ -293,13 +293,13 @@ DROP TABLE IF EXISTS registro_anexo_conexion_internet_version;
 CREATE TABLE registro_anexo_conexion_internet_version
 (
 
-  id integer NOT NULL ,
-  anexo_id integer NOT NULL ,
-  tipo_conexion_id integer NOT NULL ,
-  proveedor character varying(30) NOT NULL ,
-  tiene_conexion boolean NOT NULL ,
-  costo numeric(122) NOT NULL ,
-  cantidad integer NOT NULL ,
+  id integer NOT NULL,
+  anexo_id integer NOT NULL,
+  tipo_conexion_id integer NOT NULL,
+  proveedor character varying(30) NOT NULL,
+  tiene_conexion boolean NOT NULL,
+  costo numeric(122) NOT NULL,
+  cantidad integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -331,13 +331,13 @@ END IF;
 
 INSERT INTO registro_anexo_conexion_internet_version(
 
-  id ,
-  anexo_id ,
-  tipo_conexion_id ,
-  proveedor ,
-  tiene_conexion ,
-  costo ,
-  cantidad ,
+  id,
+  anexo_id,
+  tipo_conexion_id,
+  proveedor,
+  tiene_conexion,
+  costo,
+  cantidad,
 
   last_user_id,
   created_at,
@@ -389,13 +389,13 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexo_conexion_internet_version(
 
-  id ,
-  anexo_id ,
-  tipo_conexion_id ,
-  proveedor ,
-  tiene_conexion ,
-  costo ,
-  cantidad ,
+  id,
+  anexo_id,
+  tipo_conexion_id,
+  proveedor,
+  tiene_conexion,
+  costo,
+  cantidad,
 
   last_user_id,
   created_at,
@@ -429,7 +429,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexo_conexion_internet;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexo_conexion_internet
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexo_conexion_internet_del();
@@ -439,14 +439,14 @@ DROP TABLE IF EXISTS registro_anexo_domicilio_version;
 CREATE TABLE registro_anexo_domicilio_version
 (
 
-  id integer NOT NULL ,
-  anexo_id integer NOT NULL ,
-  tipo_domicilio_id integer NOT NULL ,
-  localidad_id integer NOT NULL ,
-  calle character varying(100) NOT NULL ,
-  altura character varying(5) NOT NULL ,
-  referencia character varying(255) ,
-  cp character varying(20) NOT NULL ,
+  id integer NOT NULL,
+  anexo_id integer NOT NULL,
+  tipo_domicilio_id integer NOT NULL,
+  localidad_id integer NOT NULL,
+  calle character varying(100) NOT NULL,
+  altura character varying(5) NOT NULL,
+  referencia character varying(255),
+  cp character varying(20) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -478,14 +478,14 @@ END IF;
 
 INSERT INTO registro_anexo_domicilio_version(
 
-  id ,
-  anexo_id ,
-  tipo_domicilio_id ,
-  localidad_id ,
-  calle ,
-  altura ,
-  referencia ,
-  cp ,
+  id,
+  anexo_id,
+  tipo_domicilio_id,
+  localidad_id,
+  calle,
+  altura,
+  referencia,
+  cp,
 
   last_user_id,
   created_at,
@@ -538,14 +538,14 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexo_domicilio_version(
 
-  id ,
-  anexo_id ,
-  tipo_domicilio_id ,
-  localidad_id ,
-  calle ,
-  altura ,
-  referencia ,
-  cp ,
+  id,
+  anexo_id,
+  tipo_domicilio_id,
+  localidad_id,
+  calle,
+  altura,
+  referencia,
+  cp,
 
   last_user_id,
   created_at,
@@ -580,7 +580,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexo_domicilio;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexo_domicilio
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexo_domicilio_del();
@@ -590,9 +590,9 @@ DROP TABLE IF EXISTS registro_anexo_edificio_compartido_niveles_version;
 CREATE TABLE registro_anexo_edificio_compartido_niveles_version
 (
 
-  id integer NOT NULL ,
-  anexoinformacionedilicia_id integer NOT NULL ,
-  nivel_id integer NOT NULL ,
+  id integer NOT NULL,
+  anexoinformacionedilicia_id integer NOT NULL,
+  nivel_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -624,9 +624,9 @@ END IF;
 
 INSERT INTO registro_anexo_edificio_compartido_niveles_version(
 
-  id ,
-  anexoinformacionedilicia_id ,
-  nivel_id ,
+  id,
+  anexoinformacionedilicia_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -674,9 +674,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexo_edificio_compartido_niveles_version(
 
-  id ,
-  anexoinformacionedilicia_id ,
-  nivel_id ,
+  id,
+  anexoinformacionedilicia_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -706,7 +706,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexo_edificio_compartido_niveles;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexo_edificio_compartido_niveles
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexo_edificio_compartido_niveles_del();
@@ -716,10 +716,10 @@ DROP TABLE IF EXISTS registro_anexo_informacion_edilicia_version;
 CREATE TABLE registro_anexo_informacion_edilicia_version
 (
 
-  id integer NOT NULL ,
-  anexo_id integer NOT NULL ,
-  tipo_dominio_id integer ,
-  tipo_compartido_id integer ,
+  id integer NOT NULL,
+  anexo_id integer NOT NULL,
+  tipo_dominio_id integer,
+  tipo_compartido_id integer,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -751,10 +751,10 @@ END IF;
 
 INSERT INTO registro_anexo_informacion_edilicia_version(
 
-  id ,
-  anexo_id ,
-  tipo_dominio_id ,
-  tipo_compartido_id ,
+  id,
+  anexo_id,
+  tipo_dominio_id,
+  tipo_compartido_id,
 
   last_user_id,
   created_at,
@@ -803,10 +803,10 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexo_informacion_edilicia_version(
 
-  id ,
-  anexo_id ,
-  tipo_dominio_id ,
-  tipo_compartido_id ,
+  id,
+  anexo_id,
+  tipo_dominio_id,
+  tipo_compartido_id,
 
   last_user_id,
   created_at,
@@ -837,7 +837,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexo_informacion_edilicia;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexo_informacion_edilicia
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexo_informacion_edilicia_del();
@@ -847,9 +847,9 @@ DROP TABLE IF EXISTS registro_anexos_funciones_version;
 CREATE TABLE registro_anexos_funciones_version
 (
 
-  id integer NOT NULL ,
-  anexo_id integer NOT NULL ,
-  funcion_id integer NOT NULL ,
+  id integer NOT NULL,
+  anexo_id integer NOT NULL,
+  funcion_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -881,9 +881,9 @@ END IF;
 
 INSERT INTO registro_anexos_funciones_version(
 
-  id ,
-  anexo_id ,
-  funcion_id ,
+  id,
+  anexo_id,
+  funcion_id,
 
   last_user_id,
   created_at,
@@ -931,9 +931,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexos_funciones_version(
 
-  id ,
-  anexo_id ,
-  funcion_id ,
+  id,
+  anexo_id,
+  funcion_id,
 
   last_user_id,
   created_at,
@@ -963,7 +963,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexos_funciones;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexos_funciones
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexos_funciones_del();
@@ -973,9 +973,9 @@ DROP TABLE IF EXISTS registro_anexos_niveles_version;
 CREATE TABLE registro_anexos_niveles_version
 (
 
-  id integer NOT NULL ,
-  anexo_id integer NOT NULL ,
-  nivel_id integer NOT NULL ,
+  id integer NOT NULL,
+  anexo_id integer NOT NULL,
+  nivel_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1007,9 +1007,9 @@ END IF;
 
 INSERT INTO registro_anexos_niveles_version(
 
-  id ,
-  anexo_id ,
-  nivel_id ,
+  id,
+  anexo_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -1057,9 +1057,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexos_niveles_version(
 
-  id ,
-  anexo_id ,
-  nivel_id ,
+  id,
+  anexo_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -1089,7 +1089,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexos_niveles;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexos_niveles
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexos_niveles_del();
@@ -1099,9 +1099,9 @@ DROP TABLE IF EXISTS registro_anexos_turnos_version;
 CREATE TABLE registro_anexos_turnos_version
 (
 
-  id integer NOT NULL ,
-  anexo_id integer NOT NULL ,
-  turno_id integer NOT NULL ,
+  id integer NOT NULL,
+  anexo_id integer NOT NULL,
+  turno_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1133,9 +1133,9 @@ END IF;
 
 INSERT INTO registro_anexos_turnos_version(
 
-  id ,
-  anexo_id ,
-  turno_id ,
+  id,
+  anexo_id,
+  turno_id,
 
   last_user_id,
   created_at,
@@ -1183,9 +1183,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_anexos_turnos_version(
 
-  id ,
-  anexo_id ,
-  turno_id ,
+  id,
+  anexo_id,
+  turno_id,
 
   last_user_id,
   created_at,
@@ -1215,7 +1215,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_anexos_turnos;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_anexos_turnos
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_anexos_turnos_del();
@@ -1225,8 +1225,8 @@ DROP TABLE IF EXISTS registro_autoridad_cargo_version;
 CREATE TABLE registro_autoridad_cargo_version
 (
 
-  id integer NOT NULL ,
-  descripcion character varying(50) NOT NULL ,
+  id integer NOT NULL,
+  descripcion character varying(50) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1258,8 +1258,8 @@ END IF;
 
 INSERT INTO registro_autoridad_cargo_version(
 
-  id ,
-  descripcion ,
+  id,
+  descripcion,
 
   last_user_id,
   created_at,
@@ -1306,8 +1306,8 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_autoridad_cargo_version(
 
-  id ,
-  descripcion ,
+  id,
+  descripcion,
 
   last_user_id,
   created_at,
@@ -1336,7 +1336,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_autoridad_cargo;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_autoridad_cargo
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_autoridad_cargo_del();
@@ -1346,12 +1346,12 @@ DROP TABLE IF EXISTS registro_dependencia_funcional_version;
 CREATE TABLE registro_dependencia_funcional_version
 (
 
-  id integer NOT NULL ,
-  nombre character varying(255) NOT NULL ,
-  jurisdiccion_id integer NOT NULL ,
-  tipo_gestion_id integer NOT NULL ,
-  tipo_dependencia_funcional_id integer NOT NULL ,
-  ambito_id integer ,
+  id integer NOT NULL,
+  nombre character varying(255) NOT NULL,
+  jurisdiccion_id integer NOT NULL,
+  tipo_gestion_id integer NOT NULL,
+  tipo_dependencia_funcional_id integer NOT NULL,
+  ambito_id integer,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1383,12 +1383,12 @@ END IF;
 
 INSERT INTO registro_dependencia_funcional_version(
 
-  id ,
-  nombre ,
-  jurisdiccion_id ,
-  tipo_gestion_id ,
-  tipo_dependencia_funcional_id ,
-  ambito_id ,
+  id,
+  nombre,
+  jurisdiccion_id,
+  tipo_gestion_id,
+  tipo_dependencia_funcional_id,
+  ambito_id,
 
   last_user_id,
   created_at,
@@ -1439,12 +1439,12 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_dependencia_funcional_version(
 
-  id ,
-  nombre ,
-  jurisdiccion_id ,
-  tipo_gestion_id ,
-  tipo_dependencia_funcional_id ,
-  ambito_id ,
+  id,
+  nombre,
+  jurisdiccion_id,
+  tipo_gestion_id,
+  tipo_dependencia_funcional_id,
+  ambito_id,
 
   last_user_id,
   created_at,
@@ -1477,7 +1477,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_dependencia_funcional;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_dependencia_funcional
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_dependencia_funcional_del();
@@ -1487,25 +1487,26 @@ DROP TABLE IF EXISTS registro_establecimiento_version;
 CREATE TABLE registro_establecimiento_version
 (
 
-  id integer NOT NULL ,
-  dependencia_funcional_id integer NOT NULL ,
-  cue character varying(9) NOT NULL ,
-  nombre character varying(255) NOT NULL ,
-  tipo_normativa_id integer NOT NULL ,
-  unidad_academica boolean NOT NULL ,
-  nombre_unidad_academica character varying(100) ,
-  norma_creacion character varying(100) NOT NULL ,
-  observaciones text ,
-  anio_creacion integer ,
-  telefono character varying(100) ,
-  email character varying(255) ,
-  sitio_web character varying(255) ,
-  ambito_id integer ,
-  estado_id integer ,
-  old_id integer ,
-  identificacion_provincial character varying(100) DEFAULT ''::character varying NOT NULL ,
-  posee_subsidio boolean ,
-  fax character varying(100) ,
+  id integer NOT NULL,
+  dependencia_funcional_id integer NOT NULL,
+  cue character varying(9) NOT NULL,
+  nombre character varying(255) NOT NULL,
+  tipo_normativa_id integer NOT NULL,
+  unidad_academica boolean NOT NULL,
+  nombre_unidad_academica character varying(100),
+  norma_creacion character varying(100) NOT NULL,
+  observaciones text,
+  anio_creacion integer,
+  telefono character varying(100),
+  email character varying(255),
+  sitio_web character varying(255),
+  solicitud_filename character varying(100),
+  ambito_id integer,
+  estado_id integer,
+  old_id integer,
+  identificacion_provincial character varying(100) DEFAULT ''::character varying NOT NULL,
+  posee_subsidio boolean,
+  fax character varying(100),
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1537,25 +1538,26 @@ END IF;
 
 INSERT INTO registro_establecimiento_version(
 
-  id ,
-  dependencia_funcional_id ,
-  cue ,
-  nombre ,
-  tipo_normativa_id ,
-  unidad_academica ,
-  nombre_unidad_academica ,
-  norma_creacion ,
-  observaciones ,
-  anio_creacion ,
-  telefono ,
-  email ,
-  sitio_web ,
-  ambito_id ,
-  estado_id ,
-  old_id ,
-  identificacion_provincial ,
-  posee_subsidio ,
-  fax ,
+  id,
+  dependencia_funcional_id,
+  cue,
+  nombre,
+  tipo_normativa_id,
+  unidad_academica,
+  nombre_unidad_academica,
+  norma_creacion,
+  observaciones,
+  anio_creacion,
+  telefono,
+  email,
+  sitio_web,
+  solicitud_filename,
+  ambito_id,
+  estado_id,
+  old_id,
+  identificacion_provincial,
+  posee_subsidio,
+  fax,
 
   last_user_id,
   created_at,
@@ -1578,6 +1580,7 @@ NEW.anio_creacion,
 NEW.telefono,
 NEW.email,
 NEW.sitio_web,
+NEW.solicitud_filename,
 NEW.ambito_id,
 NEW.estado_id,
 NEW.old_id,
@@ -1619,25 +1622,25 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimiento_version(
 
-  id ,
-  dependencia_funcional_id ,
-  cue ,
-  nombre ,
-  tipo_normativa_id ,
-  unidad_academica ,
-  nombre_unidad_academica ,
-  norma_creacion ,
-  observaciones ,
-  anio_creacion ,
-  telefono ,
-  email ,
-  sitio_web ,
-  ambito_id ,
-  estado_id ,
-  old_id ,
-  identificacion_provincial ,
-  posee_subsidio ,
-  fax ,
+  id,
+  dependencia_funcional_id,
+  cue,
+  nombre,
+  tipo_normativa_id,
+  unidad_academica,
+  nombre_unidad_academica,
+  norma_creacion,
+  observaciones,
+  anio_creacion,
+  telefono,
+  email,
+  sitio_web,
+  ambito_id,
+  estado_id,
+  old_id,
+  identificacion_provincial,
+  posee_subsidio,
+  fax,
 
   last_user_id,
   created_at,
@@ -1683,7 +1686,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimiento;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimiento
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimiento_del();
@@ -1693,17 +1696,17 @@ DROP TABLE IF EXISTS registro_establecimiento_autoridades_version;
 CREATE TABLE registro_establecimiento_autoridades_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  apellido character varying(40) NOT NULL ,
-  nombre character varying(40) NOT NULL ,
-  fecha_nacimiento date ,
-  cargo_id integer ,
-  tipo_documento_id integer ,
-  documento character varying(20) ,
-  telefono character varying(30) ,
-  celular character varying(30) ,
-  email character varying(255) ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  apellido character varying(40) NOT NULL,
+  nombre character varying(40) NOT NULL,
+  fecha_nacimiento date,
+  cargo_id integer,
+  tipo_documento_id integer,
+  documento character varying(20),
+  telefono character varying(30),
+  celular character varying(30),
+  email character varying(255),
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1735,17 +1738,17 @@ END IF;
 
 INSERT INTO registro_establecimiento_autoridades_version(
 
-  id ,
-  establecimiento_id ,
-  apellido ,
-  nombre ,
-  fecha_nacimiento ,
-  cargo_id ,
-  tipo_documento_id ,
-  documento ,
-  telefono ,
-  celular ,
-  email ,
+  id,
+  establecimiento_id,
+  apellido,
+  nombre,
+  fecha_nacimiento,
+  cargo_id,
+  tipo_documento_id,
+  documento,
+  telefono,
+  celular,
+  email,
 
   last_user_id,
   created_at,
@@ -1801,17 +1804,17 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimiento_autoridades_version(
 
-  id ,
-  establecimiento_id ,
-  apellido ,
-  nombre ,
-  fecha_nacimiento ,
-  cargo_id ,
-  tipo_documento_id ,
-  documento ,
-  telefono ,
-  celular ,
-  email ,
+  id,
+  establecimiento_id,
+  apellido,
+  nombre,
+  fecha_nacimiento,
+  cargo_id,
+  tipo_documento_id,
+  documento,
+  telefono,
+  celular,
+  email,
 
   last_user_id,
   created_at,
@@ -1849,7 +1852,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimiento_autoridades;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimiento_autoridades
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimiento_autoridades_del();
@@ -1859,13 +1862,13 @@ DROP TABLE IF EXISTS registro_establecimiento_conexion_internet_version;
 CREATE TABLE registro_establecimiento_conexion_internet_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  tipo_conexion_id integer NOT NULL ,
-  proveedor character varying(30) NOT NULL ,
-  tiene_conexion boolean NOT NULL ,
-  costo numeric(122) NOT NULL ,
-  cantidad integer NOT NULL ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  tipo_conexion_id integer NOT NULL,
+  proveedor character varying(30) NOT NULL,
+  tiene_conexion boolean NOT NULL,
+  costo numeric(122) NOT NULL,
+  cantidad integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -1897,13 +1900,13 @@ END IF;
 
 INSERT INTO registro_establecimiento_conexion_internet_version(
 
-  id ,
-  establecimiento_id ,
-  tipo_conexion_id ,
-  proveedor ,
-  tiene_conexion ,
-  costo ,
-  cantidad ,
+  id,
+  establecimiento_id,
+  tipo_conexion_id,
+  proveedor,
+  tiene_conexion,
+  costo,
+  cantidad,
 
   last_user_id,
   created_at,
@@ -1955,13 +1958,13 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimiento_conexion_internet_version(
 
-  id ,
-  establecimiento_id ,
-  tipo_conexion_id ,
-  proveedor ,
-  tiene_conexion ,
-  costo ,
-  cantidad ,
+  id,
+  establecimiento_id,
+  tipo_conexion_id,
+  proveedor,
+  tiene_conexion,
+  costo,
+  cantidad,
 
   last_user_id,
   created_at,
@@ -1995,7 +1998,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimiento_conexion_internet;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimiento_conexion_internet
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimiento_conexion_internet_del();
@@ -2005,14 +2008,14 @@ DROP TABLE IF EXISTS registro_establecimiento_domicilio_version;
 CREATE TABLE registro_establecimiento_domicilio_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  tipo_domicilio_id integer NOT NULL ,
-  localidad_id integer NOT NULL ,
-  calle character varying(100) NOT NULL ,
-  altura character varying(5) NOT NULL ,
-  referencia character varying(255) ,
-  cp character varying(20) NOT NULL ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  tipo_domicilio_id integer NOT NULL,
+  localidad_id integer NOT NULL,
+  calle character varying(100) NOT NULL,
+  altura character varying(5) NOT NULL,
+  referencia character varying(255),
+  cp character varying(20) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2044,14 +2047,14 @@ END IF;
 
 INSERT INTO registro_establecimiento_domicilio_version(
 
-  id ,
-  establecimiento_id ,
-  tipo_domicilio_id ,
-  localidad_id ,
-  calle ,
-  altura ,
-  referencia ,
-  cp ,
+  id,
+  establecimiento_id,
+  tipo_domicilio_id,
+  localidad_id,
+  calle,
+  altura,
+  referencia,
+  cp,
 
   last_user_id,
   created_at,
@@ -2104,14 +2107,14 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimiento_domicilio_version(
 
-  id ,
-  establecimiento_id ,
-  tipo_domicilio_id ,
-  localidad_id ,
-  calle ,
-  altura ,
-  referencia ,
-  cp ,
+  id,
+  establecimiento_id,
+  tipo_domicilio_id,
+  localidad_id,
+  calle,
+  altura,
+  referencia,
+  cp,
 
   last_user_id,
   created_at,
@@ -2146,7 +2149,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimiento_domicilio;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimiento_domicilio
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimiento_domicilio_del();
@@ -2156,16 +2159,16 @@ DROP TABLE IF EXISTS registro_establecimiento_edificio_compartido_niveles_versio
 CREATE TABLE registro_establecimiento_edificio_compartido_niveles_version
 (
 
-  id integer NOT NULL ,
-  establecimientoinformacionedilicia_id integer NOT NULL ,
-  nivel_id integer NOT NULL ,
+  id integer NOT NULL,
+  establecimientoinformacionedilicia_id integer NOT NULL,
+  nivel_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
   updated_at timestamp without time zone,
   "version" bigint NOT NULL,
   deleted boolean,
-  CONSTRAINT registro_establecimiento_edificio_compartido_niveles_version_pkey PRIMARY KEY (id, "version")
+  CONSTRAINT registro_establecimiento_ed_compartido_niveles_vs_pkey PRIMARY KEY (id, "version")
 )
 WITH (
   OIDS=FALSE
@@ -2190,9 +2193,9 @@ END IF;
 
 INSERT INTO registro_establecimiento_edificio_compartido_niveles_version(
 
-  id ,
-  establecimientoinformacionedilicia_id ,
-  nivel_id ,
+  id,
+  establecimientoinformacionedilicia_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -2228,7 +2231,7 @@ FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimiento_edificio_compartido_niveles();
 
 
-CREATE OR REPLACE FUNCTION auditar_registro_establecimiento_edificio_compartido_niveles_del()
+CREATE OR REPLACE FUNCTION auditar_registro_establecimiento_ed_compartido_niveles_del()
 RETURNS "trigger" AS $$
 DECLARE
     vers int;
@@ -2240,9 +2243,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimiento_edificio_compartido_niveles_version(
 
-  id ,
-  establecimientoinformacionedilicia_id ,
-  nivel_id ,
+  id,
+  establecimientoinformacionedilicia_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -2272,20 +2275,20 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimiento_edificio_compartido_niveles;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimiento_edificio_compartido_niveles
 FOR EACH ROW
-EXECUTE PROCEDURE auditar_registro_establecimiento_edificio_compartido_niveles_del();
+EXECUTE PROCEDURE auditar_registro_establecimiento_ed_compartido_niveles_del();
 
 
 DROP TABLE IF EXISTS registro_establecimiento_informacion_edilicia_version;
 CREATE TABLE registro_establecimiento_informacion_edilicia_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  tipo_dominio_id integer ,
-  tipo_compartido_id integer ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  tipo_dominio_id integer,
+  tipo_compartido_id integer,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2317,10 +2320,10 @@ END IF;
 
 INSERT INTO registro_establecimiento_informacion_edilicia_version(
 
-  id ,
-  establecimiento_id ,
-  tipo_dominio_id ,
-  tipo_compartido_id ,
+  id,
+  establecimiento_id,
+  tipo_dominio_id,
+  tipo_compartido_id,
 
   last_user_id,
   created_at,
@@ -2369,10 +2372,10 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimiento_informacion_edilicia_version(
 
-  id ,
-  establecimiento_id ,
-  tipo_dominio_id ,
-  tipo_compartido_id ,
+  id,
+  establecimiento_id,
+  tipo_dominio_id,
+  tipo_compartido_id,
 
   last_user_id,
   created_at,
@@ -2403,7 +2406,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimiento_informacion_edilicia;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimiento_informacion_edilicia
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimiento_informacion_edilicia_del();
@@ -2413,9 +2416,9 @@ DROP TABLE IF EXISTS registro_establecimientos_funciones_version;
 CREATE TABLE registro_establecimientos_funciones_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  funcion_id integer NOT NULL ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  funcion_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2447,9 +2450,9 @@ END IF;
 
 INSERT INTO registro_establecimientos_funciones_version(
 
-  id ,
-  establecimiento_id ,
-  funcion_id ,
+  id,
+  establecimiento_id,
+  funcion_id,
 
   last_user_id,
   created_at,
@@ -2497,9 +2500,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimientos_funciones_version(
 
-  id ,
-  establecimiento_id ,
-  funcion_id ,
+  id,
+  establecimiento_id,
+  funcion_id,
 
   last_user_id,
   created_at,
@@ -2529,7 +2532,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimientos_funciones;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimientos_funciones
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimientos_funciones_del();
@@ -2539,9 +2542,9 @@ DROP TABLE IF EXISTS registro_establecimientos_niveles_version;
 CREATE TABLE registro_establecimientos_niveles_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  nivel_id integer NOT NULL ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  nivel_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2573,9 +2576,9 @@ END IF;
 
 INSERT INTO registro_establecimientos_niveles_version(
 
-  id ,
-  establecimiento_id ,
-  nivel_id ,
+  id,
+  establecimiento_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -2623,9 +2626,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimientos_niveles_version(
 
-  id ,
-  establecimiento_id ,
-  nivel_id ,
+  id,
+  establecimiento_id,
+  nivel_id,
 
   last_user_id,
   created_at,
@@ -2655,7 +2658,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimientos_niveles;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimientos_niveles
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimientos_niveles_del();
@@ -2665,9 +2668,9 @@ DROP TABLE IF EXISTS registro_establecimientos_turnos_version;
 CREATE TABLE registro_establecimientos_turnos_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  turno_id integer NOT NULL ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  turno_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2699,9 +2702,9 @@ END IF;
 
 INSERT INTO registro_establecimientos_turnos_version(
 
-  id ,
-  establecimiento_id ,
-  turno_id ,
+  id,
+  establecimiento_id,
+  turno_id,
 
   last_user_id,
   created_at,
@@ -2749,9 +2752,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_establecimientos_turnos_version(
 
-  id ,
-  establecimiento_id ,
-  turno_id ,
+  id,
+  establecimiento_id,
+  turno_id,
 
   last_user_id,
   created_at,
@@ -2781,7 +2784,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_establecimientos_turnos;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_establecimientos_turnos
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_establecimientos_turnos_del();
@@ -2791,8 +2794,8 @@ DROP TABLE IF EXISTS registro_estado_anexo_version;
 CREATE TABLE registro_estado_anexo_version
 (
 
-  id integer NOT NULL ,
-  nombre character varying(50) NOT NULL ,
+  id integer NOT NULL,
+  nombre character varying(50) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2824,8 +2827,8 @@ END IF;
 
 INSERT INTO registro_estado_anexo_version(
 
-  id ,
-  nombre ,
+  id,
+  nombre,
 
   last_user_id,
   created_at,
@@ -2872,8 +2875,8 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_estado_anexo_version(
 
-  id ,
-  nombre ,
+  id,
+  nombre,
 
   last_user_id,
   created_at,
@@ -2902,7 +2905,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_estado_anexo;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_estado_anexo
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_estado_anexo_del();
@@ -2912,8 +2915,8 @@ DROP TABLE IF EXISTS registro_estado_establecimiento_version;
 CREATE TABLE registro_estado_establecimiento_version
 (
 
-  id integer NOT NULL ,
-  nombre character varying(50) NOT NULL ,
+  id integer NOT NULL,
+  nombre character varying(50) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -2945,8 +2948,8 @@ END IF;
 
 INSERT INTO registro_estado_establecimiento_version(
 
-  id ,
-  nombre ,
+  id,
+  nombre,
 
   last_user_id,
   created_at,
@@ -2993,8 +2996,8 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_estado_establecimiento_version(
 
-  id ,
-  nombre ,
+  id,
+  nombre,
 
   last_user_id,
   created_at,
@@ -3023,7 +3026,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_estado_establecimiento;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_estado_establecimiento
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_estado_establecimiento_del();
@@ -3033,8 +3036,8 @@ DROP TABLE IF EXISTS registro_estado_extension_aulica_version;
 CREATE TABLE registro_estado_extension_aulica_version
 (
 
-  id integer NOT NULL ,
-  nombre character varying(50) NOT NULL ,
+  id integer NOT NULL,
+  nombre character varying(50) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3066,8 +3069,8 @@ END IF;
 
 INSERT INTO registro_estado_extension_aulica_version(
 
-  id ,
-  nombre ,
+  id,
+  nombre,
 
   last_user_id,
   created_at,
@@ -3114,8 +3117,8 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_estado_extension_aulica_version(
 
-  id ,
-  nombre ,
+  id,
+  nombre,
 
   last_user_id,
   created_at,
@@ -3144,7 +3147,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_estado_extension_aulica;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_estado_extension_aulica
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_estado_extension_aulica_del();
@@ -3154,19 +3157,19 @@ DROP TABLE IF EXISTS registro_extension_aulica_version;
 CREATE TABLE registro_extension_aulica_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  nombre character varying(255) NOT NULL ,
-  observaciones character varying(255) NOT NULL ,
-  tipo_normativa_id integer NOT NULL ,
-  fecha_alta date ,
-  normativa character varying(100) NOT NULL ,
-  anio_creacion integer ,
-  sitio_web character varying(255) ,
-  telefono character varying(100) ,
-  email character varying(255) ,
-  estado_id integer NOT NULL ,
-  old_id integer ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  nombre character varying(255) NOT NULL,
+  observaciones character varying(255) NOT NULL,
+  tipo_normativa_id integer NOT NULL,
+  fecha_alta date,
+  normativa character varying(100) NOT NULL,
+  anio_creacion integer,
+  sitio_web character varying(255),
+  telefono character varying(100),
+  email character varying(255),
+  estado_id integer NOT NULL,
+  old_id integer,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3198,19 +3201,19 @@ END IF;
 
 INSERT INTO registro_extension_aulica_version(
 
-  id ,
-  establecimiento_id ,
-  nombre ,
-  observaciones ,
-  tipo_normativa_id ,
-  fecha_alta ,
-  normativa ,
-  anio_creacion ,
-  sitio_web ,
-  telefono ,
-  email ,
-  estado_id ,
-  old_id ,
+  id,
+  establecimiento_id,
+  nombre,
+  observaciones,
+  tipo_normativa_id,
+  fecha_alta,
+  normativa,
+  anio_creacion,
+  sitio_web,
+  telefono,
+  email,
+  estado_id,
+  old_id,
 
   last_user_id,
   created_at,
@@ -3268,19 +3271,19 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_extension_aulica_version(
 
-  id ,
-  establecimiento_id ,
-  nombre ,
-  observaciones ,
-  tipo_normativa_id ,
-  fecha_alta ,
-  normativa ,
-  anio_creacion ,
-  sitio_web ,
-  telefono ,
-  email ,
-  estado_id ,
-  old_id ,
+  id,
+  establecimiento_id,
+  nombre,
+  observaciones,
+  tipo_normativa_id,
+  fecha_alta,
+  normativa,
+  anio_creacion,
+  sitio_web,
+  telefono,
+  email,
+  estado_id,
+  old_id,
 
   last_user_id,
   created_at,
@@ -3320,7 +3323,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_extension_aulica;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_extension_aulica
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_extension_aulica_del();
@@ -3330,14 +3333,14 @@ DROP TABLE IF EXISTS registro_extension_aulica_domicilio_version;
 CREATE TABLE registro_extension_aulica_domicilio_version
 (
 
-  id integer NOT NULL ,
-  extension_aulica_id integer NOT NULL ,
-  tipo_domicilio_id integer NOT NULL ,
-  localidad_id integer NOT NULL ,
-  calle character varying(100) NOT NULL ,
-  altura character varying(5) NOT NULL ,
-  referencia character varying(255) ,
-  cp character varying(20) NOT NULL ,
+  id integer NOT NULL,
+  extension_aulica_id integer NOT NULL,
+  tipo_domicilio_id integer NOT NULL,
+  localidad_id integer NOT NULL,
+  calle character varying(100) NOT NULL,
+  altura character varying(5) NOT NULL,
+  referencia character varying(255),
+  cp character varying(20) NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3369,14 +3372,14 @@ END IF;
 
 INSERT INTO registro_extension_aulica_domicilio_version(
 
-  id ,
-  extension_aulica_id ,
-  tipo_domicilio_id ,
-  localidad_id ,
-  calle ,
-  altura ,
-  referencia ,
-  cp ,
+  id,
+  extension_aulica_id,
+  tipo_domicilio_id,
+  localidad_id,
+  calle,
+  altura,
+  referencia,
+  cp,
 
   last_user_id,
   created_at,
@@ -3429,14 +3432,14 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_extension_aulica_domicilio_version(
 
-  id ,
-  extension_aulica_id ,
-  tipo_domicilio_id ,
-  localidad_id ,
-  calle ,
-  altura ,
-  referencia ,
-  cp ,
+  id,
+  extension_aulica_id,
+  tipo_domicilio_id,
+  localidad_id,
+  calle,
+  altura,
+  referencia,
+  cp,
 
   last_user_id,
   created_at,
@@ -3471,7 +3474,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_extension_aulica_domicilio;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_extension_aulica_domicilio
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_extension_aulica_domicilio_del();
@@ -3481,10 +3484,10 @@ DROP TABLE IF EXISTS registro_extension_aulica_estados_version;
 CREATE TABLE registro_extension_aulica_estados_version
 (
 
-  id integer NOT NULL ,
-  extension_aulica_id integer NOT NULL ,
-  estado_id integer NOT NULL ,
-  fecha date NOT NULL ,
+  id integer NOT NULL,
+  extension_aulica_id integer NOT NULL,
+  estado_id integer NOT NULL,
+  fecha date NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3516,10 +3519,10 @@ END IF;
 
 INSERT INTO registro_extension_aulica_estados_version(
 
-  id ,
-  extension_aulica_id ,
-  estado_id ,
-  fecha ,
+  id,
+  extension_aulica_id,
+  estado_id,
+  fecha,
 
   last_user_id,
   created_at,
@@ -3568,10 +3571,10 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_extension_aulica_estados_version(
 
-  id ,
-  extension_aulica_id ,
-  estado_id ,
-  fecha ,
+  id,
+  extension_aulica_id,
+  estado_id,
+  fecha,
 
   last_user_id,
   created_at,
@@ -3602,7 +3605,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_extension_aulica_estados;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_extension_aulica_estados
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_extension_aulica_estados_del();
@@ -3612,9 +3615,9 @@ DROP TABLE IF EXISTS registro_extensiones_aulicas_turnos_version;
 CREATE TABLE registro_extensiones_aulicas_turnos_version
 (
 
-  id integer NOT NULL ,
-  extensionaulica_id integer NOT NULL ,
-  turno_id integer NOT NULL ,
+  id integer NOT NULL,
+  extensionaulica_id integer NOT NULL,
+  turno_id integer NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3646,9 +3649,9 @@ END IF;
 
 INSERT INTO registro_extensiones_aulicas_turnos_version(
 
-  id ,
-  extensionaulica_id ,
-  turno_id ,
+  id,
+  extensionaulica_id,
+  turno_id,
 
   last_user_id,
   created_at,
@@ -3696,9 +3699,9 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_extensiones_aulicas_turnos_version(
 
-  id ,
-  extensionaulica_id ,
-  turno_id ,
+  id,
+  extensionaulica_id,
+  turno_id,
 
   last_user_id,
   created_at,
@@ -3728,7 +3731,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_extensiones_aulicas_turnos;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_extensiones_aulicas_turnos
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_extensiones_aulicas_turnos_del();
@@ -3738,11 +3741,11 @@ DROP TABLE IF EXISTS registro_registro_establecimiento_version;
 CREATE TABLE registro_registro_establecimiento_version
 (
 
-  id integer NOT NULL ,
-  establecimiento_id integer NOT NULL ,
-  estado_id integer NOT NULL ,
-  fecha date NOT NULL ,
-  observaciones text ,
+  id integer NOT NULL,
+  establecimiento_id integer NOT NULL,
+  estado_id integer NOT NULL,
+  fecha date NOT NULL,
+  observaciones text,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3774,11 +3777,11 @@ END IF;
 
 INSERT INTO registro_registro_establecimiento_version(
 
-  id ,
-  establecimiento_id ,
-  estado_id ,
-  fecha ,
-  observaciones ,
+  id,
+  establecimiento_id,
+  estado_id,
+  fecha,
+  observaciones,
 
   last_user_id,
   created_at,
@@ -3828,11 +3831,11 @@ WHERE id = OLD.id;
 
 INSERT INTO registro_registro_establecimiento_version(
 
-  id ,
-  establecimiento_id ,
-  estado_id ,
-  fecha ,
-  observaciones ,
+  id,
+  establecimiento_id,
+  estado_id,
+  fecha,
+  observaciones,
 
   last_user_id,
   created_at,
@@ -3864,7 +3867,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON registro_registro_establecimiento;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON registro_registro_establecimiento
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_registro_registro_establecimiento_del();
@@ -3874,10 +3877,10 @@ DROP TABLE IF EXISTS seguridad_bloqueo_log_version;
 CREATE TABLE seguridad_bloqueo_log_version
 (
 
-  id integer NOT NULL ,
-  usuario_id integer NOT NULL ,
-  motivo_id integer NOT NULL ,
-  fecha date NOT NULL ,
+  id integer NOT NULL,
+  usuario_id integer NOT NULL,
+  motivo_id integer NOT NULL,
+  fecha date NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -3909,10 +3912,10 @@ END IF;
 
 INSERT INTO seguridad_bloqueo_log_version(
 
-  id ,
-  usuario_id ,
-  motivo_id ,
-  fecha ,
+  id,
+  usuario_id,
+  motivo_id,
+  fecha,
 
   last_user_id,
   created_at,
@@ -3961,10 +3964,10 @@ WHERE id = OLD.id;
 
 INSERT INTO seguridad_bloqueo_log_version(
 
-  id ,
-  usuario_id ,
-  motivo_id ,
-  fecha ,
+  id,
+  usuario_id,
+  motivo_id,
+  fecha,
 
   last_user_id,
   created_at,
@@ -3995,7 +3998,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON seguridad_bloqueo_log;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON seguridad_bloqueo_log
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_seguridad_bloqueo_log_del();
@@ -4005,12 +4008,12 @@ DROP TABLE IF EXISTS seguridad_perfil_version;
 CREATE TABLE seguridad_perfil_version
 (
 
-  id integer NOT NULL ,
-  usuario_id integer NOT NULL ,
-  ambito_id integer NOT NULL ,
-  rol_id integer NOT NULL ,
-  fecha_asignacion date NOT NULL ,
-  fecha_desasignacion date ,
+  id integer NOT NULL,
+  usuario_id integer NOT NULL,
+  ambito_id integer NOT NULL,
+  rol_id integer NOT NULL,
+  fecha_asignacion date NOT NULL,
+  fecha_desasignacion date,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -4042,12 +4045,12 @@ END IF;
 
 INSERT INTO seguridad_perfil_version(
 
-  id ,
-  usuario_id ,
-  ambito_id ,
-  rol_id ,
-  fecha_asignacion ,
-  fecha_desasignacion ,
+  id,
+  usuario_id,
+  ambito_id,
+  rol_id,
+  fecha_asignacion,
+  fecha_desasignacion,
 
   last_user_id,
   created_at,
@@ -4098,12 +4101,12 @@ WHERE id = OLD.id;
 
 INSERT INTO seguridad_perfil_version(
 
-  id ,
-  usuario_id ,
-  ambito_id ,
-  rol_id ,
-  fecha_asignacion ,
-  fecha_desasignacion ,
+  id,
+  usuario_id,
+  ambito_id,
+  rol_id,
+  fecha_asignacion,
+  fecha_desasignacion,
 
   last_user_id,
   created_at,
@@ -4136,7 +4139,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON seguridad_perfil;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON seguridad_perfil
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_seguridad_perfil_del();
@@ -4146,15 +4149,15 @@ DROP TABLE IF EXISTS seguridad_usuario_version;
 CREATE TABLE seguridad_usuario_version
 (
 
-  id integer NOT NULL ,
-  tipo_documento_id integer NOT NULL ,
-  documento character varying(20) NOT NULL ,
-  apellido character varying(40) NOT NULL ,
-  nombre character varying(40) NOT NULL ,
-  email character varying(255) NOT NULL ,
-  password character varying(255) ,
-  last_login integer ,
-  is_active boolean NOT NULL ,
+  id integer NOT NULL,
+  tipo_documento_id integer NOT NULL,
+  documento character varying(20) NOT NULL,
+  apellido character varying(40) NOT NULL,
+  nombre character varying(40) NOT NULL,
+  email character varying(255) NOT NULL,
+  password character varying(255),
+  last_login integer,
+  is_active boolean NOT NULL,
 
   last_user_id integer,
   created_at timestamp without time zone,
@@ -4186,15 +4189,15 @@ END IF;
 
 INSERT INTO seguridad_usuario_version(
 
-  id ,
-  tipo_documento_id ,
-  documento ,
-  apellido ,
-  nombre ,
-  email ,
-  password ,
-  last_login ,
-  is_active ,
+  id,
+  tipo_documento_id,
+  documento,
+  apellido,
+  nombre,
+  email,
+  password,
+  last_login,
+  is_active,
 
   last_user_id,
   created_at,
@@ -4248,15 +4251,15 @@ WHERE id = OLD.id;
 
 INSERT INTO seguridad_usuario_version(
 
-  id ,
-  tipo_documento_id ,
-  documento ,
-  apellido ,
-  nombre ,
-  email ,
-  password ,
-  last_login ,
-  is_active ,
+  id,
+  tipo_documento_id,
+  documento,
+  apellido,
+  nombre,
+  email,
+  password,
+  last_login,
+  is_active,
 
   last_user_id,
   created_at,
@@ -4292,7 +4295,7 @@ $$ LANGUAGE 'plpgsql';
 DROP TRIGGER IF EXISTS auditar_del ON seguridad_usuario;
 
 CREATE TRIGGER auditar_del
-BEFORE DELETE
+AFTER DELETE
 ON seguridad_usuario
 FOR EACH ROW
 EXECUTE PROCEDURE auditar_seguridad_usuario_del();
