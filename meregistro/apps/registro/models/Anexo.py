@@ -15,7 +15,7 @@ class Anexo(models.Model):
     NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Otra']
     
     establecimiento = models.ForeignKey(Establecimiento)
-    cue = models.CharField(max_length=9)
+    cue = models.CharField(max_length=9, unique=True)
     fecha_alta = models.DateField(null=True, blank=True)
     nombre = models.CharField(max_length=255)
     anio_creacion = models.IntegerField(null=True, blank=True)

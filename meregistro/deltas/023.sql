@@ -21,6 +21,12 @@ INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 ALTER TABLE registro_anexo ALTER COLUMN cue TYPE VARCHAR(9);
 ALTER TABLE registro_anexo_version ALTER COLUMN cue TYPE VARCHAR(9);
 
+CREATE UNIQUE INDEX registro_anexo_cue_idx
+  ON registro_anexo
+  USING btree
+  (cue);
+
+
 ALTER TABLE registro_anexo ADD COLUMN anio_creacion INTEGER;
 ALTER TABLE registro_anexo_version ADD COLUMN anio_creacion INTEGER;
 
