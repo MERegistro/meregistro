@@ -338,6 +338,34 @@ div#establecimientoForm form input#id_cue {
 	border-left: none;
 	border-right: none;
 }
+/* anexoForm */
+div#anexoForm form input#id_codigo_jurisdiccion,
+div#anexoForm form input#id_cue,
+div#anexoForm form input#id_codigo_tipo_unidad_educativa {
+	display: inline;
+	text-align: center;
+	font-weight: bold;
+	border: 2px #666 solid;
+}	
+div#anexoForm form input#id_codigo_jurisdiccion,
+div#anexoForm form input#id_cue {
+	background: #ccc;
+}
+div#anexoForm form input#id_codigo_jurisdiccion {
+	width: 1.8em;
+}
+div#anexoForm form input#id_cue {
+	border-left: none;
+	width: 4em;
+}
+div#anexoForm form input#id_codigo_tipo_unidad_educativa {
+	border-left: none;
+	width: 1.8em;
+}
+div#anexoForm form select#id_norma_creacion {
+	width: 100px;	
+}
+
 /*
 =TABLE
 */

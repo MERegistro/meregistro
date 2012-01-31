@@ -34,6 +34,7 @@ class Establecimiento(models.Model):
     fax = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
+    solicitud_filename = models.CharField(max_length=100, null=True, blank=True, editable=False)
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     turnos = models.ManyToManyField(Turno, blank=True, null=True, db_table='registro_establecimientos_turnos')
     niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_establecimientos_niveles')
