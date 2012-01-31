@@ -32,7 +32,7 @@ class AnexoForm(forms.ModelForm):
             intval = int(codigo)
         except ValueError:
             raise ValidationError('Por favor ingrese sólo números positivos')
-        if int(codigo) < 0:
+        if int(codigo) < 1:
             raise ValidationError('Por favor ingrese sólo números positivos') 
         if len(codigo) != 2:
             raise ValidationError('El Código debe tener 2 dígitos')
@@ -56,6 +56,7 @@ class AnexoForm(forms.ModelForm):
             if norma_creacion == 'Otra' and norma_creacion_otra == '':
                 raise ValidationError('Por favor escriba la norma de creación')
         except KeyError:
+            norma_creacion_otra = ''
             pass
         return norma_creacion_otra
 
