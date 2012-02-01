@@ -16,7 +16,7 @@ class Anexo(models.Model):
     
     establecimiento = models.ForeignKey(Establecimiento)
     cue = models.CharField(max_length=9, unique=True)
-    fecha_alta = models.DateField(null=True, blank=True)
+    fecha_alta = models.DateField(null=True, blank=True, editable=False)
     nombre = models.CharField(max_length=255)
     anio_creacion = models.IntegerField(null=True, blank=True)
     norma_creacion = models.CharField(max_length=100)

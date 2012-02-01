@@ -38,7 +38,7 @@ def __pertenece_al_establecimiento(request, anexo):
 
 def __anexo_dentro_del_ambito(request, anexo):
     """
-    El anexo pertenece al establecimiento?
+    El anexo está dentro del ámbito?
     """
     try:
         anexo = Anexo.objects.get(id=anexo.id, ambito__path__istartswith=request.get_perfil().ambito.path)
@@ -172,11 +172,13 @@ def edit(request, anexo_id):
 @credential_required('reg_anexo_baja')
 def delete(request, anexo_id):
     anexo = Anexo.objects.get(pk=anexo_id)
-    if anexo.is_deletable():
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no está en el ámbito del usuario.')
+    elif not anexo.is_deletable():
+       request.set_flash('warning', 'El anexo no se puede eliminar.')
+    else:
         anexo.delete()
         request.set_flash('success', 'Registro eliminado correctamente.')
-    else:
-        request.set_flash('warning', 'El anexo no se puede eliminar.')
     return HttpResponseRedirect(reverse('anexo'))
 
 @login_required
