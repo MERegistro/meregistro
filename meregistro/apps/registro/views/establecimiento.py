@@ -182,7 +182,7 @@ def delete(request, establecimiento_id):
         request.set_flash('warning', 'El establecimiento no se puede eliminar.')
     else:
         establecimiento.delete()
-        MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_DELETE, establecimiento)
+        #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_DELETE, establecimiento)
         request.set_flash('success', 'Registro eliminado correctamente.')
     return HttpResponseRedirect(reverse('establecimiento'))
 

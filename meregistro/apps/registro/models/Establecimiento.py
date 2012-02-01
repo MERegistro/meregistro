@@ -82,8 +82,12 @@ class Establecimiento(models.Model):
         models.Model.save(self)
 
     def delete(self):
-        estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.BAJA)
-        self.registrar_estado(estado)
+        if self.getEstadoActual() == EstadoEstablecimiento.PENDIENTE:
+            RegistroEstablecimiento.objects.filter(establecimiento=self).delete()
+            models.Model.delete(self)
+        else:
+            estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.BAJA)
+            self.registrar_estado(estado)
 
     def updateAmbito(self):
         if self.pk is None or self.ambito is None:

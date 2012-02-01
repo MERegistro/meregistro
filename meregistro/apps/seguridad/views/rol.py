@@ -99,11 +99,10 @@ def edit(request, rol_id):
     })
 
 
-@credential_required('reg_rol_registrar')
+@credential_required('seg_rol_registrar')
 def delete(request, rol_id):
     rol = Rol.objects.get(pk=rol_id)
-
-    if rol.perfil.count() > 0:
+    if rol.perfil_set.count() > 0:
         request.set_flash('warning', 'No se puede eliminar la dependencia funcional porque tiene establecimientos asociados.')
     else:
         rol.delete()
