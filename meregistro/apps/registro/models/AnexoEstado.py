@@ -5,7 +5,7 @@ from apps.registro.models.EstadoAnexo import EstadoAnexo
 
 
 class AnexoEstado(models.Model):
-    anexo = models.ForeignKey(Anexo)
+    anexo = models.ForeignKey(Anexo, related_name='estados')
     estado = models.ForeignKey(EstadoAnexo)
     fecha = models.DateField()
 

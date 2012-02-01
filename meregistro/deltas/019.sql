@@ -1,6 +1,7 @@
 BEGIN;
 
-CREATE LANGUAGE plpgsql;
+-- Da error
+-- CREATE LANGUAGE plpgsql;
 
 ALTER TABLE registro_anexo ADD COLUMN last_user_id integer;
 ALTER TABLE registro_anexo ADD COLUMN created_at timestamp without time zone;
@@ -1500,7 +1501,6 @@ CREATE TABLE registro_establecimiento_version
   telefono character varying(100),
   email character varying(255),
   sitio_web character varying(255),
-  solicitud_filename character varying(100),
   ambito_id integer,
   estado_id integer,
   old_id integer,
@@ -1551,7 +1551,6 @@ INSERT INTO registro_establecimiento_version(
   telefono,
   email,
   sitio_web,
-  solicitud_filename,
   ambito_id,
   estado_id,
   old_id,
@@ -1580,7 +1579,6 @@ NEW.anio_creacion,
 NEW.telefono,
 NEW.email,
 NEW.sitio_web,
-NEW.solicitud_filename,
 NEW.ambito_id,
 NEW.estado_id,
 NEW.old_id,

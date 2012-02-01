@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^anexo/([0-9]+)/edit', 'apps.registro.views.anexo.edit', name='anexoEdit'),
     url(r'^anexo/create', 'apps.registro.views.anexo.create', name='anexoCreate'),
     url(r'^anexo/([0-9]+)/baja', 'apps.registro.views.anexo.baja', name='anexoBaja'),
+    url(r'^anexo/([0-9]+)/delete', 'apps.registro.views.anexo.delete', name='anexoDelete'),
     url(r'^anexo/completar_datos_basicos/', 'apps.registro.views.anexo.completar_datos_basicos', name='anexoCompletarDatosBasicos'),
     url(r'^anexo/completar_turnos/', 'apps.registro.views.anexo.completar_turnos', name='anexoCompletarTurnos'),
     url(r'^anexo/completar_domicilio/', 'apps.registro.views.anexo.completar_domicilio', name='anexoCompletarDomicilio'),
@@ -53,4 +54,5 @@ urlpatterns = patterns('',
     # AJAX
     url(r'^ajax/get_localidades_por_departamento/(?P<departamento_id>[0-9]+)', 'apps.registro.views.ajax.get_localidades_por_departamento', name='ajaxGetLocalidadesPorTipo'),
     url(r'^ajax/get_departamentos_por_jurisdiccion/(?P<jurisdiccion_id>[0-9]+)', 'apps.registro.views.ajax.get_departamentos_por_jurisdiccion', name='ajaxGetDepartamentosPorJurisdiccion'),
+    url(r'^ajax/get_cue_parts_from_sede/(?P<sede_id>[0-9]+)', 'apps.registro.views.ajax.get_cue_parts_from_sede', name='ajaxGetCuePartsFromSede'),
    )

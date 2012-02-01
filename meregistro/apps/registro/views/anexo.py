@@ -36,6 +36,15 @@ def __pertenece_al_establecimiento(request, anexo):
     """
     return anexo.establecimiento.ambito.path == request.get_perfil().ambito.path
 
+def __anexo_dentro_del_ambito(request, anexo):
+    """
+    El anexo pertenece al establecimiento?
+    """
+    try:
+        anexo = Anexo.objects.get(id=anexo.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except anexo.DoesNotExist:
+        return False
+    return True
 
 @login_required
 @credential_required('reg_anexo_consulta')
@@ -101,40 +110,28 @@ def create(request):
     """
     if request.method == 'POST':
         form = AnexoForm(request.POST)
-        domicilio_form = AnexoDomicilioForm(request.POST)
-        if form.is_valid() and domicilio_form.is_valid():
-
+        if form.is_valid():
             anexo = form.save(commit=False)
-            estado = EstadoAnexo.objects.get(nombre=EstadoAnexo.VIGENTE)
+            estado = EstadoAnexo.objects.get(nombre=EstadoAnexo.PENDIENTE)
             anexo.estado = estado
+            anexo.fecha_alta = datetime.date.today()
             anexo.save()
             anexo.registrar_estado()
-
-            domicilio = domicilio_form.save(commit=False)
-            domicilio.anexo = anexo
-            domicilio.save()
-
-            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
 
             MailHelper.notify_by_email(MailHelper.ANEXO_CREATE, anexo)
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir al edit
-            return HttpResponseRedirect(reverse('anexoEdit', args=[anexo.id]))
+            return HttpResponseRedirect(reverse('anexo'))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = AnexoForm()
-        domicilio_form = AnexoDomicilioForm()
 
-    jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    if jurisdiccion is not None:
-        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
-
+    form.initial = {'codigo_jurisdiccion': '--', 'cue': '-----', }
     return my_render(request, 'registro/anexo/new.html', {
         'form': form,
-        'domicilio_form': domicilio_form,
         'is_new': True,
     })
 
@@ -148,37 +145,39 @@ def edit(request, anexo_id):
     anexo = Anexo.objects.get(pk=anexo_id)
     if anexo.dadoDeBaja():
         raise Exception('El anexo se encuentra dado de baja.')
-    if not __pertenece_al_establecimiento(request, anexo):
-        raise Exception('El anexo no pertenece a su establecimiento.')
-    try:
-        domicilio = AnexoDomicilio.objects.get(anexo=anexo)
-    except:
-        domicilio = AnexoDomicilio()
-        domicilio.anexo = anexo
+    elif not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no está en el ámbito del usuario.')
+    elif not anexo.is_editable():
+        raise Exception('El anexo no se puede editar.')
     if request.method == 'POST':
         form = AnexoForm(request.POST, instance=anexo)
-        domicilio_form = AnexoDomicilioForm(request.POST, instance=domicilio)
-        if form.is_valid() and domicilio_form.is_valid():
+        if form.is_valid():
             anexo = form.save()
-            domicilio = domicilio_form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoForm(instance=anexo)
-        domicilio_form = AnexoDomicilioForm(instance=domicilio)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    if jurisdiccion is not None:
-        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    codigo = Establecimiento.get_parts_from_cue(anexo.cue)['codigo_tipo_unidad_educativa']
     return my_render(request, 'registro/anexo/edit.html', {
         'form': form,
-        'domicilio_form': domicilio_form,
-        'domicilio': domicilio,
         'anexo': anexo,
+        'codigo_tipo_unidad_educativa': codigo,
     })
 
+@login_required
+@credential_required('reg_anexo_baja')
+def delete(request, anexo_id):
+    anexo = Anexo.objects.get(pk=anexo_id)
+    if anexo.is_deletable():
+        anexo.delete()
+        request.set_flash('success', 'Registro eliminado correctamente.')
+    else:
+        request.set_flash('warning', 'El anexo no se puede eliminar.')
+    return HttpResponseRedirect(reverse('anexo'))
 
 @login_required
 @credential_required('reg_anexo_baja')
