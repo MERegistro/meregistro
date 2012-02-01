@@ -150,10 +150,11 @@ class MailHelper():
     """
     @staticmethod
     def extension_aulica_create(extension_aulica):
+        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
-            'subject': u'Creación de extensión áulica',
+            'subject': u'Solicitud de registro de nueva extensión áulica',
             'message': u'Se ha creado una nueva extensión áulica',
-            'recipients': [u'user@example.com', u'admin@example.com'],
+            'recipients': recipients,
         }
 
     @staticmethod

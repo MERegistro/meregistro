@@ -1,67 +1,46 @@
-<div class="form" id="anexoForm">
+<div class="form" id="extensionAulicaForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.establecimiento.errors }}
+			<label for="id_establecimiento">Depende de la Sede del:</label>
+			{{ form.establecimiento }}
+		</div>
+		<div class="form-text">
+			{{ form.codigo_tipo_unidad_educativa.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
+			<p class="help-text">{{ form.codigo_tipo_unidad_educativa.help_text }}</p>
+		</div>
 		<div class="form-text">
 			{{ form.nombre.errors }}
 			<label for="id_nombre">Nombre:</label>
 			{{ form.nombre }}
 		</div>
-		<div class="form-textarea">
-			{{ form.observaciones.errors }}
-			<label for="observaciones">Observaciones:</label>
-			{{ form.observaciones }}
-		</div>
-		<div class="form-select">
-			{{ form.tipo_normativa.errors }}
-			<label for="id_tipo_normativa">Tipo de normativa:</label>
-			{{ form.tipo_normativa }}
-		</div>
-		<div class="form-text">
-			{{ form.normativa.errors }}
-			<label for="id_normativa">Normativa:</label>
-			{{ form.normativa }}
-		</div>
-		<div class="form-text">
-			{{ form.fecha_alta.errors }}
-			<label for="fecha_alta">Fecha de alta:</label>
-			{{ form.fecha_alta }}
-		</div>
 		<div class="form-text">
 			{{ form.anio_creacion.errors }}
-			<label for="anio_creacion">Año de creación:</label>
+			<label for="id_anio_creacion">Año de creación:</label>
 			{{ form.anio_creacion }}
 		</div>
-		<div class="form-text">
-			{{ form.telefono.errors }}
-			<label for="telefono">Teléfono:</label>
-			{{ form.telefono }}
+		<div class="form-select" style="margin-top: 20px;">
+			{{ form.norma_creacion.errors }}
+			{{ form.norma_creacion_otra.errors }}
+			<label for="id_norma_creacion">Norma de creación:</label>
+			{{ form.norma_creacion }}
+			{{ form.norma_creacion_otra }}
 		</div>
-		<div class="form-text">
-			{{ form.email.errors }}
-			<label for="email">Email:</label>
-			{{ form.email }}
+		<div class="form-text" style="margin-bottom: 20px;">
+			{{ form.norma_creacion_numero.errors }}
+			<label for="id_norma_creacion_numero">Número de norma de creación:</label>
+			{{ form.norma_creacion_numero }}
 		</div>
-		<div class="form-text">
-			{{ form.sitio_web.errors }}
-			<label for="sitio_web">Sitio web:</label>
-			{{ form.sitio_web }}
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="id_observaciones">Observaciones:</label>
+			{{ form.observaciones }}
 		</div>
-		<fieldset>
-			<legend>Turnos en los que funciona:</legend>
-			<div class="form-checkbox-list">
-				{{ form.turnos.errors }}
-				{{ form.turnos }}
-				<hr />
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend>Domicilio</legend>
-			<div>
-			{{ domicilio_form.as_p }}
-			</div>
-		</fieldset>
 		<div class="form-submit">
-		{% if anexo %}
+		{% if extension_aulica %}
 			<input type="submit" value="Actualizar" />
 		{% else %}
 			<input type="submit" value="Guardar" />
@@ -69,3 +48,49 @@
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+// Init
+$(document).ready(function(){
+	// CUE
+	codigo_jurisdiccion_input = $('input#id_codigo_jurisdiccion');
+	cue_input = $('input#id_cue');
+	codigo_input = $('input#id_codigo_tipo_unidad_educativa');
+	dropdown_sede = $('select#id_establecimiento');
+	{% if extension_aulica %}
+		var url = "/registro/ajax/get_cue_parts_from_sede/" + dropdown_sede.val();
+		$.getJSON(url, function(parts){
+			codigo_jurisdiccion_input.val(parts['codigo_jurisdiccion']);
+			cue_input.val(parts['cue']);
+		{% if extension_aulica %}
+			codigo_input.val('{{ codigo_tipo_unidad_educativa }}');
+		{% endif %}
+		});
+	{% endif %}
+	dropdown_sede.change(function(){
+		var url = "/registro/ajax/get_cue_parts_from_sede/" + $(this).val();
+		$.getJSON(url, function(parts){
+			codigo_jurisdiccion_input.val(parts['codigo_jurisdiccion']);
+			cue_input.val(parts['cue']);
+		});
+	});
+	// Norma de creación
+	dropdown_norma_creacion = $('select#id_norma_creacion');
+	norma_creacion_val = dropdown_norma_creacion.val();
+	norma_creacion_otra_input = $('input#id_norma_creacion_otra');
+	norma_creacion_otra_input.attr('disabled', true);
+	
+	if(norma_creacion_val == 'Otra'){
+		norma_creacion_otra_input.removeAttr('disabled');
+	}
+	
+	dropdown_norma_creacion.change(function(){
+		if (dropdown_norma_creacion.val() == 'Otra'){
+			norma_creacion_otra_input.removeAttr('disabled');
+		} else {
+			norma_creacion_otra_input.attr('disabled', true);
+		}
+	});
+	
+}); // END document.ready
+
+</script>

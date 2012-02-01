@@ -43,6 +43,15 @@ def __get_establecimiento_actual(request):
     except Exception:
         pass
 
+def __extension_aulica_dentro_del_ambito(request, extension_aulica):
+    """
+    La extensión áulica está dentro del ámbito?
+    """
+    try:
+        extension_aulica = ExtensionAulica.objects.get(id=extension_aulica.id, establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
+    except extension_aulica.DoesNotExist:
+        return False
+    return True
 
 @login_required
 @credential_required('reg_extension_aulica_consulta')
@@ -106,43 +115,32 @@ def create(request):
     """
     Alta de extensión áulica.
     """
-    establecimiento = __get_establecimiento_actual(request)
     if request.method == 'POST':
         form = ExtensionAulicaForm(request.POST)
-        domicilio_form = ExtensionAulicaDomicilioForm(request.POST)
-        if form.is_valid() and domicilio_form.is_valid():
+        if form.is_valid():
+            ext = form.save(commit=False)
+            estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.PENDIENTE)
+            ext.estado = estado
+            ext.fecha_alta = datetime.date.today()
+            ext.save()
+            ext.registrar_estado()
 
-            extension_aulica = form.save(commit=False)
-            estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.VIGENTE)
-            extension_aulica.estado = estado
-            extension_aulica.establecimiento = establecimiento
-            extension_aulica.save()
-            extension_aulica.registrar_estado()
-
-            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
-
-            domicilio = domicilio_form.save(commit=False)
-            domicilio.extension_aulica = extension_aulica
-            domicilio.save()
-
-            MailHelper.notify_by_email(MailHelper.EXTENSION_AULICA_CREATE, extension_aulica)
+            MailHelper.notify_by_email(MailHelper.EXTENSION_AULICA_CREATE, ext)
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('extensionAulicaEdit', args=[extension_aulica.id]))
+            return HttpResponseRedirect(reverse('extensionAulica'))
         else:
+            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = ExtensionAulicaForm()
-        domicilio_form = ExtensionAulicaDomicilioForm()
-
+        
     jurisdiccion = request.get_perfil().jurisdiccion()
-    if jurisdiccion is not None:
-        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
 
     return my_render(request, 'registro/extension_aulica/new.html', {
         'form': form,
-        'domicilio_form': domicilio_form,
         'is_new': True,
     })
 
@@ -153,38 +151,46 @@ def edit(request, extension_aulica_id):
     """
     Edición de los datos de una extensión áulica.
     """
-    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
-    domicilio = extension_aulica.domicilio.get()
-
-    if extension_aulica.dadaDeBaja():
-        raise Exception('La extensión áulica se encuentra dada de baja.')
-
-    if not __pertenece_al_establecimiento(request, extension_aulica):
-        raise Exception('La extensión áulica no pertenece a su establecimiento.')
-
+    ext = ExtensionAulica.objects.get(pk=extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, ext):
+        raise Exception('La unidad educativa no está en el ámbito del usuario.')
+    elif not ext.is_editable():
+        raise Exception('La unidad educativa no se puede editar.')
     if request.method == 'POST':
-        form = ExtensionAulicaForm(request.POST, instance=extension_aulica)
-        domicilio_form = ExtensionAulicaDomicilioForm(request.POST, instance=domicilio)
-        if form.is_valid() and domicilio_form.is_valid():
-            extension_aulica = form.save()
-            domicilio = domicilio_form.save()
+        form = ExtensionAulicaForm(request.POST, instance=ext)
+        if form.is_valid():
+            ext = form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = ExtensionAulicaForm(instance=extension_aulica)
-        domicilio_form = ExtensionAulicaDomicilioForm(instance=domicilio)
+        form = ExtensionAulicaForm(instance=ext)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
-    if jurisdiccion is not None:
-        domicilio_form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
-
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    try:
+        codigo = Establecimiento.get_parts_from_cue(ext.cue)['codigo_tipo_unidad_educativa']
+    except TypeError:
+        codigo = ''
     return my_render(request, 'registro/extension_aulica/edit.html', {
         'form': form,
-        'domicilio_form': domicilio_form,
-        'domicilio': domicilio,
-        'extension_aulica': extension_aulica,
+        'extension_aulica': ext,
+        'codigo_tipo_unidad_educativa': codigo,
     })
+
+
+@login_required
+@credential_required('reg_extension_aulica_baja')
+def delete(request, extension_aulica_id):
+    ext = ExtensionAulica.objects.get(pk=extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, ext):
+        raise Exception('La unidad educativa no está en el ámbito del usuario.')
+    elif not ext.is_deletable():
+       request.set_flash('warning', 'La unidad educativa no se puede eliminar.')
+    else:
+        ext.delete()
+        request.set_flash('success', 'Registro eliminado correctamente.')
+    return HttpResponseRedirect(reverse('extensionAulica'))
 
 
 @login_required
@@ -219,7 +225,7 @@ def baja(request, extension_aulica_id):
 
             request.set_flash('success', 'La extensión áulica fue dada de baja correctamente.')
             """ Redirecciono para evitar el reenvío del form """
-            return HttpResponseRedirect(reverse('extension_aulica'))
+            return HttpResponseRedirect(reverse('extensionAulica'))
         else:
             request.set_flash('warning', 'Ocurrió un error dando de baja la extensión áulica.')
     else:

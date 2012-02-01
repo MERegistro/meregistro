@@ -6,7 +6,7 @@ from apps.seguridad.audit import audit
 
 @audit
 class ExtensionAulicaEstado(models.Model):
-    extension_aulica = models.ForeignKey(ExtensionAulica)
+    extension_aulica = models.ForeignKey(ExtensionAulica, related_name='estados')
     estado = models.ForeignKey(EstadoExtensionAulica)
     fecha = models.DateField()
 

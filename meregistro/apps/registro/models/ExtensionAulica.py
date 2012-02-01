@@ -13,13 +13,19 @@ YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.no
 
 @audit
 class ExtensionAulica(models.Model):
-    establecimiento = models.ForeignKey(Establecimiento, editable = False)
+    NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Otra']
+    
+    establecimiento = models.ForeignKey(Establecimiento)
+    cue = models.CharField(max_length=9, unique=True)
     nombre = models.CharField(max_length = 255)
     observaciones = models.CharField(max_length = 255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
-    fecha_alta = models.DateField(null=True, blank=True)
+    fecha_alta = models.DateField(null=True, blank=True, editable=False)
     normativa = models.CharField(max_length = 100)
     anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
+    norma_creacion = models.CharField(max_length=100)
+    norma_creacion_otra = models.CharField(max_length=100)
+    norma_creacion_numero = models.CharField(max_length=100)
     sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
     telefono = models.CharField(max_length = 100, null = True, blank = True)
     email = models.EmailField(max_length = 255, null = True, blank = True)
@@ -63,3 +69,19 @@ class ExtensionAulica(models.Model):
 
     def dadaDeBaja(self):
         return self.estado.nombre == EstadoExtensionAulica.BAJA
+        
+    def is_editable(self):
+        es_pendiente = self.estado_actual.nombre == u'Pendiente'
+        return es_pendiente
+
+    def is_deletable(self):
+        cant_estados = len(self.estados.all()) is 1
+        es_pendiente = self.estado_actual.nombre == u'Pendiente'
+        return cant_estados == 1 and es_pendiente
+
+    def get_fecha_solicitud(self):
+        try:
+            fecha = self.estados.all()[0].fecha.strftime("%d/%m/%Y")
+        except IndexError:
+            return "---"
+        return fecha

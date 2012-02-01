@@ -9,13 +9,67 @@ import datetime
 
 
 currentYear = datetime.datetime.now().year
+norma_creacion_choices = [('', '-----')] + [(k, k) for k in ExtensionAulica.NORMA_CREACION_CHOICES]
 
 
 class ExtensionAulicaForm(forms.ModelForm):
-    observaciones = forms.CharField(required = False, widget = forms.Textarea)
-    fecha_alta = forms.DateField(input_formats = ['%d/%m/%Y', '%d/%m/%y'], required = False, initial = datetime.date.today)
-    turnos = forms.ModelMultipleChoiceField(queryset = Turno.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required = False)
+    codigo_jurisdiccion = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    cue = forms.CharField(max_length=5, label='CUE', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    codigo_tipo_unidad_educativa = forms.CharField(label='', required=False, help_text=u'2 dígitos, ej: 01...02', widget=forms.TextInput(attrs={'size': 2, 'maxlength': 2}))
+    anio_creacion = forms.IntegerField(label='Año de creación', required=False, widget=forms.TextInput(attrs={'size': 4, 'maxlength': 4}))
+    norma_creacion = forms.ChoiceField(label='Norma de creación', choices=norma_creacion_choices, required=True)
+    norma_creacion_otra = forms.CharField(required=False)
+    observaciones = forms.CharField(required=False, widget=forms.Textarea)
+    
 
     class Meta:
         model = ExtensionAulica
-        exclude = ('establecimiento', 'estado',)
+        exclude = ('estado', 'funciones', 'niveles', 'turnos', 'sitio_web', 'telefono', 'email', 'normativa', 'tipo_normativa')
+
+    def clean_codigo_tipo_unidad_educativa(self):
+        codigo = self.cleaned_data['codigo_tipo_unidad_educativa']
+        if codigo != '':
+            try:
+                intval = int(codigo)
+            except ValueError:
+                raise ValidationError('Por favor ingrese sólo números positivos')
+            if int(codigo) < 1:
+                raise ValidationError('Por favor ingrese sólo números positivos') 
+            if len(codigo) != 2:
+                raise ValidationError('El Código debe tener 2 dígitos')
+
+        return codigo
+
+    def clean_anio_creacion(self):
+        # Ya fue validado que se introduzcan sólo enteros
+        anio_creacion = self.cleaned_data['anio_creacion']
+        if anio_creacion is not None:
+            anio_creacion = int(anio_creacion)
+            if anio_creacion < 1000 or anio_creacion > 9999:
+                raise ValidationError('El año tiene que tener cuatro dígitos')
+        else:
+            return
+            
+    def clean_norma_creacion_otra(self):
+        try:
+            norma_creacion = self.cleaned_data['norma_creacion']
+            norma_creacion_otra = self.cleaned_data['norma_creacion_otra']
+            if norma_creacion == 'Otra' and norma_creacion_otra == '':
+                raise ValidationError('Por favor escriba la norma de creación')
+        except KeyError:
+            norma_creacion_otra = ''
+            pass
+        return norma_creacion_otra
+
+    def clean(self):
+        # Armar el CUE correctamente
+        cleaned_data = self.cleaned_data
+        try:
+            cue = str(cleaned_data['cue'])
+            codigo_jurisdiccion = cleaned_data['codigo_jurisdiccion']
+            codigo_tipo_unidad_educativa = cleaned_data['codigo_tipo_unidad_educativa']
+            cleaned_data['cue'] = str(codigo_jurisdiccion) + str(cue) + str(codigo_tipo_unidad_educativa)
+        except KeyError:
+            pass
+            
+        return cleaned_data

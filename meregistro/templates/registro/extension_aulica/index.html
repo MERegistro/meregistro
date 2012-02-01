@@ -1,9 +1,9 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar extensiones áulicas{% endblock %}
+{% block title %}Administración de Unidades Educativas{% endblock %}
 
 {% block content %}
-<h2>Administrar extensiones áulicas</h2>
+<h2>Administración de Unidades Educativas</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -36,31 +36,38 @@
     </li>
 </ul>
 <table class="hor-zebra">
-  <thead>
+<thead>
     <tr>
+      <th id="thCueExtensionAulica">CUE</th>
       <th>Nombre</th>
-      <th>Fecha de alta</th>
+      <th>Departamento</th>
+      <th>Localidad</th>
       <th>Estados</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
-  <tbody>
-    {% for extension_aulica in objects %}
+    {% for ext in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-        <td>{{ extension_aulica.nombre }}</td>
-	<td>{% if extension_aulica.fecha_alta == None %}---{% else %}{{ extension_aulica.fecha_alta|date:"d/m/Y" }}{% endif %}</td>
+	<td>{{ ext.cue }}</td>
+        <td>{{ ext.nombre }}</td>
+	<td>{{ ext.get_first_domicilio.localidad.departamento }}</td>
+	<td>{{ ext.get_first_domicilio.localidad }}</td>
 	<td>
-	{% for estado in extension_aulica.estados %}
-	    <p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
-	{% endfor %}
+	    <div class="estados">
+	    {% for estado in ext.estados.all %}
+		<p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+	    {% endfor %}
+	    </div>
 	</td>
         <td class="actions-td">
-          <ul>
-	    {% if not extension_aulica.dadaDeBaja %}
-            <li class="edit"><a href="{% url apps.registro.views.extension_aulica.edit extension_aulica.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="{% url apps.registro.views.extension_aulica.baja extension_aulica.id %}" alt="Eliminar" title="Eliminar" onclick="return confirm('Está seguro de dar de baja la extensión áulica?\nEsta acción no puede deshacerse.');"><span>Eliminar</span></a></li>
+	    <ul>
+	    {% if 'reg_extension_aulica_modificar' in credenciales and ext.is_editable %}
+		<li class="edit"><a href="{% url apps.registro.views.extension_aulica.edit ext.id %}" title="Editar"><span>Editar</span></a></li>
 	    {% endif %}
-          </ul>
+	    {% if ext.is_deletable %}
+		<li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+	    {% endif %}
+	    </ul>
         </td>
       </tr>
     {% endfor %}
@@ -74,7 +81,7 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    {% if 'reg_extension_aulica_alta' in credenciales %}
     <li class="create">
 	<a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva extensión áulica</span></a>
     </li>

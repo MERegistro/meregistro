@@ -9,7 +9,7 @@ class EstadoExtensionAulica(models.Model):
     NO_VIGENTE = u'No vigente'
     VIGENTE = u'Vigente'
 
-    nombre = models.CharField(max_length = 50, unique = True)
+    nombre = models.CharField(max_length=50, unique=True)
 
     class Meta:
         app_label = 'registro'
