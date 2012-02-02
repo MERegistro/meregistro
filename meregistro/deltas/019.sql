@@ -276,7 +276,7 @@ OLD.old_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -422,7 +422,7 @@ OLD.cantidad,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -573,7 +573,7 @@ OLD.cp,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -699,7 +699,7 @@ OLD.nivel_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -830,7 +830,7 @@ OLD.tipo_compartido_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -956,7 +956,7 @@ OLD.funcion_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1082,7 +1082,7 @@ OLD.nivel_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1208,7 +1208,7 @@ OLD.turno_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1329,7 +1329,7 @@ OLD.descripcion,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1470,7 +1470,7 @@ OLD.ambito_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1676,7 +1676,7 @@ OLD.fax,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1842,7 +1842,7 @@ OLD.email,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -1988,7 +1988,7 @@ OLD.cantidad,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2139,7 +2139,7 @@ OLD.cp,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2265,7 +2265,7 @@ OLD.nivel_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2396,7 +2396,7 @@ OLD.tipo_compartido_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2522,7 +2522,7 @@ OLD.funcion_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2648,7 +2648,7 @@ OLD.nivel_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2774,7 +2774,7 @@ OLD.turno_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -2895,7 +2895,7 @@ OLD.nombre,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3016,7 +3016,7 @@ OLD.nombre,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3137,7 +3137,7 @@ OLD.nombre,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3313,7 +3313,7 @@ OLD.old_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3464,7 +3464,7 @@ OLD.cp,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3595,7 +3595,7 @@ OLD.fecha,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3721,7 +3721,7 @@ OLD.turno_id,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3857,7 +3857,7 @@ OLD.observaciones,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -3988,7 +3988,7 @@ OLD.fecha,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -4129,7 +4129,7 @@ OLD.fecha_desasignacion,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
@@ -4285,7 +4285,7 @@ OLD.is_active,
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
