@@ -194,7 +194,7 @@ VALUES (
   TRUE
 );
 
-RETURN NEW;
+RETURN OLD;
 END;
 
 $$ LANGUAGE 'plpgsql';
