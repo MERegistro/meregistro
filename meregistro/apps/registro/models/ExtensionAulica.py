@@ -16,7 +16,7 @@ class ExtensionAulica(models.Model):
     NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Otra']
     
     establecimiento = models.ForeignKey(Establecimiento)
-    cue = models.CharField(max_length=9, unique=True)
+    cue = models.CharField(max_length=9, null=True, blank=True, unique=True)
     nombre = models.CharField(max_length = 255)
     observaciones = models.CharField(max_length = 255)
     tipo_normativa = models.ForeignKey(TipoNormativa)
@@ -45,7 +45,18 @@ class ExtensionAulica(models.Model):
 
     def __unicode__(self):
         return self.nombre
-
+        
+    def clean(self):
+        " Chequea que el cue sea único "
+        cue = self.cue
+        if cue != '':
+            try:
+                ext = ExtensionAulica.objects.get(cue=cue)
+                if ext and ext != self:
+                    raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa que ya se encuentra registrada')
+            except ExtensionAulica.DoesNotExist:
+                pass
+                
     def registrar_estado(self):
         from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
         registro = ExtensionAulicaEstado(estado = self.estado)

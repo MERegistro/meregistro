@@ -131,7 +131,6 @@ def create(request):
             # redirigir a edit
             return HttpResponseRedirect(reverse('extensionAulica'))
         else:
-            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = ExtensionAulicaForm()
@@ -162,6 +161,7 @@ def edit(request, extension_aulica_id):
             ext = form.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
+            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = ExtensionAulicaForm(instance=ext)

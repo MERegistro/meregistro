@@ -37,7 +37,6 @@ class ExtensionAulicaForm(forms.ModelForm):
                 raise ValidationError('Por favor ingrese sólo números positivos') 
             if len(codigo) != 2:
                 raise ValidationError('El Código debe tener 2 dígitos')
-
         return codigo
 
     def clean_anio_creacion(self):
@@ -62,14 +61,16 @@ class ExtensionAulicaForm(forms.ModelForm):
         return norma_creacion_otra
 
     def clean(self):
-        # Armar el CUE correctamente
+        # Armar el CUE correctamente, si no se especificó código, no cargarlo
         cleaned_data = self.cleaned_data
         try:
-            cue = str(cleaned_data['cue'])
-            codigo_jurisdiccion = cleaned_data['codigo_jurisdiccion']
-            codigo_tipo_unidad_educativa = cleaned_data['codigo_tipo_unidad_educativa']
-            cleaned_data['cue'] = str(codigo_jurisdiccion) + str(cue) + str(codigo_tipo_unidad_educativa)
+            if cleaned_data['codigo_tipo_unidad_educativa'] == '':
+                cleaned_data['cue'] = ''
+            else:
+                cue = str(cleaned_data['cue'])
+                codigo_jurisdiccion = cleaned_data['codigo_jurisdiccion']
+                codigo_tipo_unidad_educativa = cleaned_data['codigo_tipo_unidad_educativa']
+                cleaned_data['cue'] = str(codigo_jurisdiccion) + str(cue) + str(codigo_tipo_unidad_educativa)
         except KeyError:
             pass
-            
         return cleaned_data
