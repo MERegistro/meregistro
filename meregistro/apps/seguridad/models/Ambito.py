@@ -28,3 +28,14 @@ class Ambito(models.Model):
         child.path = self.path + c + str(child.id) +'/'
         child.save()
         return child
+
+
+    def set_parent(self, parent):
+        childs = Ambito.objects.filter(path__istartswith=self.path).filter(level=self.level+1)
+        self.path = parent.path + str(self.id) +'/'
+        self.level = parent.level + 1
+        self.parent = parent
+        self.save()
+        for c in childs:
+            c.set_parent(self)
+            c.save()

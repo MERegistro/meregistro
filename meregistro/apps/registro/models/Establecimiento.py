@@ -97,7 +97,9 @@ class Establecimiento(models.Model):
             except Exception:
                 pass
         else:
+            self.ambito.set_parent(self.dependencia_funcional.ambito)
             self.ambito.descripcion = self.nombre
+            print "ambito:", self.nombre
             self.ambito.save()
 
     def hasAnexos(self):
