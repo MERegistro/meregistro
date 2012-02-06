@@ -138,10 +138,14 @@ def create(request):
 
 @login_required
 @credential_required('reg_anexo_modificar')
-def edit(request, anexo_id):
+def edit(request, anexo_id=None):
     """
     Edición de los datos de un anexo.
     """
+    if anexo_id is None:
+            return HttpResponseRedirect(reverse('anexoEdit', args=[request.session['anexo_seleccionado_id']]))
+    request.session['anexo_seleccionado_id'] = anexo_id
+
     anexo = Anexo.objects.get(pk=anexo_id)
     if anexo.dadoDeBaja():
         raise Exception('El anexo se encuentra dado de baja.')
@@ -166,6 +170,7 @@ def edit(request, anexo_id):
         'form': form,
         'anexo': anexo,
         'codigo_tipo_unidad_educativa': codigo,
+        'actual_page': ''
     })
 
 @login_required
@@ -234,7 +239,10 @@ def __get_anexo_actual(request):
     elif len(anexos) == 1:
         return anexos[0]
     else:
-        pass
+        if request.session.has_key('anexo_seleccionado_id'):
+            return Anexo.objects.get(pk=int(request.session['anexo_seleccionado_id']))
+        else:
+            request.set_flash('warning', 'Debe seleccionar un anexo.')
 
 
 @login_required

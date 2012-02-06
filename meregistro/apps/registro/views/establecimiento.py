@@ -140,10 +140,12 @@ def create(request):
 
 @login_required
 @credential_required('reg_establecimiento_modificar')
-def edit(request, establecimiento_id):
+def edit(request, establecimiento_id=None):
     """
     Edición de los datos de un establecimiento.
     """
+    if establecimiento_id is None:
+            return HttpResponseRedirect(reverse('establecimientoEdit', args=[request.session['establecimiento_seleccionado_id']]))
     request.session['establecimiento_seleccionado_id'] = establecimiento_id
     establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
     if request.method == 'POST':
@@ -167,6 +169,7 @@ def edit(request, establecimiento_id):
     return my_render(request, 'registro/establecimiento/edit.html', {
         'form': form,
         'establecimiento': establecimiento,
+        'actual_page': ''
     })
 
 

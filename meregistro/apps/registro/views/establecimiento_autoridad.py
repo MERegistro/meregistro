@@ -20,12 +20,17 @@ def __get_establecimiento_actual(request):
     """
     Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
     """
-    try:
-        establecimiento = Establecimiento.objects.get(ambito__path=request.get_perfil().ambito.path)
-    except Establecimiento.DoesNotExist:
+    establecimientos = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    if len(establecimientos) == 0:
         raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
+    elif len(establecimientos) == 1:
+        return establecimientos[0]
+    else:
+        if request.session.has_key('establecimiento_seleccionado_id'):
+            return Establecimiento.objects.get(pk=int(request.session['establecimiento_seleccionado_id']))
+        else:
+            request.set_flash('warning', 'Debe seleccionar un establecimiento.')
 
-    return establecimiento
 
 
 @login_required

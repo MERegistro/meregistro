@@ -5,10 +5,11 @@
 {% block content %}
 <h2>Actualización de anexo</h2>
 <h3>Fecha de solicitud de registro: {{ anexo.get_fecha_solicitud }}</h3>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% include "registro/anexo/completar_datos_nav.html" %}
 {% include "registro/anexo/form.html" %}
 
 <ul class="actions">
@@ -17,4 +18,5 @@
   </li>
 </ul>
 <hr />
+
 {% endblock %}

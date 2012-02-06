@@ -94,11 +94,9 @@
 </div>
 {% endif %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'AdminTitulos' %}
     <li class="create">
 	<a href="{% url apps.titulos.views.titulo.create %}"><span>Nuevo título</span></a>
     </li>
-    {% endif %}
 </ul>
 <hr />
 {% endblock %}

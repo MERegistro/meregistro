@@ -5,10 +5,12 @@
 {% block content %}
 <h2>Actualización de sede</h2>
 <h3>Fecha de solicitud de registro: {{ establecimiento.get_fecha_solicitud }}</h3>
+
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% include "registro/establecimiento/completar_datos_nav.html" %}
 {% include "registro/establecimiento/form.html" %}
 
 <ul class="actions">

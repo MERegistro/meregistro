@@ -12,20 +12,6 @@
 	    </ul>
 	</li>
 	{% endif %}
-	{% if 'reg_establecimiento_completar' in credenciales %}
-	<li><a href="#" class="inactive"><span>Mi Establecimiento</a>
-	    <ul>
-		<li><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}" title="Datos básicos"><span>Datos básicos</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento.completar_niveles %}" title="Niveles"><span>Niveles</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento.completar_turnos %}" title="Turnos"><span>Turnos</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento.completar_funciones %}" title="Funciones"><span>Funciones</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento.completar_informacion_edilicia %}" title="Información edilicia"><span>Información edilicia</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet %}" title="Conectividad"><span>Conectividad</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento_autoridad.index %}" title="Autoridades"><span>Autoridades</span></a></li>
-		<li><a href="{% url apps.registro.views.establecimiento_domicilio.index %}" title="Domicilios"><span>Domicilios</span></a></li>
-	    </ul> 
-	</li>
-        {% endif %}
 	{% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
 	<li><a href="#" class="inactive"><span>Unidades educativas</a>
 	    <ul>
