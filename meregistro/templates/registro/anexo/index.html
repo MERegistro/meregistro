@@ -67,7 +67,7 @@
 	</td>
         <td class="actions-td">
 	    <ul>
-	    {% if 'reg_anexo_modificar' in credenciales and anexo.is_editable %}
+	    {% if 'reg_anexo_modificar' in credenciales %}
 		<li class="edit"><a href="{% url apps.registro.views.anexo.edit anexo.id %}" title="Editar"><span>Editar</span></a></li>
 	    {% endif %}
 	    {% if anexo.is_deletable %}

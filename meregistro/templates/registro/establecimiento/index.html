@@ -97,9 +97,7 @@
                 <td class="actions-td">
                     <ul>
                     {% if 'reg_establecimiento_modificar' in credenciales %}
-                        {% if est.estado_actual == 'Pendiente' %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
-                        {% endif %}
                     {% endif %}
                     {% if 'reg_establecimiento_baja' in credenciales and est.isDeletable %}
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
