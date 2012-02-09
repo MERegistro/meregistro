@@ -1,0 +1,18 @@
+<ul>
+
+{% for g in grupos_credenciales.items %}
+<b>{{ g.0 }}</b>
+{% for c in g.1 %}
+<li><label for="id_credenciales_{{ c.nombre }}">
+<input name="credenciales" value="{{ c.id }}" id="id_credenciales_{{ c.nombre }}"
+{% if c in rol.credenciales.all %}
+checked="checked"
+{% endif %}
+type="checkbox">
+  {{ c.descripcion }}
+</label></li>
+{% endfor %}
+<li><hr style="width:800px; margin: 2px; visibility: visible;" /></li>
+{% endfor %}
+
+</ul>

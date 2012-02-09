@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.seguridad.models import Rol
+from apps.seguridad.models import Rol, Credencial
 from apps.seguridad.forms import RolFormFilters, RolForm
 from django.core.paginator import Paginator
 
@@ -96,8 +96,17 @@ def edit(request, rol_id):
     return my_render(request, 'seguridad/rol/edit.html', {
         'form': form,
         'rol': rol,
+        'grupos_credenciales': __credenciales(rol)
     })
 
+def __credenciales(rol):
+    grupos = {}
+    for c in Credencial.objects.all().order_by('grupo', 'descripcion'):
+        if not grupos.has_key(c.grupo):
+            grupos[c.grupo] = []
+        grupos[c.grupo].append(c)
+    return grupos
+    
 
 @credential_required('seg_rol_registrar')
 def delete(request, rol_id):

@@ -15,7 +15,7 @@
 		<div class="form-checkbox-list">
 			{{ form.credenciales.errors }}
 			<label for="id_credenciales">Credenciales:</label>
-			{{ form.credenciales }}
+			{% include "seguridad/rol/credenciales.html" %}
 			<hr />
 		</div>
 		<div class="form-checkbox-list">
