@@ -21,7 +21,11 @@ def establecimientos(request, q):
 		except AttributeError:
 			localidad = None
 			departamento = None
+        if est.estado is None:
+            estado_nombre = ''
+        else:
+            estado_nombre = est.estado.nombre.encode('utf8')
 		reporte.rows.append([est.dependencia_funcional.jurisdiccion.region.nombre.encode('utf8'), est.dependencia_funcional.jurisdiccion.nombre.encode('utf8'),\
-		est.cue, est.dependencia_funcional.nombre.encode('utf8'), est.nombre.encode('utf8'), departamento, localidad, est.estado.nombre.encode('utf8')])
+		est.cue, est.dependencia_funcional.nombre.encode('utf8'), est.nombre.encode('utf8'), departamento, localidad, estado_nombre])
 
 	return reporte.as_csv()
