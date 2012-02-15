@@ -159,7 +159,6 @@ def edit(request, establecimiento_id=None):
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = EstablecimientoForm(instance=establecimiento)
-
     parts = establecimiento.get_cue_parts()
     if request.get_perfil().jurisdiccion() is not None:
         form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']

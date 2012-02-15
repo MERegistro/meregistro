@@ -16,7 +16,6 @@ class ExtensionAulicaForm(forms.ModelForm):
     codigo_jurisdiccion = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     cue = forms.CharField(max_length=5, label='CUE', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     codigo_tipo_unidad_educativa = forms.CharField(label='', required=False, help_text=u'2 dígitos, ej: 01...02', widget=forms.TextInput(attrs={'size': 2, 'maxlength': 2}))
-    anio_creacion = forms.IntegerField(label='Año de creación', required=False, widget=forms.TextInput(attrs={'size': 4, 'maxlength': 4}))
     norma_creacion = forms.ChoiceField(label='Norma de creación', choices=norma_creacion_choices, required=True)
     norma_creacion_otra = forms.CharField(required=False)
     observaciones = forms.CharField(required=False, widget=forms.Textarea)

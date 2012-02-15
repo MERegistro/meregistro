@@ -36,6 +36,16 @@
 			<label for="id_anio_creacion">Año de creación:</label>
 			{{ form.anio_creacion }}
 		</div>
+        <div class="form-text">
+			{{ form.tipo_norma.errors }}
+			<label for="id_tipo_norma">Tipo Norma de creación:</label>
+			{{ form.tipo_norma }}
+		</div>
+		<div class="form-text">
+			{{ form.tipo_norma_otra.errors }}
+			<label for="id_tipo_norma_otra">&nbsp;</label>
+			{{ form.tipo_norma_otra }}
+		</div>		
 		<div class="form-text">
 			{{ form.norma_creacion.errors }}
 			<label for="id_norma_creacion">Norma de creación:</label>
@@ -55,3 +65,32 @@
 		</div>
 	</form>
 </div>
+<script>
+function unidad_academica_enabled()
+{
+    $("#id_nombre_unidad_academica").attr('disabled', !$("#id_unidad_academica").is(':checked'));
+    if(!$("#id_unidad_academica").is(':checked'))
+    {
+        $("#id_nombre_unidad_academica").val("");
+    }
+}
+
+function tipo_norma_otra_enabled()
+{
+    otra = false;
+    $("#id_tipo_norma option:selected").each(function ()
+        {
+            if($(this).text() == 'Otra')
+                otra = true;
+        }
+    );
+    $("#id_tipo_norma_otra").attr('disabled', !otra);
+    if(!otra)
+        $("#id_tipo_norma_otra").val("")
+}
+$('#id_unidad_academica').change(unidad_academica_enabled);
+unidad_academica_enabled();
+
+$('#id_tipo_norma').change(tipo_norma_otra_enabled);
+tipo_norma_otra_enabled();
+</script>

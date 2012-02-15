@@ -9,7 +9,7 @@ class EstablecimientoForm(ModelForm):
     codigo_jurisdiccion = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     cue = forms.CharField(label='CUE', required=True, widget=forms.TextInput(attrs={'size': 5, 'maxlength': 5}))
     codigo_tipo_unidad_educativa = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-    anio_creacion = forms.IntegerField(label='Año de creación', required=False, widget=forms.TextInput(attrs={'size': 4, 'maxlength': 4}))
+    #anio_creacion = forms.IntegerField(label='Año de creación', required=False, widget=forms.TextInput(attrs={'size': 4, 'maxlength': 4}))
 
     class Meta:
         model = Establecimiento
@@ -41,7 +41,7 @@ class EstablecimientoForm(ModelForm):
         if int(cue) < 0:
             raise ValidationError('Por favor ingrese sólo números positivos') 
         if len(cue) != 5:
-            raise ValidationError('El CUE debe tener 9 dígitos en total') 
+            raise ValidationError('El CUE debe tener 9 dígitos en total')
         return cue
 
     def clean(self):

@@ -10,6 +10,8 @@ from apps.seguridad.models import Ambito
 import datetime
 from apps.seguridad.audit import audit
 
+YEARS_CHOICES = tuple((int(n), int(n)) for n in range(1800,2021))
+
 @audit
 class Anexo(models.Model):
     NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Otra']
@@ -18,7 +20,7 @@ class Anexo(models.Model):
     cue = models.CharField(max_length=9, unique=True)
     fecha_alta = models.DateField(null=True, blank=True, editable=False)
     nombre = models.CharField(max_length=255)
-    anio_creacion = models.IntegerField(null=True, blank=True)
+    anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
     norma_creacion = models.CharField(max_length=100)
     norma_creacion_otra = models.CharField(max_length=100)
     norma_creacion_numero = models.CharField(max_length=100)

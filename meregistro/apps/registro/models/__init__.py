@@ -32,3 +32,4 @@ from AnexoInformacionEdilicia import AnexoInformacionEdilicia
 from AnexoConexionInternet import AnexoConexionInternet
 from AutoridadCargo import AutoridadCargo
 from EstablecimientoAutoridad import EstablecimientoAutoridad
+from TipoNorma import TipoNorma

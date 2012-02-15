@@ -8,11 +8,13 @@ from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Funcion import Funcion
 from apps.registro.models.Turno import Turno
 from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
+from apps.registro.models.TipoNorma import TipoNorma
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
 from apps.seguridad.audit import audit
 
+YEARS_CHOICES = tuple((int(n), int(n)) for n in range(1800,2021))
 
 @audit
 class Establecimiento(models.Model):
@@ -29,7 +31,7 @@ class Establecimiento(models.Model):
     posee_subsidio = models.BooleanField()
     norma_creacion = models.CharField(max_length=100)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
-    anio_creacion = models.IntegerField(null=True, blank=True)
+    anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
     telefono = models.CharField(max_length=100, null=True, blank=True)
     fax = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
@@ -41,6 +43,8 @@ class Establecimiento(models.Model):
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_establecimientos_funciones')
     estado = models.ForeignKey(EstadoEstablecimiento, editable=False, null=True)
     old_id = models.IntegerField(null=True, blank=True, editable=False)
+    tipo_norma = models.ForeignKey(TipoNorma, null=False)
+    tipo_norma_otra = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         app_label = 'registro'
