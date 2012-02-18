@@ -74,12 +74,10 @@
         {% if 'reg_unidad_extension_consulta' in credenciales %}
 	<li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
         {% endif %}
-        <li id="linkAyuda"><a href="#">Ayuda</span></a></li>
-        <li id="linkAyuda"><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
 	<!--
 	Habilitación temporal
 	-->
-        <li><a href="#" class="inactive">Títulos</a>
+        <li><a href="#" class="inactive">Títulos-tmp</a>
 	    <ul style="width: 250px;">
 		<li><a href="{% url apps.titulos.views.titulo.index %}"><span>Títulos</span></a></li>
 		<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Normativas jurisdiccionales</span></a></li>     
@@ -95,5 +93,11 @@
 		<li><a href="{% url apps.titulos.views.matricula.index %}"><span>Matriculas</span></a></li>
 	    </ul>
         </li>
+	<!--
+	Fin habilitación temporal
+	-->
+	<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
+        <li id="linkAyuda"><a href="#">Ayuda</span></a></li>
+	
     </ul>
 </div>
