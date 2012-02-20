@@ -29,10 +29,7 @@
         {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
 	<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
-        {% endif %}
-	{% if 'reg_anexo_completar' in credenciales %}
-	<li><a href="{% url apps.registro.views.anexo.completar_datos_basicos %}"><span>Datos básicos del anexo</span></a></li>
-	{% endif %}		
+        {% endif %}		
         {% if 'tit_egresados_anexo' in credenciales or 'tit_egresados_establecimiento' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_titulo_jurisdiccional_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_titulo_consulta' in credenciales or 'tit_orientacion_consulta' in credenciales %}
         <li><a href="#" class="inactive">Títulos</a>
 	    <ul>

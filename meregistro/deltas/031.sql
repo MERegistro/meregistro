@@ -9,6 +9,7 @@ WHERE ambito_id > 25;
 DELETE FROM seguridad_perfil_version
 WHERE ambito_id > 25;
 
+SELECT SETVAL('seguridad_ambito_id_seq', (SELECT MAX(id) FROM seguridad_ambito));
 
 -- Ámbitos
 DELETE FROM seguridad_ambito  
