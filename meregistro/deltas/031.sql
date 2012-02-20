@@ -4,16 +4,10 @@
 BEGIN;
 
 DELETE FROM seguridad_perfil
-WHERE ambito_id IN (SELECT ambito_id FROM registro_anexo)
-OR ambito_id IN (SELECT ambito_id FROM registro_extension_aulica)
-OR ambito_id IN (SELECT ambito_id FROM registro_establecimiento)
-OR ambito_id IN (SELECT ambito_id FROM registro_dependencia_funcional);
+WHERE ambito_id > 25;
 
 DELETE FROM seguridad_perfil_version
-WHERE ambito_id IN (SELECT ambito_id FROM registro_anexo)
-OR ambito_id IN (SELECT ambito_id FROM registro_extension_aulica)
-OR ambito_id IN (SELECT ambito_id FROM registro_establecimiento)
-OR ambito_id IN (SELECT ambito_id FROM registro_dependencia_funcional);
+WHERE ambito_id > 25;
 
 
 -- Ámbitos
