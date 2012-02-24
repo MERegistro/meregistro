@@ -9,16 +9,6 @@ WHERE ambito_id > 25;
 DELETE FROM seguridad_perfil_version
 WHERE ambito_id > 25;
 
-SELECT SETVAL('seguridad_ambito_id_seq', (SELECT MAX(id) FROM seguridad_ambito));
-
--- Ámbitos
-DELETE FROM seguridad_ambito  
-WHERE id NOT IN
-	(SELECT ambito_id FROM registro_anexo 
-	UNION SELECT ambito_id FROM registro_establecimiento  
-	UNION SELECT ambito_id FROM registro_dependencia_funcional  
-	UNION SELECT ambito_id FROM registro_jurisdiccion)
-AND level > 0;
 
 TRUNCATE
 	registro_anexo_baja,
@@ -97,6 +87,16 @@ TRUNCATE
 	RESTART IDENTITY
 ;
 
+-- Ámbitos
+DELETE FROM seguridad_ambito  
+WHERE id NOT IN
+	(SELECT ambito_id FROM registro_anexo 
+	UNION SELECT ambito_id FROM registro_establecimiento  
+	UNION SELECT ambito_id FROM registro_dependencia_funcional  
+	UNION SELECT ambito_id FROM registro_jurisdiccion)
+AND level > 0;
+
+SELECT SETVAL('seguridad_ambito_id_seq', (SELECT MAX(id) FROM seguridad_ambito));
 
 INSERT INTO deltas_sql (numero, app, comentario) VALUES ('031', '', 'Eliminar datos de tablas del sistema para generar DF temporales - Ticket #157');
 
