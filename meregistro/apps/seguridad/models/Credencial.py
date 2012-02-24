@@ -9,6 +9,7 @@ class Credencial(models.Model):
     descripcion = models.CharField(max_length=255)
     aplicacion = models.ForeignKey(Aplicacion, related_name='credenciales')
     grupo = models.CharField(max_length=255)
+    credenciales_hijas = models.ManyToManyField('self', related_name='credenciales_padres', symmetrical=False)
 
     class Meta:
         app_label = 'seguridad'

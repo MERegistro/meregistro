@@ -1,18 +1,42 @@
+<script>
+var hijos = Array();
+var padres = Array();
+</script>
 <ul>
 
 {% for g in grupos_credenciales.items %}
 <b>{{ g.0 }}</b>
 {% for c in g.1 %}
-<li><label for="id_credenciales_{{ c.nombre }}">
-<input name="credenciales" value="{{ c.id }}" id="id_credenciales_{{ c.nombre }}"
+<li><label for="id_credenciales_{{ c.id }}">
+<input name="credenciales" value="{{ c.id }}" id="id_credenciales_{{ c.id }}"
 {% if c in rol.credenciales.all %}
 checked="checked"
 {% endif %}
-type="checkbox">
+type="checkbox" onchange="on_chk_credencial_change(this, {{ c.id }})">
   {{ c.descripcion }}
 </label></li>
+<script>
+hijos[{{ c.id }}] = Array();
+{% for ch in c.credenciales_hijas.all %}
+hijos[{{ c.id }}].push({{ ch.id }});
+{% endfor %}
+padres[{{ c.id }}] = Array();
+{% for ch in c.credenciales_padres.all %}
+padres[{{ c.id }}].push({{ ch.id }});
+{% endfor %}
+</script>
 {% endfor %}
 <li><hr style="width:800px; margin: 2px; visibility: visible;" /></li>
 {% endfor %}
 
 </ul>
+<script>
+function on_chk_credencial_change(chk, credencialId)
+{
+  arr = chk.checked ? hijos : padres;
+  for(i=0; i < arr[credencialId].length; i++)
+  {
+    document.getElementById('id_credenciales_' + arr[credencialId][i]).checked = chk.checked;
+  }
+}
+</script>
