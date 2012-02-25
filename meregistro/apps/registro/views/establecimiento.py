@@ -15,11 +15,11 @@ from apps.registro.models.Localidad import Localidad
 from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from apps.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
-from apps.registro.forms.EstablecimientoForm import EstablecimientoForm
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
 from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
+from apps.registro.forms.EstablecimientoContactoForm import EstablecimientoContactoForm
 from apps.registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm
 from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
 from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
@@ -34,6 +34,15 @@ fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50
 
+def __establecimiento_dentro_del_ambito(request, establecimiento):
+    """
+    La sede está dentro del ámbito?
+    """
+    try:
+        establecimiento = Establecimiento.objects.get(id=establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except establecimiento.DoesNotExist:
+        return False
+    return True
 
 @login_required
 @credential_required('reg_establecimiento_consulta')
@@ -116,7 +125,7 @@ def create(request):
     Alta de establecimiento.
     """
     if request.method == 'POST':
-        form = EstablecimientoForm(request.POST)
+        form = EstablecimientoDatosBasicosForm(request.POST)
         if form.is_valid():
             establecimiento = form.save()
             estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.PENDIENTE)
@@ -124,11 +133,11 @@ def create(request):
 
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_CREATE, establecimiento)
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('establecimientoEdit', args=[establecimiento.id]))
+            return HttpResponseRedirect(reverse('establecimientoCompletarDatosBasicos', args=[establecimiento.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = EstablecimientoForm()
+        form = EstablecimientoDatosBasicosForm()
     if request.get_perfil().jurisdiccion() is not None:
         form.initial = {'codigo_jurisdiccion': request.get_perfil().jurisdiccion().prefijo, 'codigo_tipo_unidad_educativa': Establecimiento.CODIGO_TIPO_UNIDAD_EDUCATIVA, }
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
@@ -136,41 +145,6 @@ def create(request):
         'form': form,
         'is_new': True,
     })
-
-
-@login_required
-@credential_required('reg_establecimiento_modificar')
-def edit(request, establecimiento_id=None):
-    """
-    Edición de los datos de un establecimiento.
-    """
-    if establecimiento_id is None:
-            return HttpResponseRedirect(reverse('establecimientoEdit', args=[request.session['establecimiento_seleccionado_id']]))
-    request.session['establecimiento_seleccionado_id'] = establecimiento_id
-    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
-    if request.method == 'POST':
-        form = EstablecimientoForm(request.POST, instance=establecimiento)
-        if form.is_valid():
-            establecimiento = form.save()
-
-            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = EstablecimientoForm(instance=establecimiento)
-    parts = establecimiento.get_cue_parts()
-    if request.get_perfil().jurisdiccion() is not None:
-        form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
-        form.initial['cue'] = parts['cue']
-        form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
-        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
-    return my_render(request, 'registro/establecimiento/edit.html', {
-        'form': form,
-        'establecimiento': establecimiento,
-        'actual_page': ''
-    })
-
 
 @login_required
 @credential_required('reg_establecimiento_baja')
@@ -229,23 +203,6 @@ def __registrar_process(request, form, establecimiento):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
-
-def __get_establecimiento_actual(request):
-    """
-    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
-    """
-    establecimientos = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    if len(establecimientos) == 0:
-        raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
-    elif len(establecimientos) == 1:
-        return establecimientos[0]
-    else:
-        if request.session.has_key('establecimiento_seleccionado_id'):
-            return Establecimiento.objects.get(pk=int(request.session['establecimiento_seleccionado_id']))
-        else:
-            request.set_flash('warning', 'Debe seleccionar un establecimiento.')
-
-
 @login_required
 @credential_required('reg_establecimiento_completar')
 def completar_datos(request):
@@ -263,11 +220,19 @@ def completar_datos(request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_datos_basicos(request):
+def completar_datos_basicos(request, establecimiento_id):
     """
-    CU 26
+    Edición de los datos básicos de un establecimiento.
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+
+    if establecimiento.estado.nombre == EstadoEstablecimiento.PENDIENTE:
+        if 'reg_editar_establecimiento_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del establecimiento pendiente')
+            
     if request.method == 'POST':
         form = EstablecimientoDatosBasicosForm(request.POST, instance=establecimiento)
         if form.is_valid():
@@ -279,12 +244,54 @@ def completar_datos_basicos(request):
     else:
         form = EstablecimientoDatosBasicosForm(instance=establecimiento)
 
+    parts = establecimiento.get_cue_parts()
+    form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
+    form.initial['cue'] = parts['cue']
+    form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
+
+    if request.get_perfil().jurisdiccion() is not None:
+        form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
+    
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_datos_basicos.html',
         'establecimiento': establecimiento,
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
+    })
+
+@login_required
+@credential_required('reg_establecimiento_completar')
+def completar_contacto(request, establecimiento_id):
+    """
+    Edición de los datos de contacto de un establecimiento.
+    """
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+
+    if establecimiento.estado.nombre == EstadoEstablecimiento.PENDIENTE:
+        if 'reg_editar_establecimiento_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del establecimiento pendiente')
+
+    if request.method == 'POST':
+        form = EstablecimientoContactoForm(request.POST, instance=establecimiento)
+        if form.is_valid():
+            establecimiento = form.save()
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoContactoForm(instance=establecimiento)
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_contacto.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Contacto',
+        'actual_page': 'contacto',
     })
 
 

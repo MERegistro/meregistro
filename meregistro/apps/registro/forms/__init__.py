@@ -1,4 +1,3 @@
-from EstablecimientoForm import EstablecimientoForm
 from EstablecimientoFormFilters import EstablecimientoFormFilters
 from AnexoForm import AnexoForm
 from AnexoDomicilioForm import AnexoDomicilioForm
@@ -8,6 +7,7 @@ from DependenciaFuncionalForm import DependenciaFuncionalForm
 from DependenciaFuncionalFormFilters import DependenciaFuncionalFormFilters
 from EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
 from EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
+from EstablecimientoContactoForm import EstablecimientoContactoForm
 from EstablecimientoNivelesForm import EstablecimientoNivelesForm
 from EstablecimientoTurnosForm import EstablecimientoTurnosForm
 from EstablecimientoFuncionesForm import EstablecimientoFuncionesForm

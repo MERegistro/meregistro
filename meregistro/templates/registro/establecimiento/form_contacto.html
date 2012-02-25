@@ -1,0 +1,78 @@
+<div class="form tabbed-form" id="establecimientoForm">
+
+	<form action="" method="post">{% csrf_token %}
+
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.telefono.errors }}
+			<label for="id_telefono">Teléfono institucional:</label>
+			{{ form.telefono }}
+		</div>
+		<div class="form-text">
+			{{ form.interno.errors }}
+			<label for="id_interno">Interno:</label>
+			{{ form.interno }}
+		</div>
+		<div class="form-text">
+			{{ form.fax.errors }}
+			<label for="id_fax">Número de Fax:</label>
+			{{ form.fax }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="id_email">Email institucional:</label>
+			{{ form.email }}
+		</div>
+		<div class="form-text">
+			{{ form.sitio_web.errors }}
+			<label for="id_sitio_web">Sitio web:</label>
+			{{ form.sitio_web }}
+		</div>
+
+		<div class="form-submit">
+			<input type="submit" value="Actualizar" />
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+// Switch el estado del input de nombre de unidad académica
+checkbox = document.getElementById('id_unidad_academica');
+input = document.getElementById('id_nombre_unidad_academica');
+checked = checkbox.checked;
+input.disabled = !checked;
+
+checkbox.onclick = function(){
+	checked = !checked; // Switch true/false
+	input.disabled = !checked;
+}
+
+function unidad_academica_enabled()
+{
+    $("#id_nombre_unidad_academica").attr('disabled', !$("#id_unidad_academica").is(':checked'));
+    if(!$("#id_unidad_academica").is(':checked'))
+    {
+        $("#id_nombre_unidad_academica").val("");
+    }
+}
+
+function tipo_norma_otra_enabled()
+{
+    otra = false;
+    $("#id_tipo_norma option:selected").each(function ()
+        {
+            if($(this).text() == 'Otra')
+                otra = true;
+        }
+    );
+    $("#id_tipo_norma_otra").attr('disabled', !otra);
+    if(!otra)
+        $("#id_tipo_norma_otra").val("")
+}
+$('#id_unidad_academica').change(unidad_academica_enabled);
+unidad_academica_enabled();
+
+$('#id_tipo_norma').change(tipo_norma_otra_enabled);
+tipo_norma_otra_enabled();
+
+</script>

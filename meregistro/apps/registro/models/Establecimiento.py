@@ -27,12 +27,12 @@ class Establecimiento(models.Model):
     tipo_normativa = models.ForeignKey(TipoNormativa, null=True, blank=True)
     unidad_academica = models.BooleanField()
     nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
-    identificacion_provincial = models.CharField(max_length=100, null=True, blank=True)
     posee_subsidio = models.BooleanField()
     norma_creacion = models.CharField(max_length=100)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
     anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
     telefono = models.CharField(max_length=100, null=True, blank=True)
+    interno = models.CharField(max_length=10, null=True, blank=True)
     fax = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
@@ -174,4 +174,9 @@ class Establecimiento(models.Model):
         except IndexError:
             return "---"
         return fecha
-            
+
+    def registrado(self):
+        return self.estado.nombre == EstadoEstablecimiento.REGISTRADO
+
+    def pendiente(self):
+        return self.estado.nombre == EstadoEstablecimiento.PENDIENTE

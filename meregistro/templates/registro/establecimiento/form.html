@@ -1,71 +1,81 @@
-<div class="form" id="establecimientoForm">
-	<form action="" method="post">{% csrf_token %}
-		{{ form.non_field_errors }}
-		<div class="form-select">
-			{{ form.dependencia_funcional.errors }}
-			<label for="id_dependencia_funcional">Dependencia funcional:</label>
-			{{ form.dependencia_funcional }}
-		</div>
-		<div class="form-text">
-			{{ form.cue.errors }}
-			<label for="id_cue">CUE:</label>
-			{{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
-		</div>
-		<div class="form-text">
-			{{ form.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form.nombre }}
-		</div>
-		<div class="form-checkbox">
-			{{ form.unidad_academica.errors }}
-			<label for="id_unidad_academica">Unidad académica:</label>
-			{{ form.unidad_academica }}
-		</div>
-		<div class="form-text">
-			{{ form.nombre_unidad_academica.errors }}
-			<label for="id_nombre_unidad_academica">Nombre un. académica:</label>
-			{{ form.nombre_unidad_academica }}
-		</div>
-		<div class="form-checkbox">
-			{{ form.posee_subsidio.errors }}
-			<label for="id_posee_subsidio">Posee subsidio:</label>
-			{{ form.posee_subsidio }}
-		</div>
-		<div class="form-text">
-			{{ form.anio_creacion.errors }}
-			<label for="id_anio_creacion">Año de creación:</label>
-			{{ form.anio_creacion }}
-		</div>
-        <div class="form-text">
-			{{ form.tipo_norma.errors }}
-			<label for="id_tipo_norma">Tipo Norma de creación:</label>
-			{{ form.tipo_norma }}
-		</div>
-		<div class="form-text">
-			{{ form.tipo_norma_otra.errors }}
-			<label for="id_tipo_norma_otra">&nbsp;</label>
-			{{ form.tipo_norma_otra }}
-		</div>		
-		<div class="form-text">
-			{{ form.norma_creacion.errors }}
-			<label for="id_norma_creacion">Norma de creación:</label>
-			{{ form.norma_creacion }}
-		</div>
-		<div class="form-textarea">
-			{{ form.observaciones.errors }}
-			<label for="id_observaciones">Observaciones:</label>
-			{{ form.observaciones }}
-		</div>
-		<div class="form-submit">
-		{% if establecimiento %}
-			<input type="submit" value="Actualizar" />
-		{% else %}
-			<input type="submit" value="Enviar solicitud" />
-		{% endif %}
-		</div>
-	</form>
+<div class="form tabbed-form" id="establecimientoForm">
+
+    <form action="" method="post">{% csrf_token %}
+
+	{{ form.non_field_errors }}
+	<div class="form-select">
+	    {{ form.dependencia_funcional.errors }}
+	    <label for="id_dependencia_funcional">Dependencia funcional:</label>
+	    {{ form.dependencia_funcional }}
+	</div>
+	<div class="form-text">
+	    {{ form.cue.errors }}
+	    <label for="id_cue">CUE:</label>
+	    {{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
+	</div>
+	<div class="form-text">
+	    {{ form.nombre.errors }}
+	    <label for="id_nombre">Nombre:</label>
+	    {{ form.nombre }}
+	</div>
+	<div class="form-checkbox">
+	    {{ form.unidad_academica.errors }}
+	    <label for="id_unidad_academica">Unidad académica:</label>
+	    {{ form.unidad_academica }}
+	</div>
+	<div class="form-text">
+	    {{ form.nombre_unidad_academica.errors }}
+	    <label for="id_nombre_unidad_academica">Nombre de la unidad académica:</label>
+	    {{ form.nombre_unidad_academica }}
+	</div>
+	<div class="form-checkbox">
+	    {{ form.posee_subsidio.errors }}
+	    <label for="id_posee_subsidio">Posee subsidio:</label>
+	    {{ form.posee_subsidio }}
+	</div>
+	<div class="form-text">
+	    {{ form.anio_creacion.errors }}
+	    <label for="id_anio_creacion">Año de creación:</label>
+	    {{ form.anio_creacion }}
+	</div>
+	<div class="form-text">
+	    {{ form.tipo_norma.errors }}
+	    <label for="id_tipo_norma">Norma de creación:</label>
+	    {{ form.tipo_norma }}
+	</div>
+	<div class="form-text">
+	    {{ form.tipo_norma_otra.errors }}
+	    <label for="id_tipo_norma_otra">&nbsp;</label>
+	    {{ form.tipo_norma_otra }}
+	</div>		
+	<div class="form-text">
+	    {{ form.norma_creacion.errors }}
+	    <label for="id_norma_creacion">Número de norma:</label>
+	    {{ form.norma_creacion }}
+	</div>
+	<div class="form-textarea">
+	    {{ form.observaciones.errors }}
+	    <label for="id_observaciones">Observaciones:</label>
+	    {{ form.observaciones }}
+	</div>
+
+	<div class="form-submit">
+	    <input type="submit" value="Actualizar" />
+	</div>
+    </form>
 </div>
-<script>
+<script type="text/javascript">
+// Switch el estado del input de nombre de unidad académica
+checkbox = document.getElementById('id_unidad_academica');
+input = document.getElementById('id_nombre_unidad_academica');
+checked = checkbox.checked;
+input.disabled = !checked;
+
+checkbox.onclick = function(){
+	checked = !checked; // Switch true/false
+	input.disabled = !checked;
+}
+
 function unidad_academica_enabled()
 {
     $("#id_nombre_unidad_academica").attr('disabled', !$("#id_unidad_academica").is(':checked'));
@@ -93,4 +103,5 @@ unidad_academica_enabled();
 
 $('#id_tipo_norma').change(tipo_norma_otra_enabled);
 tipo_norma_otra_enabled();
+
 </script>

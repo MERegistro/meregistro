@@ -1,20 +1,24 @@
-<div class="form tabbed-form" id="establecimientoCompletarDatosForm">
+<div class="form tabbed-form" id="establecimientoForm">
+
 	<form action="" method="post">{% csrf_token %}
+
+		<h4>Fecha de solicitud de registro: {{ establecimiento.get_fecha_solicitud }}</h4>
+
 		{{ form.non_field_errors }}
 		<div class="form-select">
-			{{ form.tipo_normativa.errors }}
-			<label for="id_tipo_normativa">Tipo de normativa:</label>
-			{{ form.tipo_normativa }}
+			{{ form.dependencia_funcional.errors }}
+			<label for="id_dependencia_funcional">Dependencia funcional:</label>
+			{{ form.dependencia_funcional }}
 		</div>
 		<div class="form-text">
-			{{ form.norma_creacion.errors }}
-			<label for="id_norma_creacion">Norma de creación:</label>
-			{{ form.norma_creacion }}
+			{{ form.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
 		</div>
 		<div class="form-text">
-			{{ form.anio_creacion.errors }}
-			<label for="id_anio_creacion">Año de creación:</label>
-			{{ form.anio_creacion }}
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
 		</div>
 		<div class="form-checkbox">
 			{{ form.unidad_academica.errors }}
@@ -23,13 +27,8 @@
 		</div>
 		<div class="form-text">
 			{{ form.nombre_unidad_academica.errors }}
-			<label for="id_nombre_unidad_academica">Nombre un. académica:</label>
+			<label for="id_nombre_unidad_academica">Nombre de la unidad académica:</label>
 			{{ form.nombre_unidad_academica }}
-		</div>
-		<div class="form-text">
-			{{ form.identificacion_provincial.errors }}
-			<label for="id_identificacion_provincial">Identificación provincial:</label>
-			{{ form.identificacion_provincial }}
 		</div>
 		<div class="form-checkbox">
 			{{ form.posee_subsidio.errors }}
@@ -37,25 +36,31 @@
 			{{ form.posee_subsidio }}
 		</div>
 		<div class="form-text">
-			{{ form.telefono.errors }}
-			<label for="id_telefono">Teléfono:</label>
-			{{ form.telefono }}
+			{{ form.anio_creacion.errors }}
+			<label for="id_anio_creacion">Año de creación:</label>
+			{{ form.anio_creacion }}
+		</div>
+        <div class="form-text">
+			{{ form.tipo_norma.errors }}
+			<label for="id_tipo_norma">Norma de creación:</label>
+			{{ form.tipo_norma }}
 		</div>
 		<div class="form-text">
-			{{ form.fax.errors }}
-			<label for="id_fax">Fax:</label>
-			{{ form.fax }}
-		</div>
+			{{ form.tipo_norma_otra.errors }}
+			<label for="id_tipo_norma_otra">&nbsp;</label>
+			{{ form.tipo_norma_otra }}
+		</div>		
 		<div class="form-text">
-			{{ form.email.errors }}
-			<label for="id_email">Email:</label>
-			{{ form.email }}
+			{{ form.norma_creacion.errors }}
+			<label for="id_norma_creacion">Número de norma:</label>
+			{{ form.norma_creacion }}
 		</div>
-		<div class="form-text">
-			{{ form.sitio_web.errors }}
-			<label for="id_sitio_web">Sitio web:</label>
-			{{ form.sitio_web }}
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="id_observaciones">Observaciones:</label>
+			{{ form.observaciones }}
 		</div>
+
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />
 		</div>
@@ -72,4 +77,33 @@ checkbox.onclick = function(){
 	checked = !checked; // Switch true/false
 	input.disabled = !checked;
 }
+
+function unidad_academica_enabled()
+{
+    $("#id_nombre_unidad_academica").attr('disabled', !$("#id_unidad_academica").is(':checked'));
+    if(!$("#id_unidad_academica").is(':checked'))
+    {
+        $("#id_nombre_unidad_academica").val("");
+    }
+}
+
+function tipo_norma_otra_enabled()
+{
+    otra = false;
+    $("#id_tipo_norma option:selected").each(function ()
+        {
+            if($(this).text() == 'Otra')
+                otra = true;
+        }
+    );
+    $("#id_tipo_norma_otra").attr('disabled', !otra);
+    if(!otra)
+        $("#id_tipo_norma_otra").val("")
+}
+$('#id_unidad_academica').change(unidad_academica_enabled);
+unidad_academica_enabled();
+
+$('#id_tipo_norma').change(tipo_norma_otra_enabled);
+tipo_norma_otra_enabled();
+
 </script>

@@ -85,7 +85,7 @@ div.tab-nav {
 div.tab-nav ul li {
 	float: left;
 	background: #ccc;
-	margin: 0 3px 0 0;
+	margin: -5px 3px 0 0;
 }
 div.tab-nav ul li.active {
 	background: #D6DEDE;
@@ -307,7 +307,7 @@ div.form fieldset legend {
 div.form fieldset div.form-checkbox-list ul {
 	margin-top: 0px;
 }
-/* =tabbed-form */
+/* tabbed-form */
 div.tabbed-form {
 	margin: 40px 0 0;
 }
@@ -343,6 +343,9 @@ div#establecimientoForm form input#id_cue {
 	width: 4em;
 	border-left: none;
 	border-right: none;
+}
+div#establecimientoForm form h4 {
+	margin-left: 10px;
 }
 /* anexoForm */
 div#anexoForm {

@@ -1,9 +1,9 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar sedes{% endblock %}
+{% block title %}Administración de Unidades Educativas{% endblock %}
 
 {% block content %}
-<h2>Administrar sedes</h2>
+<h2>Administración de Unidades Educativas</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -96,8 +96,11 @@
                 </td>
                 <td class="actions-td">
                     <ul>
-                    {% if 'reg_establecimiento_modificar' in credenciales %}
-                        <li class="edit"><a href="{% url apps.registro.views.establecimiento.edit est.id %}" title="Editar"><span>Editar</span></a></li>
+                    {% if 'reg_establecimiento_modificar' in credenciales and est.registrado %}
+                        <li class="edit"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Editar"><span>Editar</span></a></li>
+                    {% endif %}
+                    {% if 'reg_editar_establecimiento_pendiente' in credenciales and est.pendiente %}
+                        <li class="edit"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Editar"><span>Editar</span></a></li>
                     {% endif %}
                     {% if 'reg_establecimiento_baja' in credenciales and est.isDeletable %}
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
