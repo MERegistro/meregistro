@@ -34,6 +34,7 @@ fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50
 
+@login_required
 def __establecimiento_dentro_del_ambito(request, establecimiento):
     """
     La sede está dentro del ámbito?
@@ -44,6 +45,21 @@ def __establecimiento_dentro_del_ambito(request, establecimiento):
         return False
     return True
 
+@login_required
+def __get_establecimiento(request, establecimiento_id):
+    
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+
+    if establecimiento.estado.nombre == EstadoEstablecimiento.PENDIENTE:
+        if 'reg_editar_establecimiento_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del establecimiento pendiente')
+
+    return establecimiento
+
+    
 @login_required
 @credential_required('reg_establecimiento_consulta')
 def index(request):
@@ -212,7 +228,7 @@ def completar_datos(request):
     XXX: Por ahora no usamos esta vista, pero puede que más adelante la necesitemos
     para mostrar info del establecimiento
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'establecimiento': establecimiento,
     })
@@ -224,14 +240,7 @@ def completar_datos_basicos(request, establecimiento_id):
     """
     Edición de los datos básicos de un establecimiento.
     """
-    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
-
-    if not __establecimiento_dentro_del_ambito(request, establecimiento):
-        raise Exception('La sede no se encuentra en su ámbito.')
-
-    if establecimiento.estado.nombre == EstadoEstablecimiento.PENDIENTE:
-        if 'reg_editar_establecimiento_pendiente' not in request.get_credenciales():
-            raise Exception('Usted no tiene permisos para editar los datos del establecimiento pendiente')
+    establecimiento = __get_establecimiento(request, establecimiento_id)
             
     if request.method == 'POST':
         form = EstablecimientoDatosBasicosForm(request.POST, instance=establecimiento)
@@ -297,11 +306,11 @@ def completar_contacto(request, establecimiento_id):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_niveles(request):
+def completar_niveles(request, establecimiento_id):
     """
     CU 26
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
 
     if request.method == 'POST':
         form = EstablecimientoNivelesForm(request.POST, instance=establecimiento)
@@ -325,11 +334,11 @@ def completar_niveles(request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_turnos(request):
+def completar_turnos(request, establecimiento_id):
     """
     CU 26
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
 
     if request.method == 'POST':
         form = EstablecimientoTurnosForm(request.POST, instance=establecimiento)
@@ -353,11 +362,11 @@ def completar_turnos(request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_funciones(request):
+def completar_funciones(request, establecimiento_id):
     """
     CU 26
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
 
     if request.method == 'POST':
         form = EstablecimientoFuncionesForm(request.POST, instance=establecimiento)
@@ -381,11 +390,11 @@ def completar_funciones(request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_informacion_edilicia(request):
+def completar_informacion_edilicia(request, establecimiento_id):
     """
     CU 26
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
 
     try:
         informacion_edilicia = EstablecimientoInformacionEdilicia.objects.get(establecimiento=establecimiento)
@@ -420,11 +429,11 @@ def completar_informacion_edilicia(request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_conexion_internet(request):
+def completar_conexion_internet(request, establecimiento_id):
     """
     CU 26
     """
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
     try:
         conexion = EstablecimientoConexionInternet.objects.get(establecimiento=establecimiento)
     except:
@@ -454,7 +463,8 @@ def completar_conexion_internet(request):
 @login_required
 @credential_required('reg_establecimiento_ver')
 def datos_establecimiento(request):
-    establecimiento = __get_establecimiento_actual(request)
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    
     return my_render(request, 'registro/establecimiento/datos_establecimiento.html', {
         'establecimiento': establecimiento,
         'turnos': establecimiento.turnos.all(),
