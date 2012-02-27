@@ -29,8 +29,10 @@
                 <td>{% if aut.tipo_documento %}{{ aut.tipo_documento.abreviatura }}:{% endif %} {% if aut.documento %}{{ aut.documento }}{% else %}---{% endif %} </td>
                 <td class="actions-td">
                     <ul>
-                        <li class="edit"><a href="{% url apps.registro.views.establecimiento_autoridad.edit aut.id %}" title="Editar"><span>Editar</span></a></li>
-                        <li class="delete"><a href="{% url apps.registro.views.establecimiento_autoridad.delete aut.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                        {% if 'reg_establecimiento_completar' in credenciales %}
+                            <li class="edit"><a href="{% url apps.registro.views.establecimiento_autoridad.edit aut.id %}" title="Editar"><span>Editar</span></a></li>
+                            <li class="delete"><a href="{% url apps.registro.views.establecimiento_autoridad.delete aut.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                        {% endif %}
                     </ul>
                 </td>
             </tr>
@@ -44,15 +46,15 @@
     <p>No se encontraron autoridades.</p>
 </div>
 {% endif %}
-{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+{% if 'reg_establecimiento_completar' in credenciales %}
 <ul class="actions">
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento_autoridad.create %}"><span>Nueva autoridad</span></a>
     </li>
+{% endif %}
     <li class="back">
-        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}"><span>Volver</span></a>
+        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
 </ul>
-{% endif %}
 <hr />
 {% endblock %}

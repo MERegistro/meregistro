@@ -28,10 +28,11 @@
 			<label for="id_sitio_web">Sitio web:</label>
 			{{ form.sitio_web }}
 		</div>
-
+        {% if 'reg_establecimiento_completar' in credenciales %}
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />
 		</div>
+        {% endif %}
 	</form>
 </div>
 

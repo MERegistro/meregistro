@@ -220,7 +220,7 @@ def __registrar_process(request, form, establecimiento):
     return False
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_datos(request):
     """
     CU 26
@@ -235,7 +235,7 @@ def completar_datos(request):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_datos_basicos(request, establecimiento_id):
     """
     Edición de los datos básicos de un establecimiento.
@@ -270,7 +270,7 @@ def completar_datos_basicos(request, establecimiento_id):
     })
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_contacto(request, establecimiento_id):
     """
     Edición de los datos de contacto de un establecimiento.
@@ -305,7 +305,7 @@ def completar_contacto(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_niveles(request, establecimiento_id):
     """
     CU 26
@@ -333,7 +333,7 @@ def completar_niveles(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_turnos(request, establecimiento_id):
     """
     CU 26
@@ -361,7 +361,7 @@ def completar_turnos(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_funciones(request, establecimiento_id):
     """
     CU 26
@@ -389,7 +389,7 @@ def completar_funciones(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_informacion_edilicia(request, establecimiento_id):
     """
     CU 26
@@ -428,7 +428,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_conexion_internet(request, establecimiento_id):
     """
     CU 26

@@ -6,8 +6,10 @@
 			{{ form.funciones }}
 			<hr />
 		</div>
+        {% if 'reg_establecimiento_completar' in credenciales %}
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />
 		</div>
+        {% endif %}
 	</form>
 </div>

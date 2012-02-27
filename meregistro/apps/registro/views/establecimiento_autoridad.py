@@ -34,7 +34,7 @@ def __get_establecimiento_actual(request):
 
 
 @login_required
-@credential_required('reg_establecimiento_autoridad_consulta')
+#@credential_required('reg_establecimiento_ver')
 def index(request):
 
     establecimiento = __get_establecimiento_actual(request)
@@ -70,7 +70,8 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'establecimiento': establecimiento
     })
 
 
@@ -82,7 +83,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('reg_establecimiento_autoridad_create')
+@credential_required('reg_establecimiento_completar')
 def create(request):
     """
     Alta de autoridad.
@@ -108,7 +109,7 @@ def create(request):
 
 
 @login_required
-@credential_required('reg_establecimiento_autoridad_edit')
+@credential_required('reg_establecimiento_completar')
 def edit(request, autoridad_id):
     """
     Edición de los datos de una autoridad.
@@ -134,7 +135,7 @@ def edit(request, autoridad_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_autoridad_delete')
+@credential_required('reg_establecimiento_completar')
 def delete(request, autoridad_id):
     establecimiento = __get_establecimiento_actual(request)
     autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id, establecimiento__id=establecimiento.id)

@@ -96,7 +96,7 @@
                 </td>
                 <td class="actions-td">
                     <ul>
-                    {% if 'reg_establecimiento_modificar' in credenciales and est.registrado %}
+                    {% if 'reg_establecimiento_ver' in credenciales and est.registrado %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Editar"><span>Editar</span></a></li>
                     {% endif %}
                     {% if 'reg_editar_establecimiento_pendiente' in credenciales and est.pendiente %}
