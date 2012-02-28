@@ -67,6 +67,18 @@ VALUES
 (
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_alta'),
 (SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_ver')
+),
+(
+(SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_aprobar_registro'),
+(SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_consulta')
+),
+(
+(SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_aprobar_registro'),
+(SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_completar')
+),
+(
+(SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_aprobar_registro'),
+(SELECT id FROM seguridad_credencial WHERE nombre = 'reg_anexo_ver')
 );
 
 
