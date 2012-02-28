@@ -1,6 +1,17 @@
 BEGIN;
 
+DELETE FROM seguridad_rol_credenciales WHERE credencial_id IN 
+(SELECT c.id FROM seguridad_credencial c  WHERE c.nombre = 'reg_df_consulta' AND
+EXISTS (
+SELECT 1 FROM seguridad_credencial c2 WHERE c2.nombre = c.nombre 
+AND c2.id < c.id
+));
 
+DELETE FROM seguridad_credencial c WHERE c.nombre = 'reg_df_consulta' AND
+EXISTS (
+SELECT 1 FROM seguridad_credencial c2 WHERE c2.nombre = c.nombre 
+AND c2.id < c.id
+);
 
 CREATE TABLE "seguridad_credencial_credenciales_hijas" (
     "id" serial NOT NULL PRIMARY KEY,
