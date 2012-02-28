@@ -39,13 +39,15 @@
 			<label for="id_observaciones">Observaciones:</label>
 			{{ form.observaciones }}
 		</div>
-		<div class="form-submit">
-		{% if anexo %}
-			<input type="submit" value="Actualizar" />
-		{% else %}
-			<input type="submit" value="Guardar" />
-		{% endif %}
-		</div>
+	    {% if 'reg_anexo_completar' in credenciales %}
+		    <div class="form-submit">
+		    {% if anexo %}
+			    <input type="submit" value="Actualizar" />
+		    {% else %}
+			    <input type="submit" value="Guardar" />
+		    {% endif %}
+		    </div>
+        {% endif %}
 	</form>
 
 <script type="text/javascript">

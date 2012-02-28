@@ -31,8 +31,10 @@
 			<label for="cp">CP:</label>
 			{{ form.cp }}
 		</div>
+	    {% if 'reg_anexo_completar' in credenciales %}
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />
 		</div>
+        {% endif %}
 	</form>
 </div>

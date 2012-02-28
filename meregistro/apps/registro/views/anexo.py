@@ -137,7 +137,7 @@ def create(request):
 
 
 @login_required
-@credential_required('reg_anexo_modificar')
+@credential_required('reg_anexo_completar')
 def edit(request, anexo_id=None):
     """
     Edición de los datos de un anexo.

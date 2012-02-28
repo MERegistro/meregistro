@@ -27,9 +27,11 @@
 			<label for="cantidad">Cantidad:</label>
 			{{ form.cantidad }}
 		</div>
+	    {% if 'reg_anexo_completar' in credenciales %}
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />
 		</div>
+        {% endif %}
 	</form>
 </div>
 <script type="text/javascript">
