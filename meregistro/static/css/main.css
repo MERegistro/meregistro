@@ -347,6 +347,9 @@ div#establecimientoForm form input#id_cue {
 div#establecimientoForm form h4 {
 	margin-left: 10px;
 }
+div#establecimientoForm form select#id_tipo_norma {
+	width: 100px;	
+}
 /* anexoForm */
 div#anexoForm {
 	width: 850px;
