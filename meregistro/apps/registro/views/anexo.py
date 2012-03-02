@@ -449,10 +449,11 @@ def completar_conexion_internet(request, anexo_id):
         conexion = AnexoConexionInternet()
         conexion.anexo = anexo
 
+    if request.method == 'POST':
         form = AnexoConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()
-            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, anexo)
+            MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
