@@ -314,18 +314,12 @@ div.tabbed-form {
 div.tabbed-form form {
 	padding: 10px 0;
 }
-/* establecimientoCompletarDatosForm */
-div#establecimientoCompletarDatosForm {
-	width: 850px;
-	margin-bottom: 30px;
-}	
+/* establecimientoForm */
 div#establecimientoForm {
 	width: 850px;
 	margin-top: 35px;
 	margin-bottom: 30px;
 }
-	
-/* establecimientoForm */
 div#establecimientoForm form input#id_codigo_jurisdiccion,
 div#establecimientoForm form input#id_cue,
 div#establecimientoForm form input#id_codigo_tipo_unidad_educativa {
@@ -589,8 +583,8 @@ td.actions-td ul li.orientaciones a {
 	height: 24px;
 	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
 }
-/* REGISTRAR ESTABLECIMIENTO */
-td.actions-td ul li.registrar_establecimiento a {
+/* REGISTRAR */
+td.actions-td ul li.registrar a {
 	display: block;
 	width: 20px;
 	height: 24px;

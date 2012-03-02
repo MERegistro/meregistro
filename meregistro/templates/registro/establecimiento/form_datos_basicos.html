@@ -54,10 +54,13 @@
 	    <label for="id_observaciones">Observaciones:</label>
 	    {{ form.observaciones }}
 	</div>
-	    
-    {% if 'reg_establecimiento_completar' in credenciales %}
+    {% if 'reg_establecimiento_completar' in credenciales or 'reg_establecimiento_nueva' in credenciales %}
 	<div class="form-submit">
+	    {% if establecimiento %}
 	    <input type="submit" value="Actualizar" />
+	    {% else %}
+	    <input type="submit" value="Guardar" />
+	    {% endif %}
 	</div>
     {% endif %}
     </form>

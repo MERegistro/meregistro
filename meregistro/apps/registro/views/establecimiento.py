@@ -25,7 +25,7 @@ from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosF
 from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
 from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
 from apps.registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
-from apps.registro.FSMEstablecimiento import FSMEstablecimiento
+from apps.registro.FSM import FSMEstablecimiento
 from apps.registro.models import DependenciaFuncional
 from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
 from apps.reportes.models import Reporte
@@ -220,7 +220,7 @@ def __registrar_process(request, form, establecimiento):
     return False
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_datos(request):
     """
     CU 26
@@ -235,7 +235,7 @@ def completar_datos(request):
 
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_datos_basicos(request, establecimiento_id):
     """
     Edición de los datos básicos de un establecimiento.
@@ -270,7 +270,7 @@ def completar_datos_basicos(request, establecimiento_id):
     })
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_contacto(request, establecimiento_id):
     """
     Edición de los datos de contacto de un establecimiento.
@@ -305,7 +305,7 @@ def completar_contacto(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_niveles(request, establecimiento_id):
     """
     CU 26
@@ -333,7 +333,7 @@ def completar_niveles(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_turnos(request, establecimiento_id):
     """
     CU 26
@@ -361,7 +361,7 @@ def completar_turnos(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_funciones(request, establecimiento_id):
     """
     CU 26
@@ -389,7 +389,7 @@ def completar_funciones(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_informacion_edilicia(request, establecimiento_id):
     """
     CU 26
@@ -428,7 +428,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_completar')
 def completar_conexion_internet(request, establecimiento_id):
     """
     CU 26

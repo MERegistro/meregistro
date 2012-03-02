@@ -1,5 +1,6 @@
 from EstablecimientoFormFilters import EstablecimientoFormFilters
-from AnexoForm import AnexoForm
+from AnexoDatosBasicosForm import AnexoDatosBasicosForm
+from AnexoContactoForm import AnexoContactoForm
 from AnexoDomicilioForm import AnexoDomicilioForm
 from AnexoFormFilters import AnexoFormFilters
 from AnexoBajaForm import AnexoBajaForm

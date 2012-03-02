@@ -10,22 +10,28 @@ from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Anexo import Anexo
 from apps.registro.models.Localidad import Localidad
 from apps.registro.models.EstadoAnexo import EstadoAnexo
+from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.models.AnexoEstado import AnexoEstado
 from apps.registro.models.AnexoDomicilio import AnexoDomicilio
 from apps.registro.models.AnexoInformacionEdilicia import AnexoInformacionEdilicia
 from apps.registro.models.AnexoConexionInternet import AnexoConexionInternet
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
-from apps.registro.forms import AnexoFormFilters, AnexoForm, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnosForm, AnexoDomicilioForm
+from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnosForm, AnexoDomicilioForm
+from apps.registro.forms.AnexoContactoForm import AnexoContactoForm
 from apps.registro.forms.AnexoNivelesForm import AnexoNivelesForm
 from apps.registro.forms.AnexoFuncionesForm import AnexoFuncionesForm
 from apps.registro.forms.AnexoInformacionEdiliciaForm import AnexoInformacionEdiliciaForm
 from apps.registro.forms.AnexoConexionInternetForm import AnexoConexionInternetForm
+from apps.registro.FSM import FSMAnexo
+from apps.registro.forms.AnexoCambiarEstadoForm import AnexoCambiarEstadoForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
 from apps.reportes.views.anexo import anexos as reporte_anexos
 from apps.reportes.models import Reporte
+
+fsmAnexo = FSMAnexo()
 
 ITEMS_PER_PAGE = 50
 
@@ -45,6 +51,18 @@ def __anexo_dentro_del_ambito(request, anexo):
     except anexo.DoesNotExist:
         return False
     return True
+
+
+def __get_anexo(request, anexo_id):    
+    anexo = Anexo.objects.get(pk=anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+
+    if anexo.estado.nombre == EstadoAnexo.PENDIENTE:
+        if 'reg_editar_anexo_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del anexo pendiente')
+    return anexo
+
 
 @login_required
 @credential_required('reg_anexo_consulta')
@@ -109,7 +127,7 @@ def create(request):
     Alta de anexo.
     """
     if request.method == 'POST':
-        form = AnexoForm(request.POST)
+        form = AnexoDatosBasicosForm(request.POST)
         if form.is_valid():
             anexo = form.save(commit=False)
             estado = EstadoAnexo.objects.get(nombre=EstadoAnexo.PENDIENTE)
@@ -126,52 +144,15 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = AnexoForm()
+        form = AnexoDatosBasicosForm()
 
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoEstablecimiento.REGISTRADO)
     form.initial = {'codigo_jurisdiccion': '--', 'cue': '-----', }
     return my_render(request, 'registro/anexo/new.html', {
         'form': form,
         'is_new': True,
     })
 
-
-@login_required
-@credential_required('reg_anexo_completar')
-def edit(request, anexo_id=None):
-    """
-    Edición de los datos de un anexo.
-    """
-    if anexo_id is None:
-            return HttpResponseRedirect(reverse('anexoEdit', args=[request.session['anexo_seleccionado_id']]))
-    request.session['anexo_seleccionado_id'] = anexo_id
-
-    anexo = Anexo.objects.get(pk=anexo_id)
-    if anexo.dadoDeBaja():
-        raise Exception('El anexo se encuentra dado de baja.')
-    elif not __anexo_dentro_del_ambito(request, anexo):
-        raise Exception('El anexo no está en el ámbito del usuario.')
-    elif not anexo.is_editable():
-        raise Exception('El anexo no se puede editar.')
-    if request.method == 'POST':
-        form = AnexoForm(request.POST, instance=anexo)
-        if form.is_valid():
-            anexo = form.save()
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = AnexoForm(instance=anexo)
-
-    jurisdiccion = request.get_perfil().jurisdiccion()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    codigo = Establecimiento.get_parts_from_cue(anexo.cue)['codigo_tipo_unidad_educativa']
-    return my_render(request, 'registro/anexo/edit.html', {
-        'form': form,
-        'anexo': anexo,
-        'codigo_tipo_unidad_educativa': codigo,
-        'actual_page': ''
-    })
 
 @login_required
 @credential_required('reg_anexo_baja')
@@ -229,26 +210,11 @@ def baja(request, anexo_id):
     })
 
 
-def __get_anexo_actual(request):
-    """
-    Trae el único anexo que tiene asignado el usuario
-    """
-    anexos = Anexo.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    if len(anexos) == 0:
-        raise Exception('ERROR: El usuario no tiene asignado un anexo.')
-    elif len(anexos) == 1:
-        return anexos[0]
-    else:
-        if request.session.has_key('anexo_seleccionado_id'):
-            return Anexo.objects.get(pk=int(request.session['anexo_seleccionado_id']))
-        else:
-            request.set_flash('warning', 'Debe seleccionar un anexo.')
-
-
 @login_required
 #@credential_required('reg_establecimiento_completar')
-def completar_datos_basicos(request):
-    anexo = __get_anexo_actual(request)
+def completar_datos_basicos(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    
     if request.method == 'POST':
         form = AnexoDatosBasicosForm(request.POST, instance=anexo)
         if form.is_valid():
@@ -260,22 +226,64 @@ def completar_datos_basicos(request):
     else:
         form = AnexoDatosBasicosForm(instance=anexo)
 
+    parts = anexo.get_cue_parts()
+    form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
+    form.initial['cue'] = parts['cue']
+    form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
+
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoEstablecimiento.REGISTRADO)
+        
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_datos_basicos.html',
         'anexo': anexo,
+        'codigo_tipo_unidad_educativa': parts['codigo_tipo_unidad_educativa'],
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
+    })
+
+@login_required
+@credential_required('reg_anexo_completar')
+def completar_contacto(request, anexo_id):
+    """
+    Edición de los datos de contacto de un anexo.
+    """
+    anexo = __get_anexo(request, anexo_id)
+
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+
+    if anexo.estado.nombre == EstadoAnexo.PENDIENTE:
+        if 'reg_editar_anexo_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del anexo pendiente')
+
+    if request.method == 'POST':
+        form = AnexoContactoForm(request.POST, instance=anexo)
+        if form.is_valid():
+            anexo = form.save()
+            MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoContactoForm(instance=anexo)
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_contacto.html',
+        'anexo': anexo,
+        'page_title': 'Contacto',
+        'actual_page': 'contacto',
     })
 
 
 @login_required
 #@credential_required('reg_establecimiento_completar')
-def completar_turnos(request):
+def completar_turnos(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
-    anexo = __get_anexo_actual(request)
 
     if request.method == 'POST':
         form = AnexoTurnosForm(request.POST, instance=anexo)
@@ -299,11 +307,11 @@ def completar_turnos(request):
 
 @login_required
 #@credential_required('reg_establecimiento_completar')
-def completar_domicilio(request):
+def completar_domicilio(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
-    anexo = __get_anexo_actual(request)
     try:
         domicilio = anexo.anexo_domicilio.get()
     except:
@@ -335,11 +343,11 @@ def completar_domicilio(request):
 
 @login_required
 #@credential_required('reg_establecimiento_completar')
-def completar_niveles(request):
+def completar_niveles(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
-    anexo = __get_anexo_actual(request)
 
     if request.method == 'POST':
         form = AnexoNivelesForm(request.POST, instance=anexo)
@@ -363,11 +371,11 @@ def completar_niveles(request):
 
 @login_required
 #@credential_required('reg_establecimiento_completar')
-def completar_funciones(request):
+def completar_funciones(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
-    anexo = __get_anexo_actual(request)
 
     if request.method == 'POST':
         form = AnexoFuncionesForm(request.POST, instance=anexo)
@@ -391,11 +399,11 @@ def completar_funciones(request):
 
 @login_required
 #@credential_required('reg_establecimiento_completar')
-def completar_informacion_edilicia(request):
+def completar_informacion_edilicia(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
-    anexo = __get_anexo_actual(request)
 
     try:
         informacion_edilicia = AnexoInformacionEdilicia.objects.get(anexo=anexo)
@@ -430,18 +438,17 @@ def completar_informacion_edilicia(request):
 
 @login_required
 #@credential_required('reg_anexo_completar')
-def completar_conexion_internet(request):
+def completar_conexion_internet(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
-    anexo = __get_anexo_actual(request)
     try:
         conexion = AnexoConexionInternet.objects.get(anexo=anexo)
     except:
         conexion = AnexoConexionInternet()
         conexion.anexo = anexo
 
-    if request.method == 'POST':
         form = AnexoConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()
@@ -459,3 +466,43 @@ def completar_conexion_internet(request):
         'page_title': 'Conexión a internet',
         'actual_page': 'conexion_internet',
     })
+
+
+@login_required
+@credential_required('reg_anexo_aprobar_registro')
+def registrar(request, anexo_id):
+    anexo = Anexo.objects.get(pk=anexo_id)
+    form = __registrar_get_form(request, anexo)
+    if request.method == 'POST' and __registrar_process(request, form, anexo):
+            return HttpResponseRedirect(reverse('anexo'))
+    return __registrar_show_form(request, form, anexo)
+
+
+def __registrar_get_form(request, anexo):
+    if request.method == 'POST':
+        form = AnexoCambiarEstadoForm(request.POST)
+    else:
+        form = AnexoCambiarEstadoForm()
+    form.fields["estado"].choices = map(lambda e: (e.id, e), fsmAnexo.estadosDesde(anexo.estado_actual))
+    return form
+
+
+def __registrar_show_form(request, form, anexo):
+    return my_render(request, 'registro/anexo/registrar.html', {
+        'form': form,
+        'anexo': anexo
+    })
+
+
+def __registrar_process(request, form, anexo):
+    if form.is_valid():
+        nuevoEstado = form.cleaned_data['estado']
+        try:
+            anexo.estado = nuevoEstado
+            anexo.save()
+            anexo.registrar_estado()
+            request.set_flash('success', 'Anexo registrado correctamente.')
+            return True
+        except:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+    return False

@@ -96,7 +96,7 @@
                 </td>
                 <td class="actions-td">
                     <ul>
-                    {% if 'reg_establecimiento_ver' in credenciales and est.registrado %}
+                    {% if 'reg_establecimiento_completar' in credenciales and est.registrado %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Editar"><span>Editar</span></a></li>
                     {% endif %}
                     {% if 'reg_editar_establecimiento_pendiente' in credenciales and est.pendiente %}
@@ -106,7 +106,7 @@
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
                     {% endif %}
                     {% if 'reg_establecimiento_registrar' in credenciales %}
-                        <li class="registrar_establecimiento"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
+                        <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
                     {% endif %}
 			<li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
                     </ul>

@@ -20,11 +20,13 @@ class Anexo(models.Model):
     cue = models.CharField(max_length=9, unique=True)
     fecha_alta = models.DateField(null=True, blank=True, editable=False)
     nombre = models.CharField(max_length=255)
-    anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
+    anio_creacion = models.IntegerField(null=True, blank=True, choices=YEARS_CHOICES)
     norma_creacion = models.CharField(max_length=100)
     norma_creacion_otra = models.CharField(max_length=100)
     norma_creacion_numero = models.CharField(max_length=100)
     telefono = models.CharField(max_length=100, null=True, blank=True)
+    interno = models.CharField(max_length=10, null=True, blank=True)
+    fax = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
     sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
@@ -115,9 +117,26 @@ class Anexo(models.Model):
         es_pendiente = self.estado_actual.nombre == u'Pendiente'
         return cant_estados == 1 and es_pendiente
 
+    """
+    Obtener las partes del cue desde una instancia
+    """
+    def get_cue_parts(self):
+        parts = {
+            'codigo_jurisdiccion': self.cue[0:2],
+            'cue': self.cue[2:7],
+            'codigo_tipo_unidad_educativa': self.cue[7:9],
+        }
+        return parts
+        
     def get_fecha_solicitud(self):
         try:
             fecha = self.estados.all()[0].fecha.strftime("%d/%m/%Y")
         except IndexError:
             return "---"
         return fecha
+
+    def registrado(self):
+        return self.estado.nombre == EstadoAnexo.REGISTRADO
+
+    def pendiente(self):
+        return self.estado.nombre == EstadoAnexo.PENDIENTE
