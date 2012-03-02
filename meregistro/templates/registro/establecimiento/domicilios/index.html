@@ -40,7 +40,7 @@
 {% include "paginator.html" %}
 </form>
 {% else %}
-<div class="message warning">
+<div class="message notice">
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
@@ -50,7 +50,7 @@
         <a href="{% url apps.registro.views.establecimiento_domicilio.create %}"><span>Nuevo domicilio</span></a>
     </li>
     <li class="back">
-        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos %}"><span>Volver</span></a>
+        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
 </ul>
 {% endif %}
