@@ -231,7 +231,11 @@ def completar_datos_basicos(request, anexo_id):
     form.initial['cue'] = parts['cue']
     form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
 
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoEstablecimiento.REGISTRADO)
+    # Critreria del combo de establecimiento
+    from django.db.models import Q
+    q1 = Q(ambito__path__istartswith=request.get_perfil().ambito.path) | Q(id=anexo.establecimiento_id)
+    q2 = Q(estado__nombre=EstadoEstablecimiento.REGISTRADO)
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(q1, q2)
         
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
