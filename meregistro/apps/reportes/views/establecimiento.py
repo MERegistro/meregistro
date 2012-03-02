@@ -12,7 +12,7 @@ from apps.reportes.models import Reporte
 @login_required
 @credential_required('reportes_listado_establecimientos')
 def establecimientos(request, q):
-	filename = 'establecimientos_' + str(date.today()) + '.csv'
+	filename = 'establecimientos_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['REGION', 'JURISDICCIÓN', 'CUE', 'DEPENDENCIA FUNCIONAL', 'NOMBRE', 'DEPARTAMENTO', 'LOCALIDAD', 'ESTADO'], filename=filename)
 	for est in q:
 		try:

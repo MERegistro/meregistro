@@ -5,6 +5,9 @@ from datetime import datetime, date
 import csv
 import cStringIO
 import codecs
+import xlwt
+import tempfile
+import os
 
 class UnicodeWriter:
     """
@@ -45,13 +48,27 @@ class Reporte():
     def as_csv(self):    
         filename = self.filename
         if filename is None:
-            filename = str(date.today()) + '.csv'
-        self.response = HttpResponse(mimetype='text/csv; charset=utf-8')
+            filename = str(date.today()) + '.xls'
+        self.response = HttpResponse(mimetype='application/excel;')
         self.response['Content-Disposition'] = 'attachment; filename="' + filename + '"'
-        writer = csv.writer(self.response, delimiter=';')
-        writer.writerow(self.headers)
+        wbk = xlwt.Workbook(encoding='utf-8')
+        sheet = wbk.add_sheet('sheet 1')
+        #writer = csv.writer(self.response, delimiter=';')
+        #writer.writerow(self.headers)
+        rowIdx = 0
         for row in self.rows:
-            writer.writerow(row)
+            colIdx = 0
+            for c in row:
+                sheet.write(rowIdx, colIdx, c)
+                colIdx += 1
+            rowIdx += 1
+        #    writer.writerow(row)
+        fp, file_name = tempfile.mkstemp('.xls')
+        os.close(fp)
+        wbk.save(file_name)
+        f = open(file_name, 'rb')
+        self.response.write(f.read())
+        f.close()
         return self.response
 
 
