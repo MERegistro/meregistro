@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>Alta de domicilio</h2>
+<h3>{{ establecimiento }}</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -12,7 +13,7 @@
 
 <ul class="actions">
   <li class="back">
-    <a href="{% url apps.registro.views.establecimiento_domicilio.index %}"><span>Volver</span></a>
+    <a href="{% url apps.registro.views.establecimiento_domicilio.index establecimiento.id %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />

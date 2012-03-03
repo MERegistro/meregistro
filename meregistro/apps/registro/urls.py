@@ -21,8 +21,8 @@ urlpatterns = patterns('',
     url(r'^establecimiento/([0-9]+)/detalle$', 'apps.registro.views.establecimiento.detalle', name='establecimientoDetalle'),
     url(r'^establecimiento/([0-9]+)/revisar_jurisdiccion', 'apps.registro.views.establecimiento.revisar_jurisdiccion', name='establecimientoRevisarJurisdiccion'),
     # establecimiento domicilios
-    url(r'^establecimiento/domicilios$', 'apps.registro.views.establecimiento_domicilio.index', name='establecimientoDomiciliosIndex'),
-    url(r'^establecimiento/agregar_domicilio$', 'apps.registro.views.establecimiento_domicilio.create', name='establecimientoDomicilioCreate'),
+    url(r'^establecimiento/([0-9]+)/domicilios$', 'apps.registro.views.establecimiento_domicilio.index', name='establecimientoDomiciliosIndex'),
+    url(r'^establecimiento/([0-9]+)/agregar_domicilio$', 'apps.registro.views.establecimiento_domicilio.create', name='establecimientoDomicilioCreate'),
     url(r'^establecimiento/domicilios/([0-9]+)/edit$', 'apps.registro.views.establecimiento_domicilio.edit', name='establecimientoDomicilioEdit'),
     url(r'^establecimiento/domicilios/([0-9]+)/delete$', 'apps.registro.views.establecimiento_domicilio.delete', name='establecimientoDomicilioDelete'),
     # establecimiento autoridades

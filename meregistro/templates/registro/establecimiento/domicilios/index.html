@@ -47,7 +47,7 @@
 {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 <ul class="actions">
     <li class="create">
-        <a href="{% url apps.registro.views.establecimiento_domicilio.create %}"><span>Nuevo domicilio</span></a>
+        <a href="{% url apps.registro.views.establecimiento_domicilio.create establecimiento.id %}"><span>Nuevo domicilio</span></a>
     </li>
     <li class="back">
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>

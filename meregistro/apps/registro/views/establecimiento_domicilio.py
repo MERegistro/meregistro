@@ -16,30 +16,33 @@ from apps.registro.forms.EstablecimientoDomicilioFormFilters import Establecimie
 
 ITEMS_PER_PAGE = 50
 
-
-def __get_establecimiento_actual(request):
+@login_required
+def __establecimiento_dentro_del_ambito(request, establecimiento):
     """
-    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
+    La sede está dentro del ámbito?
     """
-    establecimientos = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    if len(establecimientos) == 0:
-        raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
-    elif len(establecimientos) == 1:
-        return establecimientos[0]
-    else:
-        if request.session.has_key('establecimiento_seleccionado_id'):
-            return Establecimiento.objects.get(pk=int(request.session['establecimiento_seleccionado_id']))
-        else:
-            request.set_flash('warning', 'Debe seleccionar un establecimiento.')
+    try:
+        establecimiento = Establecimiento.objects.get(id=establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except establecimiento.DoesNotExist:
+        return False
+    return True
 
+@login_required
+def __get_establecimiento(request, establecimiento_id):
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    if establecimiento.estado.nombre == EstadoEstablecimiento.PENDIENTE:
+        if 'reg_editar_establecimiento_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del establecimiento pendiente')
+
+    return establecimiento
 
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def index(request):
-
-    establecimiento = __get_establecimiento_actual(request)
-
+def index(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
     """
     Búsqueda de establecimientos
     """
@@ -47,7 +50,6 @@ def index(request):
         form_filter = EstablecimientoDomicilioFormFilters(request.GET, establecimiento_id=establecimiento.id)
     else:
         form_filter = EstablecimientoFormFilters(establecimiento_id=establecimiento.id)
-
     q = build_query(form_filter, 1, request)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -64,6 +66,7 @@ def index(request):
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'registro/establecimiento/domicilios/index.html', {
+        'establecimiento': establecimiento,
         'form_filters': form_filter,
         'objects': objects,
         'paginator': paginator,
@@ -84,11 +87,11 @@ def build_query(filters, page, request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def create(request):
+def create(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
     """
     Alta de domicilio.
     """
-    establecimiento = __get_establecimiento_actual(request)
     jurisdiccion = establecimiento.dependencia_funcional.jurisdiccion
 
     if request.method == 'POST':
@@ -99,13 +102,14 @@ def create(request):
             domicilio.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('establecimientoDomicilioEdit', args=[domicilio.id]))
+            return HttpResponseRedirect(reverse('establecimientoDomiciliosIndex', args=[domicilio.establecimiento_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = EstablecimientoDomicilioForm(jurisdiccion_id=jurisdiccion.id)
     form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
     return my_render(request, 'registro/establecimiento/domicilios/new.html', {
+        'establecimiento': establecimiento,
         'form': form,
     })
 
@@ -116,16 +120,16 @@ def edit(request, domicilio_id):
     """
     Edición de los datos de una domicilio.
     """
-    establecimiento = __get_establecimiento_actual(request)
-    domicilio = EstablecimientoDomicilio.objects.get(pk=domicilio_id, establecimiento__id=establecimiento.id)
+    domicilio = EstablecimientoDomicilio.objects.get(pk=domicilio_id)
+    establecimiento = __get_establecimiento(request, domicilio.establecimiento_id)
     jurisdiccion = establecimiento.dependencia_funcional.jurisdiccion
 
     if request.method == 'POST':
         form = EstablecimientoDomicilioForm(request.POST, instance=domicilio, jurisdiccion_id=jurisdiccion.id)
         if form.is_valid():
             domicilio = form.save()
-
             request.set_flash('success', 'Datos actualizados correctamente.')
+            return HttpResponseRedirect(reverse('establecimientoDomiciliosIndex', args=[domicilio.establecimiento_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
@@ -141,8 +145,9 @@ def edit(request, domicilio_id):
 @login_required
 @credential_required('reg_establecimiento_completar')
 def delete(request, domicilio_id):
-    establecimiento = __get_establecimiento_actual(request)
     domicilio = EstablecimientoDomicilio.objects.get(pk=domicilio_id, establecimiento__id=establecimiento.id)
+    establecimiento = __get_establecimiento(request, domicilio.establecimiento_id)
+    
     domicilio.delete()
     request.set_flash('success', 'Datos del domicilio eliminados correctamente.')
     return HttpResponseRedirect(reverse('establecimientoDomiciliosIndex'))
