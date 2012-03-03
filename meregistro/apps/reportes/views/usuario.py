@@ -11,7 +11,7 @@ from apps.reportes.models import Reporte
 @login_required
 @credential_required('reportes_listado_usuarios')
 def usuarios(request, q):
-	filename = 'usuarios_' + str(date.today()) + '.csv'
+	filename = 'usuarios_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['DOCUMENTO', 'APELLIDO', 'NOMBRE', 'PERFILES'], filename=filename)
 	for usuario in q:
 		perfil = ''

@@ -10,12 +10,20 @@ from apps.reportes.models import Reporte
 
 
 @login_required
-@credential_required('reportes_listado_anexos')
+#@credential_required('reportes_listado_anexos')
 def anexos(request, q):
-	filename = 'anexos_' + str(date.today()) + '.csv'
+	filename = 'anexos_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
 	for anexo in q:
 		fecha = anexo.fecha_alta.strftime('%d/%m/%Y')
 		turnos = ' - '.join("%s" % (t.nombre.encode('utf8')) for t in anexo.turnos.all())
-		reporte.rows.append([anexo.nombre.encode('utf8'), fecha.encode('utf8'), turnos, anexo.telefono.encode('utf8'), anexo.email.encode('utf8')])
+		if anexo.email is None:
+			email = ''
+		else:
+			email = anexo.email
+		if anexo.telefono is None:
+			telefono = ''
+		else:
+			telefono = anexo.telefono
+		reporte.rows.append([anexo.nombre.encode('utf8'), fecha.encode('utf8'), turnos, telefono.encode('utf8'), email.encode('utf8')])
 	return reporte.as_csv()
