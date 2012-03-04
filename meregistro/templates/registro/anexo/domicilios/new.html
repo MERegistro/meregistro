@@ -1,0 +1,20 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Alta de domicilio{% endblock %}
+
+{% block content %}
+<h2>Alta de domicilio</h2>
+<h3>{{ anexo }}</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "registro/anexo/domicilios/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.registro.views.anexo_domicilio.index anexo.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

@@ -2,6 +2,7 @@ from EstablecimientoFormFilters import EstablecimientoFormFilters
 from AnexoDatosBasicosForm import AnexoDatosBasicosForm
 from AnexoContactoForm import AnexoContactoForm
 from AnexoDomicilioForm import AnexoDomicilioForm
+from AnexoDomicilioFormFilters import AnexoDomicilioFormFilters
 from AnexoFormFilters import AnexoFormFilters
 from AnexoBajaForm import AnexoBajaForm
 from DependenciaFuncionalForm import DependenciaFuncionalForm

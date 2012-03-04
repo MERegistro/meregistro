@@ -17,18 +17,20 @@ class EstablecimientoDomicilioForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.jurisdiccion_id = kwargs.pop('jurisdiccion_id')
+        self.establecimiento_id = kwargs.pop('establecimiento_id')
         super(EstablecimientoDomicilioForm, self).__init__(*args, **kwargs)
         "Para no cargar todas las localidades y departamentos"
-        self.fields['departamento'].queryset = self.fields['departamento'].queryset.filter(jurisdiccion__id = self.jurisdiccion_id)
-        self.fields['localidad'].queryset = self.fields['localidad'].queryset.filter(departamento__jurisdiccion__id = self.jurisdiccion_id)
+        self.fields['departamento'].queryset = self.fields['departamento'].queryset.filter(jurisdiccion__id=self.jurisdiccion_id)
+        self.fields['localidad'].queryset = self.fields['localidad'].queryset.filter(departamento__jurisdiccion__id=self.jurisdiccion_id)
 
     def clean_tipo_domicilio(self):
         tipo_domicilio = self.cleaned_data['tipo_domicilio']
         try:
-            dom_existente = EstablecimientoDomicilio.objects.get(tipo_domicilio__id=tipo_domicilio.id, establecimiento__id=self.instance.establecimiento_id)
+            dom_existente = EstablecimientoDomicilio.objects.get(tipo_domicilio__id=tipo_domicilio.id, establecimiento__id=self.establecimiento_id)
         except EstablecimientoDomicilio.DoesNotExist:
             dom_existente = None
-        if dom_existente != self.instance:
+        " Si ya hay un domicilio para este establecimientos "
+        if dom_existente and dom_existente != self.instance:
             msg = "Ya hay un domicilio %s cargado." % (str(tipo_domicilio.descripcion).lower())
             raise ValidationError(msg)
         return tipo_domicilio

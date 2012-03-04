@@ -1,9 +1,9 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar domicilios del establecimiento{% endblock %}
+{% block title %}Administrar domicilios del anexo{% endblock %}
 
 {% block content %}
-<h2>Administrar domicilios del establecimiento {{ establecimiento }}</h2>
+<h2>Administrar domicilios del anexo {{ anexo }}</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -29,8 +29,8 @@
                 <td>{{ dom.localidad }}</td>
                 <td class="actions-td">
                     <ul>
-                        <li class="edit"><a href="{% url apps.registro.views.establecimiento_domicilio.edit dom.id %}" title="Editar"><span>Editar</span></a></li>
-                        <li class="delete"><a href="{% url apps.registro.views.establecimiento_domicilio.delete dom.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                        <li class="edit"><a href="{% url apps.registro.views.anexo_domicilio.edit dom.id %}" title="Editar"><span>Editar</span></a></li>
+                        <li class="delete"><a href="{% url apps.registro.views.anexo_domicilio.delete dom.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
                     </ul>
                 </td>
             </tr>
@@ -47,10 +47,10 @@
 {% if 'reg_anexo_completar' in credenciales %}
 <ul class="actions">
     <li class="create">
-        <a href="{% url apps.registro.views.establecimiento_domicilio.create establecimiento.id %}"><span>Nuevo domicilio</span></a>
+        <a href="{% url apps.registro.views.anexo_domicilio.create anexo.id %}"><span>Nuevo domicilio</span></a>
     </li>
     <li class="back">
-        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
+        <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>
     </li>
 </ul>
 {% endif %}

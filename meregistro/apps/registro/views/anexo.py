@@ -36,12 +36,14 @@ fsmAnexo = FSMAnexo()
 ITEMS_PER_PAGE = 50
 
 
+@login_required
 def __pertenece_al_establecimiento(request, anexo):
     """
     El anexo pertenece al establecimiento?
     """
     return anexo.establecimiento.ambito.path == request.get_perfil().ambito.path
 
+@login_required
 def __anexo_dentro_del_ambito(request, anexo):
     """
     El anexo está dentro del ámbito?
@@ -52,7 +54,7 @@ def __anexo_dentro_del_ambito(request, anexo):
         return False
     return True
 
-
+@login_required
 def __get_anexo(request, anexo_id):    
     anexo = Anexo.objects.get(pk=anexo_id)
     if not __anexo_dentro_del_ambito(request, anexo):
@@ -211,7 +213,7 @@ def baja(request, anexo_id):
 
 
 @login_required
-#@credential_required('reg_establecimiento_completar')
+@credential_required('reg_anexo_completar')
 def completar_datos_basicos(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     
@@ -282,7 +284,7 @@ def completar_contacto(request, anexo_id):
 
 
 @login_required
-#@credential_required('reg_establecimiento_completar')
+@credential_required('reg_anexo_completar')
 def completar_turnos(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -310,43 +312,7 @@ def completar_turnos(request, anexo_id):
 
 
 @login_required
-#@credential_required('reg_establecimiento_completar')
-def completar_domicilio(request, anexo_id):
-    anexo = __get_anexo(request, anexo_id)
-    """
-    CU 26
-    """
-    try:
-        domicilio = anexo.anexo_domicilio.get()
-    except:
-        domicilio = AnexoDomicilio()
-        domicilio.anexo = anexo
-
-    if request.method == 'POST':
-        form = AnexoDomicilioForm(request.POST, instance=domicilio)
-        if form.is_valid():
-            domicilio = form.save()
-            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = AnexoDomicilioForm(instance=domicilio)
-
-    jurisdiccion = request.get_perfil().jurisdiccion()
-    form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
-
-    return my_render(request, 'registro/anexo/completar_datos.html', {
-        'form': form,
-        'form_template': 'registro/anexo/form_domicilio.html',
-        'anexo': anexo,
-        'page_title': 'Domicilio',
-        'actual_page': 'domicilio',
-    })
-
-
-@login_required
-#@credential_required('reg_establecimiento_completar')
+@credential_required('reg_anexo_completar')
 def completar_niveles(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -374,7 +340,7 @@ def completar_niveles(request, anexo_id):
 
 
 @login_required
-#@credential_required('reg_establecimiento_completar')
+@credential_required('reg_anexo_completar')
 def completar_funciones(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -402,7 +368,7 @@ def completar_funciones(request, anexo_id):
 
 
 @login_required
-#@credential_required('reg_establecimiento_completar')
+@credential_required('reg_anexo_completar')
 def completar_informacion_edilicia(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
