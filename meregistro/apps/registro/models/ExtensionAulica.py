@@ -31,7 +31,6 @@ class ExtensionAulica(models.Model):
     email = models.EmailField(max_length = 255, null = True, blank = True)
     turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_extensiones_aulicas_turnos')
     estado = models.ForeignKey(EstadoExtensionAulica) # Concuerda con el último estado en ExtensionAulicaEstado
-    old_id = models.IntegerField(null = True, blank = True, editable = False)
 
     class Meta:
         app_label = 'registro'

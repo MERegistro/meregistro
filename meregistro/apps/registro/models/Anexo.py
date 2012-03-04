@@ -35,7 +35,6 @@ class Anexo(models.Model):
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_anexos_niveles')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_anexos_funciones')
-    old_id = models.IntegerField(null=True, blank=True, editable=False)
 
     class Meta:
         app_label = 'registro'

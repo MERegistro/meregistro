@@ -42,7 +42,6 @@ class Establecimiento(models.Model):
     niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_establecimientos_niveles')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_establecimientos_funciones')
     estado = models.ForeignKey(EstadoEstablecimiento, editable=False, null=True)
-    old_id = models.IntegerField(null=True, blank=True, editable=False)
     tipo_norma = models.ForeignKey(TipoNorma, null=False)
     tipo_norma_otra = models.CharField(max_length=100, null=True, blank=True)
 
