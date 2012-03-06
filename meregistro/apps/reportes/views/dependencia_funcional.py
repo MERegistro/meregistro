@@ -10,7 +10,7 @@ from apps.reportes.models import Reporte
 
 
 @login_required
-@credential_required('reportes_listado_dependencias_funcionales')
+@credential_required('reg_df_consulta')
 def dependencias_funcionales(request, q):
 	filename = 'dependencias_funcionales_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['NOMBRE', 'TIPO DE GESTIÓN', 'TIPO DE DEPENDENCIA'], filename=filename)

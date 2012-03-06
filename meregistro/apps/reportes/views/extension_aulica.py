@@ -10,7 +10,7 @@ from apps.reportes.models import Reporte
 
 
 @login_required
-#@credential_required('reportes_listado_extensiones_aulicas')
+@credential_required('reg_extension_aulica_consulta')
 def extensiones_aulicas(request, q):
 	filename = 'extensiones_aulicas_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
