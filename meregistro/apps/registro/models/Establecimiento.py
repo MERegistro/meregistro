@@ -24,7 +24,7 @@ class Establecimiento(models.Model):
     dependencia_funcional = models.ForeignKey(DependenciaFuncional)
     cue = models.CharField(max_length=9, unique=True)
     nombre = models.CharField(max_length=255)
-    tipo_normativa = models.ForeignKey(TipoNormativa, null=True, blank=True)
+    tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
     nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
     posee_subsidio = models.BooleanField()

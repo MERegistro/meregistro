@@ -1,10 +1,14 @@
 <div class="form tabbed-form" id="establecimientoForm">
     <form action="" method="post">{% csrf_token %}
-	<h4>Fecha de solicitud de registro: {{ establecimiento.get_fecha_solicitud }}</h4>
+    {% if establecimiento %}
+	<h4>Fecha de Solicitud de Registro: {{ establecimiento.get_fecha_solicitud }}</h4>
+    {% else %}    
+	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
+    {% endif %}
 	{{ form.non_field_errors }}
 	<div class="form-select">
 	    {{ form.dependencia_funcional.errors }}
-	    <label for="id_dependencia_funcional">Dependencia funcional:</label>
+	    <label for="id_dependencia_funcional">Dependencia Funcional:</label>
 	    {{ form.dependencia_funcional }}
 	</div>
 	<div class="form-text">
@@ -19,34 +23,39 @@
 	</div>
 	<div class="form-checkbox">
 	    {{ form.unidad_academica.errors }}
-	    <label for="id_unidad_academica">Unidad académica:</label>
+	    <label for="id_unidad_academica">Unidad Académica:</label>
 	    {{ form.unidad_academica }}
 	</div>
 	<div class="form-text">
 	    {{ form.nombre_unidad_academica.errors }}
-	    <label for="id_nombre_unidad_academica">Nombre de la unidad académica:</label>
+	    <label for="id_nombre_unidad_academica">Nombre de la Unidad Académica:</label>
 	    {{ form.nombre_unidad_academica }}
 	</div>
 	<div class="form-checkbox">
 	    {{ form.posee_subsidio.errors }}
-	    <label for="id_posee_subsidio">Posee subsidio:</label>
+	    <label for="id_posee_subsidio">¿Posee subsidio?:</label>
 	    {{ form.posee_subsidio }}
 	</div>
-	<div class="form-text">
+	<div class="form-select">
 	    {{ form.anio_creacion.errors }}
-	    <label for="id_anio_creacion">Año de creación:</label>
+	    <label for="id_anio_creacion">Año de Creación:</label>
 	    {{ form.anio_creacion }}
+	</div>
+	<div class="form-select">
+	    {{ form.tipo_normativa.errors }}
+	    <label for="id_tipo_normativa">Origen de la Norma:</label>
+	    {{ form.tipo_normativa }}
 	</div>
 	<div class="form-select" style="margin-top: 20px;">
 	    {{ form.tipo_norma.errors }}
 	    {{ form.tipo_norma_otra.errors }}
-	    <label for="id_tipo_norma_creacion">Norma de creación:</label>
+	    <label for="id_tipo_norma_creacion">Tipo de Norma:</label>
 	    {{ form.tipo_norma }}
 	    {{ form.tipo_norma_otra }}
 	</div>
 	<div class="form-text">
 	    {{ form.norma_creacion.errors }}
-	    <label for="id_norma_creacion">Número de norma:</label>
+	    <label for="id_norma_creacion">Número de la Norma:</label>
 	    {{ form.norma_creacion }}
 	</div>
 	<div class="form-textarea">
@@ -59,7 +68,7 @@
 	    {% if establecimiento %}
 	    <input type="submit" value="Actualizar" />
 	    {% else %}
-	    <input type="submit" value="Guardar" />
+	    <input type="submit" value="Enviar Solicitud" />
 	    {% endif %}
 	</div>
     {% endif %}

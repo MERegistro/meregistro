@@ -14,7 +14,7 @@ class EstablecimientoDatosBasicosForm(ModelForm):
     class Meta:
         model = Establecimiento
         fields = ['dependencia_funcional', 'cue', 'nombre', 'unidad_academica', 'nombre_unidad_academica', \
-            'posee_subsidio', 'anio_creacion', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones']
+            'posee_subsidio', 'anio_creacion', 'tipo_normativa', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones']
 
     def clean_nombre_unidad_academica(self):
         unidad_academica = self.cleaned_data['unidad_academica']
