@@ -24,11 +24,13 @@ class Establecimiento(models.Model):
     dependencia_funcional = models.ForeignKey(DependenciaFuncional)
     cue = models.CharField(max_length=9, unique=True)
     nombre = models.CharField(max_length=255)
-    tipo_normativa = models.ForeignKey(TipoNormativa)
     unidad_academica = models.BooleanField()
     nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
     posee_subsidio = models.BooleanField()
+    tipo_normativa = models.ForeignKey(TipoNormativa)
     norma_creacion = models.CharField(max_length=100)
+    tipo_norma = models.ForeignKey(TipoNorma, null=False)
+    tipo_norma_otra = models.CharField(max_length=100, null=True, blank=True)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
     anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
     telefono = models.CharField(max_length=100, null=True, blank=True)
@@ -42,8 +44,6 @@ class Establecimiento(models.Model):
     niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_establecimientos_niveles')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_establecimientos_funciones')
     estado = models.ForeignKey(EstadoEstablecimiento, editable=False, null=True)
-    tipo_norma = models.ForeignKey(TipoNorma, null=False)
-    tipo_norma_otra = models.CharField(max_length=100, null=True, blank=True)
 
     class Meta:
         app_label = 'registro'

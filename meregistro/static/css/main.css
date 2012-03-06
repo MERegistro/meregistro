@@ -350,6 +350,9 @@ div#anexoForm {
 	margin-top: 35px;
 	margin-bottom: 30px;
 }	
+div#anexoForm form h4 {
+	margin-left: 10px;
+}
 div#anexoCompletarDatosForm {
 	width: 850px;
 	margin-bottom: 30px;
@@ -378,6 +381,9 @@ div#anexoForm form input#id_codigo_tipo_unidad_educativa {
 	width: 1.8em;
 }
 div#anexoForm form select#id_norma_creacion {
+	width: 100px;	
+}
+div#anexoForm form select#id_tipo_norma {
 	width: 100px;	
 }
 /* extensionAulicaForm */

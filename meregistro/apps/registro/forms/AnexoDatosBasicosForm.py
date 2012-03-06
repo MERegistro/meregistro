@@ -9,21 +9,16 @@ import datetime
 
 
 currentYear = datetime.datetime.now().year
-norma_creacion_choices = [('', '-----')] + [(k, k) for k in Anexo.NORMA_CREACION_CHOICES]
 
 class AnexoDatosBasicosForm(forms.ModelForm):
     codigo_jurisdiccion = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     cue = forms.CharField(max_length=5, label='CUE', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     codigo_tipo_unidad_educativa = forms.CharField(label='', required=True, help_text=u'2 dígitos, ej: 01...02', widget=forms.TextInput(attrs={'size': 2, 'maxlength': 2}))
-    norma_creacion = forms.ChoiceField(label='Norma de creación', choices=norma_creacion_choices, required=True)
-    norma_creacion_otra = forms.CharField(required=False)
     observaciones = forms.CharField(max_length=255, required=False, widget=forms.Textarea)
     
     class Meta:
         model = Anexo
         exclude = ('estado', 'funciones', 'niveles', 'turnos', 'sitio_web', 'telefono', 'email',)
-        #fields = ['establecimiento', 'cue', 'nombre', 'unidad_academica', 'nombre_unidad_academica', \
-        #    'posee_subsidio', 'anio_creacion', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones']
 
     def __init__(self, *args, **kwargs):
         super(AnexoDatosBasicosForm, self).__init__(*args, **kwargs)
@@ -40,29 +35,17 @@ class AnexoDatosBasicosForm(forms.ModelForm):
             raise ValidationError('El Código debe tener 2 dígitos')
         
         return codigo
-
-    '''
-    def clean_anio_creacion(self):
-        # Ya fue validado que se introduzcan sólo enteros
-        anio_creacion = self.cleaned_data['anio_creacion']
-        if anio_creacion is not None:
-            anio_creacion = int(anio_creacion)
-            if anio_creacion < 1000 or anio_creacion > 9999:
-                raise ValidationError('El año tiene que tener cuatro dígitos')
-        else:
-            return
-    '''
     
-    def clean_norma_creacion_otra(self):
+    def clean_tipo_norma_otra(self):
         try:
-            norma_creacion = self.cleaned_data['norma_creacion']
-            norma_creacion_otra = self.cleaned_data['norma_creacion_otra']
-            if norma_creacion == 'Otra' and norma_creacion_otra == '':
-                raise ValidationError('Por favor escriba la norma de creación')
+            tipo_norma = self.cleaned_data['tipo_norma']
+            tipo_norma_otra = self.cleaned_data['tipo_norma_otra']
+            if tipo_norma.descripcion == 'Otra' and tipo_norma_otra == '':
+                raise ValidationError('Por favor escriba el tipo de norma')
         except KeyError:
-            norma_creacion_otra = ''
+            tipo_norma_otra = ''
             pass
-        return norma_creacion_otra
+        return tipo_norma_otra
 
     def clean(self):
         # Armar el CUE correctamente

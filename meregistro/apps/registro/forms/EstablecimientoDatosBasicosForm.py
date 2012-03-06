@@ -23,6 +23,17 @@ class EstablecimientoDatosBasicosForm(ModelForm):
             raise ValidationError('Por favor ingrese el nombre de la unidad académica')
         return nombre_unidad_academica
 
+    def clean_tipo_norma_otra(self):
+        try:
+            tipo_norma = self.cleaned_data['tipo_norma']
+            tipo_norma_otra = self.cleaned_data['tipo_norma_otra']
+            if tipo_norma.descripcion == 'Otra' and tipo_norma_otra == '':
+                raise ValidationError('Por favor escriba el tipo de norma')
+        except KeyError:
+            tipo_norma_otra = ''
+            pass
+        return tipo_norma_otra
+
     def clean_cue(self):
         cue = self.cleaned_data['cue']
         try:

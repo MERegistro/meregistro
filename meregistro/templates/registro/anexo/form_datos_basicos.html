@@ -1,5 +1,10 @@
-<div class="form" id="anexoForm">
+<div class="form tabbed-form" id="anexoForm">
     <form action="" method="post">{% csrf_token %}
+    {% if anexo %}
+	<h4>Fecha de Solicitud de Registro: {{ anexo.get_fecha_solicitud }}</h4>
+    {% else %}    
+	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
+    {% endif %}
 	{{ form.non_field_errors }}
 	<div class="form-select">
 	    {{ form.establecimiento.errors }}
@@ -19,20 +24,25 @@
 	</div>
 	<div class="form-text">
 	    {{ form.anio_creacion.errors }}
-	    <label for="id_anio_creacion">Año de creación:</label>
+	    <label for="id_anio_creacion">Año de Creación:</label>
 	    {{ form.anio_creacion }}
 	</div>
-	<div class="form-select" style="margin-top: 20px;">
-	    {{ form.norma_creacion.errors }}
-	    {{ form.norma_creacion_otra.errors }}
-	    <label for="id_norma_creacion">Norma de creación:</label>
-	    {{ form.norma_creacion }}
-	    {{ form.norma_creacion_otra }}
+	<div class="form-select">
+	    {{ form.tipo_normativa.errors }}
+	    <label for="id_tipo_normativa">Origen de la Norma:</label>
+	    {{ form.tipo_normativa }}
 	</div>
-	<div class="form-text" style="margin-bottom: 20px;">
-	    {{ form.norma_creacion_numero.errors }}
-	    <label for="id_norma_creacion_numero">Número de norma de creación:</label>
-	    {{ form.norma_creacion_numero }}
+	<div class="form-select" style="margin-top: 20px;">
+	    {{ form.tipo_norma.errors }}
+	    {{ form.tipo_norma_otra.errors }}
+	    <label for="id_tipo_norma_creacion">Tipo de Norma:</label>
+	    {{ form.tipo_norma }}
+	    {{ form.tipo_norma_otra }}
+	</div>
+	<div class="form-text">
+	    {{ form.norma_creacion.errors }}
+	    <label for="id_norma_creacion">Número de la Norma:</label>
+	    {{ form.norma_creacion }}
 	</div>
 	<div class="form-textarea">
 	    {{ form.observaciones.errors }}
@@ -44,7 +54,7 @@
 	{% if anexo %}
 	    <input type="submit" value="Actualizar" />
 	{% else %}
-	    <input type="submit" value="Guardar" />
+	    <input type="submit" value="Enviar Solicitud" />
 	{% endif %}
 	</div>
     {% endif %}
@@ -77,20 +87,21 @@ $(document).ready(function(){
 	});
     });
     // Norma de creación
-    dropdown_norma_creacion = $('select#id_norma_creacion');
-    norma_creacion_val = dropdown_norma_creacion.val();
-    norma_creacion_otra_input = $('input#id_norma_creacion_otra');
-    norma_creacion_otra_input.attr('disabled', true);
+    dropdown_tipo_norma = $('select#id_tipo_norma');
+    tipo_norma_val = $('select#id_tipo_norma option:selected').text();
+    tipo_norma_otra_input = $('input#id_tipo_norma_otra');
+    tipo_norma_otra_input.attr('disabled', true);
     
-    if(norma_creacion_val == 'Otra'){
-	norma_creacion_otra_input.removeAttr('disabled');
+    if(tipo_norma_val == 'Otra'){
+	tipo_norma_otra_input.removeAttr('disabled');
     }
     
-    dropdown_norma_creacion.change(function(){
-	if (dropdown_norma_creacion.val() == 'Otra'){
-	    norma_creacion_otra_input.removeAttr('disabled');
+    dropdown_tipo_norma.change(function(){
+	tipo_norma_val = $('select#id_tipo_norma option:selected').text();
+	if(tipo_norma_val == 'Otra'){
+	    tipo_norma_otra_input.removeAttr('disabled');
 	} else {
-	    norma_creacion_otra_input.attr('disabled', true);
+	    tipo_norma_otra_input.attr('disabled', true);
 	}
     });
     
