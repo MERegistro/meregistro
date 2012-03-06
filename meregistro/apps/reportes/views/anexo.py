@@ -10,7 +10,7 @@ from apps.reportes.models import Reporte
 
 
 @login_required
-#@credential_required('reportes_listado_anexos')
+@credential_required('reg_anexo_consulta')
 def anexos(request, q):
 	filename = 'anexos_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
