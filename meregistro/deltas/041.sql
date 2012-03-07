@@ -10,8 +10,8 @@ ALTER TABLE registro_anexo_version DROP COLUMN norma_creacion_numero;
 ALTER TABLE registro_anexo RENAME COLUMN norma_creacion_otra TO tipo_norma_otra;
 ALTER TABLE registro_anexo_version RENAME COLUMN norma_creacion_otra TO tipo_norma_otra;
 
-ALTER TABLE registro_anexo ADD COLUMN tipo_norma INTEGER;
-ALTER TABLE registro_anexo_version ADD COLUMN tipo_norma INTEGER;
+ALTER TABLE registro_anexo ADD COLUMN tipo_norma_id INTEGER;
+ALTER TABLE registro_anexo_version ADD COLUMN tipo_norma_id INTEGER;
 
 ALTER TABLE registro_anexo ADD CONSTRAINT registro_anexo_tipo_norma_id_fkey
 	FOREIGN KEY (tipo_norma_id)
