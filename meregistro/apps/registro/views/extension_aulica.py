@@ -13,12 +13,16 @@ from apps.registro.models.ExtensionAulica import ExtensionAulica
 from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
 from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicilio
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
-from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm
+from apps.registro.models.ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
+from apps.registro.models.ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaNivelesForm, ExtensionAulicaTurnosForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
 from apps.reportes.views.extension_aulica import extensiones_aulicas as reporte_extensiones_aulicas
 from apps.reportes.models import Reporte
+from apps.registro.models.TipoDominio import TipoDominio
+from apps.registro.models.TipoCompartido import TipoCompartido
 
 ITEMS_PER_PAGE = 50
 
@@ -52,6 +56,15 @@ def __extension_aulica_dentro_del_ambito(request, extension_aulica):
     except extension_aulica.DoesNotExist:
         return False
     return True
+
+def __get_extension_aulica(request, extension_aulica_id):
+    
+    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
+
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+
+    return extension_aulica
 
 @login_required
 @credential_required('reg_extension_aulica_consulta')
@@ -144,39 +157,6 @@ def create(request):
     })
 
 
-@login_required
-@credential_required('reg_extension_aulica_modificar')
-def edit(request, extension_aulica_id):
-    """
-    Edición de los datos de una extensión áulica.
-    """
-    ext = ExtensionAulica.objects.get(pk=extension_aulica_id)
-    if not __extension_aulica_dentro_del_ambito(request, ext):
-        raise Exception('La unidad educativa no está en el ámbito del usuario.')
-    elif not ext.is_editable():
-        raise Exception('La unidad educativa no se puede editar.')
-    if request.method == 'POST':
-        form = ExtensionAulicaForm(request.POST, instance=ext)
-        if form.is_valid():
-            ext = form.save()
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            raise Exception(form.errors)
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = ExtensionAulicaForm(instance=ext)
-
-    jurisdiccion = request.get_perfil().jurisdiccion()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    try:
-        codigo = Establecimiento.get_parts_from_cue(ext.cue)['codigo_tipo_unidad_educativa']
-    except TypeError:
-        codigo = ''
-    return my_render(request, 'registro/extension_aulica/edit.html', {
-        'form': form,
-        'extension_aulica': ext,
-        'codigo_tipo_unidad_educativa': codigo,
-    })
 
 
 @login_required
@@ -235,3 +215,232 @@ def baja(request, extension_aulica_id):
         'extension_aulica': extension_aulica,
         'dada_de_baja': dada_de_baja,
     })
+
+
+
+
+
+
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_datos(request):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'establecimiento': establecimiento,
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_datos_basicos(request, extension_aulica_id):
+    """
+    Edición de los datos de una extensión áulica.
+    """
+    ext = __get_extension_aulica(request, extension_aulica_id)
+    if not ext.is_editable():
+        raise Exception('La unidad educativa no se puede editar.')
+    if request.method == 'POST':
+        form = ExtensionAulicaForm(request.POST, instance=ext)
+        if form.is_valid():
+            ext = form.save()
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            raise Exception(form.errors)
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaForm(instance=ext)
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    try:
+        codigo = Establecimiento.get_parts_from_cue(ext.cue)['codigo_tipo_unidad_educativa']
+    except TypeError:
+        codigo = ''
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_datos_basicos.html',
+        'extension_aulica': ext,
+        'codigo_tipo_unidad_educativa': codigo,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos'
+    })    
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_contacto(request, extension_aulica_id):
+    ext = ExtensionAulica.objects.get(pk=extension_aulica_id)
+
+    if not __extension_aulica_dentro_del_ambito(request, ext):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+
+    if request.method == 'POST':
+        form = ExtensionAulicaContactoForm(request.POST, instance=ext)
+        if form.is_valid():
+            ext = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaContactoForm(instance=ext)
+
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_contacto.html',
+        'extension_aulica': ext,
+        'page_title': 'Contacto',
+        'actual_page': 'contacto',
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_niveles(request, extension_aulica_id):
+    """
+    CU 26
+    """
+    ext = __get_extension_aulica(request, extension_aulica_id)
+
+    if request.method == 'POST':
+        form = ExtensionAulicaNivelesForm(request.POST, instance=ext)
+        if form.is_valid():
+            niveles = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaNivelesForm(instance=ext)
+
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_niveles.html',
+        'extension_aulica': ext,
+        'page_title': 'Niveles',
+        'actual_page': 'niveles',
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_turnos(request, extension_aulica_id):
+    ext = __get_extension_aulica(request, extension_aulica_id)
+
+    if request.method == 'POST':
+        form = ExtensionAulicaTurnosForm(request.POST, instance=ext)
+        if form.is_valid():
+            turnos = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaTurnosForm(instance=ext)
+
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_turnos.html',
+        'extension_aulica': ext,
+        'page_title': 'Turnos',
+        'actual_page': 'turnos',
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_funciones(request, extension_aulica_id):
+    ext = __get_extension_aulica(request, extension_aulica_id)
+
+    if request.method == 'POST':
+        form = ExtensionAulicaFuncionesForm(request.POST, instance=ext)
+        if form.is_valid():
+            funciones = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaFuncionesForm(instance=ext)
+
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_funciones.html',
+        'extension_aulica': ext,
+        'page_title': 'Funciones',
+        'actual_page': 'funciones',
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_informacion_edilicia(request, extension_aulica_id):
+    """
+    CU 26
+    """
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    try:
+        informacion_edilicia = ExtensionAulicaInformacionEdilicia.objects.get(extension_aulica=extension_aulica)
+    except:
+        informacion_edilicia = ExtensionAulicaInformacionEdilicia()
+        informacion_edilicia.extension_aulica = extension_aulica
+
+    if request.method == 'POST':
+        form = ExtensionAulicaInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
+        if form.is_valid():
+            informacion_edilicia = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaInformacionEdiliciaForm(instance=informacion_edilicia)
+
+    es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
+    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion='Establecimiento de otro nivel').id
+
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_informacion_edilicia.html',
+        'extension_aulica': extension_aulica,
+        'es_dominio_compartido_id': es_dominio_compartido_id,
+        'comparte_otro_nivel_id': comparte_otro_nivel_id,
+        'page_title': 'Información edilicia',
+        'actual_page': 'informacion_edilicia',
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_modificar')
+def completar_conexion_internet(request, extension_aulica_id):
+    """
+    CU 26
+    """
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    try:
+        conexion = ExtensionAulicaConexionInternet.objects.get(extension_aulica=extension_aulica)
+    except:
+        conexion = ExtensionAulicaConexionInternet()
+        conexion.extension_aulica = extension_aulica
+
+    if request.method == 'POST':
+        form = ExtensionAulicaConexionInternetForm(request.POST, instance=conexion)
+        if form.is_valid():
+            conexion = form.save()
+            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = ExtensionAulicaConexionInternetForm(instance=conexion)
+
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/extension_aulica/form_conexion_internet.html',
+        'extension_aulica': extension_aulica,
+        'page_title': 'Conexión a internet',
+        'actual_page': 'conexion_internet',
+    })
+

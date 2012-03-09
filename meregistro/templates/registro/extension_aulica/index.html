@@ -62,7 +62,7 @@
         <td class="actions-td">
 	    <ul>
 	    {% if 'reg_extension_aulica_modificar' in credenciales %}
-		<li class="edit"><a href="{% url apps.registro.views.extension_aulica.edit ext.id %}" title="Editar"><span>Editar</span></a></li>
+		<li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ext.id %}" title="Editar"><span>Editar</span></a></li>
 	    {% endif %}
 	    {% if ext.is_deletable %}
 		<li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>

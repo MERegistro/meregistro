@@ -1,0 +1,58 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Administrar domicilios de la extensión áulica{% endblock %}
+
+{% block content %}
+<h2>Administrar domicilios de la extensión áulica {{ anexo }}</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Dirección</th>
+            <th>Departamento</th>
+            <th>Localidad</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for dom in objects %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                <td>{{ dom.tipo_domicilio }}</td>
+                <td>{{ dom.calle }} {{ dom.altura }} ({{ dom.cp }})</td>
+                <td>{{ dom.localidad.departamento }}</td>
+                <td>{{ dom.localidad }}</td>
+                <td class="actions-td">
+                    <ul>
+                        <li class="edit"><a href="{% url apps.registro.views.extension_aulica_domicilio.edit dom.id %}" title="Editar"><span>Editar</span></a></li>
+                        <li class="delete"><a href="{% url apps.registro.views.extension_aulica_domicilio.delete dom.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+    <p>No se encontraron domicilios.</p>
+</div>
+{% endif %}
+{% if 'reg_extension_aulica_modificar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.extension_aulica_domicilio.create extension_aulica.id %}"><span>Nuevo domicilio</span></a>
+    </li>
+    <li class="back">
+        <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+{% endif %}
+<hr />
+{% endblock %}

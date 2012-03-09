@@ -344,6 +344,9 @@ div#establecimientoForm form h4 {
 div#establecimientoForm form select#id_tipo_norma {
 	width: 100px;	
 }
+div#establecimientoForm form select#id_norma_creacion {
+	width: 100px;	
+}
 /* anexoForm */
 div#anexoForm {
 	width: 850px;

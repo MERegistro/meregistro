@@ -4,7 +4,8 @@ from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.TipoNormativa import TipoNormativa
 from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.Turno import Turno
-from apps.registro.models.Turno import Turno
+from apps.registro.models.Nivel import Nivel
+from apps.registro.models.Funcion import Funcion
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from apps.seguridad.audit import audit
@@ -31,6 +32,8 @@ class ExtensionAulica(models.Model):
     email = models.EmailField(max_length = 255, null = True, blank = True)
     turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_extensiones_aulicas_turnos')
     estado = models.ForeignKey(EstadoExtensionAulica) # Concuerda con el último estado en ExtensionAulicaEstado
+    niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_extension_aulica_niveles')
+    funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_extension_aulica_funciones')
 
     class Meta:
         app_label = 'registro'

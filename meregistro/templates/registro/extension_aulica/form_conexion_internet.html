@@ -1,0 +1,36 @@
+<div class="form tabbed-form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.tipo_conexion.errors }}
+			<label for="id_tipo_conexion">Tipo de conexión:</label>
+			{{ form.tipo_conexion }}
+		</div>
+		<div class="form-text">
+			{{ form.proveedor.errors }}
+			<label for="proveedor">Proveedor:</label>
+			{{ form.proveedor }}
+		</div>
+		<div class="form-checkbox">
+			{{ form.tiene_conexion.errors }}
+			<label for="tiene_conexion">Tiene conexión:</label>
+			{{ form.tiene_conexion }}
+		</div>
+		<div class="form-text">
+			{{ form.costo.errors }}
+			<label for="costo">Costo mensual:</label>
+			{{ form.costo }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad.errors }}
+			<p class="help-text">Cantidad de máquinas que comparten la conexión</p>
+			<label for="cantidad">Cantidad:</label>
+			{{ form.cantidad }}
+		</div>
+        {% if 'reg_extension_aulica_modificar' in credenciales %}
+		<div class="form-submit">
+			<input type="submit" value="Actualizar" />
+		</div>
+        {% endif %}
+	</form>
+</div>

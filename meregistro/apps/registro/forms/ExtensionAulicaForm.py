@@ -9,7 +9,7 @@ import datetime
 
 
 currentYear = datetime.datetime.now().year
-norma_creacion_choices = [('', '-----')] + [(k, k) for k in ExtensionAulica.NORMA_CREACION_CHOICES]
+norma_creacion_choices = [('', 'Seleccione...')] + [(k, k) for k in ExtensionAulica.NORMA_CREACION_CHOICES]
 
 
 class ExtensionAulicaForm(forms.ModelForm):
@@ -45,8 +45,7 @@ class ExtensionAulicaForm(forms.ModelForm):
             anio_creacion = int(anio_creacion)
             if anio_creacion < 1000 or anio_creacion > 9999:
                 raise ValidationError('El año tiene que tener cuatro dígitos')
-        else:
-            return
+        return anio_creacion
             
     def clean_norma_creacion_otra(self):
         try:
@@ -56,7 +55,6 @@ class ExtensionAulicaForm(forms.ModelForm):
                 raise ValidationError('Por favor escriba la norma de creación')
         except KeyError:
             norma_creacion_otra = ''
-            pass
         return norma_creacion_otra
 
     def clean(self):
