@@ -55,7 +55,7 @@ CREATE TABLE "registro_extension_aulica_conexion_internet" (
 CREATE INDEX "registro_extension_aulica_conexion_internet_extension_aulica_id" ON "registro_extension_aulica_conexion_internet" ("extension_aulica_id");
 CREATE INDEX "registro_extension_aulica_conexion_internet_tipo_conexion_id" ON "registro_extension_aulica_conexion_internet" ("tipo_conexion_id");
 
-
+ALTER TABLE registro_extension_aulica ADD COLUMN "ambito_id" integer REFERENCES "seguridad_ambito" ("id") DEFERRABLE INITIALLY DEFERRED;
 INSERT INTO deltas_sql (numero, app, comentario) VALUES ('042', 'Registro', 'Ticket #148');
 
 COMMIT;

@@ -6,6 +6,7 @@ from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.Turno import Turno
 from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Funcion import Funcion
+from apps.seguridad.models.Ambito import Ambito
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from apps.seguridad.audit import audit
@@ -34,6 +35,7 @@ class ExtensionAulica(models.Model):
     estado = models.ForeignKey(EstadoExtensionAulica) # Concuerda con el último estado en ExtensionAulicaEstado
     niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_extension_aulica_niveles')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_extension_aulica_funciones')
+    ambito = models.ForeignKey(Ambito, editable=False, null=True)
 
     class Meta:
         app_label = 'registro'
@@ -98,3 +100,21 @@ class ExtensionAulica(models.Model):
         except IndexError:
             return "---"
         return fecha
+
+
+    def save(self):
+        self.updateAmbito()
+        self.ambito.vigente = True
+        self.ambito.save()
+        models.Model.save(self)
+
+
+    def updateAmbito(self):
+        if self.pk is None or self.ambito is None:
+            try:
+                self.ambito = self.establecimiento.ambito.createChild(self.nombre)
+            except Exception:
+                pass
+        else:
+            self.ambito.descripcion = self.nombre
+            self.ambito.save()

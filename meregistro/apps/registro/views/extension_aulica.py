@@ -31,7 +31,7 @@ def __pertenece_al_establecimiento(request, extension_aulica):
     """
     La extensión áulica pertenece al establecimiento?
     """
-    return extension_aulica.establecimiento.ambito.path == request.get_perfil().ambito.path
+    return extension_aulica.ambito.path == request.get_perfil().ambito.path
 
 
 def __get_establecimiento_actual(request):
@@ -52,7 +52,7 @@ def __extension_aulica_dentro_del_ambito(request, extension_aulica):
     La extensión áulica está dentro del ámbito?
     """
     try:
-        extension_aulica = ExtensionAulica.objects.get(id=extension_aulica.id, establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
+        extension_aulica = ExtensionAulica.objects.get(id=extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
     except extension_aulica.DoesNotExist:
         return False
     return True
