@@ -24,19 +24,16 @@ def __pertenece_al_extension_aulica(request, extension_aulica):
     return True
     return extension_aulica.ambito.path == request.get_perfil().ambito.path
 
-@login_required
 def __extension_aulica_dentro_del_ambito(request, extension_aulica):
     """
     El extension_aulica está dentro del ámbito?
     """
     try:
-        pass
-        #extension_aulica = ExtensionAulica.objects.get(id=extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+        extension_aulica = ExtensionAulica.objects.get(id=extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
     except extension_aulica.DoesNotExist:
         return False
     return True
 
-@login_required
 def __get_extension_aulica(request, extension_aulica_id):    
     extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
     if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
