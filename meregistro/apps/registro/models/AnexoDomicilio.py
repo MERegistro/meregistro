@@ -12,7 +12,7 @@ class AnexoDomicilio(models.Model):
     tipo_domicilio = models.ForeignKey(TipoDomicilio)
     localidad = models.ForeignKey(Localidad, related_name = 'anexo_localidad')
     calle = models.CharField(max_length=100)
-    altura = models.CharField(max_length=5)
+    altura = models.CharField(max_length=15)
     referencia = models.CharField(max_length=255, null=True, blank=True)
     cp = models.CharField(max_length=20)
 
