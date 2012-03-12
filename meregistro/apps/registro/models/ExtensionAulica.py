@@ -7,6 +7,7 @@ from apps.registro.models.Turno import Turno
 from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Funcion import Funcion
 from apps.seguridad.models.Ambito import Ambito
+from apps.registro.models.OrigenNorma import OrigenNorma
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from apps.seguridad.audit import audit
@@ -15,7 +16,7 @@ YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.no
 
 @audit
 class ExtensionAulica(models.Model):
-    NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Otra']
+    NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Dictamen', 'Otra']
     
     establecimiento = models.ForeignKey(Establecimiento)
     cue = models.CharField(max_length=9, null=True, blank=True, unique=True)
@@ -36,6 +37,7 @@ class ExtensionAulica(models.Model):
     niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_extension_aulica_niveles')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_extension_aulica_funciones')
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
+    origen_norma = models.ForeignKey(OrigenNorma, null=False)
 
     class Meta:
         app_label = 'registro'

@@ -23,9 +23,14 @@
 			{{ form.anio_creacion }}
 		</div>
 		<div class="form-select" style="margin-top: 20px;">
+			{{ form.origen_norma.errors }}
+			<label for="id_origen_norma">Origen de la Norma:</label>
+			{{ form.origen_norma }}
+        </div>
+		<div class="form-select" style="margin-top: 20px;">
 			{{ form.norma_creacion.errors }}
 			{{ form.norma_creacion_otra.errors }}
-			<label for="id_norma_creacion">Norma de creación:</label>
+			<label for="id_norma_creacion">Tipo de Norma:</label>
 			{{ form.norma_creacion }}
 			{{ form.norma_creacion_otra }}
 		</div>

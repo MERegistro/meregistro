@@ -35,3 +35,4 @@ from EstablecimientoAutoridad import EstablecimientoAutoridad
 from TipoNorma import TipoNorma
 from ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
 from ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
+from OrigenNorma import OrigenNorma
