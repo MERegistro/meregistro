@@ -71,7 +71,107 @@ WITH (
 );
 
 
+CREATE OR REPLACE FUNCTION auditar_"""+table+"""()
+RETURNS "trigger" AS $$
+DECLARE
+    vers int;
+BEGIN
+
+SELECT INTO vers COALESCE(MAX("version"),0 )+1
+FROM """+table+"""_version
+WHERE id = NEW.id;
+
+IF (vers = 1) THEN
+  NEW.created_at = NOW();
+  NEW.updated_at = NOW();
+END IF;
+
+INSERT INTO """+table+"""_version(
 """
+    for f in fields:
+        print " ", f, ","
+    print """
+  last_user_id,
+  created_at,
+  updated_at,
+  "version",
+  deleted
+)
+VALUES (
+"""
+    for f in fields:
+        print "NEW.%s," % f
+    print """
+
+  NEW.last_user_id,
+  CASE WHEN vers > 1 THEN NEW.created_at ELSE NOW() END,
+  NOW(),
+  vers,
+  FALSE
+);
+
+RETURN NEW;
+END;
+
+$$ LANGUAGE 'plpgsql';
+
+DROP TRIGGER IF EXISTS auditar ON """+table+""";
+
+CREATE TRIGGER auditar
+BEFORE INSERT OR UPDATE
+ON """+table+"""
+FOR EACH ROW
+EXECUTE PROCEDURE auditar_"""+table+"""();
+
+
+CREATE OR REPLACE FUNCTION auditar_"""+table+"""_del()
+RETURNS "trigger" AS $$
+DECLARE
+    vers int;
+BEGIN
+
+SELECT INTO vers COALESCE(MAX("version"),0 )+1
+FROM """+table+"""_version
+WHERE id = OLD.id;
+
+INSERT INTO """+table+"""_version(
+"""
+    for f in fields:
+        print " ", f, ","
+    print """
+  last_user_id,
+  created_at,
+  updated_at,
+  "version",
+  deleted
+)
+VALUES (
+"""
+    for f in fields:
+        print "OLD.%s," % f
+    print """
+
+  OLD.last_user_id,
+  CASE WHEN vers > 1 THEN OLD.created_at ELSE NOW() END,
+  NOW(),
+  vers,
+  TRUE
+);
+
+RETURN OLD;
+END;
+
+$$ LANGUAGE 'plpgsql';
+
+DROP TRIGGER IF EXISTS auditar_del ON """+table+""";
+
+CREATE TRIGGER auditar_del
+BEFORE DELETE
+ON """+table+"""
+FOR EACH ROW
+EXECUTE PROCEDURE auditar_"""+table+"""_del();
+"""
+
 
 #TODO: implementar generacion de los SP auditar y auditar_del
 
