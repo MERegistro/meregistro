@@ -28,6 +28,13 @@ hr {
 	clear: both;
 	visibility: hidden;
 }
+div#enConstruccion {
+	background: #F2F1F0 url(../img/en-construccion.png) no-repeat 15px 10px;
+	padding: 20px 0 20px 60px;
+	width: 260px;
+	margin: 0 auto;
+	border: 1px #C9CBC8 solid;
+}
 /*
 =WRAPPER
 */
