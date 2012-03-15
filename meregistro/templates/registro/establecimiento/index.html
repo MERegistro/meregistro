@@ -140,11 +140,11 @@ $(document).ready(
     dropdown_departamento.change(
 	function(){
 	    if (dropdown_departamento.val() == '') {
-		dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+		dropdown_localidad.html("<option value=''>Seleccione...</option>");
 	    } else {
 		var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
 		$.getJSON(url, function(models){
-		    var options = '<option value="">----</option>';
+		    var options = '<option value="">Seleccione...</option>';
 		    for(var i = 0; i < models.length; i++){
 			options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
 		    }
@@ -157,11 +157,11 @@ $(document).ready(
 // Init
 
 if (dropdown_departamento.val() == '') {
-    dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+    dropdown_localidad.html("<option value=''>Seleccione...</option>");
 } else {
     var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
     $.getJSON(url, function(models) {
-    var options = '<option value="">----</option>';
+    var options = '<option value="">Seleccione...</option>';
     for (var i = 0; i < models.length; i++){
         options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
     }
@@ -180,11 +180,11 @@ if (dropdown_departamento.val() == '') {
 var dropdown_jurisdiccion = $("select#id_jurisdiccion");
 
 if (dropdown_jurisdiccion.val() == '') {
-    dropdown_departamento.html("<option value=''>---Elegir jurisdicción---</option>");
+    dropdown_departamento.html("<option value=''>Seleccione...</option>");
 } else {
     var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
     $.getJSON(url, function(models) {
-    var options = '<option value="">----</option>';
+    var options = '<option value="">Seleccione...</option>';
     for (var i = 0; i < models.length; i++){
         options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
     }
@@ -195,11 +195,11 @@ if (dropdown_jurisdiccion.val() == '') {
 
 dropdown_jurisdiccion.change(function(){
     if (dropdown_jurisdiccion.val() == '') {
-	dropdown_departamento.html("<option value=''>---Elegir jurisdicción---</option>");
+	dropdown_departamento.html("<option value=''>Seleccione...</option>");
     } else {
 	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
 	$.getJSON(url, function(models) {
-	    var options = '<option value="">----</option>';
+	    var options = '<option value="">Seleccione...</option>';
 	    for (var i = 0; i < models.length; i++) {
 	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
 	    }

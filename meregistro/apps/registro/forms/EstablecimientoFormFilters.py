@@ -10,7 +10,7 @@ class EstablecimientoFormFilters(forms.Form):
     cue = forms.CharField(max_length=40, label='Cue', required=False)
     dependencia_funcional = forms.ModelChoiceField(queryset=DependenciaFuncional.objects, label='Dependencia funcional', required=False)
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.order_by('nombre'), label='Departamento', required=False)
-    localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False, empty_label='---Elegir departamento---')
+    localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False)
     estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects, label='Estado', required=False)
     jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects.order_by('nombre'), label='Jurisdiccion', required=False)
 
