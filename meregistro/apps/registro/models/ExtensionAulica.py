@@ -120,3 +120,10 @@ class ExtensionAulica(models.Model):
         else:
             self.ambito.descripcion = self.nombre
             self.ambito.save()
+
+
+    def registrado(self):
+        return self.estado.nombre == EstadoExtensionAulica.REGISTRADA
+
+    def pendiente(self):
+        return self.estado.nombre == EstadoExtensionAulica.PENDIENTE

@@ -15,7 +15,7 @@ from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicil
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
 from apps.registro.models.ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
 from apps.registro.models.ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
-from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaNivelesForm, ExtensionAulicaTurnosForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaNivelesForm, ExtensionAulicaTurnosForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -23,6 +23,9 @@ from apps.reportes.views.extension_aulica import extensiones_aulicas as reporte_
 from apps.reportes.models import Reporte
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
+from apps.registro.FSM import FSMExtensionAulica
+
+fsmExtensionAulica = FSMExtensionAulica()
 
 ITEMS_PER_PAGE = 50
 
@@ -444,3 +447,42 @@ def completar_conexion_internet(request, extension_aulica_id):
         'actual_page': 'conexion_internet',
     })
 
+
+@login_required
+@credential_required('reg_anexo_aprobar_registro')
+def registrar(request, extension_aulica_id):
+    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
+    form = __registrar_get_form(request, extension_aulica)
+    if request.method == 'POST' and __registrar_process(request, form, extension_aulica):
+            return HttpResponseRedirect(reverse('extensionAulica'))
+    return __registrar_show_form(request, form, extension_aulica)
+
+
+def __registrar_get_form(request, extension_aulica):
+    if request.method == 'POST':
+        form = ExtensionAulicaCambiarEstadoForm(request.POST)
+    else:
+        form = ExtensionAulicaCambiarEstadoForm()
+    form.fields["estado"].choices = map(lambda e: (e.id, e), fsmExtensionAulica.estadosDesde(extension_aulica.estado_actual))
+    return form
+
+
+def __registrar_show_form(request, form, extension_aulica):
+    return my_render(request, 'registro/extension_aulica/registrar.html', {
+        'form': form,
+        'extension_aulica': extension_aulica
+    })
+
+
+def __registrar_process(request, form, extension_aulica):
+    if form.is_valid():
+        nuevoEstado = form.cleaned_data['estado']
+        try:
+            extension_aulica.estado = nuevoEstado
+            extension_aulica.save()
+            extension_aulica.registrar_estado()
+            request.set_flash('success', 'Extensión Áulica registrada correctamente.')
+            return True
+        except:
+            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+    return False

@@ -64,7 +64,8 @@ urlpatterns = patterns('',
     url(r'^extension_aulica/([0-9]+)/agregar_domicilio$', 'apps.registro.views.extension_aulica_domicilio.create', name='extensionAulicaDomicilioCreate'),
     url(r'^extension_aulica/domicilios/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_domicilio.edit', name='extensionAulicaDomicilioEdit'),
     url(r'^extension_aulica/domicilios/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_domicilio.delete', name='extensionAulicaDomicilioDelete'),
-        
+    url(r'^extension_aulica/([0-9]+)/registrar', 'apps.registro.views.extension_aulica.registrar', name='extensionAulicaRegistrar'),
+            
     # dependencias funcionales
     url(r'^dependencia_funcional$', 'apps.registro.views.dependencia_funcional.index', name='dependenciaFuncional'),
     url(r'^dependencia_funcional/([0-9]+)/edit', 'apps.registro.views.dependencia_funcional.edit', name='dependenciaFuncionalEdit'),
