@@ -26,8 +26,8 @@ urlpatterns = patterns('',
     url(r'^establecimiento/domicilios/([0-9]+)/edit$', 'apps.registro.views.establecimiento_domicilio.edit', name='establecimientoDomicilioEdit'),
     url(r'^establecimiento/domicilios/([0-9]+)/delete$', 'apps.registro.views.establecimiento_domicilio.delete', name='establecimientoDomicilioDelete'),
     # establecimiento autoridades
-    url(r'^establecimiento/autoridades$', 'apps.registro.views.establecimiento_autoridad.index', name='establecimientoAutoridadesIndex'),
-    url(r'^establecimiento/agregar_autoridad$', 'apps.registro.views.establecimiento_autoridad.create', name='establecimientoAutoridadCreate'),
+    url(r'^establecimiento/([0-9]+)/autoridades$', 'apps.registro.views.establecimiento_autoridad.index', name='establecimientoAutoridadesIndex'),
+    url(r'^establecimiento/([0-9]+)/agregar_autoridad$', 'apps.registro.views.establecimiento_autoridad.create', name='establecimientoAutoridadCreate'),
     url(r'^establecimiento/autoridades/([0-9]+)/edit$', 'apps.registro.views.establecimiento_autoridad.edit', name='establecimientoAutoridadEdit'),
     url(r'^establecimiento/autoridades/([0-9]+)/delete$', 'apps.registro.views.establecimiento_autoridad.delete', name='establecimientoAutoridadDelete'),
     # anexo
