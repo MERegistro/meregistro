@@ -16,28 +16,36 @@ from apps.registro.forms.EstablecimientoAutoridadFormFilters import Establecimie
 ITEMS_PER_PAGE = 50
 
 
-def __get_establecimiento_actual(request):
+@login_required
+def __establecimiento_dentro_del_ambito(request, establecimiento):
     """
-    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
+    La sede está dentro del ámbito?
     """
-    establecimientos = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    if len(establecimientos) == 0:
-        raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
-    elif len(establecimientos) == 1:
-        return establecimientos[0]
-    else:
-        if request.session.has_key('establecimiento_seleccionado_id'):
-            return Establecimiento.objects.get(pk=int(request.session['establecimiento_seleccionado_id']))
-        else:
-            request.set_flash('warning', 'Debe seleccionar un establecimiento.')
+    try:
+        establecimiento = Establecimiento.objects.get(id=establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except establecimiento.DoesNotExist:
+        return False
+    return True
 
+@login_required
+def __get_establecimiento(request, establecimiento_id):
+    
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
 
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+
+    if establecimiento.estado.nombre == EstadoEstablecimiento.PENDIENTE:
+        if 'reg_editar_establecimiento_pendiente' not in request.get_credenciales():
+            raise Exception('Usted no tiene permisos para editar los datos del establecimiento pendiente')
+
+    return establecimiento
 
 @login_required
 #@credential_required('reg_establecimiento_ver')
-def index(request):
-
-    establecimiento = __get_establecimiento_actual(request)
+def index(request, establecimiento_id):
+    
+    establecimiento = __get_establecimiento(request, establecimiento_id)
 
     """
     Búsqueda de establecimientos
@@ -62,6 +70,9 @@ def index(request):
 
     page = paginator.page(page_number)
     objects = page.object_list
+
+    alta_habilitada = objects.count() == 0
+
     return my_render(request, 'registro/establecimiento/autoridades/index.html', {
         'form_filters': form_filter,
         'objects': objects,
@@ -71,7 +82,8 @@ def index(request):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'establecimiento': establecimiento
+        'establecimiento': establecimiento,
+        'alta_habilitada': alta_habilitada
     })
 
 
@@ -84,11 +96,12 @@ def build_query(filters, page, request):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def create(request):
+def create(request, establecimiento_id):
+    
+    establecimiento = __get_establecimiento(request, establecimiento_id)
     """
     Alta de autoridad.
     """
-    establecimiento = __get_establecimiento_actual(request)
 
     if request.method == 'POST':
         form = EstablecimientoAutoridadForm(request.POST)
@@ -103,8 +116,17 @@ def create(request):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = EstablecimientoAutoridadForm()
+
+    # Chequear si se puede dar de alta
+    # XXX: sólo se puede dar de alta un registro por ahora
+    alta_habilitada = EstablecimientoAutoridad.objects.filter(establecimiento__id = establecimiento.id).count() == 0    
+    if not alta_habilitada:  # no debería estar en esta pantalla
+        request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
+        return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex'))
+    
     return my_render(request, 'registro/establecimiento/autoridades/new.html', {
         'form': form,
+        'establecimiento': establecimiento,
     })
 
 
@@ -113,9 +135,9 @@ def create(request):
 def edit(request, autoridad_id):
     """
     Edición de los datos de una autoridad.
-    """
-    establecimiento = __get_establecimiento_actual(request)
-    autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id, establecimiento__id=establecimiento.id)
+    """    
+    autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id)
+    establecimiento = __get_establecimiento(request, autoridad.establecimiento_id)
 
     if request.method == 'POST':
         form = EstablecimientoAutoridadForm(request.POST, instance=autoridad)
@@ -131,14 +153,15 @@ def edit(request, autoridad_id):
     return my_render(request, 'registro/establecimiento/autoridades/edit.html', {
         'form': form,
         'autoridad': autoridad,
+        'establecimiento': establecimiento,
     })
 
 
 @login_required
 @credential_required('reg_establecimiento_completar')
 def delete(request, autoridad_id):
-    establecimiento = __get_establecimiento_actual(request)
-    autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id, establecimiento__id=establecimiento.id)
+    autoridad = EstablecimientoAutoridad.objects.get(pk=autoridad_id)
+    establecimiento = __get_establecimiento(request, autoridad.establecimiento_id)
     autoridad.delete()
     request.set_flash('success', 'Datos de la autoridad eliminados correctamente.')
-    return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex'))
+    return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex', args=[establecimiento.id]))
