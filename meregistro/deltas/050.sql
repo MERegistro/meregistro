@@ -1,6 +1,6 @@
 BEGIN;
 
-<<<<<<< HEAD
+
 CREATE TABLE "registro_establecimiento_verificacion_datos" (
     "id" serial NOT NULL PRIMARY KEY,
     "establecimiento_id" integer NOT NULL UNIQUE REFERENCES "registro_establecimiento" ("id") DEFERRABLE INITIALLY DEFERRED,
@@ -59,11 +59,7 @@ INSERT INTO seguridad_credencial (nombre, descripcion, aplicacion_id, grupo) VAL
 
 
 
-INSERT INTO deltas_sql (numero, app, comentario) VALUES ('049', 'Registro', '#186');
-=======
-ALTER TABLE registro_tipo_conexion ALTER COLUMN nombre TYPE VARCHAR(100);
+INSERT INTO deltas_sql (numero, app, comentario) VALUES ('050', 'Registro', '#186');
 
-INSERT INTO deltas_sql (numero, app, comentario) VALUES ('049', '', 'Se cambia el campo nombre de tipo_conexion');
->>>>>>> dfbf9b7b8157d12a73e774a54eb2363b17206b58
 
 COMMIT;
