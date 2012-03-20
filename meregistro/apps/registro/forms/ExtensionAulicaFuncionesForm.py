@@ -7,6 +7,7 @@ from django import forms
 
 class ExtensionAulicaFuncionesForm(ModelForm):
     funciones = forms.ModelMultipleChoiceField(queryset = Funcion.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required = False)
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = Funcion

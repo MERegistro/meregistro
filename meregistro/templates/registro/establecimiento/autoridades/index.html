@@ -55,6 +55,26 @@
     <li class="back">
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <li>
+        <label for="id_verificado">Datos verificados:</label>
+        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
+    </li>
+    {% endif %}
 </ul>
 <hr />
+
+{% if 'reg_establecimiento_verificar_datos' in credenciales %}
+<script type="text/javascript">
+
+var checkbox = $("#id_verificado");
+
+$(document).ready(function() {
+    checkbox.click(function(){
+        establecimientoVerificarDato({{establecimiento.id}}, 'autoridades', checkbox.is(':checked'));
+    });
+});
+
+</script>
+{% endif %}
 {% endblock %}

@@ -6,6 +6,7 @@ from django import forms
 
 
 class ExtensionAulicaContactoForm(ModelForm):
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = ExtensionAulica

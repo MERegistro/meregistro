@@ -34,6 +34,9 @@ fsmEstablecimiento = FSMEstablecimiento()
 
 ITEMS_PER_PAGE = 50
 
+def __puede_verificar_datos(request):
+    return request.has_credencial('reg_establecimiento_verificar_datos')
+
 @login_required
 def __establecimiento_dentro_del_ambito(request, establecimiento):
     """
@@ -240,12 +243,15 @@ def completar_datos_basicos(request, establecimiento_id):
     """
     Edición de los datos básicos de un establecimiento.
     """
-    establecimiento = __get_establecimiento(request, establecimiento_id)
-            
+    establecimiento = __get_establecimiento(request, establecimiento_id)      
     if request.method == 'POST':
         form = EstablecimientoDatosBasicosForm(request.POST, instance=establecimiento)
         if form.is_valid():
             establecimiento = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.datos_basicos = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
@@ -257,7 +263,7 @@ def completar_datos_basicos(request, establecimiento_id):
     form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
     form.initial['cue'] = parts['cue']
     form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
-
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().datos_basicos
     if request.get_perfil().jurisdiccion() is not None:
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
     
@@ -288,13 +294,17 @@ def completar_contacto(request, establecimiento_id):
         form = EstablecimientoContactoForm(request.POST, instance=establecimiento)
         if form.is_valid():
             establecimiento = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.contacto = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = EstablecimientoContactoForm(instance=establecimiento)
-
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().contacto
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_contacto.html',
@@ -316,6 +326,10 @@ def completar_niveles(request, establecimiento_id):
         form = EstablecimientoNivelesForm(request.POST, instance=establecimiento)
         if form.is_valid():
             niveles = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.niveles  = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
@@ -323,6 +337,7 @@ def completar_niveles(request, establecimiento_id):
     else:
         form = EstablecimientoNivelesForm(instance=establecimiento)
 
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().niveles
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_niveles.html',
@@ -344,13 +359,17 @@ def completar_turnos(request, establecimiento_id):
         form = EstablecimientoTurnosForm(request.POST, instance=establecimiento)
         if form.is_valid():
             turnos = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.turnos = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = EstablecimientoTurnosForm(instance=establecimiento)
-
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().turnos
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_turnos.html',
@@ -372,13 +391,17 @@ def completar_funciones(request, establecimiento_id):
         form = EstablecimientoFuncionesForm(request.POST, instance=establecimiento)
         if form.is_valid():
             funciones = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.funciones = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = EstablecimientoFuncionesForm(instance=establecimiento)
-
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().funciones
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_funciones.html',
@@ -406,6 +429,10 @@ def completar_informacion_edilicia(request, establecimiento_id):
         form = EstablecimientoInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
         if form.is_valid():
             informacion_edilicia = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.info_edilicia = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
@@ -415,7 +442,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
 
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion='Establecimiento de otro nivel').id
-
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().info_edilicia
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_informacion_edilicia.html',
@@ -444,13 +471,17 @@ def completar_conexion_internet(request, establecimiento_id):
         form = EstablecimientoConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()
+            if __puede_verificar_datos(request):
+                v = establecimiento.get_verificacion_datos()
+                v.conectividad = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = EstablecimientoConexionInternetForm(instance=conexion)
-
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().conectividad
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_conexion_internet.html',
@@ -493,11 +524,16 @@ def detalle(request, establecimiento_id):
     })
 
 
-@login_required
-@credential_required('revisar_jurisdiccion')
-def revisar_jurisdiccion(request, establecimiento_id):
+@credential_required('reg_establecimiento_verificar_datos')
+def verificar_dato(request, establecimiento_id):
     establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
-    establecimiento.revisado_jurisdiccion = True
-    establecimiento.save()
-    request.set_flash('success', 'Registro revisado.')
-    return HttpResponseRedirect(reverse('establecimiento'))
+    verificacion = establecimiento.get_verificacion_datos()
+    value = request.GET['verificado'] == 'true'
+    if request.GET['dato'] == 'domicilios':
+        verificacion.domicilios = value
+    elif request.GET['dato'] == 'autoridades':
+        verificacion.autoridades = value
+    verificacion.save()
+    return HttpResponse('ok')
+
+

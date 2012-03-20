@@ -81,7 +81,8 @@ def index(request, anexo_id):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'verificado': anexo.get_verificacion_datos().domicilios
     })
 
 

@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
@@ -35,6 +35,8 @@ fsmAnexo = FSMAnexo()
 
 ITEMS_PER_PAGE = 50
 
+def __puede_verificar_datos(request):
+    return request.has_credencial('reg_anexo_verificar_datos')
 
 @login_required
 def __pertenece_al_establecimiento(request, anexo):
@@ -221,6 +223,10 @@ def completar_datos_basicos(request, anexo_id):
         form = AnexoDatosBasicosForm(request.POST, instance=anexo)
         if form.is_valid():
             anexo = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.datos_basicos = form.cleaned_data['verificado']
+                v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
@@ -232,7 +238,7 @@ def completar_datos_basicos(request, anexo_id):
     form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
     form.initial['cue'] = parts['cue']
     form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().datos_basicos
     # Critreria del combo de establecimiento
     from django.db.models import Q
     q1 = Q(ambito__path__istartswith=request.get_perfil().ambito.path) | Q(id=anexo.establecimiento_id)
@@ -267,13 +273,17 @@ def completar_contacto(request, anexo_id):
         form = AnexoContactoForm(request.POST, instance=anexo)
         if form.is_valid():
             anexo = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.contacto = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoContactoForm(instance=anexo)
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().contacto
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_contacto.html',
@@ -295,13 +305,17 @@ def completar_turnos(request, anexo_id):
         form = AnexoTurnosForm(request.POST, instance=anexo)
         if form.is_valid():
             turnos = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.turnos = form.cleaned_data['verificado']
+                v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoTurnosForm(instance=anexo)
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().turnos
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_turnos.html',
@@ -323,13 +337,17 @@ def completar_niveles(request, anexo_id):
         form = AnexoNivelesForm(request.POST, instance=anexo)
         if form.is_valid():
             niveles = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.niveles = form.cleaned_data['verificado']
+                v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoNivelesForm(instance=anexo)
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().niveles
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_niveles.html',
@@ -351,13 +369,17 @@ def completar_funciones(request, anexo_id):
         form = AnexoFuncionesForm(request.POST, instance=anexo)
         if form.is_valid():
             funciones = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.funciones = form.cleaned_data['verificado']
+                v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoFuncionesForm(instance=anexo)
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().funciones
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_funciones.html',
@@ -385,6 +407,10 @@ def completar_informacion_edilicia(request, anexo_id):
         form = AnexoInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
         if form.is_valid():
             informacion_edilicia = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.info_edilicia = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, anexo)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
@@ -394,7 +420,7 @@ def completar_informacion_edilicia(request, anexo_id):
 
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion='Establecimiento de otro nivel').id
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().info_edilicia
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_informacion_edilicia.html',
@@ -423,13 +449,17 @@ def completar_conexion_internet(request, anexo_id):
         form = AnexoConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()
+            if __puede_verificar_datos(request):
+                v = anexo.get_verificacion_datos()
+                v.conectividad = form.cleaned_data['verificado']
+                v.save()
             MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoConexionInternetForm(instance=conexion)
-
+    form.initial['verificado'] = anexo.get_verificacion_datos().conectividad
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_conexion_internet.html',
@@ -477,3 +507,15 @@ def __registrar_process(request, form, anexo):
         except:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
+
+@credential_required('reg_anexo_verificar_datos')
+def verificar_dato(request, anexo_id):
+    anexo = Anexo.objects.get(pk=anexo_id)
+    verificacion = anexo.get_verificacion_datos()
+    value = request.GET['verificado'] == 'true'
+    if request.GET['dato'] == 'domicilios':
+        verificacion.domicilios = value
+    elif request.GET['dato'] == 'autoridades':
+        verificacion.autoridades = value
+    verificacion.save()
+    return HttpResponse('ok')

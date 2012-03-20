@@ -54,6 +54,11 @@ class SeguridadMiddleware(object):
       return []
     request.__class__.get_credenciales = get_credenciales
 
+    def has_credencial(request, credential):
+        return credential in request.get_credenciales()
+
+    request.__class__.has_credencial = has_credencial
+
     def logout(request):
       """
       Retorna la lista de credenciales del perfil activo

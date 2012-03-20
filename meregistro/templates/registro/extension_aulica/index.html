@@ -47,7 +47,10 @@
     </tr>
   </thead>
     {% for ext in objects %}
-      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
+        {% if 'reg_extension_aulica_verificar_datos' in credenciales and not ext.verificado %} 
+            style="background-color: #f55"
+        {% endif %}>
 	<td>{{ ext.cue }}</td>
         <td>{{ ext.nombre }}</td>
 	<td>{{ ext.get_first_domicilio.localidad.departamento }}</td>
@@ -82,6 +85,9 @@
 </table>
 {% include "paginator.html" %}
 </form>
+{% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+    <p>Las Extensiones Áulicas con datos sin verificar se muestran en rojo.</p>
+{% endif %}
 {% else %}
 <div class="message notice">
   <p>No se encontraron extensiones áulicas.</p>

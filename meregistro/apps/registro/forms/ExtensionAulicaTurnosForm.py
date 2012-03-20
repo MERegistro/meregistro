@@ -7,6 +7,7 @@ from django import forms
 
 class ExtensionAulicaTurnosForm(ModelForm):
     turnos = forms.ModelMultipleChoiceField(queryset = Turno.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required = False)
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = Turno

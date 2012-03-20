@@ -7,6 +7,7 @@ from django import forms
 
 class AnexoNivelesForm(ModelForm):
     niveles = forms.ModelMultipleChoiceField(queryset = Nivel.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required = False)
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = Nivel

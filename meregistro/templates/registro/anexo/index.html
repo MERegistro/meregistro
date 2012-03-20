@@ -53,7 +53,10 @@
     </thead>
   <tbody>
     {% for anexo in objects %}
-      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
+        {% if 'reg_anexo_verificar_datos' in credenciales and not anexo.verificado %} 
+            style="background-color: #f55"
+        {% endif %}>
 	<td>{{ anexo.cue }}</td>
         <td>{{ anexo.nombre }}</td>
 	<td>{{ anexo.get_first_domicilio.localidad.departamento }}</td>
@@ -87,11 +90,15 @@
 </table>
 {% include "paginator.html" %}
 </form>
+{% if 'reg_anexo_verificar_datos' in credenciales %}
+    <p>Los Anexos con datos sin verificar se muestran en rojo.</p>
+{% endif %}
 {% else %}
 <div class="message notice">
   <p>No se encontraron anexos.</p>
 </div>
 {% endif %}
+
 <ul class="actions">
     {% if 'reg_anexo_alta' in credenciales %}
     <li class="create">

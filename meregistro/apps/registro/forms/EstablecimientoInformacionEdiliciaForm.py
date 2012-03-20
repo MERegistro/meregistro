@@ -9,6 +9,7 @@ from django import forms
 
 class EstablecimientoInformacionEdiliciaForm(forms.ModelForm):
     niveles = forms.ModelMultipleChoiceField(queryset = Nivel.objects.all().order_by('nombre'), widget = forms.CheckboxSelectMultiple, required = False)
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = EstablecimientoInformacionEdilicia
@@ -22,7 +23,7 @@ class EstablecimientoInformacionEdiliciaForm(forms.ModelForm):
                 if tipo_compartido is None:
                     raise ValidationError('Si el uso del edificio es compartido, debe detallar lo siguiente.')
         except KeyError:
-            pass
+            return None
         return tipo_compartido
 
     def clean_niveles(self):

@@ -10,6 +10,8 @@ class EstablecimientoDatosBasicosForm(ModelForm):
     cue = forms.CharField(label='CUE', required=True, widget=forms.TextInput(attrs={'size': 5, 'maxlength': 5}))
     codigo_tipo_unidad_educativa = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     observaciones = forms.CharField(max_length=255, required=False, widget=forms.Textarea)
+    verificado = forms.BooleanField(required=False)
+
 
     class Meta:
         model = Establecimiento
@@ -57,3 +59,4 @@ class EstablecimientoDatosBasicosForm(ModelForm):
         except KeyError:
             pass
         return cleaned_data
+

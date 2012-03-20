@@ -44,15 +44,40 @@
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
-{% if 'reg_anexo_completar' in credenciales %}
+
+
+
 <ul class="actions">
+{% if 'reg_anexo_completar' in credenciales %}
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento_domicilio.create establecimiento.id %}"><span>Nuevo domicilio</span></a>
     </li>
     <li class="back">
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
-</ul>
 {% endif %}
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <li>
+        <label for="id_verificado">Datos verificados:</label>
+        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
+    </li>
+    {% endif %}
+</ul>
+
 <hr />
+
+
+{% if 'reg_establecimiento_verificar_datos' in credenciales %}
+<script type="text/javascript">
+
+var checkbox = $("#id_verificado");
+
+$(document).ready(function() {
+    checkbox.click(function(){
+        establecimientoVerificarDato({{establecimiento.id}}, 'domicilios', checkbox.is(':checked'));
+    });
+});
+
+</script>
+{% endif %}
 {% endblock %}

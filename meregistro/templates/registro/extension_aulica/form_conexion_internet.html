@@ -27,6 +27,12 @@
 			<label for="cantidad">Cantidad:</label>
 			{{ form.cantidad }}
 		</div>
+        {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+        <div class="form-checkbox">
+            <label for="id_verificado">Datos verificados:</label>
+            {{ form.verificado }}
+        </div>
+        {% endif %}
         {% if 'reg_extension_aulica_modificar' in credenciales %}
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />

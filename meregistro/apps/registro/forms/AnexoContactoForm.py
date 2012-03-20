@@ -6,6 +6,8 @@ from django import forms
 
 
 class AnexoContactoForm(ModelForm):
+    verificado = forms.BooleanField(required=False)
+
     class Meta:
         model = Anexo
         fields = ['telefono', 'interno', 'fax', 'sitio_web', 'email']

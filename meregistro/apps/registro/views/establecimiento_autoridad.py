@@ -83,7 +83,8 @@ def index(request, establecimiento_id):
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
         'establecimiento': establecimiento,
-        'alta_habilitada': alta_habilitada
+        'alta_habilitada': alta_habilitada,
+        'verificado': establecimiento.get_verificacion_datos().autoridades
     })
 
 

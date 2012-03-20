@@ -19,6 +19,7 @@ class ExtensionAulicaForm(forms.ModelForm):
     norma_creacion = forms.ChoiceField(label='Norma de creación', choices=norma_creacion_choices, required=True)
     norma_creacion_otra = forms.CharField(required=False)
     observaciones = forms.CharField(required=False, widget=forms.Textarea)
+    verificado = forms.BooleanField(required=False)
     
 
     class Meta:

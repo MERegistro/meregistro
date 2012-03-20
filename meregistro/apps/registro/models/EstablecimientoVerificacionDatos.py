@@ -1,0 +1,27 @@
+# -*- coding: utf-8 -*-
+from django.db import models
+from apps.registro.models.Establecimiento import Establecimiento
+
+
+class EstablecimientoVerificacionDatos(models.Model):
+    establecimiento = models.OneToOneField(Establecimiento)
+    datos_basicos = models.BooleanField()
+    contacto = models.BooleanField()
+    niveles = models.BooleanField()
+    turnos = models.BooleanField()
+    funciones = models.BooleanField()
+    domicilios = models.BooleanField()
+    autoridades = models.BooleanField()
+    info_edilicia = models.BooleanField()
+    conectividad = models.BooleanField()
+    #completo = models.BooleanField()
+
+    class Meta:
+        app_label = 'registro'
+        db_table = 'registro_establecimiento_verificacion_datos'
+
+    def completo(self):
+        return (self.datos_basicos and self.contacto and self.niveles and self.turnos
+            and self.funciones and self.domicilios and self.autoridades
+            and self.info_edilicia and self.conectividad)
+            

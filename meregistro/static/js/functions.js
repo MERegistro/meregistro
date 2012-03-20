@@ -83,3 +83,29 @@ function get_url_param(name){
 	return results[1];
     }
 }
+
+
+// Verificacion de datos de Unidades Educativas
+function establecimientoVerificarDato(id, dato, verificado)
+{
+    $.ajax({
+      url: "/registro/establecimiento/"+id+"/ajaxVerificarDato",
+      data: "dato="+dato+"&verificado="+verificado
+    });
+}
+
+function anexoVerificarDato(id, dato, verificado)
+{
+    $.ajax({
+      url: "/registro/anexo/"+id+"/ajaxVerificarDato",
+      data: "dato="+dato+"&verificado="+verificado
+    });
+}
+
+function extensionAulicaVerificarDato(id, dato, verificado)
+{
+    $.ajax({
+      url: "/registro/extension_aulica/"+id+"/ajaxVerificarDato",
+      data: "dato="+dato+"&verificado="+verificado
+    });
+}

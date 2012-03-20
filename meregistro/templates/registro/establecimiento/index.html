@@ -79,7 +79,10 @@
     </thead>
     <tbody>
         {% for est in objects %}
-            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
+                {% if 'reg_establecimiento_verificar_datos' in credenciales and not est.verificado %} 
+                    style="background-color: #f55"
+                {% endif %}>
                 <td>{{ est.cue }}</td>
                 <td>{{ est.nombre }}</td>
 	    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
@@ -108,7 +111,7 @@
                     {% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
                     {% endif %}
-			<li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
+			            <li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
                     </ul>
                 </td>
             </tr>
@@ -117,6 +120,9 @@
 </table>
 {% include "paginator.html" %}
 </form>
+{% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <p>Las Sedes con datos sin verificar se muestran en rojo.</p>
+{% endif %}
 {% else %}
 <div class="message notice">
     <p>No se encontraron sedes.</p>

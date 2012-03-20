@@ -52,7 +52,27 @@
     <li class="back">
         <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>
     </li>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <li>
+        <label for="id_verificado">Datos verificados:</label>
+        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
+    </li>
+    {% endif %}
 </ul>
 {% endif %}
 <hr />
+
+{% if 'reg_anexo_verificar_datos' in credenciales %}
+<script type="text/javascript">
+
+var checkbox = $("#id_verificado");
+
+$(document).ready(function() {
+    checkbox.click(function(){
+        anexoVerificarDato({{anexo.id}}, 'domicilios', checkbox.is(':checked'));
+    });
+});
+
+</script>
+{% endif %}
 {% endblock %}

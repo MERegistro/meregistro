@@ -6,6 +6,12 @@
 			{{ form.funciones }}
 			<hr />
 		</div>
+        {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+        <div class="form-checkbox">
+            <label for="id_verificado">Datos verificados:</label>
+            {{ form.verificado }}
+        </div>
+        {% endif %}
         {% if 'reg_establecimiento_completar' in credenciales %}
 		<div class="form-submit">
 			<input type="submit" value="Actualizar" />

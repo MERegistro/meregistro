@@ -6,6 +6,7 @@ from django import forms
 
 
 class EstablecimientoContactoForm(ModelForm):
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = Establecimiento

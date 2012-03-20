@@ -7,6 +7,7 @@ from django import forms
 
 class ExtensionAulicaConexionInternetForm(forms.ModelForm):
     tipo_conexion = forms.ModelChoiceField(queryset = TipoConexion.objects.all().order_by('nombre'), required = True)
+    verificado = forms.BooleanField(required=False)
 
     class Meta:
         model = ExtensionAulicaConexionInternet

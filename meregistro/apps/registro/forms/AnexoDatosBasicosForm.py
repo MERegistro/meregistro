@@ -15,6 +15,7 @@ class AnexoDatosBasicosForm(forms.ModelForm):
     cue = forms.CharField(max_length=5, label='CUE', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     codigo_tipo_unidad_educativa = forms.CharField(label='', required=True, help_text=u'2 dígitos, ej: 01...02', widget=forms.TextInput(attrs={'size': 2, 'maxlength': 2}))
     observaciones = forms.CharField(max_length=255, required=False, widget=forms.Textarea)
+    verificado = forms.BooleanField(required=False)
     
     class Meta:
         model = Anexo

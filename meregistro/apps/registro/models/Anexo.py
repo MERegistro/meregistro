@@ -141,3 +141,16 @@ class Anexo(models.Model):
 
     def pendiente(self):
         return self.estado.nombre == EstadoAnexo.PENDIENTE
+
+    def get_verificacion_datos(self):
+        from AnexoVerificacionDatos import AnexoVerificacionDatos
+        try:
+            verificacion = AnexoVerificacionDatos.objects.get(anexo=self)
+        except AnexoVerificacionDatos.DoesNotExist:
+            verificacion = AnexoVerificacionDatos()
+            verificacion.anexo = self
+            verificacion.save()
+        return verificacion
+
+    def verificado(self):
+        return self.get_verificacion_datos().completo()

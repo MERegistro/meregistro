@@ -127,3 +127,17 @@ class ExtensionAulica(models.Model):
 
     def pendiente(self):
         return self.estado.nombre == EstadoExtensionAulica.PENDIENTE
+
+
+    def get_verificacion_datos(self):
+        from ExtensionAulicaVerificacionDatos import ExtensionAulicaVerificacionDatos
+        try:
+            verificacion = ExtensionAulicaVerificacionDatos.objects.get(extension_aulica=self)
+        except ExtensionAulicaVerificacionDatos.DoesNotExist:
+            verificacion = ExtensionAulicaVerificacionDatos()
+            verificacion.extension_aulica = self
+            verificacion.save()
+        return verificacion
+
+    def verificado(self):
+        return self.get_verificacion_datos().completo()

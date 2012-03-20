@@ -26,6 +26,12 @@
 	    <label for="id_sitio_web">Sitio web:</label>
 	    {{ form.sitio_web }}
 	</div>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <div class="form-checkbox">
+        <label for="id_verificado">Datos verificados:</label>
+        {{ form.verificado }}
+    </div>
+    {% endif %}
     {% if 'reg_anexo_completar' in credenciales %}
 	<div class="form-submit">
 	    <input type="submit" value="Actualizar" />

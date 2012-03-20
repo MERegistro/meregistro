@@ -179,3 +179,16 @@ class Establecimiento(models.Model):
 
     def pendiente(self):
         return self.estado.nombre == EstadoEstablecimiento.PENDIENTE
+
+    def get_verificacion_datos(self):
+        from EstablecimientoVerificacionDatos import EstablecimientoVerificacionDatos
+        try:
+            verificacion = EstablecimientoVerificacionDatos.objects.get(establecimiento=self)
+        except EstablecimientoVerificacionDatos.DoesNotExist:
+            verificacion = EstablecimientoVerificacionDatos()
+            verificacion.establecimiento = self
+            verificacion.save()
+        return verificacion
+
+    def verificado(self):
+        return self.get_verificacion_datos().completo()

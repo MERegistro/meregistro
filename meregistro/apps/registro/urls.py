@@ -19,7 +19,8 @@ urlpatterns = patterns('',
     url(r'^establecimiento/([0-9]+)/registrar', 'apps.registro.views.establecimiento.registrar', name='establecimientoRegistrar'),
     url(r'^establecimiento/datos$', 'apps.registro.views.establecimiento.datos_establecimiento', name='establecimientoDatos'),
     url(r'^establecimiento/([0-9]+)/detalle$', 'apps.registro.views.establecimiento.detalle', name='establecimientoDetalle'),
-    url(r'^establecimiento/([0-9]+)/revisar_jurisdiccion', 'apps.registro.views.establecimiento.revisar_jurisdiccion', name='establecimientoRevisarJurisdiccion'),
+    url(r'^establecimiento/([0-9]+)/ajaxVerificarDato', 'apps.registro.views.establecimiento.verificar_dato', name='establecimientoVerificarDato'),
+
     # establecimiento domicilios
     url(r'^establecimiento/([0-9]+)/domicilios$', 'apps.registro.views.establecimiento_domicilio.index', name='establecimientoDomiciliosIndex'),
     url(r'^establecimiento/([0-9]+)/agregar_domicilio$', 'apps.registro.views.establecimiento_domicilio.create', name='establecimientoDomicilioCreate'),
@@ -43,6 +44,7 @@ urlpatterns = patterns('',
     url(r'^anexo/([0-9]+)/completar_informacion_edilicia/', 'apps.registro.views.anexo.completar_informacion_edilicia', name='anexoCompletarInformacionEdilicia'),
     url(r'^anexo/([0-9]+)/completar_conexion_internet/', 'apps.registro.views.anexo.completar_conexion_internet', name='anexoCompletarConexionInternet'),
     url(r'^anexo/([0-9]+)/registrar', 'apps.registro.views.anexo.registrar', name='anexoRegistrar'),
+    url(r'^anexo/([0-9]+)/ajaxVerificarDato', 'apps.registro.views.anexo.verificar_dato', name='anexoVerificarDato'),
     # anexo domicilios
     url(r'^anexo/([0-9]+)/domicilios$', 'apps.registro.views.anexo_domicilio.index', name='anexoDomiciliosIndex'),
     url(r'^anexo/([0-9]+)/agregar_domicilio$', 'apps.registro.views.anexo_domicilio.create', name='anexoDomicilioCreate'),
@@ -65,7 +67,7 @@ urlpatterns = patterns('',
     url(r'^extension_aulica/domicilios/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_domicilio.edit', name='extensionAulicaDomicilioEdit'),
     url(r'^extension_aulica/domicilios/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_domicilio.delete', name='extensionAulicaDomicilioDelete'),
     url(r'^extension_aulica/([0-9]+)/registrar', 'apps.registro.views.extension_aulica.registrar', name='extensionAulicaRegistrar'),
-            
+    url(r'^extension_aulica/([0-9]+)/ajaxVerificarDato', 'apps.registro.views.extension_aulica.verificar_dato', name='extensionAulicaVerificarDato'),        
     # dependencias funcionales
     url(r'^dependencia_funcional$', 'apps.registro.views.dependencia_funcional.index', name='dependenciaFuncional'),
     url(r'^dependencia_funcional/([0-9]+)/edit', 'apps.registro.views.dependencia_funcional.edit', name='dependenciaFuncionalEdit'),

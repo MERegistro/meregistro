@@ -63,6 +63,12 @@
 	    <label for="id_observaciones">Observaciones:</label>
 	    {{ form.observaciones }}
 	</div>
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div class="form-checkbox">
+        <label for="id_verificado">Datos verificados:</label>
+        {{ form.verificado }}
+    </div>
+    {% endif %}
     {% if 'reg_establecimiento_completar' in credenciales or 'reg_establecimiento_nueva' in credenciales %}
 	<div class="form-submit">
 	    {% if establecimiento %}
@@ -73,6 +79,7 @@
 	</div>
     {% endif %}
     </form>
+
 </div>
 <script type="text/javascript">
 // Switch el estado del input de nombre de unidad académica
