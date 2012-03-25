@@ -50,17 +50,25 @@ class Anexo(models.Model):
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
 
+
     def clean(self):
-        " Chequea que la combinación entre establecimiento y cue sea único "
+        from apps.registro.models.ExtensionAulica import ExtensionAulica  # Lo importo acá para evitar el import loop
+        " Chequea que el cue sea único "
         cue = self.cue
-        establecimiento = self.establecimiento_id
-        if cue and establecimiento:
+        if cue != '':
             try:
-                anexo = Anexo.objects.get(cue=self.cue, establecimiento__cue__exact=self.establecimiento.cue)
+                anexo = Anexo.objects.get(cue=cue)
                 if anexo and anexo != self:
-                    raise ValidationError('Los datos ingresados corresponden a un Anexo que ya se encuentra registrado')
+                    raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa (Anexo) que ya se encuentra registrada')
             except Anexo.DoesNotExist:
                 pass
+            try:
+                ext = ExtensionAulica.objects.get(cue=cue)
+                if ext:
+                    raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa (Extensión áulica) que ya se encuentra registrada')
+            except ExtensionAulica.DoesNotExist:
+                pass
+
 
     def registrar_estado(self):
         from apps.registro.models.AnexoEstado import AnexoEstado

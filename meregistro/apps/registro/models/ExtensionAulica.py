@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.Anexo import Anexo
 from apps.registro.models.TipoNormativa import TipoNormativa
 from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.Turno import Turno
@@ -59,8 +60,14 @@ class ExtensionAulica(models.Model):
             try:
                 ext = ExtensionAulica.objects.get(cue=cue)
                 if ext and ext != self:
-                    raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa que ya se encuentra registrada')
+                    raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa (Extensión áulica) que ya se encuentra registrada')
             except ExtensionAulica.DoesNotExist:
+                pass
+            try:
+                anexo = Anexo.objects.get(cue=cue)
+                if anexo:
+                    raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa (Anexo) que ya se encuentra registrada')
+            except Anexo.DoesNotExist:
                 pass
                 
     def registrar_estado(self):
