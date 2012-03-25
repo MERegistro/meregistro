@@ -39,19 +39,6 @@ def __pertenece_al_establecimiento(request, extension_aulica):
     return extension_aulica.ambito.path == request.get_perfil().ambito.path
 
 
-def __get_establecimiento_actual(request):
-    """
-    Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
-    """
-    try:
-        establecimiento = Establecimiento.objects.get(ambito__path=request.get_perfil().ambito.path)
-        if not bool(establecimiento):
-            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
-        else:
-            return establecimiento
-    except Exception:
-        pass
-
 def __extension_aulica_dentro_del_ambito(request, extension_aulica):
     """
     La extensión áulica está dentro del ámbito?
@@ -162,8 +149,6 @@ def create(request):
     })
 
 
-
-
 @login_required
 @credential_required('reg_extension_aulica_baja')
 def delete(request, extension_aulica_id):
@@ -222,12 +207,6 @@ def baja(request, extension_aulica_id):
     })
 
 
-
-
-
-
-
-
 @login_required
 @credential_required('reg_extension_aulica_modificar')
 def completar_datos(request):
@@ -244,8 +223,6 @@ def completar_datos_basicos(request, extension_aulica_id):
     Edición de los datos de una extensión áulica.
     """
     ext = __get_extension_aulica(request, extension_aulica_id)
-    if not ext.is_editable():
-        raise Exception('La unidad educativa no se puede editar.')
     if request.method == 'POST':
         form = ExtensionAulicaForm(request.POST, instance=ext)
         if form.is_valid():

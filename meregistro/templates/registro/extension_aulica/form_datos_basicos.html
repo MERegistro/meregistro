@@ -1,4 +1,4 @@
-<div class="form" id="establecimientoForm">
+<div class="form" id="extensionAulicaForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
@@ -45,7 +45,7 @@
 			{{ form.observaciones }}
 		</div>
         {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
-        <div class="form-checkbox">
+        <div class="form-checkbox datos-verificados">
             <label for="id_verificado">Datos verificados:</label>
             {{ form.verificado }}
         </div>

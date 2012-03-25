@@ -74,7 +74,7 @@
 		<li class="registrar"><a href="{% url apps.registro.views.extension_aulica.registrar ext.id %}" title="Registrar"><span>Registrar</span></a></li>
 	    {% endif %}
 
-	    {% if ext.is_deletable %}
+	    {% if 'reg_extension_aulica_baja' in credenciales and  ext.is_deletable %}
 		<li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 	    {% endif %}
 	    </ul>

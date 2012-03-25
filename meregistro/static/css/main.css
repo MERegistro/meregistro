@@ -397,6 +397,11 @@ div#anexoForm form select#id_tipo_norma {
 	width: 100px;	
 }
 /* extensionAulicaForm */
+div#extensionAulicaForm {
+	width: 850px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
 div#extensionAulicaForm form input#id_codigo_jurisdiccion,
 div#extensionAulicaForm form input#id_cue,
 div#extensionAulicaForm form input#id_codigo_tipo_unidad_educativa {
@@ -423,7 +428,14 @@ div#extensionAulicaForm form input#id_codigo_tipo_unidad_educativa {
 div#extensionAulicaForm form select#id_norma_creacion {
 	width: 100px;	
 }
-
+/*
+=VERIFICADO
+*/
+form div.datos-verificados {
+	margin: 30px 10px;
+	padding: 10px;
+	border: 2px #ccc solid;
+}
 /*
 =TABLE
 */

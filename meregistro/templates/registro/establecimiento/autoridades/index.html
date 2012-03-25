@@ -56,7 +56,7 @@
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
     {% if 'reg_establecimiento_verificar_datos' in credenciales %}
-    <li>
+    <li class="datos-verificados">
         <label for="id_verificado">Datos verificados:</label>
         <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
     </li>
