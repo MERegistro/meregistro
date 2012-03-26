@@ -1,0 +1,80 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Administrar autoridades del anexo{% endblock %}
+
+{% block content %}
+<h2>Administrar autoridades del anexo</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th>Cargo</th>
+            <th>Apellido</th>
+            <th>Nombre</th>
+            <th>Documento</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for aut in objects %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                <td>{{ aut.cargo }}</td>
+                <td>{{ aut.apellido }}</td>
+                <td>{{ aut.nombre }}</td>
+                <td>{% if aut.tipo_documento %}{{ aut.tipo_documento.abreviatura }}:{% endif %} {% if aut.documento %}{{ aut.documento }}{% else %}---{% endif %} </td>
+                <td class="actions-td">
+                    <ul>
+                        {% if 'reg_anexo_completar' in credenciales %}
+                            <li class="edit"><a href="{% url apps.registro.views.anexo_autoridad.edit aut.id %}" title="Editar"><span>Editar</span></a></li>
+                            <li class="delete"><a href="{% url apps.registro.views.anexo_autoridad.delete aut.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                        {% endif %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+    <p>No se encontraron autoridades.</p>
+</div>
+{% endif %}
+<ul class="actions">
+{% if 'reg_anexo_completar' in credenciales and alta_habilitada %}
+    <li class="create">
+        <a href="{% url apps.registro.views.anexo_autoridad.create anexo.id %}"><span>Nueva autoridad</span></a>
+    </li>
+{% endif %}
+    <li class="back">
+        <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>
+    </li>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <li class="datos-verificados">
+        <label for="id_verificado">Datos verificados:</label>
+        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
+    </li>
+    {% endif %}
+</ul>
+<hr />
+
+{% if 'reg_anexo_verificar_datos' in credenciales %}
+<script type="text/javascript">
+
+var checkbox = $("#id_verificado");
+
+$(document).ready(function() {
+    checkbox.click(function(){
+        anexoVerificarDato({{anexo.id}}, 'autoridades', checkbox.is(':checked'));
+    });
+});
+
+</script>
+{% endif %}
+{% endblock %}

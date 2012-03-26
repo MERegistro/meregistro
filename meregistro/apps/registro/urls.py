@@ -50,6 +50,11 @@ urlpatterns = patterns('',
     url(r'^anexo/([0-9]+)/agregar_domicilio$', 'apps.registro.views.anexo_domicilio.create', name='anexoDomicilioCreate'),
     url(r'^anexo/domicilios/([0-9]+)/edit$', 'apps.registro.views.anexo_domicilio.edit', name='anexoDomicilioEdit'),
     url(r'^anexo/domicilios/([0-9]+)/delete$', 'apps.registro.views.anexo_domicilio.delete', name='anexoDomicilioDelete'),
+    # anexo autoridades
+    url(r'^anexo/([0-9]+)/autoridades$', 'apps.registro.views.anexo_autoridad.index', name='anexoAutoridadesIndex'),
+    url(r'^anexo/([0-9]+)/agregar_autoridad$', 'apps.registro.views.anexo_autoridad.create', name='anexoAutoridadCreate'),
+    url(r'^anexo/autoridades/([0-9]+)/edit$', 'apps.registro.views.anexo_autoridad.edit', name='anexoAutoridadEdit'),
+    url(r'^anexo/autoridades/([0-9]+)/delete$', 'apps.registro.views.anexo_autoridad.delete', name='anexoAutoridadDelete'),
     # extensiones aulicas
     url(r'^extension_aulica$', 'apps.registro.views.extension_aulica.index', name='extensionAulica'),
     url(r'^extension_aulica/create', 'apps.registro.views.extension_aulica.create', name='extensionAulicaCreate'),

@@ -7,7 +7,8 @@
 		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_turnos anexo.id %}" title="Turnos"><span>Turnos</span></a></li>
 		<li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_funciones anexo.id %}" title="Funciones"><span>Funciones</span></a></li>
 		<li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo_domicilio.index anexo.id %}" title="Domicilios"><span>Domicilios</span></a></li>
-		<li{% if actual_page == 'informacion_edilicia' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_informacion_edilicia anexo.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
+		<li{% if actual_page == 'autoridad' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo_autoridad.index anexo.id %}" title="Autoridades"><span>Autoridades</span></a></li>
+        <li{% if actual_page == 'informacion_edilicia' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_informacion_edilicia anexo.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
 		<li{% if actual_page == 'conexion_internet' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_conexion_internet anexo.id %}" title="Conectividad"><span>Conectividad</span></a></li>
 	{% endif %}
 	</ul>

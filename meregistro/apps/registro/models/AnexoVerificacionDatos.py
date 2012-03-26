@@ -11,7 +11,7 @@ class AnexoVerificacionDatos(models.Model):
     turnos = models.BooleanField()
     funciones = models.BooleanField()
     domicilios = models.BooleanField()
-    #autoridades = models.BooleanField()
+    autoridades = models.BooleanField()
     info_edilicia = models.BooleanField()
     conectividad = models.BooleanField()
     #completo = models.BooleanField()
@@ -23,4 +23,4 @@ class AnexoVerificacionDatos(models.Model):
     def completo(self):
         return (self.datos_basicos and self.contacto and self.niveles and self.turnos
             and self.funciones and self.domicilios
-            and self.info_edilicia and self.conectividad)
+            and self.info_edilicia and self.conectividad and self.autoridades)
