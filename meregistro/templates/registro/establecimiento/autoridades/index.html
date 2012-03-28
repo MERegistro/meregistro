@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>Administrar autoridades del establecimiento</h2>
+<h3>{{ establecimiento }}</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -48,7 +49,7 @@
 {% endif %}
 <ul class="actions">
 {% if 'reg_establecimiento_completar' in credenciales and alta_habilitada %}
-    <li class="create">
+    <li class="create" style="margin-top: 30px">
         <a href="{% url apps.registro.views.establecimiento_autoridad.create establecimiento.id %}"><span>Nueva autoridad</span></a>
     </li>
 {% endif %}

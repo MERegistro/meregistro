@@ -4,6 +4,7 @@
 
 {% block content %}
 <h2>Administrar autoridades del anexo</h2>
+<h3>{{ anexo }}</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -48,7 +49,7 @@
 {% endif %}
 <ul class="actions">
 {% if 'reg_anexo_completar' in credenciales and alta_habilitada %}
-    <li class="create">
+    <li class="create" style="margin-top: 30px">
         <a href="{% url apps.registro.views.anexo_autoridad.create anexo.id %}"><span>Nueva autoridad</span></a>
     </li>
 {% endif %}
