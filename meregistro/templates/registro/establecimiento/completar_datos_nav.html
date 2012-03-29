@@ -3,7 +3,7 @@
 		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
 	{% if establecimiento.registrado %}
 		<li{% if actual_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_contacto establecimiento.id %}" title="Contacto"><span>Contacto</span></a></li>
-		<li{% if actual_page == 'niveles' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_niveles establecimiento.id %}" title="Niveles"><span>Niveles</span></a></li>
+		<li{% if actual_page == 'niveles' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_niveles establecimiento.id %}" title="Alcance"><span>Alcance</span></a></li>
 		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_turnos establecimiento.id %}" title="Turnos"><span>Turnos</span></a></li>
 		<li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_funciones establecimiento.id %}" title="Funciones"><span>Funciones</span></a></li>
 		<li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_domicilio.index establecimiento.id %}" title="Domicilios"><span>Domicilios</span></a></li>

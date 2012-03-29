@@ -2,7 +2,7 @@
 	<ul>
 		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
 		<li{% if actual_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_contacto extension_aulica.id %}" title="Contacto"><span>Contacto</span></a></li>
-		<li{% if actual_page == 'niveles' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_niveles extension_aulica.id %}" title="Niveles"><span>Niveles</span></a></li>
+		<li{% if actual_page == 'niveles' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_niveles extension_aulica.id %}" title="Alcance"><span>Alcance</span></a></li>
 		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_turnos extension_aulica.id %}" title="Turnos"><span>Turnos</span></a></li>
 		<li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_funciones extension_aulica.id %}" title="Funciones"><span>Funciones</span></a></li>
 		<li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_domicilio.index extension_aulica.id %}" title="Domicilios"><span>Domicilios</span></a></li>
