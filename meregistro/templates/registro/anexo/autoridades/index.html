@@ -1,10 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar autoridades del anexo{% endblock %}
+{% block title %}Administrar Datos de Anexo{% endblock %}
 
 {% block content %}
-<h2>Administrar autoridades del anexo</h2>
-<h3>{{ anexo }}</h3>
+<h2>Administrar Datos de Anexo - Autoridades</h2>
+<h3>{{ anexo.cue }} - "{{ anexo.nombre }}"</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}

@@ -486,7 +486,7 @@ def completar_conexion_internet(request, establecimiento_id):
         'form': form,
         'form_template': 'registro/establecimiento/form_conexion_internet.html',
         'establecimiento': establecimiento,
-        'page_title': 'Conexión a internet',
+        'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
     })
 

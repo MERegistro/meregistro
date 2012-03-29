@@ -1,10 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar autoridades del establecimiento{% endblock %}
+{% block title %}Completar datos de Sede{% endblock %}
 
 {% block content %}
-<h2>Administrar autoridades del establecimiento</h2>
-<h3>{{ establecimiento }}</h3>
+<h2>Completar datos de Sede - Autoridades</h2>
+<h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}

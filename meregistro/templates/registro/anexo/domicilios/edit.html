@@ -1,10 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Actualización de domicilio{% endblock %}
+{% block title %}Completar datos de Anexo{% endblock %}
 
 {% block content %}
-<h2>Actualización de domicilio</h2>
-<h3>{{ anexo }}</h3>
+<h2>Completar datos de Anexo - Editar domicilio</h2>
+<h3>{{ anexo.cue }} - "{{ anexo.nombre }}"</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}

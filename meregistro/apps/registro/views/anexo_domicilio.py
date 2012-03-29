@@ -148,6 +148,7 @@ def edit(request, domicilio_id):
     return my_render(request, 'registro/anexo/domicilios/edit.html', {
         'form': form,
         'domicilio': domicilio,
+        'anexo': anexo,
     })
 
 

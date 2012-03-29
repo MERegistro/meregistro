@@ -143,6 +143,7 @@ def edit(request, domicilio_id):
     return my_render(request, 'registro/extension_aulica/domicilios/edit.html', {
         'form': form,
         'domicilio': domicilio,
+        'extension_aulica': extension_aulica,
     })
 
 
