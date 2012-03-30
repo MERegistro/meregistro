@@ -162,3 +162,11 @@ class Anexo(models.Model):
 
     def verificado(self):
         return self.get_verificacion_datos().completo()
+
+    def delete(self):
+        models.Model.delete(self)
+        if self.is_deletable() and self.ambito is not None:
+            try:
+                self.ambito.delete()
+            except:
+                pass

@@ -39,3 +39,7 @@ class Ambito(models.Model):
         for c in childs:
             c.set_parent(self)
             c.save()
+
+    def delete(self, *arg, **kw):
+      self.ambito_set.all().delete()
+      return models.Model.delete(self)

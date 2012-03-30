@@ -89,6 +89,11 @@ class Establecimiento(models.Model):
         if self.getEstadoActual() == EstadoEstablecimiento.PENDIENTE:
             RegistroEstablecimiento.objects.filter(establecimiento=self).delete()
             models.Model.delete(self)
+            if self.ambito is not None:
+              try:
+                self.ambito.delete()
+              except:
+                pass
         else:
             estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.BAJA)
             self.registrar_estado(estado)
