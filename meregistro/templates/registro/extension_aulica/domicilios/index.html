@@ -1,9 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar domicilios de la extensión áulica{% endblock %}
+{% block title %}Administrar Datos de Extensión Áulica{% endblock %}
 
 {% block content %}
-<h2>Administrar domicilios de la extensión áulica {{ anexo }}</h2>
+<h2>Administrar Datos de Extensión Áulica - Domicilios</h2>
+<h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -46,7 +47,7 @@
 {% endif %}
 {% if 'reg_extension_aulica_modificar' in credenciales %}
 <ul class="actions">
-    <li class="create">
+    <li class="create" style="margin-top: 30px;">
         <a href="{% url apps.registro.views.extension_aulica_domicilio.create extension_aulica.id %}"><span>Nuevo domicilio</span></a>
     </li>
     <li class="back">

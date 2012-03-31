@@ -1,10 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Completar datos de la extensión áulica{% endblock %}
+{% block title %}Administrar Datos de Extensión Áulica{% endblock %}
 
 {% block content %}
-<h2>Completar datos de la extensión áulica - {{ page_title }}</h2>
-<h3>{{ extension_aulica }}</h3>
+<h2>Administrar Datos de Extensión Áulica - {{ page_title }}</h2>
+<h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
 
 {% if flash %}
     {% include "flashes.html" %}

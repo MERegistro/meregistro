@@ -1,9 +1,10 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar domicilios del establecimiento{% endblock %}
+{% block title %}Completar datos de Sede{% endblock %}
 
 {% block content %}
-<h2>Administrar domicilios del establecimiento {{ establecimiento }}</h2>
+<h2>Completar datos de Sede - Domicilios</h2>
+<h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -49,7 +50,7 @@
 
 <ul class="actions">
 {% if 'reg_anexo_completar' in credenciales %}
-    <li class="create">
+    <li class="create" style="margin-top: 30px">
         <a href="{% url apps.registro.views.establecimiento_domicilio.create establecimiento.id %}"><span>Nuevo domicilio</span></a>
     </li>
     <li class="back">

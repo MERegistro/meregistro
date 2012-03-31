@@ -269,7 +269,7 @@ div.form ul.errorlist li { /* Cada error */
 }
 div.form div.form-checkbox-list {
 }
-div.form div.form-checkbox-list ul {
+div#wrapper div#content div.form div.form-checkbox-list ul {
 	float: left;
 	margin: 10px 0 0;
 }

@@ -451,7 +451,7 @@ def completar_conexion_internet(request, extension_aulica_id):
         'form': form,
         'form_template': 'registro/extension_aulica/form_conexion_internet.html',
         'extension_aulica': extension_aulica,
-        'page_title': 'Conexión a internet',
+        'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
     })
 

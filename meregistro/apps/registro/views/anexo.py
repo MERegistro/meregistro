@@ -464,7 +464,7 @@ def completar_conexion_internet(request, anexo_id):
         'form': form,
         'form_template': 'registro/anexo/form_conexion_internet.html',
         'anexo': anexo,
-        'page_title': 'Conexión a internet',
+        'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
     })
 
