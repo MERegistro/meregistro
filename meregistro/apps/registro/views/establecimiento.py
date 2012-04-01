@@ -20,7 +20,7 @@ from helpers.MailHelper import MailHelper
 from apps.registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
 from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
 from apps.registro.forms.EstablecimientoContactoForm import EstablecimientoContactoForm
-from apps.registro.forms.EstablecimientoNivelesForm import EstablecimientoNivelesForm
+from apps.registro.forms.EstablecimientoAlcancesForm import EstablecimientoAlcancesForm
 from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
 from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
 from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
@@ -316,34 +316,34 @@ def completar_contacto(request, establecimiento_id):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_niveles(request, establecimiento_id):
+def completar_alcances(request, establecimiento_id):
     """
     CU 26
     """
     establecimiento = __get_establecimiento(request, establecimiento_id)
 
     if request.method == 'POST':
-        form = EstablecimientoNivelesForm(request.POST, instance=establecimiento)
+        form = EstablecimientoAlcancesForm(request.POST, instance=establecimiento)
         if form.is_valid():
-            niveles = form.save()
+            alcances = form.save()
             if __puede_verificar_datos(request):
                 v = establecimiento.get_verificacion_datos()
-                v.niveles  = form.cleaned_data['verificado']
+                v.alcances  = form.cleaned_data['verificado']
                 v.save()
             MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = EstablecimientoNivelesForm(instance=establecimiento)
+        form = EstablecimientoAlcancesForm(instance=establecimiento)
 
-    form.initial['verificado'] = establecimiento.get_verificacion_datos().niveles
+    form.initial['verificado'] = establecimiento.get_verificacion_datos().alcances
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
-        'form_template': 'registro/establecimiento/form_niveles.html',
+        'form_template': 'registro/establecimiento/form_alcances.html',
         'establecimiento': establecimiento,
-        'page_title': 'Niveles',
-        'actual_page': 'niveles',
+        'page_title': 'Alcance',
+        'actual_page': 'alcances',
     })
 
 
@@ -501,7 +501,7 @@ def datos_establecimiento(request):
         'turnos': establecimiento.turnos.all(),
         'funciones': establecimiento.funciones.all(),
         'autoridades': establecimiento.autoridades.all(),
-        'niveles': establecimiento.niveles.all(),
+        'alcances': establecimiento.alcances.all(),
         'domicilios': establecimiento.domicilios.all(),
     })
 
@@ -519,7 +519,7 @@ def detalle(request, establecimiento_id):
         'turnos': establecimiento.turnos.all(),
         'funciones': establecimiento.funciones.all(),
         'autoridades': establecimiento.autoridades.all(),
-        'niveles': establecimiento.niveles.all(),
+        'alcances': establecimiento.alcances.all(),
         'domicilios': establecimiento.domicilios.all(),
     })
 

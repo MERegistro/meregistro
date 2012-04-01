@@ -19,7 +19,7 @@ from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
 from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnosForm, AnexoDomicilioForm
 from apps.registro.forms.AnexoContactoForm import AnexoContactoForm
-from apps.registro.forms.AnexoNivelesForm import AnexoNivelesForm
+from apps.registro.forms.AnexoAlcancesForm import AnexoAlcancesForm
 from apps.registro.forms.AnexoFuncionesForm import AnexoFuncionesForm
 from apps.registro.forms.AnexoInformacionEdiliciaForm import AnexoInformacionEdiliciaForm
 from apps.registro.forms.AnexoConexionInternetForm import AnexoConexionInternetForm
@@ -327,33 +327,33 @@ def completar_turnos(request, anexo_id):
 
 @login_required
 @credential_required('reg_anexo_completar')
-def completar_niveles(request, anexo_id):
+def completar_alcances(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
 
     if request.method == 'POST':
-        form = AnexoNivelesForm(request.POST, instance=anexo)
+        form = AnexoAlcancesForm(request.POST, instance=anexo)
         if form.is_valid():
-            niveles = form.save()
+            alcances = form.save()
             if __puede_verificar_datos(request):
                 v = anexo.get_verificacion_datos()
-                v.niveles = form.cleaned_data['verificado']
+                v.alcances = form.cleaned_data['verificado']
                 v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = AnexoNivelesForm(instance=anexo)
-    form.initial['verificado'] = anexo.get_verificacion_datos().niveles
+        form = AnexoAlcancesForm(instance=anexo)
+    form.initial['verificado'] = anexo.get_verificacion_datos().alcances
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
-        'form_template': 'registro/anexo/form_niveles.html',
+        'form_template': 'registro/anexo/form_alcances.html',
         'anexo': anexo,
-        'page_title': 'Niveles',
-        'actual_page': 'niveles',
+        'page_title': 'Alcance',
+        'actual_page': 'alcances',
     })
 
 

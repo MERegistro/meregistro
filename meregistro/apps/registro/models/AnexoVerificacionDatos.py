@@ -7,7 +7,7 @@ class AnexoVerificacionDatos(models.Model):
     anexo = models.OneToOneField(Anexo)
     datos_basicos = models.BooleanField()
     contacto = models.BooleanField()
-    niveles = models.BooleanField()
+    alcances = models.BooleanField()
     turnos = models.BooleanField()
     funciones = models.BooleanField()
     domicilios = models.BooleanField()
@@ -21,6 +21,6 @@ class AnexoVerificacionDatos(models.Model):
         db_table = 'registro_anexo_verificacion_datos'
 
     def completo(self):
-        return (self.datos_basicos and self.contacto and self.niveles and self.turnos
+        return (self.datos_basicos and self.contacto and self.alcances and self.turnos
             and self.funciones and self.domicilios
             and self.info_edilicia and self.conectividad and self.autoridades)

@@ -24,7 +24,7 @@ class ExtensionAulicaForm(forms.ModelForm):
 
     class Meta:
         model = ExtensionAulica
-        exclude = ('estado', 'funciones', 'niveles', 'turnos', 'sitio_web', 'telefono', 'email', 'normativa', 'tipo_normativa')
+        exclude = ('estado', 'funciones', 'alcances', 'turnos', 'sitio_web', 'telefono', 'email', 'normativa', 'tipo_normativa')
 
     def clean_codigo_tipo_unidad_educativa(self):
         codigo = self.cleaned_data['codigo_tipo_unidad_educativa']

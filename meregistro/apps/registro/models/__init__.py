@@ -13,6 +13,7 @@ from EstadoEstablecimiento import EstadoEstablecimiento
 from Turno import Turno
 from Funcion import Funcion
 from Nivel import Nivel
+from Alcance import Alcance
 from Anexo import Anexo
 from AnexoBaja import AnexoBaja
 from AnexoEstado import AnexoEstado

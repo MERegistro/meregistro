@@ -4,7 +4,7 @@ from apps.registro.models.TipoNormativa import TipoNormativa
 from apps.registro.models.Jurisdiccion import Jurisdiccion
 from apps.registro.models.RegistroEstablecimiento import RegistroEstablecimiento
 from apps.registro.models.DependenciaFuncional import DependenciaFuncional
-from apps.registro.models.Nivel import Nivel
+from apps.registro.models.Alcance import Alcance
 from apps.registro.models.Funcion import Funcion
 from apps.registro.models.Turno import Turno
 from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
@@ -41,7 +41,7 @@ class Establecimiento(models.Model):
     solicitud_filename = models.CharField(max_length=100, null=True, blank=True, editable=False)
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     turnos = models.ManyToManyField(Turno, blank=True, null=True, db_table='registro_establecimientos_turnos')
-    niveles = models.ManyToManyField(Nivel, blank=True, null=True, db_table='registro_establecimientos_niveles')
+    alcances = models.ManyToManyField(Alcance, blank=True, null=True, db_table='registro_establecimientos_alcances')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_establecimientos_funciones')
     estado = models.ForeignKey(EstadoEstablecimiento, editable=False, null=True)
 

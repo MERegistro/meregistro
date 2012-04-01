@@ -19,7 +19,7 @@ class AnexoDatosBasicosForm(forms.ModelForm):
     
     class Meta:
         model = Anexo
-        exclude = ('estado', 'funciones', 'niveles', 'turnos', 'sitio_web', 'telefono', 'email',)
+        exclude = ('estado', 'funciones', 'alcances', 'turnos', 'sitio_web', 'telefono', 'email',)
 
     def __init__(self, *args, **kwargs):
         super(AnexoDatosBasicosForm, self).__init__(*args, **kwargs)
