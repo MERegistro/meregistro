@@ -71,13 +71,32 @@ def __get_anexo(request, anexo_id):
 @login_required
 @credential_required('reg_anexo_consulta')
 def index(request):
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    if jurisdiccion is not None:  # el usuario puede ser un referente o el admin de títulos
+        jurisdiccion_id = jurisdiccion.id
+    else:
+        try:
+            jurisdiccion_id = request.GET['jurisdiccion']
+            if request.GET['jurisdiccion'] == '':
+                jurisdiccion_id = None
+        except KeyError:
+            jurisdiccion_id = None
+
+    try:
+        departamento_id = request.GET['departamento']
+        if request.GET['departamento'] == '':
+            departamento_id = None
+    except KeyError:
+        departamento_id = None
+    
     """
     Búsqueda de anexos
     """
     if request.method == 'GET':
-        form_filter = AnexoFormFilters(request.GET)
+        form_filter = AnexoFormFilters(request.GET, jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
     else:
-        form_filter = AnexoFormFilters()
+        form_filter = AnexoFormFilters(jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
     q = build_query(form_filter, 1, request)
 
     try:
@@ -86,12 +105,20 @@ def index(request):
     except KeyError:
         pass
 
-    jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
         form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
     form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    paginator = Paginator(q, ITEMS_PER_PAGE)
 
+
+
+
+
+
+
+
+
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+    
     try:
         page_number = int(request.GET['page'])
     except (KeyError, ValueError):

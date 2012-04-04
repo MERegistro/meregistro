@@ -2,15 +2,29 @@
 
 from django import forms
 from apps.seguridad.models import TipoDocumento, Usuario
-from apps.registro.models import Establecimiento, Anexo
+from apps.registro.models import Establecimiento, Anexo, Localidad, Departamento
 
 
 class AnexoFormFilters(forms.Form):
-    nombre = forms.CharField(max_length = 40, label = 'Nombre', required = False)
-    cue = forms.CharField(max_length = 40, label = 'Cue', required = False)
-    establecimiento = forms.ModelChoiceField(queryset = Establecimiento.objects.order_by('nombre'), label = 'Establecimiento', required = False)
-
-    def buildQuery(self, q = None):
+    nombre = forms.CharField(max_length=40, label='Nombre', required=False)
+    cue = forms.CharField(max_length=40, label='Cue', required=False)
+    establecimiento = forms.ModelChoiceField(queryset=Establecimiento.objects.order_by('nombre'), label='Establecimiento', required=False)
+    departamento = forms.ModelChoiceField(queryset=Departamento.objects.order_by('nombre'), label='Departamento', required=False)
+    localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False)
+    
+    def __init__(self, *args, **kwargs):
+        self.jurisdiccion_id = kwargs.pop('jurisdiccion_id')
+        self.departamento_id = kwargs.pop('departamento_id')
+        super(AnexoFormFilters, self).__init__(*args, **kwargs)
+        "Para no cargar todas las localidades y departamentos"
+        if self.jurisdiccion_id is not None:
+            self.fields['departamento'].queryset = self.fields['departamento'].queryset.filter(jurisdiccion__id=self.jurisdiccion_id)
+        if self.departamento_id is not None:
+            self.fields['localidad'].queryset = self.fields['localidad'].queryset.filter(departamento__id=self.departamento_id)
+        else:
+            self.fields['localidad'].queryset = self.fields['localidad'].queryset.none()
+            
+    def buildQuery(self, q=None):
         """
         Crea o refina un query de búsqueda.
         """
@@ -19,10 +33,14 @@ class AnexoFormFilters(forms.Form):
         if self.is_valid():
             def filter_by(field):
                 return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None
-        if filter_by('nombre'):
-            q = q.filter(nombre__icontains = self.cleaned_data['nombre'])
-        if filter_by('cue'):
-            q = q.filter(cue__contains = self.cleaned_data['cue'])
-        if filter_by('establecimiento'):
-            q = q.filter(establecimiento = self.cleaned_data['establecimiento'])
+            if filter_by('nombre'):
+                q = q.filter(nombre__icontains=self.cleaned_data['nombre'])
+            if filter_by('cue'):
+                q = q.filter(cue__contains=self.cleaned_data['cue'])
+            if filter_by('establecimiento'):
+                q = q.filter(establecimiento=self.cleaned_data['establecimiento'])
+            if filter_by('departamento'):
+                q = q.filter(anexo_domicilio__localidad__departamento=self.cleaned_data['departamento'])
+            if filter_by('localidad'):
+                q = q.filter(anexo_domicilio__localidad=self.cleaned_data['localidad'])
         return q

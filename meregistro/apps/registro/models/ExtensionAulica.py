@@ -157,3 +157,10 @@ class ExtensionAulica(models.Model):
                 self.ambito.delete()
             except:
                 pass
+
+    def get_first_domicilio(self):
+        try:
+            dom = self.domicilio.all()[0]
+        except IndexError:
+            return None
+        return dom

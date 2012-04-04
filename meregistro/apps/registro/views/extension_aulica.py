@@ -61,13 +61,32 @@ def __get_extension_aulica(request, extension_aulica_id):
 @login_required
 @credential_required('reg_extension_aulica_consulta')
 def index(request):
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    if jurisdiccion is not None:  # el usuario puede ser un referente o el admin de títulos
+        jurisdiccion_id = jurisdiccion.id
+    else:
+        try:
+            jurisdiccion_id = request.GET['jurisdiccion']
+            if request.GET['jurisdiccion'] == '':
+                jurisdiccion_id = None
+        except KeyError:
+            jurisdiccion_id = None
+
+    try:
+        departamento_id = request.GET['departamento']
+        if request.GET['departamento'] == '':
+            departamento_id = None
+    except KeyError:
+        departamento_id = None
+    
     """
     Búsqueda de extensiones áulicas
     """
     if request.method == 'GET':
-        form_filter = ExtensionAulicaFormFilters(request.GET)
+        form_filter = ExtensionAulicaFormFilters(request.GET, jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
     else:
-        form_filter = ExtensionAulicaFormFilters()
+        form_filter = ExtensionAulicaFormFilters(jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
     q = build_query(form_filter, 1, request)
 
     try:

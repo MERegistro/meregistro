@@ -9,24 +9,39 @@
 {% endif %}
 <form action="" method="get">
 <div class="form-filter" id="extensionAulicaFormFilter">
-  <h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
-		<div class="form-select">
-			{{ form_filters.establecimiento.errors }}
-			<label for="id_establecimiento">Establecimiento:</label>
-			{{ form_filters.establecimiento }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form_filters.nombre }}
-		</div>
-		<div class="form-submit">
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'extension_aulica';" />
-		</div>
+    <h3>Búsqueda avanzada</h3>
+    {{ form_filters.non_field_errors }}
+	<div class="form-select">
+	    {{ form_filters.establecimiento.errors }}
+	    <label for="id_establecimiento">Sede:</label>
+	    {{ form_filters.establecimiento }}
+	</div>
+	<div class="form-text">
+	    {{ form_filters.cue.errors }}
+	    <label for="id_cue">CUE:</label>
+	    {{ form_filters.cue }}
+	</div>
+	<div class="form-text">
+	    {{ form_filters.nombre.errors }}
+	    <label for="id_nombre">Nombre:</label>
+	    {{ form_filters.nombre }}
+	</div>
+	 <div class="form-select">
+            {{ form_filters.departamento.errors }}
+            <label for="id_departamento">Departamento:</label>
+            {{ form_filters.departamento }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.localidad.errors }}
+            <label for="id_localidad">Localidad:</label>
+            {{ form_filters.localidad }}
+        </div>
+	<div class="form-submit">
+	    <input type="submit" value="Buscar" />
+	    <input type="button" value="Reiniciar" onclick="window.location = 'extension_aulica';" />
+	</div>
 
-</div>
+    </div>
 
 {% if objects %}
 {% include "counter.html" %}
@@ -42,7 +57,7 @@
       <th>Nombre</th>
       <th>Departamento</th>
       <th>Localidad</th>
-      <th>Estados</th>
+      <th class="th-estados">Estados</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -101,4 +116,46 @@
     {% endif %}
 </ul>
 <hr />
+
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+
+$(document).ready(
+    dropdown_departamento.change(
+	function(){
+	    if (dropdown_departamento.val() == '') {
+		dropdown_localidad.html("<option value=''>Seleccione...</option>");
+	    } else {
+		var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+		$.getJSON(url, function(models){
+		    var options = '<option value="">Seleccione...</option>';
+		    for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+		    }
+		    dropdown_localidad.html(options);
+		});
+	    } // END if
+	}) // END function
+); // END document.ready
+
+// Init
+
+if (dropdown_departamento.val() == '') {
+    dropdown_localidad.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_localidad.html(options);
+    dropdown_localidad.val(get_url_param('localidad'));
+
+    });
+}
+
+</script>
 {% endblock %}

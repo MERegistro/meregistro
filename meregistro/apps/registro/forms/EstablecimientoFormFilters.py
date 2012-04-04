@@ -48,5 +48,5 @@ class EstablecimientoFormFilters(forms.Form):
             if filter_by('departamento'):
                 q = q.filter(domicilios__localidad__departamento=self.cleaned_data['departamento'])
             if filter_by('localidad'):
-                q = q.filter(domicilios__localidad=self.cleaned_data['localidad'])
+                q = q.filter(domicilio__localidad=self.cleaned_data['localidad'])
         return q
