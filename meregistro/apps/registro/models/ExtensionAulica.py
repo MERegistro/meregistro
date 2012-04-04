@@ -17,7 +17,7 @@ YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.no
 
 @audit
 class ExtensionAulica(models.Model):
-    NORMA_CREACION_CHOICES = ['Resolución', 'Decreto', 'Disposición', 'Dictamen', 'Otra']
+    NORMA_CREACION_CHOICES = ['Decreto', 'Resolución', 'Disposición', 'Dictamen', 'Otra']
     
     establecimiento = models.ForeignKey(Establecimiento)
     cue = models.CharField(max_length=9, null=True, blank=True, unique=True)

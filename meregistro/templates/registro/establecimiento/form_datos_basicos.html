@@ -111,9 +111,16 @@ function tipo_norma_otra_enabled()
                 otra = true;
         }
     );
-    $("#id_tipo_norma_otra").attr('disabled', !otra);
-    if(!otra)
-        $("#id_tipo_norma_otra").val("")
+    if(otra)
+    {
+        $("#id_tipo_norma_otra").show();
+    }
+    else
+    {
+        $("#id_tipo_norma_otra").val("");
+        $("#id_tipo_norma_otra").hide();
+    }
+        
 }
 $('#id_unidad_academica').change(unidad_academica_enabled);
 unidad_academica_enabled();

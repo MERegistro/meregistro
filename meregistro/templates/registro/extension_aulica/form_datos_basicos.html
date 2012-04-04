@@ -88,17 +88,22 @@ $(document).ready(function(){
 	dropdown_norma_creacion = $('select#id_norma_creacion');
 	norma_creacion_val = dropdown_norma_creacion.val();
 	norma_creacion_otra_input = $('input#id_norma_creacion_otra');
-	norma_creacion_otra_input.attr('disabled', true);
 	
 	if(norma_creacion_val == 'Otra'){
-		norma_creacion_otra_input.removeAttr('disabled');
+		norma_creacion_otra_input.show();
+	}
+    else
+    {
+		norma_creacion_otra_input.val("");
+		norma_creacion_otra_input.hide();
 	}
 	
 	dropdown_norma_creacion.change(function(){
 		if (dropdown_norma_creacion.val() == 'Otra'){
-			norma_creacion_otra_input.removeAttr('disabled');
+		    norma_creacion_otra_input.show();
 		} else {
-			norma_creacion_otra_input.attr('disabled', true);
+		    norma_creacion_otra_input.val("");
+		    norma_creacion_otra_input.hide();
 		}
 	});
 	
