@@ -18,6 +18,7 @@ jQuery(function($){
 		firstDay: 1,
 		isRTL: false,
 		showMonthAfterYear: false,
-		yearSuffix: ''};
+		yearSuffix: '',
+    changeYear: true };
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 });
