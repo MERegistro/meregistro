@@ -50,7 +50,7 @@ $(document).ready(
     function(){
 		dropdown_departamento.change(function(){        
 			if(dropdown_departamento.val() == ''){
-				dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+				dropdown_localidad.html("<option value=''>Seleccione...</option>");
 			} else {
 				var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
 				$.getJSON(url, function(models) {
@@ -68,7 +68,7 @@ $(document).ready(
 		dropdown_departamento.val({{ domicilio.localidad.departamento.id }});
 		{% endif %}
 		if (dropdown_departamento.val() == ''){
-			dropdown_localidad.html("<option value=''>---Elegir departamento---</option>");
+			dropdown_localidad.html("<option value=''>Seleccione...</option>");
 		} else {
 			var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
 			$.getJSON(url, function(models) {
