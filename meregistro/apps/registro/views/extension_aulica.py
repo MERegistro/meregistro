@@ -425,7 +425,7 @@ def completar_informacion_edilicia(request, extension_aulica_id):
         form = ExtensionAulicaInformacionEdiliciaForm(instance=informacion_edilicia)
 
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
-    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion='Establecimiento de otro nivel').id
+    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = extension_aulica.get_verificacion_datos().info_edilicia
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,

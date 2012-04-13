@@ -441,7 +441,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
         form = EstablecimientoInformacionEdiliciaForm(instance=informacion_edilicia)
 
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
-    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion='Establecimiento de otro nivel').id
+    comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = establecimiento.get_verificacion_datos().info_edilicia
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
