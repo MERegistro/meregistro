@@ -11,6 +11,11 @@
 			<label for="id_descripcion">Descripcion:</label>
 			{{ form.descripcion }}
 		</div>
+		<div class="form-text">
+			{{ form.padre.errors }}
+			<label for="id_padre">Padre:</label>
+			{{ form.padre }}
+		</div>
 		{% if rol %}
 		<div class="form-checkbox-list">
 			{{ form.credenciales.errors }}

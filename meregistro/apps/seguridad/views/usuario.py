@@ -14,6 +14,9 @@ from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
+def __check_puede_modificar_usuario(request, usuario):
+    if not request.get_perfil().can_modificar_usuario(usuario): 
+        raise Exception('No puede modificar al usuario')
 
 @login_required
 def index(request):
@@ -75,6 +78,7 @@ def edit(request, userId):
     """
     usuario = Usuario.objects.get(pk=userId)
     if request.method == 'POST':
+        __check_puede_modificar_usuario(request, usuario)
         form = UsuarioForm(request.POST, instance=usuario)
         if form.is_valid():
             usuario = form.save()
@@ -86,6 +90,7 @@ def edit(request, userId):
     return my_render(request, 'seguridad/usuario/edit.html', {
         'form': form,
         'usuario': usuario,
+        'modificable': request.get_perfil().can_modificar_usuario(usuario)
     })
 
 
@@ -127,6 +132,7 @@ def change_password(request, userId):
     Cambiar contraseña de un usuario.
     """
     usuario = Usuario.objects.get(pk=userId)
+    __check_puede_modificar_usuario(request, usuario)
     if request.method == 'POST':
         form = UsuarioChangePasswordForm(request.POST)
         if form.is_valid():
@@ -150,6 +156,7 @@ def bloquear(request, userId):
     Bloquea un usuario.
     """
     usuario = Usuario.objects.get(pk=userId)
+    __check_puede_modificar_usuario(request, usuario)
     if not request.get_perfil().ve_usuario(usuario):
         request.set_flash('warning', 'No puede bloquear el usuario seleccionado.')
         return HttpResponseRedirect(reverse('usuarioEdit', args=[userId]))
@@ -174,6 +181,7 @@ def desbloquear(request, userId):
     Desbloquea un usuario.
     """
     usuario = Usuario.objects.get(pk=userId)
+    __check_puede_modificar_usuario(request, usuario)
     if request.method == 'POST':
         form = DesbloquearUsuarioForm(request.POST)
         if form.is_valid():
@@ -233,6 +241,7 @@ def editarPasswordPropia(request):
 def delete(request, usuario_id):
     usuario_actual = request.get_perfil().usuario
     usuario_a_aliminar = Usuario.objects.get(pk=usuario_id)
+    __check_puede_modificar_usuario(request, usuario_a_aliminar)
     if usuario_actual == usuario_a_aliminar:
         request.set_flash('warning', 'El usuario no puede eliminarse a sí mismo.')
     elif usuario_a_aliminar.is_deletable() and usuario_actual.can_delete_usuario(usuario_a_aliminar):

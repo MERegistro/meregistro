@@ -68,6 +68,7 @@ class Usuario(models.Model):
         nunca_logueado = self.last_login is None
         return nunca_logueado
 
+
     @classmethod
     def get_usuarios_by_rol(cls, rol):
         usuarios = Usuario.objects.filter(perfiles__rol__nombre=rol)

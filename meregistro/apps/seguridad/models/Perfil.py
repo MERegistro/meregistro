@@ -28,6 +28,14 @@ class Perfil(models.Model):
         q = usuario.perfiles.filter(ambito__path__istartswith=self.ambito.path)
         return len(q) > 0
 
+    
+    def can_modificar_usuario(self, usuario):
+        cant_pefiles_visibles = len(
+            usuario.perfiles.filter(ambito__path__istartswith=self.ambito.path)
+            .filter(rol__path__istartswith=self.rol.path))
+        return cant_pefiles_visibles == len(usuario.perfiles.all())
+
+
     def is_deletable(self):
         total = self.usuario.perfiles.filter(fecha_desasignacion=None).count()
         mas_de_uno = total > 1

@@ -9,6 +9,13 @@ class RolForm(ModelForm):
 
     class Meta:
         model = Rol
+        exclude = ['path']
 
     def __unicode__(self):
         return self.descripcion
+
+    def __init__(self, *args, **kw):
+        ModelForm.__init__(self, *args, **kw)
+        if kw.has_key('instance'):
+            self.fields['padre'].queryset = Rol.objects.exclude(id=kw['instance'].id).order_by('descripcion')
+        

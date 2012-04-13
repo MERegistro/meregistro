@@ -15,9 +15,20 @@ class Rol(models.Model):
     descripcion = models.CharField(max_length=255)
     credenciales = models.ManyToManyField(Credencial, related_name='roles')
     roles_asignables = models.ManyToManyField('self', related_name='roles_asignadores', symmetrical=False)
+    path = models.CharField(max_length=255)
+    padre = models.ForeignKey('self', null=True, blank=True)
 
     class Meta:
         app_label = 'seguridad'
 
     def __unicode__(self):
         return self.descripcion
+
+
+    def save(self):
+        if self.padre is None:
+            padre_path = '/'
+        else:
+            padre_path = self.padre.path
+        self.path = padre_path + str(self.id) + '/'
+        models.Model.save(self)
