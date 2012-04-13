@@ -140,10 +140,15 @@ def edit(request, domicilio_id):
         form = ExtensionAulicaDomicilioForm(instance=domicilio, jurisdiccion_id=jurisdiccion.id, extension_aulica_id=extension_aulica.id)
 
     form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    try:        
+        localidad_seleccionada = request.POST['localidad']
+    except KeyError:
+        localidad_seleccionada = None
     return my_render(request, 'registro/extension_aulica/domicilios/edit.html', {
         'form': form,
         'domicilio': domicilio,
         'extension_aulica': extension_aulica,
+        'localidad_seleccionada': localidad_seleccionada,
     })
 
 
@@ -155,4 +160,4 @@ def delete(request, domicilio_id):
     
     domicilio.delete()
     request.set_flash('success', 'Datos del domicilio eliminados correctamente.')
-    return HttpResponseRedirect(reverse('extensionAulicaDomiciliosIndex'))
+    return HttpResponseRedirect(reverse('extensionAulicaDomiciliosIndex', args=[domicilio.extension_aulica_id]))
