@@ -80,7 +80,7 @@
     <tbody>
         {% for est in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
-                {% if 'reg_establecimiento_verificar_datos' in credenciales and not est.verificado %} 
+                {% if not est.verificado %} 
                     style="background-color: #f55"
                 {% endif %}>
                 <td>{{ est.cue }}</td>

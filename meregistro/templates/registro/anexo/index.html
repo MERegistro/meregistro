@@ -64,7 +64,7 @@
   <tbody>
     {% for anexo in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
-        {% if 'reg_anexo_verificar_datos' in credenciales and not anexo.verificado %} 
+        {% if not anexo.verificado %} 
             style="background-color: #f55"
         {% endif %}>
 	<td>{{ anexo.cue }}</td>

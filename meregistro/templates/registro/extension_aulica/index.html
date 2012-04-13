@@ -63,7 +63,7 @@
   </thead>
     {% for ext in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
-        {% if 'reg_extension_aulica_verificar_datos' in credenciales and not ext.verificado %} 
+        {% if not ext.verificado %} 
             style="background-color: #f55"
         {% endif %}>
 	<td>{{ ext.cue }}</td>
