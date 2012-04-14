@@ -108,9 +108,15 @@ def create(request, establecimiento_id):
     else:
         form = EstablecimientoDomicilioForm(jurisdiccion_id=jurisdiccion.id, establecimiento_id=establecimiento.id)
     form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    "Localidad seleccionada al hacer refresh"
+    try:        
+        localidad_seleccionada = request.POST['localidad']
+    except KeyError:
+        localidad_seleccionada = None
     return my_render(request, 'registro/establecimiento/domicilios/new.html', {
         'establecimiento': establecimiento,
         'form': form,
+        'localidad_seleccionada': localidad_seleccionada,
     })
 
 
@@ -146,9 +152,9 @@ def edit(request, domicilio_id):
 @login_required
 @credential_required('reg_establecimiento_completar')
 def delete(request, domicilio_id):
-    domicilio = EstablecimientoDomicilio.objects.get(pk=domicilio_id, establecimiento__id=establecimiento.id)
+    domicilio = EstablecimientoDomicilio.objects.get(pk=domicilio_id)
     establecimiento = __get_establecimiento(request, domicilio.establecimiento_id)
     
     domicilio.delete()
     request.set_flash('success', 'Datos del domicilio eliminados correctamente.')
-    return HttpResponseRedirect(reverse('establecimientoDomiciliosIndex'))
+    return HttpResponseRedirect(reverse('establecimientoDomiciliosIndex', args=[domicilio.establecimiento_id]))

@@ -54,7 +54,7 @@ $(document).ready(
 			} else {
 				var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
 				$.getJSON(url, function(models) {
-					var options = '';
+					var options = '<option value="">Seleccione...</option>';
 					for(var i = 0; i < models.length; i++){
 						options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
 					}
@@ -72,12 +72,16 @@ $(document).ready(
 		} else {
 			var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
 			$.getJSON(url, function(models) {
-				var options = '';
+				var options = '<option value="">Seleccione...</option>';
 				for (var i = 0; i < models.length; i++){
 					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
 				}
 				dropdown_localidad.html(options);
+				{% if  localidad_seleccionada %}
+				dropdown_localidad.val({{ localidad_seleccionada }});
+				{% else %}
 				dropdown_localidad.val({{ domicilio.localidad.id }});
+				{% endif %}
 			});
 		}
 		

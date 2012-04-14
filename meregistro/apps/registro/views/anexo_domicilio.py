@@ -117,9 +117,15 @@ def create(request, anexo_id):
     else:
         form = AnexoDomicilioForm(jurisdiccion_id=jurisdiccion.id, anexo_id=anexo.id)
     form.fields["localidad"].queryset = Localidad.objects.filter(departamento__jurisdiccion__id=jurisdiccion.id)
+    "Localidad seleccionada al hacer refresh"
+    try:        
+        localidad_seleccionada = request.POST['localidad']
+    except KeyError:
+        localidad_seleccionada = None
     return my_render(request, 'registro/anexo/domicilios/new.html', {
         'anexo': anexo,
         'form': form,
+        'localidad_seleccionada': localidad_seleccionada,
     })
 
 
@@ -155,9 +161,9 @@ def edit(request, domicilio_id):
 @login_required
 @credential_required('reg_anexo_completar')
 def delete(request, domicilio_id):
-    domicilio = AnexoDomicilio.objects.get(pk=domicilio_id, anexo__id=anexo.id)
+    domicilio = AnexoDomicilio.objects.get(pk=domicilio_id)
     anexo = __get_anexo(request, domicilio.anexo_id)
     
     domicilio.delete()
     request.set_flash('success', 'Datos del domicilio eliminados correctamente.')
-    return HttpResponseRedirect(reverse('anexoDomiciliosIndex'))
+    return HttpResponseRedirect(reverse('anexoDomiciliosIndex', args=[domicilio.anexo_id]))

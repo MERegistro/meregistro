@@ -30,7 +30,7 @@ class ExtensionAulicaInformacionEdiliciaForm(forms.ModelForm):
         niveles = self.cleaned_data['niveles']
         try:
             tipo_compartido = self.cleaned_data['tipo_compartido']
-            if tipo_compartido is not None and tipo_compartido.id == TipoCompartido.objects.get(descripcion='Establecimiento de otro nivel').id:
+            if tipo_compartido is not None and tipo_compartido.id == TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id:
                 if len(niveles) == 0:
                     raise ValidationError('Debe especificar con qué niveles comparte el edificio.')
         except KeyError:
