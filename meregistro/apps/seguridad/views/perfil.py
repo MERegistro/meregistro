@@ -47,9 +47,8 @@ def create(request, userId=None):
 def delete(request, perfil_id):
     usuario_actual = request.get_perfil().usuario
     perfil = Perfil.objects.get(pk=perfil_id)  # Falta filtrar el usuario
-    if perfil.is_deletable() and usuario_actual.can_delete_perfil(perfil):
-        perfil.fecha_desasignacion = date.today()
-        perfil.save()
+    if perfil.is_deletable() and request.get_perfil().can_delete_perfil(perfil):
+        perfil.delete()
         request.set_flash('success', 'Perfil eliminado correctamente.')
     else: 
         request.set_flash('error', 'El perfil no se puede eliminar.')

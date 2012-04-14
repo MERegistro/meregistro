@@ -41,3 +41,8 @@ class Perfil(models.Model):
         mas_de_uno = total > 1
         no_desasignado = self.fecha_desasignacion is None
         return mas_de_uno and no_desasignado
+
+
+    def can_delete_perfil(self, perfil):
+        return (self.ambito.esAncestro(perfil.ambito)
+            and self.rol.asigna(perfil.rol))

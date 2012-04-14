@@ -32,3 +32,7 @@ class Rol(models.Model):
             padre_path = self.padre.path
         self.path = padre_path + str(self.id) + '/'
         models.Model.save(self)
+
+
+    def asigna(self, rol):
+        return bool(self.roles_asignables.filter(id=rol.id))

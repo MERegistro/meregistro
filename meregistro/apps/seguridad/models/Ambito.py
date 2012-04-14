@@ -43,3 +43,7 @@ class Ambito(models.Model):
     def delete(self, *arg, **kw):
       self.ambito_set.all().delete()
       return models.Model.delete(self)
+
+
+    def esAncestro(self, ambito):
+        return ambito.path.startswith(self.path)
