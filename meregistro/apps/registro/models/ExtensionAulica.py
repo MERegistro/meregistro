@@ -121,7 +121,7 @@ class ExtensionAulica(models.Model):
     def updateAmbito(self):
         if self.pk is None or self.ambito is None:
             try:
-                self.ambito = self.establecimiento.ambito.createChild(self.nombre)
+                self.ambito = self.establecimiento.ambito.createChild(self.nombre, self)
             except Exception:
                 pass
         else:

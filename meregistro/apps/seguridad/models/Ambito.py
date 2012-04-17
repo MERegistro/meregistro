@@ -18,11 +18,13 @@ class Ambito(models.Model):
         s = self.descripcion
         return s
 
-    def createChild(self, childDescripcion):
+    def createChild(self, childDescripcion, model):
         child = Ambito()
         child.descripcion = childDescripcion
         child.level = self.level + 1
         child.parent = self
+        print "tipo:", TipoAmbito.get_tipo_by_model(model)
+        child.tipo = TipoAmbito.get_tipo_by_model(model)
         child.save()
         if self.path[-1] == '/': c = ''
         else: c = '/'
