@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django.db import models
-
+from apps.seguridad.models import TipoAmbito
 
 class Ambito(models.Model):
     descripcion = models.CharField(max_length=255)
@@ -9,6 +9,7 @@ class Ambito(models.Model):
     level = models.IntegerField()
     parent = models.ForeignKey('self', null=True)
     vigente = models.BooleanField(default=True)
+    tipo = models.ForeignKey(TipoAmbito)
 
     class Meta:
         app_label = 'seguridad'

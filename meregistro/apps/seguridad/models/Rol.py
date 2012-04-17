@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django.db import models
-from apps.seguridad.models import Credencial
+from apps.seguridad.models import Credencial, TipoAmbito
 
 
 class Rol(models.Model):
@@ -14,6 +14,7 @@ class Rol(models.Model):
     nombre = models.CharField(max_length=40)
     descripcion = models.CharField(max_length=255)
     credenciales = models.ManyToManyField(Credencial, related_name='roles')
+    tipos_ambito_asignable = models.ManyToManyField(TipoAmbito, related_name='roles')
     roles_asignables = models.ManyToManyField('self', related_name='roles_asignadores', symmetrical=False)
     path = models.CharField(max_length=255)
     padre = models.ForeignKey('self', null=True, blank=True)
@@ -36,3 +37,6 @@ class Rol(models.Model):
 
     def asigna(self, rol):
         return bool(self.roles_asignables.filter(id=rol.id))
+
+    def asignableAAmbito(self, ambito):
+        return bool(self.tipos_ambito_asignable.filter(id=ambito.tipo.id))
