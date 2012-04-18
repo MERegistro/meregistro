@@ -43,7 +43,7 @@ class DependenciaFuncional(models.Model):
 
     def updateAmbito(self):
         if self.pk is None or self.ambito is None:
-            self.ambito = self.jurisdiccion.ambito.createChild(self.nombre)
+            self.ambito = self.jurisdiccion.ambito.createChild(self.nombre, self)
         else:
             self.ambito.descripcion = self.nombre
             self.ambito.save()

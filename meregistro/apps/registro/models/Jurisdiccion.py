@@ -22,7 +22,7 @@ class Jurisdiccion(models.Model):
 
     def updateAmbito(self):
         if self.pk is None or self.ambito is None:
-            self.ambito = Ambito.objects.get(level=0).createChild(self.nombre)
+            self.ambito = Ambito.objects.get(level=0).createChild(self.nombre, self)
         else:
             self.ambito.descripcion = self.nombre
             self.ambito.save()
