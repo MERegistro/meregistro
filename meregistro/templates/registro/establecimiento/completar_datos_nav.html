@@ -4,7 +4,7 @@
 	{% if establecimiento.registrado %}
 		<li{% if actual_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_contacto establecimiento.id %}" title="Contacto"><span>Contacto</span></a></li>
 		<li{% if actual_page == 'alcances' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_alcances establecimiento.id %}" title="Alcance"><span>Alcance</span></a></li>
-		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_turnos establecimiento.id %}" title="Turnos"><span>Turnos</span></a></li>
+		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_turno.index establecimiento.id %}" title="Turnos"><span>Turnos</span></a></li>
 		<li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_funciones establecimiento.id %}" title="Funciones"><span>Funciones</span></a></li>
 		<li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_domicilio.index establecimiento.id %}" title="Domicilios"><span>Domicilios</span></a></li>
 		<li{% if actual_page == 'autoridad' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_autoridad.index establecimiento.id %}" title="Autoridades"><span>Autoridades</span></a></li>

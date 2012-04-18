@@ -31,6 +31,11 @@ urlpatterns = patterns('',
     url(r'^establecimiento/([0-9]+)/agregar_autoridad$', 'apps.registro.views.establecimiento_autoridad.create', name='establecimientoAutoridadCreate'),
     url(r'^establecimiento/autoridades/([0-9]+)/edit$', 'apps.registro.views.establecimiento_autoridad.edit', name='establecimientoAutoridadEdit'),
     url(r'^establecimiento/autoridades/([0-9]+)/delete$', 'apps.registro.views.establecimiento_autoridad.delete', name='establecimientoAutoridadDelete'),
+    # establecimiento turnos
+    url(r'^establecimiento/([0-9]+)/turnos$', 'apps.registro.views.establecimiento_turno.index', name='establecimientoTurnosIndex'),
+    url(r'^establecimiento/([0-9]+)/agregar_turno$', 'apps.registro.views.establecimiento_turno.create', name='establecimientoTurnosCreate'),
+    url(r'^establecimiento/turnos/([0-9]+)/edit$', 'apps.registro.views.establecimiento_turno.edit', name='establecimientoTurnoEdit'),
+    url(r'^establecimiento/turnos/([0-9]+)/delete$', 'apps.registro.views.establecimiento_turno.delete', name='establecimientoTurnoDelete'),
     # anexo
     url(r'^anexo$', 'apps.registro.views.anexo.index', name='anexo'),
     url(r'^anexo/create', 'apps.registro.views.anexo.create', name='anexoCreate'),

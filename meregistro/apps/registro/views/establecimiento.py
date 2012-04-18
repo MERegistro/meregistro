@@ -9,6 +9,8 @@ from apps.seguridad.models import Usuario, Perfil
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
+from apps.registro.models.Turno import Turno
+from apps.registro.models.EstablecimientoTurno import EstablecimientoTurno
 from apps.registro.models.EstablecimientoInformacionEdilicia import EstablecimientoInformacionEdilicia
 from apps.registro.models.EstablecimientoConexionInternet import EstablecimientoConexionInternet
 from apps.registro.models.Localidad import Localidad
@@ -22,6 +24,7 @@ from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoD
 from apps.registro.forms.EstablecimientoContactoForm import EstablecimientoContactoForm
 from apps.registro.forms.EstablecimientoAlcancesForm import EstablecimientoAlcancesForm
 from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
+from apps.registro.forms.EstablecimientoTurnoForm import EstablecimientoTurnoForm
 from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
 from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
 from apps.registro.forms.EstablecimientoConexionInternetForm import EstablecimientoConexionInternetForm
@@ -349,38 +352,6 @@ def completar_alcances(request, establecimiento_id):
 
 @login_required
 @credential_required('reg_establecimiento_completar')
-def completar_turnos(request, establecimiento_id):
-    """
-    CU 26
-    """
-    establecimiento = __get_establecimiento(request, establecimiento_id)
-
-    if request.method == 'POST':
-        form = EstablecimientoTurnosForm(request.POST, instance=establecimiento)
-        if form.is_valid():
-            turnos = form.save()
-            if __puede_verificar_datos(request):
-                v = establecimiento.get_verificacion_datos()
-                v.turnos = form.cleaned_data['verificado']
-                v.save()
-            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = EstablecimientoTurnosForm(instance=establecimiento)
-    form.initial['verificado'] = establecimiento.get_verificacion_datos().turnos
-    return my_render(request, 'registro/establecimiento/completar_datos.html', {
-        'form': form,
-        'form_template': 'registro/establecimiento/form_turnos.html',
-        'establecimiento': establecimiento,
-        'page_title': 'Turnos',
-        'actual_page': 'turnos',
-    })
-
-
-@login_required
-@credential_required('reg_establecimiento_completar')
 def completar_funciones(request, establecimiento_id):
     """
     CU 26
@@ -440,7 +411,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
     else:
         form = EstablecimientoInformacionEdiliciaForm(instance=informacion_edilicia)
 
-    es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
+    es_dominio_compartido_id = TipoDominio.objects.get(descripcion=TipoDominio.TIPO_COMPARTIDO).id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = establecimiento.get_verificacion_datos().info_edilicia
     return my_render(request, 'registro/establecimiento/completar_datos.html', {

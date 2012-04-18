@@ -48,7 +48,7 @@ def index(request, establecimiento_id):
     if request.method == 'GET':
         form_filter = EstablecimientoDomicilioFormFilters(request.GET, establecimiento_id=establecimiento.id)
     else:
-        form_filter = EstablecimientoFormFilters(establecimiento_id=establecimiento.id)
+        form_filter = EstablecimientoDomicilioFormFilters(establecimiento_id=establecimiento.id)
     q = build_query(form_filter, 1, request)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 

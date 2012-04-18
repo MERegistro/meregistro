@@ -1,7 +1,12 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 
 class TipoDominio(models.Model):
+
+    TIPO_EXCLUSIVO = 'Exclusivo'
+    TIPO_COMPARTIDO = 'Compartido'
+    
     descripcion = models.CharField(max_length=50, unique=True)
 
     class Meta:
