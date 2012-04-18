@@ -19,6 +19,7 @@ jQuery(function($){
 		isRTL: false,
 		showMonthAfterYear: false,
 		yearSuffix: '',
-    changeYear: true };
+        changeYear: true,
+        yearRange: "1900:-21"};
 	$.datepicker.setDefaults($.datepicker.regional['es']);
 });
