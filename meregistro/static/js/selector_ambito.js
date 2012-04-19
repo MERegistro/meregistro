@@ -13,7 +13,7 @@ function actualizarAmbito(idx)
 
   $.get(url, function(data) {
     ambitos = eval(data);
-    html = "<select onchange='actualizarAmbito("+(idx+1)+")' name='ambito"+(idx+1)+"' id='ambito"+(idx+1)+"'><option value=''>---</option>";
+    html = "<select onchange='actualizarAmbito("+(idx+1)+")' name='ambito"+(idx+1)+"' id='ambito"+(idx+1)+"'><option value=''>Seleccione...</option>";
     for(i = 0; i < ambitos.length; i++)
     {
       html += "<option value='"+ambitos[i].id+"'>" + ambitos[i].descripcion + "</option>";
@@ -28,7 +28,7 @@ $(document).ready(function () {
     url = "/seguridad/ambito/selector";
     $.get(url, function(data) {
     ambitos = eval(data);
-    html = "<select onchange='actualizarAmbito(0)' name='ambito0' id='ambito0'><option value=''>---</option>";
+    html = "<select onchange='actualizarAmbito(0)' name='ambito0' id='ambito0'><option value=''>Seleccione...</option>";
     for(i = 0; i < ambitos.length; i++)
     {
 	    html += "<option value='"+ambitos[i].id+"'>" + ambitos[i].descripcion + "</option>";

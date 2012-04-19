@@ -5,7 +5,7 @@ from datetime import datetime
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required
-from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo, Rol
+from apps.seguridad.models import Usuario, Perfil, MotivoBloqueo, Rol, TipoDocumento
 from apps.seguridad.forms import UsuarioFormFilters, UsuarioForm, UsuarioCreateForm, UsuarioPasswordForm
 from apps.seguridad.forms import UsuarioChangePasswordForm, BloquearUsuarioForm, DesbloquearUsuarioForm, UsuarioEditarDatosForm
 from django.core.paginator import Paginator
@@ -118,7 +118,8 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = UsuarioCreateForm()
+        init = {'tipo_documento': TipoDocumento.objects.get(abreviatura='DNI').id}
+        form = UsuarioCreateForm(initial=init)
     form.fields['rol'].queryset = request.get_perfil().rol.roles_asignables.all()
 
     return my_render(request, 'seguridad/usuario/new.html', {
