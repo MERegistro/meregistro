@@ -100,6 +100,7 @@ def create(request, establecimiento_id):
             establecimiento_turno = form.save(commit=False)
             establecimiento_turno.establecimiento_id = establecimiento_id
             establecimiento_turno.save()
+            form.save_m2m()
             request.set_flash('success', 'Datos guardados correctamente.')
             return HttpResponseRedirect(reverse('establecimientoTurnosIndex', args=[establecimiento_turno.establecimiento_id]))
         else:

@@ -23,7 +23,6 @@ from apps.registro.forms.EstablecimientoCambiarEstadoForm import Establecimiento
 from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
 from apps.registro.forms.EstablecimientoContactoForm import EstablecimientoContactoForm
 from apps.registro.forms.EstablecimientoAlcancesForm import EstablecimientoAlcancesForm
-from apps.registro.forms.EstablecimientoTurnosForm import EstablecimientoTurnosForm
 from apps.registro.forms.EstablecimientoTurnoForm import EstablecimientoTurnoForm
 from apps.registro.forms.EstablecimientoFuncionesForm import EstablecimientoFuncionesForm
 from apps.registro.forms.EstablecimientoInformacionEdiliciaForm import EstablecimientoInformacionEdiliciaForm
@@ -504,6 +503,8 @@ def verificar_dato(request, establecimiento_id):
         verificacion.domicilios = value
     elif request.GET['dato'] == 'autoridades':
         verificacion.autoridades = value
+    elif request.GET['dato'] == 'turnos':
+        verificacion.turnos = value
     verificacion.save()
     return HttpResponse('ok')
 

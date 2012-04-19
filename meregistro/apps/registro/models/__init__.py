@@ -43,3 +43,4 @@ from ExtensionAulicaVerificacionDatos import ExtensionAulicaVerificacionDatos
 from AnexoAutoridad import AnexoAutoridad
 #
 from EstablecimientoTurno import EstablecimientoTurno
+from AnexoTurno import AnexoTurno

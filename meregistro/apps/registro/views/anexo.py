@@ -17,7 +17,7 @@ from apps.registro.models.AnexoInformacionEdilicia import AnexoInformacionEdilic
 from apps.registro.models.AnexoConexionInternet import AnexoConexionInternet
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
-from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnosForm, AnexoDomicilioForm
+from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnoForm, AnexoDomicilioForm
 from apps.registro.forms.AnexoContactoForm import AnexoContactoForm
 from apps.registro.forms.AnexoAlcancesForm import AnexoAlcancesForm
 from apps.registro.forms.AnexoFuncionesForm import AnexoFuncionesForm
@@ -314,38 +314,6 @@ def completar_contacto(request, anexo_id):
 
 @login_required
 @credential_required('reg_anexo_completar')
-def completar_turnos(request, anexo_id):
-    anexo = __get_anexo(request, anexo_id)
-    """
-    CU 26
-    """
-
-    if request.method == 'POST':
-        form = AnexoTurnosForm(request.POST, instance=anexo)
-        if form.is_valid():
-            turnos = form.save()
-            if __puede_verificar_datos(request):
-                v = anexo.get_verificacion_datos()
-                v.turnos = form.cleaned_data['verificado']
-                v.save()
-            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = AnexoTurnosForm(instance=anexo)
-    form.initial['verificado'] = anexo.get_verificacion_datos().turnos
-    return my_render(request, 'registro/anexo/completar_datos.html', {
-        'form': form,
-        'form_template': 'registro/anexo/form_turnos.html',
-        'anexo': anexo,
-        'page_title': 'Turnos',
-        'actual_page': 'turnos',
-    })
-
-
-@login_required
-@credential_required('reg_anexo_completar')
 def completar_alcances(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -536,5 +504,7 @@ def verificar_dato(request, anexo_id):
         verificacion.domicilios = value
     elif request.GET['dato'] == 'autoridades':
         verificacion.autoridades = value
+    elif request.GET['dato'] == 'turnos':
+        verificacion.turnos = value
     verificacion.save()
     return HttpResponse('ok')

@@ -32,7 +32,7 @@ class Anexo(models.Model):
     email = models.EmailField(max_length=255, null=True, blank=True)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
     sitio_web = models.URLField(max_length=255, null=True, blank=True, verify_exists=False)
-    turnos = models.ManyToManyField(Turno, null=True, db_table='registro_anexos_turnos')
+    #turnos = models.ManyToManyField(Turno, null=True, db_table='registro_anexos_turnos')
     estado = models.ForeignKey(EstadoAnexo) # Concuerda con el último estado en AnexoEstado
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     alcances = models.ManyToManyField(Alcance, blank=True, null=True, db_table='registro_anexos_alcances')

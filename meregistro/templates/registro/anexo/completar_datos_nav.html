@@ -4,7 +4,7 @@
 	{% if anexo.registrado %}
 		<li{% if actual_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_contacto anexo.id %}" title="Contacto"><span>Contacto</span></a></li>
 		<li{% if actual_page == 'alcances' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_alcances anexo.id %}" title="Alcance"><span>Alcance</span></a></li>
-		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_turnos anexo.id %}" title="Turnos"><span>Turnos</span></a></li>
+		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo_turno.index anexo.id %}" title="Turnos"><span>Turnos</span></a></li>
 		<li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo.completar_funciones anexo.id %}" title="Funciones"><span>Funciones</span></a></li>
 		<li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo_domicilio.index anexo.id %}" title="Domicilios"><span>Domicilios</span></a></li>
 		<li{% if actual_page == 'autoridad' %} class="active"{% endif %}><a href="{% url apps.registro.views.anexo_autoridad.index anexo.id %}" title="Autoridades"><span>Autoridades</span></a></li>

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.forms import ModelForm
-from apps.registro.models import Establecimiento
+from apps.registro.models import Anexo
 from apps.registro.models.Turno import Turno
-from apps.registro.models.EstablecimientoTurno import EstablecimientoTurno
+from apps.registro.models.AnexoTurno import AnexoTurno
 from apps.registro.models.Nivel import Nivel
 from apps.registro.models.TipoCompartido import TipoCompartido
 from apps.registro.models.TipoDominio import TipoDominio
@@ -10,21 +10,21 @@ from django.core.exceptions import ValidationError
 from django import forms
 
 
-class EstablecimientoTurnoForm(ModelForm):
+class AnexoTurnoForm(ModelForm):
     turno = forms.ModelChoiceField(queryset=Turno.objects.all(), required=True)
     niveles = forms.ModelMultipleChoiceField(queryset=Nivel.objects.all().order_by('nombre'), widget=forms.CheckboxSelectMultiple, required=False)
     verificado = forms.BooleanField(required=False)
 
     class Meta:
-        model = EstablecimientoTurno
-        exclude = ('establecimiento', )
+        model = AnexoTurno
+        exclude = ('anexo', )
 
     def __init__(self, *args, **kwargs):
-        self.establecimiento_id = kwargs.pop('establecimiento_id')
-        super(EstablecimientoTurnoForm, self).__init__(*args, **kwargs)
+        self.anexo_id = kwargs.pop('anexo_id')
+        super(AnexoTurnoForm, self).__init__(*args, **kwargs)
         # no incluir los turnos ya existentes
-        est_tur = EstablecimientoTurno.objects.filter(establecimiento__id=self.establecimiento_id).exclude(turno__id=self.instance.turno_id)
-        ids_actuales = [e.turno_id for e in est_tur]
+        anexo_tur = AnexoTurno.objects.filter(anexo__id=self.anexo_id).exclude(turno__id=self.instance.turno_id)
+        ids_actuales = [a.turno_id for a in anexo_tur]
         self.fields['turno'].queryset = self.fields['turno'].queryset.exclude(id__in=ids_actuales)
         
     def clean_tipo_compartido(self):
