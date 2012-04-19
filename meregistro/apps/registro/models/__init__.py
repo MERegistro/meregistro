@@ -44,3 +44,4 @@ from AnexoAutoridad import AnexoAutoridad
 #
 from EstablecimientoTurno import EstablecimientoTurno
 from AnexoTurno import AnexoTurno
+from ExtensionAulicaTurno import ExtensionAulicaTurno

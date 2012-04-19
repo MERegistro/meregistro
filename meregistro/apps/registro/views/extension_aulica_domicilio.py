@@ -16,14 +16,8 @@ from apps.registro.forms.ExtensionAulicaDomicilioFormFilters import ExtensionAul
 
 ITEMS_PER_PAGE = 50
 
-@login_required
-def __pertenece_al_extension_aulica(request, extension_aulica):
-    """
-    El extension_aulica pertenece al extension_aulica?
-    """
-    return True
-    return extension_aulica.ambito.path == request.get_perfil().ambito.path
 
+@login_required
 def __extension_aulica_dentro_del_ambito(request, extension_aulica):
     """
     El extension_aulica está dentro del ámbito?
@@ -34,6 +28,7 @@ def __extension_aulica_dentro_del_ambito(request, extension_aulica):
         return False
     return True
 
+@login_required
 def __get_extension_aulica(request, extension_aulica_id):    
     extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
     if not __extension_aulica_dentro_del_ambito(request, extension_aulica):

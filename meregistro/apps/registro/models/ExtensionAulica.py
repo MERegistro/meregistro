@@ -33,7 +33,7 @@ class ExtensionAulica(models.Model):
     sitio_web = models.URLField(max_length = 255, null = True, blank = True, verify_exists = False)
     telefono = models.CharField(max_length = 100, null = True, blank = True)
     email = models.EmailField(max_length = 255, null = True, blank = True)
-    turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_extensiones_aulicas_turnos')
+    #turnos = models.ManyToManyField(Turno, null = True, db_table = 'registro_extensiones_aulicas_turnos')
     estado = models.ForeignKey(EstadoExtensionAulica) # Concuerda con el último estado en ExtensionAulicaEstado
     alcances = models.ManyToManyField(Alcance, blank=True, null=True, db_table='registro_extension_aulica_alcances')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_extension_aulica_funciones')

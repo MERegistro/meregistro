@@ -15,7 +15,7 @@ from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicil
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
 from apps.registro.models.ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
 from apps.registro.models.ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
-from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaTurnosForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -340,35 +340,6 @@ def completar_alcances(request, extension_aulica_id):
 
 @login_required
 @credential_required('reg_extension_aulica_modificar')
-def completar_turnos(request, extension_aulica_id):
-    ext = __get_extension_aulica(request, extension_aulica_id)
-
-    if request.method == 'POST':
-        form = ExtensionAulicaTurnosForm(request.POST, instance=ext)
-        if form.is_valid():
-            turnos = form.save()
-            if __puede_verificar_datos(request):
-                v = ext.get_verificacion_datos()
-                v.turnos = form.cleaned_data['verificado']
-                v.save()
-            #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
-            request.set_flash('success', 'Datos actualizados correctamente.')
-        else:
-            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-    else:
-        form = ExtensionAulicaTurnosForm(instance=ext)
-    form.initial['verificado'] = ext.get_verificacion_datos().turnos
-    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
-        'form': form,
-        'form_template': 'registro/extension_aulica/form_turnos.html',
-        'extension_aulica': ext,
-        'page_title': 'Turnos',
-        'actual_page': 'turnos',
-    })
-
-
-@login_required
-@credential_required('reg_extension_aulica_modificar')
 def completar_funciones(request, extension_aulica_id):
     ext = __get_extension_aulica(request, extension_aulica_id)
 
@@ -523,5 +494,7 @@ def verificar_dato(request, extension_aulica_id):
         verificacion.domicilios = value
     elif request.GET['dato'] == 'autoridades':
         verificacion.autoridades = value
+    elif request.GET['dato'] == 'turnos':
+        verificacion.turnos = value
     verificacion.save()
     return HttpResponse('ok')
