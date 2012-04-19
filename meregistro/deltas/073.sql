@@ -12,6 +12,9 @@ CREATE TABLE registro_anexo_turno
   turno_id integer NOT NULL,
   tipo_dominio_id integer,
   tipo_compartido_id integer,
+  last_user_id integer,
+  created_at timestamp without time zone,
+  updated_at timestamp without time zone,
   CONSTRAINT registro_anexo_turno_pkey PRIMARY KEY (id),
   CONSTRAINT registro_anexo_turno_anexo_id_fkey FOREIGN KEY (anexo_id)
       REFERENCES registro_anexo (id) MATCH SIMPLE
@@ -64,6 +67,9 @@ CREATE TABLE registro_anexo_turno_niveles
   id serial NOT NULL,
   anexoturno_id integer NOT NULL,
   nivel_id integer NOT NULL,
+  last_user_id integer,
+  created_at timestamp without time zone,
+  updated_at timestamp without time zone,
   CONSTRAINT registro_anexo_turno_niveles_pkey PRIMARY KEY (id),
   CONSTRAINT anexoturno_id_refs_id_ee45e31e FOREIGN KEY (anexoturno_id)
       REFERENCES registro_anexo_turno (id) MATCH SIMPLE
