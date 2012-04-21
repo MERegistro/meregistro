@@ -9,7 +9,7 @@ class RolForm(ModelForm):
 
     class Meta:
         model = Rol
-        exclude = ['path']
+        exclude = ['path', 'tipos_ambito_asignable']
 
     def __unicode__(self):
         return self.descripcion

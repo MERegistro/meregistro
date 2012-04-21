@@ -30,6 +30,8 @@ class Perfil(models.Model):
 
     
     def can_modificar_usuario(self, usuario):
+        if self.rol.path is None:
+            return False
         cant_pefiles_visibles = len(
             usuario.perfiles.filter(ambito__path__istartswith=self.ambito.path)
             .filter(rol__path__istartswith=self.rol.path))
