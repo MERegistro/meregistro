@@ -323,7 +323,7 @@ div.tabbed-form form {
 }
 /* establecimientoForm */
 div#establecimientoForm {
-	width: 850px;
+	width: 940px;
 	margin-top: 35px;
 	margin-bottom: 30px;
 }
@@ -356,7 +356,7 @@ div#establecimientoForm form select#id_norma_creacion {
 }
 /* anexoForm */
 div#anexoForm {
-	width: 850px;
+	width: 940px;
 	margin-top: 35px;
 	margin-bottom: 30px;
 }	
@@ -398,7 +398,7 @@ div#anexoForm form select#id_tipo_norma {
 }
 /* extensionAulicaForm */
 div#extensionAulicaForm {
-	width: 850px;
+	width: 940px;
 	margin-top: 35px;
 	margin-bottom: 30px;
 }
@@ -929,4 +929,13 @@ table#perfilesUsuario tr.desasignado td {
 	color: #fff;
 	padding-top: 5px;
 	padding-bottom: 5px;
+}
+/*
+=MATRICULA
+*/
+input#id_formacion_docente,
+input#id_formacion_continua {
+	background: transparent;
+	font-weight: bold;
+	font-style: italic;
 }

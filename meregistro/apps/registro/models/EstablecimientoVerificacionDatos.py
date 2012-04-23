@@ -14,6 +14,7 @@ class EstablecimientoVerificacionDatos(models.Model):
     autoridades = models.BooleanField()
     info_edilicia = models.BooleanField()
     conectividad = models.BooleanField()
+    matricula = models.BooleanField()
     #completo = models.BooleanField()
 
     class Meta:

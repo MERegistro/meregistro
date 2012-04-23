@@ -496,5 +496,7 @@ def verificar_dato(request, extension_aulica_id):
         verificacion.autoridades = value
     elif request.GET['dato'] == 'turnos':
         verificacion.turnos = value
+    elif request.GET['dato'] == 'matricula':
+        verificacion.matricula = value
     verificacion.save()
     return HttpResponse('ok')

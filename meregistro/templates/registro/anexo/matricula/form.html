@@ -1,0 +1,121 @@
+<div class="form tabbed-form" id="anexoCompletarDatosForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-checkbox">
+			{{ form.mixto.errors }}
+			<label for="id_mixto">I.S.F.D con Ofertas Mixtas:</label>
+			{{ form.mixto }}
+		</div>
+		<div class="form-select">
+			{{ form.anio.errors }}
+			<label for="id_anio">Año:</label>
+			{{ form.anio }}
+		</div>
+		<div class="form-text">
+			{{ form.profesorados.errors }}
+			<label for="id_profesorados">Sólo Profesorados:</label>
+			{{ form.profesorados }}
+		</div>
+		<div class="form-text">
+			{{ form.postitulos.errors }}
+			<label for="id_postitulos">Sólo Postítulos:</label>
+			{{ form.postitulos }}
+		</div>
+		<div class="form-text">
+			{{ form.formacion_docente.errors }}
+			<label for="id_formacion_docente">Formación Docente:</label>
+			{{ form.formacion_docente }}
+		</div>
+		<div class="form-text" style="margin-bottom: 30px;">
+			{{ form.formacion_continua.errors }}
+			<label for="id_formacion_continua">Formación Continua o Desarrollo Profesional:</label>
+			{{ form.formacion_continua }}
+		</div>
+		<div class="form-text">
+			{{ form.tecnicaturas.errors }}
+			<label for="id_tecnicaturas">Tecnicaturas:</label>
+			{{ form.tecnicaturas }}
+		</div>
+		<div class="form-text">
+			{{ form.total.errors }}
+			<label for="id_total">Total:</label>
+			{{ form.total }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+var input_profesorados = $("input#id_profesorados");
+var input_postitulos = $("input#id_postitulos");
+var input_formacion_docente = $("input#id_formacion_docente");
+var input_formacion_continua = $("input#id_formacion_continua");
+var input_tecnicaturas = $("input#id_tecnicaturas");
+var input_total = $("input#id_total");
+
+
+function updateFormacionDocente(){
+	profesorados = parseInt(input_profesorados.val());
+	if(isNaN(profesorados) || null === profesorados){
+		profesorados = 0;
+	}
+
+	postitulos = parseInt(input_postitulos.val());
+	if(isNaN(postitulos) || null === postitulos){
+		postitulos = 0;
+	}
+	
+	val = profesorados + postitulos;
+	if(isNaN(val) || val == 0){
+		val = null;
+	}
+	
+	input_formacion_docente.val(val);
+	updateFormacionContinua();
+}
+
+function updateFormacionContinua(){
+	total = input_total.val();
+	if(isNaN(total) || null === total){
+		total = 0;
+	}
+
+	formacion_docente = parseInt(input_formacion_docente.val());
+	if(isNaN(formacion_docente) || null === formacion_docente){
+		formacion_docente = 0;
+	}
+	
+	tecnicaturas = parseInt(input_tecnicaturas.val());
+	if(isNaN(tecnicaturas) || null === tecnicaturas){
+		tecnicaturas = 0;
+	}
+	
+	val = total - formacion_docente - tecnicaturas;
+	if(isNaN(val) || val == 0){
+		val = null;
+	}
+	input_formacion_continua.val(val);
+}
+
+$(document).ready(
+    function(){
+		input_formacion_docente.attr('readonly', true);
+		input_formacion_continua.attr('readonly', true);
+		//
+		updateFormacionDocente();
+		updateFormacionContinua();
+		//
+		input_profesorados.keyup(updateFormacionDocente);
+		input_profesorados.change(updateFormacionDocente);
+		input_postitulos.keyup(updateFormacionDocente);
+		input_postitulos.change(updateFormacionDocente);
+		input_tecnicaturas.keyup(updateFormacionContinua);
+		input_tecnicaturas.change(updateFormacionContinua);
+		input_total.keyup(updateFormacionContinua);
+		input_total.change(updateFormacionContinua);
+	}
+); // END document.ready
+
+</script>

@@ -34,6 +34,11 @@ urlpatterns = patterns('',
     url(r'^establecimiento/([0-9]+)/agregar_turno$', 'apps.registro.views.establecimiento_turno.create', name='establecimientoTurnosCreate'),
     url(r'^establecimiento/turnos/([0-9]+)/edit$', 'apps.registro.views.establecimiento_turno.edit', name='establecimientoTurnoEdit'),
     url(r'^establecimiento/turnos/([0-9]+)/delete$', 'apps.registro.views.establecimiento_turno.delete', name='establecimientoTurnoDelete'),
+    # establecimiento matrícula
+    url(r'^establecimiento/([0-9]+)/matricula$', 'apps.registro.views.establecimiento_matricula.index', name='establecimientoMatriculaIndex'),
+    url(r'^establecimiento/([0-9]+)/agregar_matricula$', 'apps.registro.views.establecimiento_matricula.create', name='establecimientoMatriculaCreate'),
+    url(r'^establecimiento/matricula/([0-9]+)/edit$', 'apps.registro.views.establecimiento_matricula.edit', name='establecimientoMatriculaEdit'),
+    url(r'^establecimiento/matricula/([0-9]+)/delete$', 'apps.registro.views.establecimiento_matricula.delete', name='establecimientoMatriculaDelete'),
     # anexo
     url(r'^anexo$', 'apps.registro.views.anexo.index', name='anexo'),
     url(r'^anexo/create', 'apps.registro.views.anexo.create', name='anexoCreate'),
@@ -62,6 +67,11 @@ urlpatterns = patterns('',
     url(r'^anexo/([0-9]+)/agregar_turno$', 'apps.registro.views.anexo_turno.create', name='anexoTurnosCreate'),
     url(r'^anexo/turnos/([0-9]+)/edit$', 'apps.registro.views.anexo_turno.edit', name='anexoTurnoEdit'),
     url(r'^anexo/turnos/([0-9]+)/delete$', 'apps.registro.views.anexo_turno.delete', name='anexoTurnoDelete'),
+    # establecimiento matrícula
+    url(r'^anexo/([0-9]+)/matricula$', 'apps.registro.views.anexo_matricula.index', name='anexoMatriculaIndex'),
+    url(r'^anexo/([0-9]+)/agregar_matricula$', 'apps.registro.views.anexo_matricula.create', name='anexoMatriculaCreate'),
+    url(r'^anexo/matricula/([0-9]+)/edit$', 'apps.registro.views.anexo_matricula.edit', name='anexoMatriculaEdit'),
+    url(r'^anexo/matricula/([0-9]+)/delete$', 'apps.registro.views.anexo_matricula.delete', name='anexoMatriculaDelete'),
     # extensiones aulicas
     url(r'^extension_aulica$', 'apps.registro.views.extension_aulica.index', name='extensionAulica'),
     url(r'^extension_aulica/create', 'apps.registro.views.extension_aulica.create', name='extensionAulicaCreate'),
@@ -79,11 +89,16 @@ urlpatterns = patterns('',
     url(r'^extension_aulica/domicilios/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_domicilio.delete', name='extensionAulicaDomicilioDelete'),
     url(r'^extension_aulica/([0-9]+)/registrar', 'apps.registro.views.extension_aulica.registrar', name='extensionAulicaRegistrar'),
     url(r'^extension_aulica/([0-9]+)/ajaxVerificarDato', 'apps.registro.views.extension_aulica.verificar_dato', name='extensionAulicaVerificarDato'),  
-    # anexo turnos
+    # extension áulica turnos
     url(r'^extension_aulica/([0-9]+)/turnos$', 'apps.registro.views.extension_aulica_turno.index', name='extensionAulicaTurnosIndex'),
     url(r'^extension_aulica/([0-9]+)/agregar_turno$', 'apps.registro.views.extension_aulica_turno.create', name='extensionAulicaTurnosCreate'),
     url(r'^extension_aulica/turnos/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_turno.edit', name='extensionAulicaTurnoEdit'),
     url(r'^extension_aulica/turnos/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_turno.delete', name='extensionAulicaTurnoDelete'),      
+    # extension áulica matrícula
+    url(r'^extension_aulica/([0-9]+)/matricula$', 'apps.registro.views.extension_aulica_matricula.index', name='extensionAulicaMatriculaIndex'),
+    url(r'^extension_aulica/([0-9]+)/agregar_matricula$', 'apps.registro.views.extension_aulica_matricula.create', name='extensionAulicaMatriculaCreate'),
+    url(r'^extension_aulica/matricula/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_matricula.edit', name='extensionAulicaMatriculaEdit'),
+    url(r'^extension_aulica/matricula/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_matricula.delete', name='extensionAulicaMatriculaDelete'),
     # dependencias funcionales
     url(r'^dependencia_funcional$', 'apps.registro.views.dependencia_funcional.index', name='dependenciaFuncional'),
     url(r'^dependencia_funcional/([0-9]+)/edit', 'apps.registro.views.dependencia_funcional.edit', name='dependenciaFuncionalEdit'),

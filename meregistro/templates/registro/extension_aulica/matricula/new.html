@@ -1,0 +1,20 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Completar Datos de Extensión Áulica{% endblock %}
+
+{% block content %}
+<h2>Completar Datos de Extensión Áulica - Nueva matrícula</h2>
+<h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "registro/extension_aulica/matricula/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.extension_aulica_matricula.index extension_aulica.id %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}
