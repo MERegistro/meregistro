@@ -68,7 +68,7 @@
         <td class="actions-td">
           <ul>
             <li class="edit"><a href="{% url apps.seguridad.views.usuario.edit u.id %}" alt="Editar" title="Editar"><span>Editar</span></a></li>
-        {% if u.is_deletable and u.id != usuario_activo_id %}
+        {% if u.deletable and u.id != usuario_activo_id %}
             <li class="delete"><a href="{% url apps.seguridad.views.usuario.delete u.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
         {% endif %}
           </ul>

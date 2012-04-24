@@ -50,6 +50,8 @@ def index(request):
 
     page = paginator.page(page_number)
     objects = page.object_list
+    for u in objects:
+        u.deletable = u.is_deletable() and request.get_perfil().can_modificar_usuario(u)
     return my_render(request, 'seguridad/usuario/index.html', {
         'form_filters': form_filter,
         'objects': objects,
