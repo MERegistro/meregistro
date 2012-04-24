@@ -11,7 +11,7 @@ class EstablecimientoDatosBasicosForm(ModelForm):
     codigo_tipo_unidad_educativa = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     observaciones = forms.CharField(max_length=255, required=False, widget=forms.Textarea)
     verificado = forms.BooleanField(required=False)
-
+    anio_creacion = forms.ChoiceField(choices=[('', 'Seleccione...')] + Establecimiento.YEARS_CHOICES, required=False)
 
     class Meta:
         model = Establecimiento

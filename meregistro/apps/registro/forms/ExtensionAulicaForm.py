@@ -20,7 +20,8 @@ class ExtensionAulicaForm(forms.ModelForm):
     norma_creacion_otra = forms.CharField(required=False)
     observaciones = forms.CharField(required=False, widget=forms.Textarea)
     verificado = forms.BooleanField(required=False)
-    
+    anio_creacion = forms.ChoiceField(choices=[('', 'Seleccione...')] + ExtensionAulica.YEARS_CHOICES, required=False)
+      
 
     class Meta:
         model = ExtensionAulica
@@ -42,7 +43,7 @@ class ExtensionAulicaForm(forms.ModelForm):
     def clean_anio_creacion(self):
         # Ya fue validado que se introduzcan sólo enteros
         anio_creacion = self.cleaned_data['anio_creacion']
-        if anio_creacion is not None:
+        if anio_creacion != '' and anio_creacion is not None:
             anio_creacion = int(anio_creacion)
             if anio_creacion < 1000 or anio_creacion > 9999:
                 raise ValidationError('El año tiene que tener cuatro dígitos')

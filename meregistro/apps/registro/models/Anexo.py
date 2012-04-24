@@ -12,10 +12,11 @@ from apps.seguridad.models import Ambito
 import datetime
 from apps.seguridad.audit import audit
 
-YEARS_CHOICES = tuple((int(n), int(n)) for n in range(1800,2021))
+
 
 @audit
 class Anexo(models.Model):
+    YEARS_CHOICES = [(int(n), int(n)) for n in range(1800,2021)]
     
     establecimiento = models.ForeignKey(Establecimiento)
     cue = models.CharField(max_length=9, unique=True)

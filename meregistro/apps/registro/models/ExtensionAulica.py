@@ -13,11 +13,11 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from apps.seguridad.audit import audit
 
-YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1))
 
 @audit
 class ExtensionAulica(models.Model):
     NORMA_CREACION_CHOICES = ['Decreto', 'Resolución', 'Disposición', 'Dictamen', 'Otra']
+    YEARS_CHOICES = [(int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1)]
     
     establecimiento = models.ForeignKey(Establecimiento)
     cue = models.CharField(max_length=9, null=True, blank=True, unique=True)
