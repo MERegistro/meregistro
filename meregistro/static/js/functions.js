@@ -89,7 +89,7 @@ function get_url_param(name){
 function establecimientoVerificarDato(id, dato, verificado)
 {
     $.ajax({
-      url: "/registro/establecimiento/"+id+"/ajaxVerificarDato",
+      url: "/registro/ajax/verificar_dato_establecimiento/"+id,
       data: "dato="+dato+"&verificado="+verificado
     });
 }
@@ -97,7 +97,7 @@ function establecimientoVerificarDato(id, dato, verificado)
 function anexoVerificarDato(id, dato, verificado)
 {
     $.ajax({
-      url: "/registro/anexo/"+id+"/ajaxVerificarDato",
+      url: "/registro/ajax/verificar_dato_anexo/"+id,
       data: "dato="+dato+"&verificado="+verificado
     });
 }
@@ -105,7 +105,7 @@ function anexoVerificarDato(id, dato, verificado)
 function extensionAulicaVerificarDato(id, dato, verificado)
 {
     $.ajax({
-      url: "/registro/extension_aulica/"+id+"/ajaxVerificarDato",
+      url: "/registro/ajax/verificar_dato_extension_aulica/"+id,
       data: "dato="+dato+"&verificado="+verificado
     });
 }

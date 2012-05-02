@@ -485,18 +485,3 @@ def __registrar_process(request, form, extension_aulica):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
-@credential_required('reg_extension_aulica_verificar_datos')
-def verificar_dato(request, extension_aulica_id):
-    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
-    verificacion = extension_aulica.get_verificacion_datos()
-    value = request.GET['verificado'] == 'true'
-    if request.GET['dato'] == 'domicilios':
-        verificacion.domicilios = value
-    elif request.GET['dato'] == 'autoridades':
-        verificacion.autoridades = value
-    elif request.GET['dato'] == 'turnos':
-        verificacion.turnos = value
-    elif request.GET['dato'] == 'matricula':
-        verificacion.matricula = value
-    verificacion.save()
-    return HttpResponse('ok')

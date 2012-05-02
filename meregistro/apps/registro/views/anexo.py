@@ -495,18 +495,3 @@ def __registrar_process(request, form, anexo):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
-@credential_required('reg_anexo_verificar_datos')
-def verificar_dato(request, anexo_id):
-    anexo = Anexo.objects.get(pk=anexo_id)
-    verificacion = anexo.get_verificacion_datos()
-    value = request.GET['verificado'] == 'true'
-    if request.GET['dato'] == 'domicilios':
-        verificacion.domicilios = value
-    elif request.GET['dato'] == 'autoridades':
-        verificacion.autoridades = value
-    elif request.GET['dato'] == 'turnos':
-        verificacion.turnos = value
-    elif request.GET['dato'] == 'matricula':
-        verificacion.matricula = value
-    verificacion.save()
-    return HttpResponse('ok')

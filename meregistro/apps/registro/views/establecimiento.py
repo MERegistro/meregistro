@@ -492,20 +492,3 @@ def detalle(request, establecimiento_id):
         'alcances': establecimiento.alcances.all(),
         'domicilios': establecimiento.domicilios.all(),
     })
-
-
-@credential_required('reg_establecimiento_verificar_datos')
-def verificar_dato(request, establecimiento_id):
-    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
-    verificacion = establecimiento.get_verificacion_datos()
-    value = request.GET['verificado'] == 'true'
-    if request.GET['dato'] == 'domicilios':
-        verificacion.domicilios = value
-    elif request.GET['dato'] == 'autoridades':
-        verificacion.autoridades = value
-    elif request.GET['dato'] == 'turnos':
-        verificacion.turnos = value
-    elif request.GET['dato'] == 'matricula':
-        verificacion.matricula = value
-    verificacion.save()
-    return HttpResponse('ok')
