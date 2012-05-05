@@ -1,9 +1,9 @@
-<div class="form tabbed-form" id="extensionAulicaCompletarDatosForm">
+<div class="form tabbed-form" id="extensionAulicaForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
-		<div class="form-checkbox">
+		<div class="form-checkbox" id="matricula_mixto">
 			{{ form.mixto.errors }}
-			<label for="id_mixto">I.S.F.D con Ofertas Mixtas:</label>
+			<label for="id_mixto">I.S.F.D. con Ofertas Mixtas (Formación Docente y Formación Técnica):</label>
 			{{ form.mixto }}
 		</div>
 		<div class="form-select">
@@ -33,7 +33,7 @@
 		</div>
 		<div class="form-text">
 			{{ form.tecnicaturas.errors }}
-			<label for="id_tecnicaturas">Tecnicaturas:</label>
+			<label for="id_tecnicaturas">Sólo Tecnicaturas:</label>
 			{{ form.tecnicaturas }}
 		</div>
 		<div class="form-text">
@@ -48,6 +48,7 @@
 </div>
 
 <script type="text/javascript">
+var checkbox_mixto = $("input#id_mixto");
 var input_profesorados = $("input#id_profesorados");
 var input_postitulos = $("input#id_postitulos");
 var input_formacion_docente = $("input#id_formacion_docente");
@@ -88,7 +89,7 @@ function updateFormacionContinua(){
 	}
 	
 	tecnicaturas = parseInt(input_tecnicaturas.val());
-	if(isNaN(tecnicaturas) || null === tecnicaturas){
+	if(isNaN(tecnicaturas) || null === tecnicaturas || input_tecnicaturas.attr('disabled')){
 		tecnicaturas = 0;
 	}
 	
@@ -106,6 +107,12 @@ $(document).ready(
 		//
 		updateFormacionDocente();
 		updateFormacionContinua();
+		//
+		input_tecnicaturas.attr('disabled', !checkbox_mixto.is(':checked'));
+		checkbox_mixto.click(function(){
+			input_tecnicaturas.attr('disabled', !$(this).is(':checked'));
+			updateFormacionContinua();
+		});
 		//
 		input_profesorados.keyup(updateFormacionDocente);
 		input_profesorados.change(updateFormacionDocente);

@@ -2,10 +2,13 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django import forms
+import datetime
 from apps.registro.models import AnexoMatricula
 
+YEARS_CHOICES = [('', 'Seleccione...')] + [(int(n), str(n)) for n in range(1980, datetime.datetime.now().year + 1)]
 
 class AnexoMatriculaForm(forms.ModelForm):
+    anio = forms.ChoiceField(choices=YEARS_CHOICES)
     
     class Meta:
         model = AnexoMatricula

@@ -354,6 +354,18 @@ div#establecimientoForm form select#id_tipo_norma {
 div#establecimientoForm form select#id_norma_creacion {
 	width: 100px;	
 }
+/* Matrícula - Mixto */
+div#establecimientoForm div#matricula_mixto.form-checkbox {
+	height: 25px;
+}
+div#establecimientoForm div#matricula_mixto label {
+	width: auto;
+	float: right;
+	width: 880px;
+}
+div#establecimientoForm div#matricula_mixto input {
+	float: left;
+}
 /* anexoForm */
 div#anexoForm {
 	width: 940px;
@@ -396,6 +408,18 @@ div#anexoForm form select#id_norma_creacion {
 div#anexoForm form select#id_tipo_norma {
 	width: 100px;	
 }
+/* Matrícula - Mixto */
+div#anexoForm div#matricula_mixto.form-checkbox {
+	height: 25px;
+}
+div#anexoForm div#matricula_mixto label {
+	width: auto;
+	float: right;
+	width: 880px;
+}
+div#anexoForm div#matricula_mixto input {
+	float: left;
+}
 /* extensionAulicaForm */
 div#extensionAulicaForm {
 	width: 940px;
@@ -427,6 +451,18 @@ div#extensionAulicaForm form input#id_codigo_tipo_unidad_educativa {
 }
 div#extensionAulicaForm form select#id_norma_creacion {
 	width: 100px;	
+}
+/* Matrícula - Mixto */
+div#extensionAulicaForm div#matricula_mixto.form-checkbox {
+	height: 25px;
+}
+div#extensionAulicaForm div#matricula_mixto label {
+	width: auto;
+	float: right;
+	width: 880px;
+}
+div#extensionAulicaForm div#matricula_mixto input {
+	float: left;
 }
 /*
 =VERIFICADO

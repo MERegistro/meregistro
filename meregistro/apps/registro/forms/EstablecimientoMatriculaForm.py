@@ -2,10 +2,13 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django import forms
+import datetime
 from apps.registro.models import EstablecimientoMatricula
 
+YEARS_CHOICES = [('', 'Seleccione...')] + [(int(n), str(n)) for n in range(1980, datetime.datetime.now().year + 1)]
 
 class EstablecimientoMatriculaForm(forms.ModelForm):
+    anio = forms.ChoiceField(choices=YEARS_CHOICES)
     
     class Meta:
         model = EstablecimientoMatricula
@@ -14,6 +17,7 @@ class EstablecimientoMatriculaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.establecimiento = kwargs.pop('establecimiento')
         super(EstablecimientoMatriculaForm, self).__init__(*args, **kwargs)
+
 
 
     def clean_anio(self):

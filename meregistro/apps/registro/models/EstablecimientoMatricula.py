@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
-import datetime
 from apps.seguridad.audit import audit
-
-YEARS_CHOICES = tuple((int(n), str(n)) for n in range(1980, datetime.datetime.now().year + 1))
 
 
 @audit
 class EstablecimientoMatricula(models.Model):
     establecimiento = models.ForeignKey(Establecimiento)
-    anio = models.IntegerField(choices=YEARS_CHOICES, unique=True)
+    anio = models.IntegerField()
     mixto = models.BooleanField()
     profesorados = models.PositiveIntegerField(null=True, blank=True)
     postitulos = models.PositiveIntegerField(null=True, blank=True)
@@ -23,7 +20,6 @@ class EstablecimientoMatricula(models.Model):
         app_label = 'registro'
         unique_together = ('establecimiento', 'anio')
         db_table = 'registro_establecimiento_matricula'    
-
 
     def get_formacion_docente(self):
         tmp = ((self.profesorados or 0) + (self.postitulos or 0))
