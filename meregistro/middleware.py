@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 class FlashMiddleware:
   """
   Agrega los metodos set_flash y get_flash al request.
