@@ -8,7 +8,7 @@ from apps.seguridad.audit import audit
 @audit
 class Usuario(models.Model):
     tipo_documento = models.ForeignKey(TipoDocumento)
-    documento = models.CharField(max_length=20)
+    documento = models.CharField(max_length=8)
     apellido = models.CharField(max_length=40)
     nombre = models.CharField(max_length=40)
     email = models.EmailField(max_length=255)

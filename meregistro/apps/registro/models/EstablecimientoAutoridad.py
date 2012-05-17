@@ -13,7 +13,7 @@ class EstablecimientoAutoridad(models.Model):
     fecha_nacimiento = models.DateField(null=True)
     cargo = models.ForeignKey(AutoridadCargo, null=True, blank=True)
     tipo_documento = models.ForeignKey(TipoDocumento, null=True, blank=True)
-    documento = models.CharField(max_length=20, null=True, blank=True)
+    documento = models.CharField(max_length=8, null=True, blank=True)
     telefono = models.CharField(max_length=30, null=True, blank=True)
     celular = models.CharField(max_length=30, null=True, blank=True)
     email = models.EmailField(max_length=255, null=True, blank=True)
