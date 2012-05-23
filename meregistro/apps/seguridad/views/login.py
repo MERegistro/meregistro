@@ -75,20 +75,21 @@ def remember_password(request):
       key.key = sha1(str(user.id)).hexdigest() + tmp
       key.save()
       html_content = u"""
-Hola """ + user.nombre + u" " + user.apellido + u""",<br />
-Hemos recibido recientemente una solicitud para restablecer su contraseña.
-Si usted no solicitó el restablecimiento, simplemente ignore este mensaje.
-Si efectivamente es usted quien lo solicitó, por favor haga clic en el enlace que se encuentra más abajo y
-nosotros le enviaremos, en otro correo, la nueva contraseña para acceder al sistema.<br /><br />
-<a href=\""""+settings.BASE_URL+"""reset_password/"""+key.key+u"""\">Enviarme una Nueva Contraseña</a>
-<br /><br />
-Muchas gracias,<br />
-Registro Federal de Instituciones y Ofertas de Formación Docente
+<b>Hola """ + user.nombre + u" " + user.apellido + u""",</b>
+<p>Hemos recibido recientemente una solicitud para restablecer su contraseña.</p>
+<p>Si usted no solicitó el restablecimiento, simplemente ignore este mensaje.</p>
+<p>Si efectivamente es usted quien lo solicitó, por favor haga clic en el enlace que se encuentra más abajo y
+nosotros le enviaremos, en otro correo, la nueva contraseña para acceder al sistema.</p>
+<p align='center'>
+    <b><a href=\""""+settings.BASE_URL+"""reset_password/"""+key.key+u"""\">Enviarme una Nueva Contraseña</a></b>
+</p>
+<p>Muchas gracias,</p>
+<p><b>Registro Federal de Instituciones y Ofertas de Formación Docente</b></p>
       """
       msg = EmailMessage("Confirmación de Solicitud de Restablecimiento de Contraseña", html_content, settings.EMAIL_FROM, [user.email])
       msg.content_subtype = "html"  # Main content is now text/html
       msg.send()
-      request.set_flash('success', u'Le hemos enviado a ' + user.email + u' instrucciones para restablecer su contraseña y volver a tener acceso al sistema. Tenga en cuenta que tal vez deba revisar la carpeta de Spam para leer el correo. para volver a acceder al sistema.')
+      request.set_flash('success', u'Le hemos enviado a ' + user.email + u' instrucciones para restablecer su contraseña y volver a tener acceso al sistema. Tenga en cuenta que tal vez deba revisar la carpeta de Spam para leer el correo.')
   else:
     init = {}
     try:
@@ -106,19 +107,22 @@ def reset_password(request, key):
     user = prk.usuario
     user.save()
     prk.delete()
-    html_content = u"""Hola """ + user.nombre + " " + user.apellido + u""",<br />
-    Le informamos que su nueva contraseña de acceso al sistema REFFOD es: """ + new_pass + u"""<br /><br />
-    Si lo considera apropiado, una vez que haya ingresado al sistema utilizando esta contraseña, podrá cambiarla
-    haciendo clic en el menú <b>MIS DATOS</b>, en la opción <b>Modificar contraseña</b>.<br /><br />
-    Si desea acceder ahora, haga clic en el siguiente enlace:<br />
-    <a href=\""""+settings.BASE_URL+u"""\">Acceder al Sistema REFFOD</a>
-    Muchas gracias,
-    Registro Federal de Instituciones y Ofertas de Formación Docente
+    html_content = u"""
+<p><b>Hola """ + user.nombre + " " + user.apellido + u""",</b></p>
+<p>Le informamos que su nueva contraseña de acceso al sistema REFFOD es: <b>""" + new_pass + u"""</b></p>
+<p>Si lo considera apropiado, una vez que haya ingresado al sistema utilizando esta contraseña, podrá cambiarla
+haciendo clic en el menú <b>MIS DATOS</b>, en la opción <b>Modificar contraseña</b>.</p>
+<p>Si desea acceder ahora, haga clic en el siguiente enlace:</p>
+<p align='center'>
+    <b><a href=\""""+settings.BASE_URL+u"""\">Acceder al Sistema REFFOD</a></b>
+</p>
+<p>Muchas gracias,</p>
+<p><b>Registro Federal de Instituciones y Ofertas de Formación Docente</b></p>
     """
     msg = EmailMessage(u"Nueva Contraseña de Acceso al REFFOD", html_content, settings.EMAIL_FROM, [user.email])
     msg.content_subtype = "html"  # Main content is now text/html
     msg.send()
-    request.set_flash('success', u'Le hemos enviado a ' + user.email + u' la nueva contraseña de acceso al sistema. Tenga en cuentaque tal vez deba revisar la carpeta de Spam para leer el correo.')
+    request.set_flash('success', u'Le hemos enviado a ' + user.email + u' la nueva contraseña de acceso al sistema. Tenga en cuenta que tal vez deba revisar la carpeta de Spam para leer el correo.')
   except:
     request.set_flash('warning', 'Link inválido')
   return my_render(request, 'seguridad/login/resetPassword.html', {})
