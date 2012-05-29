@@ -146,8 +146,6 @@ EXECUTE PROCEDURE auditar_"""+table+"""_del();
 """
 
 
-#TODO: implementar generacion de los SP auditar y auditar_del
-
 fp = open('input.sql', 'r')
 
 table_def = ''
