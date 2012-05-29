@@ -13,10 +13,10 @@ from apps.reportes.models import Reporte
 @credential_required('reg_anexo_consulta')
 def anexos(request, q):
 	filename = 'anexos_' + str(date.today()) + '.xls'
-	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
+	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL', 'VERIFICADO'], filename=filename)
 	for anexo in q:
-		fecha = anexo.fecha_alta.strftime('%d/%m/%Y')
-		turnos = ' - '.join("%s" % (t.nombre.encode('utf8')) for t in anexo.turnos.all())
+		fecha = '' if anexo.fecha_alta is None else anexo.fecha_alta.strftime('%d/%m/%Y')
+		turnos = '' #' - '.join("%s" % (t.nombre.encode('utf8')) for t in anexo.turnos.all())
 		if anexo.email is None:
 			email = ''
 		else:
@@ -25,5 +25,6 @@ def anexos(request, q):
 			telefono = ''
 		else:
 			telefono = anexo.telefono
-		reporte.rows.append([anexo.nombre.encode('utf8'), fecha.encode('utf8'), turnos, telefono.encode('utf8'), email.encode('utf8')])
+		reporte.rows.append([anexo.nombre.encode('utf8'), fecha.encode('utf8'), turnos, telefono.encode('utf8'), email.encode('utf8'),
+    "SI" if anexo.verificado() else "NO"])
 	return reporte.as_csv()

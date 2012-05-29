@@ -12,7 +12,7 @@ from apps.registro.models.OrigenNorma import OrigenNorma
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import datetime
 from apps.seguridad.audit import audit
-
+from apps.registro.models.TipoSubsidio import TipoSubsidio
 
 @audit
 class ExtensionAulica(models.Model):
@@ -39,6 +39,7 @@ class ExtensionAulica(models.Model):
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_extension_aulica_funciones')
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     origen_norma = models.ForeignKey(OrigenNorma, null=False)
+    subsidio = models.ForeignKey(TipoSubsidio)
 
     class Meta:
         app_label = 'registro'

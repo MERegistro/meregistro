@@ -8,7 +8,7 @@ from apps.seguridad.authenticate import *
 
 class LoginForm(forms.Form):
     tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects.order_by('abreviatura'), required=True, empty_label=None)
-    documento = forms.CharField(max_length=20, label='documento')
+    documento = forms.CharField(max_length=8, label='documento')
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), label='contraseña')
 
     def clean_documento(self):

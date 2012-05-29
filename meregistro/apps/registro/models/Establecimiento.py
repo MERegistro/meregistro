@@ -13,7 +13,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
 from apps.seguridad.audit import audit
-
+from apps.registro.models.TipoSubsidio import TipoSubsidio
 
 
 
@@ -27,7 +27,7 @@ class Establecimiento(models.Model):
     nombre = models.CharField(max_length=255)
     unidad_academica = models.BooleanField()
     nombre_unidad_academica = models.CharField(max_length=100, null=True, blank=True)
-    posee_subsidio = models.BooleanField()
+    subsidio = models.ForeignKey(TipoSubsidio)
     tipo_normativa = models.ForeignKey(TipoNormativa)
     norma_creacion = models.CharField(max_length=100)
     tipo_norma = models.ForeignKey(TipoNorma, null=False)

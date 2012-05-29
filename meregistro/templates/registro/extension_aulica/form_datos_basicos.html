@@ -17,6 +17,11 @@
 			<label for="id_nombre">Nombre:</label>
 			{{ form.nombre }}
 		</div>
+	  <div class="form-select">
+	      {{ form.subsidio.errors }}
+	      <label for="id_subsidio">¿Posee subsidio?:</label>
+	      {{ form.subsidio }}
+	  </div>
 		<div class="form-text">
 			{{ form.anio_creacion.errors }}
 			<label for="id_anio_creacion">Año de creación:</label>

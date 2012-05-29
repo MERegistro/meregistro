@@ -13,10 +13,10 @@ from apps.reportes.models import Reporte
 @credential_required('reg_extension_aulica_consulta')
 def extensiones_aulicas(request, q):
 	filename = 'extensiones_aulicas_' + str(date.today()) + '.xls'
-	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL'], filename=filename)
+	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL', 'VERIFICADO'], filename=filename)
 	for extension_aulica in q:
-		fecha = extension_aulica.fecha_alta.strftime('%d/%m/%Y')
-		turnos = ' - '.join("%s" % (t.nombre.encode('utf8')) for t in extension_aulica.turnos.all())
+		fecha = '' if extension_aulica.fecha_alta is None else extension_aulica.fecha_alta.strftime('%d/%m/%Y')
+		turnos = '' #' - '.join("%s" % (t.nombre.encode('utf8')) for t in extension_aulica.turnos.all())
 		if extension_aulica.email is None:
 			email = ''
 		else:
@@ -25,5 +25,6 @@ def extensiones_aulicas(request, q):
 			telefono = ''
 		else:
 			telefono = extension_aulica.telefono
-		reporte.rows.append([extension_aulica.nombre.encode('utf8'), fecha, turnos, telefono.encode('utf8'), email.encode('utf8')])
+		reporte.rows.append([extension_aulica.nombre.encode('utf8'), fecha, turnos, telefono.encode('utf8'), email.encode('utf8'),
+    "SI" if extension_aulica.verificado() else "NO"])
 	return reporte.as_csv()

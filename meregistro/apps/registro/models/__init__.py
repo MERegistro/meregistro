@@ -49,3 +49,4 @@ from ExtensionAulicaTurno import ExtensionAulicaTurno
 from EstablecimientoMatricula import EstablecimientoMatricula
 from AnexoMatricula import AnexoMatricula
 from ExtensionAulicaMatricula import ExtensionAulicaMatricula
+from TipoSubsidio import TipoSubsidio
