@@ -8,36 +8,9 @@
 # archivo de entrada input.sql
 #
 tablas_auditar = [
-'seguridad_usuario',
-'seguridad_perfil',
-'seguridad_bloqueo_log',
-'registro_anexo',
-'registro_anexo_conexion_internet',
-'registro_anexo_domicilio',
-'registro_anexo_edificio_compartido_niveles',
-'registro_anexo_informacion_edilicia',
-'registro_anexos_funciones',
-'registro_anexos_niveles',
-'registro_anexos_turnos',
-'registro_autoridad_cargo',
-'registro_dependencia_funcional',
-'registro_establecimiento',
-'registro_establecimiento_autoridades',
-'registro_establecimiento_conexion_internet',
-'registro_establecimiento_domicilio',
-'registro_establecimiento_edificio_compartido_niveles',
-'registro_establecimiento_informacion_edilicia',
-'registro_establecimientos_funciones',
-'registro_establecimientos_niveles',
-'registro_establecimientos_turnos',
-'registro_estado_anexo',
-'registro_estado_establecimiento',
-'registro_estado_extension_aulica',
-'registro_extension_aulica',
-'registro_extension_aulica_domicilio',
-'registro_extension_aulica_estados',
-'registro_extensiones_aulicas_turnos',
-'registro_registro_establecimiento'
+'registro_anexo_turno',
+'registro_establecimiento_turno',
+'registro_extension_aulica_turno',
 ]
 def auditar(definition):
     lines = definition.split("\n")
