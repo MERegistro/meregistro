@@ -63,6 +63,9 @@
 	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar resultado</span></a>
     </li>
 </ul>
+{% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div style="margin: 60px 0 0;"><p>Las Sedes con datos sin verificar se muestran en rojo.</p></div>
+{% endif %}
 <table class="hor-zebra">
     <thead>
         <tr>
@@ -120,9 +123,6 @@
 </table>
 {% include "paginator.html" %}
 </form>
-{% if 'reg_establecimiento_verificar_datos' in credenciales %}
-    <p>Las Sedes con datos sin verificar se muestran en rojo.</p>
-{% endif %}
 {% else %}
 <div class="message notice">
     <p>No se encontraron sedes.</p>
