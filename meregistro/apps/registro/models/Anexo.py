@@ -11,7 +11,7 @@ from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from apps.seguridad.models import Ambito
 import datetime
 from apps.seguridad.audit import audit
-
+from apps.registro.models.TipoSubsidio import TipoSubsidio
 
 
 @audit
@@ -38,6 +38,7 @@ class Anexo(models.Model):
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     alcances = models.ManyToManyField(Alcance, blank=True, null=True, db_table='registro_anexos_alcances')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_anexos_funciones')
+    subsidio = models.ForeignKey(TipoSubsidio)
 
     class Meta:
         app_label = 'registro'

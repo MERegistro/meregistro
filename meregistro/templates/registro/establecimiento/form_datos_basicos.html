@@ -31,10 +31,10 @@
 	    <label for="id_nombre_unidad_academica">Nombre de la Unidad Académica:</label>
 	    {{ form.nombre_unidad_academica }}
 	</div>
-	<div class="form-checkbox">
-	    {{ form.posee_subsidio.errors }}
-	    <label for="id_posee_subsidio">¿Posee subsidio?:</label>
-	    {{ form.posee_subsidio }}
+	<div class="form-select">
+	    {{ form.subsidio.errors }}
+	    <label for="id_subsidio">¿Posee subsidio?:</label>
+	    {{ form.subsidio }}
 	</div>
 	<div class="form-select">
 	    {{ form.anio_creacion.errors }}
