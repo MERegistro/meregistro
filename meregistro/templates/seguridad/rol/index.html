@@ -1,9 +1,9 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Administrar roles{% endblock %}
+{% block title %}Administrar Roles{% endblock %}
 
 {% block content %}
-<h2>Administrar roles</h2>
+<h2>Administrar Roles</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -13,7 +13,7 @@
 		{{ form_filters.non_field_errors }}
 		<div class="form-text">
 			{{ form_filters.descripcion.errors }}
-			<label for="id_nombre">Descripcion:</label>
+			<label for="id_nombre">Descripción:</label>
 			{{ form_filters.descripcion }}
 		</div>
 		<div class="form-text">

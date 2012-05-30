@@ -47,7 +47,7 @@
 {% include "counter.html" %}
 <ul class="reportes-actions">
     <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar resultado</span></a>
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
 {% if 'reg_anexo_verificar_datos' in credenciales %}
@@ -112,7 +112,7 @@
 <ul class="actions">
     {% if 'reg_anexo_alta' in credenciales %}
     <li class="create">
-	<a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
+	<a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo Anexo</span></a>
     </li>
     {% endif %}
 </ul>

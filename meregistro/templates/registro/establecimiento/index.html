@@ -14,7 +14,7 @@
         {{ form_filters.non_field_errors }}
         <div class="form-select">
             {{ form_filters.dependencia_funcional.errors }}
-            <label for="id_dependencia_funcional">Dependencia funcional:</label>
+            <label for="id_dependencia_funcional">Dependencia Funcional:</label>
             {{ form_filters.dependencia_funcional }}
         </div>
         <div class="form-text">
@@ -60,7 +60,7 @@
 {% include "counter.html" %}
 <ul class="reportes-actions">
     <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar resultado</span></a>
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
 {% if 'reg_establecimiento_verificar_datos' in credenciales %}
@@ -114,7 +114,7 @@
                     {% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
                     {% endif %}
-			            <li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
+			            <li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver Detalle</span></a></li>
                     </ul>
                 </td>
             </tr>
@@ -131,7 +131,7 @@
 {% if 'reg_establecimiento_nueva' in credenciales %}
 <ul class="actions">
     <li class="create">
-        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva sede</span></a>
+        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva Sede</span></a>
     </li>
 </ul>
 {% endif %}

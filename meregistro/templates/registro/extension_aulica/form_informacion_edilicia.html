@@ -3,16 +3,16 @@
 		{{ form.non_field_errors }}
 		<div class="form-select">
 			{{ form.tipo_dominio.errors }}
-			<label for="id_tipo_dominio">Uso del edificio:</label>
+			<label for="id_tipo_dominio">Uso del Edificio:</label>
 			{{ form.tipo_dominio }}
 		</div>
 		<div class="form-select">
 			{{ form.tipo_compartido.errors }}
-			<label for="id_tipo_compartido">Comparte edificion con:</label>
+			<label for="id_tipo_compartido">Comparte Edificion con:</label>
 			{{ form.tipo_compartido }}
 		</div>
 		<fieldset>
-			<legend>Niveles con los que comparte el edificio:</legend>
+			<legend>Niveles con los que Comparte el Edificio:</legend>
 			<div class="form-checkbox-list">
 				{{ form.niveles.errors }}
 				{{ form.niveles }}
@@ -21,7 +21,7 @@
 		</fieldset>
         {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
         <div class="form-checkbox datos-verificados">
-            <label for="id_verificado">Datos verificados:</label>
+            <label for="id_verificado">Datos Verificados:</label>
             {{ form.verificado }}
         </div>
         {% endif %}

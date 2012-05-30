@@ -43,7 +43,7 @@
 </form>
 {% else %}
 <div class="message notice">
-    <p>No se encontraron turnos.</p>
+    <p>No se encontraron Turnos.</p>
 </div>
 {% endif %}
 
@@ -52,7 +52,7 @@
 <ul class="actions">
 {% if 'reg_anexo_completar' in credenciales %}
     <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.anexo_turno.create anexo.id %}"><span>Nuevo turno</span></a>
+        <a href="{% url apps.registro.views.anexo_turno.create anexo.id %}"><span>Nuevo Turno</span></a>
     </li>
     <li class="back">
         <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>

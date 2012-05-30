@@ -3,7 +3,7 @@
 		{{ form.non_field_errors }}
 		<div class="form-select">
 			{{ form.tipo_conexion.errors }}
-			<label for="id_tipo_conexion">Tipo de conexión:</label>
+			<label for="id_tipo_conexion">Tipo de Conexión:</label>
 			{{ form.tipo_conexion }}
 		</div>
 		<div class="form-text">
@@ -13,23 +13,23 @@
 		</div>
 		<div class="form-checkbox">
 			{{ form.tiene_conexion.errors }}
-			<label for="tiene_conexion">Tiene conexión:</label>
+			<label for="tiene_conexion">Tiene Conexión:</label>
 			{{ form.tiene_conexion }}
 		</div>
 		<div class="form-text">
 			{{ form.costo.errors }}
-			<label for="costo">Costo mensual:</label>
+			<label for="costo">Costo Mensual:</label>
 			{{ form.costo }}
 		</div>
 		<div class="form-text">
 			{{ form.cantidad.errors }}
-			<p class="help-text">Cantidad de máquinas que comparten la conexión</p>
+			<p class="help-text">Cantidad de Máquinas que Comparten la Conexión</p>
 			<label for="cantidad">Cantidad:</label>
 			{{ form.cantidad }}
 		</div>
         {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
         <div class="form-checkbox datos-verificados">
-            <label for="id_verificado">Datos verificados:</label>
+            <label for="id_verificado">Datos Verificados:</label>
             {{ form.verificado }}
         </div>
         {% endif %}

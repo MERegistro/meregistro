@@ -51,7 +51,7 @@
 <ul class="actions">
 {% if 'reg_establecimiento_completar' in credenciales %}
     <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.establecimiento_domicilio.create establecimiento.id %}"><span>Nuevo domicilio</span></a>
+        <a href="{% url apps.registro.views.establecimiento_domicilio.create establecimiento.id %}"><span>Nuevo Domicilio</span></a>
     </li>
     <li class="back">
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
@@ -59,7 +59,7 @@
 {% endif %}
     {% if 'reg_establecimiento_verificar_datos' in credenciales %}
     <li class="datos-verificados">
-        <label for="id_verificado">Datos verificados:</label>
+        <label for="id_verificado">Datos Verificados:</label>
         <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
     </li>
     {% endif %}

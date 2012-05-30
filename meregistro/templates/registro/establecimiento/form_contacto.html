@@ -3,7 +3,7 @@
 	{{ form.non_field_errors }}
 	<div class="form-text">
 	    {{ form.telefono.errors }}
-	    <label for="id_telefono">Teléfono institucional:</label>
+	    <label for="id_telefono">Teléfono Institucional:</label>
 	    {{ form.telefono }}
 	</div>
 	<div class="form-text">
@@ -18,17 +18,17 @@
 	</div>
 	<div class="form-text">
 	    {{ form.email.errors }}
-	    <label for="id_email">Email institucional:</label>
+	    <label for="id_email">Email Institucional:</label>
 	    {{ form.email }}
 	</div>
 	<div class="form-text">
 	    {{ form.sitio_web.errors }}
-	    <label for="id_sitio_web">Sitio web:</label>
+	    <label for="id_sitio_web">Sitio Web:</label>
 	    {{ form.sitio_web }}
 	</div>
     {% if 'reg_establecimiento_verificar_datos' in credenciales %}
     <div class="form-checkbox datos-verificados">
-        <label for="id_verificado">Datos verificados:</label>
+        <label for="id_verificado">Datos Verificados:</label>
         {{ form.verificado }}
     </div>
     {% endif %}

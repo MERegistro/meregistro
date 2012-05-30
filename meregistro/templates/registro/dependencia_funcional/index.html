@@ -1,9 +1,9 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administrar dependencias funcionales{% endblock %}
+{% block title %}Administrar Dependencias Funcionales{% endblock %}
 
 {% block content %}
-<h2>Administrar dependencias funcionales</h2>
+<h2>Administrar Dependencias Funcionales</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -18,12 +18,12 @@
         </div>
         <div class="form-select">
             {{ form_filters.tipo_dependencia_funcional.errors }}
-            <label for="id_tipo_dependencia_funcional">Tipo de dependencia:</label>
+            <label for="id_tipo_dependencia_funcional">Tipo de Dependencia:</label>
             {{ form_filters.tipo_dependencia_funcional }}
         </div>
         <div class="form-select">
             {{ form_filters.tipo_gestion.errors }}
-            <label for="id_tipo_gestion">Tipo de gestión:</label>
+            <label for="id_tipo_gestion">Tipo de Gestión:</label>
             {{ form_filters.tipo_gestion }}
         </div>
         <div class="form-text">
@@ -42,7 +42,7 @@
 {% include "counter.html" %}
 <ul class="reportes-actions">
     <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar resultado</span></a>
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
 <table class="hor-zebra">
@@ -50,8 +50,8 @@
         <tr>
             <th>Nombre</th>
             <th>Jurisdiccion</th>
-            <th>Tipo de gestión</th>
-            <th>Tipo de dependencia</th>
+            <th>Tipo de Gestión</th>
+            <th>Tipo de Dependencia</th>
             <th class="actions">Acciones</th>
         </tr>
     </thead>
@@ -81,7 +81,7 @@
 {% endif %}
 <ul class="actions">
     <li class="create">
-        <a href="{% url apps.registro.views.dependencia_funcional.create %}"><span>Nueva dependencia</span></a>
+        <a href="{% url apps.registro.views.dependencia_funcional.create %}"><span>Nueva Dependencia</span></a>
     </li>
 </ul>
 <hr />

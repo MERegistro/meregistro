@@ -3,7 +3,7 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<h2>Ingresar al sistema</h2>
+<h2>Ingresar al Sistema</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -12,7 +12,7 @@
 		{{ form.non_field_errors }}
 		<div class="form-select">
 			{{ form.tipo_documento.errors }}
-			<label for="id_tipo_documento">Tipo de documento:</label>
+			<label for="id_tipo_documento">Tipo de Documento:</label>
 			{{ form.tipo_documento }}
 		</div>
 		<div class="form-text">
@@ -29,7 +29,7 @@
 		<div class="form-text" style="margin-left: 150px; margin-top: -20px">
             <ul class="actions">
               <li class="action">
-                <a href="{% url apps.seguridad.views.remember_password %}"><span>Olvidé mi contraseña</span></a>
+                <a href="{% url apps.seguridad.views.remember_password %}"><span>Olvidé mi Contraseña</span></a>
               </li>
             </ul>
 		</div>        

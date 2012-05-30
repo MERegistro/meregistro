@@ -8,15 +8,15 @@
 <div class="datos-lectura" id="datosEstablecimiento">
     <p><strong>CUE:</strong> {{ establecimiento.cue }}</p>
     <p><strong>Nombre:</strong> {{ establecimiento.nombre }}</p>
-    <p><strong>Dependencia funcional:</strong> {{ establecimiento.dependencia_funcional }}</p>
-    <p><strong>Tipo de normativa:</strong> {{ establecimiento.tipo_normativa }}</p>
-    {% if establecimiento.nombre_unidad_academica %}<p><strong>Unidad académica:</strong> {{ establecimiento.nombre_unidad_academica }}</p>{% endif %}
-    {% if establecimiento.norma_creacion %}<p><strong>Norma de creación:</strong> {{ establecimiento.norma_creacion }}</p>{% endif %}
+    <p><strong>Dependencia Funcional:</strong> {{ establecimiento.dependencia_funcional }}</p>
+    <p><strong>Tipo de Normativa:</strong> {{ establecimiento.tipo_normativa }}</p>
+    {% if establecimiento.nombre_unidad_academica %}<p><strong>Unidad Académica:</strong> {{ establecimiento.nombre_unidad_academica }}</p>{% endif %}
+    {% if establecimiento.norma_creacion %}<p><strong>Norma de Creación:</strong> {{ establecimiento.norma_creacion }}</p>{% endif %}
     {% if establecimiento.observaciones %}<p><strong>Observaciones:</strong> {{ establecimiento.observaciones }}</p>{% endif %}
-    {% if establecimiento.anio_creacion %}<p><strong>Año de creación:</strong> {{ establecimiento.anio_creacion }}</p>{% endif %}
+    {% if establecimiento.anio_creacion %}<p><strong>Año de Creación:</strong> {{ establecimiento.anio_creacion }}</p>{% endif %}
     {% if establecimiento.telefono %}<p><strong>Teléfono:</strong> {{ establecimiento.telefono }}</p>{% endif %}
     {% if establecimiento.email %}<p><strong>Email:</strong> {{ establecimiento.email }}</p>{% endif %}
-    {% if establecimiento.sitio_web %}<p><strong>Sitio web:</strong> {{ establecimiento.sitio_web }}</p>{% endif %}
+    {% if establecimiento.sitio_web %}<p><strong>Sitio Web:</strong> {{ establecimiento.sitio_web }}</p>{% endif %}
     {% if autoridades %}
     <ul>
         <h4>Autoridades:</h4>
@@ -62,7 +62,7 @@
     </ul>
     <hr />
     {% endif %}
-    <p><strong>Estado actual:</strong> {{ establecimiento.estado }}</p>
+    <p><strong>Estado Actual:</strong> {{ establecimiento.estado }}</p>
 
     
 </div>

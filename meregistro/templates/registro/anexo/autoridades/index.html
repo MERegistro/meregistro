@@ -50,7 +50,7 @@
 <ul class="actions">
 {% if 'reg_anexo_completar' in credenciales and alta_habilitada %}
     <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.anexo_autoridad.create anexo.id %}"><span>Nueva autoridad</span></a>
+        <a href="{% url apps.registro.views.anexo_autoridad.create anexo.id %}"><span>Nueva Autoridad</span></a>
     </li>
 {% endif %}
     <li class="back">
@@ -58,7 +58,7 @@
     </li>
     {% if 'reg_anexo_verificar_datos' in credenciales %}
     <li class="datos-verificados">
-        <label for="id_verificado">Datos verificados:</label>
+        <label for="id_verificado">Datos Verificados:</label>
         <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
     </li>
     {% endif %}

@@ -1,15 +1,15 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Perfiles de usuario{% endblock %}
+{% block title %}Perfiles de Usuario{% endblock %}
 
 {% block content %}
-<h2>Perfiles de usuario</h2>
+<h2>Perfiles de Usuario</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
 <div id="usuarioData">
     <h3>Usuario</h3>
-    <p><strong>Tipo de documento:</strong> {{ usuario.tipo_documento }}</p>
+    <p><strong>Tipo de Documento:</strong> {{ usuario.tipo_documento }}</p>
     <p><strong>Documento:</strong> {{ usuario.documento }}</p>
     <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
     <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
@@ -20,8 +20,8 @@
     <tr>
       <th>Rol</th>
       <th>Ambito</th>
-      <th>Fecha asignación</th>
-      <th>Fecha desasignación</th>
+      <th>Fecha Asignación</th>
+      <th>Fecha Desasignación</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -48,7 +48,7 @@
 
 <ul class="actions">
   <li class="create">
-    <a href="{% url apps.seguridad.views.perfil.create usuario.id%}"><span>Asignar nuevo perfil</span></a>
+    <a href="{% url apps.seguridad.views.perfil.create usuario.id%}"><span>Asignar Nuevo Perfil</span></a>
   </li>
   <li class="back">
     <a href="{% url apps.seguridad.views.usuario.edit usuario.id %}"><span>Volver</span></a>

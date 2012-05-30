@@ -1,10 +1,10 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Asignación de perfil{% endblock %}
+{% block title %}Asignación de Perfil{% endblock %}
 
 {% block content %}
 <script src="{{ STATIC_URL }}js/selector_ambito.js" type="text/javascript"></script>
-<h2>Asignación de perfil</h2>
+<h2>Asignación de Perfil</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -13,7 +13,7 @@
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
     <div class="form-select">
-			<label for="id_tipo_documento">Tipo de documento:</label>
+			<label for="id_tipo_documento">Tipo de Documento:</label>
 			{{ usuario.tipo_documento }}
 		</div>
 		<div class="form-text">

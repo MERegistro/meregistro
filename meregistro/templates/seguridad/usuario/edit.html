@@ -1,9 +1,9 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Modificar usuario{% endblock %}
+{% block title %}Modificar Usuario{% endblock %}
 
 {% block content %}
-<h2>Modificar usuario</h2>
+<h2>Modificar Usuario</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -13,7 +13,7 @@
 		{{ form.non_field_errors }}
 		<div class="form-select">
 			{{ form.tipo_documento.errors }}
-			<label for="id_tipo_documento">Tipo de documento:</label>
+			<label for="id_tipo_documento">Tipo de Documento:</label>
             {% if modificable %}
     			{{ form.tipo_documento }}
             {% else %}
@@ -70,7 +70,7 @@
 	</li>
     {% if modificable %}
 	    <li class="change-password">
-		    <a href="{% url apps.seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
+		    <a href="{% url apps.seguridad.views.usuario.change_password usuario.id %}"><span>Modificar Contraseña</span></a>
 	    </li>
 	    <li class="ver-perfiles">
 		    <a href="{% url apps.seguridad.views.perfil.verPerfilesUsuario usuario.id %}"><span>Perfiles</span></a>

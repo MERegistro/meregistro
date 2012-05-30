@@ -48,14 +48,14 @@
 {% if 'reg_extension_aulica_modificar' in credenciales %}
 <ul class="actions">
     <li class="create" style="margin-top: 30px;">
-        <a href="{% url apps.registro.views.extension_aulica_domicilio.create extension_aulica.id %}"><span>Nuevo domicilio</span></a>
+        <a href="{% url apps.registro.views.extension_aulica_domicilio.create extension_aulica.id %}"><span>Nuevo Domicilio</span></a>
     </li>
     <li class="back">
         <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
     </li>
     {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
     <li class="datos-verificados">
-        <label for="id_verificado">Datos verificados:</label>
+        <label for="id_verificado">Datos Verificados:</label>
         <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
     </li>
     {% endif %}

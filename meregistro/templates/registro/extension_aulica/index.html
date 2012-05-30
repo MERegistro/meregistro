@@ -47,7 +47,7 @@
 {% include "counter.html" %}
 <ul class="reportes-actions">
     <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar resultado</span></a>
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
 {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
@@ -111,7 +111,7 @@
 <ul class="actions">
     {% if 'reg_extension_aulica_alta' in credenciales %}
     <li class="create">
-	<a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva extensión áulica</span></a>
+	<a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
     </li>
     {% endif %}
 </ul>
