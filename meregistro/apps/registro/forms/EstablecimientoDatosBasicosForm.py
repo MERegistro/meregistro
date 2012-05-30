@@ -18,12 +18,14 @@ class EstablecimientoDatosBasicosForm(ModelForm):
         fields = ['dependencia_funcional', 'cue', 'nombre', 'unidad_academica', 'nombre_unidad_academica', \
             'subsidio', 'anio_creacion', 'tipo_normativa', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones']
 
+
     def clean_nombre_unidad_academica(self):
         unidad_academica = self.cleaned_data['unidad_academica']
         nombre_unidad_academica = self.cleaned_data['nombre_unidad_academica']
         if unidad_academica and nombre_unidad_academica == '':
             raise ValidationError('Por favor ingrese el nombre de la unidad académica')
         return nombre_unidad_academica
+
 
     def clean_tipo_norma_otra(self):
         try:
@@ -35,6 +37,7 @@ class EstablecimientoDatosBasicosForm(ModelForm):
             tipo_norma_otra = ''
             pass
         return tipo_norma_otra
+
 
     def clean_cue(self):
         cue = self.cleaned_data['cue']
@@ -48,6 +51,14 @@ class EstablecimientoDatosBasicosForm(ModelForm):
             raise ValidationError('El CUE debe tener 9 dígitos en total')
         return cue
 
+        
+    def clean_anio_creacion(self):
+        anio_creacion = self.cleaned_data['anio_creacion']
+        if anio_creacion == '':
+            return
+        return anio_creacion
+        
+        
     def clean(self):
         # Armar el CUE correctamente
         cleaned_data = self.cleaned_data

@@ -18,12 +18,15 @@ class AnexoDatosBasicosForm(forms.ModelForm):
     verificado = forms.BooleanField(required=False)
     anio_creacion = forms.ChoiceField(choices=[('', 'Seleccione...')] + Anexo.YEARS_CHOICES, required=False)
     
+    
     class Meta:
         model = Anexo
         exclude = ('estado', 'funciones', 'alcances', 'turnos', 'sitio_web', 'telefono', 'email',)
 
+
     def __init__(self, *args, **kwargs):
         super(AnexoDatosBasicosForm, self).__init__(*args, **kwargs)
+        
         
     def clean_codigo_tipo_unidad_educativa(self):
         codigo = self.cleaned_data['codigo_tipo_unidad_educativa']
@@ -37,6 +40,7 @@ class AnexoDatosBasicosForm(forms.ModelForm):
             raise ValidationError('El Código debe tener 2 dígitos')
         
         return codigo
+        
     
     def clean_tipo_norma_otra(self):
         try:
@@ -48,6 +52,14 @@ class AnexoDatosBasicosForm(forms.ModelForm):
             tipo_norma_otra = ''
             pass
         return tipo_norma_otra
+        
+        
+    def clean_anio_creacion(self):
+        anio_creacion = self.cleaned_data['anio_creacion']
+        if anio_creacion == '':
+            return
+        return anio_creacion
+
 
     def clean(self):
         # Armar el CUE correctamente

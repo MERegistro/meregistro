@@ -33,7 +33,7 @@ class Establecimiento(models.Model):
     tipo_norma = models.ForeignKey(TipoNorma, null=False)
     tipo_norma_otra = models.CharField(max_length=100, null=True, blank=True)
     observaciones = models.TextField(max_length=255, null=True, blank=True)
-    anio_creacion = models.IntegerField(null=True, blank=True, choices = YEARS_CHOICES)
+    anio_creacion = models.IntegerField(null=True, blank=True, choices=YEARS_CHOICES)
     telefono = models.CharField(max_length=100, null=True, blank=True)
     interno = models.CharField(max_length=10, null=True, blank=True)
     fax = models.CharField(max_length=100, null=True, blank=True)
