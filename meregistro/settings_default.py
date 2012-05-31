@@ -99,3 +99,4 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+TESTING_MODE = False

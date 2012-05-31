@@ -5,3 +5,13 @@
 				{% include "user_info.html" %}
 			{% endif %}
 		</div>	<!-- END header -->
+  {% if TESTING_MODE %}
+  <div style="
+    margin: 20px 20px 20px 20px;
+    background-color: #fb4;
+    padding: 10px;
+    border: 1px solid #c94;
+    font-weight: bold">
+  Sistema de prueba: Los datos guardados se perderán en la próxima versión
+  </div>
+  {% endif %}
