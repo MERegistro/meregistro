@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 # Django settings for meregistro project.
 import os
 import sys
@@ -100,3 +101,5 @@ INSTALLED_APPS = (
 )
 
 TESTING_MODE = False
+TESTING_MODE_BANNER_COLOR = '#fb4'
+TESTING_MODE_BANNER_TEXT = 'Sistema de prueba: Los datos guardados se perderán en la próxima versión'
