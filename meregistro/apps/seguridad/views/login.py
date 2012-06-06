@@ -17,7 +17,7 @@ def logout(request):
     Logout y redireccionar a login.
     """
     request.logout()
-    return HttpResponseRedirect(reverse('login'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 def login(request):

@@ -1,4 +1,4 @@
-{% extends "base_registro.html" %}
+{% extends "base.html" %}
 
 {% block title %}Registro Federal de Instituciones y Ofertas de Formación Docente{% endblock %}
 
@@ -6,5 +6,10 @@
 <h2>Registro Federal de Instituciones y Ofertas de Formación Docente</h2>
 {% if flash %}
     {% include "flashes.html" %}
+{% endif %}
+{% if not user.is_authenticated %}
+<p>Aenean quis lacus vel nisi iaculis dictum. Duis faucibus magna ac lectus venenatis semper eget a arcu. Nulla ligula magna, iaculis ac hendrerit sed, molestie ac dui. Aenean eget nisi nulla, eleifend dignissim justo. Duis erat enim, gravida eget vulputate at, mollis in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur aliquet scelerisque purus sed rutrum. Quisque vulputate luctus elit sit amet varius. Maecenas suscipit mi id est elementum suscipit. Aenean consectetur mauris at mauris aliquam aliquam. Pellentesque habitant morbi tristique senectus et netus et <a href="{% url apps.seguridad.views.login.login %}"><span>ingresar</span></a>.</p>
+{% else %}
+<p>Bienvenido, {{ user.nombre }}</p>
 {% endif %}
 {% endblock %}
