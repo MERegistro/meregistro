@@ -21,4 +21,5 @@ urlpatterns = patterns('',
     url(r'^rol/([0-9]+)/edit', 'apps.seguridad.views.rol.edit', name='rolEdit'),
     url(r'^rol/create', 'apps.seguridad.views.rol.create', name='rolCreate'),
     url(r'^rol/([0-9]+)/delete', 'apps.seguridad.views.rol.delete', name='rolDelete'),
+    url(r'^backend$', 'apps.seguridad.views.backend.index', name='backend'),
 )
