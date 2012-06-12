@@ -108,4 +108,6 @@ urlpatterns = patterns('',
     url(r'^ajax/verificar_dato_establecimiento/(?P<establecimiento_id>[0-9]+)', 'apps.registro.views.ajax.verificar_dato_establecimiento', name='ajaxEstablecimientoVerificarDato'),
     url(r'^ajax/verificar_dato_anexo/(?P<anexo_id>[0-9]+)', 'apps.registro.views.ajax.verificar_dato_anexo', name='ajaxAnexoVerificarDato'),
     url(r'^ajax/verificar_dato_extension_aulica/(?P<extension_aulica_id>[0-9]+)', 'apps.registro.views.ajax.verificar_dato_extension_aulica', name='ajaxExtensionAulicaVerificarDato'),
+    url(r'^ajax/get_tipo_gestion_de_dependencia/(?P<dependencia_funcional_id>[0-9]+)', 'apps.registro.views.ajax.get_tipo_gestion_de_dependencia', name='ajaxGetTipoGestionDependencia'),
+    url(r'^ajax/get_tipo_gestion_de_establecimiento/(?P<establecimiento_id>[0-9]+)', 'apps.registro.views.ajax.get_tipo_gestion_de_establecimiento', name='ajaxGetTipoGestionEstablecimiento'),
    )

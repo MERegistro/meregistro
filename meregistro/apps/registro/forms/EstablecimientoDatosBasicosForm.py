@@ -58,7 +58,17 @@ class EstablecimientoDatosBasicosForm(ModelForm):
             return
         return anio_creacion
         
+          
+    def clean_subsidio(self):
+        from apps.registro.models import TipoSubsidio, TipoGestion
+        subsidio = self.cleaned_data['subsidio']
+        dependencia_funcional = self.cleaned_data['dependencia_funcional']
+        tipo_gestion = dependencia_funcional.tipo_gestion.nombre
+        if tipo_gestion == TipoGestion.ESTATAL and subsidio.descripcion != TipoSubsidio.SIN_SUBSIDIO:
+            raise ValidationError('La Sede no puede poseer subsidio ya la dependencia funcional es estatal')
+        return subsidio
         
+              
     def clean(self):
         # Armar el CUE correctamente
         cleaned_data = self.cleaned_data

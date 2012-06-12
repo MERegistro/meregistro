@@ -2,6 +2,10 @@ from django.db import models
 
 
 class TipoGestion(models.Model):
+    
+    ESTATAL = u'Estatal'
+    PRIVADA = u'Privada'
+    
     nombre = models.CharField(max_length=50, unique=True)
 
     class Meta:

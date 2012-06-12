@@ -93,39 +93,57 @@ checkbox.onclick = function(){
 	input.disabled = !checked;
 }
 
-function unidad_academica_enabled()
-{
+function unidad_academica_enabled(){
     $("#id_nombre_unidad_academica").attr('disabled', !$("#id_unidad_academica").is(':checked'));
-    if(!$("#id_unidad_academica").is(':checked'))
-    {
+    if(!$("#id_unidad_academica").is(':checked')){
         $("#id_nombre_unidad_academica").val("");
     }
 }
 
-function tipo_norma_otra_enabled()
-{
+function tipo_norma_otra_enabled(){
     otra = false;
-    $("#id_tipo_norma option:selected").each(function ()
-        {
-            if($(this).text() == 'Otra')
-                otra = true;
+    $("#id_tipo_norma option:selected").each(function (){
+	if($(this).text() == 'Otra')
+	    otra = true;
         }
     );
-    if(otra)
-    {
+    if(otra){
         $("#id_tipo_norma_otra").show();
-    }
-    else
-    {
+    } else {
         $("#id_tipo_norma_otra").val("");
         $("#id_tipo_norma_otra").hide();
     }
-        
 }
+
 $('#id_unidad_academica').change(unidad_academica_enabled);
 unidad_academica_enabled();
 
 $('#id_tipo_norma').change(tipo_norma_otra_enabled);
 tipo_norma_otra_enabled();
 
+function switch_subsidio(tipo_gestion){
+    // No se puede deshabilitar el select porque no envía el valor y este es requerido
+    // http://www.devcha.com/2008/02/readonly-attribute-to-dropdown-menu.html?showComment=1295534752678#c1119274142645841499
+    if(tipo_gestion == 'Estatal'){
+	$('select#id_subsidio').val(1);
+	//$('select#id_subsidio').attr('disabled', 'disabled');
+	$("select#id_subsidio option").not(":selected").attr("disabled", "disabled");
+    } else {
+	//$('select#id_subsidio').removeAttr('disabled');
+	$("select#id_subsidio option").not(":selected").removeAttr("disabled");
+    }
+}
+// Init
+$(document).ready(function(){
+    // Subsidio
+    dropdown_dependencia_funcional = $('select#id_dependencia_funcional');
+    dropdown_subsidio = $('select#id_subsidio');
+    dropdown_dependencia_funcional.change(function(){
+	var url = "/registro/ajax/get_tipo_gestion_de_dependencia/" + $(this).val();
+	$.getJSON(url, function(val){
+	    switch_subsidio(val);
+	});
+    });
+    dropdown_dependencia_funcional.change();    
+}); // END document.ready
 </script>

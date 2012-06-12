@@ -12,7 +12,7 @@ currentYear = datetime.datetime.now().year
 norma_creacion_choices = [('', 'Seleccione...')] + [(k, k) for k in ExtensionAulica.NORMA_CREACION_CHOICES]
 
 
-class ExtensionAulicaForm(forms.ModelForm):
+class ExtensionAulicaDatosBasicosForm(forms.ModelForm):
     codigo_jurisdiccion = forms.CharField(max_length=2, label='', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     cue = forms.CharField(max_length=5, label='CUE', required=True, widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     codigo_tipo_unidad_educativa = forms.CharField(label='', required=False, help_text=u'2 dígitos, ej: 01...02', widget=forms.TextInput(attrs={'size': 2, 'maxlength': 2}))
@@ -58,7 +58,17 @@ class ExtensionAulicaForm(forms.ModelForm):
         except KeyError:
             norma_creacion_otra = ''
         return norma_creacion_otra
-
+        
+    def clean_subsidio(self):
+        from apps.registro.models import TipoSubsidio, TipoGestion
+        subsidio = self.cleaned_data['subsidio']
+        establecimiento = self.cleaned_data['establecimiento']
+        tipo_gestion = establecimiento.dependencia_funcional.tipo_gestion.nombre
+        if tipo_gestion == TipoGestion.ESTATAL and subsidio.descripcion != TipoSubsidio.SIN_SUBSIDIO:
+            raise ValidationError('La Extensión Áulica no puede poseer subsidio ya que depende de una sede estatal')
+        return subsidio
+        
+        
     def clean(self):
         # Armar el CUE correctamente, si no se especificó código, no cargarlo
         cleaned_data = self.cleaned_data

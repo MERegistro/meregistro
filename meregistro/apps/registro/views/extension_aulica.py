@@ -15,7 +15,7 @@ from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicil
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
 from apps.registro.models.ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
 from apps.registro.models.ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
-from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaDatosBasicosForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -140,7 +140,7 @@ def create(request):
     Alta de extensión áulica.
     """
     if request.method == 'POST':
-        form = ExtensionAulicaForm(request.POST)
+        form = ExtensionAulicaDatosBasicosForm(request.POST)
         if form.is_valid():
             ext = form.save(commit=False)
             estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.PENDIENTE)
@@ -157,7 +157,7 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = ExtensionAulicaForm()
+        form = ExtensionAulicaDatosBasicosForm()
         
     jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
@@ -243,7 +243,7 @@ def completar_datos_basicos(request, extension_aulica_id):
     """
     ext = __get_extension_aulica(request, extension_aulica_id)
     if request.method == 'POST':
-        form = ExtensionAulicaForm(request.POST, instance=ext)
+        form = ExtensionAulicaDatosBasicosForm(request.POST, instance=ext)
         if form.is_valid():
             ext = form.save()
             if __puede_verificar_datos(request):
@@ -255,7 +255,7 @@ def completar_datos_basicos(request, extension_aulica_id):
             raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = ExtensionAulicaForm(instance=ext)
+        form = ExtensionAulicaDatosBasicosForm(instance=ext)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)

@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 from django.http import HttpResponse
-from apps.registro.models import Establecimiento, Departamento, Localidad, Jurisdiccion, Anexo, ExtensionAulica
+from apps.registro.models import Establecimiento, Departamento, Localidad, Jurisdiccion, Anexo, ExtensionAulica, DependenciaFuncional, TipoGestion
 from apps.seguridad.models import Ambito
 from apps.seguridad.decorators import login_required, credential_required
 import simplejson as json
@@ -10,15 +10,27 @@ from django.core import serializers
 
 @login_required
 def get_localidades_por_departamento(request, departamento_id):
-    localidades = Localidad.objects.filter(departamento__id = departamento_id).order_by('nombre')
+    localidades = Localidad.objects.filter(departamento__id=departamento_id).order_by('nombre')
     json_localidades = serializers.serialize("json", localidades)
     return HttpResponse(json_localidades, mimetype = "application/javascript")
 
 @login_required
 def get_departamentos_por_jurisdiccion(request, jurisdiccion_id):
-    departamentos = Departamento.objects.filter(jurisdiccion__id = jurisdiccion_id).order_by('nombre')
+    departamentos = Departamento.objects.filter(jurisdiccion__id=jurisdiccion_id).order_by('nombre')
     json_departamentos = serializers.serialize("json", departamentos)
-    return HttpResponse(json_departamentos, mimetype = "application/javascript")
+    return HttpResponse(json_departamentos, mimetype="application/javascript")
+
+@login_required
+def get_tipo_gestion_de_dependencia(request, dependencia_funcional_id):
+    dependencia = DependenciaFuncional.objects.get(pk=dependencia_funcional_id)
+    json_tipo_gestion = json.dumps(dependencia.tipo_gestion.nombre)
+    return HttpResponse(json_tipo_gestion, mimetype="application/javascript")
+    
+@login_required
+def get_tipo_gestion_de_establecimiento(request, establecimiento_id):
+    dependencia = Establecimiento.objects.get(pk=establecimiento_id).dependencia_funcional
+    json_tipo_gestion = json.dumps(dependencia.tipo_gestion.nombre)
+    return HttpResponse(json_tipo_gestion, mimetype="application/javascript")
     
 @login_required
 def get_cue_parts_from_sede(request, sede_id):
@@ -28,7 +40,7 @@ def get_cue_parts_from_sede(request, sede_id):
     except Establecimiento.DoesNotExist:
         parts = {'codigo_jurisdiccion': '--', 'cue': '-----', 'codigo_tipo_unidad_educativa': '--', }
     json_cue_parts = json.dumps(parts)
-    return HttpResponse(json_cue_parts, mimetype = "application/javascript")
+    return HttpResponse(json_cue_parts, mimetype="application/javascript")
 
 @login_required
 @credential_required('reg_establecimiento_verificar_datos')

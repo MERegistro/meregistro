@@ -59,6 +59,15 @@ class AnexoDatosBasicosForm(forms.ModelForm):
         if anio_creacion == '':
             return
         return anio_creacion
+        
+    def clean_subsidio(self):
+        from apps.registro.models import TipoSubsidio, TipoGestion
+        subsidio = self.cleaned_data['subsidio']
+        establecimiento = self.cleaned_data['establecimiento']
+        tipo_gestion = establecimiento.dependencia_funcional.tipo_gestion.nombre
+        if tipo_gestion == TipoGestion.ESTATAL and subsidio.descripcion != TipoSubsidio.SIN_SUBSIDIO:
+            raise ValidationError('El Anexo no puede poseer subsidio ya que depende de una sede estatal')
+        return subsidio
 
 
     def clean(self):

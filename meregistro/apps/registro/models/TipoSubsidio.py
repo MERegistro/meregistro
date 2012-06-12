@@ -2,6 +2,9 @@ from django.db import models
 
 
 class TipoSubsidio(models.Model):
+    
+    SIN_SUBSIDIO = '0%'
+    
     descripcion = models.CharField(max_length=50, unique=True)
 
     class Meta:
