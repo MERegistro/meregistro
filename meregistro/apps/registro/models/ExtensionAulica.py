@@ -39,7 +39,7 @@ class ExtensionAulica(models.Model):
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_extension_aulica_funciones')
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     origen_norma = models.ForeignKey(OrigenNorma, null=False)
-    subsidio = models.ForeignKey(TipoSubsidio)
+    subsidio = models.ForeignKey(TipoSubsidio)  # XXX Esto no está implementado en el formulario, por eso falla
 
     class Meta:
         app_label = 'registro'

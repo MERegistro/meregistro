@@ -36,6 +36,11 @@
 	<label for="id_localidad">Localidad:</label>
 	{{ form_filters.localidad }}
     </div>
+    <div class="form-select">
+	{{ form_filters.tipo_gestion.errors }}
+	<label for="id_tipo_gestion">Tipo de Gestión:</label>
+	{{ form_filters.tipo_gestion }}
+    </div>
     <div class="form-submit">
 	<input type="submit" value="Buscar" />
 	<input type="button" value="Reiniciar" onclick="window.location = 'anexo';" />
