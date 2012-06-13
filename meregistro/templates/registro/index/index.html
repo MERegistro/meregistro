@@ -8,7 +8,19 @@
     {% include "flashes.html" %}
 {% endif %}
 {% if not user.is_authenticated %}
-<p>Aenean quis lacus vel nisi iaculis dictum. Duis faucibus magna ac lectus venenatis semper eget a arcu. Nulla ligula magna, iaculis ac hendrerit sed, molestie ac dui. Aenean eget nisi nulla, eleifend dignissim justo. Duis erat enim, gravida eget vulputate at, mollis in risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur aliquet scelerisque purus sed rutrum. Quisque vulputate luctus elit sit amet varius. Maecenas suscipit mi id est elementum suscipit. Aenean consectetur mauris at mauris aliquam aliquam. Pellentesque habitant morbi tristique senectus et netus et <a href="{% url apps.seguridad.views.login.login %}"><span>ingresar</span></a>.</p>
+<div id="intro">
+    <div id="resolucion">
+        <p>“Resulta indispensable reunir, sistematizar y validar la información relativa a instituciones de gestión estatal creadas y de gestión privada reconocidas, con ofertas, títulos y certificaciones en Formación Docente, en un único asiento; de manera que permita administrarla eficazmente para la toma de decisiones sobre políticas de Formación Docente, reconocer instituciones y estudios, otorgar validez nacional a los títulos y certificaciones, y dar publicidad a la oferta completa de Formación Docente de la República Argentina”.</p>
+        <cite>Resolución 16/07 del Consejo Federal de Educación</cite>
+    </div>
+    <p>Atento al cumplimiento del texto de la Resolución, se crea el <strong>Registro Federal de Instituciones y Ofertas de Formación Docente</strong>, el cual constituye una herramienta importante que permite suministrar información actualizada para contribuir a la toma de decisiones concernientes a la formación docente en todo el país. Su objetivo principal es mantener el registro de los Institutos Superiores de Formación Docente, y los datos consistentes y confiables concernientes a la homologación, validación y registro nacional de títulos y certificaciones.</p>
+    <p>La base de datos del Registro Federal es construida por las instituciones de formación docente de gestión estatal y privada de todo el país y corroborada por las autoridades educativas jurisdiccionales correspondientes; contribuye a consolidar un sistema de información integrado para la toma de decisiones, la planificación y el monitoreo permanente del sistema formador.</p>
+    <div id="intro-links">
+        <a id="link-oferta" href="http://sitrared.me.gov.ar/infod/oferta2012.aspx" target="_blank">Oferta Nacional 2012</a>
+        <a id="link-login" href="{% url apps.seguridad.views.login %}">Acceso al Sistema REFFOD</a>		
+        <hr />		
+    </div>
+</div>
 {% else %}
 <p>Bienvenido, {{ user.nombre }}</p>
 {% endif %}

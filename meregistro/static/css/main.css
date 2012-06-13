@@ -13,9 +13,8 @@
 html {
 	background: url(../img/bg-10x3000.gif) repeat-x;
 }
-
 /*
-=COMMON
+*=COMMON
 */
 body {
 	font-family: Arial, sans-serif;
@@ -36,7 +35,7 @@ div#enConstruccion {
 	border: 1px #C9CBC8 solid;
 }
 /*
-=WRAPPER
+*=WRAPPER
 */
 div#wrapper {
 	width: 990px;
@@ -45,7 +44,7 @@ div#wrapper {
 	padding-top: 20px;
 }
 /*
-=HEADER
+*=HEADER
 */
 div#header {
 	width: 966px;
@@ -72,7 +71,7 @@ div#header h2 span {
 	display: none;
 }
 /*
-=CONTENT
+*=CONTENT
 */
 div#content {
 	width: 956px;
@@ -84,7 +83,50 @@ div#content h2 {
 	margin: 25px 0 10px;
 }
 /*
-=TAB-NAV
+*=INTRO 
+*/ 
+div#intro {
+	margin: 20px 0 40px;
+}
+div#intro div#resolucion {
+	margin: 20px 0;
+}
+div#intro p {
+	margin-top: 20px;
+}
+div#intro div#resolucion p {
+	font-style: italic;
+}
+div#intro div#resolucion cite {
+	display: block;
+	text-align: right;
+	font-weight: bold;
+	margin-top: 10px;
+}
+div#intro div#intro-links {
+	width: 520px;
+	margin: 30px auto 0;
+}
+div#intro div#intro-links a {
+	display: block;
+	font-weight: bold;
+}
+div#intro div#intro-links a:link,
+div#intro div#intro-links a:visited {
+	color: #276399;
+	text-decoration: none;
+}
+div#intro div#intro-links a:hover {
+	text-decoration: underline;
+}
+div#intro div#intro-links a#link-oferta {
+	float: left;
+}
+div#intro div#intro-links a#link-login {
+	float: right;
+}
+/*
+*=TAB-NAV
 */
 div.tab-nav {
 
@@ -117,7 +159,7 @@ div.tab-nav ul li a span {
 	padding: 5px 8px;
 }
 /*
-=establecimientoActions
+*=establecimientoActions
 */
 div#establecimientoActions {
 	margin: 20px;
@@ -127,7 +169,7 @@ div#establecimientoActions a:visited {
 	color: #2166A4;
 }
 /*
-=establecimientoCompletarDatosNav
+*=establecimientoCompletarDatosNav
 */
 div#establecimientoCompletarDatosNav {
 	margin: 25px 0 0 11px;
@@ -142,7 +184,7 @@ div#establecimientoCompletarDatosNav ul li a span {
 	padding: 5px 14px;
 }
 /*
-=tituloJurisdiccionalDatosNav
+*=tituloJurisdiccionalDatosNav
 */
 div#tituloJurisdiccionalDatosNav {
 	margin: 25px 0 0 11px;
@@ -157,7 +199,7 @@ div#tituloJurisdiccionalDatosNav ul li a span {
 	padding: 5px 14px;
 }
 /*
-=FOOTER
+*=FOOTER
 */
 div#footer {
 	width: 990px;
@@ -177,7 +219,7 @@ div#footer div {
 	margin: 0 auto;
 }
 /*
-=SPREADFIREFOX
+*=SPREADFIREFOX
 */
 div#spreadFirefox {
 	background: #DDF0F7;
@@ -202,7 +244,7 @@ div#spreadFirefox div#firefoxButton {
 	margin: 10px;
 }
 /*
-=FORM
+*=FORM
 */
 div.form {
 	margin: 10px 0 0;
@@ -465,7 +507,7 @@ div#extensionAulicaForm div#matricula_mixto input {
 	float: left;
 }
 /*
-=VERIFICADO
+*=VERIFICADO
 */
 form div.datos-verificados {
 	margin: 30px 10px;
@@ -473,7 +515,7 @@ form div.datos-verificados {
 	border: 2px #ccc solid;
 }
 /*
-=TABLE
+*=TABLE
 */
 table.hor-zebra {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
@@ -691,7 +733,7 @@ ul.reportes-actions li.export-csv {
 	background: url(../img/icons/LibreOffice_Calc_icon_24px.png) no-repeat left;
 }
 /*
-=FORM-FILTER
+*=FORM-FILTER
 */
 div.form-filter {
 	margin: 40px 0 0;
@@ -737,7 +779,7 @@ div.form-filter ul.errorlist {
 	margin: 0	0 4px 150px;
 }
 /*
-=establecimientoFormFilter
+*=establecimientoFormFilter
 */
 div#establecimientoFormFilter {
 	width: 650px;
@@ -747,7 +789,7 @@ div.form-filter select#id_establecimiento {
 	width: 400px;
 }
 /*
-=MESSAGE
+*=MESSAGE
 */
 div.message {
 	margin: 40px 0 20px;
@@ -770,7 +812,7 @@ div.notice {
 	border: 1px #FF7800 solid;
 }
 /*
-=COUNTER
+*=COUNTER
 */
 div#counter {
 	margin: 40px 0 0;
@@ -780,7 +822,7 @@ div#counter span {
 	font-weight: bold;
 }
 /*
-=PAGINATOR
+*=PAGINATOR
 */
 div.paginator {
 	margin: 0;
@@ -823,7 +865,7 @@ div.paginator p.paginator-summary {
 	float: left;
 }
 /*
-=USERINFO
+*=USERINFO
 */
 div#userInfo {
 	max-width: 400px;
@@ -854,7 +896,7 @@ div#userInfo ul#userLinks a:hover {
 	text-decoration: underline;
 }
 /*
-=POPUP_SELECTOR_AMBITO
+*=POPUP_SELECTOR_AMBITO
 */
 div.popup_selector_ambito
 {
@@ -869,7 +911,7 @@ div.popup_selector_ambito
 	overflow: scroll;
 }
 /*
-=datos-lectura
+*=datos-lectura
 */
 div.datos-lectura {
 	margin: 10px 0 0;
@@ -897,13 +939,13 @@ div.datos-lectura ul li {
 	color: #222;
 }
 /*
-=datosEstablecimiento
+*=datosEstablecimiento
 */
 div#datosEstablecimiento {
 	margin-bottom: 20px;
 }
 /*
-=USUARIODATA
+*=USUARIODATA
 */
 div#usuarioData {
 }
@@ -915,7 +957,7 @@ div#usuarioData p {
 div#usuarioData p strong {
 }
 /*
-=ORIENTACIONES-POR-TITULO
+*=ORIENTACIONES-POR-TITULO
 */
 body.orientaciones-por-titulo table.hor-zebra {
 	margin-top: 10px;
@@ -924,7 +966,7 @@ body.orientaciones-por-titulo div#datosTitulo {
 	margin-bottom: 30px;
 }
 /*
-=COHORTES-POR-TITULO
+*=COHORTES-POR-TITULO
 */
 body.cohortes-por-titulo table.hor-zebra {
 	margin-top: 10px;
@@ -934,7 +976,7 @@ body.cohortes-por-titulo div#datosTitulo {
 }
 
 /*
-=COHORTE-ASIGNAR-ESTABLECIMIENTOS
+*=COHORTE-ASIGNAR-ESTABLECIMIENTOS
 */
 body.cohorte-asignar-establecimientos table.hor-zebra {
 	margin-top: 10px;
@@ -943,7 +985,7 @@ body.cohorte-asignar-establecimientos div#datosCohorte {
 	margin-top: 30px;
 }
 /*
-=seguimientoNav
+*=seguimientoNav
 */
 div#seguimientoNav {
 	margin: 25px 0 0 11px;
@@ -958,7 +1000,7 @@ div#seguimientoNav ul li a span {
 	padding: 5px 14px;
 }
 /*
-=PERFILESUSUARIO
+*=PERFILESUSUARIO
 */
 table#perfilesUsuario tr.desasignado td {
 	background: #D71F08;
@@ -967,7 +1009,7 @@ table#perfilesUsuario tr.desasignado td {
 	padding-bottom: 5px;
 }
 /*
-=MATRICULA
+*=MATRICULA
 */
 input#id_formacion_docente,
 input#id_formacion_continua {
