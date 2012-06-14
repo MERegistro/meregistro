@@ -22,4 +22,7 @@ urlpatterns = patterns('',
     url(r'^rol/create', 'apps.seguridad.views.rol.create', name='rolCreate'),
     url(r'^rol/([0-9]+)/delete', 'apps.seguridad.views.rol.delete', name='rolDelete'),
     url(r'^backend$', 'apps.seguridad.views.backend.index', name='backend'),
+    url(r'^backend/solapas_establecimiento$', 'apps.seguridad.views.backend.configurar_solapas_establecimiento', name='backendSolapasEstablecimiento'),
+    url(r'^backend/solapas_anexo$', 'apps.seguridad.views.backend.configurar_solapas_anexo', name='backendSolapasAnexo'),
+    url(r'^backend/solapas_extension_aulica$', 'apps.seguridad.views.backend.configurar_solapas_extension_aulica', name='backendSolapasExtensionAulica'),
 )

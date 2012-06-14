@@ -11,3 +11,6 @@ from Ambito import Ambito
 from Rol import Rol
 from Perfil import Perfil
 from PasswordRememberKey import PasswordRememberKey
+from ConfiguracionSolapasExtensionAulica import ConfiguracionSolapasExtensionAulica
+from ConfiguracionSolapasEstablecimiento import ConfiguracionSolapasEstablecimiento
+from ConfiguracionSolapasAnexo import ConfiguracionSolapasAnexo

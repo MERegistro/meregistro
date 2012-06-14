@@ -2,7 +2,7 @@
     <ul class="sf-menu">
         {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
 	<li><a href="#" class="inactive">Seguridad</a>
-	    <ul>
+	    <ul style="width: 250px;">
 	{% if 'seg_usuario_buscar' in credenciales or 'seg_usuario_alta' in credenciales %}
 		<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
 	{% endif %}
@@ -11,6 +11,11 @@
 	{% endif %}
 	{% if 'seg_backend' in credenciales %}
 		<li><a href="{% url apps.seguridad.views.backend.index %}">Backend</a></li>
+    <ul style="width: 250px;">
+      <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_establecimiento %}">Solapas de Establecimientos</a></li>
+      <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_anexo %}">Solapas de Anexos</a></li>
+      <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_extension_aulica %}">Solapas de Extensiones Áulicas</a></li>
+    </ul>
 	{% endif %}
 	    </ul>
 	</li>

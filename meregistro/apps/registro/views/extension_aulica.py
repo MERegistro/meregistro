@@ -24,6 +24,7 @@ from apps.reportes.models import Reporte
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
 from apps.registro.FSM import FSMExtensionAulica
+from apps.seguridad.models import ConfiguracionSolapasExtensionAulica
 
 fsmExtensionAulica = FSMExtensionAulica()
 
@@ -270,7 +271,8 @@ def completar_datos_basicos(request, extension_aulica_id):
         'extension_aulica': ext,
         'codigo_tipo_unidad_educativa': codigo,
         'page_title': 'Datos básicos',
-        'actual_page': 'datos_basicos'
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })    
 
 
@@ -303,6 +305,7 @@ def completar_contacto(request, extension_aulica_id):
         'extension_aulica': ext,
         'page_title': 'Contacto',
         'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
 
@@ -335,6 +338,7 @@ def completar_alcances(request, extension_aulica_id):
         'extension_aulica': ext,
         'page_title': 'Alcance',
         'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
 
@@ -364,6 +368,7 @@ def completar_funciones(request, extension_aulica_id):
         'extension_aulica': ext,
         'page_title': 'Funciones',
         'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
 
@@ -406,6 +411,7 @@ def completar_informacion_edilicia(request, extension_aulica_id):
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
         'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
 
@@ -443,6 +449,7 @@ def completar_conexion_internet(request, extension_aulica_id):
         'extension_aulica': extension_aulica,
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
 
