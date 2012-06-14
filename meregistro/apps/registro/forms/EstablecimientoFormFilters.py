@@ -26,7 +26,7 @@ class EstablecimientoFormFilters(forms.Form):
             self.fields['localidad'].queryset = self.fields['localidad'].queryset.filter(departamento__id=self.departamento_id)
         else:
             self.fields['localidad'].queryset = self.fields['localidad'].queryset.none()
-        self.fields['dependencia_funcional'].widget.attrs['style'] = 'width: 400px'
+        self.fields['dependencia_funcional'].widget.attrs['style'] = 'width: 600px'
 
     def buildQuery(self, q=None):
         """
