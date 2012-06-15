@@ -38,6 +38,7 @@
         {% if 'reg_df_consulta' in credenciales %}
 	<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
         {% endif %}		
+  {% if 'tit_menu_acceso' in credenciales %}
 	<!--
 	Habilitación temporal
 	-->
@@ -60,6 +61,7 @@
 	<!--
 	Fin habilitación temporal
 	-->
+  {% endif %}
 	<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
         <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
 	
