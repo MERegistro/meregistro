@@ -839,7 +839,7 @@ div.paginator ul li {
 	float: left;
 }
 div.paginator ul li.page-number {
-	margin: 0 2px 0 0;
+	margin: 0 2px 2px 0;
 }
 div.paginator ul li.page-number input {
 	width: 22px;
