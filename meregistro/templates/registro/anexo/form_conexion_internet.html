@@ -1,6 +1,11 @@
 <div class="form tabbed-form" id="anexoForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
+		<div class="form-checkbox">
+			{{ form.tiene_conexion.errors }}
+			<label for="tiene_conexion">¿Tiene Conexión?:</label>
+			{{ form.tiene_conexion }}
+		</div>
 		<div class="form-select">
 			{{ form.tipo_conexion.errors }}
 			<label for="id_tipo_conexion">Tipo de Conexión:</label>
@@ -10,11 +15,6 @@
 			{{ form.proveedor.errors }}
 			<label for="proveedor">Proveedor:</label>
 			{{ form.proveedor }}
-		</div>
-		<div class="form-checkbox">
-			{{ form.tiene_conexion.errors }}
-			<label for="tiene_conexion">Tiene Conexión:</label>
-			{{ form.tiene_conexion }}
 		</div>
 		<div class="form-text">
 			{{ form.costo.errors }}

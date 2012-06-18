@@ -6,11 +6,11 @@ from apps.seguridad.audit import audit
 @audit
 class AnexoConexionInternet(models.Model):
     anexo = models.ForeignKey('Anexo')
-    tipo_conexion = models.ForeignKey('TipoConexion')
-    proveedor = models.CharField(max_length=30)
     tiene_conexion = models.BooleanField()
-    costo = models.DecimalField(max_digits=12, decimal_places=2)
-    cantidad = models.IntegerField()
+    tipo_conexion = models.ForeignKey('TipoConexion', null=True, blank=True)
+    proveedor = models.CharField(max_length=30, null=True, blank=True)
+    costo = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    cantidad = models.IntegerField(null=True, blank=True)
 
     class Meta:
         app_label = 'registro'
