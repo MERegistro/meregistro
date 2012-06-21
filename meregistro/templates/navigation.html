@@ -10,12 +10,13 @@
 		<li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
 	{% endif %}
 	{% if 'seg_backend' in credenciales %}
-		<li><a href="{% url apps.seguridad.views.backend.index %}">Backend</a></li>
+		<li><a href="{% url apps.seguridad.views.backend.index %}">Backend</a>
     <ul style="width: 250px;">
       <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_establecimiento %}">Solapas de Establecimientos</a></li>
       <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_anexo %}">Solapas de Anexos</a></li>
       <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_extension_aulica %}">Solapas de Extensiones Áulicas</a></li>
     </ul>
+    </li>
 	{% endif %}
 	    </ul>
 	</li>
