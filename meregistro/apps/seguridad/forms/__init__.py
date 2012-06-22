@@ -12,3 +12,6 @@ from RolFormFilters import RolFormFilters
 from RolForm import RolForm
 from RememberPasswordForm import RememberPasswordForm
 from UsuarioPasswordForm import UsuarioPasswordForm
+from ConfiguracionSolapasExtensionAulicaForm import ConfiguracionSolapasExtensionAulicaForm
+from ConfiguracionSolapasAnexoForm import ConfiguracionSolapasAnexoForm
+from ConfiguracionSolapasEstablecimientoForm import ConfiguracionSolapasEstablecimientoForm

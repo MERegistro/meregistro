@@ -1,0 +1,72 @@
+{% extends "base_seguridad.html" %}
+
+{% block title %}Configuración de Solapas para Establecimientos{% endblock %}
+
+{% block content %}
+<h2>Configuración de Solapas para Establecimientos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.datos_basicos.errors }}
+			<label for="id_datos_basicos">Datos Básicos:</label>
+			{{ form.datos_basicos }}
+		</div>
+		<div class="form-text">
+			{{ form.contacto.errors }}
+			<label for="id_contacto">Contacto:</label>
+			{{ form.contacto }}
+		</div>
+		<div class="form-text">
+			{{ form.alcances.errors }}
+			<label for="id_alcances">Alcances:</label>
+			{{ form.alcances }}
+		</div>
+		<div class="form-text">
+			{{ form.turnos.errors }}
+			<label for="id_turnos">Turnos:</label>
+			{{ form.turnos }}
+		</div>
+		<div class="form-text">
+			{{ form.funciones.errors }}
+			<label for="id_funciones">Funciones:</label>
+			{{ form.funciones }}
+		</div>
+		<div class="form-text">
+			{{ form.domicilio.errors }}
+			<label for="id_domicilio">Domicilio:</label>
+			{{ form.domicilio }}
+		</div>
+		<div class="form-text">
+			{{ form.autoridad.errors }}
+			<label for="id_autoridad">Autoridad:</label>
+			{{ form.autoridad }}
+		</div>
+		<div class="form-text">
+			{{ form.informacion_edilicia.errors }}
+			<label for="id_informacion_edilicia">Información Edilicia:</label>
+			{{ form.informacion_edilicia }}
+		</div>
+		<div class="form-text">
+			{{ form.conexion_internet.errors }}
+			<label for="id_conexion_internet">Conexión Internet:</label>
+			{{ form.conexion_internet }}
+		</div>
+		<div class="form-text">
+			{{ form.matricula.errors }}
+			<label for="id_matricula">Matrícula:</label>
+			{{ form.matricula }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+</div>
+<hr />
+{% endblock %}
+

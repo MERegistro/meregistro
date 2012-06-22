@@ -30,6 +30,7 @@ from django.core.paginator import Paginator
 import datetime
 from apps.reportes.views.anexo import anexos as reporte_anexos
 from apps.reportes.models import Reporte
+from apps.seguridad.models import ConfiguracionSolapasAnexo
 
 fsmAnexo = FSMAnexo()
 
@@ -271,6 +272,7 @@ def completar_datos_basicos(request, anexo_id):
         'codigo_tipo_unidad_educativa': parts['codigo_tipo_unidad_educativa'],
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
     })
 
 @login_required
@@ -309,6 +311,7 @@ def completar_contacto(request, anexo_id):
         'anexo': anexo,
         'page_title': 'Contacto',
         'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
     })
 
 
@@ -341,6 +344,7 @@ def completar_alcances(request, anexo_id):
         'anexo': anexo,
         'page_title': 'Alcance',
         'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
     })
 
 
@@ -373,6 +377,7 @@ def completar_funciones(request, anexo_id):
         'anexo': anexo,
         'page_title': 'Funciones',
         'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
     })
 
 
@@ -416,6 +421,7 @@ def completar_informacion_edilicia(request, anexo_id):
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
         'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
     })
 
 
@@ -453,6 +459,7 @@ def completar_conexion_internet(request, anexo_id):
         'anexo': anexo,
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
     })
 
 

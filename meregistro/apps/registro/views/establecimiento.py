@@ -31,6 +31,7 @@ from apps.registro.FSM import FSMEstablecimiento
 from apps.registro.models import DependenciaFuncional
 from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
 from apps.reportes.models import Reporte
+from apps.seguridad.models import ConfiguracionSolapasEstablecimiento
 
 fsmEstablecimiento = FSMEstablecimiento()
 
@@ -236,6 +237,7 @@ def completar_datos(request):
     establecimiento = __get_establecimiento(request, establecimiento_id)
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'establecimiento': establecimiento,
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 
@@ -275,6 +277,7 @@ def completar_datos_basicos(request, establecimiento_id):
         'establecimiento': establecimiento,
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 @login_required
@@ -313,6 +316,7 @@ def completar_contacto(request, establecimiento_id):
         'establecimiento': establecimiento,
         'page_title': 'Contacto',
         'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 
@@ -346,6 +350,7 @@ def completar_alcances(request, establecimiento_id):
         'establecimiento': establecimiento,
         'page_title': 'Alcance',
         'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 
@@ -378,6 +383,7 @@ def completar_funciones(request, establecimiento_id):
         'establecimiento': establecimiento,
         'page_title': 'Funciones',
         'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 
@@ -421,6 +427,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
         'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 
@@ -458,6 +465,7 @@ def completar_conexion_internet(request, establecimiento_id):
         'establecimiento': establecimiento,
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
 
