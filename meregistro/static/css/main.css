@@ -113,17 +113,29 @@ div#intro div#intro-links a {
 }
 div#intro div#intro-links a:link,
 div#intro div#intro-links a:visited {
-	color: #276399;
+	font-size: 12px;
 	text-decoration: none;
+	color: #000;
+	padding: 2px 10px;
+	background: #E7E6E8;
+	border-right: 2px solid #9697A2;
+	border-bottom: 2px solid #9697A2;
+	border-top: 1px solid #FFF;
+	border-left: 1px solid #FFF;
 }
 div#intro div#intro-links a:hover {
-	text-decoration: underline;
+	background: #DBD8DC;
 }
 div#intro div#intro-links a#link-oferta {
 	float: left;
 }
 div#intro div#intro-links a#link-login {
 	float: right;
+}
+a, a:link {
+}
+
+a:active {
 }
 /*
 *=TAB-NAV
