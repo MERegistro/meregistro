@@ -2,13 +2,14 @@
 
 from django import forms
 from apps.seguridad.models import TipoDocumento, Usuario
-from apps.registro.models import Establecimiento, ExtensionAulica, Localidad, Departamento, TipoGestion
+from apps.registro.models import Establecimiento, ExtensionAulica, Localidad, Departamento, Jurisdiccion, TipoGestion
 
 
 class ExtensionAulicaFormFilters(forms.Form):
     nombre = forms.CharField(max_length=40, label='Nombre', required=False)
     cue = forms.CharField(max_length=40, label='Cue', required=False)
     establecimiento = forms.ModelChoiceField(queryset=Establecimiento.objects.order_by('nombre'), label ='Establecimiento', required=False)
+    jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects.order_by('nombre'), label='Jurisdiccion', required=False)
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.order_by('nombre'), label='Departamento', required=False)
     localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False)
     tipo_gestion = forms.ModelChoiceField(queryset=TipoGestion.objects.order_by('nombre'), label='Tipo de gestión', required=False)
@@ -42,10 +43,12 @@ class ExtensionAulicaFormFilters(forms.Form):
                 q = q.filter(cue__contains=self.cleaned_data['cue'])
             if filter_by('establecimiento'):
                 q = q.filter(establecimiento=self.cleaned_data['establecimiento'])
+            if filter_by('jurisdiccion'):
+                q = q.filter(establecimiento__dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
             if filter_by('departamento'):
                 q = q.filter(domicilio__localidad__departamento=self.cleaned_data['departamento'])
             if filter_by('localidad'):
                 q = q.filter(domicilio__localidad=self.cleaned_data['localidad'])
             if filter_by('tipo_gestion'):
                 q = q.filter(establecimiento__dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
-        return q
+        return q.distinct()

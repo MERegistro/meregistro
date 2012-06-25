@@ -9,10 +9,10 @@ class EstablecimientoFormFilters(forms.Form):
     nombre = forms.CharField(max_length=40, label='Nombre', required=False)
     cue = forms.CharField(max_length=40, label='Cue', required=False)
     dependencia_funcional = forms.ModelChoiceField(queryset=DependenciaFuncional.objects, label='Dependencia funcional', required=False)
+    jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects.order_by('nombre'), label='Jurisdiccion', required=False)
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.order_by('nombre'), label='Departamento', required=False)
     localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False)
     estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects, label='Estado', required=False)
-    jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects.order_by('nombre'), label='Jurisdiccion', required=False)
     tipo_gestion = forms.ModelChoiceField(queryset=TipoGestion.objects.order_by('nombre'), label='Tipo de gestión', required=False)
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +50,7 @@ class EstablecimientoFormFilters(forms.Form):
             if filter_by('departamento'):
                 q = q.filter(domicilios__localidad__departamento=self.cleaned_data['departamento'])
             if filter_by('localidad'):
-                q = q.filter(domicilio__localidad=self.cleaned_data['localidad'])
+                q = q.filter(domicilios__localidad=self.cleaned_data['localidad'])
             if filter_by('tipo_gestion'):
                 q = q.filter(dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
-        return q
+        return q.distinct()

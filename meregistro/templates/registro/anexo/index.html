@@ -12,38 +12,45 @@
     <h3>Búsqueda avanzada</h3>
     {{ form_filters.non_field_errors }}
     <div class="form-select">
-	{{ form_filters.establecimiento.errors }}
-	<label for="id_establecimiento">Sede:</label>
-	{{ form_filters.establecimiento }}
+		{{ form_filters.establecimiento.errors }}
+		<label for="id_establecimiento">Sede:</label>
+		{{ form_filters.establecimiento }}
     </div>
     <div class="form-text">
-	{{ form_filters.cue.errors }}
-	<label for="id_cue">CUE:</label>
-	{{ form_filters.cue }}
+		{{ form_filters.cue.errors }}
+		<label for="id_cue">CUE:</label>
+		{{ form_filters.cue }}
     </div>
     <div class="form-text">
-	{{ form_filters.nombre.errors }}
-	<label for="id_nombre">Nombre:</label>
-	{{ form_filters.nombre }}
+		{{ form_filters.nombre.errors }}
+		<label for="id_nombre">Nombre:</label>
+		{{ form_filters.nombre }}
     </div>
+	{% if user_perfil.rol.nombre in 'AdminNacional' %}
+    <div class="form-select">
+		{{ form_filters.jurisdiccion.errors }}
+		<label for="id_jurisdiccion">Jurisdicción:</label>
+		{{ form_filters.jurisdiccion }}
+    </div>
+    {% endif %}
      <div class="form-select">
-	{{ form_filters.departamento.errors }}
-	<label for="id_departamento">Departamento:</label>
-	{{ form_filters.departamento }}
+		{{ form_filters.departamento.errors }}
+		<label for="id_departamento">Departamento:</label>
+		{{ form_filters.departamento }}
     </div>
     <div class="form-select">
-	{{ form_filters.localidad.errors }}
-	<label for="id_localidad">Localidad:</label>
-	{{ form_filters.localidad }}
+		{{ form_filters.localidad.errors }}
+		<label for="id_localidad">Localidad:</label>
+		{{ form_filters.localidad }}
     </div>
     <div class="form-select">
-	{{ form_filters.tipo_gestion.errors }}
-	<label for="id_tipo_gestion">Tipo de Gestión:</label>
-	{{ form_filters.tipo_gestion }}
+		{{ form_filters.tipo_gestion.errors }}
+		<label for="id_tipo_gestion">Tipo de Gestión:</label>
+		{{ form_filters.tipo_gestion }}
     </div>
     <div class="form-submit">
-	<input type="submit" value="Buscar" />
-	<input type="button" value="Reiniciar" onclick="window.location = 'anexo';" />
+		<input type="submit" value="Buscar" />
+		<input type="button" value="Reiniciar" onclick="window.location = 'anexo';" />
     </div>
 
 </div>
@@ -63,6 +70,9 @@
 	<tr>
 	    <th id="thCueAnexo">CUE</th>
 	    <th>Nombre</th>
+		{% if user_perfil.rol.nombre in 'AdminNacional' %}
+		<th>Jurisdicción</th>
+		{% endif %}
 	    <th>Departamento</th>
 	    <th>Localidad</th>
 	    <th class="th-estados">Estado</th>
@@ -75,11 +85,14 @@
         {% if not anexo.verificado %} 
             style="background-color: #f55"
         {% endif %}>
-	<td>{{ anexo.cue }}</td>
-        <td>{{ anexo.nombre }}</td>
-	<td>{{ anexo.get_first_domicilio.localidad.departamento }}</td>
-	<td>{{ anexo.get_first_domicilio.localidad }}</td>
-	<td>
+			<td>{{ anexo.cue }}</td>
+			<td>{{ anexo.nombre }}</td>
+			{% if user_perfil.rol.nombre in 'AdminNacional' %}
+			<td>{{ anexo.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
+			{% endif %}
+			<td>{{ anexo.get_first_domicilio.localidad.departamento }}</td>
+			<td>{{ anexo.get_first_domicilio.localidad }}</td>
+			<td>
 	    <div class="estados">
 	    {% for estado in anexo.estados.all %}
 		<p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
@@ -87,20 +100,20 @@
 	    </div>
 	</td>
         <td class="actions-td">
-	    <ul>
-	    {% if 'reg_anexo_completar' in credenciales and anexo.registrado %}
-		<li class="edit"><a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}" title="Editar"><span>Editar</span></a></li>
-	    {% endif %}	    
-	    {% if 'reg_editar_anexo_pendiente' in credenciales and anexo.pendiente %}
-		<li class="edit"><a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}" title="Editar"><span>Editar</span></a></li>
-	    {% endif %}
-	    {% if 'reg_anexo_aprobar_registro' in credenciales %}
-		<li class="registrar"><a href="{% url apps.registro.views.anexo.registrar anexo.id %}" title="Registrar"><span>Registrar</span></a></li>
-	    {% endif %}
-	    {% if 'reg_anexo_baja' in credenciales and anexo.is_deletable %}
-		<li class="delete"><a href="{% url apps.registro.views.anexo.delete anexo.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-	    {% endif %}
-	    </ul>
+			<ul>
+				{% if 'reg_anexo_completar' in credenciales and anexo.registrado %}
+				<li class="edit"><a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}" title="Editar"><span>Editar</span></a></li>
+				{% endif %}	    
+				{% if 'reg_editar_anexo_pendiente' in credenciales and anexo.pendiente %}
+				<li class="edit"><a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}" title="Editar"><span>Editar</span></a></li>
+				{% endif %}
+				{% if 'reg_anexo_aprobar_registro' in credenciales %}
+				<li class="registrar"><a href="{% url apps.registro.views.anexo.registrar anexo.id %}" title="Registrar"><span>Registrar</span></a></li>
+				{% endif %}
+				{% if 'reg_anexo_baja' in credenciales and anexo.is_deletable %}
+				<li class="delete"><a href="{% url apps.registro.views.anexo.delete anexo.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+				{% endif %}
+			</ul>
         </td>
       </tr>
     {% endfor %}
@@ -161,6 +174,45 @@ if (dropdown_departamento.val() == '') {
 
     });
 }
+
+{% if user_perfil.rol.nombre in 'AdminNacional' %}
+//
+//
+// Admin de títulos ve todas las jurisdicciones
+//
+//
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+
+if (dropdown_jurisdiccion.val() == '') {
+    dropdown_departamento.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_departamento.html(options);
+    dropdown_departamento.val(get_url_param('departamento'));
+    });
+}
+
+dropdown_jurisdiccion.change(function(){
+    if (dropdown_jurisdiccion.val() == '') {
+	dropdown_departamento.html("<option value=''>Seleccione...</option>");
+    } else {
+	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
+	$.getJSON(url, function(models) {
+	    var options = '<option value="">Seleccione...</option>';
+	    for (var i = 0; i < models.length; i++) {
+	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+	    }
+	    dropdown_departamento.html(options);
+	});
+    }
+    dropdown_departamento.change();
+});
+{% endif %}
 </script>
 
 

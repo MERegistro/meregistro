@@ -13,52 +13,53 @@
     <h3>Búsqueda avanzada</h3>
     {{ form_filters.non_field_errors }}
     <div class="form-select">
-	{{ form_filters.dependencia_funcional.errors }}
-	<label for="id_dependencia_funcional">Dependencia Funcional:</label>
-	{{ form_filters.dependencia_funcional }}
+		{{ form_filters.dependencia_funcional.errors }}
+		<label for="id_dependencia_funcional">Dependencia Funcional:</label>
+		{{ form_filters.dependencia_funcional }}
     </div>
     <div class="form-text">
-	{{ form_filters.cue.errors }}
-	<label for="id_cue">CUE:</label>
-	{{ form_filters.cue }}
+		{{ form_filters.cue.errors }}
+		<label for="id_cue">CUE:</label>
+		{{ form_filters.cue }}
     </div>
     <div class="form-text">
-	{{ form_filters.nombre.errors }}
-	<label for="id_nombre">Nombre:</label>
-	{{ form_filters.nombre }}
+		{{ form_filters.nombre.errors }}
+		<label for="id_nombre">Nombre:</label>
+		{{ form_filters.nombre }}
     </div>
-    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+    <!--
     <div class="form-select">
-	{{ form_filters.estado.errors }}
-	<label for="id_estado">Estado:</label>
-	{{ form_filters.estado }}
+		{{ form_filters.estado.errors }}
+		<label for="id_estado">Estado:</label>
+		{{ form_filters.estado }}
     </div>
+    -->
     <div class="form-select">
-	{{ form_filters.jurisdiccion.errors }}
-	<label for="id_jurisdiccion">Jurisdicción:</label>
-	{{ form_filters.jurisdiccion }}
+		{{ form_filters.jurisdiccion.errors }}
+		<label for="id_jurisdiccion">Jurisdicción:</label>
+		{{ form_filters.jurisdiccion }}
     </div>
     {% endif %}
     <div class="form-select">
-	{{ form_filters.departamento.errors }}
-	<label for="id_departamento">Departamento:</label>
-	{{ form_filters.departamento }}
+		{{ form_filters.departamento.errors }}
+		<label for="id_departamento">Departamento:</label>
+		{{ form_filters.departamento }}
     </div>
     <div class="form-select">
-	{{ form_filters.localidad.errors }}
-	<label for="id_localidad">Localidad:</label>
-	{{ form_filters.localidad }}
+		{{ form_filters.localidad.errors }}
+		<label for="id_localidad">Localidad:</label>
+		{{ form_filters.localidad }}
     </div>
     <div class="form-select">
-	{{ form_filters.tipo_gestion.errors }}
-	<label for="id_tipo_gestion">Tipo de Gestión:</label>
-	{{ form_filters.tipo_gestion }}
+		{{ form_filters.tipo_gestion.errors }}
+		<label for="id_tipo_gestion">Tipo de Gestión:</label>
+		{{ form_filters.tipo_gestion }}
     </div>
     <div class="form-submit">
-	<input type="submit" value="Buscar" />
-	<input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
+		<input type="submit" value="Buscar" />
+		<input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
     </div>
-    
 </div>
 
 {% if objects %}
@@ -76,9 +77,9 @@
         <tr>
             <th id="thEstablecimientoCue">CUE</th>
             <th>Nombre</th>
-	{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+			{% if user_perfil.rol.nombre in 'AdminNacional' %}
             <th>Jurisdicción</th>
-	{% endif %}
+			{% endif %}
             <th>Departamento</th>
             <th>Localidad</th>
             <th class="th-estados">Estado</th>
@@ -93,9 +94,9 @@
                 {% endif %}>
                 <td>{{ est.cue }}</td>
                 <td>{{ est.nombre }}</td>
-	    {% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+				{% if user_perfil.rol.nombre in 'AdminNacional' %}
                 <td>{{ est.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
-	    {% endif %}
+				{% endif %}
                 <td>{{ est.get_first_domicilio.localidad.departamento }}</td>
                 <td>{{ est.get_first_domicilio.localidad }}</td>
                 <td>
@@ -107,18 +108,18 @@
                 </td>
                 <td class="actions-td">
                     <ul>
-                    {% if 'reg_establecimiento_completar' in credenciales and est.registrado %}
+						{% if 'reg_establecimiento_completar' in credenciales and est.registrado %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Editar"><span>Editar</span></a></li>
-                    {% endif %}
-                    {% if 'reg_editar_establecimiento_pendiente' in credenciales and est.pendiente %}
+						{% endif %}
+						{% if 'reg_editar_establecimiento_pendiente' in credenciales and est.pendiente %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Editar"><span>Editar</span></a></li>
-                    {% endif %}
-                    {% if 'reg_establecimiento_baja' in credenciales and est.isDeletable %}
+						{% endif %}
+						{% if 'reg_establecimiento_baja' in credenciales and est.isDeletable %}
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento.delete est.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-                    {% endif %}
-                    {% if 'reg_establecimiento_registrar' in credenciales %}
+						{% endif %}
+						{% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
-                    {% endif %}
+						{% endif %}
 			            <li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver Detalle</span></a></li>
                     </ul>
                 </td>
@@ -148,20 +149,19 @@ var dropdown_localidad = $("select#id_localidad");
 var dropdown_dependencia = $("select#id_dependencia_funcional");
 
 $(document).ready(
-    dropdown_departamento.change(
-	function(){
-	    if (dropdown_departamento.val() == '') {
-		dropdown_localidad.html("<option value=''>Seleccione...</option>");
-	    } else {
-		var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
-		$.getJSON(url, function(models){
-		    var options = '<option value="">Seleccione...</option>';
-		    for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-		    }
-		    dropdown_localidad.html(options);
-		});
-	    } // END if
+    dropdown_departamento.change(function(){
+		if (dropdown_departamento.val() == '') {
+			dropdown_localidad.html("<option value=''>Seleccione...</option>");
+		} else {
+			var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+			$.getJSON(url, function(models){
+				var options = '<option value="">Seleccione...</option>';
+				for(var i = 0; i < models.length; i++){
+					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+				}
+				dropdown_localidad.html(options);
+			});
+		} // END if
 	}) // END function
 ); // END document.ready
 
@@ -182,7 +182,7 @@ if (dropdown_departamento.val() == '') {
     });
 }
 
-{% if user_perfil.rol.nombre in 'AdminTitulos,AdminSistema' %}
+{% if user_perfil.rol.nombre in 'AdminNacional' %}
 //
 //
 // Admin de títulos ve todas las jurisdicciones
