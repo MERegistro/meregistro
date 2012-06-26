@@ -62,9 +62,6 @@
 	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
-{% if 'reg_extension_aulica_verificar_datos' in credenciales %}
-    <div style="margin: 60px 0 0;"><p>Las Extensiones Áulicas con datos sin verificar se muestran en rojo.</p></div>
-{% endif %}
 <table class="hor-zebra">
 	<thead>
 		<tr>
@@ -80,10 +77,7 @@
 		</tr>
 	</thead>
     {% for ext in objects %}
-      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
-        {% if not ext.verificado %} 
-            style="background-color: #f55"
-        {% endif %}>
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 		<td>{{ ext.cue }}</td>
         <td>{{ ext.nombre }}</td>
 		{% if user_perfil.rol.nombre in 'AdminNacional' %}
@@ -113,6 +107,13 @@
 				{% if 'reg_extension_aulica_baja' in credenciales and  ext.is_deletable %}
 				<li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 				{% endif %}
+        <li>
+          {% if ext.verificado %} 
+            <img src="{{ STATIC_URL }}/img/icons/revisado.png" />
+          {% else %}
+            <img src="{{ STATIC_URL }}/img/icons/no_revisado.png" />
+          {% endif %}
+        </li>
 			</ul>
         </td>
       </tr>
