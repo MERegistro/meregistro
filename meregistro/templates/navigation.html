@@ -64,7 +64,8 @@
 	-->
   {% endif %}
 	<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
-        <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
-	
+  {% if 'reg_menu_ayuda' in credenciales %}
+  <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
+	{% endif %}
     </ul>
 </div>
