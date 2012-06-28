@@ -30,7 +30,7 @@ from django.core.paginator import Paginator
 import datetime
 from apps.reportes.views.anexo import anexos as reporte_anexos
 from apps.reportes.models import Reporte
-from apps.seguridad.models import ConfiguracionSolapasAnexo
+from apps.backend.models import ConfiguracionSolapasAnexo
 
 fsmAnexo = FSMAnexo()
 

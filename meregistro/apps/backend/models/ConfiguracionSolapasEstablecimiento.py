@@ -14,7 +14,7 @@ class ConfiguracionSolapasEstablecimiento(models.Model):
   matricula = models.BooleanField()
 
   class Meta:
-    app_label = 'seguridad'
+    app_label = 'backend'
     db_table = 'seguridad_configuracion_solapas_establecimiento'
 
   @classmethod 

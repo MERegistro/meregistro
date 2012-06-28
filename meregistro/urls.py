@@ -5,6 +5,7 @@ import apps.registro.urls as registro_urls
 import apps.titulos.urls as titulos_urls
 import apps.reportes.urls as reportes_urls
 import apps.sistema.urls as sistema_urls
+import apps.backend.urls as backend_urls
 
 urlpatterns = patterns('',
     url(r'^login', 'apps.seguridad.views.login', name='login'),
@@ -16,6 +17,7 @@ urlpatterns = patterns('',
     url(r'^titulos/', include(titulos_urls)),
     url(r'^reportes/', include(reportes_urls)),
     url(r'^sistema/', include(sistema_urls)),
+    url(r'^backend/', include(backend_urls)),
     url(r'^seleccionarPerfil', 'apps.seguridad.views.seleccionar_perfil', name='seleccionarPerfil'),
     url(r'^' + settings.STATIC_URL_PATH + '/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),

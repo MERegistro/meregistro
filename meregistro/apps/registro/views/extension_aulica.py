@@ -24,7 +24,7 @@ from apps.reportes.models import Reporte
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
 from apps.registro.FSM import FSMExtensionAulica
-from apps.seguridad.models import ConfiguracionSolapasExtensionAulica
+from apps.backend.models import ConfiguracionSolapasExtensionAulica
 
 fsmExtensionAulica = FSMExtensionAulica()
 

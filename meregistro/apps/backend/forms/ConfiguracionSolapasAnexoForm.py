@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from apps.seguridad.models import ConfiguracionSolapasAnexo
+from apps.backend.models import ConfiguracionSolapasAnexo
 
 
 class ConfiguracionSolapasAnexoForm(ModelForm):

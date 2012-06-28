@@ -2,17 +2,17 @@
 
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import credential_required
-from apps.seguridad.forms import ConfiguracionSolapasEstablecimientoForm
-from apps.seguridad.models import ConfiguracionSolapasEstablecimiento
-from apps.seguridad.forms import ConfiguracionSolapasAnexoForm
-from apps.seguridad.models import ConfiguracionSolapasAnexo
-from apps.seguridad.forms import ConfiguracionSolapasExtensionAulicaForm
-from apps.seguridad.models import ConfiguracionSolapasExtensionAulica
+from apps.backend.forms import ConfiguracionSolapasEstablecimientoForm
+from apps.backend.models import ConfiguracionSolapasEstablecimiento
+from apps.backend.forms import ConfiguracionSolapasAnexoForm
+from apps.backend.models import ConfiguracionSolapasAnexo
+from apps.backend.forms import ConfiguracionSolapasExtensionAulicaForm
+from apps.backend.models import ConfiguracionSolapasExtensionAulica
 
 
 @credential_required('seg_backend')
 def index(request):
-  return my_render(request, 'seguridad/backend/index.html')
+  return my_render(request, 'backend/index.html')
 
 @credential_required('seg_backend')
 def configurar_solapas_establecimiento(request):
@@ -27,7 +27,7 @@ def configurar_solapas_establecimiento(request):
   else:
       form = ConfiguracionSolapasEstablecimientoForm(instance=solapas_config)
   
-  return my_render(request, 'seguridad/backend/solapas_establecimiento.html', {
+  return my_render(request, 'backend/solapas_establecimiento.html', {
       'form': form,
   })
 
@@ -45,7 +45,7 @@ def configurar_solapas_anexo(request):
   else:
       form = ConfiguracionSolapasAnexoForm(instance=solapas_config)
   
-  return my_render(request, 'seguridad/backend/solapas_anexo.html', {
+  return my_render(request, 'backend/solapas_anexo.html', {
       'form': form,
   })
 
@@ -63,7 +63,7 @@ def configurar_solapas_extension_aulica(request):
   else:
       form = ConfiguracionSolapasExtensionAulicaForm(instance=solapas_config)
   
-  return my_render(request, 'seguridad/backend/solapas_extension_aulica.html', {
+  return my_render(request, 'backend/solapas_extension_aulica.html', {
       'form': form,
   })
 
