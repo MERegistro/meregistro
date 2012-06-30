@@ -62,9 +62,6 @@
 	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
-{% if 'reg_anexo_verificar_datos' in credenciales %}
-    <div style="margin: 60px 0 0;"><p>Los Anexos con datos sin verificar se muestran en rojo.</p></div>
-{% endif %}
 <table class="hor-zebra">
     <thead>
 	<tr>
@@ -81,10 +78,7 @@
     </thead>
   <tbody>
     {% for anexo in objects %}
-      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}"
-        {% if not anexo.verificado %} 
-            style="background-color: #f55"
-        {% endif %}>
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ anexo.cue }}</td>
 			<td>{{ anexo.nombre }}</td>
 			{% if user_perfil.rol.nombre in 'AdminNacional' %}
@@ -113,6 +107,13 @@
 				{% if 'reg_anexo_baja' in credenciales and anexo.is_deletable %}
 				<li class="delete"><a href="{% url apps.registro.views.anexo.delete anexo.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 				{% endif %}
+        <li>
+          {% if anexo.verificado %} 
+            <img src="{{ STATIC_URL }}/img/icons/revisado.png" />
+          {% else %}
+            <img src="{{ STATIC_URL }}/img/icons/no_revisado.png" />
+          {% endif %}
+        </li>
 			</ul>
         </td>
       </tr>

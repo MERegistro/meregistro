@@ -31,7 +31,7 @@ from apps.registro.FSM import FSMEstablecimiento
 from apps.registro.models import DependenciaFuncional
 from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
 from apps.reportes.models import Reporte
-from apps.seguridad.models import ConfiguracionSolapasEstablecimiento
+from apps.backend.models import ConfiguracionSolapasEstablecimiento
 
 fsmEstablecimiento = FSMEstablecimiento()
 

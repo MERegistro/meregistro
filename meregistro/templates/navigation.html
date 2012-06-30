@@ -1,45 +1,39 @@
 <div id="mainNav">
     <ul class="sf-menu">
         {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
-		<li><a href="#" class="inactive">Seguridad</a>
-			<ul style="width: 250px;">
-				{% if 'seg_usuario_buscar' in credenciales or 'seg_usuario_alta' in credenciales %}
-				<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
-				{% endif %}
-				{% if 'seg_rol_registrar' in credenciales %}
-				<li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
-				{% endif %}
-				{% if 'seg_backend' in credenciales %}
-				<li><a href="{% url apps.seguridad.views.backend.index %}">Backend</a>
-					<ul style="width: 250px;">
-					  <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_establecimiento %}">Solapas de Establecimientos</a></li>
-					  <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_anexo %}">Solapas de Anexos</a></li>
-					  <li><a href="{% url apps.seguridad.views.backend.configurar_solapas_extension_aulica %}">Solapas de Extensiones Áulicas</a></li>
-					</ul>
-				</li>
-				{% endif %}
-			</ul>
-		</li>
-		{% endif %}
-		{% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
-		<li><a href="#" class="inactive"><span>Unidades educativas</a>
-			<ul>
-				{% if 'reg_establecimiento_consulta' in credenciales %}
-				<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Sedes</span></a></li>
-				{% endif %}
-				{% if 'reg_anexo_consulta' in credenciales or 'reg_anexo_completar' in credenciales %}
-				<li><a href="{% url apps.registro.views.anexo.index %}"><span>Anexos</span></a></li>
-				{% endif %}
-				{% if 'reg_extension_aulica_consulta' in credenciales %}
-				<li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
-				{% endif %}
-			</ul> 
-		</li>
-			{% endif %}
-			{% if 'reg_df_consulta' in credenciales %}
-		<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
-			{% endif %}		
-	{% if 'tit_menu_acceso' in credenciales %}
+	<li><a href="#" class="inactive">Seguridad</a>
+	    <ul style="width: 250px;">
+	{% if 'seg_usuario_buscar' in credenciales or 'seg_usuario_alta' in credenciales %}
+		<li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
+	{% endif %}
+	{% if 'seg_rol_registrar' in credenciales %}
+		<li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
+	{% endif %}
+	{% if 'seg_backend' in credenciales %}
+		<li><a href="{% url apps.backend.views.index %}">Backend</a>
+	{% endif %}
+	    </ul>
+	</li>
+	{% endif %}
+	{% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
+	<li><a href="#" class="inactive"><span>Unidades educativas</a>
+	    <ul>
+	    {% if 'reg_establecimiento_consulta' in credenciales %}
+		<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Sedes</span></a></li>
+	    {% endif %}
+	    {% if 'reg_anexo_consulta' in credenciales or 'reg_anexo_completar' in credenciales %}
+		<li><a href="{% url apps.registro.views.anexo.index %}"><span>Anexos</span></a></li>
+	    {% endif %}
+	    {% if 'reg_extension_aulica_consulta' in credenciales %}
+		<li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
+	    {% endif %}
+	    </ul> 
+	</li>
+        {% endif %}
+        {% if 'reg_df_consulta' in credenciales %}
+	<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
+        {% endif %}		
+  {% if 'tit_menu_acceso' in credenciales %}
 	<!--
 	Habilitación temporal
 	-->
@@ -100,12 +94,14 @@
 				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}"><span>Egresados de establecimiento</span></a></li>
 				{ % endif %}
 			</ul>
-        </li>  
+        </li>
 	<!--
 	Fin habilitación temporal
 	-->
   {% endif %}
-		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
-        <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
+	<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
+  {% if 'reg_menu_ayuda' in credenciales %}
+  <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
+	{% endif %}
     </ul>
 </div>
