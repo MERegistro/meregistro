@@ -18,13 +18,9 @@ def __get_establecimiento_actual(request):
     Trae el único establecimiento que tiene asignado, por ejemplo, un rector/director
     """
     try:
-        establecimiento = Establecimiento.objects.get(ambito__id=request.get_perfil().ambito.id)
-        if not bool(establecimiento):
-            raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
-        else:
-            return establecimiento
-    except Exception:
-        pass
+        return Establecimiento.objects.get(ambito__id=request.get_perfil().ambito.id)
+    except Establecimiento.DoesNotExist:
+		raise Exception('ERROR: El usuario no tiene asignado un establecimiento.')
 
 
 def build_query(filters, page, request):

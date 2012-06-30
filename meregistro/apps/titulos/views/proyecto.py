@@ -57,7 +57,7 @@ def create(request):
         if form.is_valid():
             proyecto = form.save()
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('proyectoEdit', args=[proyecto_id]))
+            return HttpResponseRedirect(reverse('proyectoEdit', args=[proyecto.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:

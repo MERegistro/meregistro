@@ -18,13 +18,9 @@ def __get_anexo_actual(request):
     Trae el único anexo que tiene asignado el usuario anexo
     """
     try:
-        anexo = Anexo.objects.get(ambito__id = request.get_perfil().ambito.id)
-        if not bool(anexo):
-            raise Exception('ERROR: El usuario no tiene asignado un anexo.')
-        else:
-            return anexo
-    except Exception:
-        pass
+        return Anexo.objects.get(ambito__id=request.get_perfil().ambito.id)
+    except Anexo.DoesNotExist:
+		raise Exception('ERROR: El usuario no tiene asignado un anexo.')
 
 
 def build_query(filters, page, request):

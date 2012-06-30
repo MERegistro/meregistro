@@ -380,7 +380,8 @@ def orientaciones_por_titulo(request, titulo_jurisdiccional_id):
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'titulos/titulo_jurisdiccional/orientaciones_por_titulo.html', {
-        'form_filters': form_filter,
+        #'form_filters': form_filter,
+        'titulo_jurisdiccional': titulo_jurisdiccional,
         'objects': objects,
         'paginator': paginator,
         'page': page,
