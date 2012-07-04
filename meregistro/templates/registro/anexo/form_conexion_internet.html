@@ -40,69 +40,30 @@
         {% endif %}
 	</form>
 </div>
+
 <script type="text/javascript">
+var checkbox_conexion = $("#id_tiene_conexion");
+var input_tipo_conexion = $("#id_tipo_conexion");
+var input_proveedor = $("input#id_proveedor");
+var input_costo = $("input#id_costo");
+var input_cantidad = $("input#id_cantidad");
 
-// Valores iniciales
-select_tipo_dominio = document.getElementById('id_tipo_dominio');
-select_tipo_compartido = document.getElementById('id_tipo_compartido');
-es_dominio_compartido_id = {{ es_dominio_compartido_id }};
-comparte_otro_nivel_id = {{ comparte_otro_nivel_id }};
-
-// Activa el combo 2
-function activarComboComparteEdificio(state){
-	select_tipo_compartido.disabled = !state;
+function updateInputs()
+{
+  input_tipo_conexion.attr('disabled', !checkbox_conexion.is(':checked'));
+  input_proveedor.attr('disabled', !checkbox_conexion.is(':checked'));
+  input_costo.attr('disabled', !checkbox_conexion.is(':checked'));
+  input_cantidad.attr('disabled', !checkbox_conexion.is(':checked'));
 }
 
-// Cambia el estado de los checks
-function setStateNiveles(state){
-	niveles = document.getElementsByName('niveles');
-	for (i = 0; i < niveles.length; i++){
-		niveles[i].disabled = !state;
+$(document).ready(
+    function(){
+		//
+		updateInputs();
+		checkbox_conexion.click(function(){
+			updateInputs();
+		});
 	}
-}
+); // END document.ready
 
-// Manejo el primer combo
-select_tipo_dominio.onchange = function(event){
-	select = event.target;
-	value = select[select.selectedIndex].value;
-	if(value == es_dominio_compartido_id){
-		// Activo el segundo combo
-		activarComboComparteEdificio(true);
-		value_compartido = select_tipo_compartido[select_tipo_compartido.selectedIndex].value;
-		// Activo los checkboxes???
-		if(value_compartido == comparte_otro_nivel_id){
-			setStateNiveles(true);
-		}
-	} else {
-		activarComboComparteEdificio(false);
-		setStateNiveles(false);
-	}
-}
-
-// Manejo el segundo combo
-select_tipo_compartido.onchange = function(event){
-	select = event.target;
-	value = select[select.selectedIndex].value;
-	if(value == comparte_otro_nivel_id){
-		setStateNiveles(true); // Activo los checkboxes
-	} else {
-		setStateNiveles(false);
-	}
-}
-
-
-// Init
-value1 = select_tipo_dominio[select_tipo_dominio.selectedIndex].value;
-if(value1 == es_dominio_compartido_id){
-	activarComboComparteEdificio(true);
-} else {
-	activarComboComparteEdificio(false);
-}
-
-value2 = select_tipo_compartido[select_tipo_compartido.selectedIndex].value;
-if(value2 == comparte_otro_nivel_id){
-	setStateNiveles(true);
-} else {
-	setStateNiveles(false);
-}
 </script>

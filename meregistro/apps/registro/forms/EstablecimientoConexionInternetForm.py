@@ -14,19 +14,21 @@ class EstablecimientoConexionInternetForm(forms.ModelForm):
     exclude = ['establecimiento']
 
   def __chequear_si_tiene_conexion(self, field):
-    if self.cleaned_data['tiene_conexion'] and (
-      self.cleaned_data[field] is None
+    if self.cleaned_data['tiene_conexion']:
+      if (self.cleaned_data[field] is None
       or self.cleaned_data[field] == ''):
-      raise ValidationError('Este campo es obligatorio.')
+        raise ValidationError('Este campo es obligatorio.')
+      return self.cleaned_data[field]
+    return None
 
   def clean_tipo_conexion(self):
-    self.__chequear_si_tiene_conexion('tipo_conexion')
+    return self.__chequear_si_tiene_conexion('tipo_conexion')
 
   def clean_proveedor(self):
-    self.__chequear_si_tiene_conexion('proveedor')
+    return self.__chequear_si_tiene_conexion('proveedor')
 
   def clean_costo(self):
-    self.__chequear_si_tiene_conexion('costo')
+    return self.__chequear_si_tiene_conexion('costo')
 
   def clean_cantidad(self):
-    self.__chequear_si_tiene_conexion('cantidad')
+    return self.__chequear_si_tiene_conexion('cantidad')
