@@ -12,8 +12,9 @@ from helpers.MailHelper import MailHelper
 
 ITEMS_PER_PAGE = 50
 
+
 @login_required
-@credential_required('tit_titulo_consulta')
+#@credential_required('tit_titulo_consulta')
 def index(request):
     """
     Búsqueda de titulos
@@ -26,7 +27,7 @@ def index(request):
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     if jurisdiccion is not None:
-        form_filter.fields["jurisdiccion"].queryset = Jurisdiccion.objects.filter(dependenciafuncional__jurisdiccion__id = jurisdiccion.id)
+        form_filter.fields["jurisdiccion"].queryset = Jurisdiccion.objects.filter(dependenciafuncional__jurisdiccion__id=jurisdiccion.id)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -44,15 +45,14 @@ def index(request):
     return my_render(request, 'titulos/titulo/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1
     })
+
 
 def build_query(filters, page, request):
     """
@@ -60,8 +60,9 @@ def build_query(filters, page, request):
     """
     return filters.buildQuery().order_by('nombre')
 
+
 @login_required
-@credential_required('tit_titulo_alta')
+#@credential_required('tit_titulo_alta')
 def create(request):
     """
     Alta de título.
@@ -69,15 +70,17 @@ def create(request):
     if request.method == 'POST':
         form = TituloForm(request.POST)
         if form.is_valid():
-            titulo = form.save()
-            estado = EstadoTitulo.objects.get(nombre = EstadoTitulo.VIGENTE)
-            titulo.registrar_estado(estado)
+            titulo = form.save(commit=False)
+            titulo.estado = EstadoTitulo.objects.get(nombre=EstadoTitulo.VIGENTE)
+            titulo.save()
+            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+            titulo.registrar_estado()
 
             MailHelper.notify_by_email(MailHelper.TITULO_CREATE, titulo)
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('tituloEdit', args = [titulo.id]))
+            return HttpResponseRedirect(reverse('tituloEdit', args=[titulo.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -90,51 +93,68 @@ def create(request):
 
 
 @login_required
-@credential_required('tit_titulo_modificar')
+#@credential_required('tit_titulo_modificar')
 def edit(request, titulo_id):
     """
     Edición de los datos de un título.
     """
-    titulo = Titulo.objects.get(pk = titulo_id)
-    estado_actual = titulo.getEstadoActual()
+    titulo = Titulo.objects.get(pk=titulo_id)
+
+    estado_actual_id = titulo.estado.id
+
     if request.method == 'POST':
-        form = TituloForm(request.POST, instance = titulo, initial = {'estado': estado_actual.id})
+        form = TituloForm(request.POST, instance=titulo, initial={'estado': estado_actual_id})
         if form.is_valid():
-            titulo = form.save()
+            titulo = form.save(commit=False)
 
             "Cambiar el estado?"
-            if int(request.POST['estado']) is not estado_actual.id:
-                estado = EstadoTitulo.objects.get(pk = int(request.POST['estado']))
-                titulo.registrar_estado(estado)
+            if int(request.POST['estado']) is not estado_actual_id:
+                titulo.estado = EstadoTitulo.objects.get(pk=request.POST['estado'])
+                titulo.save()
+                titulo.registrar_estado()
+            else:
+                # Guardar directamente
+                titulo.save()
+
+            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
 
             MailHelper.notify_by_email(MailHelper.TITULO_UPDATE, titulo)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = TituloForm(instance = titulo, initial = {'estado': titulo.getEstadoActual().id})
+        form = TituloForm(instance=titulo, initial={'estado': estado_actual_id})
 
     return my_render(request, 'titulos/titulo/edit.html', {
         'form': form,
         'is_new': False,
     })
 
+
 @login_required
-@credential_required('tit_titulo_eliminar')
+#@credential_required('tit_titulo_eliminar')
 def eliminar(request, titulo_id):
     """
     Baja de un título
     --- mientras no sea referido por un título jurisdiccional ---
     """
-    titulo = Titulo.objects.get(pk = titulo_id)
-    request.set_flash('warning', 'Está seguro de eliminar el título? Esta opración no puede deshacerse.')
+    titulo = Titulo.objects.get(pk=titulo_id)
+    asociado_titulo_jurisdiccional = titulo.asociado_titulo_jurisdiccional()
+    if asociado_titulo_jurisdiccional:
+        request.set_flash('warning', 'El título no puede darse de baja porque tiene títulos jurisdiccionales asociados.')
+    else:
+        request.set_flash('warning', 'Está seguro de eliminar el título? Esta operación no puede deshacerse.')
+
     if request.method == 'POST':
-        if int(request.POST['titulo_id']) is not int(titulo_id):
+        if int(request.POST['titulo_id']) is not int(titulo.id):
             raise Exception('Error en la consulta!')
+
         titulo.delete()
         request.set_flash('success', 'El título fue dado de baja correctamente.')
         """ Redirecciono para evitar el reenvío del form """
         return HttpResponseRedirect(reverse('titulosHome'))
+
     return my_render(request, 'titulos/titulo/eliminar.html', {
         'titulo_id': titulo.id,
+        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
     })

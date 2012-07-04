@@ -3,7 +3,9 @@
 # * la propiedad user que referencia al usuario actual.
 
 from apps.seguridad.models import Usuario, Perfil
+import threading
 
+_thread_local = threading.local()
 
 class LazyUser(object):
   def __get__(self, request, obj_type=None):
@@ -15,11 +17,14 @@ class LazyUser(object):
         request._cached_user.nombre = 'Anonimo'
     return request._cached_user
 
+def get_current_user():
+    return getattr(_thread_local, 'user', None)
 
 class SeguridadMiddleware(object):
   def process_request(self, request):
     assert hasattr(request, 'session'), "The seguridad authentication middleware requires session middleware to be installed. Edit your MIDDLEWARE_CLASSES setting to insert 'django.contrib.sessions.middleware.SessionMiddleware'."
     request.__class__.user = LazyUser()
+    _thread_local.user= request.user
 
     def seleccionar_perfil(request, perfil_id):
       """
@@ -48,6 +53,11 @@ class SeguridadMiddleware(object):
         return request.session['credenciales']
       return []
     request.__class__.get_credenciales = get_credenciales
+
+    def has_credencial(request, credential):
+        return credential in request.get_credenciales()
+
+    request.__class__.has_credencial = has_credencial
 
     def logout(request):
       """

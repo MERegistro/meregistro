@@ -1,0 +1,32 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Actualización de Extensión Áulica{% endblock %}
+
+{% block content %}
+<h2>Registrar Extensión Áulica</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="form" id="anexoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<input type="hidden" name="anexo" value="{{ anexo.id }}" />
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Registrar" />
+		</div>
+	</form>
+</div>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.extension_aulica.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

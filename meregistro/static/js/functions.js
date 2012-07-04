@@ -70,3 +70,42 @@ function seleccionarAmbitoVolver(selectorId, ambitoFieldId, ambitoFieldDescripci
     }
     
 }
+
+// http://www.netlobo.com/url_query_string_javascript.html
+function get_url_param(name){
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp(regexS);
+    var results = regex.exec(window.location.href);
+    if(results == null){
+	return "";
+    } else {
+	return results[1];
+    }
+}
+
+
+// Verificacion de datos de Unidades Educativas
+function establecimientoVerificarDato(id, dato, verificado)
+{
+    $.ajax({
+      url: "/registro/ajax/verificar_dato_establecimiento/"+id,
+      data: "dato="+dato+"&verificado="+verificado
+    });
+}
+
+function anexoVerificarDato(id, dato, verificado)
+{
+    $.ajax({
+      url: "/registro/ajax/verificar_dato_anexo/"+id,
+      data: "dato="+dato+"&verificado="+verificado
+    });
+}
+
+function extensionAulicaVerificarDato(id, dato, verificado)
+{
+    $.ajax({
+      url: "/registro/ajax/verificar_dato_extension_aulica/"+id,
+      data: "dato="+dato+"&verificado="+verificado
+    });
+}

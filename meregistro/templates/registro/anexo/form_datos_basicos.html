@@ -1,0 +1,147 @@
+<div class="form tabbed-form" id="anexoForm">
+    <form action="" method="post">{% csrf_token %}
+    {% if anexo %}
+	<h4>Fecha de Solicitud de Registro: {{ anexo.get_fecha_solicitud }}</h4>
+    {% else %}    
+	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
+    {% endif %}
+	{{ form.non_field_errors }}
+	<div class="form-select">
+	    {{ form.establecimiento.errors }}
+	    <label for="id_establecimiento">Depende de la Sede del:</label>
+	    {{ form.establecimiento }}
+	</div>
+	<div class="form-text">
+	    {{ form.codigo_tipo_unidad_educativa.errors }}
+	    <label for="id_cue">CUE:</label>
+	    {{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
+	    <p class="help-text">{{ form.codigo_tipo_unidad_educativa.help_text }}</p>
+	</div>
+	<div class="form-text">
+	    {{ form.nombre.errors }}
+	    <label for="id_nombre">Nombre:</label>
+	    {{ form.nombre }}
+	</div>
+	<div class="form-select">
+	    {{ form.subsidio.errors }}
+	    <label for="id_subsidio">¿Posee Subsidio?:</label>
+	    {{ form.subsidio }}
+	</div>
+	<div class="form-text">
+	    {{ form.anio_creacion.errors }}
+	    <label for="id_anio_creacion">Año de Creación:</label>
+	    {{ form.anio_creacion }}
+	</div>
+	<div class="form-select">
+	    {{ form.tipo_normativa.errors }}
+	    <label for="id_tipo_normativa">Origen de la Norma:</label>
+	    {{ form.tipo_normativa }}
+	</div>
+	<div class="form-select" style="margin-top: 20px;">
+	    {{ form.tipo_norma.errors }}
+	    {{ form.tipo_norma_otra.errors }}
+	    <label for="id_tipo_norma_creacion">Tipo de Norma:</label>
+	    {{ form.tipo_norma }}
+	    {{ form.tipo_norma_otra }}
+	</div>
+	<div class="form-text">
+	    {{ form.norma_creacion.errors }}
+	    <label for="id_norma_creacion">Número de la Norma:</label>
+	    {{ form.norma_creacion }}
+	</div>
+	<div class="form-textarea">
+	    {{ form.observaciones.errors }}
+	    <label for="id_observaciones">Observaciones:</label>
+	    {{ form.observaciones }}
+	</div>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <div class="form-checkbox datos-verificados">
+        <label for="id_verificado">Datos Verificados:</label>
+        {{ form.verificado }}
+    </div>
+    {% endif %}
+	{% if 'reg_anexo_completar' in credenciales or 'reg_anexo_alta' in credenciales %}
+	<div class="form-submit">
+	{% if anexo %}
+	    <input type="submit" value="Actualizar" />
+	{% else %}
+	    <input type="submit" value="Enviar Solicitud" />
+	{% endif %}
+	</div>
+    {% endif %}
+    </form>
+</div>
+
+<script type="text/javascript">
+function switch_subsidio(tipo_gestion){
+    // No se puede deshabilitar el select porque no envía el valor y este es requerido
+    // http://www.devcha.com/2008/02/readonly-attribute-to-dropdown-menu.html?showComment=1295534752678#c1119274142645841499
+    if(tipo_gestion == 'Estatal'){
+	$('select#id_subsidio').val(1);
+	//$('select#id_subsidio').attr('disabled', 'disabled');
+	$("select#id_subsidio option").not(":selected").attr("disabled", "disabled");
+    } else {
+	//$('select#id_subsidio').removeAttr('disabled');
+	$("select#id_subsidio option").not(":selected").removeAttr("disabled");
+    }
+}
+// Init
+$(document).ready(function(){
+    // CUE
+    codigo_jurisdiccion_input = $('input#id_codigo_jurisdiccion');
+    cue_input = $('input#id_cue');
+    codigo_input = $('input#id_codigo_tipo_unidad_educativa');
+    dropdown_sede = $('select#id_establecimiento');
+    {% if anexo %}
+	var url = "/registro/ajax/get_cue_parts_from_sede/" + dropdown_sede.val();
+	$.getJSON(url, function(parts){
+	    codigo_jurisdiccion_input.val(parts['codigo_jurisdiccion']);
+	    cue_input.val(parts['cue']);
+	{% if anexo %}
+	    codigo_input.val('{{ codigo_tipo_unidad_educativa }}');
+	{% endif %}
+	});
+    {% endif %}
+    dropdown_sede.change(function(){
+	var url = "/registro/ajax/get_cue_parts_from_sede/" + $(this).val();
+	$.getJSON(url, function(parts){
+	    codigo_jurisdiccion_input.val(parts['codigo_jurisdiccion']);
+	    cue_input.val(parts['cue']);
+	});
+    });
+    // Norma de creación
+    dropdown_tipo_norma = $('select#id_tipo_norma');
+    tipo_norma_val = $('select#id_tipo_norma option:selected').text();
+    tipo_norma_otra_input = $('input#id_tipo_norma_otra');
+    
+    otra = tipo_norma_val == 'Otra';
+
+    if(otra){
+        tipo_norma_otra_input.show();
+    } else {
+        tipo_norma_otra_input.val("");
+        tipo_norma_otra_input.hide();
+    }
+    
+    dropdown_tipo_norma.change(function(){
+	tipo_norma_val = $('select#id_tipo_norma option:selected').text();
+	if(tipo_norma_val == 'Otra'){
+	    tipo_norma_otra_input.show();
+	} else {
+	    tipo_norma_otra_input.val("");
+	    tipo_norma_otra_input.hide();
+	}
+    });
+    
+    // Subsidio
+    dropdown_subsidio = $('select#id_subsidio');
+    dropdown_sede.change(function(){
+	var url = "/registro/ajax/get_tipo_gestion_de_establecimiento/" + $(this).val();
+	$.getJSON(url, function(val){
+	    switch_subsidio(val);
+	});
+    });
+    dropdown_sede.change();
+     
+}); // END document.ready
+</script>

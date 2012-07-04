@@ -4,14 +4,15 @@ from apps.registro.models.TipoDomicilio import TipoDomicilio
 from apps.registro.models.Localidad import Localidad
 from apps.registro.models.Establecimiento import Establecimiento
 from django.core.exceptions import ValidationError
+from apps.seguridad.audit import audit
 
-
+@audit
 class EstablecimientoDomicilio(models.Model):
-    establecimiento = models.ForeignKey(Establecimiento, related_name='domicilio')
+    establecimiento = models.ForeignKey(Establecimiento, related_name='domicilios')
     tipo_domicilio = models.ForeignKey(TipoDomicilio)
     localidad = models.ForeignKey(Localidad, related_name='domicilios_establecimientos')
     calle = models.CharField(max_length=100)
-    altura = models.CharField(max_length=5)
+    altura = models.CharField(max_length=15)
     referencia = models.CharField(max_length=255, null=True, blank=True)
     cp = models.CharField(max_length=20)
 
@@ -24,7 +25,8 @@ class EstablecimientoDomicilio(models.Model):
             cp = " (CP: " + self.cp + ")"
         else:
             cp = ""
-        return str(self.calle) + " " + str(self.altura) + " - " + self.localidad.nombre + cp
+        #raise Exception(self.calle)
+        return self.calle + " " + str(self.altura) + " - " + self.localidad.nombre + cp
 
     def __init__(self, *args, **kwargs):
         super(EstablecimientoDomicilio, self).__init__(*args, **kwargs)

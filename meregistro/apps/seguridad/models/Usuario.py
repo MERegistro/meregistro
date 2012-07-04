@@ -3,16 +3,17 @@
 from django.db import models
 from apps.seguridad.models import TipoDocumento
 from datetime import datetime
+from apps.seguridad.audit import audit
 
-
+@audit
 class Usuario(models.Model):
     tipo_documento = models.ForeignKey(TipoDocumento)
-    documento = models.CharField(max_length=20)
+    documento = models.CharField(max_length=8)
     apellido = models.CharField(max_length=40)
     nombre = models.CharField(max_length=40)
-    email = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
     password = models.CharField(max_length=255, null=True, editable=False)
-    last_login = models.IntegerField(null=True, blank=True, editable=False)
+    last_login = models.DateTimeField(null=True, blank=True, editable=False)
     is_active = models.BooleanField(null=False, blank=False, editable=False)
 
     class Meta:
@@ -47,6 +48,28 @@ class Usuario(models.Model):
 
     def asignarPerfil(self, rol, ambito, fechaAsignacion):
         """ Asigna al usuario un perfil """
-        from seguridad.apps.odels import Rol, Ambito, Perfil
+        from apps.seguridad.models import Rol, Ambito, Perfil
         perfil = Perfil(usuario=self, rol=rol, ambito=ambito, fecha_asignacion=fechaAsignacion)
         perfil.save()
+
+    def can_delete_perfil(self, perfil):
+        """ TODO: Chequea (de alguna manera) que el usuario puede eliminar el perfil """
+        return True
+
+    def can_delete_usuario(self, usuario):
+        """ Chequea (de alguna manera) que el usuario puede eliminar al usuario pasado como argumento """
+        return True
+
+    def update_last_login(self):
+        self.last_login = datetime.now()
+        self.save()
+
+    def is_deletable(self):
+        nunca_logueado = self.last_login is None
+        return nunca_logueado
+
+
+    @classmethod
+    def get_usuarios_by_rol(cls, rol):
+        usuarios = Usuario.objects.filter(perfiles__rol__nombre=rol)
+        return usuarios

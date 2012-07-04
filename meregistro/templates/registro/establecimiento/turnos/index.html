@@ -1,0 +1,85 @@
+{% extends "base_registro.html" %}
+{% load tags_filters %}
+
+{% block title %}Completar Datos de Sede{% endblock %}
+
+{% block content %}
+<h2>Completar Datos de Sede - Turnos</h2>
+<h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th>Turno</th>
+            <th>Uso del Edificio</th>
+            <th>Comparte con</th>
+            <th>Niveles</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for establecimiento_turno in objects %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                <td>{{ establecimiento_turno.turno.nombre }}</td>
+                <td>{{ establecimiento_turno.tipo_dominio.descripcion }}</td>
+                <td>{{ establecimiento_turno.tipo_compartido.descripcion }}</td>
+                <td>{{ establecimiento_turno.niveles.all|implode:", " }}</td>
+                <td class="actions-td">
+                    <ul>
+                        <li class="edit"><a href="{% url apps.registro.views.establecimiento_turno.edit establecimiento_turno.id %}" title="Editar"><span>Editar</span></a></li>
+                        <li class="delete"><a href="{% url apps.registro.views.establecimiento_turno.delete establecimiento_turno.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+    <p>No se encontraron turnos.</p>
+</div>
+{% endif %}
+
+
+
+<ul class="actions">
+{% if 'reg_establecimiento_completar' in credenciales %}
+    <li class="create" style="margin-top: 30px">
+        <a href="{% url apps.registro.views.establecimiento_turno.create establecimiento.id %}"><span>Nuevo Turno</span></a>
+    </li>
+    <li class="back">
+        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
+    </li>
+{% endif %}
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <li class="datos-verificados">
+        <label for="id_verificado">Datos Verificados:</label>
+        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
+    </li>
+    {% endif %}
+</ul>
+
+<hr />
+
+
+{% if 'reg_establecimiento_verificar_datos' in credenciales %}
+<script type="text/javascript">
+
+var checkbox = $("#id_verificado");
+
+$(document).ready(function() {
+    checkbox.click(function(){
+        establecimientoVerificarDato({{establecimiento.id}}, 'turnos', checkbox.is(':checked'));
+    });
+});
+
+</script>
+{% endif %}
+{% endblock %}

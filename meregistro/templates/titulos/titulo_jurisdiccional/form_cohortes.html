@@ -1,0 +1,91 @@
+<div class="form tabbed-form" id="tituloJurisdiccionalForm">
+	{% if titulo_jurisdiccional %}
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.cohortes_aprobadas.errors }}
+			<label for="id_cohortes_aprobadas">Cohortes aprobadas:</label>
+			{{ form.cohortes_aprobadas }}
+		</div>
+		<div class="form-select">
+			{{ form.anio_primera_cohorte.errors }}
+			<label for="id_anio_primera_cohorte">Año primera cohorte:</label>
+			{{ form.anio_primera_cohorte }}
+		</div>
+		<div class="form-select">
+			{{ form.anio_ultima_cohorte.errors }}
+			<label for="id_anio_ultima_cohorte">Año última cohorte:</label>
+			{{ form.anio_ultima_cohorte }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="id_observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if anexo %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+	{% else %}
+	<form action="">
+		<div class="message">
+			<p>Debe guardar los datos básicos antes de poder editar las cohortes.</p>
+		</div>
+	</form>
+	{% endif %}
+</div>
+<script>
+var dropdown_source = $("select#id_tipo_titulo");
+var dropdown_target = $("select#id_titulo");
+$(document).ready(
+	function(){
+		dropdown_source.change(function(){
+			if (dropdown_source == '') {
+				dropdown_target.html("<option>---Seleccione un tipo de título---</option>");
+				dropdown_target.attr('disabled', true);
+			} else {
+				var url = "/titulos/ajax/get_titulos_por_tipo/" + $(this).val();
+				$.getJSON(url, function(models) {
+					var options = '<option value="">---------</option>';
+					for (var i = 0; i < models.length; i++) {
+						options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+					}
+					dropdown_target.html(options);
+					dropdown_target.attr('disabled', false);
+				});
+			}
+		});
+	} // END function
+	// Init
+); // END document.ready
+
+// Init
+{% if titulo_jurisdiccional %}
+var current_titulo_id = {{ titulo_jurisdiccional.titulo_id }};
+{% else %}
+var current_titulo_id = null;
+{% endif %}
+if (dropdown_source.val() == '') {
+	dropdown_target.html("<option>---Seleccione un tipo de título---</option>");
+	dropdown_target.attr('disabled', true);
+} else {
+	var url = "/titulos/ajax/get_titulos_por_tipo/" + dropdown_source.val();
+	$.getJSON(url, function(models) {
+		var options = '<option value="">---------</option>';
+		for (var i = 0; i < models.length; i++){
+			if(models[i] == current_titulo_id){
+
+			}
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+		}
+		dropdown_target.html(options);
+		dropdown_target.attr('disabled', false);
+		dropdown_target.val(current_titulo_id);
+
+	});
+}
+</script>

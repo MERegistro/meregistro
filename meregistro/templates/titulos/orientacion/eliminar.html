@@ -1,0 +1,29 @@
+{% extends "base_titulos.html" %}
+
+    {% block title %}Eliminación de orientación{% endblock %}
+
+{% block content %}
+{% if not asociado_titulo_jurisdiccional %}
+
+<h2>Eliminación de orientación</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="form" id="orientacionEliminarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="orientacion_id" value="{{ orientacion_id }}" />
+	<div class="form-submit">
+	    <input type="submit" value="Eliminar" />
+	</div>
+    </form>
+</div>
+
+{% endif %}
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.titulos.views.orientacion.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Actualización de orientación{% endblock %}
+
+{% block content %}
+<h2>Actualización de orientación</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "titulos/orientacion/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.orientacion.orientaciones_por_titulo titulo.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

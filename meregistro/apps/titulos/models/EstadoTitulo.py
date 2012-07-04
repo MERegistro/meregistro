@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-
+"""
+Representa las opciones de estados que tiene cada título
+"""
 
 class EstadoTitulo(models.Model):
 

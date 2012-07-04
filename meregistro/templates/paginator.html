@@ -1,28 +1,14 @@
-{% if show_paginator %}
+{% if paginator.num_pages %}
 <div class="paginator">
-	<p class="paginator-summary">(Página {{ page }} de {{ pages }})</p>
+	<p class="paginator-summary">(Página {{ page_number }} de {{ paginator.num_pages }})</p>
 	<ul>
-	<!--
-{% if has_prev %}
-		<li class="prev-page-enabled"><a href="?page={{ prev_page }}" title="Página anterior" alt="Página anterior"><span>&laquo; Anterior</span></a></li>
-{% else %}
-		<li class="prev-page-disabled"><span>&laquo; Anterior</span></li>
-{% endif %}
--->
 {% for page_num in pages_range %}
-	{% if page_num = page %}
+	{% if page_num = page_number %}
 		<li class="page-number current"><span>{{ page_num }}</span></li>
 	{% else %}
 		<li class="page-number"><input type="submit" name="page" value="{{ page_num }}" /></li>
 	{% endif %}
 {% endfor %}
-<!--
-{% if has_next %}
-		<li class="next-page-enabled"><a href="?page={{ next_page }}" title="Página siguiente" alt="Página siguiente"><span>&laquo; Próxima</span></a></li>
-{% else %}
-		<li class="next-page-disabled"><span>Próxima &raquo;</span></li>
-{% endif %}
--->
 	</ul>
 	<hr />
 </div>
