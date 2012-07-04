@@ -1,11 +1,14 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Alta de anexo{% endblock %}
+{% block title %}Solicitud de Registro de Nuevo Anexo{% endblock %}
 
 {% block content %}
-<h2>Alta de anexo</h2>
+<h2>Solicitud de Registro de Nuevo Anexo</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
-{% include "registro/anexo/form.html" %}
+{% include "registro/anexo/form_datos_basicos.html" %}
 
 <ul class="actions">
   <li class="back">

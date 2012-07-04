@@ -5,3 +5,13 @@
 				{% include "user_info.html" %}
 			{% endif %}
 		</div>	<!-- END header -->
+  {% if settings.TESTING_MODE %}
+  <div style="
+    margin: 20px 20px 20px 20px;
+    background-color: {{ settings.TESTING_MODE_BANNER_COLOR }};
+    padding: 10px;
+    border: 1px solid #c94;
+    font-weight: bold">
+  {{ settings.TESTING_MODE_BANNER_TEXT }}
+  </div>
+  {% endif %}

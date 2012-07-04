@@ -1,0 +1,41 @@
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.descripcion.errors }}
+			<label for="id_descripcion">Descripción:</label>
+			{{ form.descripcion }}
+		</div>
+		<div class="form-text">
+			{{ form.padre.errors }}
+			<label for="id_padre">Padre:</label>
+			{{ form.padre }}
+		</div>
+		{% if rol %}
+		<div class="form-checkbox-list">
+			{{ form.credenciales.errors }}
+			<label for="id_credenciales">Credenciales:</label>
+			{% include "seguridad/rol/credenciales.html" %}
+			<hr />
+		</div>
+		<div class="form-checkbox-list">
+			{{ form.roles_asignables.errors }}
+			<label for="id_roles_asignables">Roles Asignables:</label>
+			{{ form.roles_asignables }}
+			<hr />
+		</div>
+		{% endif %}
+		<div class="form-submit">
+		{% if rol %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

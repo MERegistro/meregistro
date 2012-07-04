@@ -1,0 +1,58 @@
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.cargo.errors }}
+			<label for="id_cargo">Cargo:</label>
+			{{ form.cargo }}
+		</div>
+		<div class="form-text">
+			{{ form.apellido.errors }}
+			<label for="id_apellido">Apellido:</label>
+			{{ form.apellido }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.fecha_nacimiento.errors }}
+			<label for="id_fecha_nacimiento">Fecha de Nacimiento:</label>
+			{{ form.fecha_nacimiento }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_documento.errors }}
+			<label for="id_tipo_documento">Tipo de Documento:</label>
+			{{ form.tipo_documento }}
+		</div>
+		<div class="form-text">
+			{{ form.documento.errors }}
+			<label for="id_documento">Documento:</label>
+			{{ form.documento }}
+		</div>
+		<div class="form-text">
+			{{ form.telefono.errors }}
+			<label for="id_telefono">Teléfono:</label>
+			{{ form.telefono }}
+		</div>
+		<div class="form-text">
+			{{ form.celular.errors }}
+			<label for="id_celular">Celular:</label>
+			{{ form.celular }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="id_email">Email:</label>
+			{{ form.email }}
+		</div>
+		
+		<div class="form-submit">
+		{% if autoridad %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

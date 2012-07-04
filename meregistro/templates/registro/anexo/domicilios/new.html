@@ -1,0 +1,20 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Completar Datos de Anexo{% endblock %}
+
+{% block content %}
+<h2>Completar Datos de Anexo - Nuevo Domicilio</h2>
+<h3>{{ anexo.cue }} - "{{ anexo.nombre }}"</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "registro/anexo/domicilios/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.registro.views.anexo_domicilio.index anexo.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

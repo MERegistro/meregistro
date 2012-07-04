@@ -1,0 +1,20 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Actualización de Extensión Áulica{% endblock %}
+
+{% block content %}
+<h2>Actualización de Extensión Áulica</h2>
+<h3>Fecha de Solicitud de Registro: {{ extension_aulica.get_fecha_solicitud }}</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "registro/extension_aulica/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.extension_aulica.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

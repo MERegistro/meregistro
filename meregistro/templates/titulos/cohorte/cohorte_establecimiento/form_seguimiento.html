@@ -1,0 +1,39 @@
+<div class="form tabbed-form" id="cohorteSeguimientoDatosBasicosForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.anio.errors }}
+			<label for="id_anio">Año:</label>
+			{{ form.anio }}
+		</div>
+		<div class="form-text">
+			{{ form.solo_cursan_nueva.errors }}
+			<label for="id_solo_cursan_nueva">Sólo cursan nueva unidad:</label>
+			{{ form.solo_cursan_nueva }}
+		</div>
+		<div class="form-text">
+			{{ form.solo_recursan.errors }}
+			<label for="id_solo_recursan">Sólo recursan:</label>
+			{{ form.solo_recursan }}
+		</div>
+		<div class="form-text">
+			{{ form.recursan_cursan.errors }}
+			<label for="id_recursan_cursan">Cursaron y recursan:</label>
+			{{ form.recursan_cursan }}
+		</div>
+		<div class="form-text">
+			{{ form.no_cursan.errors }}
+			<label for="id_no_cursan">No cursan:</label>
+			{{ form.no_cursan }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="id_observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		{{ form.cohorte_establecimiento.as_hidden }}
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+</div>

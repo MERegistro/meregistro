@@ -1,0 +1,92 @@
+<div class="form tabbed-form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.tipo_domicilio.errors }}
+			<label for="id_tipo_domicilio">Tipo de Domicilio:</label>
+			{{ form.tipo_domicilio }}
+		</div>
+		<div class="form-text">
+			{{ form.calle.errors }}
+			<label for="calle">Calle:</label>
+			{{ form.calle }}
+		</div>
+		<div class="form-text">
+			{{ form.altura.errors }}
+			<label for="altura">Altura:</label>
+			{{ form.altura }}
+		</div>
+		<div class="form-select">
+			{{ form.departamento.errors }}
+			<label for="id_departamento">Departamento:</label>
+			{{ form.departamento }}
+		</div>
+		<div class="form-select">
+			{{ form.localidad.errors }}
+			<label for="id_localidad">Localidad:</label>
+			{{ form.localidad }}
+		</div>
+		<div class="form-text">
+			{{ form.referencia.errors }}
+			<label for="referencia">Referencia:</label>
+			{{ form.referencia }}
+		</div>
+		<div class="form-text">
+			{{ form.cp.errors }}
+			<label for="cp">CP:</label>
+			{{ form.cp }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+
+$(document).ready(
+    function(){
+		dropdown_departamento.change(function(){        
+			if(dropdown_departamento.val() == ''){
+				dropdown_localidad.html("<option value=''>Seleccione...</option>");
+			} else {
+				var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+				$.getJSON(url, function(models) {
+					var options = '<option value="">Seleccione...</option>';
+					for(var i = 0; i < models.length; i++){
+						options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+					}
+					dropdown_localidad.html(options);
+				});
+			}
+		});
+		
+		// Init
+		{% if domicilio.id %}
+		dropdown_departamento.val({{ domicilio.localidad.departamento.id }});
+		{% endif %}
+		if (dropdown_departamento.val() == ''){
+			dropdown_localidad.html("<option value=''>Seleccione...</option>");
+		} else {
+			var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+			$.getJSON(url, function(models) {
+				var options = '<option value="">Seleccione...</option>';
+				for (var i = 0; i < models.length; i++){
+					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+				}
+				dropdown_localidad.html(options);
+				{% if  localidad_seleccionada %}
+				dropdown_localidad.val({{ localidad_seleccionada }});
+				{% else %}
+				dropdown_localidad.val({{ domicilio.localidad.id }});
+				{% endif %}
+			});
+		}
+		
+	} // END function
+
+); // END document.ready
+
+</script>

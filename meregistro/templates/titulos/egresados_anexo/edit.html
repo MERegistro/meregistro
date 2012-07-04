@@ -1,0 +1,21 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Actualización de egresados al título{% endblock %}
+
+{% block content %}
+<h2>Actualización de egresados al título</h2>
+{% include "titulos/egresados_anexo/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+
+{% include "titulos/egresados_anexo/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.egresados_anexo.egresados_por_titulo titulo_jurisdiccional.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

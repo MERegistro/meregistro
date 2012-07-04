@@ -1,0 +1,124 @@
+<div class="form tabbed-form" id="tituloJurisdiccionalModalidadesForm">
+	{% if titulo_jurisdiccional %}
+	<form action="" method="post">{% csrf_token %}
+
+		<h2>Modalidad presencial</h2>
+		{{ form_modalidad_presencial.non_field_errors }}
+		<div class="form-checkbox" style="margin-bottom: 30px;">
+			{{ form_modalidad_presencial.posee_mod_presencial.errors }}
+			<label for="mod_presencial_posee_mod_presencial">Posee modalidad presencial:</label>
+			{{ form_modalidad_presencial.posee_mod_presencial }}
+		</div>
+		<div class="form-select">
+			{{ form_modalidad_presencial.presencial.errors }}
+			<label for="mod_presencial_duracion">Duración (años):</label>
+			{{ form_modalidad_presencial.duracion }}
+		</div>
+		<div class="form-select">
+			{{ form_modalidad_presencial.cuatrimestres.errors }}
+			<label for="mod_presencial_cuatrimestres">Cuatrimestres:</label>
+			{{ form_modalidad_presencial.cuatrimestres }}
+		</div>
+		<hr />
+		<h2 style="margin-top: 50px;">Modalidad a distancia</h2>
+		{{ form_modalidad_distancia.non_field_errors }}
+		<div class="form-checkbox" style="margin-bottom: 30px;">
+			{{ form_modalidad_distancia.posee_mod_distancia.errors }}
+			<label for="mod_distancia_posee_mod_distancia">Posee modalidad a distancia:</label>
+			{{ form_modalidad_distancia.posee_mod_distancia }}
+		</div>
+		<div class="form-select">
+			{{ form_modalidad_distancia.duracion.errors }}
+			<label for="mod_distancia_duracion">Duración (años):</label>
+			{{ form_modalidad_distancia.duracion }}
+		</div>
+		<div class="form-select">
+			{{ form_modalidad_distancia.cuatrimestres.errors }}
+			<label for="mod_distancia_cuatrimestres">Cuatrimestres:</label>
+			{{ form_modalidad_distancia.cuatrimestres }}
+		</div>
+		<div class="form-text">
+			{{ form_modalidad_distancia.nro_dictamen.errors }}
+			<label for="mod_distancia_nro_dictamen">Número de dictámen:</label>
+			{{ form_modalidad_distancia.nro_dictamen }}
+		</div>
+		<hr />
+		<h2 style="margin-top: 50px;">Duración en horas</h2>
+		<div class="form-text">
+			{{ form_duracion.horas_reloj.errors }}
+			<label for="duracion_horas_reloj">Horas reloj:</label>
+			{{ form_duracion.horas_reloj }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+	{% else %}
+	<form action="">
+		<div class="message">
+			<p>Debe guardar los datos básicos antes de poder editar las modalidades.</p>
+		</div>
+	</form>
+	{% endif %}
+
+</div>
+<script type="text/javascript">
+
+
+$(document).ready(function(){
+//
+//
+
+posee_mod_distancia = $('#id_mod_distancia-posee_mod_distancia');
+posee_mod_presencial = $('#id_mod_presencial-posee_mod_presencial');
+	
+function disableModPresencial(){
+	document.getElementById('id_mod_presencial-posee_mod_presencial').checked = false;
+	$('select#id_mod_presencial-duracion').attr('disabled', true);
+	$('select#id_mod_presencial-cuatrimestres').attr('disabled', true);
+}
+	
+function disableModDistancia(){
+	//posee_mod_distancia.attr('checked', false);
+	document.getElementById('id_mod_distancia-posee_mod_distancia').checked = false;
+	$('select#id_mod_distancia-duracion').attr('disabled', true);
+	$('select#id_mod_distancia-cuatrimestres').attr('disabled', true);
+	$('input#id_mod_distancia-nro_dictamen').attr('disabled', true);
+}
+
+// Init
+{% if modalidad_presencial.id or form_modalidad_presencial.errors %}
+posee_mod_presencial.attr('checked', 'checked');
+disableModDistancia();
+{% else %}
+{%    if modalidad_distancia.id or form_modalidad_distancia.errors %}
+posee_mod_distancia.attr('checked', 'checked');
+disableModPresencial();
+{%    endif %}
+{% endif %}
+
+posee_mod_distancia.click(function(){
+	checked = posee_mod_distancia.is(':checked');
+	$('select#id_mod_distancia-duracion').attr('disabled', !checked);
+	$('select#id_mod_distancia-cuatrimestres').attr('disabled', !checked);
+	$('input#id_mod_distancia-nro_dictamen').attr('disabled', !checked);
+	$('input#id_mod_distancia-horas_reloj').attr('disabled', !checked);
+	if(checked){
+		disableModPresencial(checked);
+	}
+});
+
+posee_mod_presencial.click(function(){
+	checked = posee_mod_presencial.is(':checked');
+	$('select#id_mod_presencial-duracion').attr('disabled', !checked);
+	$('select#id_mod_presencial-cuatrimestres').attr('disabled', !checked);
+	if(checked){
+		disableModDistancia();
+	}
+});
+//
+//
+}); // End ready
+
+</script>
+

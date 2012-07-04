@@ -1,0 +1,28 @@
+{% extends "base_titulos.html" %}
+{% load tags_filters %}
+{% block title %}Actualización de detalle de egresados al título{% endblock %}
+
+{% block content %}
+<h2>Actualización de detalle de egresados al título</h2>
+{% include "titulos/egresados_establecimiento/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="datos-lectura">
+    <p><strong>Egresados:</strong> {{ egresados.cantidad_egresados }}</p>
+    <p><strong>Año:</strong> {{ egresados.anio }}</p>
+    {% if egresados.get_suma_egresados_detalle %}
+    <p><strong>Años detallados:</strong> {{ egresados.detalle.all|implode:", " }} - <strong>Total: </strong> {{ egresados.get_suma_egresados_detalle }} egresados</p>
+    {% endif %}
+</div>
+
+{% include "titulos/egresados_establecimiento/form_detalle.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.egresados_establecimiento.detalle egresados.id %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

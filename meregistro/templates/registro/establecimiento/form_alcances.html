@@ -1,0 +1,21 @@
+<div class="form tabbed-form" id="establecimientoForm">
+    <form action="" method="post">{% csrf_token %}
+	{{ form.non_field_errors }}
+	<div class="form-checkbox-list">
+	    {{ form.alcances.errors }}
+	    {{ form.alcances }}
+	    <hr />
+	</div>
+        {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+        <div class="form-checkbox datos-verificados">
+            <label for="id_verificado">Datos Verificados:</label>
+            {{ form.verificado }}
+        </div>
+        {% endif %}
+        {% if 'reg_establecimiento_completar' in credenciales %}
+	<div class="form-submit">
+	    <input type="submit" value="Actualizar" />
+	</div>
+        {% endif %}
+    </form>
+</div>

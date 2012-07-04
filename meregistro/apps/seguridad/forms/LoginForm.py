@@ -7,21 +7,18 @@ from apps.seguridad.authenticate import *
 
 
 class LoginForm(forms.Form):
-    tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects, required=True)
-    documento = forms.CharField(max_length=20, label='documento')
+    tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects.order_by('abreviatura'), required=True, empty_label=None)
+    documento = forms.CharField(max_length=8, label='documento')
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), label='contraseña')
 
     def clean_documento(self):
         '''
         Chequea que el usuario exista en la base de datos
         '''
+        self.cleaned_data['documento']
         documento = self.cleaned_data['documento']
         if not re.search(r'^\w+$', documento):
             raise forms.ValidationError(u'Este campo sólo puede contener letras del alfabeto y números')
-        try:
-            Usuario.objects.get(documento=documento)
-        except Usuario.DoesNotExist:
-            raise forms.ValidationError(u'Usuario inexistente')
         return documento
 
     def clean(self):
@@ -33,10 +30,12 @@ class LoginForm(forms.Form):
         tipo_documento = cleaned_data.get("tipo_documento")
         documento = cleaned_data.get("documento")
         password = cleaned_data.get("password")
+        if password is not None:
+            password = password.strip()
 
         # Chequea si el password corresponde al usuario
         if documento and password:
             res = authenticate(tipo_documento, documento, password)
             if  res == False:
-                self._errors['password'] = self.error_class([u'Password erróneo'])
+                raise forms.ValidationError('Los datos ingresados son incorrectos.')
         return cleaned_data

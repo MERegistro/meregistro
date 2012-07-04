@@ -1,15 +1,18 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Desbloquear usuario{% endblock %}
+{% block title %}Desbloquear Usuario{% endblock %}
 
 {% block content %}
-<h2>Desbloquear usuario</h2>
+<h2>Desbloquear Usuario</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="desbloquearUsuarioForm" onsubmit="return confirm('Está seguro que desea desbloquear al usuario ?');">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div>
-			<label>Tipo de documento:</label>
+			<label>Tipo de Documento:</label>
       {{ usuario.tipo_documento.descripcion }}
 		</div>
 		<div>

@@ -1,0 +1,42 @@
+{% extends "base_seguridad.html" %}
+
+{% block title %}Modificar mis Datos{% endblock %}
+
+{% block content %}
+<h2>Modificar mis Datos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="form" id="usuarioForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.apellido.errors }}
+			<label for="id_apellido">Apellido:</label>
+			{{ form.apellido }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.email.errors }}
+			<label for="id_email">Email:</label>
+			{{ form.email }}
+		</div>
+
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+</div>
+
+<ul class="actions">
+	<li class="change-password">
+		<a href="{% url apps.seguridad.views.usuario.editarPasswordPropia %}"><span>Modificar Contraseña</span></a>
+	</li>
+</ul>
+<hr />
+{% endblock %}

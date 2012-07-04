@@ -1,0 +1,92 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Completar Datos de Extensión Áulica{% endblock %}
+
+{% block content %}
+<h2>Completar Datos de Extensión Áulica - Matrícula</h2>
+<h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th>Mixto</th>
+            <th>Año</th>
+            <th>Profesorados</th>
+            <th>Postítulos</th>
+            <th>F. Docente</th>
+            <th>Continua</th>
+            <th>Tecnicaturas</th>
+            <th>Total</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for matricula in objects %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                <td>{% if matricula.mixto %}Sí{% else %}No{% endif %}</td>
+                <td>{{ matricula.anio }}</td>
+                <td>{% if matricula.profesorados %}{{ matricula.profesorados }}{% else %}---{% endif %}</td>
+                <td>{% if matricula.postitulos %}{{ matricula.postitulos }}{% else %}---{% endif %}</td>
+                <td>{% if matricula.get_formacion_docente %}{{ matricula.get_formacion_docente }}{% else %}---{% endif %}</td>
+                <td>{% if matricula.get_formacion_continua %}{{ matricula.get_formacion_continua }}{% else %}---{% endif %}</td>
+                <td>{% if matricula.tecnicaturas %}{{ matricula.tecnicaturas }}{% else %}---{% endif %}</td>
+                <td>{% if matricula.total %}{{ matricula.total }}{% else %}---{% endif %}</td>
+                <td class="actions-td">
+                    <ul>
+                        <li class="edit"><a href="{% url apps.registro.views.extension_aulica_matricula.edit matricula.id %}" title="Editar"><span>Editar</span></a></li>
+                        <li class="delete"><a href="{% url apps.registro.views.extension_aulica_matricula.delete matricula.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+    <p>No se encontraron datos.</p>
+</div>
+{% endif %}
+
+
+
+<ul class="actions">
+{% if 'reg_extension_aulica_modificar' in credenciales %}
+    <li class="create" style="margin-top: 30px">
+        <a href="{% url apps.registro.views.extension_aulica_matricula.create extension_aulica.id %}"><span>Nueva Matrícula</span></a>
+    </li>
+    <li class="back">
+        <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
+    </li>
+{% endif %}
+    {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+    <li class="datos-verificados">
+        <label for="id_verificado">Datos Verificados:</label>
+        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
+    </li>
+    {% endif %}
+</ul>
+
+<hr />
+
+
+{% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+<script type="text/javascript">
+
+var checkbox = $("#id_verificado");
+
+$(document).ready(function() {
+    checkbox.click(function(){
+        extensionAulicaVerificarDato({{extension_aulica.id}}, 'matricula', checkbox.is(':checked'));
+    });
+});
+
+</script>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,19 @@
+<div class="form" id="bajaAnexoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<input type="hidden" name="establecimiento" value="{{ establecimiento.id }}" />
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-text">
+			{{ form.fecha_baja.errors }}
+			<label for="fecha_baja">Fecha de Baja:</label>
+			{{ form.fecha_baja }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Dar de baja" />
+		</div>
+	</form>
+</div>

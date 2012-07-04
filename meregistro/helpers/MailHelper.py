@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from apps.seguridad.models import Usuario, Rol
 from django.core.mail import send_mail
 from settings import DEBUG, PROJECT_ROOT
 
@@ -18,9 +19,9 @@ class MailHelper():
     ANEXO_UPDATE = u'AnexoUpdate'
     ANEXO_DELETE = u'AnexoDelete'
 
-    UNIDAD_EXTENSION_CREATE = u'UnidadExtensionCreate'
-    UNIDAD_EXTENSION_UPDATE = u'UnidadExtensionUpdate'
-    UNIDAD_EXTENSION_DELETE = u'UnidadExtensionDelete'
+    EXTENSION_AULICA_CREATE = u'ExtensionAulicaCreate'
+    EXTENSION_AULICA_UPDATE = u'ExtensionAulicaUpdate'
+    EXTENSION_AULICA_DELETE = u'ExtensionAulicaDelete'
 
     TITULO_CREATE = u'TituloCreate'
     TITULO_UPDATE = u'TituloUpdate'
@@ -39,9 +40,9 @@ class MailHelper():
             MailHelper.ANEXO_CREATE: MailHelper.anexo_create,
             MailHelper.ANEXO_UPDATE: MailHelper.anexo_update,
             MailHelper.ANEXO_DELETE: MailHelper.anexo_delete,
-            MailHelper.UNIDAD_EXTENSION_CREATE: MailHelper.unidad_extension_create,
-            MailHelper.UNIDAD_EXTENSION_UPDATE: MailHelper.unidad_extension_update,
-            MailHelper.UNIDAD_EXTENSION_DELETE: MailHelper.unidad_extension_delete,
+            MailHelper.EXTENSION_AULICA_CREATE: MailHelper.extension_aulica_create,
+            MailHelper.EXTENSION_AULICA_UPDATE: MailHelper.extension_aulica_update,
+            MailHelper.EXTENSION_AULICA_DELETE: MailHelper.extension_aulica_delete,
             MailHelper.TITULO_CREATE: MailHelper.titulo_create,
             MailHelper.TITULO_UPDATE: MailHelper.titulo_update,
             MailHelper.TITULO_DELETE: MailHelper.titulo_delete,
@@ -55,12 +56,11 @@ class MailHelper():
         except KeyError:
             email_from = MailHelper.EMAIL_FROM_DEFAULT
 
-        """
         if DEBUG:
             MailHelper.debug_email(model, mail_data['subject'], mail_data['message'], email_from, mail_data['recipients'], notification_type)
         else:
             send_mail(mail_data['subject'], mail_data['message'], email_from, mail_data['recipients'], fail_silently=False)
-        """
+        
         return
 
     @staticmethod
@@ -88,15 +88,17 @@ class MailHelper():
     """
     @staticmethod
     def establecimiento_create(establecimiento):
+        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
-            'subject': u'Creación de establecimiento',
-            'message': u'Se ha creado un nuevo establecimiento',
-            'recipients': [u'user@example.com', u'admin@example.com'],
+            'subject': u'Solicitud de registro de nueva sede',
+            'message': u'Se ha creado una nueva sede',
+            'recipients': recipients,
         }
+        
     @staticmethod
     def establecimiento_update(establecimiento):
         return {
-            'subject': u'Actualizacióm de datos de establecimiento',
+            'subject': u'Actualización de datos de establecimiento',
             'message': u'Se ha modificado el establecimiento',
             'email_from': u'pepe@example.com',
             'recipients': ['user@example.com', 'admin@example.com'],
@@ -117,16 +119,17 @@ class MailHelper():
     """
     @staticmethod
     def anexo_create(anexo):
+        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
-            'subject': u'Creación de anexo',
+            'subject': u'Solicitud de registro de nuevo anexo',
             'message': u'Se ha creado un nuevo anexo',
-            'recipients': [u'user@example.com', u'admin@example.com'],
+            'recipients': recipients,
         }
 
     @staticmethod
     def anexo_update(anexo):
         return {
-            'subject': u'Actualizacióm de datos de anexo',
+            'subject': u'Actualización de datos de anexo',
             'message': u'Se ha modificado el anexo',
             'email_from': u'pepe@example.com',
             'recipients': ['user@example.com', 'admin@example.com'],
@@ -142,38 +145,37 @@ class MailHelper():
 
     """
 
-    Mails para las unidades de extensión
+    Mails para las extensiones áulicas
 
     """
     @staticmethod
-    def unidad_extension_create(unidad_extension):
+    def extension_aulica_create(extension_aulica):
+        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
-            'subject': u'Creación de unidad de extensión',
-            'message': u'Se ha creado una nueva unidad de extensión',
-            'recipients': [u'user@example.com', u'admin@example.com'],
+            'subject': u'Solicitud de registro de nueva extensión áulica',
+            'message': u'Se ha creado una nueva extensión áulica',
+            'recipients': recipients,
         }
 
     @staticmethod
-    def unidad_extension_update(unidad_extension):
+    def extension_aulica_update(extension_aulica):
         return {
-            'subject': u'Actualizacióm de datos de unidad de extensión',
-            'message': u'Se ha modificado la unidad de extensión',
+            'subject': u'Actualizació de datos de extensión áulica',
+            'message': u'Se ha modificado la extensión áulica',
             'email_from': u'pepe@example.com',
             'recipients': ['user@example.com', 'admin@example.com'],
         }
 
     @staticmethod
-    def unidad_extension_delete(unidad_extension):
+    def extension_aulica_delete(extension_aulica):
         return {
-            'subject': u'Baja de unidad de extensión',
-            'message': u'Se ha dado de baja la unidad de extensión',
+            'subject': u'Baja de extensión áulica',
+            'message': u'Se ha dado de baja la extensión áulica',
             'recipients': ['user@example.com', 'admin@example.com'],
         }
 
     """
-
     Mails para los títulos
-
     """
     @staticmethod
     def titulo_create(titulo):
@@ -186,7 +188,7 @@ class MailHelper():
     @staticmethod
     def titulo_update(titulo):
         return {
-            'subject': u'Actualizacióm de datos de título',
+            'subject': u'Actualización de datos de título',
             'message': u'Se ha modificado el título',
             'email_from': u'pepe@example.com',
             'recipients': ['user@example.com', 'admin@example.com'],

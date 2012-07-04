@@ -8,44 +8,63 @@
 <div class="datos-lectura" id="datosEstablecimiento">
     <p><strong>CUE:</strong> {{ establecimiento.cue }}</p>
     <p><strong>Nombre:</strong> {{ establecimiento.nombre }}</p>
-    <p><strong>Domicilio:</strong> {{ establecimiento.domicilio.get }}</p>
-    <p><strong>Dependencia funcional:</strong> {{ establecimiento.dependencia_funcional }}</p>
-    <p><strong>Tipo de normativa:</strong> {{ establecimiento.tipo_normativa }}</p>
-    {% if establecimiento.nombre_unidad_academica %}<p><strong>:</strong> {{ establecimiento.nombre_unidad_academica }}</p>{% endif %}
-    {% if establecimiento.norma_creacion %}<p><strong>Norma de creación:</strong> {{ establecimiento.norma_creacion }}</p>{% endif %}
+    <p><strong>Dependencia Funcional:</strong> {{ establecimiento.dependencia_funcional }}</p>
+    <p><strong>Tipo de Normativa:</strong> {{ establecimiento.tipo_normativa }}</p>
+    {% if establecimiento.nombre_unidad_academica %}<p><strong>Unidad Académica:</strong> {{ establecimiento.nombre_unidad_academica }}</p>{% endif %}
+    {% if establecimiento.norma_creacion %}<p><strong>Norma de Creación:</strong> {{ establecimiento.norma_creacion }}</p>{% endif %}
     {% if establecimiento.observaciones %}<p><strong>Observaciones:</strong> {{ establecimiento.observaciones }}</p>{% endif %}
-    {% if establecimiento.anio_creacion %}<p><strong>Año de creación:</strong> {{ establecimiento.anio_creacion }}</p>{% endif %}
+    {% if establecimiento.anio_creacion %}<p><strong>Año de Creación:</strong> {{ establecimiento.anio_creacion }}</p>{% endif %}
     {% if establecimiento.telefono %}<p><strong>Teléfono:</strong> {{ establecimiento.telefono }}</p>{% endif %}
     {% if establecimiento.email %}<p><strong>Email:</strong> {{ establecimiento.email }}</p>{% endif %}
-    {% if establecimiento.sitio_web %}<p><strong>Sitio web:</strong> {{ establecimiento.sitio_web }}</p>{% endif %}
+    {% if establecimiento.sitio_web %}<p><strong>Sitio Web:</strong> {{ establecimiento.sitio_web }}</p>{% endif %}
+    {% if autoridades %}
+    <ul>
+        <h4>Autoridades:</h4>
+    {% for aut in autoridades %}
+        <li>{{ aut }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    {% if domicilios %}
+    <ul>
+        <h4>Domicilios:</h4>
+    {% for domicilio in domicilios %}
+        <li>{{ domicilio }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
     {% if turnos %}
     <ul>
-	<h4>Turnos:</h4>
+        <h4>Turnos:</h4>
     {% for turno in turnos %}
-	<li>{{ turno }}</li>
+        <li>{{ turno }}</li>
     {% endfor %}
     </ul>
     <hr />
     {% endif %}
     {% if funciones %}
     <ul>
-	<h4>Funciones:</h4>
+        <h4>Funciones:</h4>
     {% for funcion in funciones %}
-	<li>{{ funcion }}</li>
+        <li>{{ funcion }}</li>
     {% endfor %}
     </ul>
     <hr />
     {% endif %}
-    {% if niveles %}
+    {% if alcances %}
     <ul>
-	<h4>Niveles:</h4>
-    {% for nivel in niveles %}
-	<li>{{ nivel }}</li>
+        <h4>Alcance:</h4>
+    {% for alcance in alcances %}
+        <li>{{ alcance }}</li>
     {% endfor %}
     </ul>
     <hr />
     {% endif %}
-    <p><strong>Estado actual:</strong> {{ establecimiento.estado }}</p>
+    <p><strong>Estado Actual:</strong> {{ establecimiento.estado }}</p>
+
+    
 </div>
 
 <hr />

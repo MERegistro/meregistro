@@ -1,38 +1,45 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Perfiles de usuario{% endblock %}
+{% block title %}Perfiles de Usuario{% endblock %}
 
 {% block content %}
-<h2>Perfiles de usuario</h2>
+<h2>Perfiles de Usuario</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 <div id="usuarioData">
     <h3>Usuario</h3>
-    <p><strong>Tipo de documento:</strong> {{ usuario.tipo_documento }}</p>
+    <p><strong>Tipo de Documento:</strong> {{ usuario.tipo_documento }}</p>
     <p><strong>Documento:</strong> {{ usuario.documento }}</p>
     <p><strong>Apellido:</strong> {{ usuario.apellido }}</p>
     <p><strong>Nombre:</strong> {{ usuario.nombre }}</p>
 </div>
 
-<table class="hor-zebra">
+<table id="perfilesUsuario" class="hor-zebra">
   <thead>
     <tr>
       <th>Rol</th>
       <th>Ambito</th>
-      <th>Fecha asignación</th>
-      <th>Fecha desasignación</th>
+      <th>Fecha Asignación</th>
+      <th>Fecha Desasignación</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
   <tbody>
-    {% for p in usuario.perfiles.all %}
-      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+    {% for p in perfiles %}
+      <tr class="{% if p.fecha_desasignacion %}desasignado {% endif %}{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
         <td>{{p.rol}}</td>
         <td>{{p.ambito}}</td>
         <td>{{p.fecha_asignacion}}</td>
         <td>{% if p.fecha_desasignacion == None %} - {% else %} {{p.fecha_desasignacion}} {% endif %}</td>
         <td class="actions-td">
+        {% if p.is_deletable and p.id != perfil_activo_id %}
           <ul>
-            <li class="delete"><a href="#" alt="Eliminar" title="Eliminar"><span>Eliminar</span></a></li>
+            <li class="delete"><a href="{% url apps.seguridad.views.perfil.delete p.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
           </ul>
+        {% endif %}
+          {% if p.id == perfil_activo_id %}<span class="perfil-activo">Perfil Activo</span>{% endif %}
+          {% if p.fecha_desasignacion %}<span class="perfil-desasignado">Eliminado</span>{% endif %}
         </td>
       </tr>
     {% endfor %}
@@ -41,7 +48,7 @@
 
 <ul class="actions">
   <li class="create">
-    <a href="{% url apps.seguridad.views.perfil.create usuario.id%}"><span>Asignar perfil</span></a>
+    <a href="{% url apps.seguridad.views.perfil.create usuario.id%}"><span>Asignar Nuevo Perfil</span></a>
   </li>
   <li class="back">
     <a href="{% url apps.seguridad.views.usuario.edit usuario.id %}"><span>Volver</span></a>

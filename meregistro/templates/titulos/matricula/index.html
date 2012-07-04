@@ -1,0 +1,94 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Administrar matriculas{% endblock %}
+
+{% block content %}
+<h2>Administrar matriculas</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+{% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
+    <div class="form-filter" id="matriculaFormFilter">
+        <h3>Búsqueda avanzada</h3>
+        {{ form_filters.non_field_errors }}
+        <div class="form-select">
+	    {{ form_filters.cue.errors }}
+	    <label for="cue">CUE:</label>
+	    {{ form_filters.cue }}
+        </div>
+        <div class="form-submit">
+	        <input type="submit" value="Buscar" />
+        </div>
+    </div>
+{% endif %}
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
+      <th>Establecimiento</th>
+      <th>Anexo</th>
+      {% endif %}
+      <th>Año</th>
+      <th>Matricula Solo Formación Docente</th>
+      <th>Matricula Postítulos</th>
+      <th>Matricula Solo Profesorados</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for m in objects %}
+    <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+        {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
+        <td>{{ m.establecimiento.cue }}</td>
+        <td>{{ m.anexo.cue }}</td>
+        {% endif %}
+	    <td>{{ m.anio_lectivo }}</td>
+	    <td>{{ m.matricula_solo_formacion_docente }}</td>
+	    <td>{{ m.matricula_positulos }}</td>
+	    <td>{{ m.matricula_solo_profesorados }}</td>
+        <td class="actions-td">
+	        <ul>
+                {% if user_perfil.rol.nombre == 'ReferenteRevisor' %}
+              		<li class="edit"><a href="{% url apps.titulos.views.matricula.edit m.id %}" title="Editar"><span>Editar</span></a></li>
+                    {% if m.revisado_jurisdiccion  %}
+		                <li class="revisado"><a href="{% url apps.titulos.views.matricula.revisar_jurisdiccion m.id %}" title="Revisar"><span>Revisado</span></a></li>
+                    {% else %}
+		                <li class="revisar"><a href="{% url apps.titulos.views.matricula.revisar_jurisdiccion m.id %}" title="Revisar"><span>Revisar</span></a></li>
+                    {% endif %}
+                {% else %}
+                    {% if m.isEditable %}
+                		<li class="edit"><a href="{% url apps.titulos.views.matricula.edit m.id %}" title="Editar"><span>Editar</span></a></li>
+                    {% endif %}
+                    {% if m.isDeletable %}
+                		<li class="delete"><a href="{% url apps.titulos.views.matricula.delete m.id %}" title="Eliminar"><span>Eliminar</span></a></li>
+                    {% endif %}
+                {% endif %}
+
+	        </ul>
+         </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron matriculas.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+	<a href="{% url apps.titulos.views.matricula.create %}"><span>Nueva</span></a>
+    </li>
+    {% endif %}
+</ul>
+<hr />
+{% endblock %}

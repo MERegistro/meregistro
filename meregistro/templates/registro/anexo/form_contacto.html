@@ -1,0 +1,42 @@
+<div class="form tabbed-form" id="anexoForm">
+    <form action="" method="post">{% csrf_token %}
+	{{ form.non_field_errors }}
+	<div class="form-text">
+	    {{ form.telefono.errors }}
+	    <label for="id_telefono">Teléfono Institucional:</label>
+	    {{ form.telefono }}
+	</div>
+	<div class="form-text">
+	    {{ form.interno.errors }}
+	    <label for="id_interno">Interno:</label>
+	    {{ form.interno }}
+	</div>
+	<div class="form-text">
+	    {{ form.fax.errors }}
+	    <label for="id_fax">Número de Fax:</label>
+	    {{ form.fax }}
+	</div>
+	<div class="form-text">
+	    {{ form.email.errors }}
+	    <label for="id_email">Email Institucional:</label>
+	    {{ form.email }}
+	</div>
+	<div class="form-text">
+	    {{ form.sitio_web.errors }}
+	    <label for="id_sitio_web">Sitio Web:</label>
+	    {{ form.sitio_web }}
+	</div>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <div class="form-checkbox datos-verificados">
+        <label for="id_verificado">Datos Verificados:</label>
+        {{ form.verificado }}
+    </div>
+    {% endif %}
+    {% if 'reg_anexo_completar' in credenciales %}
+	<div class="form-submit">
+	    <input type="submit" value="Actualizar" />
+	</div>
+    {% endif %}
+    </form>
+</div>
+
