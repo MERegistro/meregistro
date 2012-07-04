@@ -1,0 +1,40 @@
+{% extends "base_titulos.html" %}
+
+    {% block title %}Confirmación de cohorte{% endblock %}
+
+{% block content %}
+<h2>Confirmación de cohorte</h2>
+{% include "titulos/cohorte/datos_cohorte.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+{% if not cohorte_establecimiento.aceptada %}
+<div class="message warning">
+    <p>Una vez aceptada la cohorte no se puede modificar.</p>
+</div>
+<div class="form" id="cohorteConfirmarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="cohorte_establecimiento_id" value="{{ cohorte_establecimiento.id }}" />
+	<div class="form-select">
+	    {{ form.inscriptos.errors }}
+	    <label for="id_inscriptos">Cantidad de inscriptos:</label>
+	    {{ form.inscriptos }}
+	</div>
+	<div class="form-submit">
+	    <input type="submit" value="Confirmar" />
+	</div>
+    </form>
+</div>
+{% else %}
+<div class="message notice">
+    <p>La cohorte ya se encuentra aceptada con {{ cohorte_establecimiento.inscriptos }} inscriptos y no puede ser modificada.</p>
+</div>
+{% endif %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

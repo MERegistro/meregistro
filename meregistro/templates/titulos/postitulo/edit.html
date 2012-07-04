@@ -1,0 +1,19 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Actualización de postitulo{% endblock %}
+
+{% block content %}
+<h2>Actualización de postitulo</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "titulos/postitulo/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.postitulo.index %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

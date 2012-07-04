@@ -1,0 +1,85 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Administrar orientaciones{% endblock %}
+
+{% block content %}
+<h2>Administrar orientaciones</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+<div class="form-filter" id="tituloOrientacionFormFilter">
+    <h3>Búsqueda avanzada</h3>
+    {{ form_filters.non_field_errors }}
+    <div class="form-text">
+	{{ form_filters.nombre.errors }}
+	<label for="id_nombre">Nombre:</label>
+	{{ form_filters.nombre }}
+    </div>
+    <div class="form-select">
+	{{ form_filters.titulo.errors }}
+	<label for="id_titulo">Título:</label>
+	{{ form_filters.titulo }}
+    </div>
+    <div class="form-submit">
+	    <input type="submit" value="Buscar" />
+	    <input type="button" value="Reiniciar" onclick="window.location = 'orientaciones';" />
+    </div>
+</div>
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Título</th>
+      <th>Fecha de alta</th>
+      <th class="th-estados">Estados</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for orientacion in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ orientacion.nombre }}</td>
+	<td>{{ orientacion.titulo }}</td>
+	<td>{{ orientacion.fecha_alta|date:"d/m/Y" }}</td>
+	<td>
+	    <div class="estados">
+	    {% for estado in orientacion.estados %}
+		<p class="estado-{{ estado.estado.nombre|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+	    {% endfor %}
+	    </div>
+	</td>
+        <td class="actions-td">
+	    <ul>
+	    {% if user_perfil.rol.nombre in 'AdminTitulos' %}
+		<li class="edit"><a href="{% url apps.titulos.views.orientacion.edit orientacion.id %}" title="Editar"><span>Editar</span></a></li>
+		<li class="delete"><a href="{% url apps.titulos.views.orientacion.eliminar orientacion.id %}" title="Eliminar"><span>Eliminar</span></a></li>
+	    {% endif %}
+	    </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron orientaciones.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'AdminTitulos' %}
+    <li class="create">
+	<a href="{% url apps.titulos.views.orientacion.create %}"><span>Nueva orientación</span></a>
+    </li>
+    {% endif %}
+</ul>
+<hr />
+{% endblock %}

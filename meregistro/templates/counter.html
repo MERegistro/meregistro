@@ -1,0 +1,9 @@
+{% if paginator.count > 0 %}
+<div id="counter">
+	{% if paginator.count == 1 %}
+	<p>Mostrando <span id="counterTotal">1</span> registro</p>
+	{% else %}
+	<p>Mostrando registros del <span id="counterFrom">{{ page.start_index }}</span> al <span id="counterTo">{{ page.end_index }}</span> de un total de <span id="counterTotal">{{ paginator.count }}</span></p>
+	{% endif %}
+</div>
+{% endif %}

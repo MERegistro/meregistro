@@ -1,0 +1,22 @@
+<div class="form" id="egresadosAnexoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.anio.errors }}
+			<label for="id_anio">Año:</label>
+			{{ form.anio }}
+		</div>
+		<div class="form-text">
+			{{ form.cantidad_egresados.errors }}
+			<label for="id_cantidad_egresados">Cantidad de egresados:</label>
+			{{ form.cantidad_egresados }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

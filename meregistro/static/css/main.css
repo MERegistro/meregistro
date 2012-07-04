@@ -13,9 +13,8 @@
 html {
 	background: url(../img/bg-10x3000.gif) repeat-x;
 }
-
 /*
-=COMMON
+*=COMMON
 */
 body {
 	font-family: Arial, sans-serif;
@@ -28,8 +27,15 @@ hr {
 	clear: both;
 	visibility: hidden;
 }
+div#enConstruccion {
+	background: #F2F1F0 url(../img/en-construccion.png) no-repeat 15px 10px;
+	padding: 20px 0 20px 60px;
+	width: 260px;
+	margin: 0 auto;
+	border: 1px #C9CBC8 solid;
+}
 /*
-=WRAPPER
+*=WRAPPER
 */
 div#wrapper {
 	width: 990px;
@@ -38,7 +44,7 @@ div#wrapper {
 	padding-top: 20px;
 }
 /*
-=HEADER
+*=HEADER
 */
 div#header {
 	width: 966px;
@@ -65,50 +71,74 @@ div#header h2 span {
 	display: none;
 }
 /*
-=CONTENT
+*=CONTENT
 */
 div#content {
 	width: 956px;
 	min-height: 300px;
-	margin: 10px auto;
+	margin: 0 auto;
 	position: relative;
 }
 div#content h2 {
 	margin: 25px 0 10px;
 }
 /*
-=MAINNAV
-*/
-div#mainNav {
-	width: 966px;
-	margin: 0 auto;
-	background: url(../img/bg-10x25.gif) repeat-x;
-	border-top: 2px #fff solid;
+*=INTRO 
+*/ 
+div#intro {
+	margin: 20px 0 40px;
 }
-div#mainNav ul {
-  height: 25px;
+div#intro div#resolucion {
+	margin: 20px 0;
 }
-div#mainNav ul li {
-	float: left;
-	padding: 5px;
-	text-transform: uppercase;
-	border-right: 1px #bbb solid;
+div#intro p {
+	margin-top: 20px;
 }
-div#mainNav ul li a:link,
-div#mainNav ul li a:visited {
-	color: #fff;
+div#intro div#resolucion p {
+	font-style: italic;
+}
+div#intro div#resolucion cite {
+	display: block;
+	text-align: right;
+	font-weight: bold;
+	margin-top: 10px;
+}
+div#intro div#intro-links {
+	width: 520px;
+	margin: 30px auto 0;
+}
+div#intro div#intro-links a {
+	display: block;
+	font-weight: bold;
+}
+div#intro div#intro-links a:link,
+div#intro div#intro-links a:visited {
+	font-size: 12px;
 	text-decoration: none;
+	color: #000;
+	padding: 2px 10px;
+	background: #E7E6E8;
+	border-right: 2px solid #9697A2;
+	border-bottom: 2px solid #9697A2;
+	border-top: 1px solid #FFF;
+	border-left: 1px solid #FFF;
 }
-div#mainNav ul li a:hover {
-	color: #bbb;
+div#intro div#intro-links a:hover {
+	background: #DBD8DC;
 }
-div#mainNav ul li#linkAyuda {
+div#intro div#intro-links a#link-oferta {
+	float: left;
+}
+div#intro div#intro-links a#link-login {
 	float: right;
-	border-right: none;
-	border-left: 1px #bbb solid;
+}
+a, a:link {
+}
+
+a:active {
 }
 /*
-=TAB-NAV
+*=TAB-NAV
 */
 div.tab-nav {
 
@@ -116,7 +146,7 @@ div.tab-nav {
 div.tab-nav ul li {
 	float: left;
 	background: #ccc;
-	margin: 0 3px 0 0;
+	margin: -5px 3px 0 0;
 }
 div.tab-nav ul li.active {
 	background: #D6DEDE;
@@ -141,7 +171,17 @@ div.tab-nav ul li a span {
 	padding: 5px 8px;
 }
 /*
-=establecimientoCompletarDatosNav
+*=establecimientoActions
+*/
+div#establecimientoActions {
+	margin: 20px;
+}
+div#establecimientoActions a:link,
+div#establecimientoActions a:visited {
+	color: #2166A4;
+}
+/*
+*=establecimientoCompletarDatosNav
 */
 div#establecimientoCompletarDatosNav {
 	margin: 25px 0 0 11px;
@@ -156,7 +196,22 @@ div#establecimientoCompletarDatosNav ul li a span {
 	padding: 5px 14px;
 }
 /*
-=FOOTER
+*=tituloJurisdiccionalDatosNav
+*/
+div#tituloJurisdiccionalDatosNav {
+	margin: 25px 0 0 11px;
+}
+div#tituloJurisdiccionalDatosNav ul li {
+	border-bottom: 1px #fff solid;
+}
+div#tituloJurisdiccionalDatosNav ul li.active {
+	border-bottom: 1px #D6DEDE solid;
+}
+div#tituloJurisdiccionalDatosNav ul li a span {
+	padding: 5px 14px;
+}
+/*
+*=FOOTER
 */
 div#footer {
 	width: 990px;
@@ -176,7 +231,7 @@ div#footer div {
 	margin: 0 auto;
 }
 /*
-=SPREADFIREFOX
+*=SPREADFIREFOX
 */
 div#spreadFirefox {
 	background: #DDF0F7;
@@ -201,7 +256,7 @@ div#spreadFirefox div#firefoxButton {
 	margin: 10px;
 }
 /*
-=FORM
+*=FORM
 */
 div.form {
 	margin: 10px 0 0;
@@ -222,11 +277,18 @@ div.form label {
 	color: #353636;
 	font-weight: bold;
 }
+div#content div.form form h2 {
+	margin: 10px 0 0 10px;
+	font-size: 14px;
+}
 div.form p.help-text {
 	padding-left: 170px;
 	color: #4E4E4E;
 	font-style: italic;
 	margin-bottom: 5px;
+}
+div.form form div {
+	clear: both;
 }
 div.form div.form-text input,
 div.form div.form-select select,
@@ -238,6 +300,9 @@ div.form div.form-text input,
 div.form div.form-textarea textarea {
 	border: 1px #CECECE solid;
 }
+div.form div.form-textarea textarea {
+	height: 6em;
+}
 div.form div.form-text input {
 	padding: 2px 3px;
 }
@@ -246,11 +311,11 @@ div.form div.form-submit {
 }
 div.form ul.errorlist { /* Errores globales */
 	color: #f00;
-	margin: 10px  0 4px 180px;
+	margin: 10px 0 4px 180px;
 }
 div.form div ul.errorlist { /* Error de cada campo */
 	color: #f00;
-	margin: 0  0 4px 170px;
+	margin: 0 0 4px 170px;
 }
 div.form ul.errorlist li { /* Cada error */
 	padding-left: 20px;
@@ -258,7 +323,7 @@ div.form ul.errorlist li { /* Cada error */
 }
 div.form div.form-checkbox-list {
 }
-div.form div.form-checkbox-list ul {
+div#wrapper div#content div.form div.form-checkbox-list ul {
 	float: left;
 	margin: 10px 0 0;
 }
@@ -289,7 +354,7 @@ div.form fieldset div.form-checkbox-list label {
 	float: none;
 }
 div.form fieldset div.form-checkbox-list ul.errorlist { /* Error de cada campo */
-	margin: 0  20px 4px 150px;
+	margin: 0	20px 4px 150px;
 }
 /* SUBFORM */
 div.form fieldset {
@@ -303,20 +368,171 @@ div.form fieldset legend {
 div.form fieldset div.form-checkbox-list ul {
 	margin-top: 0px;
 }
-/* =establecimientoCompletarDatosForm */
-div#establecimientoCompletarDatosForm {
+/* tabbed-form */
+div.tabbed-form {
 	margin: 40px 0 0;
 }
-div#establecimientoCompletarDatosForm form {
+div.tabbed-form form {
 	padding: 10px 0;
 }
+/* establecimientoForm */
+div#establecimientoForm {
+	width: 940px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
+div#establecimientoForm form input#id_codigo_jurisdiccion,
+div#establecimientoForm form input#id_cue,
+div#establecimientoForm form input#id_codigo_tipo_unidad_educativa {
+	display: inline;
+	text-align: center;
+	font-weight: bold;
+	border: 2px #666 solid;
+}	
+div#establecimientoForm form input#id_codigo_jurisdiccion,
+div#establecimientoForm form input#id_codigo_tipo_unidad_educativa {
+	width: 1.8em;
+	background: #ccc;
+}
+div#establecimientoForm form input#id_cue {
+	width: 4em;
+	border-left: none;
+	border-right: none;
+}
+div#establecimientoForm form h4 {
+	margin-left: 10px;
+}
+div#establecimientoForm form select#id_tipo_norma {
+	width: 100px;	
+}
+div#establecimientoForm form select#id_norma_creacion {
+	width: 100px;	
+}
+/* Matrícula - Mixto */
+div#establecimientoForm div#matricula_mixto.form-checkbox {
+	height: 25px;
+}
+div#establecimientoForm div#matricula_mixto label {
+	width: auto;
+	float: right;
+	width: 880px;
+}
+div#establecimientoForm div#matricula_mixto input {
+	float: left;
+}
+/* anexoForm */
+div#anexoForm {
+	width: 940px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}	
+div#anexoForm form h4 {
+	margin-left: 10px;
+}
+div#anexoCompletarDatosForm {
+	width: 850px;
+	margin-bottom: 30px;
+}
+div#anexoForm form input#id_codigo_jurisdiccion,
+div#anexoForm form input#id_cue,
+div#anexoForm form input#id_codigo_tipo_unidad_educativa {
+	display: inline;
+	text-align: center;
+	font-weight: bold;
+	border: 2px #666 solid;
+}	
+div#anexoForm form input#id_codigo_jurisdiccion,
+div#anexoForm form input#id_cue {
+	background: #ccc;
+}
+div#anexoForm form input#id_codigo_jurisdiccion {
+	width: 1.8em;
+}
+div#anexoForm form input#id_cue {
+	border-left: none;
+	width: 4em;
+}
+div#anexoForm form input#id_codigo_tipo_unidad_educativa {
+	border-left: none;
+	width: 1.8em;
+}
+div#anexoForm form select#id_norma_creacion {
+	width: 100px;	
+}
+div#anexoForm form select#id_tipo_norma {
+	width: 100px;	
+}
+/* Matrícula - Mixto */
+div#anexoForm div#matricula_mixto.form-checkbox {
+	height: 25px;
+}
+div#anexoForm div#matricula_mixto label {
+	width: auto;
+	float: right;
+	width: 880px;
+}
+div#anexoForm div#matricula_mixto input {
+	float: left;
+}
+/* extensionAulicaForm */
+div#extensionAulicaForm {
+	width: 940px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
+div#extensionAulicaForm form input#id_codigo_jurisdiccion,
+div#extensionAulicaForm form input#id_cue,
+div#extensionAulicaForm form input#id_codigo_tipo_unidad_educativa {
+	display: inline;
+	text-align: center;
+	font-weight: bold;
+	border: 2px #666 solid;
+}	
+div#extensionAulicaForm form input#id_codigo_jurisdiccion,
+div#extensionAulicaForm form input#id_cue {
+	background: #ccc;
+}
+div#extensionAulicaForm form input#id_codigo_jurisdiccion {
+	width: 1.8em;
+}
+div#extensionAulicaForm form input#id_cue {
+	border-left: none;
+	width: 4em;
+}
+div#extensionAulicaForm form input#id_codigo_tipo_unidad_educativa {
+	border-left: none;
+	width: 1.8em;
+}
+div#extensionAulicaForm form select#id_norma_creacion {
+	width: 100px;	
+}
+/* Matrícula - Mixto */
+div#extensionAulicaForm div#matricula_mixto.form-checkbox {
+	height: 25px;
+}
+div#extensionAulicaForm div#matricula_mixto label {
+	width: auto;
+	float: right;
+	width: 880px;
+}
+div#extensionAulicaForm div#matricula_mixto input {
+	float: left;
+}
 /*
-=TABLE
+*=VERIFICADO
+*/
+form div.datos-verificados {
+	margin: 30px 10px;
+	padding: 10px;
+	border: 2px #ccc solid;
+}
+/*
+*=TABLE
 */
 table.hor-zebra {
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 11px;
-	margin: 45px 10px 0 0;
+	margin: 10px 10px 0 0;
 	width: 100%;
 	text-align: left;
 	border-collapse: collapse;
@@ -340,13 +556,13 @@ tr.hor-zebra_odd {
 	background: #e8edff;
 }
 .hor-zebra a {
-    color: #303030;
-    outline-style: none;
-    text-decoration: none;
-    font-size: 12px;
+		color: #303030;
+		outline-style: none;
+		text-decoration: none;
+		font-size: 12px;
 }
 .hor-zebra a:hover {
-    text-decoration: underline;
+		text-decoration: underline;
 }
 /* ESTADOS */
 p.estado-baja,
@@ -355,7 +571,7 @@ p.estado-no-vigente {
 }
 /* TABLE Establecimientos */
 th#thEstablecimientoCue {
-	width: 100px;
+	width: 30px;
 }
 th.th-estados {
 	width: 170px;
@@ -366,6 +582,8 @@ table.hor-zebra th.actions {
 }
 ul.actions {
 	margin-top: 20px;
+	padding-bottom: 1px;
+	margin-bottom: 30px;
 }
 ul.actions li {
 	height: 24px;
@@ -392,8 +610,8 @@ ul.actions li.create {
 	color: #000;
 	background: #fff url(../img/icons/add.png) no-repeat left;
 	position: absolute;
-	top: 3px;
-	right: -10px;
+	top: 78px;
+	left: 0px;
 	padding: 3px 5px 2px;
 }
 ul.actions li.create a {
@@ -428,10 +646,10 @@ td.actions-td ul li a {
 	float: left;
 	width: 24px;
 	height: 24px;
-	margin: 0 5px 0 0;
+	margin: 0 2px 0 0;
 }
 td.actions-td ul li span {
-  display: none;
+	display: none;
 }
 /* EDIT */
 td.actions-td ul li.edit a {
@@ -447,27 +665,92 @@ td.actions-td ul li.delete a {
 	height: 24px;
 	background: url(../img/icons/delete.png) no-repeat left;
 }
-/* ORIENTACIONES */
+/* CREATE */
+td.actions-td	ul li.create a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/add.png) no-repeat left;
+}
+/* Revisar */
+td.actions-td ul li.revisar a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/revisar.png) no-repeat left;
+}
+/* Revisado */
+td.actions-td ul li.revisado a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/revisado.png) no-repeat left;
+}
+/* DETALLES */
+td.actions-td	ul li.details a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/details.png) no-repeat left;
+}
+/* ORIENTACIONES - ONE-TO-MANY*/
+td.actions-td ul li.one-many a,
 td.actions-td ul li.orientaciones a {
 	display: block;
 	width: 24px;
 	height: 24px;
 	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
 }
-/* REGISTRAR ESTABLECIMIENTO */
-td.actions-td ul li.registrar_establecimiento a {
+/* REGISTRAR */
+td.actions-td ul li.registrar a {
 	display: block;
-	width: 24px;
+	width: 20px;
 	height: 24px;
 	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
 }
+/* CONFIRMAR COHORTE */
+td.actions-td ul li.confirmar-cohorte a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/success.png) no-repeat left;
+}
+/* SEGUIMIENTO COHORTE */
+td.actions-td ul li.seguimiento-cohorte a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
+}
+/* REPORTES */
+ul.reportes-actions {
+	float: left;
+	margin: 32px 0 0 20px;
+	height: 24px;
+}
+ul.reportes-actions li {
+	height: 24px;
+}
+ul.reportes-actions li a {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+ul.reportes-actions li a span {
+	display: none;
+}
+ul.reportes-actions li.export-csv {
+	width: 22px;
+	height: 24px;
+	background: url(../img/icons/LibreOffice_Calc_icon_24px.png) no-repeat left;
+}
 /*
-=FORM-FILTER
+*=FORM-FILTER
 */
 div.form-filter {
-	margin: 10px 0 0;
+	margin: 40px 0 0;
 	border: 1px #ceccca solid;
-	width: 500px;
+	width: 600px;
 	background: #f2f1f0;
 }
 div.form-filter h3 {
@@ -485,10 +768,13 @@ div.form-filter label {
 }
 
 div.form-filter div.form-text input,
-div.form-filter div.form-select select,
+/*div.form-filter div.form-select select,*/
 div.form-filter div.form-textarea textarea {
 	margin-top: -3px;
 	width: 300px;
+}
+div.form-filter div.form-select select {
+	margin-top: -3px;
 }
 div.form-filter div.form-text input,
 div.form-filter div.form-textarea textarea {
@@ -502,33 +788,53 @@ div.form-filter div.form-submit {
 }
 div.form-filter ul.errorlist {
 	color: #f00;
-	margin: 0  0 4px 150px;
+	margin: 0	0 4px 150px;
 }
 /*
-=MESSAGE
+*=establecimientoFormFilter
+*/
+div#establecimientoFormFilter {
+	width: 650px;
+}
+/* select filter establecimiento */
+div.form-filter select#id_establecimiento {
+	width: 400px;
+}
+/*
+*=MESSAGE
 */
 div.message {
-  margin: 20px 0 20px;
-  padding: 10px;
+	margin: 40px 0 20px;
+	padding: 10px;
 }
 div.warning {
-  color: #fff ;
-  padding-left: 40px;
-  background: #F20909 url(../img/icons/warning.png) no-repeat 10px;
+	color: #fff ;
+	padding-left: 40px;
+	background: #F20909 url(../img/icons/warning.png) no-repeat 10px;
 }
 div.success {
-  color: #fff;
-  padding-left: 40px;
-  background: #6E972E url(../img/icons/success.png) no-repeat 10px;
+	color: #fff;
+	padding-left: 40px;
+	background: #6E972E url(../img/icons/success.png) no-repeat 10px;
 }
 div.notice {
-  color: #000;
-  padding-left: 40px;
-  background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
-  border: 1px #FF7800 solid;
+	color: #000;
+	padding-left: 40px;
+	background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
+	border: 1px #FF7800 solid;
 }
 /*
-=PAGINATOR
+*=COUNTER
+*/
+div#counter {
+	margin: 40px 0 0;
+	float: left;
+}
+div#counter span {
+	font-weight: bold;
+}
+/*
+*=PAGINATOR
 */
 div.paginator {
 	margin: 0;
@@ -545,7 +851,7 @@ div.paginator ul li {
 	float: left;
 }
 div.paginator ul li.page-number {
-	margin: 0 2px 0 0;
+	margin: 0 2px 2px 0;
 }
 div.paginator ul li.page-number input {
 	width: 22px;
@@ -571,7 +877,7 @@ div.paginator p.paginator-summary {
 	float: left;
 }
 /*
-=USERINFO
+*=USERINFO
 */
 div#userInfo {
 	max-width: 400px;
@@ -602,7 +908,7 @@ div#userInfo ul#userLinks a:hover {
 	text-decoration: underline;
 }
 /*
-=POPUP_SELECTOR_AMBITO
+*=POPUP_SELECTOR_AMBITO
 */
 div.popup_selector_ambito
 {
@@ -617,24 +923,41 @@ div.popup_selector_ambito
 	overflow: scroll;
 }
 /*
-=datos-lectura
+*=datos-lectura
 */
 div.datos-lectura {
 	margin: 10px 0 0;
 }
 div.datos-lectura p {
 	margin: 5px 0 0;
+	font-style: italic;
+	color: #222;
+}
+div.datos-lectura p strong {
+	font-style: normal;
+	color: #000;
 }
 div.datos-lectura ul {
 	list-style: square;
 	list-style-position: inside;
-	margin: 5px 0 0;
+	margin: 10px 0 5px;
+}
+div.datos-lectura ul h4 {
+	margin: 0 0 5px;
 }
 div.datos-lectura ul li {
-	margin: 0 0 0 1px;
+	margin: 0 0 0 20px;
+	font-style: italic;
+	color: #222;
 }
 /*
-=USUARIODATA
+*=datosEstablecimiento
+*/
+div#datosEstablecimiento {
+	margin-bottom: 20px;
+}
+/*
+*=USUARIODATA
 */
 div#usuarioData {
 }
@@ -646,11 +969,63 @@ div#usuarioData p {
 div#usuarioData p strong {
 }
 /*
-=ORIENTACIONES-POR-TITULO
+*=ORIENTACIONES-POR-TITULO
 */
 body.orientaciones-por-titulo table.hor-zebra {
 	margin-top: 10px;
 }
 body.orientaciones-por-titulo div#datosTitulo {
 	margin-bottom: 30px;
+}
+/*
+*=COHORTES-POR-TITULO
+*/
+body.cohortes-por-titulo table.hor-zebra {
+	margin-top: 10px;
+}
+body.cohortes-por-titulo div#datosTitulo {
+	margin-bottom: 30px;
+}
+
+/*
+*=COHORTE-ASIGNAR-ESTABLECIMIENTOS
+*/
+body.cohorte-asignar-establecimientos table.hor-zebra {
+	margin-top: 10px;
+}
+body.cohorte-asignar-establecimientos div#datosCohorte {
+	margin-top: 30px;
+}
+/*
+*=seguimientoNav
+*/
+div#seguimientoNav {
+	margin: 25px 0 0 11px;
+}
+div#seguimientoNav ul li {
+	border-bottom: 1px #fff solid;
+}
+div#seguimientoNav ul li.active {
+	border-bottom: 1px #D6DEDE solid;
+}
+div#seguimientoNav ul li a span {
+	padding: 5px 14px;
+}
+/*
+*=PERFILESUSUARIO
+*/
+table#perfilesUsuario tr.desasignado td {
+	background: #D71F08;
+	color: #fff;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+/*
+*=MATRICULA
+*/
+input#id_formacion_docente,
+input#id_formacion_continua {
+	background: transparent;
+	font-weight: bold;
+	font-style: italic;
 }

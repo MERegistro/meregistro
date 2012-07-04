@@ -1,42 +1,66 @@
 {% extends "base_seguridad.html" %}
 
-{% block title %}Modificar usuario{% endblock %}
+{% block title %}Modificar Usuario{% endblock %}
 
 {% block content %}
-<h2>Modificar usuario</h2>
+<h2>Modificar Usuario</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="usuarioForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
 			{{ form.tipo_documento.errors }}
-			<label for="id_tipo_documento">Tipo de documento:</label>
-			{{ form.tipo_documento }}
+			<label for="id_tipo_documento">Tipo de Documento:</label>
+            {% if modificable %}
+    			{{ form.tipo_documento }}
+            {% else %}
+                {{ usuario.tipo_documento }}
+            {% endif %}
 		</div>
 		<div class="form-text">
 			{{ form.documento.errors }}
 			<label for="id_documento">Documento:</label>
-			{{ form.documento }}
+            {% if modificable %}
+    			{{ form.documento }}
+            {% else %}
+                {{ usuario.documento }}
+            {% endif %}
 		</div>
 		<div class="form-text">
 			{{ form.apellido.errors }}
 			<label for="id_apellido">Apellido:</label>
-			{{ form.apellido }}
+            {% if modificable %}
+    			{{ form.apellido }}
+            {% else %}
+                {{ usuario.apellido }}
+            {% endif %}
 		</div>
 		<div class="form-text">
 			{{ form.nombre.errors }}
 			<label for="id_nombre">Nombre:</label>
-			{{ form.nombre }}
+            {% if modificable %}
+    			{{ form.nombre }}
+            {% else %}
+                {{ usuario.nombre }}
+            {% endif %}
 		</div>
 		<div class="form-text">
 			{{ form.email.errors }}
 			<label for="id_email">Email:</label>
-			{{ form.email }}
+            {% if modificable %}
+    			{{ form.email }}
+            {% else %}
+                {{ usuario.email }}
+            {% endif %}
 		</div>
-
-		<div class="form-submit">
-			<input type="submit" value="Guardar" />
-		</div>
+        {% if modificable %}
+		    <div class="form-submit">
+			    <input type="submit" value="Guardar" />
+		    </div>
+        {% endif %}
 	</form>
 </div>
 
@@ -44,20 +68,22 @@
 	<li class="back">
 		<a href="{% url apps.seguridad.views.usuario.index %}"><span>Volver</span></a>
 	</li>
-	<li class="change-password">
-		<a href="{% url apps.seguridad.views.usuario.change_password usuario.id %}"><span>Modificar contraseña</span></a>
-	</li>
-	<li class="ver-perfiles">
-		<a href="{% url apps.seguridad.views.perfil.verPerfilesUsuario usuario.id %}"><span>Perfiles</span></a>
-	</li>
-	<li class="bloqueos">
-    {% if usuario.is_active %}
-  		<a href="{% url apps.seguridad.views.usuario.bloquear usuario.id %}">
-    {% else %}
-  		<a href="{% url apps.seguridad.views.usuario.desbloquear usuario.id %}">
+    {% if modificable %}
+	    <li class="change-password">
+		    <a href="{% url apps.seguridad.views.usuario.change_password usuario.id %}"><span>Modificar Contraseña</span></a>
+	    </li>
+	    <li class="ver-perfiles">
+		    <a href="{% url apps.seguridad.views.perfil.verPerfilesUsuario usuario.id %}"><span>Perfiles</span></a>
+	    </li>
+	    <li class="bloqueos">
+        {% if usuario.is_active %}
+      		<a href="{% url apps.seguridad.views.usuario.bloquear usuario.id %}">
+        {% else %}
+      		<a href="{% url apps.seguridad.views.usuario.desbloquear usuario.id %}">
+        {% endif %}
+        <span>Bloqueos</span></a>
+	    </li>
     {% endif %}
-    <span>Bloqueos</span></a>
-	</li>
 </ul>
 <hr />
 {% endblock %}

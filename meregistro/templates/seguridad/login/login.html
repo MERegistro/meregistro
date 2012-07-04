@@ -3,13 +3,16 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<h2>Ingresar al sistema</h2>
+<h2>Ingresar al Sistema</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 <div class="form" id="loginForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
 			{{ form.tipo_documento.errors }}
-			<label for="id_tipo_documento">Tipo de documento:</label>
+			<label for="id_tipo_documento">Tipo de Documento:</label>
 			{{ form.tipo_documento }}
 		</div>
 		<div class="form-text">
@@ -21,9 +24,22 @@
 			{{ form.password.errors }}
 			<label for="id_password">Contraseña:</label>
 			{{ form.password }}
+
 		</div>
+		<div class="form-text" style="margin-left: 150px; margin-top: -20px">
+            <ul class="actions">
+              <li class="action">
+                <a href="{% url apps.seguridad.views.remember_password %}"><span>Olvidé mi Contraseña</span></a>
+              </li>
+            </ul>
+		</div>        
 		<div class="form-submit">
-			<input type="submit" value="Acceder" />
+			
+            <ul class="actions">
+              <li class="action">
+                <input type="submit" value="Acceder" />
+              </li>
+            </ul>
 		</div>
 	</form>
 </div>

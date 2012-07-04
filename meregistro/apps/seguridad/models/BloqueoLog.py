@@ -2,8 +2,9 @@
 
 from django.db import models
 from apps.seguridad.models import Usuario, MotivoBloqueo
+from apps.seguridad.audit import audit
 
-
+@audit
 class BloqueoLog(models.Model):
     usuario = models.ForeignKey(Usuario)
     motivo = models.ForeignKey(MotivoBloqueo)

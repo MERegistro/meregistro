@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 
-{% block title %}Seleccionar perfil{% endblock %}
+{% block title %}Seleccionar Perfil{% endblock %}
 
-{% block content_title %}Seleccionar perfil{% endblock %}
+{% block content_title %}Seleccionar Perfil{% endblock %}
 
 {% block content %}
 <h2>Seleccionar perfil</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 <div class="form" id="seleccionarPerfilForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}

@@ -1,0 +1,30 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Alta de cohorte{% endblock %}
+
+{% block content %}
+
+{% if titulo_jurisdiccional %}
+<h2>Asignar nueva cohorte al título</h2>
+{% include "titulos/cohorte/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% else %}
+<h2>Alta de cohorte</h2>
+{% endif %}
+
+{% include "titulos/cohorte/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+    {% if titulo_jurisdiccional %}
+        <a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo titulo_jurisdiccional.id %}"><span>Volver</span></a>
+    {% else %}
+        <a href="{% url apps.titulos.views.cohorte.index %}"><span>Volver</span></a>
+    {% endif %}
+    </li>
+</ul>
+<hr />
+{% endblock %}

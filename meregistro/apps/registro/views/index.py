@@ -3,7 +3,11 @@
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required
 
-
-@login_required
 def index(request):
-    return my_render(request, 'registro/index/index.html')
+    if request.user.is_authenticated():
+        extend_template = 'base_registro.html'
+    else:
+        extend_template = 'base.html'
+    return my_render(request, 'registro/index/index.html', {
+        'extend_template': extend_template
+    })

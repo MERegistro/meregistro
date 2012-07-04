@@ -1,11 +1,14 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Alta de establecimiento{% endblock %}
+{% block title %}Solicitud de Registro de Nueva Sede{% endblock %}
 
 {% block content %}
-<h2>Alta de establecimiento</h2>
+<h2>Solicitud de Registro de Nueva Sede</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
-{% include "registro/establecimiento/form.html" %}
+{% include "registro/establecimiento/form_datos_basicos.html" %}
 
 <ul class="actions">
   <li class="back">

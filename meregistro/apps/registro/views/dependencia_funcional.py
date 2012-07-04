@@ -6,11 +6,13 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
-from apps.registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion, GestionJurisdiccion
+from apps.registro.models import DependenciaFuncional, TipoDependenciaFuncional, TipoGestion
 from apps.registro.forms import DependenciaFuncionalFormFilters, DependenciaFuncionalForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
+from apps.reportes.views.dependencia_funcional import dependencias_funcionales as reporte_dependencias_funcionales
+from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
@@ -27,6 +29,12 @@ def index(request):
         form_filter = DependenciaFuncionalFormFilters()
     q = build_query(form_filter, 1)
     q = q.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
+    try:
+        if request.GET['export'] == '1':
+            return reporte_dependencias_funcionales(request, q)
+    except KeyError:
+        pass
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -48,14 +56,13 @@ def index(request):
     return my_render(request, 'registro/dependencia_funcional/index.html', {
         'form_filters': form_filter,
         'objects': objects,
-        'show_paginator': paginator.num_pages > 1,
-        'has_prev': page.has_previous(),
-        'has_next': page.has_next(),
-        'page': page_number,
-        'pages': paginator.num_pages,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 
@@ -109,6 +116,8 @@ def edit(request, dependencia_funcional_id):
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = DependenciaFuncionalForm(instance=dependencia_funcional)
+    if request.get_perfil().jurisdiccion() is not None:
+        form.fields['jurisdiccion'].queryset = Jurisdiccion.objects.filter(id=request.get_perfil().jurisdiccion().id)
 
     return my_render(request, 'registro/dependencia_funcional/edit.html', {
         'form': form,

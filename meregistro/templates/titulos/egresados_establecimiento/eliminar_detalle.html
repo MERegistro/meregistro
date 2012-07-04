@@ -1,0 +1,26 @@
+{% extends "base_titulos.html" %}
+
+    {% block title %}Eliminación de detalle de egresados{% endblock %}
+
+{% block content %}
+<h2>Eliminación de detalle de egresados</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="form" id="egresadosEstablecimientoEliminarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="egresados_establecimiento_detalle_id" value="{{ detalle.id }}" />
+	<div class="form-submit">
+	    <input type="submit" value="Eliminar" />
+	</div>
+    </form>
+</div>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.titulos.views.egresados_establecimiento.detalle egresados.id %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

@@ -1,9 +1,12 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Actualización de establecimiento{% endblock %}
+{% block title %}Actualización de Establecimiento{% endblock %}
 
 {% block content %}
-<h2>Registrar establecimiento</h2>
+<h2>Registrar Establecimiento</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <div class="form" id="establecimientoForm">
 	<form action="" method="post">{% csrf_token %}

@@ -1,22 +1,22 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Completar datos del establecimiento{% endblock %}
+{% block title %}Completar Datos de Sede{% endblock %}
 
 {% block content %}
-<h2>Completar datos del establecimiento - {{ page_title }}</h2>
-<h3>{{ establecimiento }}</h3>
+<h2>Completar Datos de Sede - {{ page_title }}</h2>
+<h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
 
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 {% include "registro/establecimiento/completar_datos_nav.html" %}
-
 {% if form_template %}
 {% include form_template %}
 {% endif %}
 <ul class="actions">
-<!--
-    <li class="back">
-	<a href="{% url apps.registro.views.establecimiento.index %}"><span>Volver</span></a>
-    </li>
--->
+  <li class="back">
+    <a href="{% url apps.registro.views.establecimiento.index %}"><span>Volver</span></a>
+  </li>
 </ul>
 <hr />
 {% endblock %}

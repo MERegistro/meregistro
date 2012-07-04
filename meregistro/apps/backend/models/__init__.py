@@ -1,0 +1,3 @@
+from ConfiguracionSolapasExtensionAulica import ConfiguracionSolapasExtensionAulica
+from ConfiguracionSolapasEstablecimiento import ConfiguracionSolapasEstablecimiento
+from ConfiguracionSolapasAnexo import ConfiguracionSolapasAnexo

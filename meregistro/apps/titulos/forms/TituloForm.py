@@ -16,3 +16,4 @@ class TituloForm(forms.ModelForm):
 
     class Meta:
         model = Titulo
+        exclude = ('estado')

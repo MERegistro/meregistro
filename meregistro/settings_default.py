@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 # Django settings for meregistro project.
 import os
 import sys
@@ -12,20 +13,6 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-# Pasa a settings.py
-"""
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/tmp/registro',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-"""
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -105,13 +92,14 @@ INSTALLED_APPS = (
     'apps.seguridad',
     'apps.titulos',
     'custom_tags_filters',
+    'apps.reportes',
+    'apps.sistema',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
-STATIC_URL_PATH = 'static'
-# Pasa a settings.py
-# STATIC_URL = 'http://localhost:8080/' + STATIC_URL_PATH + '/'
-STATIC_DOC_ROOT = os.path.join(PROJECT_ROOT, 'static')
+TESTING_MODE = False
+TESTING_MODE_BANNER_COLOR = '#fb4'
+TESTING_MODE_BANNER_TEXT = 'Sistema de prueba: Los datos guardados se perderán en la próxima versión'

@@ -1,0 +1,67 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Administrar postitulos{% endblock %}
+
+{% block content %}
+<h2>Administrar postitulos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Año</th>
+      <th>Nombre</th>
+      <th>Op. Pedagógica</th>
+      <th>ResValidezNacional</th>
+      <th>Normativa Provincial</th>
+      <th>Tipo Normativa</th>
+      <th>Estado Tramite</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in objects %}
+    <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	    <td>{{ p.anio }}</td>
+	    <td>{{ p.nombre }}</td>
+	    <td>{{ p.opcion_pedagogica }}</td>
+	    <td>{{ p.resolucion_validez_nacional }}</td>
+	    <td>{{ p.normativa }}</td>
+	    <td>{{ p.tipo_normativa }}</td>
+	    <td>{{ p.estado_tramite }}</td>
+        <td class="actions-td">
+	        <ul>
+         		<li class="edit"><a href="{% url apps.titulos.views.postitulo.edit p.id %}" title="Editar"><span>Editar</span></a></li>
+				{% if user_perfil.rol.nombre in 'AdminTitulos' %}
+        		<li class="delete"><a href="{% url apps.titulos.views.postitulo.delete p.id %}" title="Eliminar"><span>Eliminar</span></a></li>
+                {% endif %}
+	        </ul>
+         </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron postitulos.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+	<a href="{% url apps.titulos.views.postitulo.create %}"><span>Nuevo</span></a>
+    </li>
+    {% endif %}
+</ul>
+<hr />
+{% endblock %}
