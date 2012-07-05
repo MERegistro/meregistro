@@ -56,14 +56,9 @@ var input_formacion_continua = $("input#id_formacion_continua");
 var input_tecnicaturas = $("input#id_tecnicaturas");
 var input_total = $("input#id_total");
 
+var formacion_continua = formacion_docente = profesorados = postitulos = tecnicaturas = total = 0;
 
-function updateFormacionDocente(){
-	updateFormacionContinua();
-
-	fc = parseInt(input_formacion_continua.val());
-	if(isNaN(fc) || null === fc){
-		fc = 0;
-	}
+function updateValues(){
 
 	profesorados = parseInt(input_profesorados.val());
 	if(isNaN(profesorados) || null === profesorados){
@@ -75,15 +70,6 @@ function updateFormacionDocente(){
 		postitulos = 0;
 	}
 	
-	val = fc + profesorados + postitulos;
-	if(isNaN(val) || val == 0){
-		val = null;
-	}
-	
-	input_formacion_docente.val(val);
-}
-
-function updateFormacionContinua(){
 	total = input_total.val();
 	if(isNaN(total) || null === total){
 		total = 0;
@@ -93,12 +79,22 @@ function updateFormacionContinua(){
 	if(isNaN(tecnicaturas) || null === tecnicaturas || input_tecnicaturas.attr('disabled')){
 		tecnicaturas = 0;
 	}
-	
-	val = total - tecnicaturas;
-	if(isNaN(val) || val == 0){
-		val = null;
+
+	// Formación contínua = Total - Sólo Tecnicaturas - Sólo Profesorados - Sólo Postítulos
+	formacion_continua = total - profesorados - postitulos - tecnicaturas;
+	if(isNaN(formacion_continua) || formacion_continua == 0){
+		formacion_continua = 0;
 	}
-	input_formacion_continua.val(val);
+	input_formacion_continua.val(formacion_continua);
+		
+		
+	// Formación Docente = Sólo Profesorados + Sólo Postítulos + FC o DP 		
+    formacion_docente = profesorados + postitulos + formacion_continua;
+	if(isNaN(formacion_docente) || formacion_docente == 0){
+		formacion_docente = 0;
+	}
+	input_formacion_docente.val(formacion_docente);
+	
 }
 
 $(document).ready(
@@ -106,23 +102,24 @@ $(document).ready(
 		input_formacion_docente.attr('readonly', true);
 		input_formacion_continua.attr('readonly', true);
 		//
-		updateFormacionDocente();
-		updateFormacionContinua();
+		updateValues();
 		//
 		input_tecnicaturas.attr('disabled', !checkbox_mixto.is(':checked'));
 		checkbox_mixto.click(function(){
 			input_tecnicaturas.attr('disabled', !$(this).is(':checked'));
-			updateFormacionContinua();
+			updateValues();
 		});
 		//
-		input_profesorados.keyup(updateFormacionDocente);
-		input_profesorados.change(updateFormacionDocente);
-		input_postitulos.keyup(updateFormacionDocente);
-		input_postitulos.change(updateFormacionDocente);
-		input_tecnicaturas.keyup(updateFormacionContinua);
-		input_tecnicaturas.change(updateFormacionContinua);
-		input_total.keyup(updateFormacionContinua);
-		input_total.change(updateFormacionContinua);
+		input_profesorados.keyup(updateValues);
+		input_profesorados.change(updateValues);
+		input_postitulos.keyup(updateValues);
+		input_postitulos.change(updateValues);
+		input_tecnicaturas.keyup(updateValues);
+		input_tecnicaturas.change(updateValues);
+		input_total.keyup(updateValues);
+		input_total.change(updateValues);
+		input_formacion_docente.change(updateValues);
+		input_formacion_continua.change(updateValues);
 	}
 ); // END document.ready
 
