@@ -98,8 +98,8 @@ def create(request, establecimiento_id):
         if form.is_valid():
             matricula = form.save(commit=False)
             matricula.establecimiento_id = establecimiento.id
-            matricula.set_formacion_docente()
             matricula.set_formacion_continua()
+            matricula.set_formacion_docente()
             matricula.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
@@ -127,8 +127,8 @@ def edit(request, matricula_id):
         form = EstablecimientoMatriculaForm(request.POST, instance=matricula, establecimiento=establecimiento)
         if form.is_valid():
             matricula = form.save(commit=False)
-            matricula.set_formacion_docente()
             matricula.set_formacion_continua()
+            matricula.set_formacion_docente()
             matricula.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
             return HttpResponseRedirect(reverse('establecimientoMatriculaIndex', args=[matricula.establecimiento_id]))

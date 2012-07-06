@@ -95,8 +95,8 @@ def create(request, extension_aulica_id):
         if form.is_valid():
             matricula = form.save(commit=False)
             matricula.extension_aulica_id = extension_aulica.id
-            matricula.set_formacion_docente()
             matricula.set_formacion_continua()
+            matricula.set_formacion_docente()
             matricula.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
@@ -124,8 +124,8 @@ def edit(request, matricula_id):
         form = ExtensionAulicaMatriculaForm(request.POST, instance=matricula, extension_aulica=extension_aulica)
         if form.is_valid():
             matricula = form.save(commit=False)
-            matricula.set_formacion_docente()
             matricula.set_formacion_continua()
+            matricula.set_formacion_docente()
             matricula.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
             return HttpResponseRedirect(reverse('extensionAulicaMatriculaIndex', args=[matricula.extension_aulica_id]))

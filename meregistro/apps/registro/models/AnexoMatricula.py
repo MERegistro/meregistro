@@ -22,13 +22,15 @@ class AnexoMatricula(models.Model):
         db_table = 'registro_anexo_matricula'
 
     def get_formacion_docente(self):
-        tmp = ((self.profesorados or 0) + (self.postitulos or 0))
+		# Formación Docente = Sólo Profesorados + Sólo Postítulos + Formación contínua 
+        tmp = ((self.profesorados or 0) + (self.postitulos or 0)) + (self.formacion_continua or 0)
         if tmp <= 0:
             return None
         return tmp
 
     def get_formacion_continua(self):
-        tmp = ((self.total or 0) - (self.formacion_docente or 0) - (self.tecnicaturas or 0)) or None
+		# Formación contínua = Total - Sólo Tecnicaturas - Sólo Profesorados - Sólo Postítulos
+        tmp = ((self.total or 0) - (self.tecnicaturas or 0)) - (self.profesorados or 0) - (self.postitulos or 0) or None
         if tmp <= 0:
             return None
         return tmp
