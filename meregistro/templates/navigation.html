@@ -41,7 +41,6 @@
 			<ul style="width: 250px;">
 				
 				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
-				<li><a href="{% url apps.registro.views.dependencia_funcional.index %}">Dep. funcionales</a></li>
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
@@ -53,26 +52,6 @@
 				{% endif %}
 				
 				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.establecimiento.index %}">Datos del establecimiento</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.establecimiento.index %}">Completar datos establecimiento</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.extension_aulica.index %}">Unidades de ext.</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional,AdminNacional' %}
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				{% endif %}
 				
@@ -82,9 +61,6 @@
 				
 				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
-				{% endif %}  
-				   
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Cohortes de anexo</span></a></li>
 				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}"><span>Egresados de anexo</span></a></li>
 				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Cohortes de establecimiento</span></a></li>
