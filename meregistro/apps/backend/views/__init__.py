@@ -66,4 +66,3 @@ def configurar_solapas_extension_aulica(request):
   return my_render(request, 'backend/solapas_extension_aulica.html', {
       'form': form,
   })
-

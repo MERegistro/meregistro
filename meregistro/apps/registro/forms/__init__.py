@@ -35,3 +35,5 @@ from ExtensionAulicaCambiarEstadoForm import ExtensionAulicaCambiarEstadoForm
 from AnexoAutoridadFormFilters import AnexoAutoridadFormFilters
 from AnexoAutoridadForm import AnexoAutoridadForm
 from AnexoTurnoForm import AnexoTurnoForm
+from AutoridadCargoForm import AutoridadCargoForm
+from AutoridadCargoFormFilters import AutoridadCargoFormFilters
