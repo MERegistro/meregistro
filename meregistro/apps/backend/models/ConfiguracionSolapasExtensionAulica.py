@@ -8,6 +8,7 @@ class ConfiguracionSolapasExtensionAulica(models.Model):
   turnos = models.BooleanField()
   funciones = models.BooleanField()
   domicilio = models.BooleanField()
+  autoridad = models.BooleanField()
   informacion_edilicia = models.BooleanField()
   conexion_internet = models.BooleanField()
   matricula = models.BooleanField()

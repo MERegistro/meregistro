@@ -50,3 +50,5 @@ from EstablecimientoMatricula import EstablecimientoMatricula
 from AnexoMatricula import AnexoMatricula
 from ExtensionAulicaMatricula import ExtensionAulicaMatricula
 from TipoSubsidio import TipoSubsidio
+
+from ExtensionAulicaAutoridad import ExtensionAulicaAutoridad
