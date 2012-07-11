@@ -37,3 +37,5 @@ from AnexoAutoridadForm import AnexoAutoridadForm
 from AnexoTurnoForm import AnexoTurnoForm
 from AutoridadCargoForm import AutoridadCargoForm
 from AutoridadCargoFormFilters import AutoridadCargoFormFilters
+from ExtensionAulicaAutoridadForm import ExtensionAulicaAutoridadForm
+from ExtensionAulicaAutoridadFormFilters import ExtensionAulicaAutoridadFormFilters
