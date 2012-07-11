@@ -103,3 +103,5 @@ INSTALLED_APPS = (
 TESTING_MODE = False
 TESTING_MODE_BANNER_COLOR = '#fb4'
 TESTING_MODE_BANNER_TEXT = 'Sistema de prueba: Los datos guardados se perderán en la próxima versión'
+
+APP_VERSION = '1.0.0'
