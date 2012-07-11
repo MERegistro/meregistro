@@ -11,7 +11,7 @@ class ExtensionAulicaVerificacionDatos(models.Model):
     turnos = models.BooleanField()
     funciones = models.BooleanField()
     domicilios = models.BooleanField()
-    #autoridades = models.BooleanField()
+    autoridades = models.BooleanField()
     info_edilicia = models.BooleanField()
     conectividad = models.BooleanField()
     matricula = models.BooleanField()

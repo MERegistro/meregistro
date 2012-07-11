@@ -96,6 +96,11 @@ urlpatterns = patterns('',
     url(r'^extension_aulica/([0-9]+)/agregar_matricula$', 'apps.registro.views.extension_aulica_matricula.create', name='extensionAulicaMatriculaCreate'),
     url(r'^extension_aulica/matricula/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_matricula.edit', name='extensionAulicaMatriculaEdit'),
     url(r'^extension_aulica/matricula/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_matricula.delete', name='extensionAulicaMatriculaDelete'),
+    # extensión áulica autoridades
+    url(r'^extension_aulica/([0-9]+)/autoridades$', 'apps.registro.views.extension_aulica_autoridad.index', name='extensionAulicaAutoridadesIndex'),
+    url(r'^extension_aulica/([0-9]+)/agregar_autoridad$', 'apps.registro.views.extension_aulica_autoridad.create', name='extensionAulicaAutoridadCreate'),
+    url(r'^extension_aulica/autoridades/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_autoridad.edit', name='extensionAulicaAutoridadEdit'),
+    url(r'^extension_aulica/autoridades/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_autoridad.delete', name='extensionAulicaAutoridadDelete'),    
     # dependencias funcionales
     url(r'^dependencia_funcional$', 'apps.registro.views.dependencia_funcional.index', name='dependenciaFuncional'),
     url(r'^dependencia_funcional/([0-9]+)/edit', 'apps.registro.views.dependencia_funcional.edit', name='dependenciaFuncionalEdit'),
