@@ -1,0 +1,22 @@
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">jurisdiccion:</label>
+			{{ form.jurisdiccion }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-submit">
+		{% if obj %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

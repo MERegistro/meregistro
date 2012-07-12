@@ -15,10 +15,44 @@ class CrudConfig:
 
 from apps.registro.models import AutoridadCargo
 from apps.registro.forms import AutoridadCargoForm, AutoridadCargoFormFilters
+from apps.registro.models import Departamento
+from apps.registro.forms import DepartamentoForm, DepartamentoFormFilters
+from apps.registro.models import Localidad
+from apps.registro.forms import LocalidadForm, LocalidadFormFilters
+from apps.registro.models import Jurisdiccion
+from apps.registro.forms import JurisdiccionForm, JurisdiccionFormFilters
+from apps.registro.models import TipoGestion
+from apps.registro.forms import TipoGestionForm, TipoGestionFormFilters
+from apps.registro.models import TipoSubsidio
+from apps.registro.forms import TipoSubsidioForm, TipoSubsidioFormFilters
+from apps.registro.models import OrigenNorma
+from apps.registro.forms import OrigenNormaForm, OrigenNormaFormFilters
+from apps.registro.models import TipoNorma
+from apps.registro.forms import TipoNormaForm, TipoNormaFormFilters
+from apps.registro.models import TipoDomicilio
+from apps.registro.forms import TipoDomicilioForm, TipoDomicilioFormFilters
+from apps.registro.models import TipoCompartido
+from apps.registro.forms import TipoCompartidoForm, TipoCompartidoFormFilters
+from apps.registro.models import TipoConexion
+from apps.registro.forms import TipoConexionForm, TipoConexionFormFilters
+from apps.registro.models import TipoDependenciaFuncional
+from apps.registro.forms import TipoDependenciaFuncionalForm, TipoDependenciaFuncionalFormFilters
 
 cruds = {
-  'autoridad_cargo': CrudConfig(AutoridadCargo, AutoridadCargoForm, AutoridadCargoFormFilters, 'backend/autoridad_cargo/')
+  'autoridad_cargo': CrudConfig(AutoridadCargo, AutoridadCargoForm, AutoridadCargoFormFilters, 'backend/autoridad_cargo/'),
+  'departamento': CrudConfig(Departamento, DepartamentoForm, DepartamentoFormFilters, 'backend/departamento/'),
+  'localidad': CrudConfig(Localidad, LocalidadForm, LocalidadFormFilters, 'backend/localidad/'),
+  'jurisdiccion': CrudConfig(Jurisdiccion, JurisdiccionForm, JurisdiccionFormFilters, 'backend/jurisdiccion/'),
+  'tipo_gestion': CrudConfig(TipoGestion, TipoGestionForm, TipoGestionFormFilters, 'backend/tipo_gestion/'),
+  'tipo_subsidio': CrudConfig(TipoSubsidio, TipoSubsidioForm, TipoSubsidioFormFilters, 'backend/tipo_subsidio/'),
+  'origen_norma': CrudConfig(OrigenNorma, OrigenNormaForm, OrigenNormaFormFilters, 'backend/origen_norma/'),
+  'tipo_norma': CrudConfig(TipoNorma, TipoNormaForm, TipoNormaFormFilters, 'backend/tipo_norma/'),
+  'tipo_domicilio': CrudConfig(TipoDomicilio, TipoDomicilioForm, TipoDomicilioFormFilters, 'backend/tipo_domicilio/'),
+  'tipo_compartido': CrudConfig(TipoCompartido, TipoCompartidoForm, TipoCompartidoFormFilters, 'backend/tipo_compartido/'),
+  'tipo_conexion': CrudConfig(TipoConexion, TipoConexionForm, TipoConexionFormFilters, 'backend/tipo_conexion/'),
+  'tipo_dependencia_funcional': CrudConfig(TipoDependenciaFuncional, TipoDependenciaFuncionalForm, TipoDependenciaFuncionalFormFilters, 'backend/tipo_dependencia_funcional/'),
 }
+
 ITEMS_PER_PAGE = 50
 
 

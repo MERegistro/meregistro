@@ -1,0 +1,19 @@
+{% extends "backend/base.html" %}
+
+{% block title %}Alta de Origen de Norma{% endblock %}
+
+{% block content %}
+<h2>Alta de Origen de Norma</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "backend/origen_norma/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.backend.views.crud.index 'origen_norma' %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

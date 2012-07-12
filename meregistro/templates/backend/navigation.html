@@ -8,6 +8,23 @@
       <li><a href="{% url apps.backend.views.configurar_solapas_extension_aulica %}">Solapas de Extensiones Áulicas</a></li>
     </ul>
     </li>
+
+		<li><a href="{% url apps.backend.views.index %}">ABMs</a>
+    <ul style="width: 250px;">
+      <li><a href="{% url apps.backend.views.crud.index 'autoridad_cargo' %}">Cargos de Autoridades</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'jurisdiccion' %}">Jurisdicciones</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'departamento' %}">Departamentos</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'localidad' %}">Localidades</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_gestion' %}">Tipos de Gestión</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_subsidio' %}">Tipos de Subsidio</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'origen_norma' %}">Origenes de Norma</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_norma' %}">Tipos de Norma</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_domicilio' %}">Tipos de Domicilio</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_compartido' %}">Tipos de Compartición Edilicia</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_conexion' %}">Tipos de Conexión</a></li>
+      <li><a href="{% url apps.backend.views.crud.index 'tipo_dependencia_funcional' %}">Tipos Dep. Func.</a></li>
+    </ul>
+    </li>
 	{% endif %}
     </ul>
 </div>

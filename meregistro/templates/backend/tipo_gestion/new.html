@@ -1,0 +1,19 @@
+{% extends "backend/base.html" %}
+
+{% block title %}Alta de Tipo de Gestión{% endblock %}
+
+{% block content %}
+<h2>Alta de Tipo de Gestión</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "backend/tipo_gestion/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.backend.views.crud.index 'tipo_gestion' %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

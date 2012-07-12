@@ -52,3 +52,5 @@ from ExtensionAulicaMatricula import ExtensionAulicaMatricula
 from TipoSubsidio import TipoSubsidio
 
 from ExtensionAulicaAutoridad import ExtensionAulicaAutoridad
+from TipoDomicilio import TipoDomicilio
+from TipoCompartido import TipoCompartido
