@@ -144,6 +144,7 @@ def delete(request, crud_name, obj_id):
   try:
     obj.delete()
     request.set_flash('success', 'Registro eliminado correctamente.')
-  except:
+  except Exception as e:
+    print e
     request.set_flash('warning', 'No se puede eliminar el elemento porque está en uso.')
   return HttpResponseRedirect(reverse('crudList', args=[crud_name]))

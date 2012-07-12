@@ -14,3 +14,10 @@ class TipoSubsidio(models.Model):
 
     def __unicode__(self):
         return self.descripcion
+
+    def delete(self):
+        if (self.anexo_set.count() > 0
+          or self.establecimiento_set.count() > 0
+          or self.extensionaulica_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)

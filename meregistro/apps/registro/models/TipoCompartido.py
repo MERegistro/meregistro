@@ -17,3 +17,13 @@ class TipoCompartido(models.Model):
 
     def __unicode__(self):
         return self.descripcion
+
+    def delete(self):
+        if (self.anexoinformacionedilicia_set.count() > 0
+          or self.anexoturno_set.count() > 0
+          or self.establecimientoinformacionedilicia_set.count() > 0
+          or self.establecimientoturno_set.count() > 0
+          or self.extensionaulicainformacionedilicia_set.count() > 0
+          or self.extensionaulicaturno_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)

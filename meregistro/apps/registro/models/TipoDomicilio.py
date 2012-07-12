@@ -11,3 +11,10 @@ class TipoDomicilio(models.Model):
 
     def __unicode__(self):
         return self.descripcion
+
+    def delete(self):
+        if (self.anexodomicilio_set.count() > 0
+          or self.establecimientodomicilio_set.count() > 0
+          or self.extensionaulicadomicilio_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)

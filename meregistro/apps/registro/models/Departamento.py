@@ -13,3 +13,8 @@ class Departamento(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
+    def delete(self):
+        if (self.localidad_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)
