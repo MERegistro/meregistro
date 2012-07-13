@@ -52,3 +52,11 @@ class DependenciaFuncional(models.Model):
         from apps.registro.models.Establecimiento import Establecimiento
         establecimientos = Establecimiento.objects.filter(dependencia_funcional=self)
         return establecimientos.count() > 0
+
+    def delete(self):
+      if self.hasEstablecimientos():
+          raise Exception("Dependencia funcional en uso")
+      ambito = self.ambito
+      models.Model.delete(self)
+      if ambito is not None:
+          ambito.delete()
