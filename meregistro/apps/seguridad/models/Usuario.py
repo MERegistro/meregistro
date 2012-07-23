@@ -15,6 +15,7 @@ class Usuario(models.Model):
     password = models.CharField(max_length=255, null=True, editable=False)
     last_login = models.DateTimeField(null=True, blank=True, editable=False)
     is_active = models.BooleanField(null=False, blank=False, editable=False)
+    logins_count = models.IntegerField(null=True, blank=True, editable=False, default=0)
 
     class Meta:
         app_label = 'seguridad'
@@ -61,6 +62,7 @@ class Usuario(models.Model):
         return True
 
     def update_last_login(self):
+        self.logins_count += 1
         self.last_login = datetime.now()
         self.save()
 

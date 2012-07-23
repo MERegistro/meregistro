@@ -56,6 +56,10 @@
       <th>Documento</th>
       <th>Nombre</th>
       <th>Apellido</th>
+      {% if 'seg_ver_datos_acceso' in credenciales %}
+        <th>Accesos</th>
+        <th>Último acceso</th>
+      {% endif %}
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -65,6 +69,10 @@
         <td>{{u.tipo_documento.abreviatura}} - {{u.documento}}</td>
         <td>{{u.nombre}}</td>
         <td>{{u.apellido}}</td>
+        {% if 'seg_ver_datos_acceso' in credenciales %}
+          <td>{{u.logins_count}}</td>
+          <td>{{u.last_login}}</td>
+        {% endif %}
         <td class="actions-td">
           <ul>
             <li class="edit"><a href="{% url apps.seguridad.views.usuario.edit u.id %}" alt="Editar" title="Editar"><span>Editar</span></a></li>
