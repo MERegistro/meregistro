@@ -54,8 +54,8 @@
   <thead>
     <tr>
       <th>Documento</th>
-      <th>Nombre</th>
       <th>Apellido</th>
+      <th>Nombre</th>
       {% if 'seg_ver_datos_acceso' in credenciales %}
         <th>Accesos</th>
         <th>Último acceso</th>
@@ -67,8 +67,8 @@
     {% for u in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
         <td>{{u.tipo_documento.abreviatura}} - {{u.documento}}</td>
-        <td>{{u.nombre}}</td>
         <td>{{u.apellido}}</td>
+        <td>{{u.nombre}}</td>
         {% if 'seg_ver_datos_acceso' in credenciales %}
           <td>{{u.logins_count}}</td>
           <td>{{u.last_login}}</td>
