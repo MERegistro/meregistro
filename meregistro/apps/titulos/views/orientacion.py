@@ -77,7 +77,7 @@ def orientaciones_por_titulo(request, titulo_id):
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'titulos/orientacion/orientaciones_por_titulo.html', {
-        'form_filters': form_filter,
+		'titulo': titulo,
         'objects': objects,
         'paginator': paginator,
         'page': page,

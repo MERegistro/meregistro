@@ -40,7 +40,7 @@
         <td class="actions-td">
 	        <ul>
          		<li class="edit"><a href="{% url apps.titulos.views.postitulo.edit p.id %}" title="Editar"><span>Editar</span></a></li>
-				{% if user_perfil.rol.nombre in 'AdminTitulos' %}
+				{% if user_perfil.rol.nombre in 'AdminNacional' %}
         		<li class="delete"><a href="{% url apps.titulos.views.postitulo.delete p.id %}" title="Eliminar"><span>Eliminar</span></a></li>
                 {% endif %}
 	        </ul>
