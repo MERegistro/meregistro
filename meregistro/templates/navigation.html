@@ -1,5 +1,8 @@
 <div id="mainNav">
     <ul class="sf-menu">
+			{% if 'seg_backend' in credenciales %}
+			<li><a href="{% url apps.backend.views.index %}">BACKEND</a>
+			{% endif %}
         {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
 		<li><a href="#" class="inactive">Seguridad</a>
 			<ul style="width: 250px;">
@@ -8,9 +11,6 @@
 				{% endif %}
 				{% if 'seg_rol_registrar' in credenciales %}
 				<li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
-				{% endif %}
-				{% if 'seg_backend' in credenciales %}
-				<li><a href="{% url apps.backend.views.index %}">Backend</a>
 				{% endif %}
 			</ul>
 		</li>

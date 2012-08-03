@@ -1,7 +1,8 @@
 <div id="mainNav">
     <ul class="sf-menu">
+			<li><a href="{% url apps.seguridad.views.index %}">FRONTEND</a>
 	{% if 'seg_backend' in credenciales %}
-		<li><a href="{% url apps.backend.views.index %}">Backend</a>
+		<li><a href="{% url apps.backend.views.index %}">Solapas</a>
     <ul style="width: 250px;">
       <li><a href="{% url apps.backend.views.configurar_solapas_establecimiento %}">Solapas de Establecimientos</a></li>
       <li><a href="{% url apps.backend.views.configurar_solapas_anexo %}">Solapas de Anexos</a></li>
