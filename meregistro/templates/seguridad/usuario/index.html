@@ -70,8 +70,14 @@
         <td>{{u.apellido}}</td>
         <td>{{u.nombre}}</td>
         {% if 'seg_ver_datos_acceso' in credenciales %}
-          <td>{{u.logins_count}}</td>
-          <td>{{u.last_login}}</td>
+          <td style="text-align: center;">{{u.logins_count}}</td>
+          <td>
+            {% if u.last_login == None %}
+              Nunca
+            {% else %}
+              {{ u.last_login }}
+            {% endif %}
+          </td>
         {% endif %}
         <td class="actions-td">
           <ul>
