@@ -73,7 +73,7 @@
 	</td>
         <td class="actions-td">
 	    <ul>
-	    {% if user_perfil.rol.nombre in 'AdminTitulos' %}
+	    {% if user_perfil.rol.nombre in 'AdminNacional' %}
 		<li class="edit"><a href="{% url apps.titulos.views.titulo.edit titulo.id %}" title="Editar"><span>Editar</span></a></li>
 		{% if titulo.tiene_orientaciones == 1 %}
 		<li class="orientaciones"><a href="{% url apps.titulos.views.orientacion.orientaciones_por_titulo titulo.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
