@@ -39,6 +39,8 @@ from apps.registro.models import TipoDependenciaFuncional
 from apps.registro.forms import TipoDependenciaFuncionalForm, TipoDependenciaFuncionalFormFilters
 from apps.titulos.models import Carrera
 from apps.titulos.forms import CarreraForm, CarreraFormFilters
+from apps.titulos.models import TipoTitulo
+from apps.titulos.forms import TipoTituloForm, TipoTituloFormFilters
 
 cruds = {
   'autoridad_cargo': CrudConfig(AutoridadCargo, AutoridadCargoForm, AutoridadCargoFormFilters, 'backend/autoridad_cargo/'),
@@ -54,6 +56,7 @@ cruds = {
   'tipo_conexion': CrudConfig(TipoConexion, TipoConexionForm, TipoConexionFormFilters, 'backend/tipo_conexion/'),
   'tipo_dependencia_funcional': CrudConfig(TipoDependenciaFuncional, TipoDependenciaFuncionalForm, TipoDependenciaFuncionalFormFilters, 'backend/tipo_dependencia_funcional/'),
   'carrera': CrudConfig(Carrera, CarreraForm, CarreraFormFilters, 'backend/carrera/'),
+  'tipo_titulo': CrudConfig(TipoTitulo, TipoTituloForm, TipoTituloFormFilters, 'backend/tipo_titulo/'),
 }
 
 ITEMS_PER_PAGE = 50

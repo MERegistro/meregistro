@@ -45,3 +45,5 @@ from EgresadosAnexoDetalleForm import EgresadosAnexoDetalleForm
 from EgresadosAnexoFormFilters import EgresadosAnexoFormFilters
 from CarreraForm import CarreraForm
 from CarreraFormFilters import CarreraFormFilters
+from TipoTituloForm import TipoTituloForm
+from TipoTituloFormFilters import TipoTituloFormFilters
