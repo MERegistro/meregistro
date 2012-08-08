@@ -364,7 +364,7 @@ def editar_cohortes(request, titulo_jurisdiccional_id):
 def orientaciones_por_titulo(request, titulo_jurisdiccional_id):
     "Búsqueda de orientaciones por título jurisdiccional"
     titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
-    q = TituloOrientacion.objects.filter(titulo__id=titulo_jurisdiccional.id)
+    q = TituloOrientacion.objects.filter(titulo__id=titulo_jurisdiccional.titulo_id)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
