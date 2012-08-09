@@ -12,7 +12,7 @@ class EstablecimientoAutoridadForm(ModelForm):
     fecha_nacimiento = forms.DateField(
         input_formats=['%d/%m/%Y', '%d/%m/%y'],
         required=False,
-        widget=forms.TextInput(attrs={'class':'datePicker', 'readonly':'true'}))
+        widget=forms.DateInput(attrs={'class':'datePicker', 'readonly':'true'}))
 
     class Meta:
         model = EstablecimientoAutoridad
