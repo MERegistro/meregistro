@@ -1,8 +1,8 @@
 <div id="mainNav">
     <ul class="sf-menu">
-			{% if 'seg_backend' in credenciales %}
-			<li><a href="{% url apps.backend.views.index %}">BACKEND</a>
-			{% endif %}
+		{% if 'seg_backend' in credenciales %}
+		<li><a href="{% url apps.backend.views.index %}">BACKEND</a></li>
+		{% endif %}
         {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
 		<li><a href="#" class="inactive">Seguridad</a>
 			<ul style="width: 250px;">
@@ -16,7 +16,7 @@
 		</li>
 		{% endif %}
 		{% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
-		<li><a href="#" class="inactive"><span>Unidades educativas</a>
+		<li><a href="#" class="inactive"><span>Unidades educativas</span></a>
 			<ul>
 				{% if 'reg_establecimiento_consulta' in credenciales %}
 				<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Sedes</span></a></li>
@@ -39,7 +39,6 @@
 		{% if 'tit_menu_acceso' in credenciales %}
         <li><a href="#" class="inactive">Títulos-tmp</a>
 			<ul style="width: 250px;">
-				
 				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
@@ -72,9 +71,16 @@
 		<!--
 		Fin habilitación temporal
 		-->
-		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
+		{% if 'carreras_menu_acceso' in credenciales %}
+		<li><a href="#" class="inactive"><span>Carreras</span></a>
+			<ul>
+				<li><a href="{% url apps.backend.views.crud.index 'carrera' %}"><span>ABM de Carreras</span></a></li>
+			</ul>
+		</li>
+		{% endif %}
+		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}"><span>Mis Datos</span></a></li>
 		{% if 'reg_menu_ayuda' in credenciales %}
-		<li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
+		<li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
 		{% endif %}
     </ul>
 </div>
