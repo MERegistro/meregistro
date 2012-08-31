@@ -3,6 +3,7 @@
 from django import forms
 from apps.seguridad.models import TipoDocumento, Usuario
 from apps.registro.models import Establecimiento, DependenciaFuncional, Jurisdiccion, EstadoEstablecimiento, Localidad, Departamento, TipoGestion
+from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 
 
 class EstablecimientoFormFilters(forms.Form):
@@ -14,6 +15,7 @@ class EstablecimientoFormFilters(forms.Form):
     localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False)
     estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects, label='Estado', required=False)
     tipo_gestion = forms.ModelChoiceField(queryset=TipoGestion.objects.order_by('nombre'), label='Tipo de gestión', required=False)
+    estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects.order_by('nombre'), label='Estado', required=False)
 
     def __init__(self, *args, **kwargs):
         self.jurisdiccion_id = kwargs.pop('jurisdiccion_id')
@@ -53,4 +55,6 @@ class EstablecimientoFormFilters(forms.Form):
                 q = q.filter(domicilios__localidad=self.cleaned_data['localidad'])
             if filter_by('tipo_gestion'):
                 q = q.filter(dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
+            if filter_by('estado'):
+                q = q.filter(estado=self.cleaned_data['estado'])
         return q.distinct()

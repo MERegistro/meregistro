@@ -3,6 +3,7 @@
 from django import forms
 from apps.seguridad.models import TipoDocumento, Usuario
 from apps.registro.models import Establecimiento, Anexo, Localidad, Departamento, Jurisdiccion, TipoGestion
+from apps.registro.models.EstadoAnexo import EstadoAnexo
 
 
 class AnexoFormFilters(forms.Form):
@@ -13,6 +14,7 @@ class AnexoFormFilters(forms.Form):
     departamento = forms.ModelChoiceField(queryset=Departamento.objects.order_by('nombre'), label='Departamento', required=False)
     localidad = forms.ModelChoiceField(queryset=Localidad.objects.order_by('nombre'), label='Localidad', required=False)
     tipo_gestion = forms.ModelChoiceField(queryset=TipoGestion.objects.order_by('nombre'), label='Tipo de gestión', required=False)
+    estado = forms.ModelChoiceField(queryset=EstadoAnexo.objects.order_by('nombre'), label='Estado', required=False)
     
     def __init__(self, *args, **kwargs):
         self.jurisdiccion_id = kwargs.pop('jurisdiccion_id')
@@ -49,4 +51,6 @@ class AnexoFormFilters(forms.Form):
                 q = q.filter(anexo_domicilio__localidad=self.cleaned_data['localidad'])
             if filter_by('tipo_gestion'):
                 q = q.filter(establecimiento__dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
+            if filter_by('estado'):
+                q = q.filter(estado=self.cleaned_data['estado'])
         return q.distinct()
