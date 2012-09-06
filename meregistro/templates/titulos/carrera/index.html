@@ -1,4 +1,4 @@
-{% extends "backend/base.html" %}
+{% extends "base_registro.html" %}
 
 {% block title %}Administrar Carrera{% endblock %}
 
@@ -9,7 +9,7 @@
 {% endif %}
 <form action="" method="get">
 {% if objects %}
-<table class="hor-zebra" style="margin-top:25px">
+<table class="hor-zebra" style="margin-top:65px">
   <thead>
     <tr>
       <th>Nombre</th>
@@ -22,8 +22,8 @@
 	<td>{{ obj.nombre }}</td>
 	<td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url apps.backend.views.crud.edit 'carrera' obj.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="{% url apps.backend.views.crud.delete 'carrera' obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+            <li class="edit"><a href="{% url apps.titulos.views.carrera.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url apps.titulos.views.carrera.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
           </ul>
         </td>
       </tr>
@@ -39,7 +39,7 @@
 {% endif %}
 <ul class="actions">
   <li class="create">
-    <a href="{% url apps.backend.views.crud.create 'carrera' %}"><span>Nuevo</span></a>
+    <a href="{% url apps.titulos.views.carrera.create %}"><span>Nuevo</span></a>
   </li>
 </ul>
 <hr />

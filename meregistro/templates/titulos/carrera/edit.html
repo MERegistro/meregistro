@@ -1,4 +1,4 @@
-{% extends "backend/base.html" %}
+{% extends "base_registro.html" %}
 
 {% block title %}Actualización de Carrera{% endblock %}
 
@@ -8,11 +8,11 @@
     {% include "flashes.html" %}
 {% endif %}
 
-{% include "backend/carrera/form.html" %}
+{% include "titulos/carrera/form.html" %}
 
 <ul class="actions">
   <li class="back">
-    <a href="{% url apps.backend.views.crud.index 'carrera' %}"><span>Volver</span></a>
+    <a href="{% url apps.titulos.views.carrera.index %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />

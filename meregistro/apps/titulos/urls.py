@@ -98,4 +98,10 @@ urlpatterns = patterns('',
     url(r'^anexo/egresados$', 'apps.titulos.views.egresados_anexo.index', name = 'anexoEgresados'),
     url(r'^anexo/egresados/([0-9]+)/eliminar$', 'apps.titulos.views.egresados_anexo.eliminar', name = 'anexoEgresadosEliminar'),
     url(r'^anexo/egresados/([0-9]+)/eliminar_detalle$', 'apps.titulos.views.egresados_anexo.eliminar_detalle', name = 'anexoEgresadosDetalleEliminar'),
+    # Carrera
+    url(r'^carrera/create$', 'apps.titulos.views.carrera.create', name = 'carreraCreate'),
+    url(r'^carrera/([0-9]+)/editar$', 'apps.titulos.views.carrera.edit', name = 'carreraEdit'),
+    url(r'^carrera/([0-9]+)/delete$', 'apps.titulos.views.carrera.delete', name = 'carreraEliminar'),
+    url(r'^carrera$', 'apps.titulos.views.carrera.index', name = 'carrera'),
+    
 )
