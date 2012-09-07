@@ -15,7 +15,7 @@ ITEMS_PER_PAGE = 50
 
 
 @login_required
-#@credential_required('tit_carrera_consulta')
+@credential_required('tit_carrera_consulta')
 def index(request):
     if request.method == 'GET':
         form_filter = CarreraFormFilters(request.GET)
@@ -58,7 +58,7 @@ def build_query(filters, page):
 
 
 @login_required
-#@credential_required('tit_carrera_alta')
+@credential_required('tit_carrera_alta')
 def create(request):
     if request.method == 'POST':
         form = CarreraForm(request.POST)
@@ -80,7 +80,7 @@ def create(request):
 
 
 @login_required
-#@credential_required('tit_carrera_modificar')
+@credential_required('tit_carrera_modificar')
 def edit(request, carrera_id):
     carrera = Carrera.objects.get(pk=carrera_id)
     if request.method == 'POST':
@@ -100,7 +100,7 @@ def edit(request, carrera_id):
 
 
 @login_required
-#@credential_required('tit_carrera_baja')
+@credential_required('tit_carrera_baja')
 def delete(request, carrera_id):
     carrera = Carrera.objects.get(pk=carrera_id)
 
