@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
-from apps.titulos.models import Carrera
+from apps.titulos.models import Carrera, EstadoCarrera
 from apps.titulos.forms import CarreraFormFilters, CarreraForm
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -60,10 +60,15 @@ def build_query(filters, page):
 @login_required
 @credential_required('tit_carrera_alta')
 def create(request):
+    import datetime
     if request.method == 'POST':
         form = CarreraForm(request.POST)
         if form.is_valid():
-            carrera = form.save(commit=True)
+            carrera = form.save(commit=False)
+            carrera.estado = EstadoCarrera.objects.get(nombre=EstadoCarrera.VIGENTE)
+            carrera.save()
+            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+            carrera.registrar_estado()
 
             request.set_flash('success', 'Datos guardados correctamente.')
 
@@ -73,6 +78,8 @@ def create(request):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = CarreraForm()
+    
+    form.fields['estado'].queryset = EstadoCarrera.objects.filter(nombre=EstadoCarrera.VIGENTE)
     return my_render(request, 'titulos/carrera/new.html', {
         'form': form,
         'is_new': True,
@@ -92,6 +99,41 @@ def edit(request, carrera_id):
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = CarreraForm(instance=carrera)
+
+    return my_render(request, 'titulos/carrera/edit.html', {
+        'form': form,
+        'carrera': carrera,
+    })
+
+def edit(request, carrera_id):
+    """
+    Edición de los datos de una carrera.
+    """
+    carrera = Carrera.objects.get(pk=carrera_id)
+
+    estado_actual_id = carrera.estado.id
+
+    if request.method == 'POST':
+        form = CarreraForm(request.POST, instance=carrera, initial={'estado': estado_actual_id})
+        if form.is_valid():
+            carrera = form.save(commit=False)
+
+            "Cambiar el estado?"
+            if int(request.POST['estado']) is not estado_actual_id:
+                carrera.estado = EstadoCarrera.objects.get(pk=request.POST['estado'])
+                carrera.save()
+                carrera.registrar_estado()
+            else:
+                # Guardar directamente
+                carrera.save()
+
+            form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = CarreraForm(instance=carrera, initial={'estado': estado_actual_id})
 
     return my_render(request, 'titulos/carrera/edit.html', {
         'form': form,

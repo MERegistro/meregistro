@@ -1,10 +1,36 @@
 <div class="form" id="establecimientoForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
+		{{ form.fecha_alta }}
 		<div class="form-text">
 			{{ form.nombre.errors }}
 			<label for="id_nombre">Nombre:</label>
 			{{ form.nombre }}
+		</div>
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		<fieldset>
+			<legend>Asignar a Jurisdicciones:</legend>
+			<div class="form-checkbox-list">
+				{{ form.jurisdicciones.errors }}
+				<ul>
+					<li>
+						<label for="check_all_jurisdicciones">
+							<input checked type="checkbox" name="check_all_jurisdicciones" id="check_all_jurisdicciones" /> Todas
+						</label>
+					</li>
+				</ul>
+				{{ form.jurisdicciones }}
+				<hr />
+			</div>
+		</fieldset>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
 		</div>
 		<div class="form-submit">
 		{% if obj %}
@@ -15,3 +41,14 @@
 		</div>
 	</form>
 </div>
+<script type="text/javascript">
+// init
+jur_checked = false;
+jur_checkboxes = $('input[name="jurisdicciones"][type="checkbox"]');
+document.getElementById('check_all_jurisdicciones').checked = false;
+$('#check_all_jurisdicciones').attr('checked', jur_checked);
+$('#check_all_jurisdicciones').click(function(){
+	jur_checked = !jur_checked;
+	jur_checkboxes.attr('checked', jur_checked);
+});
+</script>

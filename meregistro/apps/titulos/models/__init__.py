@@ -1,5 +1,7 @@
 from Area import Area
 from Carrera import Carrera
+from CarreraEstado import CarreraEstado
+from EstadoCarrera import EstadoCarrera
 from TipoTitulo import TipoTitulo
 from TituloEstado import TituloEstado
 from TituloTipoNormativa import TituloTipoNormativa
