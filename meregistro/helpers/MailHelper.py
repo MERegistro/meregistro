@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.seguridad.models import Usuario, Rol
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from settings import DEBUG, PROJECT_ROOT
-
+from apps.seguridad.middleware import get_current_user
+import datetime
 
 class MailHelper():
     """
@@ -59,8 +60,12 @@ class MailHelper():
         if DEBUG:
             MailHelper.debug_email(model, mail_data['subject'], mail_data['message'], email_from, mail_data['recipients'], notification_type)
         else:
-            send_mail(mail_data['subject'], mail_data['message'], email_from, mail_data['recipients'], fail_silently=False)
-        
+            msg = EmailMultiAlternatives(mail_data['subject'],
+              mail_data['message'],
+              email_from, mail_data['recipients'])
+            if 'html' in mail_data:
+              msg.attach_alternative(mail_data['html'], 'text/html')
+            msg.send()
         return
 
     @staticmethod
@@ -90,8 +95,47 @@ class MailHelper():
     def establecimiento_create(establecimiento):
         recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
-            'subject': u'Solicitud de registro de nueva sede',
-            'message': u'Se ha creado una nueva sede',
+            'subject': u'Solicitud de Registro de nueva Unidad Educativa',
+            'message': u"""Estimado/a
+
+Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+
+Tipo: Sede
+Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
+Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""
+Jurisdicción: """ + unicode(establecimiento.dependencia_funcional.jurisdiccion) + u"""
+Dependencia Funcional: """ + unicode(establecimiento.dependencia_funcional) + u"""
+CUE: """ + establecimiento.cue + u"""
+Nombre de la Unidad Educativa: """ + establecimiento.nombre + u"""
+
+Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+
+Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a http://reffod.infd.edu.ar
+
+
+Correo Automático - Sistema REFFOD
+Instituto Nacional de Formación Docente
+""",
+            'html': u"""Estimado/a
+<br /><br />
+Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+<br /><br />
+Tipo: Sede<br />
+Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""<br />
+Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""<br />
+Jurisdicción: """ + unicode(establecimiento.dependencia_funcional.jurisdiccion) + u"""<br />
+Dependencia Funcional: """ + unicode(establecimiento.dependencia_funcional) + u"""<br />
+CUE: """ + establecimiento.cue + u"""<br />
+Nombre de la Unidad Educativa: """ + establecimiento.nombre + u"""<br />
+<br /><br />
+Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+<br /><br />
+Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a <a href="http://reffod.infd.edu.ar">http://reffod.infd.edu.ar</a>
+<br /><br />
+
+Correo Automático - Sistema REFFOD<br />
+Instituto Nacional de Formación Docente<br />
+""",
             'recipients': recipients,
         }
         
@@ -122,7 +166,46 @@ class MailHelper():
         recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
             'subject': u'Solicitud de registro de nuevo anexo',
-            'message': u'Se ha creado un nuevo anexo',
+            'message': u"""Estimado/a
+
+Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+
+Tipo: Anexo
+Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
+Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""
+Jurisdicción: """ + unicode(anexo.establecimiento.dependencia_funcional.jurisdiccion) + u"""
+Dependencia Funcional: """ + unicode(anexo.establecimiento.dependencia_funcional) + u"""
+CUE: """ + anexo.cue + u"""
+Nombre de la Unidad Educativa: """ + anexo.nombre + u"""
+
+Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+
+Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a http://reffod.infd.edu.ar
+
+
+Correo Automático - Sistema REFFOD
+Instituto Nacional de Formación Docente
+""",
+            'html': u"""Estimado/a
+<br /><br />
+Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+<br /><br />
+Tipo: Anexo<br />
+Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""<br />
+Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""<br />
+Jurisdicción: """ + unicode(anexo.establecimiento.dependencia_funcional.jurisdiccion) + u"""<br />
+Dependencia Funcional: """ + unicode(anexo.establecimiento.dependencia_funcional) + u"""<br />
+CUE: """ + anexo.cue + u"""<br />
+Nombre de la Unidad Educativa: """ + anexo.nombre + u"""<br />
+<br /><br />
+Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+<br /><br />
+Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a <a href="http://reffod.infd.edu.ar">http://reffod.infd.edu.ar</a>
+<br /><br />
+
+Correo Automático - Sistema REFFOD<br />
+Instituto Nacional de Formación Docente<br />
+""",
             'recipients': recipients,
         }
 
@@ -153,7 +236,46 @@ class MailHelper():
         recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
             'subject': u'Solicitud de registro de nueva extensión áulica',
-            'message': u'Se ha creado una nueva extensión áulica',
+            'message': u"""Estimado/a
+
+Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+
+Tipo: Extensión Aulica
+Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
+Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""
+Jurisdicción: """ + unicode(extension_aulica.establecimiento.dependencia_funcional.jurisdiccion) + u"""
+Dependencia Funcional: """ + unicode(extension_aulica.establecimiento.dependencia_funcional) + u"""
+CUE: """ + extension_aulica.cue + u"""
+Nombre de la Unidad Educativa: """ + extension_aulica.nombre + u"""
+
+Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+
+Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a http://reffod.infd.edu.ar
+
+
+Correo Automático - Sistema REFFOD
+Instituto Nacional de Formación Docente
+""",
+            'html': u"""Estimado/a
+<br /><br />
+Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+<br /><br />
+Tipo: Extensión Aulica<br />
+Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""<br />
+Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""<br />
+Jurisdicción: """ + unicode(extension_aulica.establecimiento.dependencia_funcional.jurisdiccion) + u"""<br />
+Dependencia Funcional: """ + unicode(extension_aulica.establecimiento.dependencia_funcional) + u"""<br />
+CUE: """ + extension_aulica.cue + u"""<br />
+Nombre de la Unidad Educativa: """ + extension_aulica.nombre + u"""<br />
+<br /><br />
+Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+<br /><br />
+Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a <a href="http://reffod.infd.edu.ar">http://reffod.infd.edu.ar</a>
+<br /><br />
+
+Correo Automático - Sistema REFFOD<br />
+Instituto Nacional de Formación Docente<br />
+""",
             'recipients': recipients,
         }
 
