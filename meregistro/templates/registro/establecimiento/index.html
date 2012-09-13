@@ -28,13 +28,6 @@
 		{{ form_filters.nombre }}
     </div>
     {% if user_perfil.rol.nombre in 'AdminNacional' %}
-    <!--
-    <div class="form-select">
-		{{ form_filters.estado.errors }}
-		<label for="id_estado">Estado:</label>
-		{{ form_filters.estado }}
-    </div>
-    -->
     <div class="form-select">
 		{{ form_filters.jurisdiccion.errors }}
 		<label for="id_jurisdiccion">Jurisdicción:</label>
@@ -55,6 +48,11 @@
 		{{ form_filters.tipo_gestion.errors }}
 		<label for="id_tipo_gestion">Tipo de Gestión:</label>
 		{{ form_filters.tipo_gestion }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.estado.errors }}
+		<label for="id_estado">Estado:</label>
+		{{ form_filters.estado }}
     </div>
     <div class="form-submit">
 		<input type="submit" value="Buscar" />
