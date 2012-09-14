@@ -2,12 +2,19 @@ from TituloForm import TituloForm
 from TituloFormFilters import TituloFormFilters
 from TituloOrientacionForm import TituloOrientacionForm
 from TituloOrientacionFormFilters import TituloOrientacionFormFilters
+#
 from NormativaJurisdiccionalForm import NormativaJurisdiccionalForm
 from NormativaJurisdiccionalFormFilters import NormativaJurisdiccionalFormFilters
+#
+from NormativaNacionalForm import NormativaNacionalForm
+from NormativaNacionalFormFilters import NormativaNacionalFormFilters
+#
 from MatriculaFormFilters import MatriculaFormFilters
 from MatriculaForm import MatriculaForm
+#
 from ProyectoFormFilters import ProyectoFormFilters
 from ProyectoForm import ProyectoForm
+#
 from TituloJurisdiccionalFormFilters import TituloJurisdiccionalFormFilters
 from TituloJurisdiccionalForm import TituloJurisdiccionalForm
 from TituloJurisdiccionalModalidadDistanciaForm import TituloJurisdiccionalModalidadDistanciaForm
@@ -18,6 +25,7 @@ from TituloJurisdiccionalOrientacionesForm import TituloJurisdiccionalOrientacio
 from TituloJurisdiccionalNormativasForm import TituloJurisdiccionalNormativasForm
 from TituloJurisdiccionalCohorteForm import TituloJurisdiccionalCohorteForm
 from TituloJurisdiccionalCohorteFormFilters import TituloJurisdiccionalCohorteFormFilters
+#
 from CohorteForm import CohorteForm
 #cohorte establecimiento
 from CohorteEstablecimientoConfirmarForm import CohorteEstablecimientoConfirmarForm
