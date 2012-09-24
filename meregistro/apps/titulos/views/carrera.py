@@ -10,6 +10,8 @@ from apps.titulos.models import Carrera, EstadoCarrera
 from apps.titulos.forms import CarreraFormFilters, CarreraForm
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
+from apps.reportes.views.carrera import carreras as reporte_carreras
+from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
@@ -22,6 +24,12 @@ def index(request):
     else:
         form_filter = CarreraFormFilters()
     q = build_query(form_filter, 1)
+
+    try:
+        if request.GET['export'] == '1':
+            return reporte_carreras(request, q)
+    except KeyError:
+        pass
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -47,6 +55,7 @@ def index(request):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 
