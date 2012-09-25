@@ -2,28 +2,28 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar Carreras{% endblock %}
+{% block title %}Administrar Normativas Nacionales{% endblock %}
 
 {% block content %}
-<h2>Administrar Carreras</h2>
+<h2>Administrar Normativas Nacionales</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
 
 <form action="" method="get">
-	<div class="form-filter" id="carreraFormFilter">
+	<div class="form-filter" id="normativaNacionalFormFilter">
 		<h3>Búsqueda avanzada</h3>
 		{{ form_filters.non_field_errors }}
 		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form_filters.nombre }}
+			{{ form_filters.numero.errors }}
+			<label for="id_numero">Número:</label>
+			{{ form_filters.numero }}
 		</div> 
-		<div class="form-select">
-			{{ form_filters.jurisdiccion.errors }}
-			<label for="id_jurisdiccion">Jurisdicción:</label>
-			{{ form_filters.jurisdiccion }}
-		</div>
+		<div class="form-text">
+			{{ form_filters.descripcion.errors }}
+			<label for="id_descripcion">Descripción:</label>
+			{{ form_filters.descripcion }}
+		</div> 
 		<div class="form-select">
 			{{ form_filters.estado.errors }}
 			<label for="id_estado">Estado:</label>
@@ -31,23 +31,17 @@
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'carrera';" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'normativa_nacional';" />
 		</div>
 </div>
 
 
 {% if objects %}
-{% include "counter.html" %}
-<ul class="reportes-actions">
-    <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
-    </li>
-</ul>
 <table class="hor-zebra" style="margin-top:65px">
   <thead>
     <tr>
-      <th>Carrera</th>
-      <th>Jurisdicción</th>
+      <th>Número</th>
+      <th>Descripción</th>
       <th class="th-estados">Estados</th>
       <th class="actions">Acciones</th>
     </tr>
@@ -55,8 +49,8 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-	<td>{{ obj.nombre }}</td>
-	<td>{{ obj.jurisdicciones.all|implode:", " }}</td>
+	<td>{{ obj.numero }}</td>
+	<td>{{ obj.descripcion }}</td>
 	<td>
 	    <div class="estados">
 	    {% for estado in obj.estados %}
@@ -66,8 +60,10 @@
 	</td>
 	<td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url apps.titulos.views.carrera.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="delete"><a href="{% url apps.titulos.views.carrera.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+            <li class="edit"><a href="{% url apps.titulos.views.normativa_nacional.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+            {% if obj.is_deletable %}
+            <li class="delete"><a href="{% url apps.titulos.views.normativa_nacional.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+			{% endif %}
           </ul>
         </td>
       </tr>
@@ -83,7 +79,7 @@
 {% endif %}
 <ul class="actions">
   <li class="create">
-    <a href="{% url apps.titulos.views.carrera.create %}"><span>Nueva Carrera</span></a>
+    <a href="{% url apps.titulos.views.normativa_nacional.create %}"><span>Nueva Normativa Nacional</span></a>
   </li>
 </ul>
 <hr />

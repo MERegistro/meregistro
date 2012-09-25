@@ -20,6 +20,11 @@ urlpatterns = patterns('',
     url(r'^normativa_jurisdiccional/([0-9]+)/eliminar$', 'apps.titulos.views.normativa_jurisdiccional.eliminar', name = 'normativaJurisdiccionalEliminar'),
     url(r'^normativa_jurisdiccional$', 'apps.titulos.views.normativa_jurisdiccional.index', name = 'normativaJurisdiccional'),
     url(r'^normativa_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.normativa_jurisdiccional.revisar_jurisdiccion', name = 'normativaJurisdiccionalRevisarJurisdiccion'),
+    # Normativa nacional
+    url(r'^normativa_nacional/create$', 'apps.titulos.views.normativa_nacional.create', name = 'normativaNacionalCreate'),
+    url(r'^normativa_nacional/([0-9]+)/editar$', 'apps.titulos.views.normativa_nacional.edit', name = 'normativaNacionalEdit'),
+    url(r'^normativa_nacional/([0-9]+)/eliminar$', 'apps.titulos.views.normativa_nacional.delete', name = 'normativaNacionalEliminar'),
+    url(r'^normativa_nacional$', 'apps.titulos.views.normativa_nacional.index', name = 'normativaNacional'),
     # Matriculas
     url(r'^matricula/create$', 'apps.titulos.views.matricula.create', name = 'matriculaCreate'),
     url(r'^matricula/([0-9]+)/editar$', 'apps.titulos.views.matricula.edit', name = 'matriculaEdit'),

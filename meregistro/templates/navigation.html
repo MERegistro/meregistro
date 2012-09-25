@@ -71,10 +71,15 @@
 		<!--
 		Fin habilitación temporal
 		-->
-		{% if 'tit_carrera_consulta' in credenciales %}
+		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales %}
 		<li><a href="#" class="inactive"><span>Carreras</span></a>
 			<ul>
+				{% if 'tit_carrera_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.carrera.index %}"><span>Carreras Nacionales</span></a></li>
+				{% endif %}
+				{% if 'tit_normativa_nacional_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.normativa_nacional.index %}"><span>Normativas Nacionales</span></a></li>
+				{% endif %}
 			</ul>
 		</li>
 		{% endif %}

@@ -1,7 +1,9 @@
 from Area import Area
+#
 from Carrera import Carrera
 from CarreraEstado import CarreraEstado
 from EstadoCarrera import EstadoCarrera
+#
 from TipoTitulo import TipoTitulo
 from TituloEstado import TituloEstado
 from TituloTipoNormativa import TituloTipoNormativa
@@ -10,20 +12,29 @@ from Titulo import Titulo
 from EstadoTitulo import EstadoTitulo
 from EstadoTituloOrientacion import EstadoTituloOrientacion
 from TituloOrientacionEstado import TituloOrientacionEstado
+#
 from EstadoNormativaJurisdiccional import EstadoNormativaJurisdiccional
 from TipoNormativaJurisdiccional import TipoNormativaJurisdiccional
 from NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado
 from NormativaJurisdiccional import NormativaJurisdiccional
 from NormativaMotivoOtorgamiento import NormativaMotivoOtorgamiento
+#
+from EstadoNormativaNacional import EstadoNormativaNacional
+from NormativaNacionalEstado import NormativaNacionalEstado
+from NormativaNacional import NormativaNacional
+#
 from Matricula import Matricula
+#
 from TipoProyecto import TipoProyecto
 from Proyecto import Proyecto
+#
 from TituloJurisdiccional import TituloJurisdiccional
 from TituloJurisdiccionalCohorte import TituloJurisdiccionalCohorte
 from TituloJurisdiccionalModalidadDistancia import TituloJurisdiccionalModalidadDistancia
 from TituloJurisdiccionalModalidadPresencial import TituloJurisdiccionalModalidadPresencial
 from TituloJurisdiccionalEstado import TituloJurisdiccionalEstado
 from EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
+#
 from CohorteEstablecimientoEstado import CohorteEstablecimientoEstado
 from Cohorte import Cohorte
 from CohorteEstablecimiento import CohorteEstablecimiento
@@ -49,3 +60,4 @@ from EgresadosEstablecimientoDetalle import EgresadosEstablecimientoDetalle
 #
 from EgresadosAnexo import EgresadosAnexo
 from EgresadosAnexoDetalle import EgresadosAnexoDetalle
+#
