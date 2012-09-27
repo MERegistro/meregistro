@@ -118,23 +118,24 @@ Instituto Nacional de Formación Docente
 """,
             'html': u"""Estimado/a
 <br /><br />
-Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+Se ha solicitado el <b>registro de una nueva Unidad Educativa</b> cuyos datos son:
 <br /><br />
-Tipo: Sede<br />
-Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""<br />
-Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""<br />
-Jurisdicción: """ + unicode(establecimiento.dependencia_funcional.jurisdiccion) + u"""<br />
-Dependencia Funcional: """ + unicode(establecimiento.dependencia_funcional) + u"""<br />
-CUE: """ + establecimiento.cue + u"""<br />
-Nombre de la Unidad Educativa: """ + establecimiento.nombre + u"""<br />
+Tipo: <b>Sede</b><br />
+Fecha de Solicitud: <b>""" + datetime.date.today().strftime("%d/%m/%Y") + u"""</b><br />
+Usuario que Solicita el Alta: <b>""" + get_current_user().apellido + ", " + get_current_user().nombre +  u"""</b><br />
+Jurisdicción: <b>""" + unicode(establecimiento.dependencia_funcional.jurisdiccion) + u"""</b><br />
+Dependencia Funcional: <b>""" + unicode(establecimiento.dependencia_funcional) + u"""</b><br />
+CUE: <b>""" + establecimiento.cue + u"""</b><br />
+Nombre de la Unidad Educativa: <b>""" + establecimiento.nombre + u"""</b><br />
 <br /><br />
-Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+Recuerde que la Unidad Educativa permanecerá en estado <b>Pendiente</b> hasta tanto sea <b>Registrada</b>.
 <br /><br />
 Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a <a href="http://reffod.infd.edu.ar">http://reffod.infd.edu.ar</a>
 <br /><br />
-
+<b>
 Correo Automático - Sistema REFFOD<br />
 Instituto Nacional de Formación Docente<br />
+</b>
 """,
             'recipients': recipients,
         }
@@ -188,23 +189,24 @@ Instituto Nacional de Formación Docente
 """,
             'html': u"""Estimado/a
 <br /><br />
-Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+Se ha solicitado el <b>registro de una nueva Unidad Educativa</b> cuyos datos son:
 <br /><br />
-Tipo: Anexo<br />
-Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""<br />
-Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""<br />
-Jurisdicción: """ + unicode(anexo.establecimiento.dependencia_funcional.jurisdiccion) + u"""<br />
-Dependencia Funcional: """ + unicode(anexo.establecimiento.dependencia_funcional) + u"""<br />
-CUE: """ + anexo.cue + u"""<br />
-Nombre de la Unidad Educativa: """ + anexo.nombre + u"""<br />
+Tipo: <b>Anexo</b><br />
+Fecha de Solicitud: <b>""" + datetime.date.today().strftime("%d/%m/%Y") + u"""</b><br />
+Usuario que Solicita el Alta: <b>""" + get_current_user().apellido + ", " + get_current_user().nombre +  u"""</b><br />
+Jurisdicción: <b>""" + unicode(anexo.establecimiento.dependencia_funcional.jurisdiccion) + u"""</b><br />
+Dependencia Funcional: <b>""" + unicode(anexo.establecimiento.dependencia_funcional) + u"""</b><br />
+CUE: <b>""" + anexo.cue + u"""</b><br />
+Nombre de la Unidad Educativa: <b>""" + anexo.nombre + u"""</b><br />
 <br /><br />
-Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+Recuerde que la Unidad Educativa permanecerá en estado <b>Pendiente</b> hasta tanto sea <b>Registrada</b>.
 <br /><br />
 Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a <a href="http://reffod.infd.edu.ar">http://reffod.infd.edu.ar</a>
 <br /><br />
-
+<b>
 Correo Automático - Sistema REFFOD<br />
 Instituto Nacional de Formación Docente<br />
+</b>
 """,
             'recipients': recipients,
         }
@@ -258,23 +260,24 @@ Instituto Nacional de Formación Docente
 """,
             'html': u"""Estimado/a
 <br /><br />
-Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
+Se ha solicitado el <b>registro de una nueva Unidad Educativa</b> cuyos datos son:
 <br /><br />
-Tipo: Extensión Aulica<br />
-Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""<br />
-Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""<br />
-Jurisdicción: """ + unicode(extension_aulica.establecimiento.dependencia_funcional.jurisdiccion) + u"""<br />
-Dependencia Funcional: """ + unicode(extension_aulica.establecimiento.dependencia_funcional) + u"""<br />
-CUE: """ + extension_aulica.cue + u"""<br />
-Nombre de la Unidad Educativa: """ + extension_aulica.nombre + u"""<br />
+Tipo: <b>Extensión Aulica</b><br />
+Fecha de Solicitud: <b>""" + datetime.date.today().strftime("%d/%m/%Y") + u"""</b><br />
+Usuario que Solicita el Alta: <b>""" + get_current_user().apellido + ", " + get_current_user().nombre +  u"""</b><br />
+Jurisdicción: <b>""" + unicode(extension_aulica.establecimiento.dependencia_funcional.jurisdiccion) + u"""</b><br />
+Dependencia Funcional: <b>""" + unicode(extension_aulica.establecimiento.dependencia_funcional) + u"""</b><br />
+CUE: <b>""" + extension_aulica.cue + u"""</b><br />
+Nombre de la Unidad Educativa: <b>""" + extension_aulica.nombre + u"""</b><br />
 <br /><br />
-Recuerde que la Unidad Educativa permanecerá en estado Pendiente hasta tanto sea Registrada.
+Recuerde que la Unidad Educativa permanecerá en estado <b>Pendiente</b> hasta tanto sea <b>Registrada</b>.
 <br /><br />
 Se requiere su intervención para cambiar el estado. Si desea hacerlo ahora, por favor ingrese a <a href="http://reffod.infd.edu.ar">http://reffod.infd.edu.ar</a>
 <br /><br />
-
+<b>
 Correo Automático - Sistema REFFOD<br />
 Instituto Nacional de Formación Docente<br />
+</b>
 """,
             'recipients': recipients,
         }
