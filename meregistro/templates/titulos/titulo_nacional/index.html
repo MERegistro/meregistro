@@ -1,0 +1,93 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Administrar Titulos Nacionales{% endblock %}
+
+{% block content %}
+<h2>Administrar Titulos Nacionales</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+	<div class="form-filter" id="tituloNacionalFormFilter">
+		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.normativa_nacional.errors }}
+			<label for="id_normativa_nacional">Normativa:</label>
+			{{ form_filters.normativa_nacional }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form_filters.nombre }}
+		</div> 
+		<div class="form-select">
+			{{ form_filters.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form_filters.estado }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'titulo_nacional';" />
+		</div>
+</div>
+
+
+{% if objects %}
+{% include "counter.html" %}
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+<table class="hor-zebra" style="margin-top:65px">
+  <thead>
+    <tr>
+      <th>Normativa</th>
+      <th>Título</th>
+      <th class="th-estados">Estados</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ obj.normativa_nacional.numero }}</td>
+	<td>{{ obj.nombre }}</td>
+	<td>
+	    <div class="estados">
+	    {% for estado in obj.estados %}
+		<p class="estado-{{ estado.estado.nombre|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+	    {% endfor %}
+	    </div>
+	</td>
+	<td class="actions-td">
+          <ul>
+            <li class="edit"><a href="{% url apps.titulos.views.titulo_nacional.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+            {% if obj.is_deletable %}
+            <li class="delete"><a href="{% url apps.titulos.views.titulo_nacional.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+			{% endif %}
+          </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron resultados.</p>
+</div>
+{% endif %}
+<ul class="actions">
+  <li class="create">
+    <a href="{% url apps.titulos.views.titulo_nacional.create %}"><span>Nuevo Título</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}
+

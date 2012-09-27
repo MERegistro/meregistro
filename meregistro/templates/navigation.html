@@ -80,6 +80,9 @@
 				{% if 'tit_normativa_nacional_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.normativa_nacional.index %}"><span>Normativas Nacionales</span></a></li>
 				{% endif %}
+				{% if 'tit_titulo_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.titulo_nacional.index %}"><span>Títulos Nacionales</span></a></li>
+				{% endif %}
 			</ul>
 		</li>
 		{% endif %}

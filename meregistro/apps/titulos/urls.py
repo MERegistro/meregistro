@@ -3,10 +3,15 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    url(r'^index$', 'apps.titulos.views.titulo.index', name = 'titulosHome'),
-    url(r'^create$', 'apps.titulos.views.titulo.create', name = 'tituloCreate'),
-    url(r'^([0-9]+)/edit$', 'apps.titulos.views.titulo.edit', name = 'tituloEdit'),
-    url(r'^([0-9]+)/eliminar$', 'apps.titulos.views.titulo.eliminar', name = 'tituloEliminar'),
+    #url(r'^index$', 'apps.titulos.views.titulo.index', name = 'titulosHome'),
+    #url(r'^create$', 'apps.titulos.views.titulo.create', name = 'tituloCreate'),
+    #url(r'^([0-9]+)/edit$', 'apps.titulos.views.titulo.edit', name = 'tituloEdit'),
+    #url(r'^([0-9]+)/eliminar$', 'apps.titulos.views.titulo.eliminar', name = 'tituloEliminar'),
+    # Títulos nacionales
+    url(r'^titulo_nacional/create$', 'apps.titulos.views.titulo_nacional.create', name = 'tituloNacionalCreate'),
+    url(r'^titulo_nacional/([0-9]+)/editar$', 'apps.titulos.views.titulo_nacional.edit', name = 'tituloNacionalEdit'),
+    url(r'^titulo_nacional/([0-9]+)/eliminar$', 'apps.titulos.views.titulo_nacional.delete', name = 'tituloNacionalEliminar'),
+    url(r'^titulo_nacional$', 'apps.titulos.views.titulo_nacional.index', name = 'tituloNacional'),
     # Orientaciones
     url(r'^orientaciones/create$', 'apps.titulos.views.orientacion.create', name = 'orientacionCreate'),
     url(r'^orientaciones/([0-9]+)/editar$', 'apps.titulos.views.orientacion.edit', name = 'orientacionEdit'),

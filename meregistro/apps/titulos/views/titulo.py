@@ -14,7 +14,7 @@ ITEMS_PER_PAGE = 50
 
 
 @login_required
-#@credential_required('tit_titulo_consulta')
+@credential_required('tit_titulo_consulta')
 def index(request):
     """
     Búsqueda de titulos
@@ -62,7 +62,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-#@credential_required('tit_titulo_alta')
+@credential_required('tit_titulo_alta')
 def create(request):
     """
     Alta de título.
@@ -93,7 +93,7 @@ def create(request):
 
 
 @login_required
-#@credential_required('tit_titulo_modificar')
+@credential_required('tit_titulo_modificar')
 def edit(request, titulo_id):
     """
     Edición de los datos de un título.
@@ -132,7 +132,7 @@ def edit(request, titulo_id):
 
 
 @login_required
-#@credential_required('tit_titulo_eliminar')
+@credential_required('tit_titulo_eliminar')
 def eliminar(request, titulo_id):
     """
     Baja de un título

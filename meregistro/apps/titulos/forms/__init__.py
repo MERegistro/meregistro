@@ -3,6 +3,9 @@ from TituloFormFilters import TituloFormFilters
 from TituloOrientacionForm import TituloOrientacionForm
 from TituloOrientacionFormFilters import TituloOrientacionFormFilters
 #
+from TituloNacionalForm import TituloNacionalForm
+from TituloNacionalFormFilters import TituloNacionalFormFilters
+#
 from NormativaJurisdiccionalForm import NormativaJurisdiccionalForm
 from NormativaJurisdiccionalFormFilters import NormativaJurisdiccionalFormFilters
 #

@@ -145,9 +145,9 @@ def edit(request, normativa_nacional_id):
 def delete(request, normativa_nacional_id):
 	normativa_nacional = NormativaNacional.objects.get(pk=normativa_nacional_id)
 
-	if not normativa_nacional.asociada_titulo():
+	if normativa_nacional.is_deletable():
 		normativa_nacional.delete()
 		request.set_flash('success', 'Registro eliminado correctamente.')
 	else:
-		request.set_flash('warning', 'El registro no puede ser eliminado porque tiene títulos asociados.')
+		request.set_flash('warning', 'El registro no puede ser eliminado.')
 	return HttpResponseRedirect(reverse('normativaNacional'))
