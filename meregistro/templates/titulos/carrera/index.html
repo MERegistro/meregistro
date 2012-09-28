@@ -67,6 +67,7 @@
 	<td class="actions-td">
           <ul>
             <li class="edit"><a href="{% url apps.titulos.views.carrera.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="one-many"><a href="{% url apps.titulos.views.carrera.titulos obj.id %}" title="Editar"><span>Títulos</span></a></li>
             <li class="delete"><a href="{% url apps.titulos.views.carrera.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
           </ul>
         </td>

@@ -12,7 +12,7 @@ class TituloNacional(models.Model):
 	estado = models.ForeignKey(EstadoTituloNacional) # Concuerda con el último estado en TituloEstado
 	observaciones = models.CharField(max_length=255, null=True, blank=True)
 	fecha_alta = models.DateField(auto_now_add=True)
-	carreras = models.ManyToManyField(Carrera, db_table='titulos_titulos_nacionales_carreras') # Carreras
+	carreras = models.ManyToManyField(Carrera, db_table='titulos_titulos_nacionales_carreras', related_name='titulos_asignados') # Carreras
 
 	class Meta:
 		app_label = 'titulos'

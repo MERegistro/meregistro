@@ -3,10 +3,10 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    #url(r'^index$', 'apps.titulos.views.titulo.index', name = 'titulosHome'),
-    #url(r'^create$', 'apps.titulos.views.titulo.create', name = 'tituloCreate'),
-    #url(r'^([0-9]+)/edit$', 'apps.titulos.views.titulo.edit', name = 'tituloEdit'),
-    #url(r'^([0-9]+)/eliminar$', 'apps.titulos.views.titulo.eliminar', name = 'tituloEliminar'),
+    url(r'^index$', 'apps.titulos.views.titulo.index', name = 'titulosHome'),
+    url(r'^create$', 'apps.titulos.views.titulo.create', name = 'tituloCreate'),
+    url(r'^([0-9]+)/edit$', 'apps.titulos.views.titulo.edit', name = 'tituloEdit'),
+    url(r'^([0-9]+)/eliminar$', 'apps.titulos.views.titulo.eliminar', name = 'tituloEliminar'),
     # Títulos nacionales
     url(r'^titulo_nacional/create$', 'apps.titulos.views.titulo_nacional.create', name = 'tituloNacionalCreate'),
     url(r'^titulo_nacional/([0-9]+)/editar$', 'apps.titulos.views.titulo_nacional.edit', name = 'tituloNacionalEdit'),
@@ -112,6 +112,7 @@ urlpatterns = patterns('',
     url(r'^carrera/create$', 'apps.titulos.views.carrera.create', name = 'carreraCreate'),
     url(r'^carrera/([0-9]+)/editar$', 'apps.titulos.views.carrera.edit', name = 'carreraEdit'),
     url(r'^carrera/([0-9]+)/delete$', 'apps.titulos.views.carrera.delete', name = 'carreraEliminar'),
+    url(r'^carrera/([0-9]+)/titulos$', 'apps.titulos.views.carrera.titulos', name = 'carreraTitulos'),
     url(r'^carrera$', 'apps.titulos.views.carrera.index', name = 'carrera'),
     
 )
