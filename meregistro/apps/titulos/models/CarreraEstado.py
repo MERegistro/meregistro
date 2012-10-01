@@ -13,6 +13,9 @@ class CarreraEstado(models.Model):
     estado = models.ForeignKey(EstadoCarrera)
     fecha = models.DateField()
 
+    NO_VIGENTE = u'No vigente'
+    VIGENTE = u'Vigente'
+
     class Meta:
         app_label = 'titulos'
         ordering = ['fecha']

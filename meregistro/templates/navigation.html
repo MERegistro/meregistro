@@ -86,6 +86,9 @@
 				{% if 'tit_nor_jur_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				{% endif %}
+				{% if 'tit_carrera_jurisdiccional_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Carreras jurisdiccionales</a></li>
+				{% endif %}
 			</ul>
 		</li>
 		{% endif %}
