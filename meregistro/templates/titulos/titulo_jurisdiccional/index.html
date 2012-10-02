@@ -2,10 +2,10 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar títulos jurisdiccionales{% endblock %}
+{% block title %}Administrar Carreras jurisdiccionales{% endblock %}
 
 {% block content %}
-<h2>Administrar títulos jurisdiccionales</h2>
+<h2>Administrar Carreras jurisdiccionales</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -16,12 +16,12 @@
 		{{ form_filters.non_field_errors }}
 		<div class="form-select">
 			{{ form_filters.tipo_titulo.errors }}
-			<label for="id_tipo_titulo">Tipo de título:</label>
+			<label for="id_tipo_titulo">Tipo de Carrera:</label>
 			{{ form_filters.tipo_titulo }}
 		</div>
 		<div class="form-select">
 			{{ form_filters.carrera.errors }}
-			<label for="id_carrera">Carrera:</label>
+			<label for="id_carrera">Nombre de Carrera:</label>
 			{{ form_filters.carrera }}
 		</div>
 		<div class="form-select">
@@ -31,7 +31,7 @@
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'titulo_jurisdiccional';" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'carrera_jurisdiccional';" />
 		</div>
 
 </div>
@@ -42,19 +42,25 @@
   <thead>
 
     <tr>
-      <th>Título nacional</th>
-      <th>Tipo de título</th>
       <th>Carrera</th>
-      <th class="th-estados">Estados</th>
+      <th>Normativas</th>
+      <th>Cohortes Autorizadas</th>
+      <th class="th-estados">Estado</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
   <tbody>
     {% for titulo_jurisdiccional in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-	<td>{{ titulo_jurisdiccional.titulo }}</td>
-	<td>{{ titulo_jurisdiccional.titulo.tipo_titulo }}</td>
-	<td>{{ titulo_jurisdiccional.titulo.carrera }}</td>
+	<td>{{ titulo_jurisdiccional.carrera }}</td>
+	<td>{% for n in titulo_jurisdiccional.normativas.all %}
+        {{ n }}<br />
+      {% endfor %}
+  </td>
+	<td>{% for d in titulo_jurisdiccional.datos_cohorte.all %}
+        {{ d.anio_primera_cohorte }} - {{ d.anio_ultima_cohorte }}<br />
+      {% endfor %}
+  </td>
 	<td>
 	    <div class="estados">
 	    {% for estado in titulo_jurisdiccional.estados %}
@@ -65,7 +71,6 @@
         <td class="actions-td">
 	    <ul>
 		<li class="edit"><a href="{% url apps.titulos.views.titulo_jurisdiccional.edit titulo_jurisdiccional.id %}" title="Editar"><span>Editar</span></a></li>
-		<li class="orientaciones"><a href="{% url apps.titulos.views.titulo_jurisdiccional.orientaciones_por_titulo titulo_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
 		<li class="delete"><a href="{ url apps.titulos.views.titulo.eliminar titulo.id %}" title="Eliminar"><span>Eliminar</span></a></li>
 	    </ul>
         </td>
@@ -77,12 +82,12 @@
 </form>
 {% else %}
 <div class="message notice">
-  <p>No se encontraron títulos.</p>
+  <p>No se encontraron carreras.</p>
 </div>
 {% endif %}
 <ul class="actions">
     <li class="create">
-	<a href="{% url apps.titulos.views.titulo_jurisdiccional.create %}"><span>Nuevo título</span></a>
+	<a href="{% url apps.titulos.views.titulo_jurisdiccional.create %}"><span>Nueva Carrera</span></a>
     </li>
 </ul>
 <hr />

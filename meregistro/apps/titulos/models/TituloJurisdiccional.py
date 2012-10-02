@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.titulos.models.Titulo import Titulo
+from apps.titulos.models.Carrera import Carrera
 from apps.titulos.models.TipoTitulo import TipoTitulo
 from apps.titulos.models.TituloOrientacion import TituloOrientacion
 from apps.titulos.models.EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
@@ -14,7 +15,7 @@ Título jurisdiccional
 
 class TituloJurisdiccional(models.Model):
     #tipo_titulo = models.ForeignKey(TipoTitulo) -> Hereda del título
-    titulo = models.ForeignKey(Titulo)
+    carrera = models.ForeignKey(Carrera)
     orientaciones = models.ManyToManyField(TituloOrientacion, db_table = 'titulos_titulos_jurisd_orientaciones')
     normativas = models.ManyToManyField(NormativaJurisdiccional, db_table = 'titulos_titulos_jurisd_normativas')
     jurisdiccion = models.ForeignKey(Jurisdiccion)

@@ -3,6 +3,9 @@ from TituloFormFilters import TituloFormFilters
 from TituloOrientacionForm import TituloOrientacionForm
 from TituloOrientacionFormFilters import TituloOrientacionFormFilters
 #
+from TituloNacionalForm import TituloNacionalForm
+from TituloNacionalFormFilters import TituloNacionalFormFilters
+#
 from NormativaJurisdiccionalForm import NormativaJurisdiccionalForm
 from NormativaJurisdiccionalFormFilters import NormativaJurisdiccionalFormFilters
 #
@@ -51,7 +54,10 @@ from EgresadosEstablecimientoFormFilters import EgresadosEstablecimientoFormFilt
 from EgresadosAnexoForm import EgresadosAnexoForm
 from EgresadosAnexoDetalleForm import EgresadosAnexoDetalleForm
 from EgresadosAnexoFormFilters import EgresadosAnexoFormFilters
+#
 from CarreraForm import CarreraForm
 from CarreraFormFilters import CarreraFormFilters
+from CarreraAsignarTitulosFormFilters import CarreraAsignarTitulosFormFilters
+#
 from TipoTituloForm import TipoTituloForm
 from TipoTituloFormFilters import TipoTituloFormFilters

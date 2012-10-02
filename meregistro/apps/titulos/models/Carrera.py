@@ -36,3 +36,8 @@ class Carrera(models.Model):
 		except:
 			estados = {}
 		return estados
+		
+		
+	def carrera_jurisdiccional(self):
+		tmp = False
+		return tmp

@@ -63,7 +63,7 @@ def index(request):
 
 
 @login_required
-#@credential_required('tit_titulo_jurisdiccional_alta')
+@credential_required('tit_carrera_jurisdiccional_alta')
 def create(request):
     """
     Alta de título jurisdiccional.
@@ -72,7 +72,7 @@ def create(request):
         form = TituloJurisdiccionalDatosBasicosForm(request.POST, jurisdiccion_id=request.get_perfil().jurisdiccion().id)
         if form.is_valid():
             titulo_jurisdiccional = form.save(commit=False)
-            titulo_jurisdiccional.estado = EstadoTituloJurisdiccional.objects.get(nombre=EstadoTituloJurisdiccional.CONTROLADO)
+            titulo_jurisdiccional.estado = EstadoTituloJurisdiccional.objects.get(nombre=EstadoTituloJurisdiccional.REGISTRADO)
             titulo_jurisdiccional.jurisdiccion = request.get_perfil().jurisdiccion()
             titulo_jurisdiccional.save()
             #form.save_m2m() # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
@@ -104,14 +104,14 @@ def edit(request, titulo_jurisdiccional_id):
     Edición de los datos de un título jurisdiccional.
     """
     titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
-    titulo_anterior_id = int(titulo_jurisdiccional.titulo_id)
+    titulo_anterior_id = int(titulo_jurisdiccional.carrera_id)
 
     if request.method == 'POST':
         form = TituloJurisdiccionalDatosBasicosForm(request.POST, instance=titulo_jurisdiccional, jurisdiccion_id=request.get_perfil().jurisdiccion().id)
         if form.is_valid():
 
             # Cambió el título? Borrar las orientaciones
-            cambio_titulo = titulo_anterior_id is not int(request.POST['titulo'])
+            cambio_titulo = titulo_anterior_id is not int(request.POST['carrera'])
             if cambio_titulo:
                 titulo_jurisdiccional.eliminar_orientaciones()
 

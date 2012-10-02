@@ -71,7 +71,7 @@
 		<!--
 		Fin habilitación temporal
 		-->
-		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales %}
+		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales %}
 		<li><a href="#" class="inactive"><span>Carreras</span></a>
 			<ul>
 				{% if 'tit_carrera_consulta' in credenciales %}
@@ -79,6 +79,15 @@
 				{% endif %}
 				{% if 'tit_normativa_nacional_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.normativa_nacional.index %}"><span>Normativas Nacionales</span></a></li>
+				{% endif %}
+				{% if 'tit_titulo_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.titulo_nacional.index %}"><span>Títulos Nacionales</span></a></li>
+				{% endif %}
+				{% if 'tit_nor_jur_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
+				{% endif %}
+				{% if 'tit_carrera_jurisdiccional_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Carreras jurisdiccionales</a></li>
 				{% endif %}
 			</ul>
 		</li>

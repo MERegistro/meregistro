@@ -2,28 +2,28 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar Carreras{% endblock %}
+{% block title %}Administrar Titulos Nacionales{% endblock %}
 
 {% block content %}
-<h2>Administrar Carreras</h2>
+<h2>Administrar Titulos Nacionales</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
 
 <form action="" method="get">
-	<div class="form-filter" id="carreraFormFilter">
+	<div class="form-filter" id="tituloNacionalFormFilter">
 		<h3>Búsqueda avanzada</h3>
 		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.normativa_nacional.errors }}
+			<label for="id_normativa_nacional">Normativa:</label>
+			{{ form_filters.normativa_nacional }}
+		</div>
 		<div class="form-text">
 			{{ form_filters.nombre.errors }}
 			<label for="id_nombre">Nombre:</label>
 			{{ form_filters.nombre }}
 		</div> 
-		<div class="form-select">
-			{{ form_filters.jurisdiccion.errors }}
-			<label for="id_jurisdiccion">Jurisdicción:</label>
-			{{ form_filters.jurisdiccion }}
-		</div>
 		<div class="form-select">
 			{{ form_filters.estado.errors }}
 			<label for="id_estado">Estado:</label>
@@ -31,7 +31,7 @@
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'carrera';" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'titulo_nacional';" />
 		</div>
 </div>
 
@@ -46,8 +46,8 @@
 <table class="hor-zebra" style="margin-top:65px">
   <thead>
     <tr>
-      <th>Carrera</th>
-      <th>Jurisdicción</th>
+      <th>Normativa</th>
+      <th>Título</th>
       <th class="th-estados">Estados</th>
       <th class="actions">Acciones</th>
     </tr>
@@ -55,8 +55,8 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ obj.normativa_nacional.numero }}</td>
 	<td>{{ obj.nombre }}</td>
-	<td>{{ obj.jurisdicciones.all|implode:", " }}</td>
 	<td>
 	    <div class="estados">
 	    {% for estado in obj.estados %}
@@ -66,9 +66,10 @@
 	</td>
 	<td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url apps.titulos.views.carrera.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
-            <li class="one-many"><a href="{% url apps.titulos.views.carrera.titulos obj.id %}" title="Editar"><span>Títulos</span></a></li>
-            <li class="delete"><a href="{% url apps.titulos.views.carrera.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+            <li class="edit"><a href="{% url apps.titulos.views.titulo_nacional.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+            {% if obj.is_deletable %}
+            <li class="delete"><a href="{% url apps.titulos.views.titulo_nacional.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+			{% endif %}
           </ul>
         </td>
       </tr>
@@ -84,7 +85,7 @@
 {% endif %}
 <ul class="actions">
   <li class="create">
-    <a href="{% url apps.titulos.views.carrera.create %}"><span>Nueva Carrera</span></a>
+    <a href="{% url apps.titulos.views.titulo_nacional.create %}"><span>Nuevo Título</span></a>
   </li>
 </ul>
 <hr />

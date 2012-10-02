@@ -40,14 +40,12 @@ class NormativaNacional(models.Model):
 			estados = {}
 		return estados
 
-
 	"Algún título nacional está asociado a la normativa?"
-	def asociada_titulo(self):
-		from apps.titulos.models.Titulo import Titulo
-		return False
-		#return Titulo.objects.filter(normativa_nacional__id=self.id).exists() # Por ahora no existe esta relación
+	def asociada_titulo_nacional(self):
+		from apps.titulos.models.TituloNacional import TituloNacional
+		return TituloNacional.objects.filter(normativa_nacional__id=self.id).exists()
 	
 	"Eliminable?"
 	def is_deletable(self):
-		ret = self.asociada_titulo() == False
+		ret = self.asociada_titulo_nacional() == False
 		return ret

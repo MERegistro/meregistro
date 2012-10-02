@@ -13,6 +13,10 @@ from EstadoTitulo import EstadoTitulo
 from EstadoTituloOrientacion import EstadoTituloOrientacion
 from TituloOrientacionEstado import TituloOrientacionEstado
 #
+from TituloNacional import TituloNacional
+from TituloNacionalEstado import TituloNacionalEstado
+from EstadoTituloNacional import EstadoTituloNacional
+#
 from EstadoNormativaJurisdiccional import EstadoNormativaJurisdiccional
 from TipoNormativaJurisdiccional import TipoNormativaJurisdiccional
 from NormativaJurisdiccionalEstado import NormativaJurisdiccionalEstado

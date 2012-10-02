@@ -20,9 +20,9 @@ class TituloJurisdiccionalFormFilters(forms.Form):
             def filter_by(field):
                 return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None
         if filter_by('tipo_titulo'):
-            q = q.filter(titulo__tipo_titulo = self.cleaned_data['tipo_titulo'])
+            pass #q = q.filter(titulo__tipo_titulo = self.cleaned_data['tipo_titulo'])
         if filter_by('estado'):
             q = q.filter(estado = self.cleaned_data['estado'])
         if filter_by('carrera'):
-            q = q.filter(titulo__carrera = self.cleaned_data['carrera'])
+            q = q.filter(carrera = self.cleaned_data['carrera'])
         return q
