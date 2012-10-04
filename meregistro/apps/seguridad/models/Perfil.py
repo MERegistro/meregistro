@@ -48,3 +48,6 @@ class Perfil(models.Model):
     def can_delete_perfil(self, perfil):
         return (self.ambito.esAncestro(perfil.ambito)
             and self.rol.asigna(perfil.rol))
+
+    def __unicode__(self):
+        return unicode(self.rol) + ' (' + unicode(self.ambito) + ')'

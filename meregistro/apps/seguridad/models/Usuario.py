@@ -70,6 +70,8 @@ class Usuario(models.Model):
         nunca_logueado = self.last_login is None
         return nunca_logueado
 
+    def perfiles_vigentes(self):
+      return self.perfiles.filter(fecha_desasignacion=None)
 
     @classmethod
     def get_usuarios_by_rol(cls, rol):
