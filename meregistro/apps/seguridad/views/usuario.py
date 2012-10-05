@@ -28,7 +28,12 @@ def index(request):
     else:
         form_filter = UsuarioFormFilters()
     q = build_query(form_filter, 1)
-    q.filter(perfiles__ambito__path__istartswith=request.get_perfil().ambito.path)
+
+    if request.get_perfil().rol.padre is not None:
+        # No puede ver a TODOS los usuarios
+        q = q.filter(perfiles__ambito__path__istartswith=request.get_perfil().ambito.path)
+        q = q.filter(perfiles__rol__path__istartswith=request.get_perfil().rol.path)
+        q = Usuario.objects.filter(id__in=q)
 
     try:
         if request.GET['export'] == '1':
