@@ -5,10 +5,10 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import Titulo, TituloJurisdiccional, EstadoTituloJurisdiccional, EstadoTitulo, TituloOrientacion, \
-    TituloJurisdiccionalModalidadDistancia, TituloJurisdiccionalModalidadPresencial, EstadoTituloOrientacion, EstadoNormativaJurisdiccional, \
+    EstadoTituloOrientacion, EstadoNormativaJurisdiccional, \
     TituloJurisdiccionalCohorte
 from apps.titulos.forms import TituloJurisdiccionalFormFilters, TituloJurisdiccionalForm, TituloJurisdiccionalDatosBasicosForm, \
-    TituloJurisdiccionalOrientacionesForm, TituloJurisdiccionalModalidadPresencialForm, TituloJurisdiccionalModalidadDistanciaForm, \
+    TituloJurisdiccionalOrientacionesForm, \
     TituloJurisdiccionalDuracionForm, TituloJurisdiccionalNormativasForm, TituloJurisdiccionalCohorteForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
@@ -173,100 +173,6 @@ def editar_orientaciones(request, titulo_jurisdiccional_id):
         'is_new': False,
         'page_title': 'Orientaciones',
         'actual_page': 'orientaciones',
-    })
-
-
-@login_required
-#@credential_required('tit_titulo_jurisdiccional_alta')
-#@credential_required('tit_titulo_jurisdiccional_modificar')
-def editar_modalidades(request, titulo_jurisdiccional_id):
-    """
-    Edición de modalidades del título jurisdiccional.
-    """
-    try:
-        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
-    except:
-        # Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
-        return my_render(request, 'titulos/titulo_jurisdiccional/new.html', {
-        'titulo_jurisdiccional': None,
-        'form_template': 'titulos/titulo_jurisdiccional/form_modalidades.html',
-        'page_title': 'Modalidades',
-        'actual_page': 'modalidades',
-    })
-
-    # Ya existen los objectos relacionados?
-    try:
-        modalidad_presencial = titulo_jurisdiccional.modalidad_presencial.get()
-    except:
-        modalidad_presencial = TituloJurisdiccionalModalidadPresencial(titulo=titulo_jurisdiccional)
-
-    try:
-        modalidad_distancia = titulo_jurisdiccional.modalidad_distancia.get()
-    except:
-        modalidad_distancia = TituloJurisdiccionalModalidadDistancia(titulo=titulo_jurisdiccional)
-
-    # Prefixes de los inputs para no confundir los formularios
-    prefix_mod_presencial = 'mod_presencial'
-    prefix_mod_distancia = 'mod_distancia'
-
-    if request.method == 'POST':
-        form_modalidad_presencial = TituloJurisdiccionalModalidadPresencialForm(request.POST, instance=modalidad_presencial, prefix=prefix_mod_presencial)
-        form_modalidad_distancia = TituloJurisdiccionalModalidadDistanciaForm(request.POST, instance=modalidad_distancia, prefix=prefix_mod_distancia)
-
-        try:
-            duracion_mod_distancia = request.POST['mod_distancia-duracion']
-        except:
-            duracion_mod_distancia = None
-            
-        try:
-            duracion_mod_presencial = request.POST['mod_presencial-duracion']
-        except:
-            duracion_mod_presencial = None
-            
-        form_duracion = TituloJurisdiccionalDuracionForm(request.POST, instance=titulo_jurisdiccional, duracion_mod_distancia=duracion_mod_distancia, duracion_mod_presencial=duracion_mod_presencial)
-
-        if form_modalidad_presencial.is_valid() and form_modalidad_distancia.is_valid() and form_duracion.is_valid():
-
-            # Eliminarlo si se des-checkeó el checkbox y ya existe el objecto
-            try:
-                if request.POST['mod_presencial-posee_mod_presencial'] == 'on':
-                    modalidad_presencial = form_modalidad_presencial.save()
-            except KeyError:  # No se activó el checkbox
-                if modalidad_presencial.id:
-                    modalidad_presencial.delete()
-
-            # Eliminarlo si se des-checkeó el checkbox y ya existe el objecto
-            try:
-                if request.POST['mod_distancia-posee_mod_distancia'] == 'on':
-                    modalidad_distancia = form_modalidad_distancia.save()
-            except KeyError:  # No se activó el checkbox
-                if modalidad_distancia.id:
-                    modalidad_distancia.delete()
-
-            #if form_duracion.is_valid():
-            titulo_duracion = form_duracion.save()
-
-            request.set_flash('success', 'Datos guardados correctamente.')
-            # redirigir a edit
-            return HttpResponseRedirect(reverse('tituloJurisdiccionalModalidadesEdit', args=[titulo_jurisdiccional.id]))
-        else:
-            request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-    else:
-        form_modalidad_presencial = TituloJurisdiccionalModalidadPresencialForm(instance=modalidad_presencial, prefix=prefix_mod_presencial)
-        form_modalidad_distancia = TituloJurisdiccionalModalidadDistanciaForm(instance=modalidad_distancia, prefix=prefix_mod_distancia)
-        form_duracion = TituloJurisdiccionalDuracionForm(instance=titulo_jurisdiccional, duracion_mod_distancia=None, duracion_mod_presencial=None)
-
-    return my_render(request, 'titulos/titulo_jurisdiccional/edit.html', {
-        'modalidad_presencial': modalidad_presencial,
-        'modalidad_distancia': modalidad_distancia,
-        'form_modalidad_presencial': form_modalidad_presencial,
-        'form_modalidad_distancia': form_modalidad_distancia,
-        'form_duracion': form_duracion,
-        'titulo_jurisdiccional': titulo_jurisdiccional,
-        'form_template': 'titulos/titulo_jurisdiccional/form_modalidades.html',
-        'is_new': False,
-        'page_title': 'Modalidades',
-        'actual_page': 'modalidades',
     })
 
 

@@ -34,8 +34,6 @@ from Proyecto import Proyecto
 #
 from TituloJurisdiccional import TituloJurisdiccional
 from TituloJurisdiccionalCohorte import TituloJurisdiccionalCohorte
-from TituloJurisdiccionalModalidadDistancia import TituloJurisdiccionalModalidadDistancia
-from TituloJurisdiccionalModalidadPresencial import TituloJurisdiccionalModalidadPresencial
 from TituloJurisdiccionalEstado import TituloJurisdiccionalEstado
 from EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
 #
