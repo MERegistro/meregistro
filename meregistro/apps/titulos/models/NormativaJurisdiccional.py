@@ -20,7 +20,7 @@ class NormativaJurisdiccional(models.Model):
         db_table = 'titulos_normativa_jurisdiccional'
 
     def __unicode__(self):
-        return str(self.numero_anio)
+        return str(self.numero_anio) + " - " + self.tipo_normativa_jurisdiccional.nombre 
 
 
     "Sobreescribo el init para agregarle propiedades"
