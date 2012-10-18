@@ -41,7 +41,7 @@
 			<ul style="width: 250px;">
 				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
-				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
+				<li><a href="{% url apps.titulos.views.carrera_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
 				{% endif %}
 				
@@ -71,7 +71,7 @@
 		<!--
 		Fin habilitación temporal
 		-->
-		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales %}
+		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_cohorte' in credenciales %}
 		<li><a href="#" class="inactive"><span>Carreras</span></a>
 			<ul>
 				{% if 'tit_carrera_consulta' in credenciales %}
@@ -87,7 +87,10 @@
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				{% endif %}
 				{% if 'tit_carrera_jurisdiccional_consulta' in credenciales %}
-				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Carreras jurisdiccionales</a></li>
+				<li><a href="{% url apps.titulos.views.carrera_jurisdiccional.index %}">Carreras jurisdiccionales</a></li>
+				{% endif %}
+				{% if 'tit_cohorte_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
 				{% endif %}
 			</ul>
 		</li>

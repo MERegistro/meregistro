@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import CohorteAnexo, EstadoCohorteAnexo, CohorteAnexoSeguimiento, EstadoTituloJurisdiccional
+from apps.titulos.models import CohorteAnexo, EstadoCohorteAnexo, CohorteAnexoSeguimiento, EstadoCarreraJurisdiccional
 from apps.titulos.forms import AceptarCohorteAnexoFormFilters, CohorteAnexoConfirmarForm, CohorteAnexoSeguimientoForm
 from apps.registro.models import Anexo
 from django.core.paginator import Paginator
@@ -34,10 +34,10 @@ def build_confirmar_cohortes_query(filters, page, request):
     Construye el query de búsqueda a partir de los filtros.
     """
     anexo = __get_anexo_actual(request)
-    estado = EstadoTituloJurisdiccional.objects.get(nombre=EstadoTituloJurisdiccional.CONTROLADO)
+    estado = EstadoCarreraJurisdiccional.objects.get(nombre=EstadoCarreraJurisdiccional.CONTROLADO)
     # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-    return filters.buildQuery().filter(anexo=anexo, cohorte__titulo_jurisdiccional__estado__nombre=estado, \
-        cohorte__titulo_jurisdiccional__datos_cohorte__anio_ultima_cohorte__gte=datetime.date.today().year).order_by('cohorte__titulo_jurisdiccional__titulo__nombre', '-cohorte__anio')
+    return filters.buildQuery().filter(anexo=anexo, cohorte__carrera_jurisdiccional__estado__nombre=estado, \
+        cohorte__carrera_jurisdiccional__datos_cohorte__anio_ultima_cohorte__gte=datetime.date.today().year).order_by('cohorte__carrera_jurisdiccional__titulo__nombre', '-cohorte__anio')
 
 
 @login_required

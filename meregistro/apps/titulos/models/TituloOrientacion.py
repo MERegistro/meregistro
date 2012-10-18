@@ -35,7 +35,7 @@ class TituloOrientacion(models.Model):
             est.delete()
         super(TituloOrientacion, self).delete(*args, **kwargs)
 
-    def asociado_titulo_jurisdiccional(self):
+    def asociado_carrera_jurisdiccional(self):
         pass
 
     def registrar_estado(self):
@@ -54,6 +54,6 @@ class TituloOrientacion(models.Model):
         return estados
 
     "Algún título jurisdiccional está asociado a la orientación?"
-    def asociado_titulo_jurisdiccional(self):
-        from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
-        return TituloJurisdiccional.objects.filter(orientaciones__id = self.id).exists()
+    def asociado_carrera_jurisdiccional(self):
+        from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
+        return CarreraJurisdiccional.objects.filter(orientaciones__id = self.id).exists()

@@ -4,9 +4,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import TituloJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoTituloJurisdiccional, EstadoCohorteEstablecimiento, \
+from apps.titulos.models import CarreraJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoCarreraJurisdiccional, EstadoCohorteEstablecimiento, \
     CohorteAnexo, EstadoCohorteAnexo, CohorteExtensionAulica, EstadoCohorteExtensionAulica
-from apps.titulos.forms import TituloJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, \
+from apps.titulos.forms import CarreraJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, \
     CohorteAsignarAnexosFormFilters, CohorteAsignarExtensionesAulicasFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento
 from django.core.paginator import Paginator
@@ -30,9 +30,9 @@ def index(request):
     Búsqueda de titulos
     """
     if request.method == 'GET':
-        form_filter = TituloJurisdiccionalCohorteFormFilters(request.GET)
+        form_filter = CarreraJurisdiccionalCohorteFormFilters(request.GET)
     else:
-        form_filter = TituloJurisdiccionalCohorteFormFilters()
+        form_filter = CarreraJurisdiccionalCohorteFormFilters()
     q = build_query(form_filter, 1, request).filter(jurisdiccion=request.get_perfil().jurisdiccion())
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
@@ -63,7 +63,7 @@ def index(request):
 
 @login_required
 #@credential_required('tit_cohorte_alta')
-def create(request, titulo_jurisdiccional_id=None):
+def create(request, carrera_jurisdiccional_id=None):
     """
     Alta de cohorte
     """
@@ -71,11 +71,11 @@ def create(request, titulo_jurisdiccional_id=None):
     Ya no se crea la cohorte eligiendo el título en un combo, sino que hay que especificarlo sí o sí (en la url)
     """
     "Agregar cohorte al título actual o crearla eligiendo el mismo"
-    if titulo_jurisdiccional_id is not None:
-        titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id, jurisdiccion=request.get_perfil().jurisdiccion())
-        choices = [('', '-------')] + [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
+    if carrera_jurisdiccional_id is not None:
+        carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id, jurisdiccion=request.get_perfil().jurisdiccion())
+        choices = [('', '-------')] + [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, carrera_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
     else:
-        titulo_jurisdiccional = None
+        carrera_jurisdiccional = None
         choices = [('', '---Seleccione un título---')]
 
     if request.method == 'POST':
@@ -85,27 +85,27 @@ def create(request, titulo_jurisdiccional_id=None):
 
             # redirigir a edit
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('cohortesPorTitulo', args=[cohorte.titulo_jurisdiccional.id]))
+            return HttpResponseRedirect(reverse('cohortesPorTitulo', args=[cohorte.carrera_jurisdiccional.id]))
 
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = CohorteForm()
 
-    if titulo_jurisdiccional:
-        q = TituloJurisdiccional.objects.filter(id=titulo_jurisdiccional.id)
-        form.fields["titulo_jurisdiccional"].empty_label = None
+    if carrera_jurisdiccional:
+        q = CarreraJurisdiccional.objects.filter(id=carrera_jurisdiccional.id)
+        form.fields["carrera_jurisdiccional"].empty_label = None
     else:
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-        q = TituloJurisdiccional.objects.filter(estado__nombre=EstadoTituloJurisdiccional.CONTROLADO)
-        form.fields["titulo_jurisdiccional"].queryset = q.filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('titulo__nombre')
+        q = CarreraJurisdiccional.objects.filter(estado__nombre=EstadoCarreraJurisdiccional.CONTROLADO)
+        form.fields["carrera_jurisdiccional"].queryset = q.filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('titulo__nombre')
 
-    form.fields["titulo_jurisdiccional"].queryset = q
+    form.fields["carrera_jurisdiccional"].queryset = q
     form.fields["anio"].choices = choices
 
     return my_render(request, 'titulos/cohorte/new.html', {
         'form': form,
-        'titulo_jurisdiccional': titulo_jurisdiccional,
+        'carrera_jurisdiccional': carrera_jurisdiccional,
         'is_new': True,
     })
 
@@ -131,21 +131,21 @@ def edit(request, cohorte_id):
     else:
         form = CohorteForm(instance=cohorte)
 
-    titulo_jurisdiccional = cohorte.titulo_jurisdiccional
-    choices = [(i, i) for i in range(titulo_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, titulo_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
+    carrera_jurisdiccional = cohorte.carrera_jurisdiccional
+    choices = [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, carrera_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
     form.fields["anio"].choices = choices
 
     asignada_establecimiento = cohorte.asignada_establecimiento()
     if(asignada_establecimiento):
         # No se puede modificar el título ni el año
-        form.fields["titulo_jurisdiccional"].queryset = TituloJurisdiccional.objects.filter(id=cohorte.titulo_jurisdiccional_id)
+        form.fields["carrera_jurisdiccional"].queryset = CarreraJurisdiccional.objects.filter(id=cohorte.carrera_jurisdiccional_id)
         form.fields["anio"].choices = [(cohorte.anio, cohorte.anio)]
-        form.fields["titulo_jurisdiccional"].empty_label = None
+        form.fields["carrera_jurisdiccional"].empty_label = None
 
     return my_render(request, 'titulos/cohorte/edit.html', {
         'form': form,
         'cohorte': cohorte,
-        'titulo_jurisdiccional': cohorte.titulo_jurisdiccional,
+        'carrera_jurisdiccional': cohorte.carrera_jurisdiccional,
         'asignada_establecimiento': asignada_establecimiento,
         'is_new': False,
     })
@@ -153,10 +153,10 @@ def edit(request, cohorte_id):
 
 @login_required
 #@credential_required('tit_cohorte_consulta')
-def cohortes_por_titulo(request, titulo_jurisdiccional_id):
+def cohortes_por_titulo(request, carrera_jurisdiccional_id):
     "Cohortes por título"
-    titulo_jurisdiccional = TituloJurisdiccional.objects.get(pk=titulo_jurisdiccional_id)
-    q = Cohorte.objects.filter(titulo_jurisdiccional__id=titulo_jurisdiccional.id)
+    carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+    q = Cohorte.objects.filter(carrera_jurisdiccional__id=carrera_jurisdiccional.id)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -173,7 +173,7 @@ def cohortes_por_titulo(request, titulo_jurisdiccional_id):
     objects = page.object_list
     return my_render(request, 'titulos/cohorte/cohortes_por_titulo.html', {
         #'form_filters': form_filter,
-        'titulo_jurisdiccional': titulo_jurisdiccional,
+        'carrera_jurisdiccional': carrera_jurisdiccional,
         'objects': objects,
         'paginator': paginator,
         'page': page,
@@ -406,4 +406,4 @@ def revisar_jurisdiccion(request, oid):
     o.revisado_jurisdiccion = True
     o.save()
     request.set_flash('success', 'Registro revisado.')
-    return HttpResponseRedirect(reverse('cohortesPorTitulo', args=[o.titulo_jurisdiccional_id]))
+    return HttpResponseRedirect(reverse('cohortesPorTitulo', args=[o.carrera_jurisdiccional_id]))

@@ -32,10 +32,10 @@ from Matricula import Matricula
 from TipoProyecto import TipoProyecto
 from Proyecto import Proyecto
 #
-from TituloJurisdiccional import TituloJurisdiccional
-from TituloJurisdiccionalCohorte import TituloJurisdiccionalCohorte
-from TituloJurisdiccionalEstado import TituloJurisdiccionalEstado
-from EstadoTituloJurisdiccional import EstadoTituloJurisdiccional
+from CarreraJurisdiccional import CarreraJurisdiccional
+from CarreraJurisdiccionalCohorte import CarreraJurisdiccionalCohorte
+from CarreraJurisdiccionalEstado import CarreraJurisdiccionalEstado
+from EstadoCarreraJurisdiccional import EstadoCarreraJurisdiccional
 #
 from CohorteEstablecimientoEstado import CohorteEstablecimientoEstado
 from Cohorte import Cohorte
@@ -56,10 +56,4 @@ from OpcionPedagogica import OpcionPedagogica
 from TipoHora import TipoHora
 from EstadoTramitePostitulo import EstadoTramitePostitulo
 from Postitulo import Postitulo
-#
-from EgresadosEstablecimiento import EgresadosEstablecimiento
-from EgresadosEstablecimientoDetalle import EgresadosEstablecimientoDetalle
-#
-from EgresadosAnexo import EgresadosAnexo
-from EgresadosAnexoDetalle import EgresadosAnexoDetalle
 #

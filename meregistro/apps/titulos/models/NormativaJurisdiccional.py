@@ -50,6 +50,6 @@ class NormativaJurisdiccional(models.Model):
         return estados
 
     "Algún título jurisdiccional está asociado a la normativa?"
-    def asociado_titulo_jurisdiccional(self):
-        from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
-        return TituloJurisdiccional.objects.filter(normativas__id = self.id).exists()
+    def asociado_carrera_jurisdiccional(self):
+        from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
+        return CarreraJurisdiccional.objects.filter(normativas__id = self.id).exists()

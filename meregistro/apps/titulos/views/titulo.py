@@ -139,8 +139,8 @@ def eliminar(request, titulo_id):
     --- mientras no sea referido por un título jurisdiccional ---
     """
     titulo = Titulo.objects.get(pk=titulo_id)
-    asociado_titulo_jurisdiccional = titulo.asociado_titulo_jurisdiccional()
-    if asociado_titulo_jurisdiccional:
+    asociado_carrera_jurisdiccional = titulo.asociado_carrera_jurisdiccional()
+    if asociado_carrera_jurisdiccional:
         request.set_flash('warning', 'El título no puede darse de baja porque tiene títulos jurisdiccionales asociados.')
     else:
         request.set_flash('warning', 'Está seguro de eliminar el título? Esta operación no puede deshacerse.')
@@ -156,5 +156,5 @@ def eliminar(request, titulo_id):
 
     return my_render(request, 'titulos/titulo/eliminar.html', {
         'titulo_id': titulo.id,
-        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
+        'asociado_carrera_jurisdiccional': asociado_carrera_jurisdiccional,
     })

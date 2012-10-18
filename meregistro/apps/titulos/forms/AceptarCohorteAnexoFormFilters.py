@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 from django import forms
-from apps.titulos.models import TituloJurisdiccional, TituloJurisdiccionalCohorte, Carrera, \
-    EstadoTituloJurisdiccional, TipoTitulo, CohorteAnexo, EstadoCohorteAnexo
+from apps.titulos.models import CarreraJurisdiccional, CarreraJurisdiccionalCohorte, Carrera, \
+    EstadoCarreraJurisdiccional, TipoTitulo, CohorteAnexo, EstadoCohorteAnexo
 import datetime
 
 ANIOS_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(2000, 2021)]
@@ -27,11 +27,11 @@ class AceptarCohorteAnexoFormFilters(forms.Form):
             if filter_by('anio'):
                 q = q.filter(cohorte__anio = self.cleaned_data['anio'])
             if filter_by('tipo_titulo'):
-                q = q.filter(cohorte__titulo_jurisdiccional__titulo__tipo_titulo = self.cleaned_data['tipo_titulo'])
+                q = q.filter(cohorte__carrera_jurisdiccional__titulo__tipo_titulo = self.cleaned_data['tipo_titulo'])
             if filter_by('nombre_titulo'):
-                q = q.filter(cohorte__titulo_jurisdiccional__titulo__nombre__icontains = self.cleaned_data['nombre_titulo'])
+                q = q.filter(cohorte__carrera_jurisdiccional__titulo__nombre__icontains = self.cleaned_data['nombre_titulo'])
             if filter_by('carrera'):
-                q = q.filter(cohorte__titulo_jurisdiccional__titulo__carrera = self.cleaned_data['carrera'])
+                q = q.filter(cohorte__carrera_jurisdiccional__titulo__carrera = self.cleaned_data['carrera'])
             if filter_by('estado'):
                 q = q.filter(estado = self.cleaned_data['estado'])
         # Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado

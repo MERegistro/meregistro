@@ -67,9 +67,9 @@
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 
 	<td>{{ cohorte_anexo.cohorte.anio }}</td>
-	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo.tipo_titulo }}</td>
-	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo }}</td>
-	<td>{{ cohorte_anexo.cohorte.titulo_jurisdiccional.titulo.carrera }}</td>
+	<td>{{ cohorte_anexo.cohorte.carrera_jurisdiccional.titulo.tipo_titulo }}</td>
+	<td>{{ cohorte_anexo.cohorte.carrera_jurisdiccional.titulo }}</td>
+	<td>{{ cohorte_anexo.cohorte.carrera_jurisdiccional.titulo.carrera }}</td>
 	<td>{{ cohorte_anexo.estado }}</td>
 	<td>{% if cohorte_anexo.inscriptos != None %}{{ cohorte_anexo.inscriptos }}{% else %}---{% endif %}</td>
 	<td>{{ cohorte_anexo.seguimiento.all|implode:", " }}</td>

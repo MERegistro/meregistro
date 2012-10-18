@@ -7,10 +7,9 @@ import datetime
 
 "Cada asignación de una cohorte a un anexo"
 class CohorteExtensionAulica(models.Model):
-    extension_aulica = models.ForeignKey(ExtensionAulica, related_name = 'extension_aulica_cohortes')
+    extension_aulica = models.ForeignKey(ExtensionAulica, related_name='cohortes')
     cohorte = models.ForeignKey(Cohorte)
     oferta = models.NullBooleanField()
-    inscriptos = models.PositiveIntegerField(null = True, blank = True)
     estado = models.ForeignKey(EstadoCohorteExtensionAulica) # Concuerda con el último estado en CohorteExtensionAulicaEstado
 
     class Meta:

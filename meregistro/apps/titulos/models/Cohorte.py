@@ -3,24 +3,24 @@ from django.db import models
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Anexo import Anexo
 from apps.registro.models.ExtensionAulica import ExtensionAulica
-from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
+from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
 import datetime
 
-"Cada año de TituloJurisdiccionalCohorte"
+"Cada año de CarreraJurisdiccionalCohorte"
 class Cohorte(models.Model):
-    titulo_jurisdiccional = models.ForeignKey(TituloJurisdiccional, related_name = 'cohortes')
+    carrera_jurisdiccional = models.ForeignKey(CarreraJurisdiccional, related_name='cohortes')
     anio = models.PositiveIntegerField()
     observaciones = models.CharField(max_length = 255, null = True, blank = True)
-    establecimientos = models.ManyToManyField(Establecimiento, through = "CohorteEstablecimiento")
-    anexos = models.ManyToManyField(Anexo, through = "CohorteAnexo")
-    extensiones_aulicas = models.ManyToManyField(ExtensionAulica, through = "CohorteExtensionAulica")
+    establecimientos = models.ManyToManyField(Establecimiento, through="CohorteEstablecimiento")
+    anexos = models.ManyToManyField(Anexo, through="CohorteAnexo")
+    extensiones_aulicas = models.ManyToManyField(ExtensionAulica, through="CohorteExtensionAulica")
     revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
 
     class Meta:
         app_label = 'titulos'
         ordering = ['anio']
         db_table = 'titulos_cohorte'
-        unique_together = ('titulo_jurisdiccional', 'anio')
+        unique_together = ('carrera_jurisdiccional', 'anio')
 
     def __unicode__(self):
         return str(self.anio)
@@ -43,7 +43,7 @@ class Cohorte(models.Model):
     "Override del método para poder inertar un mensaje de error personalizado"
     "@see http://stackoverflow.com/questions/3993560/django-how-to-override-unique-together-error-message"
     def unique_error_message(self, model_class, unique_check):
-        if model_class == type(self) and unique_check == ('titulo_jurisdiccional', 'anio'):
+        if model_class == type(self) and unique_check == ('carrera_jurisdiccional', 'anio'):
             return 'El título elegido ya tiene una cohorte asignada ese año.'
         else:
             return super(Cohorte, self).unique_error_message(model_class, unique_check)

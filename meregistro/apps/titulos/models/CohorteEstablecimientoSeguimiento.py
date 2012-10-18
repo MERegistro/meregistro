@@ -5,13 +5,15 @@ import datetime
 
 "Seguimiento de cada cohorte del establecimiento"
 class CohorteEstablecimientoSeguimiento(models.Model):
-    cohorte_establecimiento = models.ForeignKey(CohorteEstablecimiento, related_name = 'seguimiento')
+    cohorte_establecimiento = models.ForeignKey(CohorteEstablecimiento, related_name='seguimiento')
     anio = models.PositiveIntegerField()
-    solo_cursan_nueva = models.PositiveIntegerField()
-    solo_recursan = models.PositiveIntegerField()
-    recursan_cursan = models.PositiveIntegerField()
+    solo_cursan_nuevas_unidades = models.PositiveIntegerField()
+    solo_recursan_nuevas_unidades = models.PositiveIntegerField()
+    recursan_cursan_nuevas_unidades = models.PositiveIntegerField()
     no_cursan = models.PositiveIntegerField()
-    observaciones = models.CharField(max_length = 255, null = True, blank = True)
+    egresados = models.PositiveIntegerField()
+    observaciones = models.CharField(max_length=255, null=True, blank=True)
+
 
     class Meta:
         app_label = 'titulos'

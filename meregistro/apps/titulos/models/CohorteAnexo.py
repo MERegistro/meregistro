@@ -7,11 +7,10 @@ import datetime
 
 "Cada asignación de una cohorte a un anexo"
 class CohorteAnexo(models.Model):
-    anexo = models.ForeignKey(Anexo, related_name = 'anexo_cohortes')
+    anexo = models.ForeignKey(Anexo, related_name='cohortes')
     cohorte = models.ForeignKey(Cohorte)
     oferta = models.NullBooleanField()
     emite = models.NullBooleanField()
-    inscriptos = models.PositiveIntegerField(null = True, blank = True)
     estado = models.ForeignKey(EstadoCohorteAnexo) # Concuerda con el último estado en CohorteEstablecimientoEstado
 
     class Meta:
