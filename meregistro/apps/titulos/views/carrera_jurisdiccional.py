@@ -251,6 +251,7 @@ def editar_cohortes(request, carrera_jurisdiccional_id):
             # redirigir a edit
             return HttpResponseRedirect(reverse('carreraJurisdiccionalCohortesEdit', args=[carrera_jurisdiccional.id]))
         else:
+            print form.errors
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = CarreraJurisdiccionalCohorteForm(instance=cohorte)

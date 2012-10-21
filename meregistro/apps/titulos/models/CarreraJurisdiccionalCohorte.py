@@ -5,10 +5,9 @@ from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
 "Datos generales de cohorte para una carrera jurisdiccional"
 class CarreraJurisdiccionalCohorte(models.Model):
     carrera_jurisdiccional = models.ForeignKey(CarreraJurisdiccional, related_name='datos_cohorte')
-    primera_cohorte_solicitada = models.PositiveIntegerField()
-    ultima_cohorte_solicitada = models.PositiveIntegerField()
-    primera_cohorte_autorizada = models.PositiveIntegerField(null=True)
-    ultima_cohorte_autorizada = models.PositiveIntegerField(null=True)
+    anio_primera_cohorte = models.PositiveIntegerField(null=True)
+    anio_ultima_cohorte = models.PositiveIntegerField(null=True)
+    cohortes_aprobadas = models.PositiveIntegerField(null=True)    
     observaciones = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
