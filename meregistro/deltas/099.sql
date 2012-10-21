@@ -560,8 +560,7 @@ CREATE TABLE titulos_cohortes_extensiones_aulicas
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE titulos_cohortes_extensiones_aulicas
-  OWNER TO luciano;
+
 
 -- Index: titulos_cohortes_extensiones_aulicas_cohorte_id
 
