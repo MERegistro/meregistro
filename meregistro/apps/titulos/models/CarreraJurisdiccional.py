@@ -58,7 +58,7 @@ class CarreraJurisdiccional(models.Model):
         from apps.titulos.models.CarreraJurisdiccionalEstado import CarreraJurisdiccionalEstado
         registro = CarreraJurisdiccionalEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
-        registro.titulo_id = self.id
+        registro.carrera_jurisdiccional = self
         registro.save()
 
     def get_estados(self):
