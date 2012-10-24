@@ -68,12 +68,12 @@ def create(request, carrera_jurisdiccional_id=None):
     Alta de cohorte
     """
     """
-    Ya no se crea la cohorte eligiendo el título en un combo, sino que hay que especificarlo sí o sí (en la url)
+    Ya no se crea la cohorte eligiendo la carrera en un combo, sino que hay que especificarlo sí o sí (en la url)
     """
-    "Agregar cohorte al título actual o crearla eligiendo el mismo"
+    "Agregar cohorte a la carrera actual o crearla eligiendo la misma"
     if carrera_jurisdiccional_id is not None:
         carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id, jurisdiccion=request.get_perfil().jurisdiccion())
-        choices = [('', '-------')] + [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().anio_primera_cohorte, carrera_jurisdiccional.datos_cohorte.get().anio_ultima_cohorte + 1)]
+        choices = [('', '-------')] + [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
     else:
         carrera_jurisdiccional = None
         choices = [('', '---Seleccione un título---')]

@@ -1,5 +1,5 @@
 <div id="seguimientoNav" class="tab-nav">
 	<ul>
-		<li{% if actual_page == 'datos_seguimiento' %} class="active"{% endif %}><a href="{% url apps.titulos.views.cohorte_anexo.create_seguimiento cohorte_anexo.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if current_page == 'datos_seguimiento' %} class="active"{% endif %}><a href="{% url apps.titulos.views.cohorte_anexo.create_seguimiento cohorte_anexo.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
 	</ul>
 </div>

@@ -1,15 +1,15 @@
 <div id="carreraJurisdiccionalDatosNav" class="tab-nav">
 	<ul>
 		{% if carrera_jurisdiccional %}
-		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.edit carrera_jurisdiccional.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
-		<li{% if actual_page == 'orientaciones' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_orientaciones carrera_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
-        <li{% if actual_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_normativas carrera_jurisdiccional.id %}" title="Normativas"><span>Normativas</span></a></li>
-		<li{% if actual_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_cohortes carrera_jurisdiccional.id %}" title="Datos de cohortes"><span>Datos de cohortes</span></a></li>
+		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.edit carrera_jurisdiccional.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if current_page == 'orientaciones' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_orientaciones carrera_jurisdiccional.id %}" title="Orientaciones"><span>Orientaciones</span></a></li>
+        <li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_normativas carrera_jurisdiccional.id %}" title="Normativas"><span>Normativas</span></a></li>
+		<li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_cohortes carrera_jurisdiccional.id %}" title="Datos de cohortes"><span>Datos de cohortes</span></a></li>
 		{% else %}
-		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.create %}" title="Datos básicos"><span>Datos básicos</span></a></li>
-		<li{% if actual_page == 'orientaciones' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_orientaciones %}" title="Orientaciones"><span>Orientaciones</span></a></li>
-        <li{% if actual_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_normativas %}" title="Modalidades"><span>Normativas</span></a></li>
-		<li{% if actual_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_cohortes %}" title="Datos de cohortes"><span>Datos de cohortes</span></a></li>
+		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.create %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if current_page == 'orientaciones' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_orientaciones %}" title="Orientaciones"><span>Orientaciones</span></a></li>
+        <li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_normativas %}" title="Modalidades"><span>Normativas</span></a></li>
+		<li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_cohortes %}" title="Datos de cohortes"><span>Datos de cohortes</span></a></li>
 		{% endif %}
 	</ul>
 </div>

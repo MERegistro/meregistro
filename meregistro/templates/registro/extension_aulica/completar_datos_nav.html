@@ -1,34 +1,34 @@
 <div id="establecimientoCompletarDatosNav" class="tab-nav">
 	<ul>
 {% if configuracion_solapas.datos_basicos %}
-		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
 {% endif %}
 {% if configuracion_solapas.contacto %}
-		<li{% if actual_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_contacto extension_aulica.id %}" title="Contacto"><span>Contacto</span></a></li>
+		<li{% if current_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_contacto extension_aulica.id %}" title="Contacto"><span>Contacto</span></a></li>
 {% endif %}
 {% if configuracion_solapas.alcances %}
-		<li{% if actual_page == 'alcances' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_alcances extension_aulica.id %}" title="Alcance"><span>Alcance</span></a></li>
+		<li{% if current_page == 'alcances' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_alcances extension_aulica.id %}" title="Alcance"><span>Alcance</span></a></li>
 {% endif %}
 {% if configuracion_solapas.turnos %}
-		<li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_turno.index extension_aulica.id %}" title="Turnos"><span>Turnos</span></a></li>
+		<li{% if current_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_turno.index extension_aulica.id %}" title="Turnos"><span>Turnos</span></a></li>
 {% endif %}
 {% if configuracion_solapas.funciones %}
-		<li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_funciones extension_aulica.id %}" title="Funciones"><span>Funciones</span></a></li>
+		<li{% if current_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_funciones extension_aulica.id %}" title="Funciones"><span>Funciones</span></a></li>
 {% endif %}
 {% if configuracion_solapas.domicilio %}
-		<li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_domicilio.index extension_aulica.id %}" title="Domicilios"><span>Domicilios</span></a></li>
+		<li{% if current_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_domicilio.index extension_aulica.id %}" title="Domicilios"><span>Domicilios</span></a></li>
 {% endif %}
 {% if configuracion_solapas.autoridad %}
-		<li{% if actual_page == 'autoridad' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_autoridad.index extension_aulica.id %}" title="Autoridades"><span>Autoridades</span></a></li>
+		<li{% if current_page == 'autoridad' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_autoridad.index extension_aulica.id %}" title="Autoridades"><span>Autoridades</span></a></li>
 {% endif %}
 {% if configuracion_solapas.informacion_edilicia %}
-		<li{% if actual_page == 'informacion_edilicia' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_informacion_edilicia extension_aulica.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
+		<li{% if current_page == 'informacion_edilicia' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_informacion_edilicia extension_aulica.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
 {% endif %}
 {% if configuracion_solapas.conexion_internet %}
-		<li{% if actual_page == 'conexion_internet' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_conexion_internet extension_aulica.id %}" title="Conectividad"><span>Conectividad</span></a></li>
+		<li{% if current_page == 'conexion_internet' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica.completar_conexion_internet extension_aulica.id %}" title="Conectividad"><span>Conectividad</span></a></li>
 {% endif %}
 {% if configuracion_solapas.matricula %}
-		<li{% if actual_page == 'matricula' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_matricula.index extension_aulica.id %}" title="Matrícula"><span>Matrícula</span></a></li>
+		<li{% if current_page == 'matricula' %} class="active"{% endif %}><a href="{% url apps.registro.views.extension_aulica_matricula.index extension_aulica.id %}" title="Matrícula"><span>Matrícula</span></a></li>
 {% endif %}
 		</ul>
 </div>

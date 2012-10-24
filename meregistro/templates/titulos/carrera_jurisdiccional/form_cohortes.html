@@ -8,13 +8,13 @@
 			{{ form.cohortes_aprobadas }}
 		</div>
 		<div class="form-select">
-			{{ form.anio_primera_cohorte.errors }}
-			<label for="id_anio_primera_cohorte">Año primera cohorte:</label>
-			{{ form.anio_primera_cohorte }}
+			{{ form.primera_cohorte_solicitada.errors }}
+			<label for="id_primera_cohorte_solicitada">Año primera cohorte:</label>
+			{{ form.primera_cohorte_solicitada }}
 		</div>
 		<div class="form-select">
-			<label for="id_anio_ultima_cohorte">Año última cohorte:</label>
-			<input type="text" readonly="readonly" value="" name="anio_ultima_cohorte" id ="id_anio_ultima_cohorte" />
+			<label for="id_ultima_cohorte_solicitada">Año última cohorte:</label>
+			<input type="text" readonly="readonly" value="" name="ultima_cohorte_solicitada" id ="id_ultima_cohorte_solicitada" />
 		</div>
 		<div class="form-textarea">
 			{{ form.observaciones.errors }}
@@ -39,9 +39,13 @@
 </div>
 <script>
 var dropdown_cantidad = $("select#id_cohortes_aprobadas");
-var dropdown_primera = $("select#id_anio_primera_cohorte");
-var txt_ultima = $("input#id_anio_ultima_cohorte");
+var dropdown_primera = $("select#id_primera_cohorte_solicitada");
+var txt_ultima = $("input#id_ultima_cohorte_solicitada");
 
+{% if not is_new %}
+var cantidad_actual = {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }} - {{  carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }};
+dropdown_cantidad.val(cantidad_actual);
+{% endif %}
 function calcular_ultima_cohorte()
 {
 	ultima = "";

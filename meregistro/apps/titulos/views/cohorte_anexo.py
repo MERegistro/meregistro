@@ -131,7 +131,7 @@ def seguimiento(request, cohorte_anexo_id):
         'objects': objects,
         'cohorte_anexo': cohorte_anexo,
         'page_title': 'Seguimiento de cohote',
-        'actual_page': 'seguimiento',
+        'current_page': 'seguimiento',
     })
 
 
@@ -165,7 +165,7 @@ def create_seguimiento(request, cohorte_anexo_id):
         'cohorte_anexo': cohorte_anexo,
         'form_template': 'titulos/cohorte/cohorte_anexo/form_seguimiento.html',
         'page_title': 'Datos de seguimiento',
-        'actual_page': 'datos_seguimiento',
+        'current_page': 'datos_seguimiento',
     })
 
 
@@ -198,7 +198,7 @@ def edit_seguimiento(request, seguimiento_id):
         'cohorte_anexo': cohorte_anexo,
         'form_template': 'titulos/cohorte/cohorte_anexo/form_seguimiento.html',
         'page_title': 'Datos de seguimiento',
-        'actual_page': 'datos_seguimiento',
+        'current_page': 'datos_seguimiento',
     })
 
 

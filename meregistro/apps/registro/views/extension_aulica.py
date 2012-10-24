@@ -271,7 +271,7 @@ def completar_datos_basicos(request, extension_aulica_id):
         'extension_aulica': ext,
         'codigo_tipo_unidad_educativa': codigo,
         'page_title': 'Datos básicos',
-        'actual_page': 'datos_basicos',
+        'current_page': 'datos_basicos',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })    
 
@@ -304,7 +304,7 @@ def completar_contacto(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_contacto.html',
         'extension_aulica': ext,
         'page_title': 'Contacto',
-        'actual_page': 'contacto',
+        'current_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
@@ -337,7 +337,7 @@ def completar_alcances(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_alcances.html',
         'extension_aulica': ext,
         'page_title': 'Alcance',
-        'actual_page': 'alcances',
+        'current_page': 'alcances',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
@@ -367,7 +367,7 @@ def completar_funciones(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_funciones.html',
         'extension_aulica': ext,
         'page_title': 'Funciones',
-        'actual_page': 'funciones',
+        'current_page': 'funciones',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
@@ -410,7 +410,7 @@ def completar_informacion_edilicia(request, extension_aulica_id):
         'es_dominio_compartido_id': es_dominio_compartido_id,
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
-        'actual_page': 'informacion_edilicia',
+        'current_page': 'informacion_edilicia',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 
@@ -448,7 +448,7 @@ def completar_conexion_internet(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_conexion_internet.html',
         'extension_aulica': extension_aulica,
         'page_title': 'Conectividad',
-        'actual_page': 'conexion_internet',
+        'current_page': 'conexion_internet',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
     })
 

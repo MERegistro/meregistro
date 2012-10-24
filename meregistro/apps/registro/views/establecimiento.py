@@ -276,7 +276,7 @@ def completar_datos_basicos(request, establecimiento_id):
         'form_template': 'registro/establecimiento/form_datos_basicos.html',
         'establecimiento': establecimiento,
         'page_title': 'Datos básicos',
-        'actual_page': 'datos_basicos',
+        'current_page': 'datos_basicos',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
@@ -315,7 +315,7 @@ def completar_contacto(request, establecimiento_id):
         'form_template': 'registro/establecimiento/form_contacto.html',
         'establecimiento': establecimiento,
         'page_title': 'Contacto',
-        'actual_page': 'contacto',
+        'current_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
@@ -349,7 +349,7 @@ def completar_alcances(request, establecimiento_id):
         'form_template': 'registro/establecimiento/form_alcances.html',
         'establecimiento': establecimiento,
         'page_title': 'Alcance',
-        'actual_page': 'alcances',
+        'current_page': 'alcances',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
@@ -382,7 +382,7 @@ def completar_funciones(request, establecimiento_id):
         'form_template': 'registro/establecimiento/form_funciones.html',
         'establecimiento': establecimiento,
         'page_title': 'Funciones',
-        'actual_page': 'funciones',
+        'current_page': 'funciones',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
@@ -426,7 +426,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
         'es_dominio_compartido_id': es_dominio_compartido_id,
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
-        'actual_page': 'informacion_edilicia',
+        'current_page': 'informacion_edilicia',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 
@@ -464,7 +464,7 @@ def completar_conexion_internet(request, establecimiento_id):
         'form_template': 'registro/establecimiento/form_conexion_internet.html',
         'establecimiento': establecimiento,
         'page_title': 'Conectividad',
-        'actual_page': 'conexion_internet',
+        'current_page': 'conexion_internet',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
     })
 

@@ -30,7 +30,7 @@ class CarreraJurisdiccional(models.Model):
         ordering = ['id']
 
     def __unicode__(self):
-        return self.titulo.nombre
+        return self.carrera.nombre
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
