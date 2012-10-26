@@ -4,6 +4,15 @@
 
 {% block content %}
 <h2>Seguimiento de cohorte del anexo</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.cohorte_anexo.create_seguimiento cohorte_anexo.id %}"><span>Nuevo año de seguimiento</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -54,11 +63,8 @@
 {% endif %}
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.cohorte_anexo.create_seguimiento cohorte_anexo.id %}"><span>Nuevo año de seguimiento</span></a>
-    </li>
     <li class="back">
-	<a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Volver</span></a>
+		<a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Volver</span></a>
     </li>
     {% endif %}
 </ul>

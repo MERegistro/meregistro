@@ -9,11 +9,19 @@
 {% block title %}Administrar orientaciones del título{% endblock %}
 {% block content %}
 <h2>Administrar orientaciones del título</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.orientacion.create titulo.id %}"><span>Asignar orientación</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% include "titulos/titulo/datos_titulo.html" %}
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
 {% if objects %}
 {% include "counter.html" %}
 <h3>Orientaciones</h3>
@@ -59,11 +67,8 @@
 {% endif %}
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'AdminNacional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.orientacion.create titulo.id %}"><span>Asignar orientación</span></a>
-    </li>
     <li class="back">
-	<a href="{% url apps.titulos.views.titulo.index %}"><span>Volver</span></a>
+		<a href="{% url apps.titulos.views.titulo.index %}"><span>Volver</span></a>
     </li>
     {% endif %}
 </ul>

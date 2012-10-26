@@ -41,7 +41,7 @@ urlpatterns = patterns('',
     url(r'^proyecto/([0-9]+)/editar$', 'apps.titulos.views.proyecto.edit', name = 'proyectoEdit'),
     url(r'^proyecto/([0-9]+)/delete$', 'apps.titulos.views.proyecto.delete', name = 'proyectoDelete'),
     url(r'^proyecto$', 'apps.titulos.views.proyecto.index', name = 'proyecto'),
-    # Título jurisdiccional
+    # Carrera jurisdiccional
     url(r'^carrera_jurisdiccional/create$', 'apps.titulos.views.carrera_jurisdiccional.create', name = 'carreraJurisdiccionalCreate'),
     url(r'^carrera_jurisdiccional/([0-9]+)/orientaciones$', 'apps.titulos.views.carrera_jurisdiccional.orientaciones_por_titulo', name = 'orientacionesPorCarreraJurisdiccional'),
     url(r'^carrera_jurisdiccional/([0-9]+)/editar_orientaciones$', 'apps.titulos.views.carrera_jurisdiccional.editar_orientaciones', name = 'carreraJurisdiccionalOrientacionesEdit'),
@@ -56,8 +56,8 @@ urlpatterns = patterns('',
     # Cohorte
     #url(r'^cohorte/create$', 'apps.titulos.views.cohorte.create', { 'carrera_jurisdiccional_id': None }, name = 'cohorteCreate'), # Ya no se utiliza, sino que se asigna una cohorte al título
     url(r'^cohorte/([0-9]+)/editar$', 'apps.titulos.views.cohorte.edit', name = 'cohorteEdit'),
-    url(r'^carrera_jurisdiccional/([0-9]+)/asignar-cohorte$', 'apps.titulos.views.cohorte.create', name = 'cohorteCreate'),
-    url(r'^carrera_jurisdiccional/([0-9]+)/cohortes$', 'apps.titulos.views.cohorte.cohortes_por_titulo', name = 'cohortesPorTitulo'),
+    url(r'^carrera_jurisdiccional/([0-9]+)/generar-cohorte$', 'apps.titulos.views.cohorte.create', name = 'cohorteCreate'),
+    url(r'^carrera_jurisdiccional/([0-9]+)/cohortes$', 'apps.titulos.views.cohorte.cohortes_por_carrera_jurisdiccional', name = 'cohortesPorCarreraJurisdiccional'),
     url(r'^cohorte/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte.eliminar', name = 'cohorteEliminar'),
     url(r'^cohorte/([0-9]+)/asignar-establecimientos$', 'apps.titulos.views.cohorte.asignar_establecimientos', name = 'cohorteAsignarEstablecimientos'),
     url(r'^cohorte/([0-9]+)/asignar-anexos$', 'apps.titulos.views.cohorte.asignar_anexos', name = 'cohorteAsignarAnexos'),

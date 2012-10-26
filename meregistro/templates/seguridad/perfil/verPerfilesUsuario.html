@@ -4,9 +4,17 @@
 
 {% block content %}
 <h2>Perfiles de Usuario</h2>
+
+<ul class="actions">
+  <li class="create">
+    <a href="{% url apps.seguridad.views.perfil.create usuario.id%}"><span>Asignar Nuevo Perfil</span></a>
+  </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
+
 <div id="usuarioData">
     <h3>Usuario</h3>
     <p><strong>Tipo de Documento:</strong> {{ usuario.tipo_documento }}</p>
@@ -47,9 +55,6 @@
 </table>
 
 <ul class="actions">
-  <li class="create">
-    <a href="{% url apps.seguridad.views.perfil.create usuario.id%}"><span>Asignar Nuevo Perfil</span></a>
-  </li>
   <li class="back">
     <a href="{% url apps.seguridad.views.usuario.edit usuario.id %}"><span>Volver</span></a>
   </li>

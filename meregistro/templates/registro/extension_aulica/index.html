@@ -4,61 +4,71 @@
 
 {% block content %}
 <h2>Administración de Unidades Educativas</h2>
+
+<ul class="actions">
+    {% if 'reg_extension_aulica_alta' in credenciales %}
+    <li class="create">
+		<a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-<form action="" method="get">
-<div class="form-filter" id="extensionAulicaFormFilter">
-    <h3>Búsqueda avanzada</h3>
-    {{ form_filters.non_field_errors }}
-    <div class="form-select">
-		{{ form_filters.establecimiento.errors }}
-		<label for="id_establecimiento">Sede:</label>
-		{{ form_filters.establecimiento }}
-    </div>
-    <div class="form-text">
-		{{ form_filters.cue.errors }}
-		<label for="id_cue">CUE:</label>
-		{{ form_filters.cue }}
-    </div>
-    <div class="form-text">
-		{{ form_filters.nombre.errors }}
-		<label for="id_nombre">Nombre:</label>
-		{{ form_filters.nombre }}
-    </div>
-	{% if user_perfil.rol.nombre in 'AdminNacional' %}
-    <div class="form-select">
-		{{ form_filters.jurisdiccion.errors }}
-		<label for="id_jurisdiccion">Jurisdicción:</label>
-		{{ form_filters.jurisdiccion }}
-    </div>
-    {% endif %}
-     <div class="form-select">
-		{{ form_filters.departamento.errors }}
-		<label for="id_departamento">Departamento:</label>
-		{{ form_filters.departamento }}
-    </div>
-    <div class="form-select">
-		{{ form_filters.localidad.errors }}
-		<label for="id_localidad">Localidad:</label>
-		{{ form_filters.localidad }}
-    </div>
-    <div class="form-select">
-		{{ form_filters.tipo_gestion.errors }}
-		<label for="id_tipo_gestion">Tipo de Gestión:</label>
-		{{ form_filters.tipo_gestion }}
-    </div>
-    <div class="form-select">
-		{{ form_filters.estado.errors }}
-		<label for="id_estado">Estado:</label>
-		{{ form_filters.estado }}
-    </div>
-    <div class="form-submit">
-		<input type="submit" value="Buscar" />
-		<input type="button" value="Reiniciar" onclick="window.location = 'extension_aulica';" />
-    </div>
 
-</div>
+<form action="" method="get">
+	<div class="form-filter" id="extensionAulicaFormFilter">
+		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.establecimiento.errors }}
+			<label for="id_establecimiento">Sede:</label>
+			{{ form_filters.establecimiento }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form_filters.cue }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form_filters.nombre }}
+		</div>
+		{% if user_perfil.rol.nombre in 'AdminNacional' %}
+		<div class="form-select">
+			{{ form_filters.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">Jurisdicción:</label>
+			{{ form_filters.jurisdiccion }}
+		</div>
+		{% endif %}
+		 <div class="form-select">
+			{{ form_filters.departamento.errors }}
+			<label for="id_departamento">Departamento:</label>
+			{{ form_filters.departamento }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.localidad.errors }}
+			<label for="id_localidad">Localidad:</label>
+			{{ form_filters.localidad }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.tipo_gestion.errors }}
+			<label for="id_tipo_gestion">Tipo de Gestión:</label>
+			{{ form_filters.tipo_gestion }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form_filters.estado }}
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'extension_aulica';" />
+		</div>
+
+	</div>
 
 {% if objects %}
 {% include "counter.html" %}
@@ -132,13 +142,6 @@
   <p>No se encontraron extensiones áulicas.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    {% if 'reg_extension_aulica_alta' in credenciales %}
-    <li class="create">
-	<a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 
 

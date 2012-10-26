@@ -4,6 +4,13 @@
 
 {% block content %}
 <h2>Administrar Usuarios</h2>
+
+<ul class="actions">
+	<li class="create">
+		<a href="{% url apps.seguridad.views.usuario.create %}"><span>Dar de Alta Nuevo Usuario</span></a>
+	</li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -106,10 +113,5 @@
   <p>No se encontraron usuarios con ese criterio de búsqueda</p>
 </div>
 {% endif %}
-<ul class="actions">
-  <li class="create">
-    <a href="{% url apps.seguridad.views.usuario.create %}"><span>Dar de Alta Nuevo Usuario</span></a>
-  </li>
-</ul>
 <hr />
 {% endblock %}

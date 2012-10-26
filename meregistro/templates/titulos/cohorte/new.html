@@ -20,7 +20,7 @@
 <ul class="actions">
     <li class="back">
     {% if carrera_jurisdiccional %}
-        <a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo carrera_jurisdiccional.id %}"><span>Volver</span></a>
+        <a href="{% url apps.titulos.views.cohorte.cohortes_por_carrera_jurisdiccional carrera_jurisdiccional.id %}"><span>Volver</span></a>
     {% else %}
         <a href="{% url apps.titulos.views.cohorte.index %}"><span>Volver</span></a>
     {% endif %}

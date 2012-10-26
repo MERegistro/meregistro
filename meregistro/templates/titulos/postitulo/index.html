@@ -6,6 +6,15 @@
 
 {% block content %}
 <h2>Administrar postitulos</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.postitulo.create %}"><span>Nuevo</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -56,12 +65,5 @@
   <p>No se encontraron postitulos.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.postitulo.create %}"><span>Nuevo</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 {% endblock %}

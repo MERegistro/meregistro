@@ -4,9 +4,17 @@
 
 {% block content %}
 <h2>Administrar Roles</h2>
+
+<ul class="actions">
+  <li class="create">
+    <a href="{% url apps.seguridad.views.rol.create %}"><span>Nuevo Rol</span></a>
+  </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
+
 <form action="" method="get">
 <div class="form-filter" id="rolFormFilter">
   <h3>Búsqueda avanzada</h3>
@@ -60,11 +68,6 @@
   <p>No se encontraron roles.</p>
 </div>
 {% endif %}
-<ul class="actions">
-  <li class="create">
-    <a href="{% url apps.seguridad.views.rol.create %}"><span>Nuevo Rol</span></a>
-  </li>
-</ul>
 <hr />
 {% endblock %}
 

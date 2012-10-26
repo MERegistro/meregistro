@@ -581,9 +581,9 @@ table.hor-zebra th.actions {
 	width: 100px;
 }
 ul.actions {
-	margin-top: 20px;
+	margin-top: 0;
 	padding-bottom: 1px;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
 ul.actions li {
 	height: 24px;
@@ -609,9 +609,6 @@ ul.actions a:hover {
 ul.actions li.create {
 	color: #000;
 	background: #fff url(../img/icons/add.png) no-repeat left;
-	position: absolute;
-	top: 78px;
-	left: 0px;
 	padding: 3px 5px 2px;
 }
 ul.actions li.create a {
@@ -827,7 +824,7 @@ div.notice {
 *=COUNTER
 */
 div#counter {
-	margin: 40px 0 0;
+	margin: 20px 0 5px;
 	float: left;
 }
 div#counter span {
@@ -837,7 +834,7 @@ div#counter span {
 *=PAGINATOR
 */
 div.paginator {
-	margin: 0;
+	margin: 0 0 20px;
 	background: #ccc;
 	border-top: 1px #bbb solid;
 	font-size: 12px;
@@ -926,7 +923,7 @@ div.popup_selector_ambito
 *=datos-lectura
 */
 div.datos-lectura {
-	margin: 10px 0 0;
+	margin: 20px 0;
 }
 div.datos-lectura p {
 	margin: 5px 0 0;
@@ -976,16 +973,6 @@ body.orientaciones-por-titulo table.hor-zebra {
 }
 body.orientaciones-por-titulo div#datosTitulo {
 }
-/*
-*=COHORTES-POR-TITULO
-*/
-body.cohortes-por-titulo table.hor-zebra {
-	margin-top: 10px;
-}
-body.cohortes-por-titulo div#datosTitulo {
-	margin-bottom: 30px;
-}
-
 /*
 *=COHORTE-ASIGNAR-ESTABLECIMIENTOS
 */

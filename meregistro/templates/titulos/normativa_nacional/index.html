@@ -6,6 +6,13 @@
 
 {% block content %}
 <h2>Administrar Normativas Nacionales</h2>
+
+<ul class="actions">
+	<li class="create">
+		<a href="{% url apps.titulos.views.normativa_nacional.create %}"><span>Nueva Normativa Nacional</span></a>
+	</li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -77,11 +84,6 @@
   <p>No se encontraron resultados.</p>
 </div>
 {% endif %}
-<ul class="actions">
-  <li class="create">
-    <a href="{% url apps.titulos.views.normativa_nacional.create %}"><span>Nueva Normativa Nacional</span></a>
-  </li>
-</ul>
 <hr />
 {% endblock %}
 

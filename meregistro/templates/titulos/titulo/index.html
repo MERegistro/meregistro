@@ -6,6 +6,13 @@
 
 {% block content %}
 <h2>Administrar títulos</h2>
+
+<ul class="actions">
+    <li class="create">
+		<a href="{% url apps.titulos.views.titulo.create %}"><span>Nuevo título</span></a>
+    </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -92,10 +99,5 @@
   <p>No se encontraron títulos.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    <li class="create">
-	<a href="{% url apps.titulos.views.titulo.create %}"><span>Nuevo título</span></a>
-    </li>
-</ul>
 <hr />
 {% endblock %}

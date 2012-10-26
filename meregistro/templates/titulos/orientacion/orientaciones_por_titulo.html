@@ -14,6 +14,14 @@
     {% include "flashes.html" %}
 {% endif %}
 
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.orientacion.create titulo.id %}"><span>Asignar orientación</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -58,11 +66,8 @@
 {% endif %}
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'AdminNacional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.orientacion.create titulo.id %}"><span>Asignar orientación</span></a>
-    </li>
     <li class="back">
-	<a href="{% url apps.titulos.views.titulo.index %}"><span>Volver</span></a>
+		<a href="{% url apps.titulos.views.titulo.index %}"><span>Volver</span></a>
     </li>
     {% endif %}
 </ul>

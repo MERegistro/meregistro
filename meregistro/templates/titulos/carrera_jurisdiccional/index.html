@@ -6,6 +6,13 @@
 
 {% block content %}
 <h2>Administrar Carreras Jurisdiccionales</h2>
+
+<ul class="actions">
+    <li class="create">
+		<a href="{% url apps.titulos.views.carrera_jurisdiccional.create %}"><span>Nueva Carrera</span></a>
+    </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -85,10 +92,5 @@
   <p>No se encontraron carreras.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    <li class="create">
-	<a href="{% url apps.titulos.views.carrera_jurisdiccional.create %}"><span>Nueva Carrera</span></a>
-    </li>
-</ul>
 <hr />
 {% endblock %}

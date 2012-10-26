@@ -6,6 +6,15 @@
 
 {% block content %}
 <h2>Administrar orientaciones</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.orientacion.create %}"><span>Nueva orientación</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -74,12 +83,5 @@
   <p>No se encontraron orientaciones.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    {% if user_perfil.rol.nombre in 'AdminNacional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.orientacion.create %}"><span>Nueva orientación</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 {% endblock %}

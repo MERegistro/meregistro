@@ -6,6 +6,15 @@
 
 {% block content %}
 <h2>Administrar Normativas Jurisdiccionales</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.normativa_jurisdiccional.create %}"><span>Nueva normativa</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -80,12 +89,5 @@
 </div>
 {% endif %}
 
-<ul class="actions">
-    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.normativa_jurisdiccional.create %}"><span>Nueva normativa</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 {% endblock %}

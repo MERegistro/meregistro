@@ -6,6 +6,13 @@
 
 {% block content %}
 <h2>Administrar Carreras</h2>
+
+<ul class="actions">
+	<li class="create">
+		<a href="{% url apps.titulos.views.carrera.create %}"><span>Nueva Carrera</span></a>
+	</li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -82,11 +89,6 @@
   <p>No se encontraron resultados.</p>
 </div>
 {% endif %}
-<ul class="actions">
-  <li class="create">
-    <a href="{% url apps.titulos.views.carrera.create %}"><span>Nueva Carrera</span></a>
-  </li>
-</ul>
 <hr />
 {% endblock %}
 

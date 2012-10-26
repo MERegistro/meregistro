@@ -4,9 +4,17 @@
 
 {% block content %}
 <h2>Administrar Dependencias Funcionales</h2>
+
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.dependencia_funcional.create %}"><span>Nueva Dependencia</span></a>
+    </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
+
 <form action="" method="get">
 <div class="form-filter" id="dependenciafuncionalFormFilter">
     <h3>Búsqueda avanzada</h3>
@@ -79,11 +87,6 @@
     <p>No se encontraron dependencias funcionales.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    <li class="create">
-        <a href="{% url apps.registro.views.dependencia_funcional.create %}"><span>Nueva Dependencia</span></a>
-    </li>
-</ul>
 <hr />
 {% endblock %}
 

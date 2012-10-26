@@ -2,15 +2,15 @@
 from django.forms import ModelForm
 from django.core.exceptions import ValidationError
 from django import forms
-from apps.titulos.models import CarreraJurisdiccionalCohorte
+from apps.titulos.models import CarreraJurisdiccionalCohorte, Cohorte
 import datetime
 
 
 class CarreraJurisdiccionalSolicitarCohortesForm(forms.ModelForm):
 
     COHORTES_SOLICITADAS_CHOICES = [('', '-------')] + [(i, i) for i in range(1, 6)]
-    PRIMERA_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(2000, 2021)]
-    ULTIMA_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(2000, 2031)]
+    PRIMERA_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(Cohorte.PRIMER_ANIO, Cohorte.ULTIMO_ANIO)]
+    ULTIMA_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(Cohorte.PRIMER_ANIO, Cohorte.ULTIMO_ANIO + 5)]
     cohortes_aprobadas = forms.ChoiceField(label='Duración', choices=COHORTES_SOLICITADAS_CHOICES, required=True)
     primera_cohorte_solicitada = forms.ChoiceField(label='Año primera cohorte', choices=PRIMERA_COHORTE_CHOICES, required=True)
     ultima_cohorte_solicitada = forms.ChoiceField(label='Año última cohorte', choices=ULTIMA_COHORTE_CHOICES, required=True)

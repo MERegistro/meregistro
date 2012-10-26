@@ -4,6 +4,13 @@
 
 {% block content %}
 <h2>Administrar Tipos de Título</h2>
+
+<ul class="actions">
+  <li class="create">
+    <a href="{% url apps.backend.views.crud.create 'tipo_titulo' %}"><span>Nuevo</span></a>
+  </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -37,11 +44,6 @@
   <p>No se encontraron resultados.</p>
 </div>
 {% endif %}
-<ul class="actions">
-  <li class="create">
-    <a href="{% url apps.backend.views.crud.create 'tipo_titulo' %}"><span>Nuevo</span></a>
-  </li>
-</ul>
 <hr />
 {% endblock %}
 

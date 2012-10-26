@@ -1,0 +1,82 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "cohortes-por-carrera-jurisdiccional" %}
+{% endblock %}
+
+{% block title %}Generar Cohortes para la Carrera {{ carrera_jurisdiccional.carrera.nombre }}{% endblock %}
+{% block content %}
+<h2>Generar Cohortes para la Carrera {{ carrera_jurisdiccional.carrera.nombre }}</h2>
+
+<ul class="actions">
+    <li class="create">
+		<a href="{% url apps.titulos.views.cohorte.create carrera_jurisdiccional.id %}"><span>Generar cohorte</span></a>
+    </li>
+</ul>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if objects %}
+<div class="datos-lectura">
+	<p><strong>Cohortes Autorizadas:</strong> <span>---</span></p>
+</div>
+<h3>Cohortes Generadas</h3>
+	
+{% include "counter.html" %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Año</th>
+      <th>Observaciones</th>
+      <th class="actions" style="width: 160px;">Acciones</th>
+    </tr>
+  </thead>
+	<tbody>
+	{% for cohorte in objects %}
+		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>{{ cohorte.anio }}</td>
+			<td>{% if cohorte.observaciones %}{{ cohorte.observaciones }}{% else %}{% endif %}</td>
+			<td class="actions-td">
+				<ul>
+				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
+				<li class="edit"><a href="{% url apps.titulos.views.cohorte.edit cohorte.id %}" title="Editar"><span>Editar</span></a></li>
+				{% if carrera_jurisdiccional.controlado  %}
+				<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_establecimientos cohorte.id %}" title="Asignar cohorte a establecimientos"><span>Asignar cohorte a establecimientos</span></a></li>
+				<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_anexos cohorte.id %}" title="Asignar cohorte a anexos"><span>Asignar cohorte a anexos</span></a></li>
+				<li class="one-many"><a href="{% url apps.titulos.views.cohorte.asignar_extensiones_aulicas cohorte.id %}" title="Asignar cohorte a extensiones áulicas"><span>Asignar cohorte a extensiones áulicas</span></a></li>
+				{% endif %}
+					{% if not cohorte.aceptada_por_establecimiento %}
+				<li class="delete"><a href="{% url apps.titulos.views.cohorte.eliminar cohorte.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+					{% endif %}
+				{% endif %}
+
+				</ul>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No hay cohortes generadas para la carrera.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.cohorte.index %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'Referente' %}
+
+    {% endif %}
+</ul>
+<hr />

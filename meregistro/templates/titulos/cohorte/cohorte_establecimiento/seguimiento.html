@@ -4,6 +4,15 @@
 
 {% block content %}
 <h2>Seguimiento de cohorte del establecimiento</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.cohorte_establecimiento.create_seguimiento cohorte_establecimiento.id %}"><span>Nuevo año de seguimiento</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -11,6 +20,7 @@
 <div class="datos-lectura">
     <p><strong>Inscriptos a 1er año:</strong> {{ cohorte_establecimiento.inscriptos }}</p>
 </div>
+
 
 {% if objects %}
 {% include "counter.html" %}
@@ -55,11 +65,8 @@
 {% endif %}
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.cohorte_establecimiento.create_seguimiento cohorte_establecimiento.id %}"><span>Nuevo año de seguimiento</span></a>
-    </li>
     <li class="back">
-	<a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Volver</span></a>
+		<a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Volver</span></a>
     </li>
     {% endif %}
 </ul>
