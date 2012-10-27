@@ -8,7 +8,7 @@ class EstadoCarreraJurisdiccional(models.Model):
 
     SIN_CONTROLAR = u'Sin controlar'
     CONTROLADO = u'Controlado'
-    REGISTRADO= u'Registrado'
+    REGISTRADO = u'Registrado'
 
     nombre = models.CharField(max_length = 50, unique = True)
 

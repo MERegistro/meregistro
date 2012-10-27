@@ -15,10 +15,12 @@ def cohortes_jurisdiccionales(request, q):
 	filename = 'cohortes_jurisdiccionales_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['CARRERA', 'COHORTES SOLICITADAS', 'COHORTES AUTORIZADAS', 'COHORTES GENERADAS', 'ESTADOS'], filename=filename)
 	for cj in q:
+		cohortes_solicitadas = str(cj.datos_cohorte.get().primera_cohorte_solicitada) + ' - ' + str(cj.datos_cohorte.get().ultima_cohorte_solicitada)
+		cohortes_generadas = ' - '.join("%s" % c.anio for c in cj.cohortes.all().order_by('anio'))
 		if cj.estado is None:
 			estado_nombre = ''
 		else:
 			estado_nombre = cj.estado.nombre.encode('utf8')
-		reporte.rows.append([cj.carrera.nombre.encode('utf8'), '', '', '', estado_nombre])
+		reporte.rows.append([cj.carrera.nombre.encode('utf8'), cohortes_solicitadas, '', cohortes_generadas, estado_nombre])
 
 	return reporte.as_csv()

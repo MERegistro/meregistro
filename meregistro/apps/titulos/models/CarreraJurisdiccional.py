@@ -75,5 +75,5 @@ class CarreraJurisdiccional(models.Model):
         except IndexError:
             return None
 
-    def controlado(self):
-        return self.estado.nombre == EstadoCarreraJurisdiccional.CONTROLADO
+    def controlada(self):
+        return self.estado.nombre == EstadoCarreraJurisdiccional.CONTROLADA
