@@ -61,10 +61,8 @@
 				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Cohortes de anexo</span></a></li>
-				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}"><span>Egresados de anexo</span></a></li>
 				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Cohortes de establecimiento</span></a></li>
-				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}"><span>Egresados de establecimiento</span></a></li>
-				{% endif %}
+                {% endif %}
 			</ul>
         </li>
 		{% endif %}
