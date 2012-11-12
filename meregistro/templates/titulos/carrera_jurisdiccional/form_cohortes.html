@@ -9,11 +9,11 @@
 		</div>
 		<div class="form-select">
 			{{ form.primera_cohorte_solicitada.errors }}
-			<label for="id_primera_cohorte_solicitada">Año primera cohorte:</label>
+			<label for="id_primera_cohorte_solicitada">Primera Cohorte Solicitada:</label>
 			{{ form.primera_cohorte_solicitada }}
 		</div>
 		<div class="form-select">
-			<label for="id_ultima_cohorte_solicitada">Año última cohorte:</label>
+			<label for="id_ultima_cohorte_solicitada">Última Cohorte Solicitada:</label>
 			<input type="text" readonly="readonly" value="" name="ultima_cohorte_solicitada" id ="id_ultima_cohorte_solicitada" />
 		</div>
 		<div class="form-textarea">
@@ -43,7 +43,7 @@ var dropdown_primera = $("select#id_primera_cohorte_solicitada");
 var txt_ultima = $("input#id_ultima_cohorte_solicitada");
 
 {% if not is_new %}
-var cantidad_actual = {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }} - {{  carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }};
+var cantidad_actual = {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }} - {{  carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }} + 1;
 dropdown_cantidad.val(cantidad_actual);
 {% endif %}
 function calcular_ultima_cohorte()
@@ -53,7 +53,7 @@ function calcular_ultima_cohorte()
 	{
 		if(dropdown_cantidad.val() != "" && dropdown_primera.val() != "")
 		{
-			ultima = parseInt(dropdown_cantidad.val()) + parseInt(dropdown_primera.val());
+			ultima = parseInt(dropdown_cantidad.val()) + parseInt(dropdown_primera.val()) - 1;
 		}
 	}
 	catch(e)
