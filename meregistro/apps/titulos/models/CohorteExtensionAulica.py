@@ -10,6 +10,7 @@ class CohorteExtensionAulica(models.Model):
     extension_aulica = models.ForeignKey(ExtensionAulica, related_name='cohortes')
     cohorte = models.ForeignKey(Cohorte)
     oferta = models.NullBooleanField()
+    inscriptos = models.PositiveIntegerField(null=True)
     estado = models.ForeignKey(EstadoCohorteExtensionAulica) # Concuerda con el último estado en CohorteExtensionAulicaEstado
 
     class Meta:

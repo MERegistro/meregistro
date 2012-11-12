@@ -50,6 +50,7 @@ from EstadoCohorteAnexo import EstadoCohorteAnexo
 #
 from CohorteExtensionAulicaEstado import CohorteExtensionAulicaEstado
 from CohorteExtensionAulica import CohorteExtensionAulica
+from CohorteExtensionAulicaSeguimiento import CohorteExtensionAulicaSeguimiento
 from EstadoCohorteExtensionAulica import EstadoCohorteExtensionAulica
 #
 from OpcionPedagogica import OpcionPedagogica

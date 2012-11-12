@@ -1015,3 +1015,14 @@ input#id_formacion_continua {
 	font-weight: bold;
 	font-style: italic;
 }
+/*
+ *
+ *=SEGUIMIENTO-COHORTE
+ *
+ */
+body.cohorte-seguimiento-index div#content {
+	margin-bottom: 30px;
+}
+body.cohorte-seguimiento-index div#content h3 {
+	margin-top: 30px;
+}

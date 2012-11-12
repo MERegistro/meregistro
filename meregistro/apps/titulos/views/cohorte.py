@@ -57,6 +57,8 @@ def index(request):
 
 	page = paginator.page(page_number)
 	objects = page.object_list
+	
+	
 	return my_render(request, 'titulos/cohorte/index.html', {
 		'form_filters': form_filter,
 		'objects': objects,
