@@ -6,6 +6,7 @@ from apps.titulos.models import NormativaJurisdiccional, NormativaJurisdiccional
 
 
 class NormativaJurisdiccionalFormFilters(forms.Form):
+    numero_anio = forms.CharField(label='Número/Año', required=False)
     tipo_normativa_jurisdiccional = forms.ModelChoiceField(queryset = TipoNormativaJurisdiccional.objects.order_by('nombre'), label = 'Tipo de normativa', required = False)
     otorgada_por = forms.ModelChoiceField(queryset = NormativaMotivoOtorgamiento.objects.order_by('nombre'), label = 'Otorgada por', required = False)
     estado = forms.ModelChoiceField(queryset = EstadoNormativaJurisdiccional.objects.all().order_by('nombre'), required = False)
@@ -26,4 +27,6 @@ class NormativaJurisdiccionalFormFilters(forms.Form):
             q = q.filter(otorgada_por = self.cleaned_data['otorgada_por'])
         if filter_by('estado'):
             q = q.filter(estado = self.cleaned_data['estado'])
+        if filter_by('numero_anio'):
+            q = q.filter(numero_anio__icontains = self.cleaned_data['numero_anio'])
         return q
