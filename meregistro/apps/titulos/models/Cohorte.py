@@ -42,7 +42,7 @@ class Cohorte(models.Model):
 	def aceptada_por_establecimiento(self):
 		from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
 		from apps.titulos.models.EstadoCohorteEstablecimiento import EstadoCohorteEstablecimiento
-		return CohorteEstablecimiento.objects.filter(cohorte = self, estado__nombre = EstadoCohorteEstablecimiento.ACEPTADA).exists()
+		return CohorteEstablecimiento.objects.filter(cohorte = self, estado__nombre = EstadoCohorteEstablecimiento.REGISTRADA).exists()
 
 	"Override del método para poder inertar un mensaje de error personalizado"
 	"@see http://stackoverflow.com/questions/3993560/django-how-to-override-unique-together-error-message"

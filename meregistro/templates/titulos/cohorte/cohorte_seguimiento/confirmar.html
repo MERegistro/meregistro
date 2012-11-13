@@ -1,0 +1,44 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Confirmación de Cohorte y Carga de Inscriptos a 1º Año{% endblock %}
+
+{% block content %}
+<h2>Confirmación de Cohorte y Carga de Inscriptos a 1º Año</h2>
+<div class="datos-lectura">
+	<p><strong>Carrera:</strong> {{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</p>
+	<p><strong>Año:</strong> {{ cohorte_unidad_educativa.cohorte.anio }}</p>
+</div>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if not cohorte_establecimiento.aceptada %}
+<div class="message warning">
+    <p>Una vez aceptada la cohorte no se puede modificar.</p>
+</div>
+<div class="form" id="cohorteConfirmarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="cohorte_establecimiento_id" value="{{ cohorte_establecimiento.id }}" />
+	<div class="form-select">
+	    {{ form.inscriptos.errors }}
+	    <label for="id_inscriptos">Cantidad de inscriptos:</label>
+	    {{ form.inscriptos }}
+	</div>
+	<div class="form-submit">
+	    <input type="submit" value="Confirmar" />
+	</div>
+    </form>
+</div>
+{% else %}
+<div class="message notice">
+    <p>La cohorte ya se encuentra aceptada con {{ cohorte_establecimiento.inscriptos }} inscriptos y no puede ser modificada.</p>
+</div>
+{% endif %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url cohorteSeguimientoIndex %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

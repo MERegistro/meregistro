@@ -55,9 +55,16 @@ urlpatterns=patterns('',
     url(r'^carrera_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.carrera_jurisdiccional.revisar_jurisdiccion', name='carreraJurisdiccionalRevisarJurisdiccion'),
     # Cohorte Seguimiento
     url(r'^cohorte_seguimiento$', 'apps.titulos.views.cohorte_seguimiento.index', name='cohorteSeguimientoIndex'),
+    url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/confirmar$', 'apps.titulos.views.cohorte_seguimiento.confirmar', name='cohorteConfirmar'),
+    #
     url(r'^cohorte_seguimiento/([0-9]+)/establecimiento/$', 'apps.titulos.views.cohorte_seguimiento.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'establecimiento' }, name='cohortesEstablecimientoIndex'),
+    url(r'^cohorte_seguimiento/([0-9]+)/cohorte_establecimiento/$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', { 'tipo_unidad_educativa': 'establecimiento' }, name='cohortesEstablecimientoSeguimiento'),
+     #
     url(r'^cohorte_seguimiento/([0-9]+)/anexo/$', 'apps.titulos.views.cohorte_seguimiento.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'anexo' }, name='cohortesAnexoIndex'),
+    url(r'^cohorte_seguimiento/([0-9]+)/cohorte_anexo/$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', { 'tipo_unidad_educativa': 'anexo' }, name='cohortesAnexoSeguimiento'),
+    #
     url(r'^cohorte_seguimiento/([0-9]+)/extension_aulica/$', 'apps.titulos.views.cohorte_seguimiento.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'extension_aulica' }, name='cohortesExtensionAulicaIndex'),
+    url(r'^cohorte_seguimiento/([0-9]+)/cohorte_extension_aulica/$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', { 'tipo_unidad_educativa': 'extension_aulica' }, name='cohortesExtensionAulicaSeguimiento'),
     #url(r'^cohorte/create$', 'apps.titulos.views.cohorte.create', { 'carrera_jurisdiccional_id': None }, name='cohorteCreate'), # Ya no se utiliza, sino que se asigna una cohorte al título
     #
     url(r'^carrera_jurisdiccional/([0-9]+)/generar-cohorte$', 'apps.titulos.views.cohorte.create', name='cohorteCreate'),

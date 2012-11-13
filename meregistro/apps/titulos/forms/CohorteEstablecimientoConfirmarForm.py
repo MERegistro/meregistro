@@ -6,9 +6,9 @@ from apps.titulos.models import CohorteEstablecimiento
 
 
 class CohorteEstablecimientoConfirmarForm(forms.ModelForm):
-    inscriptos = forms.IntegerField(required = True, min_value = 1)
+	inscriptos = forms.IntegerField(required=True, min_value=1)
 
-    class Meta:
-        model = CohorteEstablecimiento
-        exclude = ('establecimiento', 'cohorte', 'estado',)
+	class Meta:
+		model = CohorteEstablecimiento
+		exclude = ('establecimiento', 'cohorte', 'estado', 'emite', 'oferta')
 

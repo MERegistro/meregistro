@@ -5,8 +5,10 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import TipoAmbito
-from apps.titulos.models import CohorteEstablecimiento, CohorteAnexo, CohorteExtensionAulica, EstadoCarreraJurisdiccional
-from apps.titulos.forms import CohortesUnidadEducativaFormFilters
+from apps.titulos.models import CohorteEstablecimiento, CohorteAnexo, CohorteExtensionAulica, EstadoCarreraJurisdiccional, \
+	EstadoCohorteEstablecimiento, EstadoCohorteAnexo, EstadoCohorteExtensionAulica
+from apps.titulos.forms import CohortesUnidadEducativaFormFilters, CohorteEstablecimientoConfirmarForm,\
+	CohorteAnexoConfirmarForm, CohorteExtensionAulicaConfirmarForm
 from apps.registro.models import Jurisdiccion, Establecimiento, Anexo, ExtensionAulica
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -110,7 +112,6 @@ def build_confirmar_cohortes_query(filters, page, request, tipo_unidad_educativa
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	estado = EstadoCarreraJurisdiccional.objects.get(nombre=EstadoCarreraJurisdiccional.CONTROLADO)
 	# Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
 	if tipo_unidad_educativa == 'establecimiento':
 		filters.buildQuery().filter(establecimiento__id=unidad_educativa_id)
@@ -118,25 +119,25 @@ def build_confirmar_cohortes_query(filters, page, request, tipo_unidad_educativa
 		filters.buildQuery().filter(anexo__id=unidad_educativa_id)
 	elif tipo_unidad_educativa == 'extension_alica':
 		filters.buildQuery().filter(extension_aulica__id=unidad_educativa_id)
+
 	return filters.buildQuery()
-	return filters.buildQuery().filter(cohorte__carrera_jurisdiccional__estado__nombre=estado).order_by('cohorte__carrera_jurisdiccional__titulo__nombre', '-cohorte__anio')
-
-
 
 
 @login_required
 #@credential_required('tit_cohorte_seguimiento')
-def seguimiento(request, cohorte_ue_id, tipo_ue):
+def seguimiento(request, cohorte_ue_id, tipo_unidad_educativa):
 	"""
 	Seguimiento de cohorte de la unidad educativa
 	"""
-	if tipo_ue == 'Establecimiento':
+	if tipo_unidad_educativa == 'establecimiento':
 		objects = CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__id=cohorte_ue_id).order_by('anio')
-	elif tipo_ue == 'Anexo':
+	elif tipo_unidad_educativa == 'anexo':
 		objects = CohorteAnexoSeguimiento.objects.filter(cohorte_anexo__id=cohorte_ue_id).order_by('anio')
-	elif tipo_ue == 'ExtensionAulica':
+	elif tipo_unidad_educativa == 'extension_aulica':
 		objects = CohorteExtensionAulicaSeguimiento.objects.filter(cohorte_extension_aulica__id=cohorte_ue_id).order_by('anio')
-	
+	else:
+		raise Exception('Tipo de unidad educativa erróneo.')
+		
 	#establecimiento = __get_establecimiento_actual(request)
 	cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk=cohorte_establecimiento_id)
 
@@ -155,37 +156,46 @@ def seguimiento(request, cohorte_ue_id, tipo_ue):
 
 @login_required
 #@credential_required('tit_cohorte_aceptar_asignacion')
-def confirmar(request, cohorte_establecimiento_id):
+def confirmar(request, cohorte_ue_id, tipo_unidad_educativa):
 	"""
 	Confirmar cohorte
 	"""
-	cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk=cohorte_establecimiento_id)
+	if tipo_unidad_educativa == 'establecimiento':
+		cohorte_unidad_educativa = CohorteEstablecimiento.objects.get(pk=cohorte_ue_id, establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteEstablecimientoConfirmarForm
+		estado_model = EstadoCohorteEstablecimiento
+	elif tipo_unidad_educativa == 'anexo':
+		cohorte_unidad_educativa = CohorteAnexo.objects.get(pk=cohorte_ue_id, anexo__ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteAnexoConfirmarForm
+		estado_model = EstadoCohorteAnexo
+	elif tipo_unidad_educativa == 'extension_aulica':
+		cohorte_unidad_educativa = CohorteExtensionAulica.objects.get(pk=cohorte_ue_id, extension_aulica__ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteExtensionAulicaConfirmarForm
+		estado_model = EstadoCohorteExtensionAulica
 
 	if request.method == 'POST':
-		form = CohorteEstablecimientoConfirmarForm(request.POST, instance=cohorte_establecimiento)
+		form = form_model(request.POST, instance=cohorte_unidad_educativa)
 		if form.is_valid():
-			cohorte_establecimiento = form.save(commit=False)
-			estado = EstadoCohorteEstablecimiento.objects.get(nombre=EstadoCohorteEstablecimiento.ACEPTADA)
-			cohorte_establecimiento.estado = estado
-			cohorte_establecimiento.save()
-			cohorte_establecimiento.registrar_estado()
+			cohorte_unidad_educativa = form.save(commit=False)
+			estado = estado_model.objects.get(nombre=estado_model.REGISTRADA)
+			cohorte_unidad_educativa.estado = estado
+			cohorte_unidad_educativa.save()
+			cohorte_unidad_educativa.registrar_estado()
 
 			request.set_flash('success', 'La cohorte fue confirmada correctamente.')
 			""" Redirecciono para evitar el reenvío del form """
-			return HttpResponseRedirect(reverse('cohorteEstablecimientoIndex'))
+			return HttpResponseRedirect(reverse('cohorteSeguimientoIndex'))
 
 		else:
 			request.set_flash('warning', 'Ocurrió un error confirmando la cohorte.')
 	else:
-		form = CohorteEstablecimientoConfirmarForm(instance=cohorte_establecimiento)
+		form = form_model(instance=cohorte_unidad_educativa)
 
-	return my_render(request, 'titulos/cohorte/cohorte_establecimiento/confirmar.html', {
-		'cohorte_establecimiento': cohorte_establecimiento,
-		'cohorte': cohorte_establecimiento.cohorte,
+	return my_render(request, 'titulos/cohorte/cohorte_seguimiento/confirmar.html', {
+		'cohorte_unidad_educativa': cohorte_unidad_educativa,
+		'cohorte': cohorte_unidad_educativa.cohorte,
 		'form': form,
 	})
-
-
 
 
 @login_required

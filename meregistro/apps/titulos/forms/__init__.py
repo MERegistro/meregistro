@@ -39,6 +39,7 @@ from CohorteAnexoSeguimientoForm import CohorteAnexoSeguimientoForm
 from CohorteAsignarAnexosFormFilters import CohorteAsignarAnexosFormFilters
 #
 #cohorte extension aulica
+from CohorteExtensionAulicaConfirmarForm import CohorteExtensionAulicaConfirmarForm
 from CohorteAsignarExtensionesAulicasFormFilters import CohorteAsignarExtensionesAulicasFormFilters
 #
 from PostituloFormFilters import PostituloFormFilters

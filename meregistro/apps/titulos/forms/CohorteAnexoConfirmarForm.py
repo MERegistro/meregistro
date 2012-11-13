@@ -6,9 +6,9 @@ from apps.titulos.models import CohorteAnexo
 
 
 class CohorteAnexoConfirmarForm(forms.ModelForm):
-    inscriptos = forms.IntegerField(required = True, min_value = 1)
+	inscriptos = forms.IntegerField(required=True, min_value=1)
 
-    class Meta:
-        model = CohorteAnexo
-        exclude = ('anexo', 'cohorte', 'estado',)
+	class Meta:
+		model = CohorteAnexo
+		exclude = ('anexo', 'cohorte', 'estado', 'emite', 'oferta')
 
