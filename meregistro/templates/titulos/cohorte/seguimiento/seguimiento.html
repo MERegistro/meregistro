@@ -1,0 +1,76 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Seguimiento de Cohorte{% endblock %}
+
+{% block content %}
+<h2>Seguimiento de Cohorte</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.cohorte_seguimiento.create tipo_unidad_educativa cohorte_unidad_educativa.id %}"><span>Nuevo año de seguimiento</span></a>
+    </li>
+    {% endif %}
+</ul>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="datos-lectura">
+    <p><strong>Carrera:</strong> {{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</p>
+    <p><strong>1er año:</strong> </p>
+	<p><strong>Inscriptos:</strong> {% if cohorte_unidad_educativa.inscriptos != None %}{{ cohorte_unidad_educativa.inscriptos }}{% else %}---{% endif %}</p>
+	<p><strong>Egresados hasta el momento:</strong> {{ cohorte_unidad_educativa.get_total_egresados }}</p>
+</div>
+
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Año</th>
+      <th>Sólo cursan nuevas unidades</th>
+      <th>Sólo recursan unidades</th>
+      <th>Recursan y cursan nuevas</th>
+      <th>No cursan</th>
+      <th>Egresados</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for seguimiento in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+
+	<td>{{ seguimiento.anio }}</td>
+	<td>{{ seguimiento.solo_cursan_nuevas_unidades }}</td>
+	<td>{{ seguimiento.solo_recursan_nuevas_unidades }}</td>
+	<td>{{ seguimiento.recursan_cursan_nuevas_unidades }}</td>
+	<td>{{ seguimiento.no_cursan }}</td>
+	<td>{{ seguimiento.egresados }}</td>
+	<td class="actions-td">
+	    <ul>
+	    {% if forloop.last and user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+		    <li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.edit tipo_unidad_educativa seguimiento.id %}" title="Editar"><span>Editar</span></a></li>
+		    <li class="delete"><a href="{% url apps.titulos.views.cohorte_seguimiento.delete tipo_unidad_educativa seguimiento.id %}" title="Eliminar"><span>Eliminar</span></a></li>
+	    {% endif %}
+	    </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron datos de seguimiento.</p>
+</div>
+{% endif %}
+<ul class="actions">
+	{% include "titulos/cohorte/seguimiento/back_action.html" %}
+</ul>
+<hr />
+
+{% endblock %}

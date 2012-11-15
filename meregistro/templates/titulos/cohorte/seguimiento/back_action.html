@@ -1,0 +1,11 @@
+  <li class="back">	
+  {% if tipo_unidad_educativa == 'establecimiento'  %}
+    <a href="{% url cohortesEstablecimientoIndex unidad_educativa.id %}"><span>Volver</span></a>
+  {% endif %}
+  {% if tipo_unidad_educativa == 'anexo'  %}
+    <a href="{% url cohortesAnexoIndex unidad_educativa.id %}"><span>Volver</span></a>
+  {% endif %}
+  {% if tipo_unidad_educativa == 'extension_aulica'  %}
+    <a href="{% url cohortesExtensionAulicaIndex unidad_educativa.id %}"><span>Volver</span></a>
+  {% endif %}
+  </li>

@@ -56,16 +56,13 @@ urlpatterns=patterns('',
     # Cohorte Seguimiento
     url(r'^cohorte_seguimiento$', 'apps.titulos.views.cohorte_seguimiento.index', name='cohorteSeguimientoIndex'),
     url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/confirmar$', 'apps.titulos.views.cohorte_seguimiento.confirmar', name='cohorteConfirmar'),
-    #
+    url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/seguimiento$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', name='cohorteSeguimiento'),
+    url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/create$', 'apps.titulos.views.cohorte_seguimiento.create', name='cohorteSeguimientoCreate'),
+    url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<seguimiento_id>[0-9]+)/edit$', 'apps.titulos.views.cohorte_seguimiento.edit', name='cohorteSeguimientoEdit'),
+    url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<seguimiento_id>[0-9]+)/delete$', 'apps.titulos.views.cohorte_seguimiento.delete', name='cohorteSeguimientoDelete'),
     url(r'^cohorte_seguimiento/([0-9]+)/establecimiento/$', 'apps.titulos.views.cohorte_seguimiento.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'establecimiento' }, name='cohortesEstablecimientoIndex'),
-    url(r'^cohorte_seguimiento/([0-9]+)/cohorte_establecimiento/$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', { 'tipo_unidad_educativa': 'establecimiento' }, name='cohortesEstablecimientoSeguimiento'),
-     #
     url(r'^cohorte_seguimiento/([0-9]+)/anexo/$', 'apps.titulos.views.cohorte_seguimiento.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'anexo' }, name='cohortesAnexoIndex'),
-    url(r'^cohorte_seguimiento/([0-9]+)/cohorte_anexo/$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', { 'tipo_unidad_educativa': 'anexo' }, name='cohortesAnexoSeguimiento'),
-    #
     url(r'^cohorte_seguimiento/([0-9]+)/extension_aulica/$', 'apps.titulos.views.cohorte_seguimiento.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'extension_aulica' }, name='cohortesExtensionAulicaIndex'),
-    url(r'^cohorte_seguimiento/([0-9]+)/cohorte_extension_aulica/$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', { 'tipo_unidad_educativa': 'extension_aulica' }, name='cohortesExtensionAulicaSeguimiento'),
-    #url(r'^cohorte/create$', 'apps.titulos.views.cohorte.create', { 'carrera_jurisdiccional_id': None }, name='cohorteCreate'), # Ya no se utiliza, sino que se asigna una cohorte al título
     #
     url(r'^carrera_jurisdiccional/([0-9]+)/generar-cohorte$', 'apps.titulos.views.cohorte.create', name='cohorteCreate'),
     url(r'^cohorte/([0-9]+)/editar$', 'apps.titulos.views.cohorte.edit', name='cohorteEdit'),
@@ -78,19 +75,6 @@ urlpatterns=patterns('',
     url(r'^cohorte$', 'apps.titulos.views.cohorte.index', name='cohorte'),
     url(r'^cohorte/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.cohorte.revisar_jurisdiccion', name='cohorteRevisarJurisdiccion'),
     # Cohorte establecimiento
-    #url(r'^cohorte-establecimiento/([0-9]+)/confirmar$', 'apps.titulos.views.cohorte_establecimiento.confirmar', name='cohorteEstablecimientoConfirmar'),
-    #url(r'^cohorte-establecimiento$', 'apps.titulos.views.cohorte_establecimiento.index', name='cohorteEstablecimientoIndex'),
-    #url(r'^cohorte-establecimiento/([0-9]+)/seguimiento$', 'apps.titulos.views.cohorte_establecimiento.seguimiento', name='cohorteEstablecimientoSeguimiento'),
-    #url(r'^cohorte-establecimiento/([0-9]+)/editar-seguimiento$', 'apps.titulos.views.cohorte_establecimiento.edit_seguimiento', name='cohorteEstablecimientoSeguimientoCreate'),
-    #url(r'^cohorte-establecimiento/([0-9]+)/crear-seguimiento$', 'apps.titulos.views.cohorte_establecimiento.create_seguimiento', name='cohorteEstablecimientoSeguimientoEdit'),
-    #url(r'^cohorte-establecimiento/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte_establecimiento.eliminar', name='cohorteEstablecimientoSeguimientoEliminar'),
-    # Cohorte anexo
-    #url(r'^cohorte-anexo/([0-9]+)/confirmar$', 'apps.titulos.views.cohorte_anexo.confirmar', name='cohorteAnexoConfirmar'),
-    #url(r'^cohorte-anexo$', 'apps.titulos.views.cohorte_anexo.index', name='cohorteAnexoIndex'),
-    #url(r'^cohorte-anexo/([0-9]+)/seguimiento$', 'apps.titulos.views.cohorte_anexo.seguimiento', name='cohorteAnexoSeguimiento'),
-    #url(r'^cohorte-anexo/([0-9]+)/editar-seguimiento$', 'apps.titulos.views.cohorte_anexo.edit_seguimiento', name='cohorteAnexoSeguimientoCreate'),
-    #url(r'^cohorte-anexo/([0-9]+)/crear-seguimiento$', 'apps.titulos.views.cohorte_anexo.create_seguimiento', name='cohorteAnexoSeguimientoEdit'),
-    #url(r'^cohorte-anexo/([0-9]+)/eliminar$', 'apps.titulos.views.cohorte_anexo.eliminar', name='cohorteAnexoSeguimientoEliminar'),
     # AJAX
     url(r'^ajax/get_titulos_por_tipo/(?P<tipo_titulo_id>[0-9]+)', 'apps.titulos.views.ajax.get_titulos_por_tipo', name='ajaxGetTitulosPorTipo'),
     url(r'^ajax/get_rango_anios_cohorte/(?P<carrera_jurisdiccional_id>[0-9]+)', 'apps.titulos.views.ajax.get_rango_anios_cohorte', name='ajaxGetRangoAniosCohorte'),

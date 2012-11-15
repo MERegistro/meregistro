@@ -1,0 +1,9 @@
+{% load tags_filters %}
+<div class="datos-lectura">
+	<p><strong>Carrera:</strong> {{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera.nombre }}</p>
+	<p><strong>1 Año:</strong> {{ cohorte_unidad_educativa.cohorte.anio }}</p>
+	<p><strong>Estado:</strong> {{ cohorte_unidad_educativa.estado }}</p>
+	<p><strong>Cantidad de Inscriptos:</strong> {% if cohorte_unidad_educativa.inscriptos != None %}{{ cohorte_unidad_educativa.inscriptos }}{% else %}---{% endif %}</p>
+	<p><strong>Egresados hasta el momento:</strong> {{ cohorte_unidad_educativa.get_total_egresados }}</p>
+	<p><strong>Años de seguimiento:</strong> {{ cohorte_unidad_educativa.seguimiento.all|implode:", " }}</p>
+</div>

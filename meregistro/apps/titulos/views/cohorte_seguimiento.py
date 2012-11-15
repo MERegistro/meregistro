@@ -6,9 +6,11 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import TipoAmbito
 from apps.titulos.models import CohorteEstablecimiento, CohorteAnexo, CohorteExtensionAulica, EstadoCarreraJurisdiccional, \
-	EstadoCohorteEstablecimiento, EstadoCohorteAnexo, EstadoCohorteExtensionAulica
+	EstadoCohorteEstablecimiento, EstadoCohorteAnexo, EstadoCohorteExtensionAulica, \
+	CohorteEstablecimientoSeguimiento, CohorteAnexoSeguimiento, CohorteExtensionAulicaSeguimiento
 from apps.titulos.forms import CohortesUnidadEducativaFormFilters, CohorteEstablecimientoConfirmarForm,\
-	CohorteAnexoConfirmarForm, CohorteExtensionAulicaConfirmarForm
+	CohorteAnexoConfirmarForm, CohorteExtensionAulicaConfirmarForm, \
+	CohorteEstablecimientoSeguimientoForm, CohorteAnexoSeguimientoForm, CohorteExtensionAulicaSeguimientoForm
 from apps.registro.models import Jurisdiccion, Establecimiento, Anexo, ExtensionAulica
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -49,7 +51,7 @@ def index(request):
 	anexos = establecimiento.anexos
 	extensiones_aulicas = establecimiento.extensiones_aulicas
 
-	return my_render(request, 'titulos/cohorte/cohorte_seguimiento/index.html', {
+	return my_render(request, 'titulos/cohorte/seguimiento/index.html', {
 		'establecimiento': establecimiento,
 		'anexos': anexos.all(),
 		'extensiones_aulicas': extensiones_aulicas.all(),
@@ -92,7 +94,7 @@ def cohortes_unidad_educativa(request, unidad_educativa_id, tipo_unidad_educativ
 
 	page = paginator.page(page_number)
 	objects = page.object_list
-	return my_render(request, 'titulos/cohorte/cohorte_seguimiento/cohortes_unidad_educativa.html', {
+	return my_render(request, 'titulos/cohorte/seguimiento/cohortes_unidad_educativa.html', {
 		'form_filters': form_filter,
 		'objects': objects,
 		'tipo_unidad_educativa': tipo_unidad_educativa,
@@ -117,41 +119,10 @@ def build_confirmar_cohortes_query(filters, page, request, tipo_unidad_educativa
 		filters.buildQuery().filter(establecimiento__id=unidad_educativa_id)
 	elif tipo_unidad_educativa == 'anexo':
 		filters.buildQuery().filter(anexo__id=unidad_educativa_id)
-	elif tipo_unidad_educativa == 'extension_alica':
+	elif tipo_unidad_educativa == 'extension_aulica':
 		filters.buildQuery().filter(extension_aulica__id=unidad_educativa_id)
 
 	return filters.buildQuery()
-
-
-@login_required
-#@credential_required('tit_cohorte_seguimiento')
-def seguimiento(request, cohorte_ue_id, tipo_unidad_educativa):
-	"""
-	Seguimiento de cohorte de la unidad educativa
-	"""
-	if tipo_unidad_educativa == 'establecimiento':
-		objects = CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__id=cohorte_ue_id).order_by('anio')
-	elif tipo_unidad_educativa == 'anexo':
-		objects = CohorteAnexoSeguimiento.objects.filter(cohorte_anexo__id=cohorte_ue_id).order_by('anio')
-	elif tipo_unidad_educativa == 'extension_aulica':
-		objects = CohorteExtensionAulicaSeguimiento.objects.filter(cohorte_extension_aulica__id=cohorte_ue_id).order_by('anio')
-	else:
-		raise Exception('Tipo de unidad educativa erróneo.')
-		
-	#establecimiento = __get_establecimiento_actual(request)
-	cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk=cohorte_establecimiento_id)
-
-	if cohorte_establecimiento.inscriptos is None:  # No aceptada
-		request.set_flash('warning', 'No se puede generar años de seguimiento a cohortes no aceptadas.')
-		return HttpResponseRedirect(reverse('cohorteEstablecimientoIndex'))
-
-	objects = CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento=cohorte_establecimiento).order_by('anio')
-	return my_render(request, 'titulos/cohorte/cohorte_seguimiento/seguimiento.html', {
-		'objects': objects,
-		'cohorte_establecimiento': cohorte_establecimiento,
-		'page_title': 'Seguimiento de cohote',
-		'current_page': 'seguimiento',
-	})
 
 
 @login_required
@@ -162,16 +133,22 @@ def confirmar(request, cohorte_ue_id, tipo_unidad_educativa):
 	"""
 	if tipo_unidad_educativa == 'establecimiento':
 		cohorte_unidad_educativa = CohorteEstablecimiento.objects.get(pk=cohorte_ue_id, establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
+		unidad_educativa = cohorte_unidad_educativa.establecimiento
 		form_model = CohorteEstablecimientoConfirmarForm
 		estado_model = EstadoCohorteEstablecimiento
+		return_url = 'cohortesEstablecimientoIndex'
 	elif tipo_unidad_educativa == 'anexo':
 		cohorte_unidad_educativa = CohorteAnexo.objects.get(pk=cohorte_ue_id, anexo__ambito__path__istartswith=request.get_perfil().ambito.path)
+		unidad_educativa = cohorte_unidad_educativa.anexo
 		form_model = CohorteAnexoConfirmarForm
 		estado_model = EstadoCohorteAnexo
+		return_url = 'cohortesAnexoIndex'
 	elif tipo_unidad_educativa == 'extension_aulica':
 		cohorte_unidad_educativa = CohorteExtensionAulica.objects.get(pk=cohorte_ue_id, extension_aulica__ambito__path__istartswith=request.get_perfil().ambito.path)
+		unidad_educativa = cohorte_unidad_educativa.extension_aulica
 		form_model = CohorteExtensionAulicaConfirmarForm
 		estado_model = EstadoCohorteExtensionAulica
+		return_url = 'cohortesExtensionAulicaIndex'
 
 	if request.method == 'POST':
 		form = form_model(request.POST, instance=cohorte_unidad_educativa)
@@ -182,106 +159,175 @@ def confirmar(request, cohorte_ue_id, tipo_unidad_educativa):
 			cohorte_unidad_educativa.save()
 			cohorte_unidad_educativa.registrar_estado()
 
-			request.set_flash('success', 'La cohorte fue confirmada correctamente.')
+			request.set_flash('success', 'Los datos fueron actualizados correctamente.')
 			""" Redirecciono para evitar el reenvío del form """
-			return HttpResponseRedirect(reverse('cohorteSeguimientoIndex'))
+			return HttpResponseRedirect(reverse(return_url, args=[unidad_educativa.id]))
 
 		else:
-			request.set_flash('warning', 'Ocurrió un error confirmando la cohorte.')
+			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
 	else:
 		form = form_model(instance=cohorte_unidad_educativa)
 
-	return my_render(request, 'titulos/cohorte/cohorte_seguimiento/confirmar.html', {
+	return my_render(request, 'titulos/cohorte/seguimiento/confirmar.html', {
 		'cohorte_unidad_educativa': cohorte_unidad_educativa,
 		'cohorte': cohorte_unidad_educativa.cohorte,
 		'form': form,
+		'unidad_educativa': unidad_educativa,
+		'tipo_unidad_educativa': tipo_unidad_educativa,
 	})
 
 
 @login_required
 #@credential_required('tit_cohorte_seguimiento')
-def create_seguimiento(request, cohorte_establecimiento_id):
+def seguimiento(request, cohorte_ue_id, tipo_unidad_educativa):
+	"""
+	Seguimiento de cohorte de la unidad educativa
+	"""
+	if tipo_unidad_educativa == 'establecimiento':
+		cohorte_unidad_educativa = CohorteEstablecimiento.objects.get(pk=cohorte_ue_id)
+		objects = cohorte_unidad_educativa.seguimiento.all().order_by('anio')
+		unidad_educativa = Establecimiento.objects.get(pk=cohorte_unidad_educativa.establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+	elif tipo_unidad_educativa == 'anexo':
+		cohorte_unidad_educativa = CohorteAnexo.objects.get(pk=cohorte_ue_id)
+		objects = cohorte_unidad_educativa.seguimiento.all().order_by('anio')
+		unidad_educativa = Anexo.objects.get(pk=cohorte_unidad_educativa.anexo.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+	elif tipo_unidad_educativa == 'extension_aulica':
+		cohorte_unidad_educativa = CohorteExtensionAulica.objects.get(pk=cohorte_ue_id)
+		objects = cohorte_unidad_educativa.seguimiento.all().order_by('anio')
+		unidad_educativa = ExtensionAulica.objects.get(pk=cohorte_unidad_educativa.extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+	else:
+		raise Exception('Tipo de unidad educativa erróneo.')
+		
+	return my_render(request, 'titulos/cohorte/seguimiento/seguimiento.html', {
+		'objects': objects,
+		'cohorte_unidad_educativa': cohorte_unidad_educativa,
+		'tipo_unidad_educativa': tipo_unidad_educativa,
+		'unidad_educativa': unidad_educativa,
+	})
 
-	cohorte_establecimiento = CohorteEstablecimiento.objects.get(pk=cohorte_establecimiento_id)
-	if cohorte_establecimiento.inscriptos is None:  # No aceptada
+
+@login_required
+#@credential_required('tit_cohorte_seguimiento')
+def create(request, cohorte_ue_id, tipo_unidad_educativa):
+
+	if tipo_unidad_educativa == 'establecimiento':
+		cohorte_unidad_educativa = CohorteEstablecimiento.objects.get(pk=cohorte_ue_id)
+		unidad_educativa = Establecimiento.objects.get(pk=cohorte_unidad_educativa.establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteEstablecimientoSeguimientoForm
+	elif tipo_unidad_educativa == 'anexo':
+		cohorte_unidad_educativa = CohorteAnexo.objects.get(pk=cohorte_ue_id)
+		unidad_educativa = Anexo.objects.get(pk=cohorte_unidad_educativa.anexo.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteAnexoSeguimientoForm
+	elif tipo_unidad_educativa == 'extension_aulica':
+		cohorte_unidad_educativa = CohorteExtensionAulica.objects.get(pk=cohorte_ue_id)
+		unidad_educativa = ExtensionAulica.objects.get(pk=cohorte_unidad_educativa.extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteExtensionAulicaSeguimientoForm
+	else:
+		raise Exception('Tipo de unidad educativa erróneo.')
+
+	if not cohorte_unidad_educativa.registrada():  # No aceptada
 		request.set_flash('warning', 'No se puede generar años de seguimiento a cohortes no aceptadas.')
-		return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args=[cohorte_establecimiento.id]))
+		return HttpResponseRedirect(reverse('cohorteSeguimientoIndex'))
 
 	if request.method == 'POST':
-		form = CohorteEstablecimientoSeguimientoForm(request.POST, inscriptos_total=cohorte_establecimiento.inscriptos, anio_cohorte=cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id=cohorte_establecimiento.id)
+		form = form_model(request.POST, cohorte_unidad_educativa=cohorte_unidad_educativa)
 		if form.is_valid():
-			seguimiento = form.save(commit=False)
-			seguimiento.cohorte_establecimiento = cohorte_establecimiento
-			seguimiento.save()
+			seguimiento = form.save()
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args=[cohorte_establecimiento.id]))
+			return HttpResponseRedirect(reverse('cohorteSeguimiento', args=[tipo_unidad_educativa, cohorte_ue_id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		form = CohorteEstablecimientoSeguimientoForm(inscriptos_total=cohorte_establecimiento.inscriptos, anio_cohorte=cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id=cohorte_establecimiento.id)
+		form = form_model(cohorte_unidad_educativa=cohorte_unidad_educativa)
 
-	return my_render(request, 'titulos/cohorte/cohorte_establecimiento/new.html', {
+	return my_render(request, 'titulos/cohorte/seguimiento/new.html', {
 		'form': form,
-		'cohorte_establecimiento': cohorte_establecimiento,
-		'form_template': 'titulos/cohorte/cohorte_establecimiento/form_seguimiento.html',
-		'page_title': 'Datos de seguimiento',
-		'current_page': 'datos_seguimiento',
+		'cohorte_unidad_educativa': cohorte_unidad_educativa,
+		'cohorte': cohorte_unidad_educativa.cohorte,
+		'tipo_unidad_educativa': tipo_unidad_educativa,
+		'unidad_educativa': unidad_educativa,
+	})
+	
+	
+@login_required
+#@credential_required('tit_cohorte_seguimiento')
+def edit(request, seguimiento_id, tipo_unidad_educativa):
+	
+	if tipo_unidad_educativa == 'establecimiento':
+		seguimiento = CohorteEstablecimientoSeguimiento.objects.get(pk=seguimiento_id)
+		cohorte_unidad_educativa = seguimiento.cohorte_establecimiento
+		unidad_educativa = Establecimiento.objects.get(pk=cohorte_unidad_educativa.establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteEstablecimientoSeguimientoForm
+	elif tipo_unidad_educativa == 'anexo':
+		seguimiento = CohorteAnexoSeguimiento.objects.get(pk=seguimiento_id)
+		cohorte_unidad_educativa = seguimiento.cohorte_anexo
+		unidad_educativa = Anexo.objects.get(pk=cohorte_unidad_educativa.anexo.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteAnexoSeguimientoForm
+	elif tipo_unidad_educativa == 'extension_aulica':
+		seguimiento = CohorteExtensionAulicaSeguimiento.objects.get(pk=seguimiento_id)
+		cohorte_unidad_educativa = seguimiento.cohorte_extension_aulica
+		unidad_educativa = ExtensionAulica.objects.get(pk=cohorte_unidad_educativa.extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+		form_model = CohorteExtensionAulicaSeguimientoForm
+	else:
+		raise Exception('Tipo de unidad educativa erróneo.')
+
+	if not cohorte_unidad_educativa.registrada():  # No aceptada
+		request.set_flash('warning', 'No se puede generar años de seguimiento a cohortes no aceptadas.')
+		return HttpResponseRedirect(reverse('cohorteSeguimientoIndex'))
+
+	if request.method == 'POST':
+		form = form_model(request.POST, instance=seguimiento, cohorte_unidad_educativa=cohorte_unidad_educativa)
+		if form.is_valid():
+			seguimiento = form.save()
+
+			request.set_flash('success', 'Datos guardados correctamente.')
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('cohorteSeguimiento', args=[tipo_unidad_educativa, cohorte_unidad_educativa.id]))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	else:
+		form = form_model(instance=seguimiento, cohorte_unidad_educativa=cohorte_unidad_educativa)
+
+	return my_render(request, 'titulos/cohorte/seguimiento/edit.html', {
+		'form': form,
+		'cohorte_unidad_educativa': cohorte_unidad_educativa,
+		'cohorte': cohorte_unidad_educativa.cohorte,
+		'tipo_unidad_educativa': tipo_unidad_educativa,
+		'unidad_educativa': unidad_educativa,
 	})
 
 
 @login_required
 #@credential_required('tit_cohorte_seguimiento')
-def edit_seguimiento(request, seguimiento_id):
-	"""
-	Confirmar cohorte
-	"""
-	seguimiento = CohorteEstablecimientoSeguimiento.objects.get(pk=seguimiento_id)
-	cohorte_establecimiento = seguimiento.cohorte_establecimiento
-
-	if request.method == 'POST':
-		form = CohorteEstablecimientoSeguimientoForm(request.POST, instance=seguimiento, inscriptos_total=cohorte_establecimiento.inscriptos, anio_cohorte=cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id=cohorte_establecimiento.id)
-		if form.is_valid():
-			seguimiento = form.save(commit=False)
-			seguimiento.cohorte_establecimiento = cohorte_establecimiento
-			seguimiento.save()
-
-			request.set_flash('success', 'Datos guardados correctamente.')
-			# redirigir a edit
-			return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args=[cohorte_establecimiento.id]))
-		else:
-			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-	else:
-		form = CohorteEstablecimientoSeguimientoForm(instance=seguimiento, inscriptos_total=cohorte_establecimiento.inscriptos, anio_cohorte=cohorte_establecimiento.cohorte.anio, cohorte_establecimiento_id=cohorte_establecimiento.id)
-
-	return my_render(request, 'titulos/cohorte/cohorte_establecimiento/edit.html', {
-		'form': form,
-		'cohorte_establecimiento': cohorte_establecimiento,
-		'form_template': 'titulos/cohorte/cohorte_establecimiento/form_seguimiento.html',
-		'page_title': 'Datos de seguimiento',
-		'current_page': 'datos_seguimiento',
-	})
-
-
-@login_required
-#@credential_required('tit_cohorte_seguimiento')
-def eliminar(request, seguimiento_id):
+def delete(request, seguimiento_id, tipo_unidad_educativa):
 	"""
 	Eliminación de año de seguimiento de cohorte
 	"""
-	seguimiento = CohorteEstablecimientoSeguimiento.objects.get(pk=seguimiento_id)
+	if tipo_unidad_educativa == 'establecimiento':
+		seguimiento = CohorteEstablecimientoSeguimiento.objects.get(pk=seguimiento_id)
+		cohorte_unidad_educativa = seguimiento.cohorte_establecimiento
+		unidad_educativa = Establecimiento.objects.get(pk=cohorte_unidad_educativa.establecimiento.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+	elif tipo_unidad_educativa == 'anexo':
+		seguimiento = CohorteAnexoSeguimiento.objects.get(pk=seguimiento_id)
+		cohorte_unidad_educativa = seguimiento.cohorte_anexo
+		unidad_educativa = Anexo.objects.get(pk=cohorte_unidad_educativa.anexo.id, ambito__path__istartswith=request.get_perfil().ambito.path)
+	elif tipo_unidad_educativa == 'extension_aulica':
+		seguimiento = CohorteExtensionAulicaSeguimiento.objects.get(pk=seguimiento_id)
+		cohorte_unidad_educativa = seguimiento.cohorte_extension_aulica
+		unidad_educativa = ExtensionAulica.objects.get(pk=cohorte_unidad_educativa.extension_aulica.id, ambito__path__istartswith=request.get_perfil().ambito.path)
 
 	if request.method == 'POST':
-		if int(request.POST['seguimiento_id']) is not int(seguimiento.id):
-			raise Exception('Error en la consulta!')
-
 		seguimiento.delete()
 		request.set_flash('success', 'El año de seguimiento fue eliminado correctamente.')
 		""" Redirecciono para evitar el reenvío del form """
-		return HttpResponseRedirect(reverse('cohorteEstablecimientoSeguimiento', args=[seguimiento.cohorte_establecimiento.id]))
+		return HttpResponseRedirect(reverse('cohorteSeguimiento', args=[tipo_unidad_educativa, cohorte_unidad_educativa.id]))
 	else:
 		request.set_flash('warning', 'Está seguro de eliminar el año de seguimiento? Esta operación no puede deshacerse.')
-	return my_render(request, 'titulos/cohorte/cohorte_establecimiento/eliminar.html', {
-		'seguimiento_id': seguimiento.id,
+		
+	return my_render(request, 'titulos/cohorte/seguimiento/delete.html', {
+		'seguimiento': seguimiento,
+		'tipo_unidad_educativa': tipo_unidad_educativa,
+		'cohorte_unidad_educativa': cohorte_unidad_educativa,
 	})

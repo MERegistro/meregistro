@@ -52,8 +52,22 @@ class CohorteEstablecimiento(models.Model):
 			estados = {}
 		return estados
 		
+		
 	def tiene_seguimiento(self):
 		return len(self.seguimiento.all()) > 0
 	
+	
 	def is_editable(self):
 		return self.registrada() and not self.tiene_seguimiento()
+		
+		
+	def get_ultimo_seguimiento_cargado(self):
+		return self.seguimiento.all().order_by('-anio')[:1]		
+			
+			
+	def get_total_egresados(self):
+		total = 0
+		for s in self.seguimiento.all():
+			total = total + s.egresados
+		return total
+		
