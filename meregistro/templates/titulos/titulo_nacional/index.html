@@ -55,6 +55,7 @@
     <tr>
       <th>Normativa</th>
       <th>Título</th>
+      <th>Carrera</th>
       <th class="th-estados">Estados</th>
       <th class="actions">Acciones</th>
     </tr>
@@ -64,6 +65,7 @@
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 	<td>{{ obj.normativa_nacional.numero }}</td>
 	<td>{{ obj.nombre }}</td>
+	<td>{{ obj.carreras.all|implode:", " }}</td>
 	<td>
 	    <div class="estados">
 	    {% for estado in obj.estados %}
