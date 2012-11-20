@@ -53,6 +53,7 @@ urlpatterns=patterns('',
     url(r'^carrera_jurisdiccional/([0-9]+)/edit$', 'apps.titulos.views.carrera_jurisdiccional.edit', name='carreraJurisdiccionalEdit'),
     url(r'^carrera_jurisdiccional$', 'apps.titulos.views.carrera_jurisdiccional.index', name='carreraJurisdiccional'),
     url(r'^carrera_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.carrera_jurisdiccional.revisar_jurisdiccion', name='carreraJurisdiccionalRevisarJurisdiccion'),
+    url(r'^carrera_jurisdiccional/([0-9]+)/eliminar$', 'apps.titulos.views.carrera_jurisdiccional.eliminar', name='carreraJurisdiccionalEliminar'),
     # Cohorte Seguimiento
     url(r'^cohorte_seguimiento$', 'apps.titulos.views.cohorte_seguimiento.index', name='cohorteSeguimientoIndex'),
     url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/confirmar$', 'apps.titulos.views.cohorte_seguimiento.confirmar', name='cohorteConfirmar'),

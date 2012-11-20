@@ -308,22 +308,22 @@ def orientaciones_por_titulo(request, carrera_jurisdiccional_id):
 
 @login_required
 #@credential_required('tit_carrera_jurisdiccional_eliminar')
-def eliminar(request, titulo_id):
+def eliminar(request, carrera_jurisdiccional_id):
 	"""
 	Baja de un título
 	--- mientras no sea referido por un título jurisdiccional ---
 	"""
-	titulo = Titulo.objects.get(pk=titulo_id)
-	request.set_flash('warning', 'Está seguro de eliminar el título? Esta operación no puede deshacerse.')
+	carrera = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	request.set_flash('warning', 'Está seguro de eliminar la carrera jurisdiccional? Esta operación no puede deshacerse.')
 	if request.method == 'POST':
-		if int(request.POST['titulo_id']) is not int(titulo_id):
+		if int(request.POST['carrera_jurisdiccional_id']) is not int(carrera_jurisdiccional_id):
 			raise Exception('Error en la consulta!')
-		titulo.delete()
-		request.set_flash('success', 'El título fue dado de baja correctamente.')
+		carrera.delete()
+		request.set_flash('success', 'La carrera jurisdiccional fue dada de baja correctamente.')
 		""" Redirecciono para evitar el reenvío del form """
-		return HttpResponseRedirect(reverse('titulosHome'))
-	return my_render(request, 'titulos/titulo/eliminar.html', {
-		'titulo_id': titulo.id,
+		return HttpResponseRedirect(reverse('carreraJurisdiccional'))
+	return my_render(request, 'titulos/carrera_jurisdiccional/eliminar.html', {
+		'carrera_jurisdiccional_id': carrera.id,
 	})
 
 
