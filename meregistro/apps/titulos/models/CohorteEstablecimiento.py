@@ -20,8 +20,10 @@ class CohorteEstablecimiento(models.Model):
 		db_table = 'titulos_cohortes_establecimientos'
 		unique_together = ('establecimiento', 'cohorte')
 
+
 	def __unicode__(self):
 		return str(self.establecimiento) + ' - ' + str(self.cohorte)
+
 
 	"Sobreescribo el init para agregarle propiedades"
 	def __init__(self, *args, **kwargs):
@@ -29,13 +31,10 @@ class CohorteEstablecimiento(models.Model):
 		self.estados = self.get_estados()
 
 
-	def save(self):
-		models.Model.save(self)
-
-
 	"La cohorte fue aceptada por el establecimiento?"
 	def registrada(self):
 		return self.estado.nombre == EstadoCohorteEstablecimiento.REGISTRADA
+
 
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteEstablecimientoEstado import CohorteEstablecimientoEstado
@@ -43,6 +42,7 @@ class CohorteEstablecimiento(models.Model):
 		registro.fecha = datetime.date.today()
 		registro.cohorte_establecimiento_id = self.id
 		registro.save()
+
 
 	def get_estados(self):
 		from apps.titulos.models.CohorteEstablecimientoEstado import CohorteEstablecimientoEstado

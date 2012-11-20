@@ -6,9 +6,13 @@
 {% css_classes "cohortes-por-carrera-jurisdiccional" %}
 {% endblock %}
 
-{% block title %}Generar Cohortes para la Carrera {{ carrera_jurisdiccional.carrera.nombre }}{% endblock %}
+{% block title %}{{ carrera_jurisdiccional.carrera.nombre }}{% endblock %}
 {% block content %}
-<h2>Generar Cohortes para la Carrera {{ carrera_jurisdiccional.carrera.nombre }}</h2>
+<h2>Cohortes Generadas para el {{ carrera_jurisdiccional.carrera.nombre }}</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
 
 <ul class="actions">
     <li class="create">
@@ -16,13 +20,9 @@
     </li>
 </ul>
 
-{% if flash %}
-    {% include "flashes.html" %}
-{% endif %}
-
 {% if objects %}
 <div class="datos-lectura">
-	<p><strong>Cohortes Autorizadas:</strong> <span>---</span></p>
+	<p><strong>Cohortes solicitadas:</strong> <span>{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }}-{{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }}</span></p>
 </div>
 <h3>Cohortes Generadas</h3>
 	

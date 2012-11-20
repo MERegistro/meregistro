@@ -9,7 +9,7 @@ ANIOS_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(Cohorte.PRIME
 class CarreraJurisdiccionalCohorteFormFilters(forms.Form):
 
 	carrera = forms.CharField(max_length=40, label='Carrera', required=False)
-	anio_cohorte_autorizada = forms.ChoiceField(label='Cohorte autorizada', choices=ANIOS_COHORTE_CHOICES, required=False)
+	anio_cohorte_solicitada = forms.ChoiceField(label='Cohorte solicitada', choices=ANIOS_COHORTE_CHOICES, required=False)
 	anio_cohorte_generada = forms.ChoiceField(label='Cohorte generada', choices=ANIOS_COHORTE_CHOICES, required=False)
 	estado = forms.ModelChoiceField(queryset=EstadoCarreraJurisdiccional.objects.all().order_by('nombre'), required=False)
 
@@ -24,8 +24,8 @@ class CarreraJurisdiccionalCohorteFormFilters(forms.Form):
 				return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None
 			if filter_by('carrera'):
 				q = q.filter(carrera__nombre__icontains = self.cleaned_data['carrera'])
-			if filter_by('anio_cohorte_autorizada'):
-				q = q.filter(datos_cohorte__ultima_cohorte_autorizada__lte=self.cleaned_data['anio_cohorte_autorizada'], datos_cohorte__primera_cohorte_autorizada__gte=self.cleaned_data['anio_cohorte_autorizada'])
+			if filter_by('anio_cohorte_solicitada'):
+				q = q.filter(datos_cohorte__ultima_cohorte_solicitada__lte=self.cleaned_data['anio_cohorte_solicitada'], datos_cohorte__primera_cohorte_solicitada__gte=self.cleaned_data['anio_cohorte_solicitada'])
 			if filter_by('anio_cohorte_generada'):
 				q = q.filter(cohortes__anio=self.cleaned_data['anio_cohorte_generada'])
 			if filter_by('estado'):

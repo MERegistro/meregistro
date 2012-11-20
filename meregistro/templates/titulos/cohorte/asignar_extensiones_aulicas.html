@@ -1,6 +1,6 @@
 {% extends "base_titulos.html" %}
 
-{% block title %}Asignación de Cohorte a extensiones áulicas{% endblock %}
+{% block title %}Asignación de Cohorte a Extensión Áulica{% endblock %}
 
 {% load tags_filters %}
 
@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<h2>Asignación de Cohorte a extensiones áulicas</h2>
+<h2>Asignación de Cohorte a Extensión Áulica</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -30,12 +30,12 @@
 		</div>
 		<div class="form-text">
 			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Extensión Áulica:</label>
+			<label for="id_nombre">Nombre de la Extensión Áulica:</label>
 			{{ form_filters.nombre }}
 		</div>
 		<div class="form-select">
 			{{ form_filters.tipo_gestion.errors }}
-			<label for="id_tipo_gestion">Gestión:</label>
+			<label for="id_tipo_gestion">Tipo de Gestión:</label>
 			{{ form_filters.tipo_gestion }}
 		</div>
 		<div class="form-submit">
@@ -55,10 +55,10 @@
     <table class="hor-zebra">
 		<thead>
 			<tr>
-				<th><input type="checkbox" name="check_all_extensiones_aulicas" id="check_all_extensiones_aulicas" /></th>
+				<th><input type="checkbox" name="check_all_extensiones_aulicas" id="check_all_extensiones_aulicas" /> <label for="check_all_extensiones_aulicas">Todas</label></th>
 				<th id="thEstablecimientoCue">CUE</th>
 				<th>Extensión Áulica</th>
-				<th>Oferta</th>
+				<th>Oferta Carreras</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -74,7 +74,7 @@
     </table>
 {% include "paginator.html" %}
     <div class="form-submit" style="margin-top: 20px;">
-		<input type="submit" value="Asignar extensiones áulicas seleccionadas" />
+		<input type="submit" value="Asignar Extensiones Áulicas Seleccionadas" />
     </div>
 </form>
 <script type="text/javascript">

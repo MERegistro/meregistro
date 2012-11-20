@@ -1,6 +1,6 @@
 {% extends "base_titulos.html" %}
 
-{% block title %}Asignación de Cohorte a anexos{% endblock %}
+{% block title %}Asignación de Cohorte a Anexo{% endblock %}
 
 {% load tags_filters %}
 
@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block content %}
-<h2>Asignación de Cohorte a anexos</h2>
+<h2>Asignación de Cohorte a Anexo</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -30,12 +30,12 @@
 		</div>
 		<div class="form-text">
 			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Anexo:</label>
+			<label for="id_nombre">Nombre del Anexo:</label>
 			{{ form_filters.nombre }}
 		</div>
 		<div class="form-select">
 			{{ form_filters.tipo_gestion.errors }}
-			<label for="id_tipo_gestion">Gestión:</label>
+			<label for="id_tipo_gestion">Tipo de Gestión:</label>
 			{{ form_filters.tipo_gestion }}
 		</div>
 		<input type="hidden" name="page" value="" />
@@ -55,11 +55,11 @@
     <table class="hor-zebra">
 		<thead>
 			<tr>
-				<th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /></th>
+				<th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /> <label for="check_all_anexos">Todas</label></th>
 				<th id="thEstablecimientoCue">CUE</th>
 				<th>Anexo</th>
-				<th>Oferta</th>
-				<th>Emite</th>
+				<th>Oferta Carreras</th>
+				<th>Emite Títulos</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -76,7 +76,7 @@
     </table>
     {% include "paginator.html" %}
     <div class="form-submit" style="margin-top: 20px;">
-		<input type="submit" value="Asignar anexos seleccionados" />
+		<input type="submit" value="Asignar Anexo Seleccionados" />
     </div>
 </form>
 <script type="text/javascript">

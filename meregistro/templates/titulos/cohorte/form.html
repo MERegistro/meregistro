@@ -1,11 +1,7 @@
 <div class="form" id="cohorteForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
-		<div class="form-select">
-			{{ form.carrera_jurisdiccional.errors }}
-			<label for="id_carrera_jurisdiccional">Carrera jurisdiccional:</label>
-			{{ form.carrera_jurisdiccional }}
-		</div>
+		{{ form.carrera_jurisdiccional.as_hidden }}
 		<div class="form-select">
 			{{ form.anio.errors }}
 			<label for="id_anio">Año:</label>

@@ -74,20 +74,11 @@ def index(request):
 
 @login_required
 #@credential_required('tit_cohorte_alta')
-def create(request, carrera_jurisdiccional_id=None):
+def create(request, carrera_jurisdiccional_id):
 	"""
 	Alta de cohorte
 	"""
-	"""
-	Ya no se crea la cohorte eligiendo la carrera en un combo, sino que hay que especificarlo sí o sí (en la url)
-	"""
-	"Agregar cohorte a la carrera actual o crearla eligiendo la misma"
-	if carrera_jurisdiccional_id is not None:
-		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id, jurisdiccion=request.get_perfil().jurisdiccion())
-		choices = [('', '-------')] + [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
-	else:
-		carrera_jurisdiccional = None
-		choices = [('', '---Seleccione un título---')]
+	carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
 
 	if request.method == 'POST':
 		form = CohorteForm(request.POST)
@@ -96,23 +87,16 @@ def create(request, carrera_jurisdiccional_id=None):
 
 			# redirigir a edit
 			request.set_flash('success', 'Datos guardados correctamente.')
-			return HttpResponseRedirect(reverse('cohortesPorCarreraJurisdiccional', args=[cohorte.carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('cohortesPorCarreraJurisdiccional', args=[carrera_jurisdiccional.id]))
 
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
 		form = CohorteForm()
 
-	if carrera_jurisdiccional:
-		q = CarreraJurisdiccional.objects.filter(id=carrera_jurisdiccional.id)
-		form.fields["carrera_jurisdiccional"].empty_label = None
-	else:
-		# Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
-		q = CarreraJurisdiccional.objects.filter(estado__nombre=EstadoCarreraJurisdiccional.CONTROLADO)
-		form.fields["carrera_jurisdiccional"].queryset = q.filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('titulo__nombre')
-
-	form.fields["carrera_jurisdiccional"].queryset = q
+	choices = [('', '-------')] + [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
 	form.fields["anio"].choices = choices
+	form.fields["carrera_jurisdiccional"].initial = carrera_jurisdiccional.id
 
 	return my_render(request, 'titulos/cohorte/new.html', {
 		'form': form,

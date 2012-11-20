@@ -2,10 +2,10 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar Cohortes de Carreras Jurisdiccionales{% endblock %}
+{% block title %}Administración de Cohortes{% endblock %}
 
 {% block content %}
-<h2>Administrar Cohortes de Carreras Jurisdiccionales</h2>
+<h2>Administración de Cohortes</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -20,20 +20,22 @@
 			{{ form_filters.carrera }}
 		</div>
 		<div class="form-text">
-			{{ form_filters.anio_cohorte_autorizada.errors }}
-			<label for="id_anio_cohorte_autorizada">Cohorte autorizada:</label>
-			{{ form_filters.anio_cohorte_autorizada }}
+			{{ form_filters.anio_cohorte_solicitada.errors }}
+			<label for="id_anio_cohorte_solicitada">Cohorte solicitada:</label>
+			{{ form_filters.anio_cohorte_solicitada }}
 		</div>
 		<div class="form-select">
 			{{ form_filters.anio_cohorte_generada.errors }}
 			<label for="id_anio_cohorte_generada">Cohorte generada:</label>
 			{{ form_filters.anio_cohorte_generada }}
 		</div>
+		<!--
 		<div class="form-select">
 			{{ form_filters.estado.errors }}
 			<label for="id_estado">Estado:</label>
 			{{ form_filters.estado }}
 		</div>
+		-->
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
 			<input type="button" value="Reiniciar" onclick="window.location = 'cohorte';" />
