@@ -104,12 +104,14 @@ div#intro div#resolucion cite {
 	margin-top: 10px;
 }
 div#intro div#intro-links {
-	width: 520px;
+	width: 695px;
 	margin: 30px auto 0;
 }
 div#intro div#intro-links a {
 	display: block;
 	font-weight: bold;
+	float: left;
+	margin-left: 90px;
 }
 div#intro div#intro-links a:link,
 div#intro div#intro-links a:visited {
@@ -127,10 +129,11 @@ div#intro div#intro-links a:hover {
 	background: #DBD8DC;
 }
 div#intro div#intro-links a#link-oferta {
-	float: left;
+	margin-left: 0;
+}
+div#intro div#intro-links a#link-consulta-validez {
 }
 div#intro div#intro-links a#link-login {
-	float: right;
 }
 a, a:link {
 }
@@ -684,7 +687,7 @@ td.actions-td ul li.revisado a {
 	background: url(../img/icons/revisado.png) no-repeat left;
 }
 /* DETALLES */
-td.actions-td	ul li.details a {
+td.actions-td ul li.details a {
 	display: block;
 	width: 24px;
 	height: 24px;
@@ -1025,4 +1028,19 @@ body.cohorte-seguimiento-index div#content {
 }
 body.cohorte-seguimiento-index div#content h3 {
 	margin-top: 30px;
+}
+/*
+ *
+ *=CONSULTA-VALIDEZ
+ *
+ */
+
+body.consulta-validez div#consultaValidezFormFilter select {
+	width: 420px;
+}
+body.consulta-validez td.actions-td ul li.details a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/magnifier.png) no-repeat left;
 }

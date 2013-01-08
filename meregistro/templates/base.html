@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" type="text/css" />
     {% endblock stylesheets %}
 </head>
-<body>
+<body{% block css_body_classes %}{% endblock %}>
     <div id="wrapper">
     {% include "header.html" %}
 	<div id="content">

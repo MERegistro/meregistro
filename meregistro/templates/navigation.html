@@ -100,6 +100,13 @@
 		</li>
 		{% endif %}
 		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}"><span>Mis Datos</span></a></li>
+		{% if 'consulta_validez_titulos' in credenciales %}
+		<li><a href="#" class="inactive"><span>Validez Nacional</span></a>
+			<ul>
+				<li id="linkConsultaValidez"><a href="{% url apps.consulta_validez.views.index %}"><span>Consulta</span></a></li>
+			</ul>
+		</li>
+		{% endif %}
 		{% if 'reg_menu_ayuda' in credenciales %}
 		<li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
 		{% endif %}

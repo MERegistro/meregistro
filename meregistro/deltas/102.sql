@@ -3,6 +3,7 @@ CREATE TABLE "consulta_validez_unidadeducativa" (
     "id" serial NOT NULL PRIMARY KEY,
     "cue" varchar(9) NOT NULL UNIQUE,
     "nombre" varchar(255) NOT NULL,
+    "tipo_unidad_educativa" varchar(20) NOT NULL,
     "jurisdiccion_id" integer REFERENCES "registro_jurisdiccion" ("id") DEFERRABLE INITIALLY DEFERRED
 )
 ;

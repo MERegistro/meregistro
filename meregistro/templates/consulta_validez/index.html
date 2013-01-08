@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Consulta de Validez Nacional{% endblock %}
+{% block css_body_classes %}
+{% css_classes "consulta-validez" %}
+{% endblock %}
+{% block content %}
+<h2>Consulta de Validez Nacional</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+<div class="form-filter" id="consultaValidezFormFilter">
+    <h3>Búsqueda avanzada</h3>
+    {{ form_filters.non_field_errors }}
+    <div class="form-select">
+		{{ form_filters.jurisdiccion.errors }}
+		<label for="id_jurisdiccion">Jurisdicción:</label>
+		{{ form_filters.jurisdiccion }}
+    </div>
+    <div class="form-text">
+		{{ form_filters.cue.errors }}
+		<label for="id_cue">CUE:</label>
+		{{ form_filters.cue }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.unidad_educativa.errors }}
+		<label for="id_unidad_educativa">Nombre del ISFD:</label>
+		{{ form_filters.unidad_educativa }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.carrera.errors }}
+		<label for="id_carrera">Carrera:</label>
+		{{ form_filters.carrera }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.titulo.errors }}
+		<label for="id_titulo">Título:</label>
+		{{ form_filters.titulo }}
+    </div>
+    <div class="form-text">
+		{{ form_filters.cohorte.errors }}
+		<label for="id_cohorte">Cohorte:</label>
+		{{ form_filters.cohorte }}
+    </div>
+
+    <div class="form-submit">
+		<input type="submit" value="Buscar" />
+		<input type="button" value="Reiniciar" onclick="window.location = '';" />
+    </div>
+</div>
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th>Jurisdicción</th>
+            <th>CUE - Nombre del ISFD</th>
+            <th>Carrera</th>
+            <th>Título</th>
+            <th>Primera / Última cohorte</th>
+            <th>Normativa Jurisdiccional</th>
+            <th>Normativa Nacional</th>
+            <th>Número de INFD</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for obj in objects %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                <td>{{ obj.unidad_educativa.jurisdiccion }}</td>
+                <td>{{ obj.unidad_educativa.cue }} - {{ obj.unidad_educativa.nombre }}</td>
+                <td>{{ obj.carrera }}</td>
+                <td>{{ obj.denominacion }}</td>
+                <td>{{ obj.primera }} - {{ obj.ultima }}</td>
+                <td>{{ obj.normativa_jurisdiccional }}</td>
+                <td>{{ obj.normativa_nacional }}</td>
+                <td><a href="#" title="Ver detalle">{{ obj.nroinfd }}</a></td>
+                <td class="actions-td">
+                    <ul>
+                        <li class="details"><a href="" title="Ver detalle"><span>Ver detalle</span></a></li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+    <p>No se encontraron títulos.</p>
+</div>
+{% endif %}
+<hr />
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+var dropdown_dependencia = $("select#id_dependencia_funcional");
+
+$(document).ready(
+    dropdown_departamento.change(function(){
+		if (dropdown_departamento.val() == '') {
+			dropdown_localidad.html("<option value=''>Seleccione...</option>");
+		} else {
+			var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+			$.getJSON(url, function(models){
+				var options = '<option value="">Seleccione...</option>';
+				for(var i = 0; i < models.length; i++){
+					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+				}
+				dropdown_localidad.html(options);
+			});
+		} // END if
+	}) // END function
+); // END document.ready
+
+// Init
+
+if (dropdown_departamento.val() == '') {
+    dropdown_localidad.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_localidad.html(options);
+    dropdown_localidad.val(get_url_param('localidad'));
+
+    });
+}
+
+{% if user_perfil.rol.nombre in 'AdminNacional' %}
+//
+//
+// Admin de títulos ve todas las jurisdicciones
+//
+//
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+
+if (dropdown_jurisdiccion.val() == '') {
+    dropdown_departamento.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_departamento.html(options);
+    dropdown_departamento.val(get_url_param('departamento'));
+    });
+}
+
+dropdown_jurisdiccion.change(function(){
+    if (dropdown_jurisdiccion.val() == '') {
+	dropdown_departamento.html("<option value=''>Seleccione...</option>");
+    } else {
+	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
+	$.getJSON(url, function(models) {
+	    var options = '<option value="">Seleccione...</option>';
+	    for (var i = 0; i < models.length; i++) {
+	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+	    }
+	    dropdown_departamento.html(options);
+	});
+    }
+    dropdown_departamento.change();
+});
+{% endif %}
+</script>
+
+{% endblock %}
