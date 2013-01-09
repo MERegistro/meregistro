@@ -119,6 +119,14 @@ class Anexo(models.Model):
 			return None
 		return dom
 
+	def get_domicilio_institucional(self):
+		from apps.registro.models import AnexoDomicilio
+		try:
+			dom = AnexoDomicilio.objects.get(anexo=self, tipo_domicilio__descripcion=u'Institucional')
+		except AnexoDomicilio.DoesNotExist:
+			return None
+		return dom
+
 	def is_editable(self):
 		es_pendiente = self.estado_actual.nombre == u'Pendiente'
 		return es_pendiente

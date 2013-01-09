@@ -25,7 +25,7 @@ class AnexoDomicilio(models.Model):
             cp = " (CP: " + self.cp + ")"
         else:
             cp = ""
-        return str(self.calle) + " " + str(self.altura) + " - " + self.localidad.nombre + cp
+        return self.calle + " " + str(self.altura) + " - " + self.localidad.nombre + cp
 
     def __init__(self, *args, **kwargs):
         super(AnexoDomicilio, self).__init__(*args, **kwargs)

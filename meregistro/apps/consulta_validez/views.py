@@ -78,15 +78,20 @@ def detalle(request, titulo_id):
 	if titulo.unidad_educativa.tipo_unidad_educativa == 'establecimiento':
 		ue = Establecimiento.objects.get(cue=titulo.unidad_educativa.cue)
 		jurisdiccion = ue.dependencia_funcional.jurisdiccion
-	elif titulo.unidad_educativa.tipo_unidad_educativa == 'establecimiento':
+		dom = ue.get_domicilio_institucional()
+	elif titulo.unidad_educativa.tipo_unidad_educativa == 'anexo':
 		ue = Anexo.objects.get(cue=titulo.unidad_educativa.cue)
 		jurisdiccion = ue.establecimiento.dependencia_funcional.jurisdiccion
+		dom = ue.get_domicilio_institucional()
 	else:
 		ue = None
+		dom = None
+		jurisdiccion = None
+		
 		
 	return my_render(request, 'consulta_validez/detalle.html', {
 		'titulo': titulo,
 		'ue': ue,
-		'dom': ue.get_domicilio_institucional(),
+		'dom': dom,
 		'jurisdiccion': jurisdiccion,
 	})
