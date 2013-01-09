@@ -80,10 +80,10 @@
                 <td>{{ obj.primera }} - {{ obj.ultima }}</td>
                 <td>{{ obj.normativa_jurisdiccional }}</td>
                 <td>{{ obj.normativa_nacional }}</td>
-                <td><a href="#" title="Ver detalle">{{ obj.nroinfd }}</a></td>
+                <td><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle">{{ obj.nroinfd }}</a></td>
                 <td class="actions-td">
                     <ul>
-                        <li class="details"><a href="" title="Ver detalle"><span>Ver detalle</span></a></li>
+                        <li class="details"><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
                     </ul>
                 </td>
             </tr>

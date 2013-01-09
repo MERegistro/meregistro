@@ -1044,3 +1044,16 @@ body.consulta-validez td.actions-td ul li.details a {
 	height: 24px;
 	background: url(../img/icons/magnifier.png) no-repeat left;
 }
+body.consulta-validez-detalle div#content {
+	padding-bottom: 30px;
+}
+body.consulta-validez-detalle div#content h3 {
+	font-size: 1.3em;
+	margin: 20px 0 10px;
+}
+body.consulta-validez-detalle div.data {
+	margin: 0 0 40px;
+}
+body.consulta-validez-detalle div.data li {
+	margin: 10px 0 0;
+}

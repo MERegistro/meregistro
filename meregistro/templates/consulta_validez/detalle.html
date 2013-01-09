@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Consulta de Validez Nacional{% endblock %}
+{% block css_body_classes %}
+{% css_classes "consulta-validez consulta-validez-detalle" %}
+{% endblock %}
+{% block content %}
+<h2>Consulta de Validez Nacional</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<h3>Datos de la Institución</h3>
+<div class="data">
+	<ul>
+		<li><strong>CUE:</strong> <span>{{ ue.cue }}</span></li>
+		<li><strong>Nombre del ISFD:</strong> <span>{{ ue.nombre }}</span></li>
+		<li><strong>Tipo Gestión:</strong> <span>{{ ue.dependencia_funcional.tipo_gestion }}</span></li>
+		<li><strong>Jurisdicción:</strong> <span>{{ jurisdiccion }}</span></li>
+		{% if dom %}
+		<li><strong>Departamento:</strong> <span>{{ dom.localidad.departamento }}</span></li>
+		<li><strong>Localidad:</strong> <span>{{ dom.localidad }}</span></li>
+		<li><strong>Domicilio Institucional:</strong> <span>{{ dom }}</span></li>
+		{% endif %}
+		<li><strong>Teléfono:</strong> <span>{{ ue.telefono }}</span></li>
+		<li><strong>Correo:</strong> <span>{{ ue.email }}</span></li>
+	</ul>
+</div>
+
+<h3>Datos de la Validez Nacional del Título</h3>
+<div class="data">
+	<ul>
+		<li><strong>Carrera:</strong> <span>{{ titulo.carrera }}</span></li>
+		<li><strong>Título:</strong> <span>{{ titulo.denominacion }}</span></li>
+		<li><strong>Primera-Última Cohorte Autorizadas:</strong> <span>{{ titulo.primera }} - {{ titulo.ultima }}</span></li>
+		<li><strong>Normativa Jurisdiccional:</strong> <span>{{ titulo.normativa_juriscdiccional }}</span></li>
+		<li><strong>Normativa Nacional:</strong> <span>{{ titulo.normativa_nacional }}</span></li>
+		<li><strong>Número de INFD:</strong> <span>{{ titulo.nroinfd }}</span></li>
+	</ul>
+</div>
+
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url consultaValidezHome %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}
