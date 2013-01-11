@@ -107,15 +107,16 @@ var dropdown_unidad_educativa = $("select#id_unidad_educativa");
 var dropdown_carrera = $("select#id_carrera");
 var dropdown_titulo = $("select#id_titulo");
 
-var current_jur =dropdown_jurisdiccion.val();
+var current_jur = dropdown_jurisdiccion.val();
 var current_ue = dropdown_unidad_educativa.val();
 var current_carrera = dropdown_carrera.val();
 var current_titulo = dropdown_titulo.val();
 
-jurisdiccion_change(current_jur);
-
 var first_load = true;
 
+if(current_jur != '0'){
+	jurisdiccion_change(current_jur);
+}
 
 function jurisdiccion_change(val){
 	// Unidades educativas
