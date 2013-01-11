@@ -50,7 +50,7 @@
 
     <div class="form-submit">
 		<input type="submit" value="Buscar" />
-		<input type="button" value="Reiniciar" onclick="window.location = '';" />
+		<input type="button" value="Reiniciar" onclick="window.location = '/consulta_validez';" />
     </div>
 </div>
 
@@ -100,82 +100,118 @@
 <hr />
 
 <script type="text/javascript">
-var dropdown_departamento = $("select#id_departamento");
-var dropdown_localidad = $("select#id_localidad");
-var dropdown_dependencia = $("select#id_dependencia_funcional");
 
-$(document).ready(
-    dropdown_departamento.change(function(){
-		if (dropdown_departamento.val() == '') {
-			dropdown_localidad.html("<option value=''>Seleccione...</option>");
-		} else {
-			var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
-			$.getJSON(url, function(models){
-				var options = '<option value="">Seleccione...</option>';
-				for(var i = 0; i < models.length; i++){
-					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-				}
-				dropdown_localidad.html(options);
-			});
-		} // END if
-	}) // END function
-); // END document.ready
+// Init	
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+var dropdown_unidad_educativa = $("select#id_unidad_educativa");
+var dropdown_carrera = $("select#id_carrera");
+var dropdown_titulo = $("select#id_titulo");
+
+var current_jur =dropdown_jurisdiccion.val();
+var current_ue = dropdown_unidad_educativa.val();
+var current_carrera = dropdown_carrera.val();
+var current_titulo = dropdown_titulo.val();
+
+jurisdiccion_change(current_jur);
+
+var first_load = true;
+
+
+function jurisdiccion_change(val){
+	// Unidades educativas
+	var url = "/consulta_validez/ajax/get_unidades_por_jurisdiccion/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="0">---------</option>';
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['cue'] + ' - ' + models[i].fields['nombre'] + '</option>';
+		}
+		dropdown_unidad_educativa.html(options);
+		if(first_load){
+			dropdown_unidad_educativa.val(current_ue);
+		}
+	});
+	// 	Carreras
+	var url = "/consulta_validez/ajax/get_carreras_por_jurisdiccion/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="0">---------</option>';	
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].fields['carrera'] + '">' + models[i].fields['carrera'] + '</option>';
+		}
+		dropdown_carrera.html(options);
+		if(first_load){
+			dropdown_carrera.val(current_carrera);
+		}
+	});
+	// 	Títulos
+	var url = "/consulta_validez/ajax/get_titulos_por_jurisdiccion/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="0">---------</option>';
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].fields['denominacion'] + '">' + models[i].fields['denominacion'] + '</option>';
+		}
+		dropdown_titulo.html(options);
+		if(first_load){
+			dropdown_titulo.val(current_titulo);
+		}
+	});
+}
+
+function ue_change(val){
+	// 	Carreras
+	var url = "/consulta_validez/ajax/get_carreras_por_ue/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="0">---------</option>';	
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].fields['carrera'] + '">' + models[i].fields['carrera'] + '</option>';
+		}
+		dropdown_carrera.html(options);
+		if(first_load){
+			dropdown_carrera.val(current_carrera);
+		}
+	});
+	// 	Títulos
+	var url = "/consulta_validez/ajax/get_titulos_por_ue/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="0">---------</option>';
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].fields['denominacion'] + '">' + models[i].fields['denominacion'] + '</option>';
+		}
+		dropdown_titulo.html(options);
+		if(first_load){
+			dropdown_titulo.val(current_titulo);
+		}
+	});
+}
+
+function carrera_change(val){
+	// 	Títulos
+	var url = "/consulta_validez/ajax/get_titulos_por_carrera/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="0">---------</option>';
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].fields['denominacion'] + '">' + models[i].fields['denominacion'] + '</option>';
+		}
+		dropdown_titulo.html(options);
+		if(first_load){
+			dropdown_titulo.val(current_titulo);
+		}
+	});
+}
+
+$(document).ready(function(){
+    dropdown_jurisdiccion.change(function(){
+		jurisdiccion_change($(this).val());
+		first_load = false;
+	}); // END function
+    dropdown_unidad_educativa.change(function(){
+		ue_change($(this).val());
+		first_load = false;
+	}); // END function
+}); // END document.ready
 
 // Init
 
-if (dropdown_departamento.val() == '') {
-    dropdown_localidad.html("<option value=''>Seleccione...</option>");
-} else {
-    var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
-    $.getJSON(url, function(models) {
-    var options = '<option value="">Seleccione...</option>';
-    for (var i = 0; i < models.length; i++){
-        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-    }
-    dropdown_localidad.html(options);
-    dropdown_localidad.val(get_url_param('localidad'));
-
-    });
-}
-
-{% if user_perfil.rol.nombre in 'AdminNacional' %}
-//
-//
-// Admin de títulos ve todas las jurisdicciones
-//
-//
-var dropdown_jurisdiccion = $("select#id_jurisdiccion");
-
-if (dropdown_jurisdiccion.val() == '') {
-    dropdown_departamento.html("<option value=''>Seleccione...</option>");
-} else {
-    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
-    $.getJSON(url, function(models) {
-    var options = '<option value="">Seleccione...</option>';
-    for (var i = 0; i < models.length; i++){
-        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-    }
-    dropdown_departamento.html(options);
-    dropdown_departamento.val(get_url_param('departamento'));
-    });
-}
-
-dropdown_jurisdiccion.change(function(){
-    if (dropdown_jurisdiccion.val() == '') {
-	dropdown_departamento.html("<option value=''>Seleccione...</option>");
-    } else {
-	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
-	$.getJSON(url, function(models) {
-	    var options = '<option value="">Seleccione...</option>';
-	    for (var i = 0; i < models.length; i++) {
-	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-	    }
-	    dropdown_departamento.html(options);
-	});
-    }
-    dropdown_departamento.change();
-});
-{% endif %}
 </script>
 
 {% endblock %}
+

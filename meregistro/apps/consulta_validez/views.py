@@ -10,6 +10,8 @@ from apps.consulta_validez.models import UnidadEducativa, Titulo
 from apps.consulta_validez.forms import ConsultaValidezFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento, Anexo
 from django.core.paginator import Paginator
+import simplejson as json
+from django.core import serializers
 
 
 ITEMS_PER_PAGE = 50
@@ -68,8 +70,6 @@ def build_query(filters, page, request):
 	return filters.buildQuery().filter()
 
 
-
-
 def detalle(request, titulo_id):
 	"""
 	Detalle del Título
@@ -95,3 +95,69 @@ def detalle(request, titulo_id):
 		'dom': dom,
 		'jurisdiccion': jurisdiccion,
 	})
+
+
+def ajax_get_unidades_por_jurisdiccion(request, jurisdiccion_id):
+	if int(jurisdiccion_id) > 0:
+		unidades_educativas = UnidadEducativa.objects.filter(jurisdiccion__id=jurisdiccion_id)
+	else:
+		unidades_educativas = UnidadEducativa.objects.all()
+	
+	unidades_educativas.order_by('nombre')
+	json_unidades_educativas = serializers.serialize("json", unidades_educativas)
+	return HttpResponse(json_unidades_educativas, mimetype = "application/javascript")
+
+
+def ajax_get_carreras_por_jurisdiccion(request, jurisdiccion_id):
+	if int(jurisdiccion_id) > 0:
+		carreras = Titulo.objects.filter(unidad_educativa__jurisdiccion__id=jurisdiccion_id)
+	else:
+		carreras = Titulo.objects.all()
+	
+	carreras.order_by('carrera').distinct('carrera').values_list('carrera')
+	json_carreras = serializers.serialize("json", carreras)
+	return HttpResponse(json_carreras, mimetype = "application/javascript")
+
+
+def ajax_get_titulos_por_jurisdiccion(request, jurisdiccion_id):
+	if int(jurisdiccion_id) > 0:
+		titulos = Titulo.objects.filter(unidad_educativa__jurisdiccion__id=jurisdiccion_id)
+	else:
+		titulos = Titulo.objects.all()
+	
+	titulos.order_by('denominacion').distinct('denominacion').values_list('denominacion')
+	json_titulos = serializers.serialize("json", titulos)
+	return HttpResponse(json_titulos, mimetype = "application/javascript")
+
+
+def ajax_get_carreras_por_ue(request, ue_id):
+	if int(ue_id) > 0:
+		carreras = Titulo.objects.filter(unidad_educativa__id=ue_id)
+	else:
+		carreras = Titulo.objects.all()
+	
+	carreras.order_by('carrera').distinct('carrera').values_list('carrera')
+	json_carreras = serializers.serialize("json", carreras)
+	return HttpResponse(json_carreras, mimetype = "application/javascript")
+
+
+def ajax_get_titulos_por_ue(request, ue_id):
+	if int(ue_id) > 0:
+		titulos = Titulo.objects.filter(unidad_educativa__id=ue_id)
+	else:
+		titulos = Titulo.objects.all()
+	
+	titulos.order_by('denominacion').distinct('denominacion').values_list('denominacion')
+	json_titulos = serializers.serialize("json", titulos)
+	return HttpResponse(json_titulos, mimetype = "application/javascript")
+
+
+def ajax_get_titulos_por_carrera(request, carrera):
+	if int(carrera) > 0:
+		titulos = Titulo.objects.filter(carrera=carrea)
+	else:
+		titulos = Titulo.objects.all()
+	
+	titulos.order_by('denominacion').distinct('denominacion').values_list('denominacion')
+	json_titulos = serializers.serialize("json", titulos)
+	return HttpResponse(json_titulos, mimetype = "application/javascript")
