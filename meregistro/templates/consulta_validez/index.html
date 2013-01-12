@@ -136,7 +136,7 @@ function jurisdiccion_change(val){
 	$.getJSON(url, function(models){
 		var options = '<option value="0">---------</option>';	
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].fields['carrera'] + '">' + models[i].fields['carrera'] + '</option>';
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['carrera'] + '</option>';
 		}
 		dropdown_carrera.html(options);
 		if(first_load){
@@ -148,7 +148,7 @@ function jurisdiccion_change(val){
 	$.getJSON(url, function(models){
 		var options = '<option value="0">---------</option>';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].fields['denominacion'] + '">' + models[i].fields['denominacion'] + '</option>';
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['denominacion'] + '</option>';
 		}
 		dropdown_titulo.html(options);
 		if(first_load){
@@ -163,7 +163,7 @@ function ue_change(val){
 	$.getJSON(url, function(models){
 		var options = '<option value="0">---------</option>';	
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].fields['carrera'] + '">' + models[i].fields['carrera'] + '</option>';
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['carrera'] + '</option>';
 		}
 		dropdown_carrera.html(options);
 		if(first_load){
@@ -175,7 +175,7 @@ function ue_change(val){
 	$.getJSON(url, function(models){
 		var options = '<option value="0">---------</option>';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].fields['denominacion'] + '">' + models[i].fields['denominacion'] + '</option>';
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['denominacion'] + '</option>';
 		}
 		dropdown_titulo.html(options);
 		if(first_load){
@@ -190,7 +190,7 @@ function carrera_change(val){
 	$.getJSON(url, function(models){
 		var options = '<option value="0">---------</option>';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].fields['denominacion'] + '">' + models[i].fields['denominacion'] + '</option>';
+			options += '<option value="' + models[i].pk + '">' + models[i].fields['denominacion'] + '</option>';
 		}
 		dropdown_titulo.html(options);
 		if(first_load){
@@ -206,6 +206,10 @@ $(document).ready(function(){
 	}); // END function
     dropdown_unidad_educativa.change(function(){
 		ue_change($(this).val());
+		first_load = false;
+	}); // END function
+    dropdown_carrera.change(function(){
+		carrera_change($(this).val());
 		first_load = false;
 	}); // END function
 }); // END document.ready

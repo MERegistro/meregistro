@@ -152,9 +152,9 @@ def ajax_get_titulos_por_ue(request, ue_id):
 	return HttpResponse(json_titulos, mimetype = "application/javascript")
 
 
-def ajax_get_titulos_por_carrera(request, carrera):
-	if int(carrera) > 0:
-		titulos = Titulo.objects.filter(carrera=carrea)
+def ajax_get_titulos_por_carrera(request, carrera_id):
+	if int(carrera_id) > 0:
+		titulos = Titulo.objects.filter(carrera=Titulo.objects.get(pk=carrera_id).carrera)
 	else:
 		titulos = Titulo.objects.all()
 	
