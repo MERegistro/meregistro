@@ -1057,3 +1057,14 @@ body.consulta-validez-detalle div.data {
 body.consulta-validez-detalle div.data li {
 	margin: 10px 0 0;
 }
+
+a.nroinfd {
+    color: #00f;
+    text-decoration: underline;
+}
+
+@media print {
+.noPrint {
+    display:none;
+}
+}

@@ -9,6 +9,8 @@ from apps.seguridad.models import Usuario, Perfil
 from apps.consulta_validez.models import UnidadEducativa, Titulo
 from apps.consulta_validez.forms import ConsultaValidezFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento, Anexo
+from apps.reportes.views.consulta_validez import consulta_validez as reporte_consulta_validez
+from apps.reportes.models import Reporte
 from django.core.paginator import Paginator
 import simplejson as json
 from django.core import serializers
@@ -90,13 +92,12 @@ def index(request):
         form_filter.fields['unidad_educativa'].queryset.filter(jurisdiccion=int(request.GET['jurisdiccion']))
     q = build_query(form_filter, 1, request)
 
-    """
     try:
         if request.GET['export'] == '1':
-            return reporte_establecimientos(request, q)
+            return reporte_consulta_validez(request, q)
     except KeyError:
         pass
-    """
+
     
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -121,7 +122,7 @@ def index(request):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        #'export_url': Reporte.build_export_url(request.build_absolute_uri()),
+        'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 
@@ -129,8 +130,9 @@ def build_query(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
-    return filters.buildQuery().filter()
-
+    q = filters.buildQuery().filter()
+    q = q.order_by('unidad_educativa__jurisdiccion__nombre', 'unidad_educativa__cue', 'carrera', 'denominacion', 'primera')
+    return q
 
 def detalle(request, titulo_id):
     """

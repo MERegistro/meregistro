@@ -56,6 +56,11 @@
 
 {% if objects %}
 {% include "counter.html" %}
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
 <table class="hor-zebra">
     <thead>
         <tr>
@@ -80,7 +85,7 @@
                 <td>{{ obj.primera }} - {{ obj.ultima }}</td>
                 <td>{{ obj.normativa_jurisdiccional }}</td>
                 <td>{{ obj.normativa_nacional }}</td>
-                <td><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle">{{ obj.nroinfd }}</a></td>
+                <td><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle" class="nroinfd">{{ obj.nroinfd }}</a></td>
                 <td class="actions-td">
                     <ul>
                         <li class="details"><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
@@ -121,7 +126,7 @@ function jurisdiccion_change(val){
 	// Unidades educativas
 	var url = "/consulta_validez/ajax/get_unidades_por_jurisdiccion/" + val;
 	$.getJSON(url, function(models){
-		var options = '<option value="0">---------</option>';
+		var options = '<option value="">---------</option>';
 		for(var i = 0; i < models.length; i++){
 			options += '<option value="' + models[i].pk + '">' + models[i].fields.cue + " - " + models[i].fields.nombre + '</option>';
 		}
