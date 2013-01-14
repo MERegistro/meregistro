@@ -112,11 +112,10 @@ var current_ue = dropdown_unidad_educativa.val();
 var current_carrera = dropdown_carrera.val();
 var current_titulo = dropdown_titulo.val();
 
-var first_load = true;
 
-if(current_jur != '0'){
+/*if(current_jur != '0'){
 	jurisdiccion_change(current_jur);
-}
+}*/
 
 function jurisdiccion_change(val){
 	// Unidades educativas
@@ -124,78 +123,61 @@ function jurisdiccion_change(val){
 	$.getJSON(url, function(models){
 		var options = '<option value="0">---------</option>';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['cue'] + ' - ' + models[i].fields['nombre'] + '</option>';
+			options += '<option value="' + models[i].pk + '">' + models[i].fields.cue + " - " + models[i].fields.nombre + '</option>';
 		}
 		dropdown_unidad_educativa.html(options);
-		if(first_load){
-			dropdown_unidad_educativa.val(current_ue);
-		}
 	});
+
 	// 	Carreras
-	var url = "/consulta_validez/ajax/get_carreras_por_jurisdiccion/" + val;
+	var url = "/consulta_validez/ajax/get_carreras/?jurisdiccion=" + val;
 	$.getJSON(url, function(models){
-		var options = '<option value="0">---------</option>';	
+		var options = '';	
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['carrera'] + '</option>';
+			options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
 		}
 		dropdown_carrera.html(options);
-		if(first_load){
-			dropdown_carrera.val(current_carrera);
-		}
 	});
 	// 	Títulos
-	var url = "/consulta_validez/ajax/get_titulos_por_jurisdiccion/" + val;
+	var url = "/consulta_validez/ajax/get_titulos/?jurisdiccion=" + val;
 	$.getJSON(url, function(models){
-		var options = '<option value="0">---------</option>';
+		var options = '';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['denominacion'] + '</option>';
+						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
 		}
 		dropdown_titulo.html(options);
-		if(first_load){
-			dropdown_titulo.val(current_titulo);
-		}
 	});
 }
 
 function ue_change(val){
 	// 	Carreras
-	var url = "/consulta_validez/ajax/get_carreras_por_ue/" + val;
+	var url = "/consulta_validez/ajax/get_carreras/?unidad_educativa=" + val;
 	$.getJSON(url, function(models){
-		var options = '<option value="0">---------</option>';	
+		var options = '';	
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['carrera'] + '</option>';
+			options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
 		}
 		dropdown_carrera.html(options);
-		if(first_load){
-			dropdown_carrera.val(current_carrera);
-		}
 	});
 	// 	Títulos
-	var url = "/consulta_validez/ajax/get_titulos_por_ue/" + val;
+	var url = "/consulta_validez/ajax/get_titulos/?unidad_educativa=" + val;
 	$.getJSON(url, function(models){
-		var options = '<option value="0">---------</option>';
+		var options = '';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['denominacion'] + '</option>';
+						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
 		}
 		dropdown_titulo.html(options);
-		if(first_load){
-			dropdown_titulo.val(current_titulo);
-		}
 	});
 }
 
 function carrera_change(val){
 	// 	Títulos
-	var url = "/consulta_validez/ajax/get_titulos_por_carrera/" + val;
+	var url = "/consulta_validez/ajax/get_titulos/?carrera=" + val + "&jurisdiccion=" + dropdown_jurisdiccion.val() + "&unidad_educativa=" + dropdown_unidad_educativa.val();
 	$.getJSON(url, function(models){
-		var options = '<option value="0">---------</option>';
+		var options = '';
 		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['denominacion'] + '</option>';
+						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
 		}
 		dropdown_titulo.html(options);
-		if(first_load){
-			dropdown_titulo.val(current_titulo);
-		}
 	});
 }
 
