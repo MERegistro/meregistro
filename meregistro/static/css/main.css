@@ -195,6 +195,13 @@ div#establecimientoCompletarDatosNav ul li.active {
 div#establecimientoCompletarDatosNav ul li a span {
 	padding: 5px 14px;
 }
+div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados {
+	background: #F20909;
+}
+div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados a:link,
+div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados a:visited {
+	color: #fff;
+}
 /*
 *=tituloJurisdiccionalDatosNav
 */
