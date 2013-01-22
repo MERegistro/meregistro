@@ -522,3 +522,16 @@ def __registrar_process(request, form, extension_aulica):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
+
+def detalle(request, extension_aulica_id):
+    try:
+        extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except ExtensionAulica.DoesNotExist:
+        raise Exception('La extensión áulica no pertenece a su ámbito.')
+
+    return my_render(request, 'registro/extension_aulica/datos_extension_aulica.html', {
+        'extension_aulica': extension_aulica,
+        'funciones': extension_aulica.funciones.all(),
+        'alcances': extension_aulica.alcances.all(),
+        'domicilios': extension_aulica.domicilio.all(),
+    })

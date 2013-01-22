@@ -532,3 +532,16 @@ def __registrar_process(request, form, anexo):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
+def detalle(request, anexo_id):
+    try:
+        anexo = Anexo.objects.get(pk=anexo_id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except Anexo.DoesNotExist:
+        raise Exception('El anexo no pertenece a su ámbito.')
+
+    return my_render(request, 'registro/anexo/datos_anexo.html', {
+        'anexo': anexo,
+        'funciones': anexo.funciones.all(),
+        'autoridades': anexo.autoridades.all(),
+        'alcances': anexo.alcances.all(),
+        'domicilios': anexo.anexo_domicilio.all(),
+    })

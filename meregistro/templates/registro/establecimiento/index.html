@@ -85,7 +85,7 @@
         {% for est in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
                 <td>{{ est.cue }}</td>
-                <td>{{ est.nombre }}</td>
+                <td><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Visualizar"><span>{{ est.nombre }}</span></a></td>
 				{% if user_perfil.rol.nombre in 'AdminNacional' %}
                 <td>{{ est.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 				{% endif %}
@@ -112,7 +112,7 @@
 						{% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
 						{% endif %}
-			            <li class="details"><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Ver detalle"><span>Ver Detalle</span></a></li>
+			            
                 <li>
                   {% if est.verificado %} 
                     <img src="{{ STATIC_URL }}/img/icons/revisado.png" />

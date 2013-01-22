@@ -1,4 +1,4 @@
-{% extends "base_registro.html" %}
+{% extends "base_printable.html" %}
 
 {% block title %}Datos del establecimiento{% endblock %}
 
@@ -68,4 +68,5 @@
 </div>
 
 <hr />
+<input id="print-button" type="button" value="Imprimir" onclick="window.print();" />
 {% endblock %}

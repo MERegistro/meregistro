@@ -84,7 +84,7 @@
     {% for ext in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 		<td>{{ ext.cue }}</td>
-        <td>{{ ext.nombre }}</td>
+        <td><a href="{% url apps.registro.views.extension_aulica.detalle ext.id %}" title="Visualizar"><span>{{ ext.nombre }}</span></a></td>
 		{% if user_perfil.rol.nombre in 'AdminNacional' %}
 		<td>{{ ext.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 		{% endif %}

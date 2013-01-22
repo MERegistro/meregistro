@@ -562,13 +562,15 @@ table.hor-zebra td {
 tr.hor-zebra_odd {
 	background: #e8edff;
 }
-.hor-zebra a {
-		color: #303030;
+.hor-zebra a:link,
+.hor-zebra a:visited {
+		color: #204A9F;
 		outline-style: none;
-		text-decoration: none;
+		text-decoration: underline;
 		font-size: 12px;
 }
 .hor-zebra a:hover {
+		color: #13506C;
 		text-decoration: underline;
 }
 /* ESTADOS */
