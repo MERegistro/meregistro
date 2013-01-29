@@ -12,6 +12,7 @@ from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoAutoridad import AnexoAutoridad
 from apps.registro.forms.AnexoAutoridadForm import AnexoAutoridadForm
 from apps.registro.forms.AnexoAutoridadFormFilters import AnexoAutoridadFormFilters
+from apps.backend.models import ConfiguracionSolapasAnexo
 
 ITEMS_PER_PAGE = 50
 
@@ -72,7 +73,10 @@ def index(request, anexo_id):
     objects = page.object_list
 
     alta_habilitada = objects.count() == 0
-
+    
+    if not anexo.get_verificacion_datos().completo():
+        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
+		
     return my_render(request, 'registro/anexo/autoridades/index.html', {
         'form_filters': form_filter,
         'objects': objects,
@@ -84,7 +88,10 @@ def index(request, anexo_id):
         'prev_page': page_number - 1,
         'anexo': anexo,
         'alta_habilitada': alta_habilitada,
-        'verificado': anexo.get_verificacion_datos().autoridades
+        'verificado': anexo.get_verificacion_datos().autoridades,
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'actual_page': 'autoridades'
     })
 
 

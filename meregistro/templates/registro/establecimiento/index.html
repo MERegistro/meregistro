@@ -113,13 +113,11 @@
                         <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
 						{% endif %}
 			            
-                <li>
-                  {% if est.verificado %} 
-                    <img src="{{ STATIC_URL }}/img/icons/revisado.png" />
-                  {% else %}
-                    <img src="{{ STATIC_URL }}/img/icons/no_revisado.png" />
-                  {% endif %}
-                </li>
+						{% if est.verificado %} 
+						<li class="revisado" title="Revisado"><span>Revisado</span></li>
+					    {% else %}
+						<li class="no-revisado" title="No Revisado"><span>No revisado</span></li>
+						{% endif %}
                     </ul>
                 </td>
             </tr>

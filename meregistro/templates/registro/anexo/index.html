@@ -112,13 +112,11 @@
 				{% if 'reg_anexo_baja' in credenciales and anexo.is_deletable %}
 				<li class="delete"><a href="{% url apps.registro.views.anexo.delete anexo.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 				{% endif %}
-        <li>
-          {% if anexo.verificado %} 
-            <img src="{{ STATIC_URL }}/img/icons/revisado.png" />
-          {% else %}
-            <img src="{{ STATIC_URL }}/img/icons/no_revisado.png" />
-          {% endif %}
-        </li>
+				{% if anexo.verificado %} 
+				<li class="revisado" title="Revisado"><span>Revisado</span></li>
+				{% else %}
+				<li class="no-revisado" title="No Revisado"><span>No revisado</span></li>
+				{% endif %}
 			</ul>
         </td>
       </tr>

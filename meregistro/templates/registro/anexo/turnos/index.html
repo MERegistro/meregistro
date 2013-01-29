@@ -3,6 +3,12 @@
 
 {% block title %}Administrar Datos de Anexo{% endblock %}
 
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "tabs-n-grid" %}
+{% endblock %}
+
 {% block content %}
 <h2>Administrar Datos de Anexo - Turnos</h2>
 <h3>{{ anexo.cue }} - "{{ anexo.nombre }}"</h3>
@@ -10,6 +16,8 @@
     {% include "flashes.html" %}
 {% endif %}
 
+{% include "registro/anexo/completar_datos_nav.html" %}
+<div class="grid-wrapper">
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -46,7 +54,7 @@
     <p>No se encontraron Turnos.</p>
 </div>
 {% endif %}
-
+</div>
 
 
 <ul class="actions">

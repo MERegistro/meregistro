@@ -12,6 +12,7 @@ from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.models.EstablecimientoAutoridad import EstablecimientoAutoridad
 from apps.registro.forms.EstablecimientoAutoridadForm import EstablecimientoAutoridadForm
 from apps.registro.forms.EstablecimientoAutoridadFormFilters import EstablecimientoAutoridadFormFilters
+from apps.backend.models import ConfiguracionSolapasEstablecimiento
 
 ITEMS_PER_PAGE = 50
 
@@ -72,6 +73,9 @@ def index(request, establecimiento_id):
     objects = page.object_list
 
     alta_habilitada = objects.count() == 0
+    
+    if not establecimiento.get_verificacion_datos().completo():
+        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 
     return my_render(request, 'registro/establecimiento/autoridades/index.html', {
         'form_filters': form_filter,
@@ -84,7 +88,10 @@ def index(request, establecimiento_id):
         'prev_page': page_number - 1,
         'establecimiento': establecimiento,
         'alta_habilitada': alta_habilitada,
-        'verificado': establecimiento.get_verificacion_datos().autoridades
+        'verificado': establecimiento.get_verificacion_datos().autoridades,
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'actual_page': 'autoridades'
     })
 
 

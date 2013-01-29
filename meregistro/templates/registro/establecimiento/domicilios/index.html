@@ -1,6 +1,11 @@
 {% extends "base_registro.html" %}
-
 {% block title %}Completar Datos de Sede{% endblock %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "tabs-n-grid" %}
+{% endblock %}
 
 {% block content %}
 <h2>Completar Datos de Sede - Domicilios</h2>
@@ -9,6 +14,8 @@
     {% include "flashes.html" %}
 {% endif %}
 
+{% include "registro/establecimiento/completar_datos_nav.html" %}
+<div class="grid-wrapper">
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -45,6 +52,7 @@
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
+</div>
 
 
 

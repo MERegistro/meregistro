@@ -2,6 +2,12 @@
 
 {% block title %}Completar Datos de Sede{% endblock %}
 
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "tabs-n-grid" %}
+{% endblock %}
+
 {% block content %}
 <h2>Completar Datos de Sede - Autoridades</h2>
 <h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
@@ -9,6 +15,8 @@
     {% include "flashes.html" %}
 {% endif %}
 
+{% include "registro/establecimiento/completar_datos_nav.html" %}
+<div class="grid-wrapper">
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -47,6 +55,7 @@
     <p>No se encontraron autoridades.</p>
 </div>
 {% endif %}
+</div>
 <ul class="actions">
 {% if 'reg_establecimiento_completar' in credenciales and alta_habilitada %}
     <li class="create" style="margin-top: 30px">

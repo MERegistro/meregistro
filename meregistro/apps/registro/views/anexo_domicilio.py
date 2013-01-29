@@ -13,6 +13,7 @@ from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoDomicilio import AnexoDomicilio
 from apps.registro.forms.AnexoDomicilioForm import AnexoDomicilioForm
 from apps.registro.forms.AnexoDomicilioFormFilters import AnexoDomicilioFormFilters
+from apps.backend.models import ConfiguracionSolapasAnexo
 
 ITEMS_PER_PAGE = 50
 
@@ -72,6 +73,10 @@ def index(request, anexo_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+ 
+    if not anexo.get_verificacion_datos().completo():
+        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
+		
     return my_render(request, 'registro/anexo/domicilios/index.html', {
         'anexo': anexo,
         'form_filters': form_filter,
@@ -82,7 +87,10 @@ def index(request, anexo_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': anexo.get_verificacion_datos().domicilios
+        'verificado': anexo.get_verificacion_datos().domicilios,
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'actual_page': 'domicilios'
     })
 
 

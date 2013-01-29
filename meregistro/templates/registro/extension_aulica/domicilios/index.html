@@ -2,6 +2,12 @@
 
 {% block title %}Administrar Datos de Extensión Áulica{% endblock %}
 
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "tabs-n-grid" %}
+{% endblock %}
+
 {% block content %}
 <h2>Administrar Datos de Extensión Áulica - Domicilios</h2>
 <h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
@@ -9,6 +15,8 @@
     {% include "flashes.html" %}
 {% endif %}
 
+{% include "registro/extension_aulica/completar_datos_nav.html" %}
+<div class="grid-wrapper">
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -45,6 +53,8 @@
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
+</div>
+
 {% if 'reg_extension_aulica_modificar' in credenciales %}
 <ul class="actions">
     <li class="create" style="margin-top: 30px;">
