@@ -32,6 +32,7 @@ from apps.registro.models import DependenciaFuncional
 from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
 from apps.reportes.models import Reporte
 from apps.backend.models import ConfiguracionSolapasEstablecimiento
+from django.contrib import messages
 
 fsmEstablecimiento = FSMEstablecimiento()
 
@@ -271,9 +272,6 @@ def completar_datos_basicos(request, establecimiento_id):
     form.initial['verificado'] = establecimiento.get_verificacion_datos().datos_basicos
     if request.get_perfil().jurisdiccion() is not None:
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
-    
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
@@ -316,8 +314,6 @@ def completar_contacto(request, establecimiento_id):
         form = EstablecimientoContactoForm(instance=establecimiento)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().contacto
     
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
@@ -354,9 +350,6 @@ def completar_alcances(request, establecimiento_id):
         form = EstablecimientoAlcancesForm(instance=establecimiento)
 
     form.initial['verificado'] = establecimiento.get_verificacion_datos().alcances
-        
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
@@ -393,8 +386,6 @@ def completar_funciones(request, establecimiento_id):
         form = EstablecimientoFuncionesForm(instance=establecimiento)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().funciones
         
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
@@ -439,9 +430,6 @@ def completar_informacion_edilicia(request, establecimiento_id):
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion=TipoDominio.TIPO_COMPARTIDO).id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = establecimiento.get_verificacion_datos().info_edilicia
-        
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
@@ -484,9 +472,6 @@ def completar_conexion_internet(request, establecimiento_id):
     else:
         form = EstablecimientoConexionInternetForm(instance=conexion)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().conectividad
-        
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,

@@ -265,10 +265,6 @@ def completar_datos_basicos(request, anexo_id):
     q2 = Q(estado__nombre=EstadoEstablecimiento.REGISTRADO)
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(q1, q2)
         
-    
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-		
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_datos_basicos.html',
@@ -311,9 +307,6 @@ def completar_contacto(request, anexo_id):
         form = AnexoContactoForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().contacto
     
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-		
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_contacto.html',
@@ -349,9 +342,6 @@ def completar_alcances(request, anexo_id):
         form = AnexoAlcancesForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().alcances
     
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-		
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_alcances.html',
@@ -386,10 +376,7 @@ def completar_funciones(request, anexo_id):
     else:
         form = AnexoFuncionesForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().funciones
-    
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-		
+ 
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_funciones.html',
@@ -434,9 +421,6 @@ def completar_informacion_edilicia(request, anexo_id):
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = anexo.get_verificacion_datos().info_edilicia
     
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-		
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_informacion_edilicia.html',
@@ -478,10 +462,7 @@ def completar_conexion_internet(request, anexo_id):
     else:
         form = AnexoConexionInternetForm(instance=conexion)
     form.initial['verificado'] = anexo.get_verificacion_datos().conectividad
-    
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-		
+
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_conexion_internet.html',
