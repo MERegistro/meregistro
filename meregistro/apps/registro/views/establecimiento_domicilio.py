@@ -14,6 +14,7 @@ from apps.registro.models.EstablecimientoDomicilio import EstablecimientoDomicil
 from apps.registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
 from apps.registro.forms.EstablecimientoDomicilioFormFilters import EstablecimientoDomicilioFormFilters
 from apps.backend.models import ConfiguracionSolapasEstablecimiento
+from apps.registro.forms.VerificacionDatosEstablecimientoForm import VerificacionDatosEstablecimientoForm
 
 ITEMS_PER_PAGE = 50
 
@@ -66,9 +67,6 @@ def index(request, establecimiento_id):
     page = paginator.page(page_number)
     objects = page.object_list
     
-    if not establecimiento.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
-
     return my_render(request, 'registro/establecimiento/domicilios/index.html', {
         'establecimiento': establecimiento,
         'form_filters': form_filter,
@@ -82,7 +80,12 @@ def index(request, establecimiento_id):
         'verificado': establecimiento.get_verificacion_datos().domicilios,
         'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
-        'actual_page': 'domicilios'
+        'actual_page': 'domicilios',
+        'form_verificacion': VerificacionDatosEstablecimientoForm(
+			dato_verificacion='domicilios', 
+			unidad_educativa_id=establecimiento.id, 
+			return_url='establecimientoDomiciliosIndex', 
+			verificado=establecimiento.get_verificacion_datos().domicilios),
     })
 
 

@@ -394,6 +394,21 @@ div.form fieldset legend {
 div.form fieldset div.form-checkbox-list ul {
 	margin-top: 0px;
 }
+/* verificacion-datos-form */
+div#verificacion-datos-form {
+	margin-top: 20px;
+}
+div#verificacion-datos-form label,
+div#verificacion-datos-form input,
+div#verificacion-datos-form div.form-submit {
+	display: inline;
+}
+div#verificacion-datos-form label {
+	padding-right: 10px;
+}
+div#verificacion-datos-form div.form-submit {
+	margin-left: 10px;
+}
 /* tabbed-form */
 div.tabbed-form {
 	margin: 40px 0 0;

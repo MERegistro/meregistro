@@ -7,6 +7,7 @@ urlpatterns = patterns('',
     url(r'^establecimiento$', 'apps.registro.views.establecimiento.index', name='establecimiento'),
     url(r'^establecimiento/create', 'apps.registro.views.establecimiento.create', name='establecimientoCreate'),
     url(r'^establecimiento/([0-9]+)/delete', 'apps.registro.views.establecimiento.delete', name='establecimientoDelete'),
+    url(r'^establecimiento/verificar$', 'apps.registro.views.verificacion_datos.establecimiento', name='establecimientoVerificarDatos'),
     # completar datos del establecimiento
     url(r'^establecimiento/completar_datos/', 'apps.registro.views.establecimiento.completar_datos', name='establecimientoCompletarDatos'),
     url(r'^establecimiento/([0-9]+)/completar_datos_basicos/', 'apps.registro.views.establecimiento.completar_datos_basicos', name='establecimientoCompletarDatosBasicos'),
