@@ -15,6 +15,7 @@ from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.forms.ExtensionAulicaTurnoForm import ExtensionAulicaTurnoForm
 from apps.registro.forms.ExtensionAulicaTurnoFormFilters import ExtensionAulicaTurnoFormFilters
 from apps.backend.models import ConfiguracionSolapasExtensionAulica
+from apps.registro.forms.VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm
 
 ITEMS_PER_PAGE = 50
 
@@ -64,9 +65,6 @@ def index(request, extension_aulica_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
-    
-    if not extension_aulica.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 
     return my_render(request, 'registro/extension_aulica/turnos/index.html', {
         'extension_aulica': extension_aulica,
@@ -81,7 +79,12 @@ def index(request, extension_aulica_id):
         'verificado': extension_aulica.get_verificacion_datos().turnos,
         'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'actual_page': 'turnos'
+        'actual_page': 'turnos',
+        'form_verificacion': VerificacionDatosExtensionAulicaForm(
+			dato_verificacion='turnos', 
+			unidad_educativa_id=extension_aulica.id, 
+			return_url='extensionAulicaTurnosIndex', 
+			verificado=extension_aulica.get_verificacion_datos().turnos),
     })
 
 

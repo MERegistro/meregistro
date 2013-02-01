@@ -14,6 +14,11 @@
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
+{% if not extension_aulica.get_verificacion_datos.completo %}
+<div class="message warning">
+	<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+</div>
+{% endif %}
 
 {% include "registro/extension_aulica/completar_datos_nav.html" %}
 <div class="grid-wrapper">
@@ -63,6 +68,8 @@
 {% endif %}
 </div>
 
+{% include "registro/extension_aulica/form_verificacion_datos.html" %}
+
 <ul class="actions">
 {% if 'reg_extension_aulica_modificar' in credenciales %}
     <li class="create" style="margin-top: 30px">
@@ -72,28 +79,8 @@
         <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
     </li>
 {% endif %}
-    {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
-    <li class="datos-verificados">
-        <label for="id_verificado">Datos Verificados:</label>
-        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
-    </li>
-    {% endif %}
 </ul>
 
 <hr />
 
-
-{% if 'reg_extension_aulica_verificar_datos' in credenciales %}
-<script type="text/javascript">
-
-var checkbox = $("#id_verificado");
-
-$(document).ready(function() {
-    checkbox.click(function(){
-        extensionAulicaVerificarDato({{extension_aulica.id}}, 'matricula', checkbox.is(':checked'));
-    });
-});
-
-</script>
-{% endif %}
 {% endblock %}

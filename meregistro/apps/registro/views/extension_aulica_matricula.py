@@ -13,6 +13,7 @@ from apps.registro.models.ExtensionAulicaMatricula import ExtensionAulicaMatricu
 from apps.registro.forms.ExtensionAulicaMatriculaForm import ExtensionAulicaMatriculaForm
 from apps.registro.forms.ExtensionAulicaMatriculaFormFilters import ExtensionAulicaMatriculaFormFilters
 from apps.backend.models import ConfiguracionSolapasExtensionAulica
+from apps.registro.forms.VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm
 
 ITEMS_PER_PAGE = 50
 
@@ -62,9 +63,6 @@ def index(request, extension_aulica_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
-    
-    if not extension_aulica.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 
     return my_render(request, 'registro/extension_aulica/matricula/index.html', {
         'extension_aulica': extension_aulica,
@@ -79,7 +77,12 @@ def index(request, extension_aulica_id):
         'verificado': extension_aulica.get_verificacion_datos().matricula,
         'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'actual_page': 'matricula'
+        'actual_page': 'matricula',
+        'form_verificacion': VerificacionDatosExtensionAulicaForm(
+			dato_verificacion='matricula', 
+			unidad_educativa_id=extension_aulica.id, 
+			return_url='extensionAulicaMatriculaIndex', 
+			verificado=extension_aulica.get_verificacion_datos().matricula),
     })
 
 

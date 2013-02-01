@@ -37,3 +37,4 @@ from AnexoAutoridadForm import AnexoAutoridadForm
 from AnexoTurnoForm import AnexoTurnoForm
 from VerificacionDatosEstablecimientoForm import VerificacionDatosEstablecimientoForm
 from VerificacionDatosAnexoForm import VerificacionDatosAnexoForm
+from VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm

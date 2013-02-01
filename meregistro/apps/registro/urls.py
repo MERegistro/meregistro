@@ -90,6 +90,7 @@ urlpatterns = patterns('',
     url(r'^extension_aulica/domicilios/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_domicilio.delete', name='extensionAulicaDomicilioDelete'),
     url(r'^extension_aulica/([0-9]+)/registrar', 'apps.registro.views.extension_aulica.registrar', name='extensionAulicaRegistrar'),
     url(r'^extension_aulica/([0-9]+)/detalle$', 'apps.registro.views.extension_aulica.detalle', name='extensionAulicaDetalle'),
+    url(r'^extension_aulica/verificar$', 'apps.registro.views.verificacion_datos.extension_aulica', name='extensionAulicaVerificarDatos'),
     # extension áulica turnos
     url(r'^extension_aulica/([0-9]+)/turnos$', 'apps.registro.views.extension_aulica_turno.index', name='extensionAulicaTurnosIndex'),
     url(r'^extension_aulica/([0-9]+)/agregar_turno$', 'apps.registro.views.extension_aulica_turno.create', name='extensionAulicaTurnosCreate'),
