@@ -14,7 +14,11 @@
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% if not anexo.get_verificacion_datos.completo %}
+<div class="message warning">
+	<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+</div>
+{% endif %}
 {% include "registro/anexo/completar_datos_nav.html" %}
 <div class="grid-wrapper">
 {% if objects %}
@@ -57,6 +61,8 @@
 {% endif %}
 </div>
 
+{% include "registro/anexo/form_verificacion_datos.html" %}
+
 <ul class="actions">
 {% if 'reg_anexo_completar' in credenciales and alta_habilitada %}
     <li class="create" style="margin-top: 30px">
@@ -66,26 +72,6 @@
     <li class="back">
         <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>
     </li>
-    {% if 'reg_anexo_verificar_datos' in credenciales %}
-    <li class="datos-verificados">
-        <label for="id_verificado">Datos Verificados:</label>
-        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
-    </li>
-    {% endif %}
 </ul>
 <hr />
-
-{% if 'reg_anexo_verificar_datos' in credenciales %}
-<script type="text/javascript">
-
-var checkbox = $("#id_verificado");
-
-$(document).ready(function() {
-    checkbox.click(function(){
-        anexoVerificarDato({{anexo.id}}, 'autoridades', checkbox.is(':checked'));
-    });
-});
-
-</script>
-{% endif %}
 {% endblock %}

@@ -52,6 +52,7 @@ urlpatterns = patterns('',
     url(r'^anexo/([0-9]+)/completar_conexion_internet/', 'apps.registro.views.anexo.completar_conexion_internet', name='anexoCompletarConexionInternet'),
     url(r'^anexo/([0-9]+)/registrar', 'apps.registro.views.anexo.registrar', name='anexoRegistrar'),
     url(r'^anexo/([0-9]+)/detalle$', 'apps.registro.views.anexo.detalle', name='anexoDetalle'),
+    url(r'^anexo/verificar$', 'apps.registro.views.verificacion_datos.anexo', name='anexoVerificarDatos'),
     # anexo domicilios
     url(r'^anexo/([0-9]+)/domicilios$', 'apps.registro.views.anexo_domicilio.index', name='anexoDomiciliosIndex'),
     url(r'^anexo/([0-9]+)/agregar_domicilio$', 'apps.registro.views.anexo_domicilio.create', name='anexoDomicilioCreate'),

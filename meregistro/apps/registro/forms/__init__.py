@@ -36,3 +36,4 @@ from AnexoAutoridadFormFilters import AnexoAutoridadFormFilters
 from AnexoAutoridadForm import AnexoAutoridadForm
 from AnexoTurnoForm import AnexoTurnoForm
 from VerificacionDatosEstablecimientoForm import VerificacionDatosEstablecimientoForm
+from VerificacionDatosAnexoForm import VerificacionDatosAnexoForm

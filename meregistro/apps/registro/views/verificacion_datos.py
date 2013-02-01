@@ -34,3 +34,31 @@ def establecimiento(request):
 
 	request.set_flash('success', 'Datos guardados correctamente.')
 	return HttpResponseRedirect(reverse(return_url, args=[establecimiento_id]))
+
+
+@login_required
+@credential_required('reg_anexo_verificar_datos')
+def anexo(request):
+	anexo_id = request.POST['unidad_educativa_id']
+	dato_verificacion = request.POST['dato_verificacion']
+	return_url = request.POST['return_url']
+	anexo = Anexo.objects.get(pk=anexo_id)
+	verificacion = anexo.get_verificacion_datos()
+
+	try:
+		verificado = request.POST['verificado'] == 'on'
+	except KeyError:
+		verificado = False
+		
+	if dato_verificacion == 'domicilios':
+		verificacion.domicilios = verificado
+	elif dato_verificacion == 'autoridades':
+		verificacion.autoridades = verificado
+	elif dato_verificacion == 'turnos':
+		verificacion.turnos = verificado
+	elif dato_verificacion == 'matricula':
+		verificacion.matricula = verificado
+	verificacion.save()
+
+	request.set_flash('success', 'Datos guardados correctamente.')
+	return HttpResponseRedirect(reverse(return_url, args=[anexo_id]))

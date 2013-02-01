@@ -13,6 +13,7 @@ from apps.registro.models.AnexoMatricula import AnexoMatricula
 from apps.registro.forms.AnexoMatriculaForm import AnexoMatriculaForm
 from apps.registro.forms.AnexoMatriculaFormFilters import AnexoMatriculaFormFilters
 from apps.backend.models import ConfiguracionSolapasAnexo
+from apps.registro.forms.VerificacionDatosAnexoForm import VerificacionDatosAnexoForm
 
 ITEMS_PER_PAGE = 50
 
@@ -72,9 +73,6 @@ def index(request, anexo_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
-    
-    if not anexo.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
 		
     return my_render(request, 'registro/anexo/matricula/index.html', {
         'anexo': anexo,
@@ -89,7 +87,12 @@ def index(request, anexo_id):
         'verificado': anexo.get_verificacion_datos().matricula,
         'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
-        'actual_page': 'matricula'
+        'actual_page': 'matricula',
+        'form_verificacion': VerificacionDatosAnexoForm(
+			dato_verificacion='matricula', 
+			unidad_educativa_id=anexo.id, 
+			return_url='anexoMatriculaIndex', 
+			verificado=anexo.get_verificacion_datos().matricula),
     })
 
 
