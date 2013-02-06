@@ -12,6 +12,8 @@ from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.ExtensionAulicaMatricula import ExtensionAulicaMatricula
 from apps.registro.forms.ExtensionAulicaMatriculaForm import ExtensionAulicaMatriculaForm
 from apps.registro.forms.ExtensionAulicaMatriculaFormFilters import ExtensionAulicaMatriculaFormFilters
+from apps.backend.models import ConfiguracionSolapasExtensionAulica
+from apps.registro.forms.VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm
 
 ITEMS_PER_PAGE = 50
 
@@ -61,6 +63,7 @@ def index(request, extension_aulica_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+
     return my_render(request, 'registro/extension_aulica/matricula/index.html', {
         'extension_aulica': extension_aulica,
         'form_filters': form_filter,
@@ -71,7 +74,15 @@ def index(request, extension_aulica_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': extension_aulica.get_verificacion_datos().matricula
+        'verificado': extension_aulica.get_verificacion_datos().matricula,
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'actual_page': 'matricula',
+        'form_verificacion': VerificacionDatosExtensionAulicaForm(
+			dato_verificacion='matricula', 
+			unidad_educativa_id=extension_aulica.id, 
+			return_url='extensionAulicaMatriculaIndex', 
+			verificado=extension_aulica.get_verificacion_datos().matricula),
     })
 
 

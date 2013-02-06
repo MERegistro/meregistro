@@ -14,6 +14,8 @@ from apps.registro.models.EstablecimientoTurno import EstablecimientoTurno
 from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.forms.EstablecimientoTurnoForm import EstablecimientoTurnoForm
 from apps.registro.forms.EstablecimientoTurnoFormFilters import EstablecimientoTurnoFormFilters
+from apps.backend.models import ConfiguracionSolapasEstablecimiento
+from apps.registro.forms.VerificacionDatosEstablecimientoForm import VerificacionDatosEstablecimientoForm
 
 ITEMS_PER_PAGE = 50
 
@@ -65,6 +67,7 @@ def index(request, establecimiento_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+    
     return my_render(request, 'registro/establecimiento/turnos/index.html', {
         'establecimiento': establecimiento,
         'form_filters': form_filter,
@@ -75,7 +78,15 @@ def index(request, establecimiento_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': establecimiento.get_verificacion_datos().turnos
+        'verificado': establecimiento.get_verificacion_datos().turnos,
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'actual_page': 'turnos',
+        'form_verificacion': VerificacionDatosEstablecimientoForm(
+			dato_verificacion='turnos', 
+			unidad_educativa_id=establecimiento.id, 
+			return_url='establecimientoTurnosIndex', 
+			verificado=establecimiento.get_verificacion_datos().turnos),
     })
 
 

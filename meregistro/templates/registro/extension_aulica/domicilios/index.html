@@ -2,13 +2,25 @@
 
 {% block title %}Administrar Datos de Extensión Áulica{% endblock %}
 
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "tabs-n-grid" %}
+{% endblock %}
+
 {% block content %}
 <h2>Administrar Datos de Extensión Áulica - Domicilios</h2>
 <h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% if not extension_aulica.get_verificacion_datos.completo %}
+<div class="message warning">
+	<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+</div>
+{% endif %}
+{% include "registro/extension_aulica/completar_datos_nav.html" %}
+<div class="grid-wrapper">
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -45,6 +57,10 @@
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
+</div>
+
+{% include "registro/extension_aulica/form_verificacion_datos.html" %}
+
 {% if 'reg_extension_aulica_modificar' in credenciales %}
 <ul class="actions">
     <li class="create" style="margin-top: 30px;">
@@ -53,27 +69,8 @@
     <li class="back">
         <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
     </li>
-    {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
-    <li class="datos-verificados">
-        <label for="id_verificado">Datos Verificados:</label>
-        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
-    </li>
-    {% endif %}
 </ul>
 {% endif %}
 <hr />
 
-{% if 'reg_extension_aulica_verificar_datos' in credenciales %}
-<script type="text/javascript">
-
-var checkbox = $("#id_verificado");
-
-$(document).ready(function() {
-    checkbox.click(function(){
-        extensionAulicaVerificarDato({{extension_aulica.id}}, 'domicilios', checkbox.is(':checked'));
-    });
-});
-
-</script>
-{% endif %}
 {% endblock %}

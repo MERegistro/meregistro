@@ -85,7 +85,7 @@
     {% for anexo in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ anexo.cue }}</td>
-			<td>{{ anexo.nombre }}</td>
+			<td><a href="{% url apps.registro.views.anexo.detalle anexo.id %}" title="Visualizar"><span>{{ anexo.nombre }}</span></a></td>
 			{% if user_perfil.rol.nombre in 'AdminNacional' %}
 			<td>{{ anexo.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 			{% endif %}
@@ -112,13 +112,11 @@
 				{% if 'reg_anexo_baja' in credenciales and anexo.is_deletable %}
 				<li class="delete"><a href="{% url apps.registro.views.anexo.delete anexo.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 				{% endif %}
-        <li>
-          {% if anexo.verificado %} 
-            <img src="{{ STATIC_URL }}/img/icons/revisado.png" />
-          {% else %}
-            <img src="{{ STATIC_URL }}/img/icons/no_revisado.png" />
-          {% endif %}
-        </li>
+				{% if anexo.verificado %} 
+				<li class="revisado" title="Revisado"><span>Revisado</span></li>
+				{% else %}
+				<li class="no-revisado" title="No Revisado"><span>No revisado</span></li>
+				{% endif %}
 			</ul>
         </td>
       </tr>

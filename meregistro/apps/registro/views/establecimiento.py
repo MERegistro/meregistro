@@ -32,6 +32,7 @@ from apps.registro.models import DependenciaFuncional
 from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
 from apps.reportes.models import Reporte
 from apps.backend.models import ConfiguracionSolapasEstablecimiento
+from django.contrib import messages
 
 fsmEstablecimiento = FSMEstablecimiento()
 
@@ -248,6 +249,7 @@ def completar_datos_basicos(request, establecimiento_id):
     Edición de los datos básicos de un establecimiento.
     """
     establecimiento = __get_establecimiento(request, establecimiento_id)      
+        
     if request.method == 'POST':
         form = EstablecimientoDatosBasicosForm(request.POST, instance=establecimiento)
         if form.is_valid():
@@ -270,14 +272,15 @@ def completar_datos_basicos(request, establecimiento_id):
     form.initial['verificado'] = establecimiento.get_verificacion_datos().datos_basicos
     if request.get_perfil().jurisdiccion() is not None:
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
-    
+		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_datos_basicos.html',
         'establecimiento': establecimiento,
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })
 
 @login_required
@@ -310,13 +313,16 @@ def completar_contacto(request, establecimiento_id):
     else:
         form = EstablecimientoContactoForm(instance=establecimiento)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().contacto
+    
+		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_contacto.html',
         'establecimiento': establecimiento,
         'page_title': 'Contacto',
         'actual_page': 'contacto',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -344,13 +350,15 @@ def completar_alcances(request, establecimiento_id):
         form = EstablecimientoAlcancesForm(instance=establecimiento)
 
     form.initial['verificado'] = establecimiento.get_verificacion_datos().alcances
+		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_alcances.html',
         'establecimiento': establecimiento,
         'page_title': 'Alcance',
         'actual_page': 'alcances',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -377,13 +385,16 @@ def completar_funciones(request, establecimiento_id):
     else:
         form = EstablecimientoFuncionesForm(instance=establecimiento)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().funciones
+        
+		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_funciones.html',
         'establecimiento': establecimiento,
         'page_title': 'Funciones',
         'actual_page': 'funciones',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -419,6 +430,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion=TipoDominio.TIPO_COMPARTIDO).id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = establecimiento.get_verificacion_datos().info_edilicia
+		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_informacion_edilicia.html',
@@ -427,7 +439,8 @@ def completar_informacion_edilicia(request, establecimiento_id):
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
         'actual_page': 'informacion_edilicia',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -459,13 +472,15 @@ def completar_conexion_internet(request, establecimiento_id):
     else:
         form = EstablecimientoConexionInternetForm(instance=conexion)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().conectividad
+		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
         'form_template': 'registro/establecimiento/form_conexion_internet.html',
         'establecimiento': establecimiento,
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })
 
 

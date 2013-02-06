@@ -1,0 +1,16 @@
+/*
+ *
+ * Archivo CSS principal del sistema
+ *
+ * @author: luciano.baraglia[at]gmail.com
+ *
+*/
+div#header div#userInfo {
+	display: none;
+}
+input#print-button {
+	margin-top: 30px;
+}
+div#footer {
+	height: 20px;
+}

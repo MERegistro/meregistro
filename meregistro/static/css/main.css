@@ -170,6 +170,21 @@ div.tab-nav ul li a span {
 	display: block;
 	padding: 5px 8px;
 }
+/* TABS CON GRID */
+body.tabs-n-grid {
+}
+body.tabs-n-grid div#establecimientoCompletarDatosNav.tab-nav {
+	margin-top: 40px;
+}
+body.tabs-n-grid div.grid-wrapper {
+	background: #D6DEDE;
+	margin-top: 61px;
+	padding: 10px 10px 20px;
+	border: 1px #D6DEDE solid;
+}
+body.tabs-n-grid div.grid-wrapper div#counter {
+	margin-top: 10px;
+}
 /*
 *=establecimientoActions
 */
@@ -191,9 +206,20 @@ div#establecimientoCompletarDatosNav ul li {
 }
 div#establecimientoCompletarDatosNav ul li.active {
 	border-bottom: 1px #D6DEDE solid;
+	text-shadow: 0.1em 0.1em #fff;
 }
 div#establecimientoCompletarDatosNav ul li a span {
 	padding: 5px 14px;
+}
+div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados {
+	background: #F20909;
+}
+div#establecimientoCompletarDatosNav.tab-nav ul li.active.datos-no-verificados {
+	text-shadow: 0.1em 0.1em #000;
+}
+div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados a:link,
+div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados a:visited {
+	color: #fff;
 }
 /*
 *=tituloJurisdiccionalDatosNav
@@ -367,6 +393,21 @@ div.form fieldset legend {
 }
 div.form fieldset div.form-checkbox-list ul {
 	margin-top: 0px;
+}
+/* verificacion-datos-form */
+div#verificacion-datos-form {
+	margin-top: 20px;
+}
+div#verificacion-datos-form label,
+div#verificacion-datos-form input,
+div#verificacion-datos-form div.form-submit {
+	display: inline;
+}
+div#verificacion-datos-form label {
+	padding-right: 10px;
+}
+div#verificacion-datos-form div.form-submit {
+	margin-left: 10px;
 }
 /* tabbed-form */
 div.tabbed-form {
@@ -548,20 +589,23 @@ table.hor-zebra th {
 	background: #276399;
 }
 table.hor-zebra td {
-	padding: 1px 5px;
+	padding: 3px 5px;
 	color: #000;
 	border: 1px #ccc solid;
+	background: #fff;
 }
-tr.hor-zebra_odd {
+tr.hor-zebra_odd td {
 	background: #e8edff;
 }
-.hor-zebra a {
-		color: #303030;
+.hor-zebra a:link,
+.hor-zebra a:visited {
+		color: #204A9F;
 		outline-style: none;
-		text-decoration: none;
+		text-decoration: underline;
 		font-size: 12px;
 }
 .hor-zebra a:hover {
+		color: #13506C;
 		text-decoration: underline;
 }
 /* ESTADOS */
@@ -641,50 +685,46 @@ ul.actions li.bloqueos {
 /* TABLE ACTIONS */
 td.actions-td {
 }
-td.actions-td ul li a {
+td.actions-td ul li {
 	display: block;
 	float: left;
-	width: 24px;
-	height: 24px;
-	margin: 0 2px 0 0;
+	width: 16px;
+	height: 16px;
+	margin: 0 5px 0 0;
 }
 td.actions-td ul li span {
 	display: none;
 }
-/* EDIT */
-td.actions-td ul li.edit a {
+td.actions-td ul li a {
 	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/edit.png) no-repeat left;
+	width: 16px;
+	height: 16px;
+}
+/* EDIT */
+td.actions-td ul li.edit {
+	background: url(../img/icons/circular-icons/edit.png) no-repeat left;
 }
 /* DELETE */
-td.actions-td ul li.delete a {
-	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/delete.png) no-repeat left;
+td.actions-td ul li.delete {
+	background: url(../img/icons/circular-icons/delete.png) no-repeat left;
 }
 /* CREATE */
-td.actions-td	ul li.create a {
-	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/add.png) no-repeat left;
+td.actions-td ul li.create {
+	background: url(../img/icons/circular-icons/add.png) no-repeat left;
 }
 /* Revisar */
-td.actions-td ul li.revisar a {
-	display: block;
-	width: 24px;
-	height: 24px;
+td.actions-td ul li.revisar {
 	background: url(../img/icons/revisar.png) no-repeat left;
 }
 /* Revisado */
-td.actions-td ul li.revisado a {
-	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/revisado.png) no-repeat left;
+td.actions-td ul li.revisado {
+	background: url(../img/icons/circular-icons/yes.png) no-repeat left;
+	float: right;
+}
+/* No Revisado */
+td.actions-td ul li.no-revisado {
+	background: url(../img/icons/circular-icons/no.png) no-repeat left;
+	float: right;
 }
 /* DETALLES */
 td.actions-td	ul li.details a {
@@ -703,9 +743,6 @@ td.actions-td ul li.orientaciones a {
 }
 /* REGISTRAR */
 td.actions-td ul li.registrar a {
-	display: block;
-	width: 20px;
-	height: 24px;
 	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
 }
 /* CONFIRMAR COHORTE */

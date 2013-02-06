@@ -265,6 +265,7 @@ def completar_datos_basicos(request, extension_aulica_id):
     except TypeError:
         codigo = ''
     form.initial['verificado'] = ext.get_verificacion_datos().datos_basicos
+    
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_datos_basicos.html',
@@ -272,7 +273,8 @@ def completar_datos_basicos(request, extension_aulica_id):
         'codigo_tipo_unidad_educativa': codigo,
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
-        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })    
 
 
@@ -299,13 +301,15 @@ def completar_contacto(request, extension_aulica_id):
     else:
         form = ExtensionAulicaContactoForm(instance=ext)
     form.initial['verificado'] = ext.get_verificacion_datos().contacto
+
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_contacto.html',
         'extension_aulica': ext,
         'page_title': 'Contacto',
         'actual_page': 'contacto',
-        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -332,13 +336,15 @@ def completar_alcances(request, extension_aulica_id):
     else:
         form = ExtensionAulicaAlcancesForm(instance=ext)
     form.initial['verificado'] = ext.get_verificacion_datos().alcances
+
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_alcances.html',
         'extension_aulica': ext,
         'page_title': 'Alcance',
         'actual_page': 'alcances',
-        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -362,13 +368,15 @@ def completar_funciones(request, extension_aulica_id):
     else:
         form = ExtensionAulicaFuncionesForm(instance=ext)
     form.initial['verificado'] = ext.get_verificacion_datos().funciones
+
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_funciones.html',
         'extension_aulica': ext,
         'page_title': 'Funciones',
         'actual_page': 'funciones',
-        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -403,6 +411,10 @@ def completar_informacion_edilicia(request, extension_aulica_id):
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = extension_aulica.get_verificacion_datos().info_edilicia
+    
+    if not extension_aulica.get_verificacion_datos().completo():
+        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
+		
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_informacion_edilicia.html',
@@ -411,7 +423,8 @@ def completar_informacion_edilicia(request, extension_aulica_id):
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
         'actual_page': 'informacion_edilicia',
-        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -443,13 +456,15 @@ def completar_conexion_internet(request, extension_aulica_id):
     else:
         form = ExtensionAulicaConexionInternetForm(instance=conexion)
     form.initial['verificado'] = extension_aulica.get_verificacion_datos().conectividad
+    
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_conexion_internet.html',
         'extension_aulica': extension_aulica,
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
-        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -492,3 +507,16 @@ def __registrar_process(request, form, extension_aulica):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
+
+def detalle(request, extension_aulica_id):
+    try:
+        extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except ExtensionAulica.DoesNotExist:
+        raise Exception('La extensión áulica no pertenece a su ámbito.')
+
+    return my_render(request, 'registro/extension_aulica/datos_extension_aulica.html', {
+        'extension_aulica': extension_aulica,
+        'funciones': extension_aulica.funciones.all(),
+        'alcances': extension_aulica.alcances.all(),
+        'domicilios': extension_aulica.domicilio.all(),
+    })

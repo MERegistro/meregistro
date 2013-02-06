@@ -1,35 +1,35 @@
 <div id="establecimientoCompletarDatosNav" class="tab-nav">
 	<ul>
 {% if configuracion_solapas.datos_basicos %}
-		<li{% if actual_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li class="{% if actual_page == 'datos_basicos' %}active{% endif %}{% if not datos_verificados.datos_basicos %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
 {% endif %}
 {% if establecimiento.registrado %}
   {% if configuracion_solapas.contacto %}
-		  <li{% if actual_page == 'contacto' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_contacto establecimiento.id %}" title="Contacto"><span>Contacto</span></a></li>
+		  <li class="{% if actual_page == 'contacto' %}active{% endif %}{% if not datos_verificados.contacto %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_contacto establecimiento.id %}" title="Contacto"><span>Contacto</span></a></li>
   {% endif %}
   {% if configuracion_solapas.alcances %}
-		  <li{% if actual_page == 'alcances' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_alcances establecimiento.id %}" title="Alcance"><span>Alcance</span></a></li>
+		  <li class="{% if actual_page == 'alcances' %}active{% endif %}{% if not datos_verificados.alcances %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_alcances establecimiento.id %}" title="Alcance"><span>Alcance</span></a></li>
   {% endif %}
   {% if configuracion_solapas.turnos %}
-		  <li{% if actual_page == 'turnos' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_turno.index establecimiento.id %}" title="Turnos"><span>Turnos</span></a></li>
+		  <li class="{% if actual_page == 'turnos' %}active{% endif %}{% if not datos_verificados.turnos %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento_turno.index establecimiento.id %}" title="Turnos"><span>Turnos</span></a></li>
   {% endif %}
   {% if configuracion_solapas.funciones %}
-		  <li{% if actual_page == 'funciones' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_funciones establecimiento.id %}" title="Funciones"><span>Funciones</span></a></li>
+		  <li class="{% if actual_page == 'funciones' %}active{% endif %}{% if not datos_verificados.funciones %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_funciones establecimiento.id %}" title="Funciones"><span>Funciones</span></a></li>
   {% endif %}
   {% if configuracion_solapas.domicilio %}
-		  <li{% if actual_page == 'domicilio' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_domicilio.index establecimiento.id %}" title="Domicilios"><span>Domicilios</span></a></li>
+		  <li class="{% if actual_page == 'domicilios' %}active{% endif %}{% if not datos_verificados.domicilios %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento_domicilio.index establecimiento.id %}" title="Domicilios"><span>Domicilios</span></a></li>
   {% endif %}
   {% if configuracion_solapas.autoridad %}
-		  <li{% if actual_page == 'autoridad' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_autoridad.index establecimiento.id %}" title="Autoridades"><span>Autoridades</span></a></li>
+		  <li class="{% if actual_page == 'autoridades' %}active{% endif %}{% if not datos_verificados.autoridades %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento_autoridad.index establecimiento.id %}" title="Autoridades"><span>Autoridades</span></a></li>
   {% endif %}
   {% if configuracion_solapas.informacion_edilicia %}
-		  <li{% if actual_page == 'informacion_edilicia' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_informacion_edilicia establecimiento.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
+		  <li class="{% if actual_page == 'informacion_edilicia' %}active{% endif %}{% if not datos_verificados.info_edilicia %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_informacion_edilicia establecimiento.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
   {% endif %}
   {% if configuracion_solapas.conexion_internet %}
-		  <li{% if actual_page == 'conexion_internet' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet establecimiento.id %}" title="Conectividad"><span>Conectividad</span></a></li>
+		  <li class="{% if actual_page == 'conexion_internet' %}active{% endif %}{% if not datos_verificados.conectividad %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_conexion_internet establecimiento.id %}" title="Conectividad"><span>Conectividad</span></a></li>
   {% endif %}
   {% if configuracion_solapas.matricula %}
-		  <li{% if actual_page == 'matricula' %} class="active"{% endif %}><a href="{% url apps.registro.views.establecimiento_matricula.index establecimiento.id %}" title="Matrícula"><span>Matrícula</span></a></li>
+		  <li class="{% if actual_page == 'matricula' %}active{% endif %}{% if not datos_verificados.matricula %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento_matricula.index establecimiento.id %}" title="Matrícula"><span>Matrícula</span></a></li>
   {% endif %}
 {% endif %}
 	</ul>

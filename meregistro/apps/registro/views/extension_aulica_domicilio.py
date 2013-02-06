@@ -13,6 +13,8 @@ from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicilio
 from apps.registro.forms.ExtensionAulicaDomicilioForm import ExtensionAulicaDomicilioForm
 from apps.registro.forms.ExtensionAulicaDomicilioFormFilters import ExtensionAulicaDomicilioFormFilters
+from apps.backend.models import ConfiguracionSolapasExtensionAulica
+from apps.registro.forms.VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm
 
 ITEMS_PER_PAGE = 50
 
@@ -62,6 +64,7 @@ def index(request, extension_aulica_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+
     return my_render(request, 'registro/extension_aulica/domicilios/index.html', {
         'extension_aulica': extension_aulica,
         'form_filters': form_filter,
@@ -72,7 +75,15 @@ def index(request, extension_aulica_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': extension_aulica.get_verificacion_datos().domicilios
+        'verificado': extension_aulica.get_verificacion_datos().domicilios,
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'actual_page': 'domicilios',
+        'form_verificacion': VerificacionDatosExtensionAulicaForm(
+			dato_verificacion='domicilios', 
+			unidad_educativa_id=extension_aulica.id, 
+			return_url='extensionAulicaDomiciliosIndex', 
+			verificado=extension_aulica.get_verificacion_datos().domicilios),
     })
 
 

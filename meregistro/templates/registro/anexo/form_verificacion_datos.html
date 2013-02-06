@@ -1,0 +1,9 @@
+{% if 'reg_anexo_verificar_datos' in credenciales %}
+<div id="verificacion-datos-form">
+	<form action="{% url anexoVerificarDatos %}" method="post">{% csrf_token %}
+	{{ form_verificacion }}
+	<div class="form-submit">
+		<input type="submit" value="Actualizar" />
+	</div>
+</div>
+{% endif %}

@@ -13,6 +13,8 @@ from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.models.EstablecimientoDomicilio import EstablecimientoDomicilio
 from apps.registro.forms.EstablecimientoDomicilioForm import EstablecimientoDomicilioForm
 from apps.registro.forms.EstablecimientoDomicilioFormFilters import EstablecimientoDomicilioFormFilters
+from apps.backend.models import ConfiguracionSolapasEstablecimiento
+from apps.registro.forms.VerificacionDatosEstablecimientoForm import VerificacionDatosEstablecimientoForm
 
 ITEMS_PER_PAGE = 50
 
@@ -64,6 +66,7 @@ def index(request, establecimiento_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+    
     return my_render(request, 'registro/establecimiento/domicilios/index.html', {
         'establecimiento': establecimiento,
         'form_filters': form_filter,
@@ -74,7 +77,15 @@ def index(request, establecimiento_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': establecimiento.get_verificacion_datos().domicilios
+        'verificado': establecimiento.get_verificacion_datos().domicilios,
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'actual_page': 'domicilios',
+        'form_verificacion': VerificacionDatosEstablecimientoForm(
+			dato_verificacion='domicilios', 
+			unidad_educativa_id=establecimiento.id, 
+			return_url='establecimientoDomiciliosIndex', 
+			verificado=establecimiento.get_verificacion_datos().domicilios),
     })
 
 
