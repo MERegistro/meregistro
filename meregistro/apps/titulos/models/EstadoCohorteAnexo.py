@@ -7,7 +7,6 @@ Representa las opciones de estados que tiene cada cohorte asignada a un anexo
 class EstadoCohorteAnexo(models.Model):
 
     ASIGNADA = u'Asignada'
-    ACEPTADA = u'Aceptada por anexo'
     REGISTRADA = u'Registrada'
 
     nombre = models.CharField(max_length = 50, unique = True)

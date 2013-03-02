@@ -1,0 +1,19 @@
+{% extends "backend/base.html" %}
+
+{% block title %}Actualización de Tipo de Norma{% endblock %}
+
+{% block content %}
+<h2>Actualización de Tipo de Norma</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "backend/tipo_norma/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.backend.views.crud.index 'tipo_norma' %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

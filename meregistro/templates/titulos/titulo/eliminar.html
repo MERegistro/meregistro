@@ -8,7 +8,7 @@
     {% include "flashes.html" %}
 {% endif %}
 
-{% if not asociado_titulo_jurisdiccional %}
+{% if not asociado_carrera_jurisdiccional %}
 <div class="form" id="tituloEliminarForm">
     <form action="" method="post">{% csrf_token %}
 	<input type="hidden" name="titulo_id" value="{{ titulo_id }}" />

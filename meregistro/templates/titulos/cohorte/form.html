@@ -1,11 +1,7 @@
 <div class="form" id="cohorteForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
-		<div class="form-select">
-			{{ form.titulo_jurisdiccional.errors }}
-			<label for="id_titulo_jurisdiccional">Título jurisdiccional:</label>
-			{{ form.titulo_jurisdiccional }}
-		</div>
+		{{ form.carrera_jurisdiccional.as_hidden }}
 		<div class="form-select">
 			{{ form.anio.errors }}
 			<label for="id_anio">Año:</label>
@@ -25,11 +21,11 @@
 		</div>
 	</form>
 </div>
-{% if not titulo_jurisdiccional %}
+{% if not carrera_jurisdiccional %}
 <script type="text/javascript">
 $(document).ready(
 	function(){
-		var dropdown_source = $("select#id_titulo_jurisdiccional");
+		var dropdown_source = $("select#id_carrera_jurisdiccional");
 		var dropdown_target = $("select#id_anio");
 		dropdown_source.change(function(){
 			if (dropdown_source.val() == '') {

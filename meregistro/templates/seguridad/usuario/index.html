@@ -4,6 +4,13 @@
 
 {% block content %}
 <h2>Administrar Usuarios</h2>
+
+<ul class="actions">
+	<li class="create">
+		<a href="{% url apps.seguridad.views.usuario.create %}"><span>Dar de Alta Nuevo Usuario</span></a>
+	</li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -54,8 +61,13 @@
   <thead>
     <tr>
       <th>Documento</th>
-      <th>Nombre</th>
       <th>Apellido</th>
+      <th>Nombre</th>
+      {% if 'seg_ver_datos_acceso' in credenciales %}
+        <th>Accesos</th>
+        <th>Último acceso</th>
+      {% endif %}
+      <th>Perfiles</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -63,8 +75,25 @@
     {% for u in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
         <td>{{u.tipo_documento.abreviatura}} - {{u.documento}}</td>
-        <td>{{u.nombre}}</td>
         <td>{{u.apellido}}</td>
+        <td>{{u.nombre}}</td>
+        {% if 'seg_ver_datos_acceso' in credenciales %}
+          <td style="text-align: center;">{{u.logins_count}}</td>
+          <td>
+            {% if u.last_login == None %}
+              Nunca
+            {% else %}
+              {{ u.last_login }}
+            {% endif %}
+          </td>
+        {% endif %}
+        <td>
+          <ul>
+          {% for p in u.perfiles_vigentes %}
+            <li>{{ p }}</li>
+          {% endfor %}
+          </ul>
+        </td>
         <td class="actions-td">
           <ul>
             <li class="edit"><a href="{% url apps.seguridad.views.usuario.edit u.id %}" alt="Editar" title="Editar"><span>Editar</span></a></li>
@@ -84,10 +113,5 @@
   <p>No se encontraron usuarios con ese criterio de búsqueda</p>
 </div>
 {% endif %}
-<ul class="actions">
-  <li class="create">
-    <a href="{% url apps.seguridad.views.usuario.create %}"><span>Dar de Alta Nuevo Usuario</span></a>
-  </li>
-</ul>
 <hr />
 {% endblock %}

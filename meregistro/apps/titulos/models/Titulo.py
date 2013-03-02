@@ -62,6 +62,6 @@ class Titulo(models.Model):
         return estados
 
     "Algún título jurisdiccional está asociado al título?"
-    def asociado_titulo_jurisdiccional(self):
-        from apps.titulos.models.TituloJurisdiccional import TituloJurisdiccional
-        return TituloJurisdiccional.objects.filter(titulo = self).exists()
+    def asociado_carrera_jurisdiccional(self):
+        from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
+        return CarreraJurisdiccional.objects.filter(titulo = self).exists()

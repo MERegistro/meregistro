@@ -80,7 +80,7 @@ def index(request, establecimiento_id):
         'verificado': establecimiento.get_verificacion_datos().matricula,
         'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
-        'actual_page': 'matricula',
+        'current_page': 'matricula',
         'form_verificacion': VerificacionDatosEstablecimientoForm(
 			dato_verificacion='matricula',
 			unidad_educativa_id=establecimiento.id,

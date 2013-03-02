@@ -1,0 +1,73 @@
+<div class="form tabbed-form" id="carreraJurisdiccionalForm">
+	{% if carrera_jurisdiccional %}
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.cohortes_aprobadas.errors }}
+			<label for="id_cohortes_aprobadas">Cohortes aprobadas:</label>
+			{{ form.cohortes_aprobadas }}
+		</div>
+		<div class="form-select">
+			{{ form.primera_cohorte_solicitada.errors }}
+			<label for="id_primera_cohorte_solicitada">Primera Cohorte Solicitada:</label>
+			{{ form.primera_cohorte_solicitada }}
+		</div>
+		<div class="form-select">
+			<label for="id_ultima_cohorte_solicitada">Última Cohorte Solicitada:</label>
+			<input type="text" readonly="readonly" value="" name="ultima_cohorte_solicitada" id ="id_ultima_cohorte_solicitada" />
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="id_observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if anexo %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+	{% else %}
+	<form action="">
+		<div class="message">
+			<p>Debe guardar los datos básicos antes de poder editar las cohortes.</p>
+		</div>
+	</form>
+	{% endif %}
+</div>
+<script>
+var dropdown_cantidad = $("select#id_cohortes_aprobadas");
+var dropdown_primera = $("select#id_primera_cohorte_solicitada");
+var txt_ultima = $("input#id_ultima_cohorte_solicitada");
+
+{% if not is_new %}
+var cantidad_actual = {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }} - {{  carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }} + 1;
+dropdown_cantidad.val(cantidad_actual);
+{% endif %}
+function calcular_ultima_cohorte()
+{
+	ultima = "";
+	try
+	{
+		if(dropdown_cantidad.val() != "" && dropdown_primera.val() != "")
+		{
+			ultima = parseInt(dropdown_cantidad.val()) + parseInt(dropdown_primera.val()) - 1;
+		}
+	}
+	catch(e)
+	{
+	}
+	txt_ultima.val(ultima);
+}
+$(document).ready(
+	function(){
+		dropdown_cantidad.change(calcular_ultima_cohorte);
+		dropdown_primera.change(calcular_ultima_cohorte);
+		calcular_ultima_cohorte();
+	} // END function
+	// Init
+); // END document.ready
+
+</script>

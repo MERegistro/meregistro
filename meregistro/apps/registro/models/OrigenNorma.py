@@ -11,3 +11,8 @@ class OrigenNorma(models.Model):
 
     def __unicode__(self):
         return self.nombre
+
+    def delete(self):
+        if (self.extensionaulica_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)

@@ -6,6 +6,13 @@
 
 {% block content %}
 <h2>Administrar proyectos</h2>
+
+<ul class="actions">
+    <li class="create">
+		<a href="{% url apps.titulos.views.proyecto.create %}"><span>Nuevo</span></a>
+    </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -47,10 +54,5 @@
   <p>No se encontraron proyectos.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    <li class="create">
-	<a href="{% url apps.titulos.views.proyecto.create %}"><span>Nuevo</span></a>
-    </li>
-</ul>
 <hr />
 {% endblock %}

@@ -1,0 +1,17 @@
+<div class="form tabbed-form" id="carreraJurisdiccionalForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.carrera.errors }}
+			<label for="id_carrera">Nombre:</label>
+			{{ form.carrera }}
+		</div>
+		<div class="form-submit">
+		{% if anexo %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

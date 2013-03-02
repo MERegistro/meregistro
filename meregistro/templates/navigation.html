@@ -1,5 +1,8 @@
 <div id="mainNav">
     <ul class="sf-menu">
+		{% if 'seg_backend' in credenciales %}
+		<li><a href="{% url apps.backend.views.index %}">BACKEND</a></li>
+		{% endif %}
         {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
 		<li><a href="#" class="inactive">Seguridad</a>
 			<ul style="width: 250px;">
@@ -9,14 +12,11 @@
 				{% if 'seg_rol_registrar' in credenciales %}
 				<li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
 				{% endif %}
-				{% if 'seg_backend' in credenciales %}
-				<li><a href="{% url apps.backend.views.index %}">Backend</a>
-				{% endif %}
 			</ul>
 		</li>
 		{% endif %}
 		{% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
-		<li><a href="#" class="inactive"><span>Unidades educativas</a>
+		<li><a href="#" class="inactive"><span>Unidades educativas</span></a>
 			<ul>
 				{% if 'reg_establecimiento_consulta' in credenciales %}
 				<li><a href="{% url apps.registro.views.establecimiento.index %}"><span>Sedes</span></a></li>
@@ -39,11 +39,9 @@
 		{% if 'tit_menu_acceso' in credenciales %}
         <li><a href="#" class="inactive">Títulos-tmp</a>
 			<ul style="width: 250px;">
-				
 				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
-				<li><a href="{% url apps.registro.views.dependencia_funcional.index %}">Dep. funcionales</a></li>
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
-				<li><a href="{% url apps.titulos.views.titulo_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
+				<li><a href="{% url apps.titulos.views.carrera_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
 				{% endif %}
 				
@@ -53,26 +51,6 @@
 				{% endif %}
 				
 				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.establecimiento.index %}">Datos del establecimiento</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.establecimiento.index %}">Completar datos establecimiento</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.anexo.index %}">Anexos</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.registro.views.extension_aulica.index %}">Unidades de ext.</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.titulos.views.matricula.index %}">Matriculas</a></li>
-				{% endif %}
-				
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional,AdminNacional' %}
 				<li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
 				{% endif %}
 				
@@ -82,23 +60,53 @@
 				
 				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
-				{% endif %}  
-				   
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-				<li><a href="{% url apps.titulos.views.cohorte_anexo.index %}"><span>Cohortes de anexo</span></a></li>
-				<li><a href="{% url apps.titulos.views.egresados_anexo.index %}"><span>Egresados de anexo</span></a></li>
-				<li><a href="{% url apps.titulos.views.cohorte_establecimiento.index %}"><span>Cohortes de establecimiento</span></a></li>
-				<li><a href="{% url apps.titulos.views.egresados_establecimiento.index %}"><span>Egresados de establecimiento</span></a></li>
-				{% endif %}
+                {% endif %}
 			</ul>
         </li>
 		{% endif %}
 		<!--
 		Fin habilitación temporal
 		-->
-		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}">Mis Datos</span></a></li>
+		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_cohorte_seguimiento' in credenciales %}
+		<li><a href="#" class="inactive"><span>Carreras</span></a>
+			<ul>
+				{% if 'tit_carrera_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.carrera.index %}"><span>Carreras Nacionales</span></a></li>
+				{% endif %}
+				{% if 'tit_normativa_nacional_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.normativa_nacional.index %}"><span>Normativas Nacionales</span></a></li>
+				{% endif %}
+				{% if 'tit_titulo_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.titulo.index %}"><span>Títulos</span></a></li>
+				{% endif %}
+				{% if 'tit_titulo_nacional_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.titulo_nacional.index %}"><span>Títulos Nacionales</span></a></li>
+				{% endif %}
+				{% if 'tit_nor_jur_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
+				{% endif %}
+				{% if 'tit_carrera_jurisdiccional_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.carrera_jurisdiccional.index %}">Carreras jurisdiccionales</a></li>
+				{% endif %}
+				{% if 'tit_cohorte_consulta' in credenciales %}
+				<li><a href="{% url apps.titulos.views.cohorte.index %}">Seguimiento de Cohortes</a></li>
+				{% endif %}
+				{% if 'tit_cohorte_seguimiento' in credenciales %}
+				<li><a href="{% url apps.titulos.views.cohorte_seguimiento.index %}">Seguimiento de Cohortes</a></li>
+				{% endif %}
+			</ul>
+		</li>
+		{% endif %}
+		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}"><span>Mis Datos</span></a></li>
+		{% if 'consulta_validez_titulos' in credenciales %}
+		<li><a href="#" class="inactive"><span>Validez Nacional</span></a>
+			<ul>
+				<li id="linkConsultaValidez"><a href="{% url apps.consulta_validez.views.index %}"><span>Consulta</span></a></li>
+			</ul>
+		</li>
+		{% endif %}
 		{% if 'reg_menu_ayuda' in credenciales %}
-		<li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}">Ayuda</span></a></li>
+		<li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
 		{% endif %}
     </ul>
 </div>

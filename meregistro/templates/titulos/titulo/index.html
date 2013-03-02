@@ -6,13 +6,20 @@
 
 {% block content %}
 <h2>Administrar títulos</h2>
+
+<ul class="actions">
+    <li class="create">
+		<a href="{% url apps.titulos.views.titulo.create %}"><span>Nuevo título</span></a>
+    </li>
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
 
 <form action="" method="get">
-<div class="form-filter" id="tituloFormFilter">
-  <h3>Búsqueda avanzada</h3>
+	<div class="form-filter" id="tituloFormFilter">
+		<h3>Búsqueda avanzada</h3>
 		{{ form_filters.non_field_errors }}
 		<div class="form-text">
 			{{ form_filters.nombre.errors }}
@@ -43,7 +50,6 @@
 			<input type="submit" value="Buscar" />
 			<input type="button" value="Reiniciar" onclick="window.location = 'index';" />
 		</div>
-
 </div>
 
 {% if objects %}
@@ -93,10 +99,5 @@
   <p>No se encontraron títulos.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    <li class="create">
-	<a href="{% url apps.titulos.views.titulo.create %}"><span>Nuevo título</span></a>
-    </li>
-</ul>
 <hr />
 {% endblock %}

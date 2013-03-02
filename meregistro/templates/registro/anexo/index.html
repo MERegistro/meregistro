@@ -4,9 +4,19 @@
 
 {% block content %}
 <h2>Administración de Unidades Educativas</h2>
+
+<ul class="actions">
+    {% if 'reg_anexo_alta' in credenciales %}
+    <li class="create">
+		<a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo Anexo</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
+
 <form action="" method="get">
 <div class="form-filter" id="anexoFormFilter">
     <h3>Búsqueda avanzada</h3>
@@ -131,13 +141,6 @@
 </div>
 {% endif %}
 
-<ul class="actions">
-    {% if 'reg_anexo_alta' in credenciales %}
-    <li class="create">
-	<a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo Anexo</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 
 <script type="text/javascript">

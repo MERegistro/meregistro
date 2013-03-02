@@ -173,6 +173,14 @@ class Establecimiento(models.Model):
 		except IndexError:
 			return None
 		return dom
+		
+	def get_domicilio_institucional(self):
+		from apps.registro.models import EstablecimientoDomicilio
+		try:
+			dom = EstablecimientoDomicilio.objects.get(establecimiento=self, tipo_domicilio__descripcion=u'Institucional')
+		except EstablecimientoDomicilio.DoesNotExist:
+			return None
+		return dom
 
 	def get_fecha_solicitud(self):
 		try:
@@ -199,5 +207,3 @@ class Establecimiento(models.Model):
 
 	def verificado(self):
 		return self.get_verificacion_datos().completo()
-
-	

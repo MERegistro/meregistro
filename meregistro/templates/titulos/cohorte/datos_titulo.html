@@ -1,11 +1,11 @@
 {% load tags_filters %}
 <div class="datos-lectura" id="datosTitulo">
 	<h3>Datos del título jurisdiccional</h3>
-	<p><strong>Título nacional:</strong> {{ titulo_jurisdiccional.titulo }}</p>
-	<p><strong>Tipo de título:</strong> {{ titulo_jurisdiccional.tipo_titulo }}</p>
-	<p><strong>Carrera:</strong> {{ titulo_jurisdiccional.titulo.carrera }}</p>
-	<p><strong>Estado actual:</strong> {{ titulo_jurisdiccional.estado }}</p>
-	<p><strong>Año de primera cohorte:</strong> {{ titulo_jurisdiccional.datos_cohorte.get.anio_primera_cohorte }}</p>
-	<p><strong>Año de última cohorte:</strong> {{ titulo_jurisdiccional.datos_cohorte.get.anio_ultima_cohorte }}</p>
-	<p><strong>Cohortes asignadas:</strong> {{ titulo_jurisdiccional.cohortes.all|implode:", " }}</p>
+	<p><strong>Título nacional:</strong> {{ carrera_jurisdiccional.titulo }}</p>
+	<p><strong>Tipo de título:</strong> {{ carrera_jurisdiccional.tipo_titulo }}</p>
+	<p><strong>Carrera:</strong> {{ carrera_jurisdiccional.titulo.carrera }}</p>
+	<p><strong>Estado actual:</strong> {{ carrera_jurisdiccional.estado }}</p>
+	<p><strong>Año de primera cohorte:</strong> {{ carrera_jurisdiccional.datos_cohorte.get.anio_primera_cohorte }}</p>
+	<p><strong>Año de última cohorte:</strong> {{ carrera_jurisdiccional.datos_cohorte.get.anio_ultima_cohorte }}</p>
+	<p><strong>Cohortes asignadas:</strong> {{ carrera_jurisdiccional.cohortes.all|implode:", " }}</p>
 </div>

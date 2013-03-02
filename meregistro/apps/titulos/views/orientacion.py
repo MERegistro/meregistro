@@ -77,7 +77,7 @@ def orientaciones_por_titulo(request, titulo_id):
     page = paginator.page(page_number)
     objects = page.object_list
     return my_render(request, 'titulos/orientacion/orientaciones_por_titulo.html', {
-        'form_filters': form_filter,
+		'titulo': titulo,
         'objects': objects,
         'paginator': paginator,
         'page': page,
@@ -176,8 +176,8 @@ def eliminar(request, orientacion_id):
     --- mientras no sea referido por un título jurisdiccional ---
     """
     orientacion = TituloOrientacion.objects.get(pk=orientacion_id)
-    asociado_titulo_jurisdiccional = orientacion.asociado_titulo_jurisdiccional()
-    if asociado_titulo_jurisdiccional:
+    asociado_carrera_jurisdiccional = orientacion.asociado_carrera_jurisdiccional()
+    if asociado_carrera_jurisdiccional:
         request.set_flash('warning', 'La orientación no puede darse de baja porque tiene títulos jurisdiccionales asociados.')
     else:
         request.set_flash('warning', 'Está seguro de eliminar la orientación? Esta operación no puede deshacerse.')
@@ -193,5 +193,5 @@ def eliminar(request, orientacion_id):
 
     return my_render(request, 'titulos/orientacion/eliminar.html', {
         'orientacion_id': orientacion.id,
-        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
+        'asociado_carrera_jurisdiccional': asociado_carrera_jurisdiccional,
     })

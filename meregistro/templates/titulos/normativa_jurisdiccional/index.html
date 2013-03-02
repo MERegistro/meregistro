@@ -2,10 +2,19 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar normativas jurisdiccionales{% endblock %}
+{% block title %}Administrar Normativas Jurisdiccionales{% endblock %}
 
 {% block content %}
-<h2>Administrar normativas jurisdiccionales</h2>
+<h2>Administrar Normativas Jurisdiccionales</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.normativa_jurisdiccional.create %}"><span>Nueva Normativa</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -18,6 +27,11 @@
 	{{ form_filters.tipo_normativa_jurisdiccional.errors }}
 	<label for="id_tipo_normativa_jurisdiccional">Tipo de normativa:</label>
 	{{ form_filters.tipo_normativa_jurisdiccional }}
+    </div>
+    <div class="form-select">
+	{{ form_filters.numero_anio.errors }}
+	<label for="id_numero_anio">Número / Año:</label>
+	{{ form_filters.numero_anio }}
     </div>
     <div class="form-select">
 	{{ form_filters.otorgada_por.errors }}
@@ -37,6 +51,11 @@
 
 {% if objects %}
 {% include "counter.html" %}
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
 <table class="hor-zebra">
   <thead>
     <tr>
@@ -80,12 +99,5 @@
 </div>
 {% endif %}
 
-<ul class="actions">
-    {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.normativa_jurisdiccional.create %}"><span>Nueva normativa</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 {% endblock %}

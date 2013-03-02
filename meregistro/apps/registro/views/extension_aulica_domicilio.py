@@ -78,7 +78,7 @@ def index(request, extension_aulica_id):
         'verificado': extension_aulica.get_verificacion_datos().domicilios,
         'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'actual_page': 'domicilios',
+        'current_page': 'domicilios',
         'form_verificacion': VerificacionDatosExtensionAulicaForm(
 			dato_verificacion='domicilios', 
 			unidad_educativa_id=extension_aulica.id, 

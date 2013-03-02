@@ -80,6 +80,8 @@ def extension_aulica(request):
 		
 	if dato_verificacion == 'domicilios':
 		verificacion.domicilios = verificado
+	elif dato_verificacion == 'autoridades':
+		verificacion.autoridades = verificado
 	elif dato_verificacion == 'turnos':
 		verificacion.turnos = verificado
 	elif dato_verificacion == 'matricula':

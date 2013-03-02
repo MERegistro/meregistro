@@ -1,0 +1,19 @@
+{% extends "backend/base.html" %}
+
+{% block title %}Actualización de Tipo de Compartición Edilicia{% endblock %}
+
+{% block content %}
+<h2>Actualización de Tipo de Compartición Edilicia</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "backend/tipo_compartido/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.backend.views.crud.index 'tipo_compartido' %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

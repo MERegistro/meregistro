@@ -12,3 +12,10 @@ class TipoConexion(models.Model):
 
     def __unicode__(self):
         return self.descripcion
+
+    def delete(self):
+        if (self.anexoconexioninternet_set.count() > 0
+          or self.establecimientoconexioninternet_set.count() > 0
+          or self.extensionaulicaconexioninternet_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)

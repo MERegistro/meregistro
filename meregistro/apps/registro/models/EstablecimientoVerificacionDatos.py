@@ -27,7 +27,18 @@ class EstablecimientoVerificacionDatos(models.Model):
 			and self.funciones and self.domicilios and self.autoridades
 			and self.info_edilicia and self.conectividad and self.matricula)
 			
-			
 	def get_datos_verificados(self):
-		datos = ['datos_basicos', 'contacto', 'alcances', 'turnos', 'funciones', 'domicilios', 'autoridades', 'info_edilicia', 'conectividad', 'matricula']
-		return {d: getattr(self, d) for d in datos}
+		# datos = ['datos_basicos', 'contacto', 'alcances', 'turnos', 'funciones', 'domicilios', 'autoridades', 'info_edilicia', 'conectividad', 'matricula']
+		# return {d: getattr(self, d) for d in datos}
+		return {
+			'datos_basicos': self.datos_basicos, 
+			'contacto': self.contacto, 
+			'alcances': self.alcances, 
+			'turnos': self.turnos, 
+			'funciones': self.funciones, 
+			'domicilios': self.domicilios, 
+			'autoridades': self.autoridades, 
+			'info_edilicia': self.info_edilicia, 
+			'conectividad': self.conectividad, 
+			'matricula': self.matricula
+		}

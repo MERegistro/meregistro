@@ -6,6 +6,15 @@
 
 {% block content %}
 <h2>Administrar matriculas</h2>
+
+<ul class="actions">
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+    <li class="create">
+		<a href="{% url apps.titulos.views.matricula.create %}"><span>Nueva</span></a>
+    </li>
+    {% endif %}
+</ul>
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -83,12 +92,5 @@
   <p>No se encontraron matriculas.</p>
 </div>
 {% endif %}
-<ul class="actions">
-    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-    <li class="create">
-	<a href="{% url apps.titulos.views.matricula.create %}"><span>Nueva</span></a>
-    </li>
-    {% endif %}
-</ul>
 <hr />
 {% endblock %}

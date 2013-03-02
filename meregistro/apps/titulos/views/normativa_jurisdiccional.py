@@ -9,6 +9,8 @@ from apps.titulos.forms import NormativaJurisdiccionalFormFilters, NormativaJuri
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
+from apps.reportes.views.normativa_jurisdiccional import normativas_jurisdiccionales as reporte_normativas_jurisdiccionales
+from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
@@ -27,6 +29,9 @@ def index(request):
     else:
         form_filter = NormativaJurisdiccionalFormFilters()
     q = build_query(form_filter, 1, request)
+
+    if 'export' in request.GET:
+	    return reporte_normativas_jurisdiccionales(request, q)
 
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -50,7 +55,8 @@ def index(request):
         'page_number': page_number,
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
-        'prev_page': page_number - 1
+        'prev_page': page_number - 1,
+		'export_url': Reporte.build_export_url(request.build_absolute_uri()),
     })
 
 
@@ -127,11 +133,11 @@ def eliminar(request, normativa_jurisdiccional_id):
     """
     normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
 
-    asociado_titulo_jurisdiccional = normativa_jurisdiccional.asociado_titulo_jurisdiccional()
-    if asociado_titulo_jurisdiccional:
+    asociado_carrera_jurisdiccional = normativa_jurisdiccional.asociado_carrera_jurisdiccional()
+    if asociado_carrera_jurisdiccional:
         request.set_flash('warning', 'La normativa no puede eliminarse porque tiene títulos jurisdiccionales asociados.')
     else:
-        request.set_flash('warning', 'Está seguro de eliminar la normativa? Esta operación no puede deshacerse.')
+        request.set_flash('warning', '¿Está seguro de eliminar la normativa? Esta operación no puede deshacerse.')
 
     if request.method == 'POST':
         if int(request.POST['normativa_jurisdiccional_id']) is not int(normativa_jurisdiccional.id):
@@ -142,7 +148,7 @@ def eliminar(request, normativa_jurisdiccional_id):
         return HttpResponseRedirect(reverse('normativaJurisdiccional'))
     return my_render(request, 'titulos/normativa_jurisdiccional/eliminar.html', {
         'normativa_jurisdiccional_id': normativa_jurisdiccional.id,
-        'asociado_titulo_jurisdiccional': asociado_titulo_jurisdiccional,
+        'asociado_carrera_jurisdiccional': asociado_carrera_jurisdiccional,
     })
 
 

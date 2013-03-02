@@ -104,12 +104,14 @@ div#intro div#resolucion cite {
 	margin-top: 10px;
 }
 div#intro div#intro-links {
-	width: 520px;
+	width: 695px;
 	margin: 30px auto 0;
 }
 div#intro div#intro-links a {
 	display: block;
 	font-weight: bold;
+	float: left;
+	margin-left: 90px;
 }
 div#intro div#intro-links a:link,
 div#intro div#intro-links a:visited {
@@ -127,10 +129,11 @@ div#intro div#intro-links a:hover {
 	background: #DBD8DC;
 }
 div#intro div#intro-links a#link-oferta {
-	float: left;
+	margin-left: 0;
+}
+div#intro div#intro-links a#link-consulta-validez {
 }
 div#intro div#intro-links a#link-login {
-	float: right;
 }
 a, a:link {
 }
@@ -222,18 +225,18 @@ div#establecimientoCompletarDatosNav.tab-nav ul li.datos-no-verificados a:visite
 	color: #fff;
 }
 /*
-*=tituloJurisdiccionalDatosNav
+*=carreraJurisdiccionalDatosNav
 */
-div#tituloJurisdiccionalDatosNav {
-	margin: 25px 0 0 11px;
+div#carreraJurisdiccionalDatosNav {
+	margin: 30px 0 0 11px;
 }
-div#tituloJurisdiccionalDatosNav ul li {
+div#carreraJurisdiccionalDatosNav ul li {
 	border-bottom: 1px #fff solid;
 }
-div#tituloJurisdiccionalDatosNav ul li.active {
+div#carreraJurisdiccionalDatosNav ul li.active {
 	border-bottom: 1px #D6DEDE solid;
 }
-div#tituloJurisdiccionalDatosNav ul li a span {
+div#carreraJurisdiccionalDatosNav ul li a span {
 	padding: 5px 14px;
 }
 /*
@@ -625,9 +628,9 @@ table.hor-zebra th.actions {
 	width: 100px;
 }
 ul.actions {
-	margin-top: 20px;
+	margin-top: 30px;
 	padding-bottom: 1px;
-	margin-bottom: 30px;
+	margin-bottom: 50px;
 }
 ul.actions li {
 	height: 24px;
@@ -653,9 +656,6 @@ ul.actions a:hover {
 ul.actions li.create {
 	color: #000;
 	background: #fff url(../img/icons/add.png) no-repeat left;
-	position: absolute;
-	top: 78px;
-	left: 0px;
 	padding: 3px 5px 2px;
 }
 ul.actions li.create a {
@@ -727,7 +727,7 @@ td.actions-td ul li.no-revisado {
 	float: right;
 }
 /* DETALLES */
-td.actions-td	ul li.details a {
+td.actions-td ul li.details a {
 	display: block;
 	width: 24px;
 	height: 24px;
@@ -762,7 +762,7 @@ td.actions-td ul li.seguimiento-cohorte a {
 /* REPORTES */
 ul.reportes-actions {
 	float: left;
-	margin: 32px 0 0 20px;
+	margin: 12px 0 0 20px;
 	height: 24px;
 }
 ul.reportes-actions li {
@@ -864,7 +864,7 @@ div.notice {
 *=COUNTER
 */
 div#counter {
-	margin: 40px 0 0;
+	margin: 20px 0 5px;
 	float: left;
 }
 div#counter span {
@@ -874,7 +874,7 @@ div#counter span {
 *=PAGINATOR
 */
 div.paginator {
-	margin: 0;
+	margin: 0 0 20px;
 	background: #ccc;
 	border-top: 1px #bbb solid;
 	font-size: 12px;
@@ -963,7 +963,7 @@ div.popup_selector_ambito
 *=datos-lectura
 */
 div.datos-lectura {
-	margin: 10px 0 0;
+	margin: 20px 0;
 }
 div.datos-lectura p {
 	margin: 5px 0 0;
@@ -1012,18 +1012,7 @@ body.orientaciones-por-titulo table.hor-zebra {
 	margin-top: 10px;
 }
 body.orientaciones-por-titulo div#datosTitulo {
-	margin-bottom: 30px;
 }
-/*
-*=COHORTES-POR-TITULO
-*/
-body.cohortes-por-titulo table.hor-zebra {
-	margin-top: 10px;
-}
-body.cohortes-por-titulo div#datosTitulo {
-	margin-bottom: 30px;
-}
-
 /*
 *=COHORTE-ASIGNAR-ESTABLECIMIENTOS
 */
@@ -1065,4 +1054,54 @@ input#id_formacion_continua {
 	background: transparent;
 	font-weight: bold;
 	font-style: italic;
+}
+/*
+ *
+ *=SEGUIMIENTO-COHORTE
+ *
+ */
+body.cohorte-seguimiento-index div#content {
+	margin-bottom: 30px;
+}
+body.cohorte-seguimiento-index div#content h3 {
+	margin-top: 30px;
+}
+/*
+ *
+ *=CONSULTA-VALIDEZ
+ *
+ */
+
+body.consulta-validez div#consultaValidezFormFilter select {
+	width: 420px;
+}
+body.consulta-validez td.actions-td ul li.details a {
+	display: block;
+	width: 24px;
+	height: 24px;
+	background: url(../img/icons/magnifier.png) no-repeat left;
+}
+body.consulta-validez-detalle div#content {
+	padding-bottom: 30px;
+}
+body.consulta-validez-detalle div#content h3 {
+	font-size: 1.3em;
+	margin: 20px 0 10px;
+}
+body.consulta-validez-detalle div.data {
+	margin: 0 0 40px;
+}
+body.consulta-validez-detalle div.data li {
+	margin: 10px 0 0;
+}
+
+a.nroinfd {
+    color: #00f;
+    text-decoration: underline;
+}
+
+@media print {
+.noPrint {
+    display:none;
+}
 }

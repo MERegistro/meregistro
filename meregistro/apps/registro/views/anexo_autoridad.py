@@ -89,7 +89,7 @@ def index(request, anexo_id):
         'verificado': anexo.get_verificacion_datos().autoridades,
         'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
-        'actual_page': 'autoridades',
+        'current_page': 'autoridades',
         'form_verificacion': VerificacionDatosAnexoForm(
 			dato_verificacion='autoridades', 
 			unidad_educativa_id=anexo.id, 

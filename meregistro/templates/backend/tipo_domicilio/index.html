@@ -1,0 +1,50 @@
+{% extends "backend/base.html" %}
+
+{% block title %}Administrar Tipos de Domicilio{% endblock %}
+
+{% block content %}
+<h2>Administrar Tipos de Domicilio</h2>
+
+<ul class="actions">
+  <li class="create">
+    <a href="{% url apps.backend.views.crud.create 'tipo_domicilio' %}"><span>Nuevo</span></a>
+  </li>
+</ul>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+{% if objects %}
+<table class="hor-zebra" style="margin-top:25px">
+  <thead>
+    <tr>
+      <th>Descripcion</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ obj.descripcion }}</td>
+	<td class="actions-td">
+          <ul>
+            <li class="edit"><a href="{% url apps.backend.views.crud.edit 'tipo_domicilio' obj.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="delete"><a href="{% url apps.backend.views.crud.delete 'tipo_domicilio' obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+          </ul>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron resultados.</p>
+</div>
+{% endif %}
+<hr />
+{% endblock %}
+

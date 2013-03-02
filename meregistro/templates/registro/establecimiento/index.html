@@ -4,6 +4,15 @@
 
 {% block content %}
 <h2>Administración de Unidades Educativas</h2>
+
+{% if 'reg_establecimiento_nueva' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva Sede</span></a>
+    </li>
+</ul>
+{% endif %}
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -130,13 +139,6 @@
 <div class="message notice">
     <p>No se encontraron sedes.</p>
 </div>
-{% endif %}
-{% if 'reg_establecimiento_nueva' in credenciales %}
-<ul class="actions">
-    <li class="create">
-        <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva Sede</span></a>
-    </li>
-</ul>
 {% endif %}
 <hr />
 

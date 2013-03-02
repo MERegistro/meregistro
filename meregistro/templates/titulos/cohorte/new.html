@@ -1,26 +1,25 @@
 {% extends "base_titulos.html" %}
 
-{% block title %}Alta de cohorte{% endblock %}
+{% load tags_filters %}
+
+{% block title %}Generar Cohorte para el {{ carrera_jurisdiccional.carrera.nombre }}{% endblock %}
 
 {% block content %}
 
-{% if titulo_jurisdiccional %}
-<h2>Asignar nueva cohorte al título</h2>
-{% include "titulos/cohorte/datos_titulo.html" %}
+<h2>Generar Cohorte para el {{ carrera_jurisdiccional.carrera.nombre }}</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
-{% else %}
-<h2>Alta de cohorte</h2>
-{% endif %}
-
+<div class="datos-lectura">
+	<p><strong>Cohortes solicitadas:</strong> <span>{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }} - {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }}</span></p>
+	<p><strong>Cohortes generadas:</strong> <span>{{ carrera_jurisdiccional.cohortes.all|implode:", " }}</span></p>
+</div>
 {% include "titulos/cohorte/form.html" %}
 
 <ul class="actions">
     <li class="back">
-    {% if titulo_jurisdiccional %}
-        <a href="{% url apps.titulos.views.cohorte.cohortes_por_titulo titulo_jurisdiccional.id %}"><span>Volver</span></a>
+    {% if carrera_jurisdiccional %}
+        <a href="{% url apps.titulos.views.cohorte.cohortes_por_carrera_jurisdiccional carrera_jurisdiccional.id %}"><span>Volver</span></a>
     {% else %}
         <a href="{% url apps.titulos.views.cohorte.index %}"><span>Volver</span></a>
     {% endif %}

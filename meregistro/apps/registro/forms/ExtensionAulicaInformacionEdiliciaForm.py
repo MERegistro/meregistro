@@ -19,11 +19,11 @@ class ExtensionAulicaInformacionEdiliciaForm(forms.ModelForm):
         try:
             tipo_dominio = self.cleaned_data['tipo_dominio']
             tipo_compartido = self.cleaned_data['tipo_compartido']
-            if tipo_dominio.id == TipoDominio.objects.get(descripcion='Compartido').id:
+            if tipo_dominio.id == TipoDominio.objects.get(descripcion=TipoDominio.TIPO_COMPARTIDO).id:
                 if tipo_compartido is None:
                     raise ValidationError('Si el uso del edificio es compartido, debe detallar lo siguiente.')
         except KeyError:
-            pass
+            return None
         return tipo_compartido
 
     def clean_niveles(self):

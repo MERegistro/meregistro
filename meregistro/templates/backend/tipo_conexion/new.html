@@ -1,0 +1,19 @@
+{% extends "backend/base.html" %}
+
+{% block title %}Alta de Tipo de Conexión{% endblock %}
+
+{% block content %}
+<h2>Alta de Tipo de Conexión</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "backend/tipo_conexion/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.backend.views.crud.index 'tipo_conexion' %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

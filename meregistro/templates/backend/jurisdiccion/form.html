@@ -1,0 +1,27 @@
+<div class="form" id="establecimientoForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-text">
+			{{ form.region.errors }}
+			<label for="id_region">Región:</label>
+			{{ form.region }}
+		</div>
+		<div class="form-text">
+			{{ form.prefijo.errors }}
+			<label for="id_prefijo">Prefijo:</label>
+			{{ form.prefijo }}
+		</div>
+		<div class="form-submit">
+		{% if obj %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

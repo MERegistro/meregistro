@@ -26,3 +26,12 @@ class Jurisdiccion(models.Model):
         else:
             self.ambito.descripcion = self.nombre
             self.ambito.save()
+
+    def delete(self):
+        if (self.departamento_set.count() > 0
+          or self.dependenciafuncional_set.count() > 0
+          or self.titulo_set.count() > 0
+          or self.carrerajurisdiccional_set.count() > 0
+          or self.normativajurisdiccional_set.count() > 0):
+            raise Exception('Entidad en uso')
+        models.Model.delete(self)

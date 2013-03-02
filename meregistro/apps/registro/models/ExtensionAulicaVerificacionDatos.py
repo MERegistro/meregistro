@@ -9,6 +9,7 @@ class ExtensionAulicaVerificacionDatos(models.Model):
 	contacto = models.BooleanField()
 	alcances = models.BooleanField()
 	turnos = models.BooleanField()
+	autoridades = models.BooleanField()
 	funciones = models.BooleanField()
 	domicilios = models.BooleanField()
 	info_edilicia = models.BooleanField()
@@ -21,10 +22,22 @@ class ExtensionAulicaVerificacionDatos(models.Model):
 
 	def completo(self):
 		return (self.datos_basicos and self.contacto and self.alcances and self.turnos
-			and self.funciones and self.domicilios
+			and self.funciones and self.domicilios and self.autoridades
 			and self.info_edilicia and self.conectividad and self.matricula)
 
 
 	def get_datos_verificados(self):
-		datos = ['datos_basicos', 'contacto', 'alcances', 'turnos', 'funciones', 'domicilios', 'info_edilicia', 'conectividad', 'matricula']
-		return {d: getattr(self, d) for d in datos}
+		# datos = ['datos_basicos', 'contacto', 'alcances', 'turnos', 'funciones', 'domicilios', 'info_edilicia', 'conectividad', 'matricula']
+		#return {d: getattr(self, d) for d in datos}
+		return {
+			'datos_basicos': self.datos_basicos, 
+			'contacto': self.contacto, 
+			'alcances': self.alcances, 
+			'turnos': self.turnos, 
+			'funciones': self.funciones, 
+			'autoridades': self.autoridades, 
+			'domicilios': self.domicilios, 
+			'info_edilicia': self.info_edilicia, 
+			'conectividad': self.conectividad, 
+			'matricula': self.matricula
+		}

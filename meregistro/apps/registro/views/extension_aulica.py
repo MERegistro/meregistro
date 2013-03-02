@@ -272,7 +272,7 @@ def completar_datos_basicos(request, extension_aulica_id):
         'extension_aulica': ext,
         'codigo_tipo_unidad_educativa': codigo,
         'page_title': 'Datos básicos',
-        'actual_page': 'datos_basicos',
+        'current_page': 'datos_basicos',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })    
@@ -307,7 +307,7 @@ def completar_contacto(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_contacto.html',
         'extension_aulica': ext,
         'page_title': 'Contacto',
-        'actual_page': 'contacto',
+        'current_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
@@ -342,7 +342,7 @@ def completar_alcances(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_alcances.html',
         'extension_aulica': ext,
         'page_title': 'Alcance',
-        'actual_page': 'alcances',
+        'current_page': 'alcances',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
@@ -374,7 +374,7 @@ def completar_funciones(request, extension_aulica_id):
         'form_template': 'registro/extension_aulica/form_funciones.html',
         'extension_aulica': ext,
         'page_title': 'Funciones',
-        'actual_page': 'funciones',
+        'current_page': 'funciones',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
@@ -386,19 +386,20 @@ def completar_informacion_edilicia(request, extension_aulica_id):
     """
     CU 26
     """
-    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    ext = __get_extension_aulica(request, extension_aulica_id)
+
     try:
-        informacion_edilicia = ExtensionAulicaInformacionEdilicia.objects.get(extension_aulica=extension_aulica)
+        informacion_edilicia = ExtensionAulicaInformacionEdilicia.objects.get(extension_aulica=ext)
     except:
         informacion_edilicia = ExtensionAulicaInformacionEdilicia()
-        informacion_edilicia.extension_aulica = extension_aulica
-
+        informacion_edilicia.extension_aulica = ext
+        
     if request.method == 'POST':
         form = ExtensionAulicaInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
         if form.is_valid():
             informacion_edilicia = form.save()
             if __puede_verificar_datos(request):
-                v = extension_aulica.get_verificacion_datos()
+                v = ext.get_verificacion_datos()
                 v.info_edilicia = form.cleaned_data['verificado']
                 v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
@@ -408,23 +409,20 @@ def completar_informacion_edilicia(request, extension_aulica_id):
     else:
         form = ExtensionAulicaInformacionEdiliciaForm(instance=informacion_edilicia)
 
-    es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
+    es_dominio_compartido_id = TipoDominio.objects.get(descripcion=TipoDominio.TIPO_COMPARTIDO).id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
-    form.initial['verificado'] = extension_aulica.get_verificacion_datos().info_edilicia
-    
-    if not extension_aulica.get_verificacion_datos().completo():
-        request.set_flash('warning', 'Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.')
+    form.initial['verificado'] = ext.get_verificacion_datos().info_edilicia
 		
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_informacion_edilicia.html',
-        'extension_aulica': extension_aulica,
+        'extension_aulica': ext,
         'es_dominio_compartido_id': es_dominio_compartido_id,
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
-        'actual_page': 'informacion_edilicia',
+        'current_page': 'informacion_edilicia',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -434,19 +432,19 @@ def completar_conexion_internet(request, extension_aulica_id):
     """
     CU 26
     """
-    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    ext = __get_extension_aulica(request, extension_aulica_id)
     try:
         conexion = ExtensionAulicaConexionInternet.objects.get(extension_aulica=extension_aulica)
     except:
         conexion = ExtensionAulicaConexionInternet()
-        conexion.extension_aulica = extension_aulica
+        conexion.extension_aulica = ext
 
     if request.method == 'POST':
         form = ExtensionAulicaConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()
             if __puede_verificar_datos(request):
-                v = extension_aulica.get_verificacion_datos()
+                v = ext.get_verificacion_datos()
                 v.conectividad = form.cleaned_data['verificado']
                 v.save()
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
@@ -455,16 +453,16 @@ def completar_conexion_internet(request, extension_aulica_id):
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = ExtensionAulicaConexionInternetForm(instance=conexion)
-    form.initial['verificado'] = extension_aulica.get_verificacion_datos().conectividad
+    form.initial['verificado'] = ext.get_verificacion_datos().conectividad
     
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_conexion_internet.html',
-        'extension_aulica': extension_aulica,
+        'extension_aulica': ext,
         'page_title': 'Conectividad',
-        'actual_page': 'conexion_internet',
+        'current_page': 'conexion_internet',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
     })
 
 
