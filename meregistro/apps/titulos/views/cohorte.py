@@ -5,7 +5,8 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import CarreraJurisdiccional, Cohorte, CohorteEstablecimiento, EstadoCarreraJurisdiccional, EstadoCohorteEstablecimiento, \
-	CohorteAnexo, EstadoCohorteAnexo, CohorteExtensionAulica, EstadoCohorteExtensionAulica
+	CohorteAnexo, EstadoCohorteAnexo, CohorteExtensionAulica, \
+	EstadoCohorteExtensionAulica, CarreraJurisdiccionalCohorte
 from apps.titulos.forms import CarreraJurisdiccionalCohorteFormFilters, CohorteForm, CohorteAsignarEstablecimientosFormFilters, \
 	CohorteAsignarAnexosFormFilters, CohorteAsignarExtensionesAulicasFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento
@@ -94,7 +95,11 @@ def create(request, carrera_jurisdiccional_id):
 	else:
 		form = CohorteForm()
 
-	choices = [('', '-------')] + [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
+	choices = [('', '-------')]
+	try:
+		choices += [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
+	except CarreraJurisdiccionalCohorte.DoesNotExist:
+		pass
 	form.fields["anio"].choices = choices
 	form.fields["carrera_jurisdiccional"].initial = carrera_jurisdiccional.id
 
