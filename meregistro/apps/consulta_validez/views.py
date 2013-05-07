@@ -173,6 +173,18 @@ def ajax_get_unidades_por_jurisdiccion(request, jurisdiccion_id):
     return HttpResponse(json_unidades_educativas, mimetype = "application/javascript")
 
 
+def ajax_get_unidades_por_tipo_gestion(request, tipo_gestion_id):
+    if int(tipo_gestion_id) > 0:
+        unidades_educativas = UnidadEducativa.objects.filter(dependencia_funcional__tipo_gestion_id=tipo_gestion_id)
+    else:
+        unidades_educativas = UnidadEducativa.objects.all()
+    
+    unidades_educativas.order_by('nombre')
+    json_unidades_educativas = serializers.serialize("json", unidades_educativas)
+    print json_unidades_educativas
+    return HttpResponse(json_unidades_educativas, mimetype = "application/javascript")
+
+
 def ajax_get_carreras_por_jurisdiccion(request, jurisdiccion_id):
     carreras = choices_carrera(request.GET)
     json_carreras = json.dump(carreras)

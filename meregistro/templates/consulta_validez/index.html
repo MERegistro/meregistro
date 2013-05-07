@@ -22,6 +22,11 @@
 		<label for="id_jurisdiccion">Jurisdicción:</label>
 		{{ form_filters.jurisdiccion }}
     </div>
+    <div class="form-select">
+		{{ form_filters.tipo_gestion.errors }}
+		<label for="id_tipo_gestion">Tipo de Gestión:</label>
+		{{ form_filters.tipo_gestion }}
+    </div>
     <div class="form-text">
 		{{ form_filters.cue.errors }}
 		<label for="id_cue">CUE:</label>
@@ -46,6 +51,11 @@
 		{{ form_filters.cohorte.errors }}
 		<label for="id_cohorte">Cohorte:</label>
 		{{ form_filters.cohorte }}
+    </div>    
+    <div class="form-text">
+		{{ form_filters.nroinfd.errors }}
+		<label for="id_nroinfd">Número de INFD:</label>
+		{{ form_filters.nroinfd }}
     </div>
 
     <div class="form-submit">
@@ -111,11 +121,13 @@ var dropdown_jurisdiccion = $("select#id_jurisdiccion");
 var dropdown_unidad_educativa = $("select#id_unidad_educativa");
 var dropdown_carrera = $("select#id_carrera");
 var dropdown_titulo = $("select#id_titulo");
+var dropdown_tipo_gestion = $("select#id_tipo_gestion");
 
 var current_jur = dropdown_jurisdiccion.val();
 var current_ue = dropdown_unidad_educativa.val();
 var current_carrera = dropdown_carrera.val();
 var current_titulo = dropdown_titulo.val();
+var current_tipo_gestion = dropdown_tipo_gestion.val();
 
 
 /*if(current_jur != '0'){
@@ -150,6 +162,19 @@ function jurisdiccion_change(val){
 						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
 		}
 		dropdown_titulo.html(options);
+	});
+}
+
+
+function tipo_gestion_change(val){
+	// Unidades educativas
+	var url = "/consulta_validez/ajax/get_unidades_por_tipo_gestion/" + val;
+	$.getJSON(url, function(models){
+		var options = '<option value="">---------</option>';
+		for(var i = 0; i < models.length; i++){
+			options += '<option value="' + models[i].pk + '">' + models[i].fields.cue + " - " + models[i].fields.nombre + '</option>';
+		}
+		dropdown_unidad_educativa.html(options);
 	});
 }
 
@@ -189,6 +214,10 @@ function carrera_change(val){
 $(document).ready(function(){
     dropdown_jurisdiccion.change(function(){
 		jurisdiccion_change($(this).val());
+		first_load = false;
+	}); // END function
+    dropdown_tipo_gestion.change(function(){
+		tipo_gestion_change($(this).val());
 		first_load = false;
 	}); // END function
     dropdown_unidad_educativa.change(function(){
