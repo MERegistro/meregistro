@@ -39,6 +39,8 @@ class ConsultaValidezFormFilters(forms.Form):
 				q = q.filter(carrera=self.cleaned_data['carrera'])
 			if filter_by('nroinfd'):
 				q = q.filter(nroinfd=self.cleaned_data['nroinfd'].strip())
+			if filter_by('titulo'):
+				q = q.filter(denominacion=self.cleaned_data['titulo'])
 			if filter_by('cohorte'):
 				q = q.filter(primera__lte=self.cleaned_data['cohorte'], ultima__gte=self.cleaned_data['cohorte'])
 		return q.distinct()
