@@ -116,11 +116,11 @@ def build_confirmar_cohortes_query(filters, page, request, tipo_unidad_educativa
 	"""
 	# Filtra que el año de la última cohorte sea menor o igual al año en curso y el estado sea controlado
 	if tipo_unidad_educativa == 'establecimiento':
-		filters.buildQuery().filter(establecimiento__id=unidad_educativa_id)
+		return filters.buildQuery().filter(establecimiento__id=unidad_educativa_id)
 	elif tipo_unidad_educativa == 'anexo':
-		filters.buildQuery().filter(anexo__id=unidad_educativa_id)
+		return filters.buildQuery().filter(anexo__id=unidad_educativa_id)
 	elif tipo_unidad_educativa == 'extension_aulica':
-		filters.buildQuery().filter(extension_aulica__id=unidad_educativa_id)
+		return filters.buildQuery().filter(extension_aulica__id=unidad_educativa_id)
 
 	return filters.buildQuery()
 
