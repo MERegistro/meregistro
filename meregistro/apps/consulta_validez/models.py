@@ -2,12 +2,14 @@
 
 from django.db import models
 from apps.registro.models.Jurisdiccion import Jurisdiccion
+from apps.registro.models.DependenciaFuncional import DependenciaFuncional
 	
 class UnidadEducativa(models.Model):
 	cue = models.CharField(max_length=9, unique=True)
 	nombre = models.CharField(max_length=255)
 	tipo_unidad_educativa = models.CharField(max_length=20)
 	jurisdiccion = models.ForeignKey(Jurisdiccion, editable=False, null=True)
+	dependencia_funcional = models.ForeignKey(DependenciaFuncional, editable=False, null=True)
 
 	class Meta:
 		app_label = 'consulta_validez'
