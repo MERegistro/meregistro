@@ -140,8 +140,6 @@ def eliminar(request, normativa_jurisdiccional_id):
         request.set_flash('warning', '¿Está seguro de eliminar la normativa? Esta operación no puede deshacerse.')
 
     if request.method == 'POST':
-        if int(request.POST['normativa_jurisdiccional_id']) is not int(normativa_jurisdiccional.id):
-            raise Exception('Error en la consulta!')
         normativa_jurisdiccional.delete()
         request.set_flash('success', 'La normativa fue eliminada correctamente.')
         """ Redirecciono para evitar el reenvío del form """

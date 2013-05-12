@@ -19,5 +19,5 @@ def normativas_jurisdiccionales(request, q):
             estado_nombre = ''
         else:
             estado_nombre = nj.estado.nombre.encode('utf8')
-        reporte.rows.append([nj.numero_anio.encode('utf8'), unicode(nj.tipo_normativa_jurisdiccional), unicode(nj.jurisdiccion), nj.observaciones.encode('utf8'), unicode(nj.otorgada_por), estado_nombre])
+        reporte.rows.append([nj.numero_anio.encode('utf8'), unicode(nj.tipo_normativa_jurisdiccional), unicode(nj.jurisdiccion), unicode(nj.otorgada_por), nj.observaciones.encode('utf8'), estado_nombre])
     return reporte.as_csv()
