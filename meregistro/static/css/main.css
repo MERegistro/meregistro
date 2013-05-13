@@ -104,14 +104,14 @@ div#intro div#resolucion cite {
 	margin-top: 10px;
 }
 div#intro div#intro-links {
-	width: 695px;
+	width: 850px;
 	margin: 30px auto 0;
 }
 div#intro div#intro-links a {
 	display: block;
 	font-weight: bold;
 	float: left;
-	margin-left: 80px;
+	margin-left: 50px;
 }
 div#intro div#intro-links a:link,
 div#intro div#intro-links a:visited {

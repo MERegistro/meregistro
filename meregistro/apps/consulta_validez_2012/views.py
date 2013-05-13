@@ -6,8 +6,8 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
-from apps.consulta_validez.models import UnidadEducativa, Titulo
-from apps.consulta_validez.forms import ConsultaValidezFormFilters
+from apps.consulta_validez_2012.models import UnidadEducativa, Titulo
+from apps.consulta_validez_2012.forms import ConsultaValidezFormFilters
 from apps.registro.models import Jurisdiccion, Establecimiento, Anexo
 from apps.reportes.views.consulta_validez import consulta_validez as reporte_consulta_validez
 from apps.reportes.models import Reporte
@@ -113,7 +113,7 @@ def index(request):
         
     page = paginator.page(page_number)
     objects = page.object_list
-    return my_render(request, 'consulta_validez/index.html', {
+    return my_render(request, 'consulta_validez_2012/index.html', {
         'form_filters': form_filter,
         'objects': objects,
         'paginator': paginator,
@@ -153,7 +153,7 @@ def detalle(request, titulo_id):
         jurisdiccion = None
         
         
-    return my_render(request, 'consulta_validez/detalle.html', {
+    return my_render(request, 'consulta_validez_2012/detalle.html', {
         'titulo': titulo,
         'ue': ue,
         'dom': dom,

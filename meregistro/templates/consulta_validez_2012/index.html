@@ -60,7 +60,7 @@
 
     <div class="form-submit">
 		<input type="submit" value="Buscar" />
-		<input type="button" value="Reiniciar" onclick="window.location = '/consulta_validez';" />
+		<input type="button" value="Reiniciar" onclick="window.location = '/consulta_validez_2012';" />
     </div>
 </div>
 
@@ -95,10 +95,10 @@
                 <td>{{ obj.primera }} - {{ obj.ultima }}</td>
                 <td>{{ obj.normativa_jurisdiccional }}</td>
                 <td>{{ obj.normativa_nacional }}</td>
-                <td><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle" class="nroinfd">{{ obj.nroinfd }}</a></td>
+                <td><a href="{% url consultaValidez2012Detalle obj.id %}" title="Ver detalle" class="nroinfd">{{ obj.nroinfd }}</a></td>
                 <td class="actions-td">
                     <ul>
-                        <li class="details"><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
+                        <li class="details"><a href="{% url consultaValidez2012Detalle obj.id %}" title="Ver detalle"><span>Ver detalle</span></a></li>
                     </ul>
                 </td>
             </tr>

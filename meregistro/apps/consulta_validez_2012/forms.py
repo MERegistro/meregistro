@@ -2,7 +2,7 @@
 
 from django import forms
 from apps.registro.models import Jurisdiccion, TipoGestion
-from apps.consulta_validez.models import UnidadEducativa, Titulo
+from apps.consulta_validez_2012.models import UnidadEducativa, Titulo
 
 
 
