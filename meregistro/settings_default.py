@@ -94,7 +94,8 @@ INSTALLED_APPS = (
     'custom_tags_filters',
     'apps.reportes',
     'apps.sistema',
-    'apps.consulta_validez_2012',
+    'apps.consulta_validez_tmp',
+    'apps.oferta_nacional',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
