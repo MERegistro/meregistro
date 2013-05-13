@@ -45,8 +45,11 @@ class Command(BaseCommand):
         ue = self.find_unidad_educativa(registro['cue_anexo'])
         jurisdiccion = self.get_ue_jurisdiccion(ue)
         carrera = self.asociar_carrera_jurisdiccion(registro['carrera'], jurisdiccion)
-        normativa_nacional = self.get_normativa_nacional(registro['nro_normativa'])
+        normativa_nacional = self.get_normativa_nacional(registro['nro_res_nac'])
         titulo_nacional = self.get_titulo_nacional(carrera, registro['titulo'], normativa_nacional)
+        titulo_jurisdiccional = self.create_titulo_jurisdiccional(ue,
+            titulo_nacional, registro['nro_infd'], registro['id_infd'],
+            registro['nro_normativa'])
         #titulo jurisdiccional
         #asociar normativa
         #marcar que esta UE OFERTA la carrera
