@@ -38,6 +38,6 @@ class Carrera(models.Model):
 		return estados
 		
 		
-	def carrera_jurisdiccional(self):
-		tmp = False
-		return tmp
+	#def carrera_jurisdiccional(self):
+	#	tmp = False
+	#	return tmp

@@ -6,10 +6,10 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
-from apps.consulta_validez_2012.models import UnidadEducativa, Titulo
-from apps.consulta_validez_2012.forms import ConsultaValidezFormFilters
-from apps.registro.models import Jurisdiccion, Establecimiento, Anexo
-from apps.reportes.views.consulta_validez import consulta_validez as reporte_consulta_validez
+from apps.oferta_nacional.forms import OfertaNacionalFormFilters
+from apps.registro.models import Jurisdiccion, Establecimiento
+from apps.titulos.models import Carrera
+from apps.reportes.views.oferta_nacional import oferta_nacional as reporte_oferta_nacional
 from apps.reportes.models import Reporte
 from django.core.paginator import Paginator
 import simplejson as json
@@ -17,88 +17,28 @@ from django.core import serializers
 
 
 ITEMS_PER_PAGE = 50
-
-def ajax_get_carreras(request):
-    json_data = json.dumps(choices_carrera(request.GET))
-    return HttpResponse(json_data, mimetype = "application/javascript")
+ANIOS_DISPONIBLES = [2013]
 
 
-def ajax_get_titulos(request):
-    json_data = json.dumps(choices_titulo(request.GET))
-    return HttpResponse(json_data, mimetype = "application/javascript")
-
-
-def build_choices_sql(sql, params=[]):
-    from django.db import connection, transaction
-    cursor = connection.cursor()
-
-    # Data modifying operation - commit required
-    cursor.execute(sql, params)
-    
-    choices = [('', '---------')]
-    for c in cursor:
-        choices.append((c[0], c[1]))
-    return choices
-
-def choices_carrera(filters):
-    params = []
-    query_carrera = "SELECT DISTINCT t.carrera, t.carrera FROM consulta_validez_titulo t"
-    query_carrera += " INNER JOIN consulta_validez_unidadeducativa ue ON t.unidad_educativa_id = ue.id"
-    query_carrera += " WHERE 1=1" 
-    if filters.has_key('jurisdiccion') and filters['jurisdiccion'] != '':
-        query_carrera += " AND ue.jurisdiccion_id = %s"
-        params.append(filters['jurisdiccion'])
-    if filters.has_key('unidad_educativa') and filters['unidad_educativa'] != '':
-        query_carrera += " AND ue.id = %s"
-        params.append(filters['unidad_educativa'])
-    query_carrera += " ORDER BY carrera"
-    return build_choices_sql(query_carrera, params)
-
-
-def choices_titulo(filters):
-    params = []
-    query_carrera = "SELECT DISTINCT denominacion, denominacion FROM consulta_validez_titulo t"
-    query_carrera += " INNER JOIN consulta_validez_unidadeducativa ue ON t.unidad_educativa_id = ue.id"
-    query_carrera += " WHERE 1=1" 
-    if filters.has_key('jurisdiccion') and filters['jurisdiccion'] != '':
-        query_carrera += " AND ue.jurisdiccion_id = %s"
-        params.append(filters['jurisdiccion'])
-    if filters.has_key('unidad_educativa') and filters['unidad_educativa'] != '':
-        query_carrera += " AND ue.id = %s"
-        params.append(filters['unidad_educativa'])
-    if filters.has_key('carrera') and filters['carrera'] != '':
-        query_carrera += " AND t.carrera = %s"
-        params.append(filters['carrera'])
-    query_carrera += " ORDER BY denominacion"
-    return build_choices_sql(query_carrera, params)
-
-
-
-
-def index(request):
-
+def index(request, anio):
+    if int(anio) not in ANIOS_DISPONIBLES:
+	    raise Exception('Año no disponible para consulta')
     """
     Consulta de títulos
     """
     if request.method == 'GET':
-        form_filter = ConsultaValidezFormFilters(request.GET)
+        form_filter = OfertaNacionalFormFilters(request.GET)
     else:
-        form_filter = ConsultaValidezFormFilters()
+        form_filter = OfertaNacionalFormFilters()
 
-    form_filter.fields["carrera"].choices = choices_carrera(request.GET)
-    form_filter.fields["titulo"].choices = choices_titulo(request.GET)
-    if request.GET.has_key('jurisdiccion') and request.GET['jurisdiccion'] != '':
-        form_filter.fields['unidad_educativa'].queryset = \
-        form_filter.fields['unidad_educativa'].queryset.filter(jurisdiccion=int(request.GET['jurisdiccion']))
     q = build_query(form_filter, 1, request)
 
     try:
         if request.GET['export'] == '1':
-            return reporte_consulta_validez(request, q)
+            return reporte_oferta_nacional(request, q, anio)
     except KeyError:
         pass
 
-    
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -113,7 +53,8 @@ def index(request):
         
     page = paginator.page(page_number)
     objects = page.object_list
-    return my_render(request, 'consulta_validez_2012/index.html', {
+    return my_render(request, 'oferta_nacional/index.html', {
+		'anio': anio,
         'form_filters': form_filter,
         'objects': objects,
         'paginator': paginator,
@@ -131,105 +72,29 @@ def build_query(filters, page, request):
     Construye el query de búsqueda a partir de los filtros.
     """
     q = filters.buildQuery().filter()
-    q = q.order_by('unidad_educativa__jurisdiccion__nombre', 'unidad_educativa__cue', 'carrera', 'denominacion', 'primera')
+    q = q.order_by('establecimiento__dependencia_funcional__jurisdiccion__nombre', 'establecimiento__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
     return q
 
-def detalle(request, titulo_id):
-    """
-    Detalle del Título
-    """
-    titulo = Titulo.objects.get(pk=titulo_id)
-    if titulo.unidad_educativa.tipo_unidad_educativa == 'establecimiento':
-        ue = Establecimiento.objects.get(cue=titulo.unidad_educativa.cue)
-        jurisdiccion = ue.dependencia_funcional.jurisdiccion
-        dom = ue.get_domicilio_institucional()
-    elif titulo.unidad_educativa.tipo_unidad_educativa == 'anexo':
-        ue = Anexo.objects.get(cue=titulo.unidad_educativa.cue)
-        jurisdiccion = ue.establecimiento.dependencia_funcional.jurisdiccion
-        dom = ue.get_domicilio_institucional()
-    else:
-        ue = None
-        dom = None
-        jurisdiccion = None
-        
-        
-    return my_render(request, 'consulta_validez_2012/detalle.html', {
-        'titulo': titulo,
-        'ue': ue,
-        'dom': dom,
-        'jurisdiccion': jurisdiccion,
-    })
 
-
-def ajax_get_unidades_por_jurisdiccion(request, jurisdiccion_id):
+def ajax_get_establecimientos_por_jurisdiccion(request, jurisdiccion_id):
     if int(jurisdiccion_id) > 0:
-        unidades_educativas = UnidadEducativa.objects.filter(jurisdiccion__id=jurisdiccion_id)
+        establecimientos = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion_id)
     else:
-        unidades_educativas = UnidadEducativa.objects.all()
+        establecimientos = Establecimiento.objects.all()
     
-    unidades_educativas.order_by('nombre')
-    json_unidades_educativas = serializers.serialize("json", unidades_educativas)
-    print json_unidades_educativas
-    return HttpResponse(json_unidades_educativas, mimetype = "application/javascript")
-
-
-def ajax_get_unidades_por_tipo_gestion(request, tipo_gestion_id):
-    if int(tipo_gestion_id) > 0:
-        unidades_educativas = UnidadEducativa.objects.filter(dependencia_funcional__tipo_gestion_id=tipo_gestion_id)
-    else:
-        unidades_educativas = UnidadEducativa.objects.all()
-    
-    unidades_educativas.order_by('nombre')
-    json_unidades_educativas = serializers.serialize("json", unidades_educativas)
-    print json_unidades_educativas
-    return HttpResponse(json_unidades_educativas, mimetype = "application/javascript")
+    establecimientos.order_by('nombre')
+    json_establecimientos = serializers.serialize("json", establecimientos)
+    return HttpResponse(json_establecimientos, mimetype = "application/javascript")
 
 
 def ajax_get_carreras_por_jurisdiccion(request, jurisdiccion_id):
-    carreras = choices_carrera(request.GET)
-    json_carreras = json.dump(carreras)
-    return HttpResponse(json_carreras, mimetype = "application/javascript")
-
-
-def ajax_get_titulos_por_jurisdiccion(request, jurisdiccion_id):
-    if int(jurisdiccion_id) > 0:
-        titulos = Titulo.objects.filter(unidad_educativa__jurisdiccion__id=jurisdiccion_id)
-    else:
-        titulos = Titulo.objects.all()
-    
-    titulos.order_by('denominacion').distinct('denominacion').values_list('denominacion')
-    json_titulos = serializers.serialize("json", titulos)
-    return HttpResponse(json_titulos, mimetype = "application/javascript")
-
-
-def ajax_get_carreras_por_ue(request, ue_id):
-    if int(ue_id) > 0:
-        carreras = Titulo.objects.filter(unidad_educativa__id=ue_id)
-    else:
-        carreras = Titulo.objects.all()
-    
-    carreras.order_by('carrera').distinct('carrera').values_list('carrera')
+    carreras = Carrera.objects.filter(carrerajurisdiccional__jurisdiccion__id=jurisdiccion_id)
     json_carreras = serializers.serialize("json", carreras)
     return HttpResponse(json_carreras, mimetype = "application/javascript")
 
 
-def ajax_get_titulos_por_ue(request, ue_id):
-    if int(ue_id) > 0:
-        titulos = Titulo.objects.filter(unidad_educativa__id=ue_id)
-    else:
-        titulos = Titulo.objects.all()
-    
-    titulos.order_by('denominacion').distinct('denominacion').values_list('denominacion')
-    json_titulos = serializers.serialize("json", titulos)
-    return HttpResponse(json_titulos, mimetype = "application/javascript")
+def ajax_get_carreras_por_establecimiento(request, establecimiento_id):
+    carreras = Carrera.objects.filter(carrerajurisdiccional__cohortes__establecimientos__id=establecimiento_id)
+    json_carreras = serializers.serialize("json", carreras)
+    return HttpResponse(json_carreras, mimetype = "application/javascript")
 
-
-def ajax_get_titulos_por_carrera(request, carrera_id):
-    if int(carrera_id) > 0:
-        titulos = Titulo.objects.filter(carrera=Titulo.objects.get(pk=carrera_id).carrera)
-    else:
-        titulos = Titulo.objects.all()
-    
-    titulos.order_by('denominacion').distinct('denominacion').values_list('denominacion')
-    json_titulos = serializers.serialize("json", titulos)
-    return HttpResponse(json_titulos, mimetype = "application/javascript")
