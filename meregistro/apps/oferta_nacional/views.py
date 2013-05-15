@@ -88,13 +88,23 @@ def ajax_get_establecimientos_por_jurisdiccion(request, jurisdiccion_id):
 
 
 def ajax_get_carreras_por_jurisdiccion(request, jurisdiccion_id):
-    carreras = Carrera.objects.filter(carrerajurisdiccional__jurisdiccion__id=jurisdiccion_id)
+    if int(jurisdiccion_id) > 0:
+        carreras = Carrera.objects.filter(carrerajurisdiccional__jurisdiccion__id=jurisdiccion_id).distinct()
+    else:
+        carreras = Carrera.objects.all()
+    
+    carreras.order_by('nombre')
     json_carreras = serializers.serialize("json", carreras)
     return HttpResponse(json_carreras, mimetype = "application/javascript")
 
 
 def ajax_get_carreras_por_establecimiento(request, establecimiento_id):
-    carreras = Carrera.objects.filter(carrerajurisdiccional__cohortes__establecimientos__id=establecimiento_id)
+    if int(establecimiento_id) > 0:
+        carreras = Carrera.objects.filter(carrerajurisdiccional__cohortes__establecimientos__id=establecimiento_id)
+    else:
+        carreras = Carrera.objects.all()
+        
+    carreras.order_by('nombre')
     json_carreras = serializers.serialize("json", carreras)
     return HttpResponse(json_carreras, mimetype = "application/javascript")
 
