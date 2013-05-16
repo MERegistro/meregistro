@@ -8,7 +8,11 @@
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% if not anexo.get_verificacion_datos.completo %}
+	<div class="message warning">
+		<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+	</div>
+{% endif %}
 {% include "registro/anexo/completar_datos_nav.html" %}
 
 {% if form_template %}

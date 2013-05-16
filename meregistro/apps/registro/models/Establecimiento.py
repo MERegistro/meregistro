@@ -51,6 +51,7 @@ class Establecimiento(models.Model):
 		app_label = 'registro'
 		ordering = ['nombre']
 
+
 	"""
 	Sobreescribo el init para agregarle propiedades
 	"""
@@ -59,8 +60,10 @@ class Establecimiento(models.Model):
 		self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento=self).order_by('id')
 		self.estado_actual = self.getEstadoActual()
 
+
 	def __unicode__(self):
 		return str(self.cue) + ' - ' + self.nombre
+
 
 	def clean(self):
 		# Chequea que la combinación entre jurisdiccion y cue sea única
@@ -71,6 +74,7 @@ class Establecimiento(models.Model):
 		except ObjectDoesNotExist:
 			pass
 
+
 	def registrar_estado(self, estado, observaciones=''):
 		registro = RegistroEstablecimiento(estado=estado)
 		registro.fecha = datetime.date.today()
@@ -80,12 +84,14 @@ class Establecimiento(models.Model):
 		registro.save()
 		self.save()
 
+
 	def save(self):
 		self.updateAmbito()
 		if self.id is not None:
 			self.ambito.vigente = (self.estado.nombre != EstadoEstablecimiento.PENDIENTE)
 		self.ambito.save()
 		models.Model.save(self)
+
 
 	def delete(self):
 		if self.getEstadoActual() == EstadoEstablecimiento.PENDIENTE:
@@ -100,6 +106,7 @@ class Establecimiento(models.Model):
 			estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.BAJA)
 			self.registrar_estado(estado)
 
+
 	def updateAmbito(self):
 		if self.pk is None or self.ambito is None:
 			try:
@@ -111,10 +118,12 @@ class Establecimiento(models.Model):
 			self.ambito.descripcion = self.nombre
 			self.ambito.save()
 
+
 	def hasAnexos(self):
 		from apps.registro.models.Anexo import Anexo
 		anexos = Anexo.objects.filter(establecimiento=self)
 		return anexos.count() > 0
+
 
 	def getEstadoActual(self):
 		estado_actual = self.estadoActual()
@@ -122,11 +131,13 @@ class Establecimiento(models.Model):
 			return u''
 		return str(estado_actual)
 
+
 	def estadoActual(self):
 		try:
 			return list(self.registro_estados)[-1].estado
 		except IndexError:
 			return None
+
 
 	"""
 	Se puede eliminar cuando:
@@ -138,6 +149,7 @@ class Establecimiento(models.Model):
 		es_pendiente = self.estado_actual == u'Pendiente'
 		return cant_estados == 1 and es_pendiente
 
+
 	"""
 	Obtener las partes del cue desde una instancia
 	"""
@@ -148,6 +160,7 @@ class Establecimiento(models.Model):
 			'codigo_tipo_unidad_educativa': self.cue[7:9],
 		}
 		return parts
+
 
 	"""
 	Obtener las partes del cue desde la clase, dando el cue como parámetro
@@ -167,13 +180,15 @@ class Establecimiento(models.Model):
 		}
 		return parts
 
+
 	def get_first_domicilio(self):
 		try:
 			dom = self.domicilios.all()[0]
 		except IndexError:
 			return None
 		return dom
-		
+
+	
 	def get_domicilio_institucional(self):
 		from apps.registro.models import EstablecimientoDomicilio
 		try:
@@ -182,6 +197,7 @@ class Establecimiento(models.Model):
 			return None
 		return dom
 
+
 	def get_fecha_solicitud(self):
 		try:
 			fecha = self.registro_estados.all()[0].fecha.strftime("%d/%m/%Y")
@@ -189,11 +205,14 @@ class Establecimiento(models.Model):
 			return "---"
 		return fecha
 
+
 	def registrado(self):
 		return self.estado.nombre == EstadoEstablecimiento.REGISTRADO
 
+
 	def pendiente(self):
 		return self.estado.nombre == EstadoEstablecimiento.PENDIENTE
+
 
 	def get_verificacion_datos(self):
 		from EstablecimientoVerificacionDatos import EstablecimientoVerificacionDatos
@@ -204,6 +223,7 @@ class Establecimiento(models.Model):
 			verificacion.establecimiento = self
 			verificacion.save()
 		return verificacion
+
 
 	def verificado(self):
 		return self.get_verificacion_datos().completo()

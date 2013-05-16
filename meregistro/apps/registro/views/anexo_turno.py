@@ -14,6 +14,8 @@ from apps.registro.models.AnexoTurno import AnexoTurno
 from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.forms.AnexoTurnoForm import AnexoTurnoForm
 from apps.registro.forms.AnexoTurnoFormFilters import AnexoTurnoFormFilters
+from apps.backend.models import ConfiguracionSolapasAnexo
+from apps.registro.forms.VerificacionDatosAnexoForm import VerificacionDatosAnexoForm
 
 ITEMS_PER_PAGE = 50
 
@@ -70,6 +72,7 @@ def index(request, anexo_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+ 		    
     return my_render(request, 'registro/anexo/turnos/index.html', {
         'anexo': anexo,
         'form_filters': form_filter,
@@ -80,7 +83,15 @@ def index(request, anexo_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': anexo.get_verificacion_datos().turnos
+        'verificado': anexo.get_verificacion_datos().turnos,
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'actual_page': 'turnos',
+        'form_verificacion': VerificacionDatosAnexoForm(
+			dato_verificacion='turnos', 
+			unidad_educativa_id=anexo.id, 
+			return_url='anexoTurnosIndex', 
+			verificado=anexo.get_verificacion_datos().turnos),
     })
 
 

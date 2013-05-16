@@ -1,6 +1,11 @@
 {% extends "base_registro.html" %}
-
 {% block title %}Completar Datos de Sede{% endblock %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}
+{% css_classes "tabs-n-grid" %}
+{% endblock %}
 
 {% block content %}
 <h2>Completar Datos de Sede - Domicilios</h2>
@@ -8,7 +13,13 @@
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% if not establecimiento.get_verificacion_datos.completo %}
+<div class="message warning">
+	<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+</div>
+{% endif %}
+{% include "registro/establecimiento/completar_datos_nav.html" %}
+<div class="grid-wrapper">
 {% if objects %}
 {% include "counter.html" %}
 <table class="hor-zebra">
@@ -45,8 +56,9 @@
     <p>No se encontraron domicilios.</p>
 </div>
 {% endif %}
+</div>
 
-
+{% include "registro/establecimiento/form_verificacion_datos.html" %}
 
 <ul class="actions">
 {% if 'reg_establecimiento_completar' in credenciales %}
@@ -57,28 +69,8 @@
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
 {% endif %}
-    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
-    <li class="datos-verificados">
-        <label for="id_verificado">Datos Verificados:</label>
-        <input type="checkbox" id ="id_verificado" {% if verificado %}checked="checked"{% endif %}/>
-    </li>
-    {% endif %}
 </ul>
 
 <hr />
 
-
-{% if 'reg_establecimiento_verificar_datos' in credenciales %}
-<script type="text/javascript">
-
-var checkbox = $("#id_verificado");
-
-$(document).ready(function() {
-    checkbox.click(function(){
-        establecimientoVerificarDato({{establecimiento.id}}, 'domicilios', checkbox.is(':checked'));
-    });
-});
-
-</script>
-{% endif %}
 {% endblock %}

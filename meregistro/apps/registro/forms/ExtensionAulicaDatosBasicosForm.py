@@ -82,4 +82,11 @@ class ExtensionAulicaDatosBasicosForm(forms.ModelForm):
                 cleaned_data['cue'] = str(codigo_jurisdiccion) + str(cue) + str(codigo_tipo_unidad_educativa)
         except KeyError:
             pass
+
+        try:
+            anio_creacion = int(cleaned_data['anio_creacion'])
+        except ValueError:
+            anio_creacion = None
+        cleaned_data['anio_creacion'] = anio_creacion
+        
         return cleaned_data

@@ -1,0 +1,63 @@
+{% extends "base_printable.html" %}
+
+{% block title %}Datos de la Extensión Áulica{% endblock %}
+
+{% block content %}
+<h2>Datos de la Extensión Áulica</h2>
+
+<div class="datos-lectura" id="datosEstablecimiento">
+    <p><strong>CUE:</strong> {{ extension_aulica.cue }}</p>
+    <p><strong>Nombre:</strong> {{ extension_aulica.nombre }}</p>
+    <p><strong>Dependencia Funcional:</strong> {{ extension_aulica.establecimiento.dependencia_funcional }}</p>
+    <p><strong>Tipo de Normativa:</strong> {{ extension_aulica.establecimiento.tipo_normativa }}</p>
+    {% if extension_aulica.norma_creacion %}<p><strong>Norma de Creación:</strong> {{ extension_aulica.norma_creacion }}</p>{% endif %}
+    {% if extension_aulica.observaciones %}<p><strong>Observaciones:</strong> {{ extension_aulica.observaciones }}</p>{% endif %}
+    {% if extension_aulica.anio_creacion %}<p><strong>Año de Creación:</strong> {{ extension_aulica.anio_creacion }}</p>{% endif %}
+    {% if extension_aulica.telefono %}<p><strong>Teléfono:</strong> {{ extension_aulica.telefono }}</p>{% endif %}
+    {% if extension_aulica.email %}<p><strong>Email:</strong> {{ extension_aulica.email }}</p>{% endif %}
+    {% if extension_aulica.sitio_web %}<p><strong>Sitio Web:</strong> {{ extension_aulica.sitio_web }}</p>{% endif %}
+  
+    {% if domicilios %}
+    <ul>
+        <h4>Domicilios:</h4>
+    {% for domicilio in domicilios %}
+        <li>{{ domicilio }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    {% if turnos %}
+    <ul>
+        <h4>Turnos:</h4>
+    {% for turno in turnos %}
+        <li>{{ turno }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    {% if funciones %}
+    <ul>
+        <h4>Funciones:</h4>
+    {% for funcion in funciones %}
+        <li>{{ funcion }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    {% if alcances %}
+    <ul>
+        <h4>Alcance:</h4>
+    {% for alcance in alcances %}
+        <li>{{ alcance }}</li>
+    {% endfor %}
+    </ul>
+    <hr />
+    {% endif %}
+    <p><strong>Estado Actual:</strong> {{ extension_aulica.estado }}</p>
+
+    
+</div>
+
+<hr />
+<input id="print-button" type="button" value="Imprimir" onclick="window.print();" />
+{% endblock %}

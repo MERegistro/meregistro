@@ -12,6 +12,8 @@ from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoMatricula import AnexoMatricula
 from apps.registro.forms.AnexoMatriculaForm import AnexoMatriculaForm
 from apps.registro.forms.AnexoMatriculaFormFilters import AnexoMatriculaFormFilters
+from apps.backend.models import ConfiguracionSolapasAnexo
+from apps.registro.forms.VerificacionDatosAnexoForm import VerificacionDatosAnexoForm
 
 ITEMS_PER_PAGE = 50
 
@@ -71,6 +73,7 @@ def index(request, anexo_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
+		
     return my_render(request, 'registro/anexo/matricula/index.html', {
         'anexo': anexo,
         'form_filters': form_filter,
@@ -81,7 +84,15 @@ def index(request, anexo_id):
         'pages_range': range(1, paginator.num_pages + 1),
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
-        'verificado': anexo.get_verificacion_datos().matricula
+        'verificado': anexo.get_verificacion_datos().matricula,
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'actual_page': 'matricula',
+        'form_verificacion': VerificacionDatosAnexoForm(
+			dato_verificacion='matricula', 
+			unidad_educativa_id=anexo.id, 
+			return_url='anexoMatriculaIndex', 
+			verificado=anexo.get_verificacion_datos().matricula),
     })
 
 

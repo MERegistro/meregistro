@@ -271,8 +271,9 @@ def completar_datos_basicos(request, anexo_id):
         'anexo': anexo,
         'codigo_tipo_unidad_educativa': parts['codigo_tipo_unidad_educativa'],
         'page_title': 'Datos básicos',
-        'current_page': 'datos_basicos',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 @login_required
@@ -305,13 +306,15 @@ def completar_contacto(request, anexo_id):
     else:
         form = AnexoContactoForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().contacto
+    
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_contacto.html',
         'anexo': anexo,
         'page_title': 'Contacto',
-        'current_page': 'contacto',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
+        'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -338,13 +341,15 @@ def completar_alcances(request, anexo_id):
     else:
         form = AnexoAlcancesForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().alcances
+    
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_alcances.html',
         'anexo': anexo,
         'page_title': 'Alcance',
-        'current_page': 'alcances',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
+        'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -371,13 +376,15 @@ def completar_funciones(request, anexo_id):
     else:
         form = AnexoFuncionesForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().funciones
+ 
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_funciones.html',
         'anexo': anexo,
         'page_title': 'Funciones',
-        'current_page': 'funciones',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
+        'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -413,6 +420,7 @@ def completar_informacion_edilicia(request, anexo_id):
     es_dominio_compartido_id = TipoDominio.objects.get(descripcion='Compartido').id
     comparte_otro_nivel_id = TipoCompartido.objects.get(descripcion=TipoCompartido.TIPO_OTRA_INSTITUCION).id
     form.initial['verificado'] = anexo.get_verificacion_datos().info_edilicia
+    
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_informacion_edilicia.html',
@@ -420,8 +428,9 @@ def completar_informacion_edilicia(request, anexo_id):
         'es_dominio_compartido_id': es_dominio_compartido_id,
         'comparte_otro_nivel_id': comparte_otro_nivel_id,
         'page_title': 'Información edilicia',
-        'current_page': 'informacion_edilicia',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
+        'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -453,13 +462,15 @@ def completar_conexion_internet(request, anexo_id):
     else:
         form = AnexoConexionInternetForm(instance=conexion)
     form.initial['verificado'] = anexo.get_verificacion_datos().conectividad
+
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_conexion_internet.html',
         'anexo': anexo,
         'page_title': 'Conectividad',
-        'current_page': 'conexion_internet',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance()
+        'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 
@@ -502,3 +513,16 @@ def __registrar_process(request, form, anexo):
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     return False
 
+def detalle(request, anexo_id):
+    try:
+        anexo = Anexo.objects.get(pk=anexo_id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    except Anexo.DoesNotExist:
+        raise Exception('El anexo no pertenece a su ámbito.')
+
+    return my_render(request, 'registro/anexo/datos_anexo.html', {
+        'anexo': anexo,
+        'funciones': anexo.funciones.all(),
+        'autoridades': anexo.autoridades.all(),
+        'alcances': anexo.alcances.all(),
+        'domicilios': anexo.anexo_domicilio.all(),
+    })

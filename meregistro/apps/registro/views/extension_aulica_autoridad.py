@@ -12,6 +12,8 @@ from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.ExtensionAulicaAutoridad import ExtensionAulicaAutoridad
 from apps.registro.forms.ExtensionAulicaAutoridadForm import ExtensionAulicaAutoridadForm
 from apps.registro.forms.ExtensionAulicaAutoridadFormFilters import ExtensionAulicaAutoridadFormFilters
+from apps.backend.models import ConfiguracionSolapasExtensionAulica
+from apps.registro.forms.VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm
 
 ITEMS_PER_PAGE = 50
 
@@ -78,7 +80,15 @@ def index(request, extension_aulica_id):
         'prev_page': page_number - 1,
         'extension_aulica': extension_aulica,
         'alta_habilitada': alta_habilitada,
-        'verificado': extension_aulica.get_verificacion_datos().autoridades
+        'verificado': extension_aulica.get_verificacion_datos().autoridades,
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'actual_page': 'autoridades',
+        'form_verificacion': VerificacionDatosExtensionAulicaForm(
+			dato_verificacion='autoridades', 
+			unidad_educativa_id=extension_aulica.id, 
+			return_url='extensionAulicaAutoridadesIndex', 
+			verificado=extension_aulica.get_verificacion_datos().autoridades),
     })
 
 
