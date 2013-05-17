@@ -79,9 +79,6 @@
 				{% if 'tit_titulo_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.titulo.index %}"><span>Títulos</span></a></li>
 				{% endif %}
-				{% if 'tit_titulo_nacional_consulta' in credenciales %}
-				<li><a href="{% url apps.titulos.views.titulo_nacional.index %}"><span>Títulos Nacionales</span></a></li>
-				{% endif %}
 				{% if 'tit_nor_jur_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
 				{% endif %}
