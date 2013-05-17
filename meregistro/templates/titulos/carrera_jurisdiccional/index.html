@@ -50,7 +50,6 @@
 
     <tr>
       <th>Carrera</th>
-      <th>Normativas</th>
       <th>Cohortes Solicitadas</th>
       <th class="th-estados">Estado</th>
       <th class="actions">Acciones</th>
@@ -60,10 +59,6 @@
     {% for carrera_jurisdiccional in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 	<td>{{ carrera_jurisdiccional.carrera }}</td>
-	<td>{% for n in carrera_jurisdiccional.normativas.all %}
-        {{ n.numero_anio }} - {{ n.otorgada_por }}<br />
-      {% endfor %}
-  </td>
 	<td>{% for d in carrera_jurisdiccional.datos_cohorte.all %}
         {{ d.primera_cohorte_solicitada }} - {{ d.ultima_cohorte_solicitada }}<br />
       {% endfor %}
