@@ -188,10 +188,10 @@ def titulos(request, carrera_id):
 		post_ids = request.POST.getlist('titulos')
 		
 		"Borrar los que se des-chequean, pero sólo si la carrera no es jurisdiccional"
-		if not carrera.carrera_jurisdiccional():
-			for titulo_id in current_titulos_ids:
-				if str(titulo_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
-					carrera.titulos_asignados.remove(str(titulo_id))
+		#if not carrera.carrera_jurisdiccional():
+		for titulo_id in current_titulos_ids:
+			if str(titulo_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
+				carrera.titulos_asignados.remove(str(titulo_id))
 		
 		"Vuelvo a calcular"
 		current_titulos_ids = __flat_list(carrera.titulos_asignados.all().values_list("id"))
