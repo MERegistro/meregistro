@@ -88,14 +88,15 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     #'django.contrib.messages',
+    'custom_tags_filters',
     'apps.registro',
     'apps.seguridad',
     'apps.titulos',
-    'custom_tags_filters',
     'apps.reportes',
     'apps.sistema',
     'apps.consulta_validez_tmp',
     'apps.oferta_nacional',
+    'apps.validez_nacional',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
