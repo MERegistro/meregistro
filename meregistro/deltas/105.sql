@@ -34,8 +34,8 @@ CREATE TABLE validez_nacional_solicitud
   jurisdiccion_id integer NOT NULL,
   carrera_id integer NOT NULL,
   titulo_nacional_id integer NOT NULL,
-  primera_cohorte integer NOT NULL,
-  ultima_cohorte integer NOT NULL,
+  primera_cohorte integer,
+  ultima_cohorte integer,
   dictamen_cofev character varying(200),
   normativas_nacionales character varying(99),
   estado_id integer NOT NULL,
@@ -166,6 +166,44 @@ CREATE INDEX validez_nacional_validez_nacional_cue_like
 -- DROP INDEX validez_nacional_validez_nacional_solicitud_id;
 CREATE INDEX validez_nacional_validez_nacional_solicitud_id
   ON validez_nacional_validez_nacional
+  USING btree
+  (solicitud_id);
+
+-------------------------------------
+
+-- Table: validez_nacional_solicitud_estados
+
+-- DROP TABLE validez_nacional_solicitud_estados;
+
+CREATE TABLE validez_nacional_solicitud_estados
+(
+  id serial NOT NULL,
+  solicitud_id integer NOT NULL,
+  estado_id integer NOT NULL,
+  fecha date NOT NULL,
+  CONSTRAINT validez_nacional_solicitud_estados_pkey PRIMARY KEY (id),
+  CONSTRAINT validez_nacional_solicitud_estados_estado_id_fkey FOREIGN KEY (estado_id)
+      REFERENCES validez_nacional_estado_solicitud (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
+  CONSTRAINT validez_nacional_solicitud_estados_solicitud_id_fkey FOREIGN KEY (solicitud_id)
+      REFERENCES validez_nacional_solicitud (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED
+)
+WITH (
+  OIDS=FALSE
+);
+
+-- Index: validez_nacional_solicitud_estados_estado_id
+-- DROP INDEX validez_nacional_solicitud_estados_estado_id;
+CREATE INDEX validez_nacional_solicitud_estados_estado_id
+  ON validez_nacional_solicitud_estados
+  USING btree
+  (estado_id);
+
+-- Index: validez_nacional_solicitud_estados_solicitud_id
+-- DROP INDEX validez_nacional_solicitud_estados_solicitud_id;
+CREATE INDEX validez_nacional_solicitud_estados_solicitud_id
+  ON validez_nacional_solicitud_estados
   USING btree
   (solicitud_id);
 
