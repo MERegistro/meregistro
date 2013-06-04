@@ -240,6 +240,22 @@ div#carreraJurisdiccionalDatosNav ul li a span {
 	padding: 5px 14px;
 }
 /*
+*=solicitudDatosNav
+*/
+div#solicitudDatosNav {
+	margin: 30px 0 0 11px;
+}
+div#solicitudDatosNav ul li {
+	border-bottom: 1px #fff solid;
+}
+div#solicitudDatosNav ul li.active {
+	border-bottom: 1px #D6DEDE solid;
+}
+div#solicitudDatosNav ul li a span {
+	padding: 5px 14px;
+}
+
+/*
 *=FOOTER
 */
 div#footer {

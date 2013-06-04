@@ -5,7 +5,8 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import TituloNacional, EstadoTituloNacional
-from apps.validez_nacional.forms import SolicitudFormFilters
+from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm
+from apps.validez_nacional.models import EstadoSolicitud
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
@@ -66,85 +67,277 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('tit_titulo_nacional_alta')
+@credential_required('validez_nacional_solicitud')
 def create(request):
-	"""
-	Alta de título nacional.
-	"""
+	try:
+		jurisdiccion_id = jurisdiccion_id=request.get_perfil().jurisdiccion().id
+	except AttributeError:
+		jurisdiccion_id = None
 	if request.method == 'POST':
-		form = TituloNacionalForm(request.POST)
+		form = SolicitudDatosBasicosForm(request.POST, jurisdiccion_id=jurisdiccion_id)
 		if form.is_valid():
-			titulo_nacional = form.save(commit=False)
-			titulo_nacional.estado = EstadoTituloNacional.objects.get(nombre=EstadoTituloNacional.VIGENTE)
-			titulo_nacional.save()
-			form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
-			titulo_nacional.registrar_estado()
+			solicitud = form.save(commit=False)
+			solicitud.estado = EstadoSolicitud.objects.get(nombre=EstadoSolicitud.PENDIENTE)
+			solicitud.jurisdiccion = request.get_perfil().jurisdiccion()
+			solicitud.save()
+			
+			solicitud.registrar_estado()
 
-			#MailHelper.notify_by_email(MailHelper.TITULO_CREATE, titulo)
 			request.set_flash('success', 'Datos guardados correctamente.')
 
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('tituloNacionalEdit', args=[titulo_nacional.id]))
+			return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		form = TituloNacionalForm()
-
-	form.fields['estado'].queryset = EstadoTituloNacional.objects.filter(nombre=EstadoTituloNacional.VIGENTE)
-	return my_render(request, 'titulos/titulo_nacional/new.html', {
+		form = SolicitudDatosBasicosForm(jurisdiccion_id=jurisdiccion_id)
+	# Agrego el filtro por jurisdicción
+	return my_render(request, 'validez_nacional/solicitud/new.html', {
 		'form': form,
+		'form_template': 'validez_nacional/solicitud/form_datos_basicos.html',
 		'is_new': True,
+		'page_title': 'Título',
+		'current_page': 'datos_basicos',
 	})
 
 
 @login_required
-@credential_required('tit_titulo_nacional_modificar')
-def edit(request, titulo_nacional_id):
+#@credential_required('tit_carrera_jurisdiccional_modificar')
+# Editar datos básicos
+def edit(request, carrera_jurisdiccional_id):
 	"""
-	Edición de los datos de un título nacional.
+	Edición de los datos de un título jurisdiccional.
 	"""
-	titulo_nacional = TituloNacional.objects.get(pk=titulo_nacional_id)
-	estado_actual_id = titulo_nacional.estado.id
+	carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	titulo_anterior_id = int(carrera_jurisdiccional.carrera_id)
 
 	if request.method == 'POST':
-		form = TituloNacionalForm(request.POST, instance=titulo_nacional, initial={'estado': estado_actual_id})
+		form = CarreraJurisdiccionalDatosBasicosForm(request.POST, instance=carrera_jurisdiccional, jurisdiccion_id=request.get_perfil().jurisdiccion().id)
 		if form.is_valid():
-			titulo_nacional = form.save(commit=False)
 
-			"Cambiar el estado?"
-			if int(request.POST['estado']) is not estado_actual_id:
-				titulo_nacional.estado = EstadoTituloNacional.objects.get(pk=request.POST['estado'])
-				titulo_nacional.save()
-				titulo_nacional.registrar_estado()
-			else:
-				# Guardar directamente
-				titulo_nacional.save()
+			# Cambió el título? Borrar las orientaciones
+			cambio_titulo = titulo_anterior_id is not int(request.POST['carrera'])
+			if cambio_titulo:
+				carrera_jurisdiccional.eliminar_orientaciones()
 
-			form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
+			carrera_jurisdiccional = form.save()
 
-			#MailHelper.notify_by_email(MailHelper.TITULO_UPDATE, titulo)
 			request.set_flash('success', 'Datos actualizados correctamente.')
 		else:
 			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
 	else:
-		form = TituloNacionalForm(instance=titulo_nacional, initial={'estado': estado_actual_id})
+		form = CarreraJurisdiccionalDatosBasicosForm(instance=carrera_jurisdiccional, jurisdiccion_id=request.get_perfil().jurisdiccion().id)
 
-	return my_render(request, 'titulos/titulo_nacional/edit.html', {
+	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
 		'form': form,
+		'carrera_jurisdiccional': carrera_jurisdiccional,
+		'form_template': 'titulos/carrera_jurisdiccional/form_datos_basicos.html',
 		'is_new': False,
+		'page_title': 'Datos básicos',
+		'current_page': 'datos_basicos',
 	})
 
 
+@login_required
+#@credential_required('tit_carrera_jurisdiccional_alta')
+#@credential_required('tit_carrera_jurisdiccional_modificar')
+def editar_orientaciones(request, carrera_jurisdiccional_id):
+	"""
+	Edición de orientaciones del título jurisdiccional.
+	"""
+	try:
+		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	except:
+		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
+		return my_render(request, 'titulos/carrera_jurisdiccional/new.html', {
+		'carrera_jurisdiccional': None,
+		'form_template': 'titulos/carrera_jurisdiccional/form_orientaciones.html',
+		'page_title': 'Orientaciones',
+		'current_page': 'orientaciones',
+	})
+
+	if request.method == 'POST':
+		form = CarreraJurisdiccionalOrientacionesForm(request.POST, instance=carrera_jurisdiccional)
+		if form.is_valid():
+			orientaciones = form.save()
+
+			request.set_flash('success', 'Datos guardados correctamente.')
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('carreraJurisdiccionalOrientacionesEdit', args=[carrera_jurisdiccional.id]))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	else:
+		form = CarreraJurisdiccionalOrientacionesForm(instance=carrera_jurisdiccional)
+
+	form.fields['orientaciones'].queryset = form.fields['orientaciones'].queryset.filter(titulo=carrera_jurisdiccional.titulo, estado__nombre=EstadoTituloOrientacion.VIGENTE)
+
+	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
+		'form': form,
+		'carrera_jurisdiccional': carrera_jurisdiccional,
+		'form_template': 'titulos/carrera_jurisdiccional/form_orientaciones.html',
+		'is_new': False,
+		'page_title': 'Orientaciones',
+		'current_page': 'orientaciones',
+	})
 
 
 @login_required
-@credential_required('tit_titulo_nacional_baja')
-def delete(request, titulo_nacional_id):
-	titulo_nacional = TituloNacional.objects.get(pk=titulo_nacional_id)
+#@credential_required('tit_carrera_jurisdiccional_alta')
+#@credential_required('tit_carrera_jurisdiccional_modificar')
+def editar_normativas(request, carrera_jurisdiccional_id):
+	"""
+	Edición de normativas del título jurisdiccional.
+	"""
+	try:
+		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	except:
+		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
+		return my_render(request, 'titulos/carrera_jurisdiccional/new.html', {
+		'carrera_jurisdiccional': None,
+		'form_template': 'titulos/carrera_jurisdiccional/form_normativas.html',
+		'page_title': 'Normativas',
+		'current_page': 'normativas',
+	})
 
-	if titulo_nacional.is_deletable():
-		titulo_nacional.delete()
-		request.set_flash('success', 'Registro eliminado correctamente.')
+	if request.method == 'POST':
+		form = CarreraJurisdiccionalNormativasForm(request.POST, instance=carrera_jurisdiccional)
+		if form.is_valid():
+			normativas = form.save()
+
+			request.set_flash('success', 'Datos guardados correctamente.')
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('carreraJurisdiccionalNormativasEdit', args=[carrera_jurisdiccional.id]))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		request.set_flash('warning', 'El registro no puede ser eliminado.')
-	return HttpResponseRedirect(reverse('tituloNacional'))
+		form = CarreraJurisdiccionalNormativasForm(instance=carrera_jurisdiccional)
+
+	form.fields['normativas'].queryset = form.fields['normativas'].queryset.filter(jurisdiccion=request.get_perfil().jurisdiccion, estado__nombre=EstadoNormativaJurisdiccional.VIGENTE)
+
+	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
+		'form': form,
+		'carrera_jurisdiccional': carrera_jurisdiccional,
+		'form_template': 'titulos/carrera_jurisdiccional/form_normativas.html',
+		'is_new': False,
+		'page_title': 'Normativas',
+		'current_page': 'normativas',
+	})
+
+
+@login_required
+#@credential_required('tit_carrera_jurisdiccional_alta')
+#@credential_required('tit_carrera_jurisdiccional_modificar')
+def editar_cohortes(request, carrera_jurisdiccional_id):
+	"""
+	Edición de datos de cohortes del título jurisdiccional.
+	"""
+	try:
+		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	except:
+		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
+		return my_render(request, 'titulos/carrera_jurisdiccional/new.html', {
+		'carrera_jurisdiccional': None,
+		'form_template': 'titulos/carrera_jurisdiccional/form_cohortes.html',
+		'page_title': 'Datos de cohortes',
+		'current_page': 'cohortes',
+	})
+
+	try:
+		cohorte = CarreraJurisdiccionalCohorte.objects.get(carrera_jurisdiccional=carrera_jurisdiccional)
+	except:
+		cohorte = CarreraJurisdiccionalCohorte(carrera_jurisdiccional=carrera_jurisdiccional)
+
+	if request.method == 'POST':
+		form = CarreraJurisdiccionalSolicitarCohortesForm(request.POST, instance=cohorte)
+		if form.is_valid():
+			cohorte = form.save()
+			request.set_flash('success', 'Datos guardados correctamente.')
+			# redirigir a edit
+			return HttpResponseRedirect(reverse('carreraJurisdiccionalCohortesEdit', args=[carrera_jurisdiccional.id]))
+		else:
+			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
+	else:
+		form = CarreraJurisdiccionalSolicitarCohortesForm(instance=cohorte)
+		
+	try:
+		if carrera_jurisdiccional.datos_cohorte.get().id is None:
+			is_new = True
+		else: 
+			is_new = False
+	except CarreraJurisdiccionalCohorte.DoesNotExist:
+		is_new = True
+		
+		
+	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
+		'form': form,
+		'carrera_jurisdiccional': carrera_jurisdiccional,
+		'form_template': 'titulos/carrera_jurisdiccional/form_cohortes.html',
+		'is_new': is_new,
+		'page_title': 'Datos de cohortes',
+		'current_page': 'cohortes',
+	})
+
+
+@login_required
+#@credential_required('tit_carrera_jurisdiccional_consulta')
+def orientaciones_por_titulo(request, carrera_jurisdiccional_id):
+	"Búsqueda de orientaciones por título jurisdiccional"
+	carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	q = TituloOrientacion.objects.filter(titulo__id=carrera_jurisdiccional.titulo_id)
+	paginator = Paginator(q, ITEMS_PER_PAGE)
+
+	try:
+		page_number = int(request.GET['page'])
+	except (KeyError, ValueError):
+		page_number = 1
+	# chequear los límites
+	if page_number < 1:
+		page_number = 1
+	elif page_number > paginator.num_pages:
+		page_number = paginator.num_pages
+
+	page = paginator.page(page_number)
+	objects = page.object_list
+	return my_render(request, 'titulos/carrera_jurisdiccional/orientaciones_por_titulo.html', {
+		#'form_filters': form_filter,
+		'carrera_jurisdiccional': carrera_jurisdiccional,
+		'objects': objects,
+		'paginator': paginator,
+		'page': page,
+		'page_number': page_number,
+		'pages_range': range(1, paginator.num_pages + 1),
+		'next_page': page_number + 1,
+		'prev_page': page_number - 1
+	})
+
+
+@login_required
+#@credential_required('tit_carrera_jurisdiccional_eliminar')
+def eliminar(request, carrera_jurisdiccional_id):
+	"""
+	Baja de un título
+	--- mientras no sea referido por un título jurisdiccional ---
+	"""
+	carrera = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	request.set_flash('warning', 'Está seguro de eliminar la carrera jurisdiccional? Esta operación no puede deshacerse.')
+	if request.method == 'POST':
+		if int(request.POST['carrera_jurisdiccional_id']) is not int(carrera_jurisdiccional_id):
+			raise Exception('Error en la consulta!')
+		carrera.delete()
+		request.set_flash('success', 'La carrera jurisdiccional fue dada de baja correctamente.')
+		""" Redirecciono para evitar el reenvío del form """
+		return HttpResponseRedirect(reverse('carreraJurisdiccional'))
+	return my_render(request, 'titulos/carrera_jurisdiccional/eliminar.html', {
+		'carrera_jurisdiccional_id': carrera.id,
+	})
+
+
+@login_required
+#@credential_required('revisar_jurisdiccion')
+def revisar_jurisdiccion(request, oid):
+	o = CarreraJurisdiccional.objects.get(pk=oid)
+	o.revisado_jurisdiccion = True
+	o.estado = EstadoCarreraJurisdiccional.objects.get(nombre=EstadoCarreraJurisdiccional.CONTROLADO)
+	o.registrar_estado()
+	request.set_flash('success', 'Registro revisado.')
+	return HttpResponseRedirect(reverse('carreraJurisdiccional'))
