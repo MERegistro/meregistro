@@ -6,7 +6,7 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import TituloNacional, EstadoTituloNacional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm
-from apps.validez_nacional.models import EstadoSolicitud
+from apps.validez_nacional.models import EstadoSolicitud, Solicitud
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
@@ -30,8 +30,9 @@ def index(request):
 			return reporte_solicitudes(request, q)
 	except KeyError:
 		pass
+		
 	if request.get_perfil().jurisdiccion():
-		q.filter(jurisdiccion=request.get_perfil().jurisdiccion())
+		q = q.filter(jurisdiccion__id=request.get_perfil().jurisdiccion().id)
 	paginator = Paginator(q, ITEMS_PER_PAGE)
 
 	try:
@@ -102,38 +103,35 @@ def create(request):
 
 
 @login_required
-#@credential_required('tit_carrera_jurisdiccional_modificar')
+@credential_required('validez_nacional_solicitud')
 # Editar datos básicos
-def edit(request, carrera_jurisdiccional_id):
+def edit(request, solicitud_id):
 	"""
 	Edición de los datos de un título jurisdiccional.
 	"""
-	carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
-	titulo_anterior_id = int(carrera_jurisdiccional.carrera_id)
-
+	solicitud = Solicitud.objects.get(pk=solicitud_id)
+	estado_id = solicitud.estado_id
+		
 	if request.method == 'POST':
-		form = CarreraJurisdiccionalDatosBasicosForm(request.POST, instance=carrera_jurisdiccional, jurisdiccion_id=request.get_perfil().jurisdiccion().id)
+		form = SolicitudDatosBasicosForm(request.POST, instance=solicitud, jurisdiccion_id=solicitud.jurisdiccion_id)
 		if form.is_valid():
-
-			# Cambió el título? Borrar las orientaciones
-			cambio_titulo = titulo_anterior_id is not int(request.POST['carrera'])
-			if cambio_titulo:
-				carrera_jurisdiccional.eliminar_orientaciones()
-
-			carrera_jurisdiccional = form.save()
+			sol = form.save(commit=False)
+			sol.id = solicitud.id
+			sol.jurisdiccion_id = solicitud.jurisdiccion_id
+			sol.estado_id = solicitud.estado_id
+			form.save()
 
 			request.set_flash('success', 'Datos actualizados correctamente.')
 		else:
 			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
 	else:
-		form = CarreraJurisdiccionalDatosBasicosForm(instance=carrera_jurisdiccional, jurisdiccion_id=request.get_perfil().jurisdiccion().id)
-
-	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
+		form = SolicitudDatosBasicosForm(instance=solicitud, jurisdiccion_id=solicitud.jurisdiccion_id)
+	return my_render(request, 'validez_nacional/solicitud/edit.html', {
 		'form': form,
-		'carrera_jurisdiccional': carrera_jurisdiccional,
-		'form_template': 'titulos/carrera_jurisdiccional/form_datos_basicos.html',
+		'solicitud': solicitud,
+		'form_template': 'validez_nacional/solicitud/form_datos_basicos.html',
 		'is_new': False,
-		'page_title': 'Datos básicos',
+		'page_title': 'Título',
 		'current_page': 'datos_basicos',
 	})
 

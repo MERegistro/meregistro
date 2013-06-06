@@ -1,15 +1,15 @@
-{% extends "base_validez_nacional.html" %}
+{% extends "base_titulos.html" %}
 
-{% block title %}Nueva S{% endblock %}
+{% block title %}Editar Solicitud de Validez Nacional{% endblock %}
 
 {% block content %}
-<h2>Actualización de Carrera jurisdiccional</h2>
+<h2>Editar Solicitud de Validez Nacional</h2>
 <h3>{{ page_title }}</h3>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
 
-{% include "titulos/carrera_jurisdiccional/completar_datos_nav.html" %}
+{% include "validez_nacional/solicitud/completar_datos_nav.html" %}
 
 {% if form_template %}
 {% include form_template %}

@@ -23,7 +23,7 @@ class Solicitud(models.Model):
         app_label = 'validez_nacional'
 
     def __unicode__(self):
-        return self.titulo.nombre
+        return self.titulo_nacional.nombre
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
