@@ -153,15 +153,13 @@ WITH (
 CREATE INDEX validez_nacional_validez_nacional_cue
   ON validez_nacional_validez_nacional
   USING btree
-  (cue COLLATE pg_catalog."default");
-
+  (cue);
 -- Index: validez_nacional_validez_nacional_cue_like
 -- DROP INDEX validez_nacional_validez_nacional_cue_like;
 CREATE INDEX validez_nacional_validez_nacional_cue_like
   ON validez_nacional_validez_nacional
   USING btree
-  (cue COLLATE pg_catalog."default" varchar_pattern_ops);
-
+  (cue varchar_pattern_ops);
 -- Index: validez_nacional_validez_nacional_solicitud_id
 -- DROP INDEX validez_nacional_validez_nacional_solicitud_id;
 CREATE INDEX validez_nacional_validez_nacional_solicitud_id
