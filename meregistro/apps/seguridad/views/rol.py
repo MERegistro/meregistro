@@ -83,7 +83,7 @@ def edit(request, rol_id):
     """
     Edición de los datos de un rol.
     """
-    rol = Rol.objects.get(pk=rol_id)
+    rol = Rol.objects.get(pk=rol_id)	
     if request.method == 'POST':
         form = RolForm(request.POST, instance=rol)
         if form.is_valid():

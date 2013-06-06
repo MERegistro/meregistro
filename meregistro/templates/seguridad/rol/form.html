@@ -29,6 +29,12 @@
 			{{ form.roles_asignables }}
 			<hr />
 		</div>
+		<div class="form-checkbox-list">
+			{{ form.tipos_ambito_asignable.errors }}
+			<label for="id_roles_asignables">Tipso de Ámbito Asignables:</label>
+			{{ form.tipos_ambito_asignable }}
+			<hr />
+		</div>
 		{% endif %}
 		<div class="form-submit">
 		{% if rol %}
