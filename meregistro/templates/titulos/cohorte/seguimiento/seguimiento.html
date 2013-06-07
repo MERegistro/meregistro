@@ -3,7 +3,7 @@
 {% block title %}Seguimiento de Cohorte{% endblock %}
 
 {% block content %}
-<h2>Seguimiento de Cohorte</h2>
+<h2>Seguimiento de Cohorte {{ cohorte_unidad_educativa.cohorte.anio }}</h2>
 
 <ul class="actions">
     {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
@@ -19,7 +19,6 @@
 
 <div class="datos-lectura">
     <p><strong>Carrera:</strong> {{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</p>
-    <p><strong>1er año:</strong> </p>
 	<p><strong>Inscriptos:</strong> {% if cohorte_unidad_educativa.inscriptos != None %}{{ cohorte_unidad_educativa.inscriptos }}{% else %}---{% endif %}</p>
 	<p><strong>Egresados hasta el momento:</strong> {{ cohorte_unidad_educativa.get_total_egresados }}</p>
 </div>
