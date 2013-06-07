@@ -1,11 +1,11 @@
-<div class="form tabbed-form" id="carreraJurisdiccionalNormativasForm">
-	{% if carrera_jurisdiccional %}
+<div class="form tabbed-form" id="solicitudNormativasForm">
+	{% if solicitud %}
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-checkbox-list">
-			{{ form.normativas.errors }}
+			{{ form.normativas_jurisdiccionales.errors }}
 			<hr />
-			{{ form.normativas }}
+			{{ form.normativas_jurisdiccionales }}
 			<hr />
 		</div>
 		<div class="form-submit">

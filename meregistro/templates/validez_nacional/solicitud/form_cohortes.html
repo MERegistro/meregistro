@@ -1,28 +1,23 @@
-<div class="form tabbed-form" id="carreraJurisdiccionalForm">
-	{% if carrera_jurisdiccional %}
+<div class="form tabbed-form" id="solicitudCohortesForm">
+	{% if solicitud %}
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
-			{{ form.cohortes_aprobadas.errors }}
-			<label for="id_cohortes_aprobadas">Cohortes Solicitadas:</label>
-			{{ form.cohortes_aprobadas }}
+			{{ form.cohortes_solicitadas.errors }}
+			<label for="id_cohortes_solicitadas">Cohortes Solicitadas:</label>
+			{{ form.cohortes_solicitadas }}
 		</div>
 		<div class="form-select">
-			{{ form.primera_cohorte_solicitada.errors }}
-			<label for="id_primera_cohorte_solicitada">Primera Cohorte Solicitada:</label>
-			{{ form.primera_cohorte_solicitada }}
+			{{ form.primera_cohorte.errors }}
+			<label for="id_primera_cohorte">Primera Cohorte:</label>
+			{{ form.primera_cohorte }}
 		</div>
-		<div class="form-select">
-			<label for="id_ultima_cohorte_solicitada">Última Cohorte Solicitada:</label>
-			<input type="text" readonly="readonly" value="" name="ultima_cohorte_solicitada" id ="id_ultima_cohorte_solicitada" />
-		</div>
-		<div class="form-textarea">
-			{{ form.observaciones.errors }}
-			<label for="id_observaciones">Observaciones:</label>
-			{{ form.observaciones }}
+		<div class="form-text">
+			<label for="id_ultima_cohorte">Última Cohorte:</label>
+			<input type="text" readonly="readonly" value="" name="ultima_cohorte" id ="id_ultima_cohorte" class="readonly" />
 		</div>
 		<div class="form-submit">
-		{% if anexo %}
+		{% if not is_new %}
 			<input type="submit" value="Actualizar" />
 		{% else %}
 			<input type="submit" value="Guardar" />
@@ -38,12 +33,13 @@
 	{% endif %}
 </div>
 <script>
-var dropdown_cantidad = $("select#id_cohortes_aprobadas");
-var dropdown_primera = $("select#id_primera_cohorte_solicitada");
-var txt_ultima = $("input#id_ultima_cohorte_solicitada");
+
+var dropdown_cantidad = $("select#id_cohortes_solicitadas");
+var dropdown_primera = $("select#id_primera_cohorte");
+var txt_ultima = $("input#id_ultima_cohorte");
 
 {% if not is_new %}
-var cantidad_actual = {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }} - {{  carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }} + 1;
+var cantidad_actual = {{ solicitud.ultima_cohorte }} - {{ solicitud.primera_cohorte }} + 1;
 dropdown_cantidad.val(cantidad_actual);
 {% endif %}
 function calcular_ultima_cohorte()

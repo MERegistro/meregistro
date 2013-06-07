@@ -4,8 +4,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import TituloNacional, EstadoTituloNacional
-from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm
+from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
+from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
+	SolicitudCohortesForm
 from apps.validez_nacional.models import EstadoSolicitud, Solicitud
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -137,85 +138,41 @@ def edit(request, solicitud_id):
 
 
 @login_required
-#@credential_required('tit_carrera_jurisdiccional_alta')
-#@credential_required('tit_carrera_jurisdiccional_modificar')
-def editar_orientaciones(request, carrera_jurisdiccional_id):
+@credential_required('validez_nacional_solicitud')
+def editar_normativas(request, solicitud_id):
 	"""
-	Edición de orientaciones del título jurisdiccional.
-	"""
-	try:
-		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
-	except:
-		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
-		return my_render(request, 'titulos/carrera_jurisdiccional/new.html', {
-		'carrera_jurisdiccional': None,
-		'form_template': 'titulos/carrera_jurisdiccional/form_orientaciones.html',
-		'page_title': 'Orientaciones',
-		'current_page': 'orientaciones',
-	})
-
-	if request.method == 'POST':
-		form = CarreraJurisdiccionalOrientacionesForm(request.POST, instance=carrera_jurisdiccional)
-		if form.is_valid():
-			orientaciones = form.save()
-
-			request.set_flash('success', 'Datos guardados correctamente.')
-			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalOrientacionesEdit', args=[carrera_jurisdiccional.id]))
-		else:
-			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
-	else:
-		form = CarreraJurisdiccionalOrientacionesForm(instance=carrera_jurisdiccional)
-
-	form.fields['orientaciones'].queryset = form.fields['orientaciones'].queryset.filter(titulo=carrera_jurisdiccional.titulo, estado__nombre=EstadoTituloOrientacion.VIGENTE)
-
-	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
-		'form': form,
-		'carrera_jurisdiccional': carrera_jurisdiccional,
-		'form_template': 'titulos/carrera_jurisdiccional/form_orientaciones.html',
-		'is_new': False,
-		'page_title': 'Orientaciones',
-		'current_page': 'orientaciones',
-	})
-
-
-@login_required
-#@credential_required('tit_carrera_jurisdiccional_alta')
-#@credential_required('tit_carrera_jurisdiccional_modificar')
-def editar_normativas(request, carrera_jurisdiccional_id):
-	"""
-	Edición de normativas del título jurisdiccional.
+	Edición de normativas
 	"""
 	try:
-		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+		solicitud = Solicitud.objects.get(pk=solicitud_id)
 	except:
 		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
-		return my_render(request, 'titulos/carrera_jurisdiccional/new.html', {
-		'carrera_jurisdiccional': None,
-		'form_template': 'titulos/carrera_jurisdiccional/form_normativas.html',
+		return my_render(request, 'validez_nacional/solicitud/new.html', {
+		'solicitud': None,
+		'form_template': 'validez_nacional/solicitud/form_normativas.html',
 		'page_title': 'Normativas',
 		'current_page': 'normativas',
 	})
 
 	if request.method == 'POST':
-		form = CarreraJurisdiccionalNormativasForm(request.POST, instance=carrera_jurisdiccional)
+		form = SolicitudNormativasForm(request.POST, instance=solicitud)
 		if form.is_valid():
 			normativas = form.save()
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalNormativasEdit', args=[carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('solicitudNormativasEdit', args=[solicitud.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		form = CarreraJurisdiccionalNormativasForm(instance=carrera_jurisdiccional)
+		form = SolicitudNormativasForm(instance=solicitud)
 
-	form.fields['normativas'].queryset = form.fields['normativas'].queryset.filter(jurisdiccion=request.get_perfil().jurisdiccion, estado__nombre=EstadoNormativaJurisdiccional.VIGENTE)
+	form.fields['normativas_jurisdiccionales'].queryset = form.fields['normativas_jurisdiccionales'].queryset.filter(jurisdiccion=request.get_perfil().jurisdiccion)
 
-	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
+	return my_render(request, 'validez_nacional/solicitud/edit.html', {
 		'form': form,
-		'carrera_jurisdiccional': carrera_jurisdiccional,
-		'form_template': 'titulos/carrera_jurisdiccional/form_normativas.html',
+		'solicitud': solicitud,
+		'form_template': 'validez_nacional/solicitud/form_normativas.html',
 		'is_new': False,
 		'page_title': 'Normativas',
 		'current_page': 'normativas',
@@ -223,55 +180,45 @@ def editar_normativas(request, carrera_jurisdiccional_id):
 
 
 @login_required
-#@credential_required('tit_carrera_jurisdiccional_alta')
-#@credential_required('tit_carrera_jurisdiccional_modificar')
-def editar_cohortes(request, carrera_jurisdiccional_id):
+@credential_required('validez_nacional_solicitud')
+def editar_cohortes(request, solicitud_id):
 	"""
-	Edición de datos de cohortes del título jurisdiccional.
+	Edición de datos de cohortes
 	"""
 	try:
-		carrera_jurisdiccional = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+		solicitud = Solicitud.objects.get(pk=solicitud_id)
 	except:
 		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
-		return my_render(request, 'titulos/carrera_jurisdiccional/new.html', {
-		'carrera_jurisdiccional': None,
-		'form_template': 'titulos/carrera_jurisdiccional/form_cohortes.html',
-		'page_title': 'Datos de cohortes',
+		return my_render(request, 'validez_nacional/solicitud/new.html', {
+		'solicitud': None,
+		'is_new': True,
+		'form_template': 'validez_nacional/solicitud/form_cohortes.html',
+		'page_title': 'Cohortes',
 		'current_page': 'cohortes',
 	})
 
-	try:
-		cohorte = CarreraJurisdiccionalCohorte.objects.get(carrera_jurisdiccional=carrera_jurisdiccional)
-	except:
-		cohorte = CarreraJurisdiccionalCohorte(carrera_jurisdiccional=carrera_jurisdiccional)
+	#try:
+	#	cohorte = SolicitudCohorte.objects.get(solicitud=solicitud)
+	#except:
+	#	cohorte = SolicitudCohorte(solicitud=carrera_jurisdiccional)
 
 	if request.method == 'POST':
-		form = CarreraJurisdiccionalSolicitarCohortesForm(request.POST, instance=cohorte)
+		form = SolicitudCohortesForm(request.POST, instance=solicitud)
 		if form.is_valid():
 			cohorte = form.save()
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalCohortesEdit', args=[carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('solicitudCohortesEdit', args=[solicitud.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		form = CarreraJurisdiccionalSolicitarCohortesForm(instance=cohorte)
-		
-	try:
-		if carrera_jurisdiccional.datos_cohorte.get().id is None:
-			is_new = True
-		else: 
-			is_new = False
-	except CarreraJurisdiccionalCohorte.DoesNotExist:
-		is_new = True
-		
-		
-	return my_render(request, 'titulos/carrera_jurisdiccional/edit.html', {
+		form = SolicitudCohortesForm(instance=solicitud)
+	return my_render(request, 'validez_nacional/solicitud/edit.html', {
 		'form': form,
-		'carrera_jurisdiccional': carrera_jurisdiccional,
-		'form_template': 'titulos/carrera_jurisdiccional/form_cohortes.html',
-		'is_new': is_new,
-		'page_title': 'Datos de cohortes',
+		'solicitud': solicitud,
+		'form_template': 'validez_nacional/solicitud/form_cohortes.html',
+		'is_new': solicitud.primera_cohorte is None and solicitud.ultima_cohorte is None,
+		'page_title': 'Cohortes',
 		'current_page': 'cohortes',
 	})
 
