@@ -93,7 +93,7 @@ CREATE INDEX validez_nacional_solicitud_titulo_nacional_id
 
 -- DROP TABLE validez_nacional_solicitud_normativas;
 
-CREATE TABLE validez_nacional_solicitud_normativas
+CREATE TABLE validez_nacional_solicitud_normativas_jurisdiccionales
 (
   id serial NOT NULL,
   solicitud_id integer NOT NULL,
