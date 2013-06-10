@@ -1,0 +1,66 @@
+<div class="form tabbed-form" id="solicitudForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.dictamen_cofev.errors }}
+			<label for="id_dictamen_cofev">Nro. Dictámen Cofev:</label>
+			{{ form.dictamen_cofev }}
+		</div>
+		<div class="form-text">
+			{{ form.normativas_nacionales.errors }}
+			<label for="id_normativas_nacionales">Normativas Nacionales:</label>
+			{{ form.normativas_nacionales }}
+		</div>
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		<div class="form-submit">
+		{% if solicitud %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	
+var dropdown_carrera = $("select#id_carrera");
+var dropdown_titulo = $("select#id_titulo_nacional");
+
+var current_carrera = dropdown_carrera.val();
+
+
+function carrera_change(val){
+	// 	Títulos
+	var url = "/validez_nacional/ajax/get_titulos_por_carrera/" + val;
+	$.getJSON(url, function(data){
+		var options = '';
+		for(var i = 0; i < data.length; i++){
+			options += '<option value="' + data[i]['pk'] + '">' + data[i]['nombre'] + '</option>';
+		}
+		dropdown_titulo.html(options);
+	});
+}
+	
+$(document).ready(function(){
+    dropdown_carrera.change(function(){
+		carrera_change($(this).val());
+	}); // END function
+	if(current_carrera != ''){
+		//dropdown_carrera.change();
+	}
+	{% if solicitud %}
+	/*alert({{ solicitud.carrera_id }});
+		dropdown_carrera.val({{ solicitud.carrera_id }});
+		dropdown_titulo.val({{ solicitud.titulo_nacional_id }});
+	*/
+	{% endif %}
+}); // END document.ready
+
+// Init
+
+</script>

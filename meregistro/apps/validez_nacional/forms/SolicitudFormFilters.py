@@ -6,14 +6,13 @@ from apps.titulos.models import Cohorte
 from django.db.models import Min, Max
 
 primera_cohorte = Solicitud.objects.all().aggregate(Min('primera_cohorte'))['primera_cohorte__min']
-ultima_cohorte = Solicitud.objects.all().aggregate(Max('primera_cohorte'))['primera_cohorte__max']
+ultima_primera_cohorte = Solicitud.objects.all().aggregate(Max('primera_cohorte'))['primera_cohorte__max']
 if primera_cohorte is None:
 	primera_cohorte = Cohorte.PRIMER_ANIO
-if ultima_cohorte is None:
-	ultima_cohorte = Cohorte.ULTIMO_ANIO
-	
-ANIOS_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(primera_cohorte, ultima_cohorte+1)]
+if ultima_primera_cohorte is None:
+	ultima_primera_cohorte = Cohorte.ULTIMO_ANIO
 
+ANIOS_COHORTE_CHOICES = [('', '-------')] + [(i, i) for i in range(primera_cohorte, ultima_primera_cohorte+1)]
 class SolicitudFormFilters(forms.Form):
 
     titulo = forms.CharField(max_length=40, label='Título', required=False)

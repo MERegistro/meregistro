@@ -756,9 +756,9 @@ td.actions-td ul li.details a {
 td.actions-td ul li.one-many a,
 td.actions-td ul li.orientaciones a {
 	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/arrow-branch-bgr-16-ns.png) no-repeat left;
 }
 /* REGISTRAR */
 td.actions-td ul li.registrar a {
@@ -774,9 +774,9 @@ td.actions-td ul li.confirmar-cohorte a {
 /* SEGUIMIENTO COHORTE */
 td.actions-td ul li.seguimiento-cohorte a {
 	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/arrow-branch-bgr-24-ns.png) no-repeat left;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/arrow-branch-bgr-16-ns.png) no-repeat left;
 }
 /* REPORTES */
 ul.reportes-actions {

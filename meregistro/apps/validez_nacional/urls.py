@@ -11,9 +11,11 @@ urlpatterns=patterns('',
     # Normativa jurisdiccional
     url(r'^solicitud/([0-9]+)/editar_normativas$', 'apps.validez_nacional.views.solicitud.editar_normativas', name='solicitudNormativasEdit'),
     url(r'^solicitud/editar_normativas$', 'apps.validez_nacional.views.solicitud.editar_normativas', { 'solicitud_id': None }, name='solicitudNormativasEdit'),
-    #
+    # Cohortes
     url(r'^solicitud/([0-9]+)/editar_cohortes$', 'apps.validez_nacional.views.solicitud.editar_cohortes', name='solicitudCohortesEdit'),
     url(r'^solicitud/editar_cohortes$', 'apps.validez_nacional.views.solicitud.editar_cohortes', { 'solicitud_id': None }, name='solicitudCohortesEdit'),
+    # Control
+    url(r'^solicitud/([0-9]+)/control$', 'apps.validez_nacional.views.solicitud.control', name='solicitudControl'),
      # AJAX
     url(r'^ajax/get_titulos_por_carrera/([0-9]+)', 'apps.validez_nacional.views.ajax.get_titulos_por_carrera', name='ajaxGetTitulosPorCarrera'),
     
