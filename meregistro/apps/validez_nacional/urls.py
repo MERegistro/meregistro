@@ -16,7 +16,9 @@ urlpatterns=patterns('',
     url(r'^solicitud/editar_cohortes$', 'apps.validez_nacional.views.solicitud.editar_cohortes', { 'solicitud_id': None }, name='solicitudCohortesEdit'),
     # Control
     url(r'^solicitud/([0-9]+)/control$', 'apps.validez_nacional.views.solicitud.control', name='solicitudControl'),
-     # AJAX
+    # Asignar establecimientos
+    url(r'^solicitud/([0-9]+)/asignar-establecimientos$', 'apps.validez_nacional.views.solicitud.asignar_establecimientos', name='solicitudAsignarEstablecimientos'),
+    # AJAX
     url(r'^ajax/get_titulos_por_carrera/([0-9]+)', 'apps.validez_nacional.views.ajax.get_titulos_por_carrera', name='ajaxGetTitulosPorCarrera'),
     
 )

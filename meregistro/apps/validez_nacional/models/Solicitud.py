@@ -55,3 +55,22 @@ class Solicitud(models.Model):
 
 	def get_cues(self):
 		return {}
+
+	"""
+	Asocia/elimina los establecimientos desde el formulario masivo
+	XXX: los valores "posts" vienen como strings
+	"""
+	def save_establecimientos(self, establecimientos_procesados_ids, current_establecimientos_ids, establecimientos_seleccionados_ids):
+		
+		from apps.validez_nacional.models import SolicitudEstablecimiento
+		
+		"Borrar los que se des-chequean"
+		for est_id in establecimientos_procesados_ids:
+			if (str(est_id) not in establecimientos_seleccionados_ids) and (est_id in current_establecimientos_ids): # Si no está en los ids de la página, borrarlo
+				SolicitudEstablecimiento.objects.get(solicitud__id=self.id, establecimiento=est_id).delete()
+
+		"Agregar los nuevos"
+		for est_id in establecimientos_seleccionados_ids:
+			if int(est_id) not in current_establecimientos_ids:
+				# Lo creo y registro el estado
+				registro = SolicitudEstablecimiento.objects.create(solicitud=self, establecimiento_id=est_id)

@@ -1,0 +1,6 @@
+{% load tags_filters %}
+<div class="datos-lectura" id="datosSolicitud">
+	<p><strong>Carrera:</strong> {{ solicitud.carrera }}</p>
+	<p><strong>Título:</strong> {{ solicitud.titulo_nacional }}</p>
+	<p><strong>Cohortes:</strong> {{ solicitud.primera_cohorte|default:"---" }}/{{ solicitud.ultima_cohorte|default:"---" }}</p>
+</div>

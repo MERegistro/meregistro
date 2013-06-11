@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
+from apps.registro.models import Establecimiento, EstadoEstablecimiento
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
 	SolicitudCohortesForm, SolicitudControlForm
@@ -17,6 +18,11 @@ ITEMS_PER_PAGE = 50
 
 def __puede_editarse_solicitud(solicitud):
 	return solicitud.estado.nombre == EstadoSolicitud.PENDIENTE
+	
+
+def __flat_list(list_to_flat):
+	"Método para aplanar las listas"
+	return [i for j in list_to_flat for i in j]
 	
 
 @login_required
@@ -258,4 +264,59 @@ def control(request, solicitud_id):
 		'is_new': False,
 		'page_title': 'Control de Solicitud',
 		'current_page': 'control',
+	})
+
+@login_required
+@credential_required('validez_nacional_editar_solicitud')
+def asignar_establecimientos(request, solicitud_id):
+	solicitud = Solicitud.objects.get(pk=solicitud_id)
+
+	if not __puede_editarse_solicitud(solicitud):
+		request.set_flash('warning', 'No puede editarse la solicitud.')
+		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+	
+	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
+	current_establecimientos_ids = __flat_list(solicitud.establecimientos.all().values_list("establecimiento_id"))
+	
+	q = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoEstablecimiento.REGISTRADO)
+	
+	paginator = Paginator(q, ITEMS_PER_PAGE)
+
+	try:
+		page_number = int(request.GET['page'])
+	except (KeyError, ValueError):
+		page_number = 1
+	# chequear los límites
+	if page_number < 1:
+		page_number = 1
+	elif page_number > paginator.num_pages:
+		page_number = paginator.num_pages
+
+	page = paginator.page(page_number)
+	objects = page.object_list
+	
+	"Procesamiento"
+	if request.method == 'POST':
+		values_dict = {
+			'establecimientos_procesados_ids': [e.id for e in objects], #  Son los establecimientos de la página actual
+			'current_establecimientos_ids': current_establecimientos_ids,
+			'establecimientos_seleccionados_ids': request.POST.getlist("establecimientos"),
+		}
+		
+		solicitud.save_establecimientos(**values_dict)
+
+		request.set_flash('success', 'Datos actualizados correctamente.')
+		# redirigir a edit
+		return HttpResponseRedirect(reverse('solicitudAsignarEstablecimientos', args=[solicitud.id]))
+
+	return my_render(request, 'validez_nacional/solicitud/asignar_establecimientos.html', {
+		'solicitud': solicitud,
+		'current_establecimientos_ids': current_establecimientos_ids,
+		'objects': objects,
+		'paginator': paginator,
+		'page': page,
+		'page_number': page_number,
+		'pages_range': range(1, paginator.num_pages + 1),
+		'next_page': page_number + 1,
+		'prev_page': page_number - 1
 	})
