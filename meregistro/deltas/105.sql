@@ -88,43 +88,39 @@ CREATE INDEX validez_nacional_solicitud_titulo_nacional_id
   (titulo_nacional_id);
 
 -------------------------------------
-
--- Table: validez_nacional_solicitud_normativas
-
--- DROP TABLE validez_nacional_solicitud_normativas;
-
+-- Table: validez_nacional_solicitud_normativas_jurisdiccionales
+-- DROP TABLE validez_nacional_solicitud_normativas_jurisdiccionales;
 CREATE TABLE validez_nacional_solicitud_normativas_jurisdiccionales
 (
   id serial NOT NULL,
   solicitud_id integer NOT NULL,
   normativajurisdiccional_id integer NOT NULL,
-  CONSTRAINT validez_nacional_solicitud_normativas_pkey PRIMARY KEY (id),
-  CONSTRAINT solicitud_id_refs_id_6bd66323 FOREIGN KEY (solicitud_id)
+  CONSTRAINT validez_nacional_solicitud_normativas_jurisdiccionales_pkey PRIMARY KEY (id),
+  CONSTRAINT solicitud_id_refs_id_cef52cbc FOREIGN KEY (solicitud_id)
       REFERENCES validez_nacional_solicitud (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
-  CONSTRAINT validez_nacional_solicitud_norm_normativajurisdiccional_id_fkey FOREIGN KEY (normativajurisdiccional_id)
+  CONSTRAINT validez_nacional_solicitud_nor_normativajurisdiccional_id_fkey1 FOREIGN KEY (normativajurisdiccional_id)
       REFERENCES titulos_normativa_jurisdiccional (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED,
-  CONSTRAINT validez_nacional_solicitud_no_solicitud_id_normativajurisdi_key UNIQUE (solicitud_id, normativajurisdiccional_id)
+  CONSTRAINT validez_nacional_solicitud_no_solicitud_id_normativajurisd_key1 UNIQUE (solicitud_id, normativajurisdiccional_id)
 )
 WITH (
   OIDS=FALSE
 );
-
--- Index: validez_nacional_solicitud_normativas_normativajurisdicciondcde
--- DROP INDEX validez_nacional_solicitud_normativas_normativajurisdicciondcde;
-CREATE INDEX validez_nacional_solicitud_normativas_normativajurisdicciondcde
-  ON validez_nacional_solicitud_normativas
+-- Index: validez_nacional_solicitud_normativas_jurisdiccionales_norm28c5
+-- DROP INDEX validez_nacional_solicitud_normativas_jurisdiccionales_norm28c5;
+CREATE INDEX validez_nacional_solicitud_normativas_jurisdiccionales_norm28c5
+  ON validez_nacional_solicitud_normativas_jurisdiccionales
   USING btree
   (normativajurisdiccional_id);
 
--- Index: validez_nacional_solicitud_normativas_solicitud_id
--- DROP INDEX validez_nacional_solicitud_normativas_solicitud_id;
-CREATE INDEX validez_nacional_solicitud_normativas_solicitud_id
-  ON validez_nacional_solicitud_normativas
+-- Index: validez_nacional_solicitud_normativas_jurisdiccionales_soli0fbc
+-- DROP INDEX validez_nacional_solicitud_normativas_jurisdiccionales_soli0fbc;
+CREATE INDEX validez_nacional_solicitud_normativas_jurisdiccionales_soli0fbc
+  ON validez_nacional_solicitud_normativas_jurisdiccionales
   USING btree
   (solicitud_id);
-  
+
 -------------------------------------
   
 -- Table: validez_nacional_validez_nacional
