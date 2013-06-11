@@ -18,12 +18,6 @@ INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 --
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
 (
-(SELECT id FROM seguridad_rol WHERE nombre = 'AdminNacional'), 
-(SELECT id FROM seguridad_credencial WHERE nombre = 'validez_nacional_consulta')
-);
---
-INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
-(
 (SELECT id FROM seguridad_rol WHERE nombre = 'ReferenteJurisdiccional'), 
 (SELECT id FROM seguridad_credencial WHERE nombre = 'validez_nacional_editar_solicitud')
 );
