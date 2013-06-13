@@ -316,7 +316,7 @@ def eliminar(request, carrera_jurisdiccional_id):
 	carrera = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
 	request.set_flash('warning', 'Está seguro de eliminar la carrera jurisdiccional? Esta operación no puede deshacerse.')
 	if request.method == 'POST':
-		if int(request.POST['carrera_jurisdiccional_id']) is not int(carrera_jurisdiccional_id):
+		if int(request.POST['carrera_jurisdiccional_id']) != int(carrera_jurisdiccional_id):
 			raise Exception('Error en la consulta!')
 		carrera.delete()
 		request.set_flash('success', 'La carrera jurisdiccional fue dada de baja correctamente.')

@@ -32,7 +32,7 @@ class Solicitud(models.Model):
 
 	"Sobreescribo para eliminar los objetos relacionados"
 	def delete(self, *args, **kwargs):
-		for normativa in self.normativas.all():
+		for normativa in self.normativas_jurisdiccionales.all():
 			normativa.delete()
 		for est in self.estados.all():
 			est.delete()
@@ -74,3 +74,27 @@ class Solicitud(models.Model):
 			if int(est_id) not in current_establecimientos_ids:
 				# Lo creo y registro el estado
 				registro = SolicitudEstablecimiento.objects.create(solicitud=self, establecimiento_id=est_id)
+
+
+	"""
+	Asocia/elimina los establecimientos desde el formulario masivo
+	XXX: los valores "posts" vienen como strings
+	"""
+	def save_anexos(self, anexos_procesados_ids, current_anexos_ids, anexos_seleccionados_ids):
+		
+		from apps.validez_nacional.models import SolicitudAnexo
+		
+		"Borrar los que se des-chequean"
+		for est_id in anexos_procesados_ids:
+			if (str(est_id) not in anexos_seleccionados_ids) and (est_id in current_anexos_ids): # Si no está en los ids de la página, borrarlo
+				SolicitudAnexo.objects.get(solicitud__id=self.id, anexo=est_id).delete()
+
+		"Agregar los nuevos"
+		for est_id in anexos_seleccionados_ids:
+			if int(est_id) not in current_anexos_ids:
+				# Lo creo y registro el estado
+				registro = SolicitudAnexo.objects.create(solicitud=self, anexo_id=est_id)
+
+
+	def is_deletable(self):
+		return self.estado.nombre == EstadoSolicitud.PENDIENTE
