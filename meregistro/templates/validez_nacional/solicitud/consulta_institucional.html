@@ -60,7 +60,7 @@
 		<td>{{ obj.solicitud.normativas_jurisdiccionales.all|implode:", " }}</td>
 		<td>{{ obj.solicitud.dictamen_cofev|default:"---" }}</td>
 		<td>{{ obj.solicitud.normativas_nacionales|default:"---" }}</td>
-		<td>{{ obj.solicitud.validez_nacional.get.nro_infd|default:"---" }}</td>
+		<td>{{ obj.solicitud.validez_nacional.nro_infd|default:"---" }}</td>
       </tr>
     {% endfor %}
   </tbody>
