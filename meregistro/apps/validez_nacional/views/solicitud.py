@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.registro.models import Establecimiento, EstadoEstablecimiento
+from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
 	SolicitudCohortesForm, SolicitudControlForm
@@ -320,3 +320,72 @@ def asignar_establecimientos(request, solicitud_id):
 		'next_page': page_number + 1,
 		'prev_page': page_number - 1
 	})
+	
+	
+@login_required
+@credential_required('validez_nacional_editar_solicitud')
+def asignar_anexos(request, solicitud_id):
+	solicitud = Solicitud.objects.get(pk=solicitud_id)
+
+	if not __puede_editarse_solicitud(solicitud):
+		request.set_flash('warning', 'No puede editarse la solicitud.')
+		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+	
+	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
+	current_anexos_ids = __flat_list(solicitud.anexos.all().values_list("anexo_id"))
+	
+	q = Anexo.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoAnexo.REGISTRADO)
+	
+	paginator = Paginator(q, ITEMS_PER_PAGE)
+
+	try:
+		page_number = int(request.GET['page'])
+	except (KeyError, ValueError):
+		page_number = 1
+	# chequear los límites
+	if page_number < 1:
+		page_number = 1
+	elif page_number > paginator.num_pages:
+		page_number = paginator.num_pages
+
+	page = paginator.page(page_number)
+	objects = page.object_list
+	
+	"Procesamiento"
+	if request.method == 'POST':
+		values_dict = {
+			'anexos_procesados_ids': [a.id for a in objects], #  Son los establecimientos de la página actual
+			'current_anexos_ids': current_anexos_ids,
+			'anexos_seleccionados_ids': request.POST.getlist("anexos"),
+		}
+		
+		solicitud.save_anexos(**values_dict)
+
+		request.set_flash('success', 'Datos actualizados correctamente.')
+		# redirigir a edit
+		return HttpResponseRedirect(reverse('solicitudAsignarAnexos', args=[solicitud.id]))
+
+	return my_render(request, 'validez_nacional/solicitud/asignar_anexos.html', {
+		'solicitud': solicitud,
+		'current_anexos_ids': current_anexos_ids,
+		'objects': objects,
+		'paginator': paginator,
+		'page': page,
+		'page_number': page_number,
+		'pages_range': range(1, paginator.num_pages + 1),
+		'next_page': page_number + 1,
+		'prev_page': page_number - 1
+	})
+
+
+@login_required
+@credential_required('validez_nacional_eliminar_solicitud')
+def delete(request, solicitud_id):
+	solicitud = Solicitud.objects.get(pk=solicitud_id)
+
+	if solicitud.is_deletable():
+		solicitud.delete()
+		request.set_flash('success', 'Registro eliminado correctamente.')
+	else:
+		request.set_flash('warning', 'El registro no puede ser eliminado.')
+	return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))

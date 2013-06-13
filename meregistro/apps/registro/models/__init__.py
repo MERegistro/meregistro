@@ -10,6 +10,7 @@ from TipoEducacion import TipoEducacion
 from DependenciaFuncional import DependenciaFuncional
 from Establecimiento import Establecimiento
 from EstadoEstablecimiento import EstadoEstablecimiento
+from EstadoAnexo import EstadoAnexo
 from Turno import Turno
 from Funcion import Funcion
 from Nivel import Nivel
