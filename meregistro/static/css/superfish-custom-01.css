@@ -33,7 +33,7 @@
 	left:			0;
 	top:			2.1em; /* match top ul list item height */
 	z-index:		99;
-	width: 18em;
+	width: 21em;
 }
 ul.sf-menu li:hover li ul,
 ul.sf-menu li.sfHover li ul {

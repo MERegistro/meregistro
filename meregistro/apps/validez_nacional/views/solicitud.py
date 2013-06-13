@@ -7,8 +7,8 @@ from apps.seguridad.decorators import login_required, credential_required
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
-	SolicitudCohortesForm, SolicitudControlForm
-from apps.validez_nacional.models import EstadoSolicitud, Solicitud
+	SolicitudCohortesForm, SolicitudControlForm, SolicitudInstitucionalFormFilters
+from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
@@ -389,3 +389,56 @@ def delete(request, solicitud_id):
 	else:
 		request.set_flash('warning', 'El registro no puede ser eliminado.')
 	return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+	
+
+
+def build_query_institucional(filters, page, request):
+	"""
+	Construye el query de búsqueda a partir de los filtros.
+	"""
+	return filters.buildQuery()
+	
+	
+@login_required
+@credential_required('validez_nacional_consulta_institucional')
+def consulta_institucional(request):
+	if request.method == 'GET':
+		form_filter = SolicitudInstitucionalFormFilters(request.GET, ambito=request.get_perfil().ambito)
+	else:
+		form_filter = SolicitudInstitucionalFormFilters(ambito=request.get_perfil().ambito)
+	q = build_query_institucional(form_filter, 1, request)
+
+	"""
+	try:
+		if request.GET['export'] == '1':
+			return reporte_solicitudes(request, q)
+	except KeyError:
+		pass
+	"""
+	paginator = Paginator(q, ITEMS_PER_PAGE)
+
+	try:
+		page_number = int(request.GET['page'])
+	except (KeyError, ValueError):
+		page_number = 1
+	# chequear los límites
+	if page_number < 1:
+		page_number = 1
+	elif page_number > paginator.num_pages:
+		page_number = paginator.num_pages
+
+	page = paginator.page(page_number)
+	
+	objects = page.object_list
+	return my_render(request, 'validez_nacional/solicitud/consulta_institucional.html', {
+		'form_filters': form_filter,
+		'objects': objects,
+		'paginator': paginator,
+		'page': page,
+		'page_number': page_number,
+		'pages_range': range(1, paginator.num_pages + 1),
+		'next_page': page_number + 1,
+		'prev_page': page_number - 1,
+		'export_url': Reporte.build_export_url(request.build_absolute_uri()),
+	})
+

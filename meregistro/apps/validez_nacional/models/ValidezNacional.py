@@ -11,7 +11,7 @@ class ValidezNacional(models.Model):
 	TIPO_UE_SEDE = u'Sede'
 	TIPO_UE_ANEXO = u'Anexo'
 
-	solicitud = models.ForeignKey(Solicitud, null=False)
+	solicitud = models.ForeignKey(Solicitud, null=False, related_name="validez_nacional")
 	nro_infd = models.CharField(max_length=99, null=False)
 	cue = models.CharField(max_length=9, null=False, db_index=True)
 	tipo_unidad_educativa = models.CharField(max_length=10, null=False)

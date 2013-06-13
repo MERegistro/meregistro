@@ -1,6 +1,6 @@
 from EstadoSolicitud import EstadoSolicitud
 from Solicitud import Solicitud
+from SolicitudEstablecimiento import SolicitudEstablecimiento
 from SolicitudEstado import SolicitudEstado
 from ValidezNacional import ValidezNacional
-from SolicitudEstablecimiento import SolicitudEstablecimiento
 from SolicitudAnexo import SolicitudAnexo

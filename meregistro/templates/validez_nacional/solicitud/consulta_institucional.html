@@ -1,0 +1,77 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Solicitud de Validez Nacional de Títulos{% endblock %}
+
+{% block content %}
+<h2>Solicitud de Validez Nacional de Títulos</h2>
+
+{% if "validez_nacional_solicitud" in credenciales %}
+<ul class="actions">
+	<li class="create">
+		<a href="{% url apps.validez_nacional.views.solicitud.create %}"><span>Nueva Solicitud de Validez</span></a>
+	</li>
+</ul>
+{% endif %}
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+<hr />
+
+
+{% if objects %}
+{% include "counter.html" %}
+<!--
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+-->
+<table class="hor-zebra" style="margin-top:65px">
+  <thead>
+    <tr>
+      <th>CUE</th>
+      <th>Carrera</th>
+      <th>Título</th>
+      <th>Cohortes</th>
+      <th>Norm. Jurisd.</th>
+      <th>Dict. Cofev</th>
+      <th>Norm. Nac.</th>
+      <th>Nro. INFD</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+		<td>{% if obj.establecimiento.cue %}	
+		{{ obj.establecimiento.cue|default:"--" }}
+		{% else %}
+		{{ obj.anexo.cue|default:"--" }}
+		{% endif %}
+		</td>
+		<td>{{ obj.solicitud.carrera.nombre }}</td>
+		<td>{{ obj.solicitud.titulo_nacional.nombre }}</td>
+		<td>{{ obj.solicitud.primera_cohorte|default:"---" }}-{{ obj.establecimiento.solicitud.ultima_cohorte|default:"---" }}</td>
+		<td>{{ obj.solicitud.normativas_jurisdiccionales.all|implode:", " }}</td>
+		<td>{{ obj.solicitud.dictamen_cofev|default:"---" }}</td>
+		<td>{{ obj.solicitud.normativas_nacionales|default:"---" }}</td>
+		<td>{{ obj.solicitud.validez_nacional.get.nro_infd|default:"---" }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron resultados.</p>
+</div>
+{% endif %}
+<hr />
+{% endblock %}
+

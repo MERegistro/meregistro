@@ -7,6 +7,7 @@ urlpatterns=patterns('',
     url(r'^solicitud/create$', 'apps.validez_nacional.views.solicitud.create', name='validezNacionalSolicitudCreate'),
     url(r'^solicitud/([0-9]+)/editar$', 'apps.validez_nacional.views.solicitud.edit', name='validezNacionalSolicitudEdit'),
     url(r'^solicitud/([0-9]+)/eliminar$', 'apps.validez_nacional.views.solicitud.delete', name='validezNacionalSolicitudEdit'),
+    url(r'^solicitud/consulta_institucional$', 'apps.validez_nacional.views.solicitud.consulta_institucional', name='validezNacionalConsultaInstitucional'),
     #url(r'^validez_nacional/([0-9]+)/delete$', 'apps.titulos.views.validez_nacional.delete', name='validezNacionalEliminar'),
     url(r'^$', 'apps.validez_nacional.views.solicitud.index', name='validezNacionalIndex'),
     # Normativa jurisdiccional
