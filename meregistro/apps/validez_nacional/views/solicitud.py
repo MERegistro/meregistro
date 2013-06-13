@@ -4,11 +4,12 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
+from apps.seguridad.models import Ambito
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
-	SolicitudCohortesForm, SolicitudControlForm, SolicitudInstitucionalFormFilters
-from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento
+	SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters
+from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
@@ -396,16 +397,28 @@ def build_query_institucional(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	return filters.buildQuery()
+	return filters.buildQuery().order_by('cue')
 	
 	
 @login_required
 @credential_required('validez_nacional_consulta_institucional')
 def consulta_institucional(request):
+
+	ambito = request.get_perfil().ambito
+	perfil_establecimiento = ambito.tipo.nombre == Ambito.TIPO_ESTABLECIMIENTO
+	perfil_anexo = ambito.tipo.nombre == Ambito.TIPO_ANEXO
+
+	if perfil_establecimiento:
+		establecimiento = Establecimiento.objects.get(ambito__path=ambito.path)
+		anexos = establecimiento.anexos.all()
+	elif perfil_anexo:
+		establecimiento = Establecimiento.objects.get(anexos__ambito__path__istartswith=ambito.path)
+		anexos = establecimiento.anexos.all()
+		
 	if request.method == 'GET':
-		form_filter = SolicitudInstitucionalFormFilters(request.GET, ambito=request.get_perfil().ambito)
+		form_filter = ValidezInstitucionalFormFilters(request.GET, establecimiento=establecimiento)
 	else:
-		form_filter = SolicitudInstitucionalFormFilters(ambito=request.get_perfil().ambito)
+		form_filter = ValidezInstitucionalFormFilters(establecimiento=establecimiento)
 	q = build_query_institucional(form_filter, 1, request)
 
 	"""

@@ -4,6 +4,14 @@ from django.db import models
 from apps.seguridad.models import TipoAmbito
 
 class Ambito(models.Model):
+    
+    TIPO_SUPERIOR = 'Superior'
+    TIPO_JURISDICCION = 'Jurisdiccion'
+    TIPO_DEPENDENCIA_FUNCIONAL = 'DependenciaFuncional'
+    TIPO_ESTABLECIMIENTO = 'Sede'
+    TIPO_ANEXO = 'Anexo'
+    TIPO_EXTENSION_AULICA = 'ExtensionAulica'
+
     descripcion = models.CharField(max_length=255)
     path = models.CharField(max_length=255)
     level = models.IntegerField()

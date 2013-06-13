@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.registro.models import Anexo
-from apps.validez_nacional.models import Solicitud
+from apps.validez_nacional.models import Solicitud, ValidezNacional
 import datetime
 	
 
@@ -22,3 +22,7 @@ class SolicitudAnexo(models.Model):
 	"Sobreescribo el init para agregarle propiedades"
 	def __init__(self, *args, **kwargs):
 		super(SolicitudAnexo, self).__init__(*args, **kwargs)
+
+
+	def registro_validez_nacional(self):
+		return ValidezNacional.objects.get(tipo_unidad_educativa=ValidezNacional.TIPO_UE_Anexo, unidad_educativa_id=self.id)
