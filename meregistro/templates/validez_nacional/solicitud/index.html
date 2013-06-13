@@ -58,7 +58,9 @@
       <th>Jurisdicción</th>
       <th>Carrera</th>
       <th>Título</th>
+      <!--
       <th>Norm. Jurisd.</th>
+      -->
       <th>Cohortes</th>
       <th>Estado</th>
       <th>Dict. Cofev</th>
@@ -72,7 +74,9 @@
 	<td>{{ obj.jurisdiccion }}</td>
 	<td>{{ obj.carrera.nombre }}</td>
 	<td>{{ obj.titulo_nacional.nombre }}</td>
+	<!--
 	<td>{{ obj.normativas_jurisdiccionales.all|implode:", " }}</td>
+	-->
 	<td>{{ obj.primera_cohorte|default:"---" }}-{{ obj.ultima_cohorte|default:"---" }}</td>
 	<td>{{ obj.estado }}</td>
 	<td>{{ obj.dictamen_cofev|default:"---" }}</td>

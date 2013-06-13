@@ -39,7 +39,9 @@
       <th>Carrera</th>
       <th>Título</th>
       <th>Cohortes</th>
+      <!--
       <th>Norm. Jurisd.</th>
+      -->
       <th>Dict. Cofev</th>
       <th>Norm. Nac.</th>
       <th>Nro. INFD</th>
@@ -51,8 +53,10 @@
 		<td>{{ obj.cue|default:"--" }}</td>
 		<td>{{ obj.solicitud.carrera.nombre }}</td>
 		<td>{{ obj.solicitud.titulo_nacional.nombre }}</td>
-		<td>{{ obj.solicitud.primera_cohorte|default:"---" }}-{{ obj.establecimiento.solicitud.ultima_cohorte|default:"---" }}</td>
+		<td>{{ obj.solicitud.primera_cohorte|default:"---" }}-{{ obj.solicitud.ultima_cohorte|default:"---" }}</td>
+		<!--
 		<td>{{ obj.solicitud.normativas_jurisdiccionales.all|implode:", " }}</td>
+		-->
 		<td>{{ obj.solicitud.dictamen_cofev|default:"---" }}</td>
 		<td>{{ obj.solicitud.normativas_nacionales|default:"---" }}</td>
 		<td>{{ obj.nro_infd|default:"---" }}</td>
