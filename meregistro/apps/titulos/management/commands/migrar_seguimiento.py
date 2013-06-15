@@ -17,7 +17,7 @@ class Command(BaseCommand):
     args = '<csv_file>'
     help = 'Migra una seguimiento'
 
-#    @transaction.commit_on_success
+    @transaction.commit_on_success
     def handle(self, *args, **options):
         filename = args[0]
         name = filename.split("/")[-1:][0].split(".")[0]
@@ -48,6 +48,7 @@ class Command(BaseCommand):
 
     def migrar(self, registro, reg_num):
         ue = self.find_unidad_educativa(registro['cue_anexo'])
+        if ue is None: return
         jurisdiccion = self.get_ue_jurisdiccion(ue)
         carrera_jurisdiccional, cohorte = self.asociar_carrera_jurisdiccion(registro['carrera'],
 			jurisdiccion, registro['primera'])
@@ -68,6 +69,8 @@ class Command(BaseCommand):
             q = cls.objects.filter(cue=cue)
             if len(q) > 0:
                 return q[0]
+        print "Unidad Educativa no encontrada cue:" + str(cue)
+        return None
         raise Exception("Unidad Educativa no encontrada cue:" + str(cue))
 
 

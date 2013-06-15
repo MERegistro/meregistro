@@ -16,6 +16,13 @@ SET cohorte_id =
 		)
 );
 
+DELETE FROM titulos_cohortes_anexos tc_ue
+WHERE EXISTS
+  (SELECT 1 FROM titulos_cohortes_anexos tc_ue2
+   WHERE tc_ue2.id < tc_ue.id
+   AND tc_ue2.cohorte_id = tc_ue.cohorte_id
+   AND tc_ue2.anexo_id = tc_ue.anexo_id);
+
 UPDATE titulos_cohortes_establecimientos tc_ue
 SET cohorte_id = 
 (SELECT MIN(c.id) FROM titulos_cohorte c 
@@ -31,6 +38,26 @@ SET cohorte_id =
         WHERE c2.id = tc_ue.cohorte_id
 		)
 );
+
+DELETE FROM titulos_cohorte_establecimiento_estados WHERE
+ cohorte_establecimiento_id IN
+ (
+SELECT tc_ue.id FROM titulos_cohortes_establecimientos tc_ue
+WHERE EXISTS
+  (SELECT 1 FROM titulos_cohortes_establecimientos tc_ue2
+   WHERE tc_ue2.id < tc_ue.id
+   AND tc_ue2.cohorte_id = tc_ue.cohorte_id
+   AND tc_ue2.establecimiento_id = tc_ue.establecimiento_id)
+ );
+
+
+DELETE FROM titulos_cohortes_establecimientos tc_ue
+WHERE EXISTS
+  (SELECT 1 FROM titulos_cohortes_establecimientos tc_ue2
+   WHERE tc_ue2.id < tc_ue.id
+   AND tc_ue2.cohorte_id = tc_ue.cohorte_id
+   AND tc_ue2.establecimiento_id = tc_ue.establecimiento_id);
+
 
 UPDATE titulos_cohortes_extensiones_aulicas tc_ue
 SET cohorte_id = 
