@@ -2,18 +2,10 @@
 
 {% load tags_filters %}
 
-{% block title %}Solicitud de Validez Nacional de Títulos{% endblock %}
+{% block title %}Validez Nacional de Títulos{% endblock %}
 
 {% block content %}
-<h2>Solicitud de Validez Nacional de Títulos</h2>
-
-{% if "validez_nacional_solicitud" in credenciales %}
-<ul class="actions">
-	<li class="create">
-		<a href="{% url apps.validez_nacional.views.solicitud.create %}"><span>Nueva Solicitud de Validez</span></a>
-	</li>
-</ul>
-{% endif %}
+<h2>Validez Nacional de Títulos</h2>
 
 {% if flash %}
     {% include "flashes.html" %}
@@ -35,14 +27,15 @@
 <table class="hor-zebra" style="margin-top:65px">
   <thead>
     <tr>
+      <th>Tipo UE.</th>
       <th>CUE</th>
       <th>Carrera</th>
       <th>Título</th>
-      <th>Cohortes</th>
+      <th style="width: 80px;">Cohortes</th>
       <!--
       <th>Norm. Jurisd.</th>
       -->
-      <th>Dict. Cofev</th>
+      <th>Dict. CoFEv</th>
       <th>Norm. Nac.</th>
       <th>Nro. INFD</th>
     </tr>
@@ -50,6 +43,7 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+		<td>{{ obj.tipo_unidad_educativa|slice:"1" }}</td>
 		<td>{{ obj.cue|default:"--" }}</td>
 		<td>{{ obj.solicitud.carrera.nombre }}</td>
 		<td>{{ obj.solicitud.titulo_nacional.nombre }}</td>
@@ -57,9 +51,9 @@
 		<!--
 		<td>{{ obj.solicitud.normativas_jurisdiccionales.all|implode:", " }}</td>
 		-->
-		<td>{{ obj.solicitud.dictamen_cofev|default:"---" }}</td>
-		<td>{{ obj.solicitud.normativas_nacionales|default:"---" }}</td>
-		<td>{{ obj.nro_infd|default:"---" }}</td>
+		<td>{{ obj.solicitud.dictamen_cofev|default:"" }}</td>
+		<td>{{ obj.solicitud.normativas_nacionales|default:"" }}</td>
+		<td>{{ obj.nro_infd|default:"" }}</td>
       </tr>
     {% endfor %}
   </tbody>
