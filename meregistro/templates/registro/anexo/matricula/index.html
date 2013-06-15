@@ -11,9 +11,17 @@
 {% block content %}
 <h2>Completar Datos de Anexo - Matrícula</h2>
 <h3>{{ anexo.cue }} - "{{ anexo.nombre }}"</h3>
+{% if 'reg_anexo_completar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.anexo_matricula.create anexo.id %}"><span>Nueva Matrícula</span></a>
+    </li>
+</ul>
+{% endif %}
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
+
 {% if not anexo.get_verificacion_datos.completo %}
 <div class="message warning">
 	<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
@@ -66,20 +74,13 @@
 </div>
 {% endif %}
 </div>
-
 {% include "registro/anexo/form_verificacion_datos.html" %}
 
 <ul class="actions">
-{% if 'reg_anexo_completar' in credenciales %}
-    <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.anexo_matricula.create anexo.id %}"><span>Nueva Matrícula</span></a>
-    </li>
     <li class="back">
         <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>
     </li>
-{% endif %}
 </ul>
-
 <hr />
 
 {% endblock %}

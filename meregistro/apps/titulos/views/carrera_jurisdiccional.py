@@ -21,7 +21,7 @@ def build_query(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	return filters.buildQuery().filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('id')
+	return filters.buildQuery().filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('carrera__nombre', 'datos_cohorte__primera_cohorte_solicitada')
 
 
 @login_required

@@ -11,6 +11,13 @@
 {% block content %}
 <h2>Administrar Datos de Extensión Áulica - Domicilios</h2>
 <h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
+{% if 'reg_extension_aulica_modificar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.extension_aulica_domicilio.create extension_aulica.id %}"><span>Nuevo Domicilio</span></a>
+    </li>
+</ul>
+{% endif %}
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -60,17 +67,11 @@
 </div>
 
 {% include "registro/extension_aulica/form_verificacion_datos.html" %}
-
-{% if 'reg_extension_aulica_modificar' in credenciales %}
 <ul class="actions">
-    <li class="create" style="margin-top: 30px;">
-        <a href="{% url apps.registro.views.extension_aulica_domicilio.create extension_aulica.id %}"><span>Nuevo Domicilio</span></a>
-    </li>
     <li class="back">
         <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
     </li>
 </ul>
-{% endif %}
 <hr />
 
 {% endblock %}

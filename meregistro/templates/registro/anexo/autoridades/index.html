@@ -11,6 +11,13 @@
 {% block content %}
 <h2>Administrar Datos de Anexo - Autoridades</h2>
 <h3>{{ anexo.cue }} - "{{ anexo.nombre }}"</h3>
+{% if 'reg_anexo_completar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.anexo_autoridad.create anexo.id %}"><span>Nueva Autoridad</span></a>
+    </li>
+</ul>
+{% endif %}
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -64,11 +71,6 @@
 {% include "registro/anexo/form_verificacion_datos.html" %}
 
 <ul class="actions">
-{% if 'reg_anexo_completar' in credenciales and alta_habilitada %}
-    <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.anexo_autoridad.create anexo.id %}"><span>Nueva Autoridad</span></a>
-    </li>
-{% endif %}
     <li class="back">
         <a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}"><span>Volver</span></a>
     </li>
