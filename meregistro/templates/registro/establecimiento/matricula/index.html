@@ -11,6 +11,13 @@
 {% block content %}
 <h2>Completar Datos de Sede - Matrícula</h2>
 <h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
+{% if 'reg_establecimiento_completar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.establecimiento_matricula.create establecimiento.id %}"><span>Nueva Matrícula</span></a>
+    </li>
+</ul>
+{% endif %}
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -70,15 +77,9 @@
 {% include "registro/establecimiento/form_verificacion_datos.html" %}
 
 <ul class="actions">
-{% if 'reg_establecimiento_completar' in credenciales %}
-    <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.establecimiento_matricula.create establecimiento.id %}"><span>Nueva Matrícula</span></a>
-    </li>
     <li class="back">
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
-{% endif %}
-
 </ul>
 
 <hr />

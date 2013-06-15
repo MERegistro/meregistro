@@ -11,6 +11,13 @@
 {% block content %}
 <h2>Completar Datos de Extensión Áulica - Matrícula</h2>
 <h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
+{% if 'reg_extension_aulica_modificar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.extension_aulica_matricula.create extension_aulica.id %}"><span>Nueva Matrícula</span></a>
+    </li>
+</ul>
+{% endif %}
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -69,18 +76,11 @@
 </div>
 
 {% include "registro/extension_aulica/form_verificacion_datos.html" %}
-
 <ul class="actions">
-{% if 'reg_extension_aulica_modificar' in credenciales %}
-    <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.extension_aulica_matricula.create extension_aulica.id %}"><span>Nueva Matrícula</span></a>
-    </li>
     <li class="back">
         <a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos extension_aulica.id %}"><span>Volver</span></a>
     </li>
-{% endif %}
 </ul>
-
 <hr />
 
 {% endblock %}

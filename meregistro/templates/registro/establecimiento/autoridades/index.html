@@ -11,6 +11,14 @@
 {% block content %}
 <h2>Completar Datos de Sede - Autoridades</h2>
 <h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
+{% if 'reg_establecimiento_completar' in credenciales %}
+<ul class="actions">
+    <li class="create">
+        <a href="{% url apps.registro.views.establecimiento_autoridad.create establecimiento.id %}"><span>Nueva Autoridad</span></a>
+    </li>
+</ul>
+{% endif %}
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
@@ -64,11 +72,6 @@
 
 </div>
 <ul class="actions">
-{% if 'reg_establecimiento_completar' in credenciales and alta_habilitada %}
-    <li class="create" style="margin-top: 30px">
-        <a href="{% url apps.registro.views.establecimiento_autoridad.create establecimiento.id %}"><span>Nueva Autoridad</span></a>
-    </li>
-{% endif %}
     <li class="back">
         <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
     </li>
