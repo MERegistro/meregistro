@@ -97,7 +97,8 @@ def create(request, carrera_jurisdiccional_id):
 
 	choices = [('', '-------')]
 	try:
-		choices += [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
+		for cohorte in carrera_jurisdiccional.datos_cohorte.all():
+			choices += [(i, i) for i in range(cohorte.primera_cohorte_solicitada, cohorte.ultima_cohorte_solicitada + 1)]
 	except CarreraJurisdiccionalCohorte.DoesNotExist:
 		pass
 	form.fields["anio"].choices = choices
@@ -132,8 +133,9 @@ def edit(request, cohorte_id):
 		form = CohorteForm(instance=cohorte)
 
 	carrera_jurisdiccional = cohorte.carrera_jurisdiccional
-	
-	choices = [(i, i) for i in range(carrera_jurisdiccional.datos_cohorte.get().primera_cohorte_solicitada, carrera_jurisdiccional.datos_cohorte.get().ultima_cohorte_solicitada + 1)]
+	choices = []
+	for a_cohorte in carrera_jurisdiccional.datos_cohorte.all():
+		choices += [(i, i) for i in range(a_cohorte.primera_cohorte_solicitada, a_cohorte.ultima_cohorte_solicitada + 1)]
 	form.fields["anio"].choices = choices
 
 	asignada_establecimiento = cohorte.asignada_establecimiento()

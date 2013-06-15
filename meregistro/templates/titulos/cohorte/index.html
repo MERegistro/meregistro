@@ -66,13 +66,17 @@
 	{% for carrera_jurisdiccional in objects %}
 		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ carrera_jurisdiccional.carrera.nombre }}</td>
-			<td>{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }}-{{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }}</td>
 			<td>
-			{% if carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_autorizada != None %}
-			{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_autorizada }}-{{ carrera_jurisdiccional.cohortes.get.ultima_cohorte_autorizada }}
-			{% else %}
-			---
-			{% endif %}
+               {% for cohorte in carrera_jurisdiccional.datos_cohorte.all %}
+                    {{cohorte.primera_cohorte_solicitada }}-{{ cohorte.ultima_cohorte_solicitada }}
+               {% endfor %}
+            </td>
+			<td>
+			    {% for cohorte in carrera_jurisdiccional.datos_cohorte.all %}
+					{% if cohorte.primera_cohorte_autorizada != None %}
+                       {{cohorte.primera_cohorte_autorizada }}-{{ cohorte.ultima_cohorte_autorizada }}
+					{% endif %}
+               {% endfor %}
 			</td>
 			<td><p>{{ carrera_jurisdiccional.cohortes.all|implode:", " }}</p></td>
 			<td>
