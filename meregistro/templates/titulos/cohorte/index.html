@@ -55,8 +55,7 @@
 	<thead>
 		<tr>
 			<th>Carrera</th>
-			<th>Cohortes Solicitadas</th>
-			<th>Cohortes Autorizadas</th>
+			<th>Cohortes</th>
 			<th>Cohortes Generadas</th>
 			<th class="th-estados">Estados</th>
 			<th class="actions">Acciones</th>
@@ -67,13 +66,6 @@
 		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ carrera_jurisdiccional.carrera.nombre }}</td>
 			<td>{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }}-{{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }}</td>
-			<td>
-			{% if carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_autorizada != None %}
-			{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_autorizada }}-{{ carrera_jurisdiccional.cohortes.get.ultima_cohorte_autorizada }}
-			{% else %}
-			---
-			{% endif %}
-			</td>
 			<td><p>{{ carrera_jurisdiccional.cohortes.all|implode:", " }}</p></td>
 			<td>
 				<div class="estados">
