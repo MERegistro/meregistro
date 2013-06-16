@@ -21,7 +21,7 @@ def build_query(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	return filters.buildQuery().filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('carrera__nombre', 'datos_cohorte__primera_cohorte_solicitada')
+	return filters.buildQuery().filter(jurisdiccion=request.get_perfil().jurisdiccion()).order_by('carrera__nombre')
 
 
 @login_required
@@ -35,7 +35,6 @@ def index(request):
 	else:
 		form_filter = CarreraJurisdiccionalFormFilters()
 	q = build_query(form_filter, 1, request)
-
 	paginator = Paginator(q, ITEMS_PER_PAGE)
 
 	try:
@@ -50,6 +49,7 @@ def index(request):
 
 	page = paginator.page(page_number)
 	objects = page.object_list
+	
 	return my_render(request, 'titulos/carrera_jurisdiccional/index.html', {
 		'form_filters': form_filter,
 		'objects': objects,
