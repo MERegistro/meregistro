@@ -111,20 +111,20 @@ $(document).ready(function(){
 	function jurisdiccion_change(val){
 		// Unidades educativas
 		var url = "/oferta_nacional/ajax/get_establecimientos_por_jurisdiccion/" + val;
-		$.getJSON(url, function(models){
+		$.getJSON(url, function(data){
 			var options = '<option value="">---------</option>';
-			for(var i = 0; i < models.length; i++){
-				options += '<option value="' + models[i].pk + '">' + models[i].fields.cue + " - " + models[i].fields.nombre + '</option>';
+			for(var i = 0; i < data.length; i++){
+				options += '<option value="' + data[i].pk + '">' + data[i].establecimiento + '</option>';
 			}
 			dropdown_establecimiento.html(options);
 		});
 
 		// 	Carreras
 		var url = "/oferta_nacional/ajax/get_carreras_por_jurisdiccion/" + val;
-		$.getJSON(url, function(models){
+		$.getJSON(url, function(data){
 			var options = '<option value="">---------</option>';
-			for(var i = 0; i < models.length; i++){
-				options += '<option value="' + models[i].pk + '">' + models[i].fields.nombre + '</option>';
+			for(var i = 0; i < data.length; i++){
+				options += '<option value="' + data[i].pk + '">' + data[i].carrera + '</option>';
 			}
 			dropdown_carrera.html(options);
 		});
@@ -133,20 +133,16 @@ $(document).ready(function(){
 	function establecimiento_change(val){
 		// 	Carreras
 		var url = "/oferta_nacional/ajax/get_carreras_por_establecimiento/" + val;
-		$.getJSON(url, function(models){
+		$.getJSON(url, function(data){
 			var options = '<option value="">---------</option>';
-			for(var i = 0; i < models.length; i++){
-				options += '<option value="' + models[i].pk + '">' + models[i].fields.nombre + '</option>';
+			for(var i = 0; i < data.length; i++){
+				options += '<option value="' + data[i].pk + '">' + data[i].carrera + '</option>';
 			}
 			dropdown_carrera.html(options);
 		});
 	}
 
-
 }); // END document.ready
-
-
 </script>
 
 {% endblock %}
-
