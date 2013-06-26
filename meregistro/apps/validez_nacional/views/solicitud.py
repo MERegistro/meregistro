@@ -185,7 +185,7 @@ def editar_normativas(request, solicitud_id):
 	else:
 		form = SolicitudNormativasForm(instance=solicitud)
 
-	form.fields['normativas_jurisdiccionales'].queryset = form.fields['normativas_jurisdiccionales'].queryset.filter(jurisdiccion=request.get_perfil().jurisdiccion)
+	form.fields['normativas_jurisdiccionales'].queryset = form.fields['normativas_jurisdiccionales'].queryset.filter(jurisdiccion=solicitud.jurisdiccion)
 
 	return my_render(request, 'validez_nacional/solicitud/edit.html', {
 		'form': form,
@@ -279,7 +279,7 @@ def asignar_establecimientos(request, solicitud_id):
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_establecimientos_ids = __flat_list(solicitud.establecimientos.all().values_list("establecimiento_id"))
 	
-	q = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoEstablecimiento.REGISTRADO)
+	q = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=solicitud.jurisdiccion_id, estado__nombre=EstadoEstablecimiento.REGISTRADO)
 	
 	paginator = Paginator(q, ITEMS_PER_PAGE)
 
@@ -335,7 +335,7 @@ def asignar_anexos(request, solicitud_id):
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_anexos_ids = __flat_list(solicitud.anexos.all().values_list("anexo_id"))
 	
-	q = Anexo.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoAnexo.REGISTRADO)
+	q = Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion__id=solicitud.jurisdiccion_id, estado__nombre=EstadoAnexo.REGISTRADO)
 	
 	paginator = Paginator(q, ITEMS_PER_PAGE)
 
