@@ -8,6 +8,7 @@ class EstadoSolicitud(models.Model):
 
     PENDIENTE = u'Pendiente'
     CONTROLADO = u'Controlado'
+    NUMERADO = u'Numerado'
 
     nombre = models.CharField(max_length=50, unique=True)
 

@@ -83,13 +83,14 @@
 	<td>{{ obj.normativas_nacionales|default:"---" }}</td>
 		<td class="actions-td">
 			<ul>
-			{% if "validez_nacional_editar_solicitud" in credenciales and obj.estado.nombre == 'Pendiente' %}
+			{% if "validez_nacional_editar_solicitud" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
 				<li class="edit"><a href="{% url apps.validez_nacional.views.solicitud.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
 				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_establecimientos obj.id %}" title="Asignar a Sedes"><span>Asignar a Sedes</span></a></li>
 				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
-				<li class="delete"><a href="{% url apps.validez_nacional.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 			{% endif %}
-			
+			{% if obj.is_deletable %}
+				<li class="delete"><a href="{% url apps.validez_nacional.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>	
+			{% endif %}				
 			</ul>			
         </td>
       </tr>
