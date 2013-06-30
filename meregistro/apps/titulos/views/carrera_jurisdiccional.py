@@ -221,7 +221,7 @@ def editar_normativas(request, carrera_jurisdiccional_id):
 
 @login_required
 #@credential_required('tit_carrera_jurisdiccional_alta')
-#@credential_required('tit_carrera_jurisdiccional_modificar')
+@credential_required('non_existent_credential')
 def editar_cohortes(request, carrera_jurisdiccional_id):
 	"""
 	Edición de datos de cohortes del título jurisdiccional.
@@ -307,14 +307,13 @@ def orientaciones_por_titulo(request, carrera_jurisdiccional_id):
 
 
 @login_required
-#@credential_required('tit_carrera_jurisdiccional_eliminar')
+@credential_required('tit_carrera_jurisdiccional_eliminar')
 def eliminar(request, carrera_jurisdiccional_id):
 	"""
 	Baja de un título
 	--- mientras no sea referido por un título jurisdiccional ---
 	"""
 	carrera = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
-	request.set_flash('warning', 'Está seguro de eliminar la carrera jurisdiccional? Esta operación no puede deshacerse.')
 	if request.method == 'POST':
 		if int(request.POST['carrera_jurisdiccional_id']) != int(carrera_jurisdiccional_id):
 			raise Exception('Error en la consulta!')
