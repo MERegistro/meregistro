@@ -19,11 +19,6 @@
 			<label for="id_carrera">Carrera:</label>
 			{{ form_filters.carrera }}
 		</div>
-		<div class="form-text">
-			{{ form_filters.anio_cohorte_solicitada.errors }}
-			<label for="id_anio_cohorte_solicitada">Cohorte solicitada:</label>
-			{{ form_filters.anio_cohorte_solicitada }}
-		</div>
 		<div class="form-select">
 			{{ form_filters.anio_cohorte_generada.errors }}
 			<label for="id_anio_cohorte_generada">Cohorte generada:</label>
@@ -55,7 +50,6 @@
 	<thead>
 		<tr>
 			<th>Carrera</th>
-			<th>Cohortes</th>
 			<th>Cohortes Generadas</th>
 			<th class="th-estados">Estados</th>
 			<th class="actions">Acciones</th>
@@ -65,13 +59,6 @@
 	{% for carrera_jurisdiccional in objects %}
 		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ carrera_jurisdiccional.carrera.nombre }}</td>
-			<td>
-			    {% for cohorte in carrera_jurisdiccional.datos_cohorte.all %}
-					{% if cohorte.primera_cohorte_autorizada != None %}
-                       {{cohorte.primera_cohorte_autorizada }}-{{ cohorte.ultima_cohorte_autorizada }}
-					{% endif %}
-               {% endfor %}
-			</td>
 			<td><p>{{ carrera_jurisdiccional.cohortes.all|implode:", " }}</p></td>
 			<td>
 				<div class="estados">

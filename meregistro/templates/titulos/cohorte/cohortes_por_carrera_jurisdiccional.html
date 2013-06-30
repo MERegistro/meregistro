@@ -21,13 +21,6 @@
 </ul>
 
 {% if objects %}
-<div class="datos-lectura">
-	<p><strong>Cohortes solicitadas:</strong> <span>
-           {% for cohorte in carrera_jurisdiccional.datos_cohorte.all %}
-                {{cohorte.primera_cohorte_solicitada }}-{{ cohorte.ultima_cohorte_solicitada }}
-           {% endfor %}
-		</span></p>
-</div>
 <h3>Cohortes Generadas</h3>
 	
 {% include "counter.html" %}

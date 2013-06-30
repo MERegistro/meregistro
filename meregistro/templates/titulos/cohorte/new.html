@@ -11,7 +11,6 @@
     {% include "flashes.html" %}
 {% endif %}
 <div class="datos-lectura">
-	<p><strong>Cohortes solicitadas:</strong> <span>{{ carrera_jurisdiccional.datos_cohorte.get.primera_cohorte_solicitada }} - {{ carrera_jurisdiccional.datos_cohorte.get.ultima_cohorte_solicitada }}</span></p>
 	<p><strong>Cohortes generadas:</strong> <span>{{ carrera_jurisdiccional.cohortes.all|implode:", " }}</span></p>
 </div>
 {% include "titulos/cohorte/form.html" %}

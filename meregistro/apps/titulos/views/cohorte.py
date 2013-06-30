@@ -96,12 +96,14 @@ def create(request, carrera_jurisdiccional_id):
 		form = CohorteForm()
 
 	choices = [('', '-------')]
+	"""
 	try:
 		for cohorte in carrera_jurisdiccional.datos_cohorte.all():
 			choices += [(i, i) for i in range(cohorte.primera_cohorte_solicitada, cohorte.ultima_cohorte_solicitada + 1)]
 	except CarreraJurisdiccionalCohorte.DoesNotExist:
 		pass
 	form.fields["anio"].choices = choices
+	"""
 	form.fields["carrera_jurisdiccional"].initial = carrera_jurisdiccional.id
 
 	return my_render(request, 'titulos/cohorte/new.html', {
@@ -133,12 +135,15 @@ def edit(request, cohorte_id):
 		form = CohorteForm(instance=cohorte)
 
 	carrera_jurisdiccional = cohorte.carrera_jurisdiccional
+	"""
 	choices = []
 	for a_cohorte in carrera_jurisdiccional.datos_cohorte.all():
 		choices += [(i, i) for i in range(a_cohorte.primera_cohorte_solicitada, a_cohorte.ultima_cohorte_solicitada + 1)]
 	form.fields["anio"].choices = choices
-
+	"""
 	asignada_establecimiento = cohorte.asignada_establecimiento()
+	if asignada_establecimiento:
+		form.fields["anio"].choices = [(cohorte.anio, cohorte.anio)]
 	
 	# No se puede modificar la carrera ni el año
 	form.fields["carrera_jurisdiccional"].queryset = CarreraJurisdiccional.objects.filter(id=cohorte.carrera_jurisdiccional_id)

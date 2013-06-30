@@ -10,7 +10,7 @@ import datetime
 class Cohorte(models.Model):
 	
 	PRIMER_ANIO = 1980
-	ULTIMO_ANIO = 2030
+	ULTIMO_ANIO = 2050
 	
 	carrera_jurisdiccional = models.ForeignKey(CarreraJurisdiccional, related_name='cohortes')
 	anio = models.PositiveIntegerField()
