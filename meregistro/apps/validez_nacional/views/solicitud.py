@@ -18,7 +18,7 @@ from apps.reportes.models import Reporte
 ITEMS_PER_PAGE = 50
 
 def __puede_editarse_solicitud(request, solicitud):
-	# Sólo se puede editar mientras está en estao Pendiente
+	# Sólo se puede editar mientras está en estado Pendiente
 	# pero el AdminNacional puede hacerlo en estado Controlado también
 	return (solicitud.estado.nombre == EstadoSolicitud.PENDIENTE) or \
 		(solicitud.estado.nombre == EstadoSolicitud.CONTROLADO and request.get_perfil().rol.nombre == Rol.ROL_ADMIN_NACIONAL)
