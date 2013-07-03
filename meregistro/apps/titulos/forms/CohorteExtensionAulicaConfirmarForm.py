@@ -10,5 +10,5 @@ class CohorteExtensionAulicaConfirmarForm(forms.ModelForm):
 
 	class Meta:
 		model = CohorteExtensionAulica
-		exclude = ('extension_aulica', 'cohorte', 'estado', 'oferta')
+		exclude = ('extension_aulica', 'cohorte', 'estado')
 

@@ -50,4 +50,4 @@ class CohortesUnidadEducativaFormFilters(forms.Form):
 			if filter_by('estado'):
 				q = q.filter(estado=self.cleaned_data['estado'])
 		q = q.order_by('cohorte__anio', 'cohorte__carrera_jurisdiccional__carrera__nombre')
-		return q.filter(oferta__exact=True)
+		return q

@@ -10,5 +10,5 @@ class CohorteAnexoConfirmarForm(forms.ModelForm):
 
 	class Meta:
 		model = CohorteAnexo
-		exclude = ('anexo', 'cohorte', 'estado', 'emite', 'oferta')
+		exclude = ('anexo', 'cohorte', 'estado')
 

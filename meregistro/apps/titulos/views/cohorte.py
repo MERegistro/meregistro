@@ -200,8 +200,6 @@ def asignar_establecimientos(request, cohorte_id):
 	cohorte = Cohorte.objects.get(pk=cohorte_id)
 	"Traigo los ids de los establecimientos actualmente asignados a la cohorte"
 	current_establecimientos_ids = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte).values_list("establecimiento_id"))
-	current_establecimientos_oferta = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte, oferta=True).values_list("establecimiento_id"))
-	current_establecimientos_emite = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte, emite=True).values_list("establecimiento_id"))
 	
 	"Búsqueda de establecimientos"
 	if request.method == 'GET':
@@ -235,14 +233,9 @@ def asignar_establecimientos(request, cohorte_id):
 		values_dict = {
 			'establecimientos_procesados_ids': [e.id for e in objects], #  Son los establecimientos de la página actual
 			'current_establecimientos_ids': current_establecimientos_ids,
-			'current_oferta_ids': current_establecimientos_oferta,
-			'current_emite_ids': current_establecimientos_emite,
 			'establecimientos_seleccionados_ids': request.POST.getlist("establecimientos"),
-			'post_oferta_ids': request.POST.getlist("oferta"),
-			'post_emite_ids': request.POST.getlist("emite"),
 			'estado': estado,
 		}
-		#cohorte.save_establecimientos(current_establecimientos_ids, current_establecimientos_oferta, current_establecimientos_emite, post_ids, post_oferta, post_emite, estado)
 		cohorte.save_establecimientos(**values_dict)
 
 		request.set_flash('success', 'Datos actualizados correctamente.')
@@ -253,8 +246,6 @@ def asignar_establecimientos(request, cohorte_id):
 	return my_render(request, 'titulos/cohorte/asignar_establecimientos.html', {
 		'cohorte': cohorte,
 		'current_establecimientos_ids': current_establecimientos_ids,
-		'current_establecimientos_oferta': current_establecimientos_oferta,
-		'current_establecimientos_emite': current_establecimientos_emite,
 		'form_filters': form_filters,
 		'objects': objects,
 		'paginator': paginator,
@@ -282,8 +273,6 @@ def asignar_anexos(request, cohorte_id):
 	cohorte = Cohorte.objects.get(pk=cohorte_id)
 	"Traigo los ids de los anexos actualmente asignados a la cohorte"
 	current_anexos_ids = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte).values_list("anexo_id"))
-	current_anexos_oferta = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte, oferta=True).values_list("anexo_id"))
-	current_anexos_emite = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte, emite=True).values_list("anexo_id"))
 	
 	"Búsqueda de anexos"
 	if request.method == 'GET':
@@ -317,11 +306,7 @@ def asignar_anexos(request, cohorte_id):
 		values_dict = {
 			'anexos_procesados_ids': [a.id for a in objects], #  Son los anexos de la página actual
 			'current_anexos_ids': current_anexos_ids,
-			'current_oferta_ids': current_anexos_oferta,
-			'current_emite_ids': current_anexos_emite,
 			'anexos_seleccionados_ids': request.POST.getlist("anexos"),
-			'post_oferta_ids': request.POST.getlist("oferta"),
-			'post_emite_ids': request.POST.getlist("emite"),
 			'estado': estado,
 		}
 		cohorte.save_anexos(**values_dict)
@@ -334,8 +319,6 @@ def asignar_anexos(request, cohorte_id):
 	return my_render(request, 'titulos/cohorte/asignar_anexos.html', {
 		'cohorte': cohorte,
 		'current_anexos_ids': current_anexos_ids,
-		'current_anexos_oferta': current_anexos_oferta,
-		'current_anexos_emite': current_anexos_emite,
 		'form_filters': form_filters,
 		'objects': objects,
 		'paginator': paginator,
@@ -363,7 +346,6 @@ def asignar_extensiones_aulicas(request, cohorte_id):
 	cohorte = Cohorte.objects.get(pk=cohorte_id)
 	"Traigo los ids de las extensiones áulicas actualmente asignados a la cohorte"
 	current_extensiones_aulicas_ids = __flat_list(CohorteExtensionAulica.objects.filter(cohorte=cohorte).values_list("extension_aulica_id"))
-	current_extensiones_aulicas_oferta = __flat_list(CohorteExtensionAulica.objects.filter(cohorte=cohorte, oferta=True).values_list("extension_aulica_id"))
 	
 	"Búsqueda de extensiones áulicas"
 	if request.method == 'GET':
@@ -397,9 +379,7 @@ def asignar_extensiones_aulicas(request, cohorte_id):
 		values_dict = {
 			'extensiones_aulicas_procesadas_ids': [e.id for e in objects], #  Son las extensiones de la página actual
 			'current_extensiones_aulicas_ids': current_extensiones_aulicas_ids,
-			'current_oferta_ids': current_extensiones_aulicas_oferta,
 			'extensiones_aulicas_seleccionadas_ids': request.POST.getlist("extensiones_aulicas"),
-			'post_oferta_ids': request.POST.getlist("oferta"),
 			'estado': estado,
 		}
 		cohorte.save_extensiones_aulicas(**values_dict)
@@ -412,7 +392,6 @@ def asignar_extensiones_aulicas(request, cohorte_id):
 	return my_render(request, 'titulos/cohorte/asignar_extensiones_aulicas.html', {
 		'cohorte': cohorte,
 		'current_extensiones_aulicas_ids': current_extensiones_aulicas_ids,
-		'current_extensiones_aulicas_oferta': current_extensiones_aulicas_oferta,
 		'form_filters': form_filters,
 		'objects': objects,
 		'paginator': paginator,

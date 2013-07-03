@@ -58,8 +58,6 @@
 				<th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /> <label for="check_all_anexos">Todas</label></th>
 				<th id="thEstablecimientoCue">CUE</th>
 				<th>Anexo</th>
-				<th>Oferta Carreras</th>
-				<th>Emite Títulos</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -68,8 +66,6 @@
 				<td><input type="checkbox" name="anexos" value="{{ anexo.id }}"{% if anexo.id in current_anexos_ids %} checked="checked"{% endif%} /></td>
 				<td>{{ anexo.establecimiento.cue }}</td>
 				<td>{{ anexo.nombre }}</td>
-				<td><input type="checkbox" name="oferta" value="{{ anexo.id }}"{% if anexo.id in current_anexos_oferta %} checked="checked"{% endif%} /></td>
-				<td><input type="checkbox" name="emite" value="{{ anexo.id }}"{% if anexo.id in current_anexos_emite %} checked="checked"{% endif%} /></td>
 			</tr>
 		{% endfor %}
 		</tbody>

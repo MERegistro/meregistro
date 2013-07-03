@@ -56,7 +56,7 @@ class Cohorte(models.Model):
 	Asocia/elimina los establecimientos desde el formulario masivo
 	XXX: los valores "posts" vienen como strings
 	"""
-	def save_establecimientos(self, establecimientos_procesados_ids, current_establecimientos_ids, current_oferta_ids, current_emite_ids, establecimientos_seleccionados_ids, post_oferta_ids, post_emite_ids, estado):
+	def save_establecimientos(self, establecimientos_procesados_ids, current_establecimientos_ids, establecimientos_seleccionados_ids, estado):
 		
 		from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
 		
@@ -66,21 +66,14 @@ class Cohorte(models.Model):
 				CohorteEstablecimiento.objects.get(cohorte=self, establecimiento=est_id).delete()
 
 		"Agregar los nuevos"
-		emite = False
-		oferta = False
 		for est_id in establecimientos_seleccionados_ids:
-			"Emite u oferta??"
-			emite = est_id in post_emite_ids
-			oferta = est_id in post_oferta_ids
 			"Si no está entre los actuales"
 			if int(est_id) not in current_establecimientos_ids:
 				# Lo creo y registro el estado
-				registro = CohorteEstablecimiento.objects.create(cohorte=self, establecimiento_id=est_id, emite=emite, oferta=oferta, estado=estado)
+				registro = CohorteEstablecimiento.objects.create(cohorte=self, establecimiento_id=est_id, estado=estado)
 				registro.registrar_estado()
 			else:
 				registro = CohorteEstablecimiento.objects.get(cohorte=self, establecimiento=est_id)
-				registro.emite = emite
-				registro.oferta = oferta
 				registro.save()
 				if str(registro.estado) != str(estado):
 					registro.registrar_estado()
@@ -89,7 +82,7 @@ class Cohorte(models.Model):
 	Asocia/elimina los anexos desde el formulario masivo
 	XXX: los valores "posts" vienen como strings
 	"""
-	def save_anexos(self, anexos_procesados_ids, current_anexos_ids, current_oferta_ids, current_emite_ids, anexos_seleccionados_ids, post_oferta_ids, post_emite_ids, estado):
+	def save_anexos(self, anexos_procesados_ids, current_anexos_ids, anexos_seleccionados_ids, estado):
 		
 		from apps.titulos.models.CohorteAnexo import CohorteAnexo
 		
@@ -99,21 +92,14 @@ class Cohorte(models.Model):
 				CohorteAnexo.objects.get(cohorte=self, anexo=anexo_id).delete()
 
 		"Agregar los nuevos"
-		emite = False
-		oferta = False
 		for anexo_id in anexos_seleccionados_ids:
-			"Emite u oferta??"
-			emite = anexo_id in post_emite_ids
-			oferta = anexo_id in post_oferta_ids
 			"Si no está entre los actuales"
 			if int(anexo_id) not in current_anexos_ids:
 				# Lo creo y registro el estado
-				registro = CohorteAnexo.objects.create(cohorte=self, anexo_id=anexo_id, emite=emite, oferta=oferta, estado=estado)
+				registro = CohorteAnexo.objects.create(cohorte=self, anexo_id=anexo_id, estado=estado)
 				registro.registrar_estado()
 			else:
 				registro = CohorteAnexo.objects.get(cohorte=self, anexo=anexo_id)
-				registro.emite = emite
-				registro.oferta = oferta
 				registro.save()
 				if str(registro.estado) != str(estado):
 					registro.registrar_estado()
@@ -122,7 +108,7 @@ class Cohorte(models.Model):
 	Asocia/elimina las extensiones áulicas desde el formulario masivo
 	XXX: los valores "posts" vienen como strings
 	"""
-	def save_extensiones_aulicas(self, extensiones_aulicas_procesadas_ids, current_extensiones_aulicas_ids, current_oferta_ids, extensiones_aulicas_seleccionadas_ids, post_oferta_ids, estado):
+	def save_extensiones_aulicas(self, extensiones_aulicas_procesadas_ids, current_extensiones_aulicas_ids, extensiones_aulicas_seleccionadas_ids, estado):
 		
 		from apps.titulos.models.CohorteExtensionAulica import CohorteExtensionAulica
 		
@@ -132,19 +118,14 @@ class Cohorte(models.Model):
 				CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica=extension_aulica_id).delete()
 
 		"Agregar los nuevos"
-		emite = False
-		oferta = False
 		for extension_aulica_id in extensiones_aulicas_seleccionadas_ids:
-			"Oferta??"
-			oferta = extension_aulica_id in post_oferta_ids
 			"Si no está entre los actuales"
 			if int(extension_aulica_id) not in current_extensiones_aulicas_ids:
 				# Lo creo y registro el estado
-				registro = CohorteExtensionAulica.objects.create(cohorte=self, extension_aulica_id=extension_aulica_id, oferta=oferta, estado=estado)
+				registro = CohorteExtensionAulica.objects.create(cohorte=self, extension_aulica_id=extension_aulica_id, estado=estado)
 				registro.registrar_estado()
 			else:
 				registro = CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica=extension_aulica_id)
-				registro.oferta = oferta
 				registro.save()
 				if str(registro.estado) != str(estado):
 					registro.registrar_estado()
