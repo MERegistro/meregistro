@@ -20,12 +20,13 @@ def get_titulos_por_carrera(request, carrera_id):
 	
 	if int(carrera_id) > 0:
 		try:
-			titulos = TituloNacional.objects.filter(carreras__id=carrera_id)
+			titulos = TituloNacional.objects.filter(carreras__id=carrera_id, estado__nombre=EstadoTituloNacional.VIGENTE)
 		except TituloNacional.DoesNotExist:
 			titulos = TituloNacional.objects.none()
 	
 	else:
-		titulos = TituloNacional.objects.all()
+		#titulos = TituloNacional.objects.all(estado__nombre=EstadoTituloNacional.VIGENTE)
+		titulos = TituloNacional.objects.none()
 	
 	titulos.order_by('nombre')
 	titulos = [{'pk':t.pk, 'nombre':t.nombre} for t in titulos]

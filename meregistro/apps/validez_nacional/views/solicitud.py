@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.seguridad.models import Ambito
+from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
@@ -17,8 +17,11 @@ from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
-def __puede_editarse_solicitud(solicitud):
-	return solicitud.estado.nombre == EstadoSolicitud.PENDIENTE
+def __puede_editarse_solicitud(request, solicitud):
+	# Sólo se puede editar mientras está en estao Pendiente
+	# pero el AdminNacional puede hacerlo en estado Controlado también
+	return (solicitud.estado.nombre == EstadoSolicitud.PENDIENTE) or \
+		(solicitud.estado.nombre == EstadoSolicitud.CONTROLADO and request.get_perfil().rol.nombre == Rol.ROL_ADMIN_NACIONAL)
 	
 
 def __flat_list(list_to_flat):
@@ -121,7 +124,7 @@ def edit(request, solicitud_id):
 	"""
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 	
@@ -168,7 +171,7 @@ def editar_normativas(request, solicitud_id):
 			'current_page': 'normativas',
 	})
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 		
@@ -215,7 +218,7 @@ def editar_cohortes(request, solicitud_id):
 		'current_page': 'cohortes',
 	})
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 		
@@ -272,7 +275,7 @@ def control(request, solicitud_id):
 def asignar_establecimientos(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 	
@@ -328,7 +331,7 @@ def asignar_establecimientos(request, solicitud_id):
 def asignar_anexos(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 	

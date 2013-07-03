@@ -45,14 +45,10 @@ $(document).ready(function(){
     dropdown_carrera.change(function(){
 		carrera_change($(this).val());
 	}); // END function
+	{% if not solicitud %}
 	if(current_carrera != ''){
-		//dropdown_carrera.change();
+		carrera_change(dropdown_carrera.val());
 	}
-	{% if solicitud %}
-	/*alert({{ solicitud.carrera_id }});
-		dropdown_carrera.val({{ solicitud.carrera_id }});
-		dropdown_titulo.val({{ solicitud.titulo_nacional_id }});
-	*/
 	{% endif %}
 }); // END document.ready
 
