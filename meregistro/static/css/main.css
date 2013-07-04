@@ -1124,3 +1124,7 @@ a.nroinfd {
     display:none;
 }
 }
+/* VALIDEZ INSTITUCIONAL */
+body.consulta-institucional table td.td-tipo-ue {
+	text-align: center;
+}

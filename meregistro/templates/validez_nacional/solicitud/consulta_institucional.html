@@ -2,6 +2,8 @@
 
 {% load tags_filters %}
 
+{% block css_body_classes %}{% css_classes "consulta-institucional" %}{% endblock %}
+
 {% block title %}Validez Nacional de Títulos{% endblock %}
 
 {% block content %}
@@ -27,7 +29,7 @@
 <table class="hor-zebra" style="margin-top:65px">
   <thead>
     <tr>
-      <th>Tipo UE.</th>
+      <th>Tipo UE</th>
       <th>CUE</th>
       <th>Carrera</th>
       <th>Título</th>
@@ -43,7 +45,8 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-		<td>{{ obj.tipo_unidad_educativa|slice:"1" }}</td>
+		<!--<td>{{ obj.tipo_unidad_educativa|slice:"1" }}</td>-->
+		<td class="td-tipo-ue">{{ obj.tipo_unidad_educativa }}</td>
 		<td>{{ obj.cue|default:"--" }}</td>
 		<td>{{ obj.solicitud.carrera.nombre }}</td>
 		<td>{{ obj.solicitud.titulo_nacional.nombre }}</td>
