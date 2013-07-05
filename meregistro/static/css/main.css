@@ -778,6 +778,13 @@ td.actions-td ul li.seguimiento-cohorte a {
 	height: 16px;
 	background: url(../img/icons/arrow-branch-bgr-16-ns.png) no-repeat left;
 }
+/* NUMERAR */
+td.actions-td ul li.numerar a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/power_on-16x16.png) no-repeat left;
+}
 /* REPORTES */
 ul.reportes-actions {
 	float: left;
