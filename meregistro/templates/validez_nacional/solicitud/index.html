@@ -62,9 +62,9 @@
       <th>Norm. Jurisd.</th>
       -->
       <th>Cohortes</th>
-      <th>Estado</th>
       <th>Dict. Cofev</th>
       <th>Norm. Nac.</th>
+      <th>Estado</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -77,10 +77,16 @@
 	<!--
 	<td>{{ obj.normativas_jurisdiccionales.all|implode:", " }}</td>
 	-->
-	<td>{{ obj.primera_cohorte|default:"---" }}-{{ obj.ultima_cohorte|default:"---" }}</td>
+	{% if obj.estado == 'Numerado' %}
+	<td>{{ obj.validez_nacional.primera_cohorte }}-{{ obj.validez_nacional.ultima_cohorte }}</td>
+	<td>{{ obj.validez_nacional.dictamen_cofev }}</td>
+	<td>{{ obj.validez_nacional.normativas_nacionales }}</td>
+	{% else %}
+	<td>{{ obj.primera_cohorte|default:"" }}-{{ obj.ultima_cohorte|default:"" }}</td>
+	<td>{{ obj.dictamen_cofev|default:"" }}</td>
+	<td>{{ obj.normativas_nacionales|default:"" }}</td>
+	{% endif %}
 	<td>{{ obj.estado }}</td>
-	<td>{{ obj.dictamen_cofev|default:"---" }}</td>
-	<td>{{ obj.normativas_nacionales|default:"---" }}</td>
 		<td class="actions-td">
 			<ul>
 			{% if "validez_nacional_editar_solicitud" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}

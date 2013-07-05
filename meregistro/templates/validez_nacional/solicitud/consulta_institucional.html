@@ -34,9 +34,6 @@
       <th>Carrera</th>
       <th>Título</th>
       <th style="width: 80px;">Cohortes</th>
-      <!--
-      <th>Norm. Jurisd.</th>
-      -->
       <th>Dict. CoFEv</th>
       <th>Norm. Nac.</th>
       <th>Nro. INFD</th>
@@ -45,17 +42,13 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-		<!--<td>{{ obj.tipo_unidad_educativa|slice:"1" }}</td>-->
 		<td class="td-tipo-ue">{{ obj.tipo_unidad_educativa }}</td>
 		<td>{{ obj.cue|default:"--" }}</td>
-		<td>{{ obj.solicitud.carrera.nombre }}</td>
-		<td>{{ obj.solicitud.titulo_nacional.nombre }}</td>
-		<td>{{ obj.solicitud.primera_cohorte|default:"---" }}-{{ obj.solicitud.ultima_cohorte|default:"---" }}</td>
-		<!--
-		<td>{{ obj.solicitud.normativas_jurisdiccionales.all|implode:", " }}</td>
-		-->
-		<td>{{ obj.solicitud.dictamen_cofev|default:"" }}</td>
-		<td>{{ obj.solicitud.normativas_nacionales|default:"" }}</td>
+		<td>{{ obj.carrera }}</td>
+		<td>{{ obj.titulo_nacional }}</td>
+		<td>{{ obj.primera_cohorte }}-{{ obj.ultima_cohorte }}</td>
+		<td>{{ obj.dictamen_cofev|default:"" }}</td>
+		<td>{{ obj.normativas_nacionales|default:obj.solicitud.normativas_nacionales }}</td>
 		<td>{{ obj.nro_infd|default:"" }}</td>
       </tr>
     {% endfor %}

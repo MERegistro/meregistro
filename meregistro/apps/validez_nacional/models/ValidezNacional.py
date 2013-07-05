@@ -16,6 +16,13 @@ class ValidezNacional(models.Model):
 	cue = models.CharField(max_length=9, null=False, db_index=True)
 	tipo_unidad_educativa = models.CharField(max_length=10, null=False)
 	unidad_educativa_id = models.PositiveIntegerField(null=False)
+	carrera = models.CharField(max_length=255, null=True)
+	titulo_nacional = models.CharField(max_length=255, null=True)
+	primera_cohorte = models.CharField(max_length=255, null=True)
+	ultima_cohorte = models.CharField(max_length=255, null=True)
+	dictamen_cofev = models.CharField(max_length=255, null=True)
+	normativas_nacionales = models.CharField(max_length=255, null=True)
+	normativa_jurisdiccional = models.CharField(max_length=255, null=True)
 
 	class Meta:
 		app_label = 'validez_nacional'
