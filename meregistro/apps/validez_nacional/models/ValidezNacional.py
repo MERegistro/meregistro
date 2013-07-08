@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.validez_nacional.models import Solicitud
+from apps.registro.models import Establecimiento, Anexo
 import datetime
 
 """
@@ -23,8 +24,38 @@ class ValidezNacional(models.Model):
 	dictamen_cofev = models.CharField(max_length=255, null=True)
 	normativas_nacionales = models.CharField(max_length=255, null=True)
 	normativa_jurisdiccional = models.CharField(max_length=255, null=True)
+	temporal = models.BooleanField(default=True, editable=False)
 
 	class Meta:
 		app_label = 'validez_nacional'
 		db_table = 'validez_nacional_validez_nacional'
 
+		
+	def calcular_nro_infd_establecimiento(self):
+		establecimiento = Establecimiento.objects.get(pk=self.unidad_educativa_id)
+		cod_jur = establecimiento.dependencia_funcional.jurisdiccion.prefijo
+		tipo_gestion = str(establecimiento.dependencia_funcional.tipo_gestion.id)
+		unidad_educativa_id = str(establecimiento.id).zfill(5)
+		anio = str(datetime.date.today().year)[2:]
+		titulo = 'T'
+		id_unico = str(self.id).zfill(6)
+		nro_infd = cod_jur + tipo_gestion + unidad_educativa_id + anio + titulo + id_unico
+		return nro_infd
+		
+	def get_establecimiento(self):
+		return Establecimiento.objects.get(pk=self.unidad_educativa_id)
+
+		
+	def calcular_nro_infd_anexo(self):
+		anexo = Anexo.objects.get(pk=self.unidad_educativa_id)
+		cod_jur = anexo.establecimiento.dependencia_funcional.jurisdiccion.prefijo
+		tipo_gestion = str(anexo.establecimiento.dependencia_funcional.tipo_gestion.id)
+		unidad_educativa_id = str(anexo.establecimiento.id).zfill(5)
+		anio = str(datetime.date.today().year)[2:]
+		titulo = 'T'
+		id_unico = str(self.id).zfill(6)
+		nro_infd = cod_jur + tipo_gestion + unidad_educativa_id + anio + titulo + id_unico
+		return nro_infd
+		
+	def get_anexo(self):
+		return Anexo.objects.get(pk=self.unidad_educativa_id)

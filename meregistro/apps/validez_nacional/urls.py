@@ -22,6 +22,8 @@ urlpatterns=patterns('',
     url(r'^solicitud/([0-9]+)/asignar-establecimientos$', 'apps.validez_nacional.views.solicitud.asignar_establecimientos', name='solicitudAsignarEstablecimientos'),
     # Asignar anexos
     url(r'^solicitud/([0-9]+)/asignar-anexos$', 'apps.validez_nacional.views.solicitud.asignar_anexos', name='solicitudAsignarAnexos'),
+    # Numerar
+    url(r'^solicitud/([0-9]+)/numerar$', 'apps.validez_nacional.views.solicitud.numerar', name='validezNacionalSolicitudNumerar'),
     # AJAX
     url(r'^ajax/get_titulos_por_carrera/([0-9]+)', 'apps.validez_nacional.views.ajax.get_titulos_por_carrera', name='ajaxGetTitulosPorCarrera'),
     

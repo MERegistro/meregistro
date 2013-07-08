@@ -95,7 +95,7 @@
 				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
 			{% endif %}
 			{% if "validez_nacional_numerar" in credenciales and obj.is_numerable %}
-				<li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.edit obj.id %}" title="Numerar"><span>Numerar</span></a></li>
+				<li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
 			{% endif %}
 			{% if obj.is_deletable %}
 				<li class="delete"><a href="{% url apps.validez_nacional.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>	

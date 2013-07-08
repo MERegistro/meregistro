@@ -1127,11 +1127,15 @@ a.nroinfd {
 }
 
 @media print {
-.noPrint {
-    display:none;
-}
+	.noPrint {
+		display:none;
+	}
 }
 /* VALIDEZ INSTITUCIONAL */
 body.consulta-institucional table td.td-tipo-ue {
+	text-align: center;
+}
+/* NUMERACIÓN */
+body table#numeracion-solicitudes.hor-zebra td {
 	text-align: center;
 }
