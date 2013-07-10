@@ -24,5 +24,3 @@ class SolicitudDatosBasicosForm(forms.ModelForm):
 		self.fields['carrera'].queryset = self.fields['carrera'].queryset.filter(jurisdicciones__id=jurisdiccion_id, estado__nombre=EstadoCarrera.VIGENTE)
 		if solicitud:
 			self.initial = {'carrera': solicitud.carrera, 'titulo_nacional': solicitud.titulo_nacional}
-		else:
-			self.fields['titulo_nacional'].queryset = self.fields['titulo_nacional'].queryset.none()

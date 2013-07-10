@@ -46,6 +46,7 @@ $(document).ready(function(){
 		carrera_change($(this).val());
 	}); // END function
 	{% if not solicitud %}
+	dropdown_titulo.html('<option value="">---------</option>'); // Vaciar el select
 	if(current_carrera != ''){
 		carrera_change(dropdown_carrera.val());
 	}
