@@ -1,0 +1,69 @@
+<div class="form tabbed-form" id="solicitudCohortesForm">
+	{% if solicitud %}
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-select">
+			{{ form.cohortes_solicitadas.errors }}
+			<label for="id_cohortes_solicitadas">Cohortes Solicitadas:</label>
+			{{ form.cohortes_solicitadas }}
+		</div>
+		<div class="form-select">
+			{{ form.primera_cohorte.errors }}
+			<label for="id_primera_cohorte">Primera Cohorte:</label>
+			{{ form.primera_cohorte }}
+		</div>
+		<div class="form-text">
+			<label for="id_ultima_cohorte">Última Cohorte:</label>
+			<input type="text" readonly="readonly" value="" name="ultima_cohorte" id ="id_ultima_cohorte" class="readonly" />
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+	{% else %}
+	<form action="">
+		<div class="message">
+			<p>Debe guardar los datos básicos antes de poder editar las cohortes.</p>
+		</div>
+	</form>
+	{% endif %}
+</div>
+<script>
+
+var dropdown_cantidad = $("select#id_cohortes_solicitadas");
+var dropdown_primera = $("select#id_primera_cohorte");
+var txt_ultima = $("input#id_ultima_cohorte");
+
+{% if not is_new %}
+var cantidad_actual = {{ solicitud.ultima_cohorte }} - {{ solicitud.primera_cohorte }} + 1;
+dropdown_cantidad.val(cantidad_actual);
+{% endif %}
+function calcular_ultima_cohorte()
+{
+	ultima = "";
+	try
+	{
+		if(dropdown_cantidad.val() != "" && dropdown_primera.val() != "")
+		{
+			ultima = parseInt(dropdown_cantidad.val()) + parseInt(dropdown_primera.val()) - 1;
+		}
+	}
+	catch(e)
+	{
+	}
+	txt_ultima.val(ultima);
+}
+$(document).ready(
+	function(){
+		dropdown_cantidad.change(calcular_ultima_cohorte);
+		dropdown_primera.change(calcular_ultima_cohorte);
+		calcular_ultima_cohorte();
+	} // END function
+	// Init
+); // END document.ready
+
+</script>

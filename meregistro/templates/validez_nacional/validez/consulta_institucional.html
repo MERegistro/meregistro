@@ -1,0 +1,66 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}{% css_classes "consulta-institucional" %}{% endblock %}
+
+{% block title %}Validez Nacional de Títulos{% endblock %}
+
+{% block content %}
+<h2>Validez Nacional de Títulos</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+<hr />
+
+
+{% if objects %}
+{% include "counter.html" %}
+<!--
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+-->
+<table class="hor-zebra" style="margin-top:65px">
+  <thead>
+    <tr>
+      <th>Tipo UE</th>
+      <th>CUE</th>
+      <th>Carrera</th>
+      <th>Título</th>
+      <th style="width: 80px;">Cohortes</th>
+      <th>Dict. CoFEv</th>
+      <th>Norm. Nac.</th>
+      <th>Nro. INFD</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+		<td class="td-tipo-ue">{{ obj.tipo_unidad_educativa }}</td>
+		<td>{{ obj.cue|default:"--" }}</td>
+		<td>{{ obj.carrera }}</td>
+		<td>{{ obj.titulo_nacional }}</td>
+		<td>{{ obj.primera_cohorte }}-{{ obj.ultima_cohorte }}</td>
+		<td>{{ obj.dictamen_cofev|default:"" }}</td>
+		<td>{{ obj.normativas_nacionales|default:obj.solicitud.normativas_nacionales }}</td>
+		<td>{{ obj.nro_infd|default:"" }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron resultados.</p>
+</div>
+{% endif %}
+<hr />
+{% endblock %}
+

@@ -30,7 +30,7 @@ def __flat_list(list_to_flat):
 	
 
 @login_required
-@credential_required('validez_nacional_consulta')
+@credential_required('validez_nacional_solicitud_consulta')
 def index(request):
 	
 	if request.method == 'GET':
@@ -82,7 +82,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('validez_nacional_solicitud')
+@credential_required('validez_nacional_solicitud_create')
 def create(request):
 	try:
 		jurisdiccion_id = jurisdiccion_id=request.get_perfil().jurisdiccion().id
@@ -116,7 +116,7 @@ def create(request):
 
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 # Editar datos básicos
 def edit(request, solicitud_id):
 	"""
@@ -155,7 +155,7 @@ def edit(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def editar_normativas(request, solicitud_id):
 	"""
 	Edición de normativas
@@ -201,7 +201,7 @@ def editar_normativas(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def editar_cohortes(request, solicitud_id):
 	"""
 	Edición de datos de cohortes
@@ -244,7 +244,7 @@ def editar_cohortes(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_control')
+@credential_required('validez_nacional_solicitud_control')
 def control(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	estado_anterior = solicitud.estado
@@ -271,7 +271,7 @@ def control(request, solicitud_id):
 	})
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def asignar_establecimientos(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
@@ -327,7 +327,7 @@ def asignar_establecimientos(request, solicitud_id):
 	
 	
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def asignar_anexos(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
@@ -383,7 +383,7 @@ def asignar_anexos(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_eliminar_solicitud')
+@credential_required('validez_nacional_solicitud_eliminar')
 def delete(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
@@ -404,7 +404,7 @@ def build_query_institucional(filters, page, request):
 	
 	
 @login_required
-@credential_required('validez_nacional_consulta_institucional')
+@credential_required('validez_nacional_solicitud_consulta_institucional')
 def consulta_institucional(request):
 
 	ambito = request.get_perfil().ambito
@@ -461,7 +461,7 @@ def consulta_institucional(request):
 
 
 @login_required
-@credential_required('validez_nacional_numerar')
+@credential_required('validez_nacional_solicitud_numerar')
 def numerar(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	

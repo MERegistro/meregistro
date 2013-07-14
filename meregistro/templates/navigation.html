@@ -94,14 +94,17 @@
 			</ul>
 		</li>
 		{% endif %}
-		{% if 'validez_nacional_consulta' in credenciales or 'validez_nacional_control' in credenciales or 'validez_nacional_consulta_institucional' in credenciales %}
+		{% if 'validez_nacional_solicitud_consulta' in credenciales or 'validez_nacional_solicitud_control' in credenciales or 'validez_nacional_validez_index' in credenciales or 'validez_nacional_solicitud_consulta_institucional' in credenciales %}
 		<li><a href="#" class="inactive"><span>Títulos</span></a>
 			<ul>
-				{% if 'validez_nacional_solicitud' in credenciales or 'validez_nacional_control' in credenciales %}
+				{% if 'validez_nacional_solicitud_create' in credenciales or 'validez_nacional_solicitud_control' in credenciales %}
 				<li><a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Solicitudes de Validez</span></a></li>
 				{% endif %}
-				{% if 'validez_nacional_consulta_institucional' in credenciales %}
+				{% if 'validez_nacional_solicitud_consulta_institucional' in credenciales %}
 				<li><a href="{% url apps.validez_nacional.views.solicitud.consulta_institucional %}"><span>Validez Nacional Institucional</span></a></li>
+				{% endif %}
+				{% if 'validez_nacional_validez_index' in credenciales %}
+				<li><a href="{% url apps.validez_nacional.views.validez.index %}"><span>Validez Nacional</span></a></li>
 				{% endif %}
 			</ul>
 		</li>

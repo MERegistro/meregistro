@@ -41,11 +41,16 @@ class ValidezNacional(models.Model):
 		id_unico = str(self.id).zfill(6)
 		nro_infd = cod_jur + tipo_gestion + unidad_educativa_id + anio + titulo + id_unico
 		return nro_infd
-		
-	def get_establecimiento(self):
-		return Establecimiento.objects.get(pk=self.unidad_educativa_id)
 
 		
+	def get_establecimiento(self):
+		try:
+			e = Establecimiento.objects.get(pk=self.unidad_educativa_id)
+		except Establecimiento.DoesNotExist: 
+			e = None
+		return e
+
+
 	def calcular_nro_infd_anexo(self):
 		anexo = Anexo.objects.get(pk=self.unidad_educativa_id)
 		cod_jur = anexo.establecimiento.dependencia_funcional.jurisdiccion.prefijo
@@ -56,6 +61,30 @@ class ValidezNacional(models.Model):
 		id_unico = str(self.id).zfill(6)
 		nro_infd = cod_jur + tipo_gestion + unidad_educativa_id + anio + titulo + id_unico
 		return nro_infd
-		
+
+
 	def get_anexo(self):
-		return Anexo.objects.get(pk=self.unidad_educativa_id)
+		try:
+			a = Anexo.objects.get(pk=self.unidad_educativa_id)
+		except Anexo.DoesNotExist:
+			a = None
+		return a
+
+
+	def get_unidad_educativa(self):
+		if self.tipo_unidad_educativa == self.TIPO_UE_SEDE:
+			ue = self.get_establecimiento()
+		elif self.tipo_unidad_educativa == self.TIPO_UE_ANEXO:
+			ue = self.get_anexo()
+		
+		return ue
+			
+	def get_jurisdiccion(self):
+		ue = self.get_unidad_educativa()
+		if ue:
+			if self.tipo_unidad_educativa == self.TIPO_UE_SEDE:
+				return ue.dependencia_funcional.jurisdiccion
+			elif self.tipo_unidad_educativa == self.TIPO_UE_ANEXO:
+				return ue.establecimiento.dependencia_funcional.jurisdiccion
+		else:
+			return None

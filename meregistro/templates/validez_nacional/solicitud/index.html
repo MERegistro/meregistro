@@ -7,7 +7,7 @@
 {% block content %}
 <h2>Solicitud de Validez Nacional de Títulos</h2>
 
-{% if "validez_nacional_solicitud" in credenciales %}
+{% if "validez_nacional_solicitud_create" in credenciales %}
 <ul class="actions">
 	<li class="create">
 		<a href="{% url apps.validez_nacional.views.solicitud.create %}"><span>Nueva Solicitud de Validez</span></a>
@@ -89,12 +89,12 @@
 	<td>{{ obj.estado }}</td>
 		<td class="actions-td">
 			<ul>
-			{% if "validez_nacional_editar_solicitud" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
+			{% if "validez_nacional_solicitud_editar" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
 				<li class="edit"><a href="{% url apps.validez_nacional.views.solicitud.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
 				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_establecimientos obj.id %}" title="Asignar a Sedes"><span>Asignar a Sedes</span></a></li>
 				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
 			{% endif %}
-			{% if "validez_nacional_numerar" in credenciales and obj.is_numerable %}
+			{% if "validez_nacional_solicitud_numerar" in credenciales and obj.is_numerable %}
 				<li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
 			{% endif %}
 			{% if obj.is_deletable %}
