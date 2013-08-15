@@ -125,12 +125,12 @@ class Command(BaseCommand):
             cohorte = q[0]
         carrera_cohorte = CarreraJurisdiccionalCohorte()
         carrera_cohorte.carrera_jurisdiccional = carrera_jurisdiccional
-        carrera_cohorte.primera_cohorte_solicitada = anio
-        carrera_cohorte.primera_cohorte_autorizada = anio
-        carrera_cohorte.ultima_cohorte_solicitada = anio
-        carrera_cohorte.ultima_cohorte_autorizada = anio
+        carrera_cohorte.primera_cohorte_solicitada = 2008
+        carrera_cohorte.primera_cohorte_autorizada = 2008
+        carrera_cohorte.ultima_cohorte_solicitada = 2050
+        carrera_cohorte.ultima_cohorte_autorizada = 2050
         if len(CarreraJurisdiccionalCohorte.objects.filter(carrera_jurisdiccional=carrera_jurisdiccional,
-            primera_cohorte_autorizada=anio, ultima_cohorte_autorizada=anio)) == 0:
+            primera_cohorte_autorizada=2008, ultima_cohorte_autorizada=2050)) == 0:
             carrera_cohorte.save()
         return cohorte
 
@@ -158,7 +158,7 @@ class Command(BaseCommand):
         elif ue.__class__ is ExtensionAulica:
             q = CohorteExtensionAulica.objects.filter(extension_aulica=ue, cohorte=cohorte)
             if len(q) == 0:
-                cohorte_ue = CohorteAnexo()
+                cohorte_ue = CohorteExtensionAulica()
             else:
                 cohorte_ue = q[0]
             cohorte_ue.extension_aulica = ue
