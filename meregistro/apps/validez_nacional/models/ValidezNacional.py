@@ -88,3 +88,6 @@ class ValidezNacional(models.Model):
 				return ue.establecimiento.dependencia_funcional.jurisdiccion
 		else:
 			return None
+			
+	def get_domicilio_institucional(self):
+		return self.get_unidad_educativa().get_domicilio_institucional()

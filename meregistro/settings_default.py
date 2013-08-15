@@ -94,7 +94,7 @@ INSTALLED_APPS = (
     'apps.titulos',
     'apps.reportes',
     'apps.sistema',
-    'apps.consulta_validez_tmp',
+    'apps.consulta_validez',
     'apps.oferta_nacional',
     'apps.validez_nacional',
     # Uncomment the next line to enable the admin:
