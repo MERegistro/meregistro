@@ -9,8 +9,6 @@ import datetime
 class CohorteEstablecimiento(models.Model):
 	establecimiento = models.ForeignKey(Establecimiento, related_name='cohortes')
 	cohorte = models.ForeignKey(Cohorte)
-	oferta = models.NullBooleanField()
-	emite = models.NullBooleanField()
 	inscriptos = models.PositiveIntegerField(null=True)
 	estado = models.ForeignKey(EstadoCohorteEstablecimiento) # Concuerda con el último estado en CohorteEstablecimientoEstado
 

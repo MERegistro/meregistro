@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.seguridad.models import Ambito
+from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
@@ -17,8 +17,11 @@ from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
 
-def __puede_editarse_solicitud(solicitud):
-	return solicitud.estado.nombre == EstadoSolicitud.PENDIENTE
+def __puede_editarse_solicitud(request, solicitud):
+	# Sólo se puede editar mientras está en estado Pendiente
+	# pero el AdminNacional puede hacerlo en estado Controlado también
+	return (solicitud.estado.nombre == EstadoSolicitud.PENDIENTE) or \
+		(solicitud.estado.nombre == EstadoSolicitud.CONTROLADO and request.get_perfil().rol.nombre == Rol.ROL_ADMIN_NACIONAL)
 	
 
 def __flat_list(list_to_flat):
@@ -27,7 +30,7 @@ def __flat_list(list_to_flat):
 	
 
 @login_required
-@credential_required('validez_nacional_consulta')
+@credential_required('validez_nacional_solicitud_consulta')
 def index(request):
 	
 	if request.method == 'GET':
@@ -79,7 +82,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('validez_nacional_solicitud')
+@credential_required('validez_nacional_solicitud_create')
 def create(request):
 	try:
 		jurisdiccion_id = jurisdiccion_id=request.get_perfil().jurisdiccion().id
@@ -113,7 +116,7 @@ def create(request):
 
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 # Editar datos básicos
 def edit(request, solicitud_id):
 	"""
@@ -121,7 +124,7 @@ def edit(request, solicitud_id):
 	"""
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 	
@@ -152,7 +155,7 @@ def edit(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def editar_normativas(request, solicitud_id):
 	"""
 	Edición de normativas
@@ -168,7 +171,7 @@ def editar_normativas(request, solicitud_id):
 			'current_page': 'normativas',
 	})
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 		
@@ -198,7 +201,7 @@ def editar_normativas(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def editar_cohortes(request, solicitud_id):
 	"""
 	Edición de datos de cohortes
@@ -215,7 +218,7 @@ def editar_cohortes(request, solicitud_id):
 		'current_page': 'cohortes',
 	})
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 		
@@ -241,7 +244,7 @@ def editar_cohortes(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_control')
+@credential_required('validez_nacional_solicitud_control')
 def control(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	estado_anterior = solicitud.estado
@@ -268,11 +271,11 @@ def control(request, solicitud_id):
 	})
 
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def asignar_establecimientos(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 	
@@ -324,11 +327,11 @@ def asignar_establecimientos(request, solicitud_id):
 	
 	
 @login_required
-@credential_required('validez_nacional_editar_solicitud')
+@credential_required('validez_nacional_solicitud_editar')
 def asignar_anexos(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
-	if not __puede_editarse_solicitud(solicitud):
+	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 	
@@ -380,7 +383,7 @@ def asignar_anexos(request, solicitud_id):
 
 
 @login_required
-@credential_required('validez_nacional_eliminar_solicitud')
+@credential_required('validez_nacional_solicitud_eliminar')
 def delete(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 
@@ -401,7 +404,7 @@ def build_query_institucional(filters, page, request):
 	
 	
 @login_required
-@credential_required('validez_nacional_consulta_institucional')
+@credential_required('validez_nacional_solicitud_consulta_institucional')
 def consulta_institucional(request):
 
 	ambito = request.get_perfil().ambito
@@ -455,3 +458,79 @@ def consulta_institucional(request):
 		'export_url': Reporte.build_export_url(request.build_absolute_uri()),
 	})
 
+
+
+@login_required
+@credential_required('validez_nacional_solicitud_numerar')
+def numerar(request, solicitud_id):
+	solicitud = Solicitud.objects.get(pk=solicitud_id)
+	
+	if not solicitud.is_numerable():
+		request.set_flash('warning', 'La solicitud no se puede numerar.')
+		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+
+
+	if request.method == 'POST':
+		validez_establecimientos_ids = request.POST.getlist("validez_nacional_establecimientos")
+		ValidezNacional.objects.filter(id__in=validez_establecimientos_ids).update(temporal=False)
+		
+		validez_anexos_ids = request.POST.getlist("validez_nacional_anexos")
+		ValidezNacional.objects.filter(id__in=validez_anexos_ids).update(temporal=False)
+
+		solicitud.estado = EstadoSolicitud.objects.get(nombre=EstadoSolicitud.NUMERADO)
+		solicitud.save()
+		solicitud.registrar_estado()
+
+		request.set_flash('success', 'Datos actualizados correctamente.')
+		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		
+			
+	validez_establecimientos = []
+	# solicitud-establecimientos
+	for se in solicitud.establecimientos.all():
+		v = ValidezNacional()
+		v.tipo_unidad_educativa = 'Sede'
+		v.unidad_educativa_id = se.establecimiento.id
+		v.cue = se.establecimiento.cue
+		v.solicitud_id = solicitud.id
+		v.carrera = solicitud.carrera.nombre
+		v.titulo_nacional = solicitud.titulo_nacional.nombre
+		v.primera_cohorte = solicitud.primera_cohorte
+		v.ultima_cohorte = solicitud.ultima_cohorte
+		v.dictamen_cofev = solicitud.dictamen_cofev
+		v.normativas_nacionales = solicitud.normativas_nacionales
+		v.normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
+		v.temporal = True
+		v.save() # Necesito recuperar el ID en la siguiente línea
+		v.nro_infd = v.calcular_nro_infd_establecimiento()
+		v.save()
+		validez_establecimientos.append(v)
+			
+		
+	validez_anexos = []
+	# solicitud-anexos
+	for sa in solicitud.anexos.all():
+		v = ValidezNacional()
+		v.tipo_unidad_educativa = 'Anexo'
+		v.unidad_educativa_id = sa.anexo.id
+		v.cue = sa.anexo.cue
+		v.solicitud_id = solicitud.id
+		v.carrera = solicitud.carrera.nombre
+		v.titulo_nacional = solicitud.titulo_nacional.nombre
+		v.primera_cohorte = solicitud.primera_cohorte
+		v.ultima_cohorte = solicitud.ultima_cohorte
+		v.dictamen_cofev = solicitud.dictamen_cofev
+		v.normativas_nacionales = solicitud.normativas_nacionales
+		v.normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
+		v.temporal = True
+		v.save() # Necesito recuperar el ID en la siguiente línea
+		v.nro_infd = v.calcular_nro_infd_anexo()
+		v.save()
+		validez_anexos.append(v)
+			
+	return my_render(request, 'validez_nacional/solicitud/numerar.html', {
+		'solicitud': solicitud,
+		'validez_establecimientos': validez_establecimientos,
+		'validez_anexos': validez_anexos,
+		'form_template': 'validez_nacional/solicitud/form_control.html',
+	})

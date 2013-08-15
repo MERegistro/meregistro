@@ -4,9 +4,7 @@
 
 {% load tags_filters %}
 
-{% block css_body_classes %}
-{% css_classes "cohorte-asignar-extensiones-aulicas" %}
-{% endblock %}
+{% block css_body_classes %}{% css_classes "cohorte-asignar-extensiones-aulicas" %}{% endblock %}
 
 {% block content %}
 <h2>Asignación de Cohorte a Extensión Áulica</h2>
@@ -58,7 +56,6 @@
 				<th><input type="checkbox" name="check_all_extensiones_aulicas" id="check_all_extensiones_aulicas" /> <label for="check_all_extensiones_aulicas">Todas</label></th>
 				<th id="thEstablecimientoCue">CUE</th>
 				<th>Extensión Áulica</th>
-				<th>Oferta Carreras</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -67,7 +64,6 @@
 				<td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_ids %} checked="checked"{% endif%} /></td>
 				<td>{{ extension_aulica.cue }}</td>
 				<td>{{ extension_aulica.nombre }}</td>
-				<td><input type="checkbox" name="oferta" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_oferta %} checked="checked"{% endif%} /></td>
 			</tr>
 		{% endfor %}
 		</tbody>

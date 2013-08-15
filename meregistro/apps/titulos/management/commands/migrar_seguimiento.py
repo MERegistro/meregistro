@@ -167,7 +167,6 @@ class Command(BaseCommand):
             #cohorte.save()
         cohorte_ue.cohorte = cohorte
         cohorte_ue.inscriptos = inscriptos
-        cohorte_ue.oferta = True
         cohorte_ue.save()
         cohorte_ue.registrar_estado()
         return cohorte_ue

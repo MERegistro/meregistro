@@ -18,6 +18,7 @@ class Solicitud(models.Model):
 	normativas_jurisdiccionales = models.ManyToManyField(NormativaJurisdiccional, db_table='validez_nacional_solicitud_normativas_jurisdiccionales')
 	normativas_nacionales = models.CharField(max_length=99, null=True)
 	estado = models.ForeignKey(EstadoSolicitud, null=False) # Concuerda con el último estado en SolicitudEstado
+	normativa_jurisdiccional_migrada = models.CharField(max_length=99, null=True)
 	
 	class Meta:
 		app_label = 'validez_nacional'
@@ -98,3 +99,12 @@ class Solicitud(models.Model):
 
 	def is_deletable(self):
 		return self.estado.nombre == EstadoSolicitud.PENDIENTE
+		
+	
+	def is_numerable(self):
+		numerable = self.estado.nombre == EstadoSolicitud.CONTROLADO
+		numerable = numerable and (len(self.establecimientos.all()) > 0 or len(self.anexos.all()) > 0)
+		numerable = numerable and self.jurisdiccion and self.carrera and self.primera_cohorte and self.ultima_cohorte \
+			and (self.normativas_jurisdiccionales or self.normativa_jurisdiccional_migrada) and self.normativas_nacionales
+		return numerable
+

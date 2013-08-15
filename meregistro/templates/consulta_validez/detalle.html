@@ -3,9 +3,7 @@
 {% load tags_filters %}
 
 {% block title %}Consulta de Validez Nacional{% endblock %}
-{% block css_body_classes %}
-{% css_classes "consulta-validez consulta-validez-detalle" %}
-{% endblock %}
+{% block css_body_classes %}{% css_classes "consulta-validez consulta-validez-detalle" %}{% endblock %}
 {% block content %}
 <h2>Consulta de Validez Nacional</h2>
 
@@ -16,10 +14,10 @@
 <h3>Datos de la Institución</h3>
 <div class="data">
 	<ul>
-		<li><strong>CUE:</strong> <span>{{ ue.cue }}</span></li>
+		<li><strong>CUE:</strong> <span>{{ validez_nacional.cue }}</span></li>
 		<li><strong>Nombre del ISFD:</strong> <span>{{ ue.nombre }}</span></li>
 		<li><strong>Tipo Gestión:</strong> <span>{{ ue.dependencia_funcional.tipo_gestion }}</span></li>
-		<li><strong>Jurisdicción:</strong> <span>{{ jurisdiccion }}</span></li>
+		<li><strong>Jurisdicción:</strong> <span>{{ validez_nacional.get_jurisdiccion }}</span></li>
 		{% if dom %}
 		<li><strong>Departamento:</strong> <span>{{ dom.localidad.departamento }}</span></li>
 		<li><strong>Localidad:</strong> <span>{{ dom.localidad }}</span></li>
@@ -33,19 +31,19 @@
 <h3>Datos de la Validez Nacional del Título</h3>
 <div class="data">
 	<ul>
-		<li><strong>Carrera:</strong> <span>{{ titulo.carrera }}</span></li>
-		<li><strong>Título:</strong> <span>{{ titulo.denominacion }}</span></li>
-		<li><strong>Primera-Última Cohorte Autorizadas:</strong> <span>{{ titulo.primera }} - {{ titulo.ultima }}</span></li>
-		<li><strong>Normativa Jurisdiccional:</strong> <span>{{ titulo.normativa_jurisdiccional }}</span></li>
-		<li><strong>Normativa Nacional:</strong> <span>{{ titulo.normativa_nacional }}</span></li>
-		<li><strong>Número de INFD:</strong> <span>{{ titulo.nroinfd }}</span></li>
+		<li><strong>Carrera:</strong> <span>{{ validez_nacional.carrera }}</span></li>
+		<li><strong>Título:</strong> <span>{{ validez_nacional.titulo_nacional }}</span></li>
+		<li><strong>Primera-Última Cohorte Autorizadas:</strong> <span>{{ validez_nacional.primera_cohorte }} - {{ validez_nacional.ultima_cohorte }}</span></li>
+		<li><strong>Normativa Jurisdiccional:</strong> <span>{{ validez_nacional.normativa_jurisdiccional }}</span></li>
+		<li><strong>Normativa Nacional:</strong> <span>{{ validez_nacional.normativas_nacionales }}</span></li>
+		<li><strong>Número de INFD:</strong> <span>{{ validez_nacional.nro_infd }}</span></li>
 	</ul>
 </div>
 
 
 <ul class="actions">
   <li class="back">
-    <a href="{% url consultaValidezTmpHome %}"><span>Volver</span></a>
+    <a href="{% url consultaValidezHome %}"><span>Volver</span></a>
   </li>
   <li>
 	<input type="button" onclick="window.print()" value="Imprimir" class="noPrint"/>

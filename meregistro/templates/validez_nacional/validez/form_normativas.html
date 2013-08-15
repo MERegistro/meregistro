@@ -1,0 +1,23 @@
+<div class="form tabbed-form" id="solicitudNormativasForm">
+	{% if solicitud %}
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-checkbox-list">
+			{{ form.normativas_jurisdiccionales.errors }}
+			<hr />
+			{{ form.normativas_jurisdiccionales }}
+			<hr />
+		</div>
+		<div class="form-submit">
+			<input type="submit" value="Guardar" />
+		</div>
+	</form>
+	{% else %}
+	<form action="">
+		<div class="message">
+			<p>Debe guardar los datos básicos antes de poder editar las normativas.</p>
+		</div>
+	</form>
+	{% endif %}
+
+</div>
