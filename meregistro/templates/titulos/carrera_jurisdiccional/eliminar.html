@@ -4,12 +4,15 @@
 
 {% block content %}
 <h2>Eliminación de carrera jurisdiccional</h2>
+{% if tiene_cohortes_generadas %}
 <div class="message warning">
-	<p>Está seguro de eliminar la carrera jurisdiccional?<br />Al hacerlo también eliminará todo el seguimiento de cohorte de la carrera en todas las unidades educativas en la que esté asignada.</p>
+	<p>No se puede eliminar la carrera jurisdiccional ya que han sido generadas cohortes para la misma.</p>
 </div>
+{% endif %}
 
 
 
+{% if not tiene_cohortes_generadas %}
 <div class="form" id="tituloEliminarForm">
     <form action="" method="post">{% csrf_token %}
 	<input type="hidden" name="carrera_jurisdiccional_id" value="{{ carrera_jurisdiccional_id }}" />
@@ -18,6 +21,7 @@
 	</div>
     </form>
 </div>
+{% endif %}
 
 
 <ul class="actions">
