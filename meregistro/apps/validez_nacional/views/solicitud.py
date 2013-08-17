@@ -465,72 +465,67 @@ def consulta_institucional(request):
 def numerar(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	
+	if len(solicitud.normativas_jurisdiccionales.all()) > 0:
+		normativas_jurisdiccionales = ', '.join([n.numero_anio + " - " + n.otorgada_por.nombre for n in solicitud.normativas_jurisdiccionales.all().order_by('numero_anio')])
+	else: 
+		normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
+		
 	if not solicitud.is_numerable():
 		request.set_flash('warning', 'La solicitud no se puede numerar.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
 
+	solicitud_establecimientos = solicitud.establecimientos.all()
+	solicitud_anexos = solicitud.anexos.all()
 
 	if request.method == 'POST':
-		validez_establecimientos_ids = request.POST.getlist("validez_nacional_establecimientos")
-		ValidezNacional.objects.filter(id__in=validez_establecimientos_ids).update(temporal=False)
-		
-		validez_anexos_ids = request.POST.getlist("validez_nacional_anexos")
-		ValidezNacional.objects.filter(id__in=validez_anexos_ids).update(temporal=False)
 
 		solicitud.estado = EstadoSolicitud.objects.get(nombre=EstadoSolicitud.NUMERADO)
 		solicitud.save()
 		solicitud.registrar_estado()
-
-		request.set_flash('success', 'Datos actualizados correctamente.')
+		
+		# solicitud-establecimientos
+		for se in solicitud_establecimientos:
+			v = ValidezNacional()
+			v.tipo_unidad_educativa = 'Sede'
+			v.unidad_educativa_id = se.establecimiento.id
+			v.cue = se.establecimiento.cue
+			v.solicitud_id = solicitud.id
+			v.carrera = solicitud.carrera.nombre
+			v.titulo_nacional = solicitud.titulo_nacional.nombre
+			v.primera_cohorte = solicitud.primera_cohorte
+			v.ultima_cohorte = solicitud.ultima_cohorte
+			v.dictamen_cofev = solicitud.dictamen_cofev
+			v.normativas_nacionales = solicitud.normativas_nacionales
+			v.normativa_jurisdiccional = normativas_jurisdiccionales
+			v.save() # Necesito recuperar el ID en la siguiente línea
+			v.nro_infd = v.calcular_nro_infd_establecimiento()
+			v.save()
+				
+		# solicitud-anexos
+		for sa in solicitud_anexos:
+			v = ValidezNacional()
+			v.tipo_unidad_educativa = 'Anexo'
+			v.unidad_educativa_id = sa.anexo.id
+			v.cue = sa.anexo.cue
+			v.solicitud_id = solicitud.id
+			v.carrera = solicitud.carrera.nombre
+			v.titulo_nacional = solicitud.titulo_nacional.nombre
+			v.primera_cohorte = solicitud.primera_cohorte
+			v.ultima_cohorte = solicitud.ultima_cohorte
+			v.dictamen_cofev = solicitud.dictamen_cofev
+			v.normativas_nacionales = solicitud.normativas_nacionales
+			v.normativa_jurisdiccional = normativas_jurisdiccionales
+			v.save() # Necesito recuperar el ID en la siguiente línea
+			v.nro_infd = v.calcular_nro_infd_anexo()
+			v.save()
+			
+		request.set_flash('success', 'Se ha generado la validez de títulos.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
-		
-			
-	validez_establecimientos = []
-	# solicitud-establecimientos
-	for se in solicitud.establecimientos.all():
-		v = ValidezNacional()
-		v.tipo_unidad_educativa = 'Sede'
-		v.unidad_educativa_id = se.establecimiento.id
-		v.cue = se.establecimiento.cue
-		v.solicitud_id = solicitud.id
-		v.carrera = solicitud.carrera.nombre
-		v.titulo_nacional = solicitud.titulo_nacional.nombre
-		v.primera_cohorte = solicitud.primera_cohorte
-		v.ultima_cohorte = solicitud.ultima_cohorte
-		v.dictamen_cofev = solicitud.dictamen_cofev
-		v.normativas_nacionales = solicitud.normativas_nacionales
-		v.normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
-		v.temporal = True
-		v.save() # Necesito recuperar el ID en la siguiente línea
-		v.nro_infd = v.calcular_nro_infd_establecimiento()
-		v.save()
-		validez_establecimientos.append(v)
-			
-		
-	validez_anexos = []
-	# solicitud-anexos
-	for sa in solicitud.anexos.all():
-		v = ValidezNacional()
-		v.tipo_unidad_educativa = 'Anexo'
-		v.unidad_educativa_id = sa.anexo.id
-		v.cue = sa.anexo.cue
-		v.solicitud_id = solicitud.id
-		v.carrera = solicitud.carrera.nombre
-		v.titulo_nacional = solicitud.titulo_nacional.nombre
-		v.primera_cohorte = solicitud.primera_cohorte
-		v.ultima_cohorte = solicitud.ultima_cohorte
-		v.dictamen_cofev = solicitud.dictamen_cofev
-		v.normativas_nacionales = solicitud.normativas_nacionales
-		v.normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
-		v.temporal = True
-		v.save() # Necesito recuperar el ID en la siguiente línea
-		v.nro_infd = v.calcular_nro_infd_anexo()
-		v.save()
-		validez_anexos.append(v)
 			
 	return my_render(request, 'validez_nacional/solicitud/numerar.html', {
 		'solicitud': solicitud,
-		'validez_establecimientos': validez_establecimientos,
-		'validez_anexos': validez_anexos,
+		'solicitud_establecimientos': solicitud_establecimientos,
+		'solicitud_anexos': solicitud_anexos,
+		'normativas_jurisdiccionales': normativas_jurisdiccionales,
 		'form_template': 'validez_nacional/solicitud/form_control.html',
 	})
