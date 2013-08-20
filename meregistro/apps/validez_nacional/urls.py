@@ -24,6 +24,7 @@ urlpatterns=patterns('',
     url(r'^solicitud/([0-9]+)/asignar-anexos$', 'apps.validez_nacional.views.solicitud.asignar_anexos', name='solicitudAsignarAnexos'),
     # Numerar
     url(r'^solicitud/([0-9]+)/numerar$', 'apps.validez_nacional.views.solicitud.numerar', name='validezNacionalSolicitudNumerar'),
+    url(r'^solicitud/([0-9]+)/detalle-numeracion/([0-9]+)$', 'apps.validez_nacional.views.solicitud.detalle_numeracion', name='validezNacionalDetalleNumeracion'),
     # Validez Nacional
     url(r'^validez$', 'apps.validez_nacional.views.validez.index', name='validezNacionalIndex'),
     url(r'^validez/([0-9]+)/editar$', 'apps.validez_nacional.views.validez.edit', name='validezNacionalEditarValidez'),

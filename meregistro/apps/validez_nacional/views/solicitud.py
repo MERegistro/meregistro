@@ -478,7 +478,10 @@ def numerar(request, solicitud_id):
 	solicitud_anexos = solicitud.anexos.all()
 
 	if request.method == 'POST':
-
+		
+		import time
+		referencia = str(int(time.time()))
+		
 		solicitud.estado = EstadoSolicitud.objects.get(nombre=EstadoSolicitud.NUMERADO)
 		solicitud.save()
 		solicitud.registrar_estado()
@@ -497,6 +500,7 @@ def numerar(request, solicitud_id):
 			v.dictamen_cofev = solicitud.dictamen_cofev
 			v.normativas_nacionales = solicitud.normativas_nacionales
 			v.normativa_jurisdiccional = normativas_jurisdiccionales
+			v.referencia = referencia
 			v.save() # Necesito recuperar el ID en la siguiente línea
 			v.nro_infd = v.calcular_nro_infd_establecimiento()
 			v.save()
@@ -515,17 +519,29 @@ def numerar(request, solicitud_id):
 			v.dictamen_cofev = solicitud.dictamen_cofev
 			v.normativas_nacionales = solicitud.normativas_nacionales
 			v.normativa_jurisdiccional = normativas_jurisdiccionales
+			v.referencia = referencia
 			v.save() # Necesito recuperar el ID en la siguiente línea
 			v.nro_infd = v.calcular_nro_infd_anexo()
 			v.save()
 			
 		request.set_flash('success', 'Se ha generado la validez de títulos.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('validezNacionalDetalleNumeracion', args=[solicitud.id, referencia]))
 			
 	return my_render(request, 'validez_nacional/solicitud/numerar.html', {
 		'solicitud': solicitud,
 		'solicitud_establecimientos': solicitud_establecimientos,
 		'solicitud_anexos': solicitud_anexos,
 		'normativas_jurisdiccionales': normativas_jurisdiccionales,
-		'form_template': 'validez_nacional/solicitud/form_control.html',
+	})
+
+
+@login_required
+@credential_required('validez_nacional_solicitud_numerar')
+def detalle_numeracion(request, solicitud_id, referencia):
+	solicitud = Solicitud.objects.get(pk=solicitud_id)
+	validez = ValidezNacional.objects.filter(solicitud=solicitud, referencia=referencia)
+			
+	return my_render(request, 'validez_nacional/solicitud/detalle_numeracion.html', {
+		'solicitud': solicitud,
+		'validez': validez,
 	})

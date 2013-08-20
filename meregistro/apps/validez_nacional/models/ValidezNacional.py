@@ -24,6 +24,7 @@ class ValidezNacional(models.Model):
 	dictamen_cofev = models.CharField(max_length=255, null=True)
 	normativas_nacionales = models.CharField(max_length=255, null=True)
 	normativa_jurisdiccional = models.CharField(max_length=255, null=True)
+	referencia = models.CharField(max_length=10, null=True, editable=False)
 
 	class Meta:
 		app_label = 'validez_nacional'
