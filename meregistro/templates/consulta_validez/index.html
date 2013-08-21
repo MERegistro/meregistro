@@ -94,7 +94,7 @@
                 <td>{{ obj.titulo_nacional }}</td>
                 <td>{{ obj.primera_cohorte }} - {{ obj.ultima_cohorte }}</td>
                 <td>{{ obj.normativa_jurisdiccional|default:"" }}</td>
-                <td>{{ obj.normativa_nacional|default:"" }}</td>
+                <td>{{ obj.normativas_nacionales|default:"" }}</td>
                 <td><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle" class="nroinfd">{{ obj.nro_infd }}</a></td>
                 <td class="actions-td">
                     <ul>

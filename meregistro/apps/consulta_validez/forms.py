@@ -69,4 +69,4 @@ class ConsultaValidezFormFilters(forms.Form):
 				q = q.filter(primera__lte=self.cleaned_data['cohorte'], ultima__gte=self.cleaned_data['cohorte'])
 			if filter_by('nroinfd'):
 				q = q.filter(nro_infd=self.cleaned_data['nroinfd'].strip())
-			return q.filter(temporal=False)
+			return q
