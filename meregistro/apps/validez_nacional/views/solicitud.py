@@ -13,6 +13,7 @@ from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEs
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
+from apps.reportes.views.solicitud import detalle_numeracion as reporte_detalle_numeracion
 from apps.reportes.models import Reporte
 
 ITEMS_PER_PAGE = 50
@@ -539,9 +540,13 @@ def numerar(request, solicitud_id):
 @credential_required('validez_nacional_solicitud_numerar')
 def detalle_numeracion(request, solicitud_id, referencia):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
-	validez = ValidezNacional.objects.filter(solicitud=solicitud, referencia=referencia)
+	validez = ValidezNacional.objects.filter(solicitud=solicitud, referencia=referencia)	
+
+	if 'export' in request.GET:
+		return reporte_detalle_numeracion(request, validez)
 			
 	return my_render(request, 'validez_nacional/solicitud/detalle_numeracion.html', {
 		'solicitud': solicitud,
 		'validez': validez,
+		'export_url': Reporte.build_export_url(request.build_absolute_uri()),
 	})

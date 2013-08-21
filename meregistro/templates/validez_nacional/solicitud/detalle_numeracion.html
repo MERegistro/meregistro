@@ -21,6 +21,19 @@
 </div>
 
 
+
+<div id="counter">
+	{% if validez.count == 1 %}
+	<p>Mostrando <span id="counterTotal">1</span> registro</p>
+	{% else %}
+	<p>Mostrando un total de <span id="counterTotal">{{ validez.count }}</span> registros</p>
+	{% endif %}
+</div>
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
 <table class="hor-zebra" style="margin-top:15px" id="numeracion-solicitudes">
   <thead>
 	<tr>
