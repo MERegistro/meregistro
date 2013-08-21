@@ -31,12 +31,12 @@
 <h3>Datos de la Validez Nacional del Título</h3>
 <div class="data">
 	<ul>
-		<li><strong>Carrera:</strong> <span>{{ validez_nacional.carrera }}</span></li>
-		<li><strong>Título:</strong> <span>{{ validez_nacional.titulo_nacional }}</span></li>
-		<li><strong>Primera-Última Cohorte Autorizadas:</strong> <span>{{ validez_nacional.primera_cohorte }} - {{ validez_nacional.ultima_cohorte }}</span></li>
-		<li><strong>Dictamen de la CoFEv:</strong> <span>{{ validez_nacional.dictamen_cofev|default:"" }}</span></li>
-		<li><strong>Normativa Jurisdiccional:</strong> <span>{{ validez_nacional.normativa_jurisdiccional }}</span></li>
-		<li><strong>Normativa Nacional:</strong> <span>{{ validez_nacional.normativas_nacionales }}</span></li>
+		<li><strong>Carrera:</strong> <span>{{ validez_nacional.carrera|default:"---" }}</span></li>
+		<li><strong>Título:</strong> <span>{{ validez_nacional.titulo_nacional|default:"---" }}</span></li>
+		<li><strong>Primera-Última Cohorte Autorizadas:</strong> <span>{{ validez_nacional.primera_cohorte|default:"---" }} - {{ validez_nacional.ultima_cohorte|default:"---" }}</span></li>
+		<li><strong>Dictamen de la CoFEv:</strong> <span>{{ validez_nacional.dictamen_cofev|default:"---" }}</span></li>
+		<li><strong>Normativa Jurisdiccional:</strong> <span>{{ validez_nacional.normativa_jurisdiccional|default:"---" }}</span></li>
+		<li><strong>Normativa Nacional:</strong> <span>{{ validez_nacional.normativas_nacionales|default:"---" }}</span></li>
 		<li><strong>Número de INFD:</strong> <span>{{ validez_nacional.nro_infd }}</span></li>
 	</ul>
 </div>
