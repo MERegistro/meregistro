@@ -1,0 +1,68 @@
+{% extends "base_titulos.html" %}
+{% load tags_filters %}
+
+{% block title %}Numeración de Títulos{% endblock %}
+
+{% block content %}
+<h2>Numeración de Títulos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="datos-lectura" id="datosSolicitud">
+	<p><strong>Jurisdicción:</strong> {{ solicitud.jurisdiccion }}</p>
+	<p><strong>Carrera:</strong> {{ solicitud.carrera }}</p>
+	<p><strong>Título:</strong> {{ solicitud.titulo_nacional }}</p>
+	<p><strong>Primera Cohorte Autorizada:</strong> {{ solicitud.primera_cohorte }}</p>
+	<p><strong>Últimas Cohorte Autorizada:</strong> {{ solicitud.ultima_cohorte }}</p>
+	<p><strong>Dictamen de la CoFEv:</strong> {{ solicitud.dictamen_cofev|default:'---' }}</p>
+	<p><strong>Normativa Jurisdiccional:</strong> {{ normativas_jurisdiccionales|default:'---' }}</p>
+	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_nacionales }}</p>
+</div>
+
+
+
+<div id="counter">
+	{% if validez.count == 1 %}
+	<p>Mostrando <span id="counterTotal">1</span> registro</p>
+	{% else %}
+	<p>Mostrando un total de <span id="counterTotal">{{ validez.count }}</span> registros</p>
+	{% endif %}
+</div>
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+<table class="hor-zebra" style="margin-top:15px" id="numeracion-solicitudes">
+  <thead>
+	<tr>
+	  <th>Tipo UE</th>
+	  <th>CUE</th>
+	  <th>Nombre de la UE</th>
+	  <th>Departamento</th>
+	  <th>Localidad</th>
+	  <th>Nro. INFD</th>
+	</tr>
+  </thead>
+  <tbody>
+	{% for v in validez %}
+	  <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+		<td>Sede</td>
+		<td>{{ v.cue }}</td>
+		<td style="text-align: left;">{{ v.get_unidad_educativa.nombre }}</td>
+		<td>{{ v.get_unidad_educativa.get_domicilio_institucional.localidad.departamento }}</td>
+		<td>{{ v.get_unidad_educativa.get_domicilio_institucional.localidad }}</td>
+		<td>{{ v.nro_infd }}</td>
+	  </tr>
+	{% endfor %}
+  </tbody>
+</table>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

@@ -314,15 +314,19 @@ def eliminar(request, carrera_jurisdiccional_id):
 	--- mientras no sea referido por un título jurisdiccional ---
 	"""
 	carrera = CarreraJurisdiccional.objects.get(pk=carrera_jurisdiccional_id)
+	tiene_cohortes_generadas = carrera.tiene_cohortes_generadas()
 	if request.method == 'POST':
 		if int(request.POST['carrera_jurisdiccional_id']) != int(carrera_jurisdiccional_id):
 			raise Exception('Error en la consulta!')
+		if tiene_cohortes_generadas:
+			raise Exception('No puede eliminarse la carrera ya que tiene cohortes generadas')
 		carrera.delete()
 		request.set_flash('success', 'La carrera jurisdiccional fue dada de baja correctamente.')
 		""" Redirecciono para evitar el reenvío del form """
 		return HttpResponseRedirect(reverse('carreraJurisdiccional'))
 	return my_render(request, 'titulos/carrera_jurisdiccional/eliminar.html', {
 		'carrera_jurisdiccional_id': carrera.id,
+		'tiene_cohortes_generadas': tiene_cohortes_generadas,
 	})
 
 

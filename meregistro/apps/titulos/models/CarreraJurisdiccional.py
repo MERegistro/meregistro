@@ -14,15 +14,11 @@ Título jurisdiccional
 """
 
 class CarreraJurisdiccional(models.Model):
-	#tipo_titulo = models.ForeignKey(TipoTitulo) -> Hereda del título
 	carrera = models.ForeignKey(Carrera)
 	normativas = models.ManyToManyField(NormativaJurisdiccional, db_table='titulos_carreras_jurisdiccionales_normativas')
 	jurisdiccion = models.ForeignKey(Jurisdiccion)
 	estado = models.ForeignKey(EstadoCarreraJurisdiccional) # Concuerda con el último estado en TituloEstado
 	revisado_jurisdiccion = models.NullBooleanField(default=False, null=True)
-	# CarreraJurisdiccionalCohorte -> datos_cohorte
-	# CarreraJurisdiccionalModalidadDistacia
-	# CarreraJurisdiccionalModalidadPresencial
 
 	class Meta:
 		app_label = 'titulos'
@@ -78,3 +74,7 @@ class CarreraJurisdiccional(models.Model):
 
 	def controlada(self):
 		return self.estado.nombre == EstadoCarreraJurisdiccional.CONTROLADA
+		
+	def tiene_cohortes_generadas(self):
+		return self.datos_cohorte.exists()
+	
