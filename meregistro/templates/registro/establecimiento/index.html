@@ -94,7 +94,7 @@
         {% for est in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
                 <td>{{ est.cue }}</td>
-                <td><a href="{% url apps.registro.views.establecimiento.detalle est.id %}" title="Visualizar"><span>{{ est.nombre }}</span></a></td>
+                <td><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Ver más datos"><span>{{ est.nombre }}</span></a></td>
 				{% if user_perfil.rol.nombre in 'AdminNacional' %}
                 <td>{{ est.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 				{% endif %}

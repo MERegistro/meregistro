@@ -227,7 +227,7 @@ def __registrar_process(request, form, establecimiento):
     return False
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_datos(request):
     """
     CU 26
@@ -243,14 +243,14 @@ def completar_datos(request):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_datos_basicos(request, establecimiento_id):
     """
     Edición de los datos básicos de un establecimiento.
     """
     establecimiento = __get_establecimiento(request, establecimiento_id)      
         
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_establecimiento_completar'):
         form = EstablecimientoDatosBasicosForm(request.POST, instance=establecimiento)
         if form.is_valid():
             establecimiento = form.save()
@@ -284,7 +284,7 @@ def completar_datos_basicos(request, establecimiento_id):
     })
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_contacto(request, establecimiento_id):
     """
     Edición de los datos de contacto de un establecimiento.
@@ -327,14 +327,14 @@ def completar_contacto(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_alcances(request, establecimiento_id):
     """
     CU 26
     """
     establecimiento = __get_establecimiento(request, establecimiento_id)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_establecimiento_completar'):
         form = EstablecimientoAlcancesForm(request.POST, instance=establecimiento)
         if form.is_valid():
             alcances = form.save()
@@ -363,14 +363,14 @@ def completar_alcances(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_funciones(request, establecimiento_id):
     """
     CU 26
     """
     establecimiento = __get_establecimiento(request, establecimiento_id)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_establecimiento_completar'):
         form = EstablecimientoFuncionesForm(request.POST, instance=establecimiento)
         if form.is_valid():
             funciones = form.save()
@@ -399,7 +399,7 @@ def completar_funciones(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_informacion_edilicia(request, establecimiento_id):
     """
     CU 26
@@ -412,7 +412,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
         informacion_edilicia = EstablecimientoInformacionEdilicia()
         informacion_edilicia.establecimiento = establecimiento
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_establecimiento_completar'):
         form = EstablecimientoInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
         if form.is_valid():
             informacion_edilicia = form.save()
@@ -445,7 +445,7 @@ def completar_informacion_edilicia(request, establecimiento_id):
 
 
 @login_required
-@credential_required('reg_establecimiento_completar')
+@credential_required('reg_establecimiento_ver')
 def completar_conexion_internet(request, establecimiento_id):
     """
     CU 26
@@ -457,7 +457,7 @@ def completar_conexion_internet(request, establecimiento_id):
         conexion = EstablecimientoConexionInternet()
         conexion.establecimiento = establecimiento
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_establecimiento_completar'):
         form = EstablecimientoConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()

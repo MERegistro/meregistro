@@ -228,7 +228,7 @@ def baja(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_datos(request):
     establecimiento = __get_establecimiento(request, establecimiento_id)
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
@@ -237,13 +237,13 @@ def completar_datos(request):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_datos_basicos(request, extension_aulica_id):
     """
     Edición de los datos de una extensión áulica.
     """
     ext = __get_extension_aulica(request, extension_aulica_id)
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_extension_aulica_modificar'):
         form = ExtensionAulicaDatosBasicosForm(request.POST, instance=ext)
         if form.is_valid():
             ext = form.save()
@@ -278,14 +278,14 @@ def completar_datos_basicos(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_contacto(request, extension_aulica_id):
     ext = ExtensionAulica.objects.get(pk=extension_aulica_id)
 
     if not __extension_aulica_dentro_del_ambito(request, ext):
         raise Exception('La extensión áulica no se encuentra en su ámbito.')
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_extension_aulica_modificar'):
         form = ExtensionAulicaContactoForm(request.POST, instance=ext)
         if form.is_valid():
             ext = form.save()
@@ -313,14 +313,14 @@ def completar_contacto(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_alcances(request, extension_aulica_id):
     """
     CU 26
     """
     ext = __get_extension_aulica(request, extension_aulica_id)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_extension_aulica_modificar'):
         form = ExtensionAulicaAlcancesForm(request.POST, instance=ext)
         if form.is_valid():
             alcances = form.save()
@@ -348,11 +348,11 @@ def completar_alcances(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_funciones(request, extension_aulica_id):
     ext = __get_extension_aulica(request, extension_aulica_id)
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_extension_aulica_modificar'):
         form = ExtensionAulicaFuncionesForm(request.POST, instance=ext)
         if form.is_valid():
             funciones = form.save()
@@ -380,7 +380,7 @@ def completar_funciones(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_informacion_edilicia(request, extension_aulica_id):
     """
     CU 26
@@ -392,7 +392,7 @@ def completar_informacion_edilicia(request, extension_aulica_id):
         informacion_edilicia = ExtensionAulicaInformacionEdilicia()
         informacion_edilicia.extension_aulica = extension_aulica
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_extension_aulica_modificar'):
         form = ExtensionAulicaInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
         if form.is_valid():
             informacion_edilicia = form.save()
@@ -428,7 +428,7 @@ def completar_informacion_edilicia(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_modificar')
+@credential_required('reg_extension_aulica_ver')
 def completar_conexion_internet(request, extension_aulica_id):
     """
     CU 26
@@ -440,7 +440,7 @@ def completar_conexion_internet(request, extension_aulica_id):
         conexion = ExtensionAulicaConexionInternet()
         conexion.extension_aulica = extension_aulica
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_extension_aulica_modificar'):
         form = ExtensionAulicaConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()

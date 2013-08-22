@@ -235,11 +235,11 @@ def baja(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def completar_datos_basicos(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_anexo_completar'):
         form = AnexoDatosBasicosForm(request.POST, instance=anexo)
         if form.is_valid():
             anexo = form.save()
@@ -277,7 +277,7 @@ def completar_datos_basicos(request, anexo_id):
     })
 
 @login_required
-@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def completar_contacto(request, anexo_id):
     """
     Edición de los datos de contacto de un anexo.
@@ -291,7 +291,7 @@ def completar_contacto(request, anexo_id):
         if 'reg_editar_anexo_pendiente' not in request.get_credenciales():
             raise Exception('Usted no tiene permisos para editar los datos del anexo pendiente')
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_anexo_completar'):
         form = AnexoContactoForm(request.POST, instance=anexo)
         if form.is_valid():
             anexo = form.save()
@@ -319,14 +319,14 @@ def completar_contacto(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def completar_alcances(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_anexo_completar'):
         form = AnexoAlcancesForm(request.POST, instance=anexo)
         if form.is_valid():
             alcances = form.save()
@@ -354,14 +354,14 @@ def completar_alcances(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def completar_funciones(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
     CU 26
     """
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_anexo_completar'):
         form = AnexoFuncionesForm(request.POST, instance=anexo)
         if form.is_valid():
             funciones = form.save()
@@ -389,7 +389,7 @@ def completar_funciones(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def completar_informacion_edilicia(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -402,7 +402,7 @@ def completar_informacion_edilicia(request, anexo_id):
         informacion_edilicia = AnexoInformacionEdilicia()
         informacion_edilicia.anexo = anexo
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_anexo_completar'):
         form = AnexoInformacionEdiliciaForm(request.POST, instance=informacion_edilicia)
         if form.is_valid():
             informacion_edilicia = form.save()
@@ -435,7 +435,7 @@ def completar_informacion_edilicia(request, anexo_id):
 
 
 @login_required
-#@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def completar_conexion_internet(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -447,7 +447,7 @@ def completar_conexion_internet(request, anexo_id):
         conexion = AnexoConexionInternet()
         conexion.anexo = anexo
 
-    if request.method == 'POST':
+    if request.method == 'POST' and request.has_credencial('reg_anexo_completar'):
         form = AnexoConexionInternetForm(request.POST, instance=conexion)
         if form.is_valid():
             conexion = form.save()

@@ -44,7 +44,7 @@ def __get_establecimiento(request, establecimiento_id):
     return establecimiento
 
 @login_required
-#@credential_required('reg_establecimiento_ver')
+@credential_required('reg_establecimiento_ver')
 def index(request, establecimiento_id):
     
     establecimiento = __get_establecimiento(request, establecimiento_id)

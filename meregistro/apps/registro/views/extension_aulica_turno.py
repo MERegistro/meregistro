@@ -40,7 +40,7 @@ def __get_extension_aulica(request, extension_aulica_id):
 
 
 @login_required
-#@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_ver')
 def index(request, extension_aulica_id):
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
     """

@@ -48,8 +48,10 @@
                 <td>{{ establecimiento_turno.niveles.all|implode:", " }}</td>
                 <td class="actions-td">
                     <ul>
+						{% if 'reg_establecimiento_completar' in credenciales %}
                         <li class="edit"><a href="{% url apps.registro.views.establecimiento_turno.edit establecimiento_turno.id %}" title="Editar"><span>Editar</span></a></li>
                         <li class="delete"><a href="{% url apps.registro.views.establecimiento_turno.delete establecimiento_turno.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+						{% endif %}
                     </ul>
                 </td>
             </tr>

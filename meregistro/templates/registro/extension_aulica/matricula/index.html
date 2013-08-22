@@ -56,8 +56,10 @@
                 <td>{% if matricula.total %}{{ matricula.total }}{% else %}---{% endif %}</td>
                 <td class="actions-td">
                     <ul>
+						{% if 'reg_extension_aulica_modificar' in credenciales %}
                         <li class="edit"><a href="{% url apps.registro.views.extension_aulica_matricula.edit matricula.id %}" title="Editar"><span>Editar</span></a></li>
                         <li class="delete"><a href="{% url apps.registro.views.extension_aulica_matricula.delete matricula.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+						{% endif %}
                     </ul>
                 </td>
             </tr>

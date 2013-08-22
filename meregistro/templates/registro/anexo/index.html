@@ -95,7 +95,7 @@
     {% for anexo in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ anexo.cue }}</td>
-			<td><a href="{% url apps.registro.views.anexo.detalle anexo.id %}" title="Visualizar"><span>{{ anexo.nombre }}</span></a></td>
+			<td><a href="{% url apps.registro.views.anexo.completar_datos_basicos anexo.id %}" title="Ver más datos"><span>{{ anexo.nombre }}</span></a></td>
 			{% if user_perfil.rol.nombre in 'AdminNacional' %}
 			<td>{{ anexo.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 			{% endif %}

@@ -49,7 +49,7 @@ def __get_anexo(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_completar')
+@credential_required('reg_anexo_ver')
 def index(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
