@@ -35,6 +35,16 @@
 		<label for="id_carrera">Carrera:</label>
 		{{ form_filters.carrera }}
     </div>
+    <div class="form-select">
+		{{ form_filters.departamento.errors }}
+		<label for="id_departamento">Departamento:</label>
+		{{ form_filters.departamento }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.localidad.errors }}
+		<label for="id_localidad">Localidad:</label>
+		{{ form_filters.localidad }}
+    </div>
 
     <div class="form-submit">
 		<input type="submit" value="Buscar" />
@@ -55,6 +65,8 @@
             <th>Jurisdicción</th>
             <th>CUE - Nombre del ISFD</th>
             <th>Carrera</th>
+            <th>Domicilio</th>
+            <th>Contacto</th>
         </tr>
     </thead>
     <tbody>
@@ -62,7 +74,20 @@
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
                 <td>{{ obj.establecimiento.dependencia_funcional.jurisdiccion }}</td>
                 <td>{{ obj.establecimiento.cue }} - {{ obj.establecimiento.nombre }}</td>
-                <td style="white-space: nowrap;">{{ obj.cohorte.carrera_jurisdiccional.carrera }}</td>
+                <td>{{ obj.cohorte.carrera_jurisdiccional.carrera }}</td>
+                <td>
+					<ul>
+						<li><strong>Domicilio:</strong> {{ obj.establecimiento.get_domicilio_institucional }}</li>
+						<li><strong>Departamento:</strong> {{ obj.establecimiento.get_domicilio_institucional.localidad.departamento }}</li>
+						<li><strong>Localidad:</strong> {{ obj.establecimiento.get_domicilio_institucional.localidad }}</li>
+					</ul>
+				</td>
+                <td>
+					<ul>
+						<li><strong>Email:</strong> {{ obj.establecimiento.email|default:"---" }}</li>
+						<li><strong>Sitio Web:</strong> {{ obj.establecimiento.sitio_web|default:"---" }}</li>
+					</ul>
+				</td>
             </tr>
         {% endfor %}
     </tbody>
