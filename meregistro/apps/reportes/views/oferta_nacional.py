@@ -12,6 +12,13 @@ def oferta_nacional(request, q, anio):
 	for t in q:
 		
 		dom = t.establecimiento.get_domicilio_institucional()
+		if not dom:
+			dom = ""
+			departamento = ""
+			localidad = ""
+		else:
+			departamento = str(dom.localidad.departamento)
+			localidad = str(dom.localidad)
 		
 		reporte.rows.append([
 			t.establecimiento.dependencia_funcional.jurisdiccion.nombre.encode('utf8'),
@@ -19,8 +26,8 @@ def oferta_nacional(request, q, anio):
 			t.establecimiento.nombre,
 			t.cohorte.carrera_jurisdiccional.carrera.nombre.encode('utf8'),
 			str(dom),
-			str(dom.localidad.departamento),
-			str(dom.localidad),
+			departamento,
+			localidad,
 			t.establecimiento.email,
 			t.establecimiento.sitio_web
 		])

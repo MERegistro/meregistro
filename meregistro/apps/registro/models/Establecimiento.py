@@ -195,6 +195,8 @@ class Establecimiento(models.Model):
 			dom = EstablecimientoDomicilio.objects.get(establecimiento=self, tipo_domicilio__descripcion=u'Institucional')
 		except EstablecimientoDomicilio.DoesNotExist:
 			return None
+		except EstablecimientoDomicilio.MultipleObjectsReturned:
+			dom = EstablecimientoDomicilio.objects.filter(establecimiento=self, tipo_domicilio__descripcion=u'Institucional')[0]
 		return dom
 
 
