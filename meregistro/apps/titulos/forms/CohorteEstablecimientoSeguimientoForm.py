@@ -19,12 +19,15 @@ class CohorteEstablecimientoSeguimientoForm(forms.ModelForm):
 		self.cohorte_establecimiento = kwargs.pop('cohorte_unidad_educativa')
 		super(CohorteEstablecimientoSeguimientoForm, self).__init__(*args, **kwargs)
 		self.fields["cohorte_establecimiento"].initial = self.cohorte_establecimiento
+		
 		" Si lo estoy creando, sólo puedo cargar el año siguiente "
 		if not self.instance.id:
 			ultimo_seguimiento_cargado = self.cohorte_establecimiento.get_ultimo_seguimiento_cargado()
-			if len(ultimo_seguimiento_cargado) > 0:
+			if len(ultimo_seguimiento_cargado) > 0: # Tiene años previos cargados?
 				self.fields["anio"].choices = [(ultimo_seguimiento_cargado.get().anio + 1, ultimo_seguimiento_cargado.get().anio + 1)]
-		else:
+			else: # Cargar el primero disponible
+				self.fields["anio"].choices = [(self.cohorte_establecimiento.cohorte.anio + 1, self.cohorte_establecimiento.cohorte.anio + 1)]
+		else: # Se está editando
 			self.fields["anio"].choices = [(self.instance.anio, self.instance.anio)]
 
 

@@ -228,7 +228,7 @@ def create(request, cohorte_ue_id, tipo_unidad_educativa):
 	if not cohorte_unidad_educativa.registrada():  # No aceptada
 		request.set_flash('warning', 'No se puede generar años de seguimiento a cohortes no aceptadas.')
 		return HttpResponseRedirect(reverse('cohorteSeguimientoIndex'))
-
+	
 	if request.method == 'POST':
 		form = form_model(request.POST, cohorte_unidad_educativa=cohorte_unidad_educativa)
 		if form.is_valid():
