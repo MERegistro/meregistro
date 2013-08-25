@@ -29,6 +29,11 @@
 			{{ form_filters.titulo }}
 		</div>
 		<div class="form-text">
+			{{ form_filters.carrera.errors }}
+			<label for="id_carrera">Carrera:</label>
+			{{ form_filters.carrera }}
+		</div>
+		<div class="form-text">
 			{{ form_filters.primera_cohorte.errors }}
 			<label for="id_primera_cohorte">Primera Cohorte Solicitada:</label>
 			{{ form_filters.primera_cohorte }}
@@ -37,6 +42,11 @@
 			{{ form_filters.estado.errors }}
 			<label for="id_estado">Estado:</label>
 			{{ form_filters.estado }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">Jurisdicción:</label>
+			{{ form_filters.jurisdiccion }}
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
