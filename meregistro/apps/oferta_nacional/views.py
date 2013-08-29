@@ -31,7 +31,7 @@ def index(request, anio):
 	else:
 		form_filter = OfertaNacionalFormFilters()
 
-	q = build_query(form_filter, 1, request)
+	q = build_query(form_filter, 1, request, anio)
 
 	try:
 		if request.GET['export'] == '1':
@@ -67,11 +67,11 @@ def index(request, anio):
 	})
 
 
-def build_query(filters, page, request):
+def build_query(filters, page, request, anio):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	q = filters.buildQuery().filter()
+	q = filters.buildQuery().filter(cohorte__anio=anio)
 	q = q.order_by('establecimiento__dependencia_funcional__jurisdiccion__nombre', 'establecimiento__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
 	return q
 
