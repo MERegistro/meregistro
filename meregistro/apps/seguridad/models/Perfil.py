@@ -35,7 +35,7 @@ class Perfil(models.Model):
 		cant_pefiles_visibles = len(
 			usuario.perfiles.filter(ambito__path__istartswith=self.ambito.path)
 			.filter(rol__path__istartswith=self.rol.path))
-		return cant_pefiles_visibles == len(usuario.perfiles.all())
+		return  cant_pefiles_visibles == len(usuario.perfiles.all()) or self.usuario.id == usuario.id
 
 
 	def is_deletable(self):
