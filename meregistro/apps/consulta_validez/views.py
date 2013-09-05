@@ -76,7 +76,6 @@ def choices_titulo(filters):
 
 
 def index(request):
-
 	"""
 	Consulta de títulos
 	"""
