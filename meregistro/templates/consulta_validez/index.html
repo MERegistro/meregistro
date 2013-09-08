@@ -35,12 +35,12 @@
 		<label for="id_unidad_educativa">Nombre del ISFD:</label>
 		{{ form_filters.unidad_educativa }}
     </div>
-    <div class="form-select">
+    <div class="form-text">
 		{{ form_filters.carrera.errors }}
 		<label for="id_carrera">Carrera:</label>
 		{{ form_filters.carrera }}
     </div>
-    <div class="form-select">
+    <div class="form-text">
 		{{ form_filters.titulo.errors }}
 		<label for="id_titulo">Título:</label>
 		{{ form_filters.titulo }}
@@ -90,9 +90,9 @@
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 				<td>{{ obj.get_jurisdiccion.nombre }}</td>
                 <td>{{ obj.cue }} - {{ obj.get_unidad_educativa.nombre }}</td>
-                <td>{{ obj.carrera }}</td>
-                <td>{{ obj.titulo_nacional }}</td>
-                <td>{{ obj.primera_cohorte }} - {{ obj.ultima_cohorte }}</td>
+                <td>{{ obj.carrera|default:"" }}</td>
+                <td>{{ obj.titulo_nacional|default:"" }}</td>
+                <td>{{ obj.primera_cohorte|default:"" }} - {{ obj.ultima_cohorte|default:"" }}</td>
                 <td>{{ obj.normativa_jurisdiccional|default:"" }}</td>
                 <td>{{ obj.normativas_nacionales|default:"" }}</td>
                 <td><a href="{% url consultaValidezDetalle obj.id %}" title="Ver detalle" class="nroinfd">{{ obj.nro_infd }}</a></td>
@@ -119,14 +119,10 @@
 // Init	
 var dropdown_jurisdiccion = $("select#id_jurisdiccion");
 var dropdown_unidad_educativa = $("select#id_unidad_educativa");
-var dropdown_carrera = $("select#id_carrera");
-var dropdown_titulo = $("select#id_titulo");
 var dropdown_tipo_gestion = $("select#id_tipo_gestion");
 
 var current_jur = dropdown_jurisdiccion.val();
 var current_ue = dropdown_unidad_educativa.val();
-var current_carrera = dropdown_carrera.val();
-var current_titulo = dropdown_titulo.val();
 var current_tipo_gestion = dropdown_tipo_gestion.val();
 
 
@@ -144,25 +140,6 @@ function jurisdiccion_change(val){
 		}
 		dropdown_unidad_educativa.html(options);
 	});
-
-	// 	Carreras
-	var url = "/consulta_validez/ajax/get_carreras/?jurisdiccion=" + val;
-	$.getJSON(url, function(models){
-		var options = '';	
-		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
-		}
-		dropdown_carrera.html(options);
-	});
-	// 	Títulos
-	var url = "/consulta_validez/ajax/get_titulos/?jurisdiccion=" + val;
-	$.getJSON(url, function(models){
-		var options = '';
-		for(var i = 0; i < models.length; i++){
-						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
-		}
-		dropdown_titulo.html(options);
-	});
 }
 
 
@@ -179,37 +156,8 @@ function tipo_gestion_change(val){
 }
 
 function ue_change(val){
-	// 	Carreras
-	var url = "/consulta_validez/ajax/get_carreras/?unidad_educativa=" + val;
-	$.getJSON(url, function(models){
-		var options = '';	
-		for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
-		}
-		dropdown_carrera.html(options);
-	});
-	// 	Títulos
-	var url = "/consulta_validez/ajax/get_titulos/?unidad_educativa=" + val;
-	$.getJSON(url, function(models){
-		var options = '';
-		for(var i = 0; i < models.length; i++){
-						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
-		}
-		dropdown_titulo.html(options);
-	});
 }
 
-function carrera_change(val){
-	// 	Títulos
-	var url = "/consulta_validez/ajax/get_titulos/?carrera=" + val + "&jurisdiccion=" + dropdown_jurisdiccion.val() + "&unidad_educativa=" + dropdown_unidad_educativa.val();
-	$.getJSON(url, function(models){
-		var options = '';
-		for(var i = 0; i < models.length; i++){
-						options += '<option value="' + models[i][0] + '">' + models[i][1] + '</option>';
-		}
-		dropdown_titulo.html(options);
-	});
-}
 
 $(document).ready(function(){
     dropdown_jurisdiccion.change(function(){
@@ -222,10 +170,6 @@ $(document).ready(function(){
 	}); // END function
     dropdown_unidad_educativa.change(function(){
 		ue_change($(this).val());
-		first_load = false;
-	}); // END function
-    dropdown_carrera.change(function(){
-		carrera_change($(this).val());
 		first_load = false;
 	}); // END function
 }); // END document.ready
