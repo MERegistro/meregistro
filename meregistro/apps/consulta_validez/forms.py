@@ -44,8 +44,8 @@ class ConsultaValidezFormFilters(forms.Form):
 				# Puede ser sede o anexo, determinarlo según tipo_unidad_educativa
 				from django.db.models import Q
 				q = q.filter(
-					(Q(tipo_unidad_educativa='Sede') & Q(unidad_educativa_id__in=[e.pk for e in Establecimiento.objects.filter(dependencia_funcional__jurisdiccion_id=self.cleaned_data['jurisdiccion'])])) |
-					(Q(tipo_unidad_educativa='Anexo') & Q(unidad_educativa_id__in=[a.pk for a in Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion_id=self.cleaned_data['jurisdiccion'])]))
+					(Q(tipo_unidad_educativa='Sede') & Q(unidad_educativa_id__in=[e.pk for e in Establecimiento.objects.filter(dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])])) |
+					(Q(tipo_unidad_educativa='Anexo') & Q(unidad_educativa_id__in=[a.pk for a in Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])]))
 				)
 			if filter_by('tipo_gestion'):
 				# Puede ser sede o anexo, determinarlo según tipo_unidad_educativa
