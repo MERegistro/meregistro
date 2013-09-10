@@ -48,6 +48,11 @@
 			<label for="id_jurisdiccion">Jurisdicción:</label>
 			{{ form_filters.jurisdiccion }}
 		</div>
+		<div class="form-text">
+			{{ form_filters.normativa_nacional.errors }}
+			<label for="id_normativa_nacional">Normativa Nacional:</label>
+			{{ form_filters.normativa_nacional }}
+		</div> 
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
 			<input type="button" value="Reiniciar" onclick="window.location = '/validez_nacional/';" />
