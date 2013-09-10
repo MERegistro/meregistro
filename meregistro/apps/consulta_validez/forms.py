@@ -68,7 +68,7 @@ class ConsultaValidezFormFilters(forms.Form):
 			if filter_by('titulo'):
 				q = q.filter(titulo_nacional__icontains=self.cleaned_data['titulo'])
 			if filter_by('cohorte'):
-				q = q.filter(primera__lte=self.cleaned_data['cohorte'], ultima__gte=self.cleaned_data['cohorte'])
+				q = q.filter(primera_cohorte__lte=self.cleaned_data['cohorte'], ultima_cohorte__gte=self.cleaned_data['cohorte'])
 			if filter_by('nroinfd'):
 				q = q.filter(nro_infd__icontains=self.cleaned_data['nroinfd'].strip())
 		
