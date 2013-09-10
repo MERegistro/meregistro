@@ -67,6 +67,7 @@
 <table class="hor-zebra" style="margin-top:65px">
   <thead>
     <tr>
+      <th>Tipo UE</th>
       <th>CUE</th>
       <th>Carrera</th>
       <th>Título</th>
@@ -80,6 +81,7 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+		<td class="td-tipo-ue">{{ obj.tipo_unidad_educativa }}</td> 
 		<td>{{ obj.cue|default:"" }}</td>
 		<td>{{ obj.carrera|default:"" }}</td>
 		<td>{{ obj.titulo_nacional|default:"" }}</td>
