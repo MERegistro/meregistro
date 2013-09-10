@@ -37,7 +37,7 @@ fsmAnexo = FSMAnexo()
 ITEMS_PER_PAGE = 50
 
 def __puede_verificar_datos(request):
-    return request.has_credencial('reg_anexo_verificar_datos')
+    return request.has_credencial('reg_anexo_consultaificar_datos')
 
 @login_required
 def __pertenece_al_establecimiento(request, anexo):
@@ -235,7 +235,7 @@ def baja(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def completar_datos_basicos(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     
@@ -277,7 +277,7 @@ def completar_datos_basicos(request, anexo_id):
     })
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def completar_contacto(request, anexo_id):
     """
     Edición de los datos de contacto de un anexo.
@@ -319,7 +319,7 @@ def completar_contacto(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def completar_alcances(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -354,7 +354,7 @@ def completar_alcances(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def completar_funciones(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -389,7 +389,7 @@ def completar_funciones(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def completar_informacion_edilicia(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
@@ -435,7 +435,7 @@ def completar_informacion_edilicia(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def completar_conexion_internet(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
