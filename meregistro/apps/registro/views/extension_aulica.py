@@ -31,7 +31,7 @@ fsmExtensionAulica = FSMExtensionAulica()
 ITEMS_PER_PAGE = 50
 
 def __puede_verificar_datos(request):
-    return request.has_credencial('reg_extension_aulica_consultaificar_datos')
+    return request.has_credencial('reg_extension_aulica_verificar_datos')
 
 def __pertenece_al_establecimiento(request, extension_aulica):
     """
