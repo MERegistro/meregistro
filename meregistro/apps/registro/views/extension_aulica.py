@@ -31,7 +31,7 @@ fsmExtensionAulica = FSMExtensionAulica()
 ITEMS_PER_PAGE = 50
 
 def __puede_verificar_datos(request):
-    return request.has_credencial('reg_extension_aulica_verificar_datos')
+    return request.has_credencial('reg_extension_aulica_consultaificar_datos')
 
 def __pertenece_al_establecimiento(request, extension_aulica):
     """
@@ -228,7 +228,7 @@ def baja(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_datos(request):
     establecimiento = __get_establecimiento(request, establecimiento_id)
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
@@ -237,7 +237,7 @@ def completar_datos(request):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_datos_basicos(request, extension_aulica_id):
     """
     Edición de los datos de una extensión áulica.
@@ -278,7 +278,7 @@ def completar_datos_basicos(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_contacto(request, extension_aulica_id):
     ext = ExtensionAulica.objects.get(pk=extension_aulica_id)
 
@@ -313,7 +313,7 @@ def completar_contacto(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_alcances(request, extension_aulica_id):
     """
     CU 26
@@ -348,7 +348,7 @@ def completar_alcances(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_funciones(request, extension_aulica_id):
     ext = __get_extension_aulica(request, extension_aulica_id)
 
@@ -380,7 +380,7 @@ def completar_funciones(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_informacion_edilicia(request, extension_aulica_id):
     """
     CU 26
@@ -428,7 +428,7 @@ def completar_informacion_edilicia(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def completar_conexion_internet(request, extension_aulica_id):
     """
     CU 26
