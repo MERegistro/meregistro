@@ -88,6 +88,7 @@
 			<td class="actions-td">
 				<ul>
 					<li class="edit"><a href="{% url apps.validez_nacional.views.validez.edit obj.id %}" title="Edición Manual de Validez Nacional"><span>Edición Manual de Validez Nacional</span></a></li>
+					<li class="delete"><a href="{% url apps.validez_nacional.views.validez.eliminar obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 				</ul>			
 			</td>
 		</tr>

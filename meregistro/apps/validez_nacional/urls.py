@@ -28,6 +28,7 @@ urlpatterns=patterns('',
     # Validez Nacional
     url(r'^validez$', 'apps.validez_nacional.views.validez.index', name='validezNacionalIndex'),
     url(r'^validez/([0-9]+)/editar$', 'apps.validez_nacional.views.validez.edit', name='validezNacionalEditarValidez'),
+    url(r'^validez/([0-9]+)/eliminar$', 'apps.validez_nacional.views.validez.eliminar', name='validezNacionalEliminar'),
     # AJAX
     url(r'^ajax/get_titulos_por_carrera/([0-9]+)', 'apps.validez_nacional.views.ajax.get_titulos_por_carrera', name='ajaxGetTitulosPorCarrera'),
     url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),

@@ -91,3 +91,12 @@ class ValidezNacional(models.Model):
 			
 	def get_domicilio_institucional(self):
 		return self.get_unidad_educativa().get_domicilio_institucional()
+		
+		
+	"Sobreescribo para eliminar los objetos relacionados"
+	def delete(self, *args, **kwargs):
+		for est_sol in self.solicitud.establecimientos.all():
+			est_sol.delete()
+		for anexo_sol in self.solicitud.anexos.all():
+			est_anexo.delete()
+		super(ValidezNacional, self).delete(*args, **kwargs)

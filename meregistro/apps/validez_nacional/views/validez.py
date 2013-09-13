@@ -93,3 +93,27 @@ def edit(request, validez_id):
 		'validez': validez,
 		'form': form,
 	})
+
+
+@login_required
+#@credential_required('tit_carrera_jurisdiccional_eliminar')
+def eliminar(request, validez_nacional_id):
+	"""
+	No sólo deberá eliminarse el registro de la tabla validez_nacional_validez_nacional, 
+	sino que también deberá eliminarse la asignación que había hacia ese CUE de la 
+	Solicitud de Validez Nacional correspondiente (en la tabla validez_nacional_solicitud_establecimientos
+	o en la tabla validez_nacional_solicitud_anexos según sea un registro de una Sede o un Anexo), 
+	como si el registro que se está eliminando nunca hubiera sido parte de la solicitud original.
+	"""
+	validez_nacional = ValidezNacional.objects.get(pk=validez_nacional_id)
+	
+	if request.method == 'POST':
+		if int(request.POST['validez_nacional_id']) != int(validez_nacional_id):
+			raise Exception('Error en la consulta!')
+		validez_nacional.delete()
+		request.set_flash('success', 'El registro de Validez Nacional fue eliminado correctamente.')
+		""" Redirecciono para evitar el reenvío del form """
+		return HttpResponseRedirect(reverse('validezNacionalIndex'))
+	return my_render(request, 'validez_nacional/validez/eliminar.html', {
+		'validez_nacional_id': validez_nacional.id,
+	})
