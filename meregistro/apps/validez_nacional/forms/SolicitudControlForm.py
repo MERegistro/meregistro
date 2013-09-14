@@ -6,7 +6,7 @@ from apps.validez_nacional.models import Solicitud, EstadoSolicitud
 
 
 class SolicitudControlForm(forms.ModelForm):
-	dictamen_cofev = forms.CharField(max_length=200, label='Dictámen Cofev', required=True)
+	dictamen_cofev = forms.CharField(max_length=200, label='Dictamen Cofev', required=False)
 	normativas_nacionales = forms.CharField(max_length=99, label='Normativas Nacionales', required=True)
 	estado = forms.ModelChoiceField(queryset=EstadoSolicitud.objects.order_by('nombre'), label='Estado', required=True, empty_label=None)
 	
