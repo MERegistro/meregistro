@@ -47,7 +47,7 @@ def __get_anexo(request, anexo_id):
 
 
 @login_required
-@credential_required('reg_anexo_ver')
+@credential_required('reg_anexo_consulta')
 def index(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
