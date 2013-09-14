@@ -53,3 +53,16 @@ class NormativaJurisdiccional(models.Model):
     def asociado_carrera_jurisdiccional(self):
         from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
         return CarreraJurisdiccional.objects.filter(normativas__id = self.id).exists()
+
+    def asociado_solicitud_validez(self):
+        from apps.validez_nacional.models.Solicitud import Solicitud
+        return Solicitud.objects.filter(normativas_jurisdiccionales__id = self.id).exists()
+
+
+    def puede_eliminarse(self):
+        if self.asociado_carrera_jurisdiccional():
+            return False
+        if self.asociado_solicitud_validez():
+            return False
+        return True
+        

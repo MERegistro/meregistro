@@ -8,7 +8,7 @@
     {% include "flashes.html" %}
 {% endif %}
 
-{% if not asociado_carrera_jurisdiccional %}
+{% if puede_eliminarse %}
 <div class="form" id="normativaJurisdiccionalEliminarForm">
     <form action="" method="post">{% csrf_token %}
 	<input type="hidden" name="normativa_jurisdiccional_id" value="{{ normativa_jurisdiccional_id }}" />

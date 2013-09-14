@@ -133,9 +133,9 @@ def eliminar(request, normativa_jurisdiccional_id):
     """
     normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
 
-    asociado_carrera_jurisdiccional = normativa_jurisdiccional.asociado_carrera_jurisdiccional()
-    if asociado_carrera_jurisdiccional:
-        request.set_flash('warning', 'La normativa no puede eliminarse porque tiene títulos jurisdiccionales asociados.')
+    puede_eliminarse = normativa_jurisdiccional.puede_eliminarse()
+    if not puede_eliminarse:
+        request.set_flash('warning', 'La normativa no puede eliminarse porque tiene datos asociados.')
     else:
         request.set_flash('warning', '¿Está seguro de eliminar la normativa? Esta operación no puede deshacerse.')
 
@@ -146,7 +146,7 @@ def eliminar(request, normativa_jurisdiccional_id):
         return HttpResponseRedirect(reverse('normativaJurisdiccional'))
     return my_render(request, 'titulos/normativa_jurisdiccional/eliminar.html', {
         'normativa_jurisdiccional_id': normativa_jurisdiccional.id,
-        'asociado_carrera_jurisdiccional': asociado_carrera_jurisdiccional,
+        'puede_eliminarse': puede_eliminarse,
     })
 
 
