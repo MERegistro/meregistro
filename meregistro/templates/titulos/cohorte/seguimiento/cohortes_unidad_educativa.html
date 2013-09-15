@@ -73,8 +73,9 @@
 			{% if cohorte_unidad_educativa.is_editable %}
 			<li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Editar"><span>Editar</span></a></li>
 			{% endif %}
-			<li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
+			
 	    {% endif %}
+		<li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
 	    </ul>
         </td>
       </tr>

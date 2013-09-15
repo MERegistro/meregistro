@@ -28,9 +28,7 @@
 			<td>{{ establecimiento.nombre }}</td>
 			<td class="actions-td">
 				<ul>
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' and tipo_perfil == 'Sede' %}
 					<li class="seguimiento-cohorte"><a href='{% url cohortesEstablecimientoIndex establecimiento.id %}' title="Seguimiento"><span>Seguimiento</span></a></li>
-				{% endif %}
 				</ul>
 			</td>
 		</tr>
@@ -64,7 +62,7 @@
 			<td class="actions-td">
 				<ul>
 				<!-- Si el usuario es Referente institucional y es del ámbito de la Sede, o bien es del Anexo y es del anexo actual  -->
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+
 					{% if tipo_perfil == 'Sede' %}
 					<li class="seguimiento-cohorte"><a href="{% url cohortesAnexoIndex anexo.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
 					{% else %}
@@ -72,7 +70,6 @@
 					<li class="seguimiento-cohorte"><a href="{% url cohortesAnexoIndex anexo.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
 						{% endif %}
 					{% endif %}
-				{% endif %}
 				</ul>
 			</td>
 		</tr>
@@ -107,7 +104,6 @@
 			<td class="actions-td">
 				<ul>
 				<!-- Si el usuario es Referente institucional y es del ámbito de la Sede, o bien es del Anexo y es del anexo actual  -->
-				{% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
 					{% if tipo_perfil == 'Sede' %}
 					<li class="seguimiento-cohorte"><a href="{% url cohortesExtensionAulicaIndex extension_aulica.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
 					{% else %}
@@ -115,7 +111,6 @@
 					<li class="seguimiento-cohorte"><a href="{% url cohortesExtensionAulicaIndex extension_aulica.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
 						{% endif %}
 					{% endif %}
-				{% endif %}
 				</ul>
 			</td>
 		</tr>

@@ -37,7 +37,7 @@ def __get_ue_actual(request, tipo):
 Pantalla en la cual se listan las unidades educativas del usuario
 """
 @login_required
-@credential_required('tit_cohorte_seguimiento')
+@credential_required('tit_cohorte_seguimiento_consulta')
 def index(request):
 	tipo_perfil = request.get_perfil().ambito.tipo
 	

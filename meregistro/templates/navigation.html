@@ -67,7 +67,7 @@
 		<!--
 		Fin habilitación temporal
 		-->
-		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_cohorte_seguimiento' in credenciales %}
+		{% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_cohorte_seguimiento' or 'tit_cohorte_seguimiento_consulta' in credenciales %}
 		<li><a href="#" class="inactive"><span>Carreras</span></a>
 			<ul>
 				{% if 'tit_carrera_consulta' in credenciales %}
@@ -88,7 +88,7 @@
 				{% if 'tit_cohorte_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.cohorte.index %}">Administración de Cohortes</a></li>
 				{% endif %}
-				{% if 'tit_cohorte_seguimiento' in credenciales %}
+				{% if 'tit_cohorte_seguimiento' in credenciales or 'tit_cohorte_seguimiento_consulta' in credenciales %}
 				<li><a href="{% url apps.titulos.views.cohorte_seguimiento.index %}">Seguimiento de Cohortes</a></li>
 				{% endif %}
 			</ul>
