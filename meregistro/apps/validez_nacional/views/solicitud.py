@@ -285,7 +285,13 @@ def asignar_establecimientos(request, solicitud_id):
 	
 	q = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=solicitud.jurisdiccion_id, estado__nombre=EstadoEstablecimiento.REGISTRADO)
 	
-	paginator = Paginator(q, ITEMS_PER_PAGE)
+	q1 = q.filter(solicitudes__establecimiento_id__in=current_establecimientos_ids).order_by('cue') # seleccionados
+	q2 = q.exclude(id__in=[e.id for e in q1]).order_by('cue') # no seleccionados
+	
+	from itertools import chain
+	res = list(chain(q1, q2))
+	
+	paginator = Paginator(res, ITEMS_PER_PAGE)
 
 	try:
 		page_number = int(request.GET['page'])
@@ -341,7 +347,13 @@ def asignar_anexos(request, solicitud_id):
 	
 	q = Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion__id=solicitud.jurisdiccion_id, estado__nombre=EstadoAnexo.REGISTRADO)
 	
-	paginator = Paginator(q, ITEMS_PER_PAGE)
+	q1 = q.filter(solicitudes__anexo_id__in=current_anexos_ids).order_by('cue') # seleccionados
+	q2 = q.exclude(id__in=[a.id for a in q1]).order_by('cue') # no seleccionados
+	
+	from itertools import chain
+	res = list(chain(q1, q2))
+	
+	paginator = Paginator(res, ITEMS_PER_PAGE)
 
 	try:
 		page_number = int(request.GET['page'])
