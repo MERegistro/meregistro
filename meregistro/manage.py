@@ -1,5 +1,9 @@
 #!/usr/bin/env python
+import sys
+
+sys.path.append('../')
 from django.core.management import execute_manager
+
 try:
     import settings # Assumed to be in the same directory.
 except ImportError:
