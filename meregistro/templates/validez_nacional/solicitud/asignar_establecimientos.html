@@ -12,9 +12,20 @@
     {% include "flashes.html" %}
 {% endif %}
 		
-<div style="display: none;" class="form-filter" id="solicitudAsignarEstablecimientosFormFilter">
+<div class="form-filter" id="solicitudAsignarEstablecimientosFormFilter">
 	<form id="form-filter" action="" method="get">
 		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-text">
+			{{ form_filters.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form_filters.cue }}
+		</div> 
+		<div class="form-text">
+			{{ form_filters.unidad_educativa.errors }}
+			<label for="id_unidad_educativa">Unidad Educativa:</label>
+			{{ form_filters.unidad_educativa }}
+		</div> 
 		<input type="hidden" name="page" value="" />
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />

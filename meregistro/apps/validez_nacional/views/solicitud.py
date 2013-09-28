@@ -8,7 +8,7 @@ from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
-	SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters
+	SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters, SolicitudAsignacionFormFilters
 from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -271,6 +271,7 @@ def control(request, solicitud_id):
 		'current_page': 'control',
 	})
 
+
 @login_required
 @credential_required('validez_nacional_solicitud_editar')
 def asignar_establecimientos(request, solicitud_id):
@@ -279,17 +280,19 @@ def asignar_establecimientos(request, solicitud_id):
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+
+	form_filter = SolicitudAsignacionFormFilters(request.GET, tipo_ue='Establecimiento', solicitud=solicitud)
+	q = form_filter.buildQuery()
 	
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_establecimientos_ids = __flat_list(solicitud.establecimientos.all().values_list("establecimiento_id"))
-	
-	q = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=solicitud.jurisdiccion_id, estado__nombre=EstadoEstablecimiento.REGISTRADO)
 	
 	q1 = q.filter(solicitudes__establecimiento_id__in=current_establecimientos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[e.id for e in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain
 	res = list(chain(q1, q2))
+	
 	
 	paginator = Paginator(res, ITEMS_PER_PAGE)
 
@@ -322,6 +325,7 @@ def asignar_establecimientos(request, solicitud_id):
 
 	return my_render(request, 'validez_nacional/solicitud/asignar_establecimientos.html', {
 		'solicitud': solicitud,
+		'form_filters': form_filter,
 		'current_establecimientos_ids': current_establecimientos_ids,
 		'objects': objects,
 		'paginator': paginator,
@@ -341,11 +345,13 @@ def asignar_anexos(request, solicitud_id):
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
 		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		
+	form_filter = SolicitudAsignacionFormFilters(request.GET, tipo_ue='Anexo', solicitud=solicitud)
+	q = form_filter.buildQuery()
 	
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_anexos_ids = __flat_list(solicitud.anexos.all().values_list("anexo_id"))
 	
-	q = Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion__id=solicitud.jurisdiccion_id, estado__nombre=EstadoAnexo.REGISTRADO)
 	
 	q1 = q.filter(solicitudes__anexo_id__in=current_anexos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[a.id for a in q1]).order_by('cue') # no seleccionados
@@ -384,6 +390,7 @@ def asignar_anexos(request, solicitud_id):
 
 	return my_render(request, 'validez_nacional/solicitud/asignar_anexos.html', {
 		'solicitud': solicitud,
+		'form_filters': form_filter,
 		'current_anexos_ids': current_anexos_ids,
 		'objects': objects,
 		'paginator': paginator,

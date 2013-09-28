@@ -6,3 +6,4 @@ from SolicitudControlForm import SolicitudControlForm
 from ValidezInstitucionalFormFilters import ValidezInstitucionalFormFilters
 from ValidezNacionalFormFilters import ValidezNacionalFormFilters
 from ValidezNacionalForm import ValidezNacionalForm
+from SolicitudAsignacionFormFilters import SolicitudAsignacionFormFilters
