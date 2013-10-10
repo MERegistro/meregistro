@@ -188,7 +188,7 @@ def editar_normativas(request, solicitud_id):
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
 		form = SolicitudNormativasForm(instance=solicitud)
-
+		
 	form.fields['normativas_jurisdiccionales'].queryset = form.fields['normativas_jurisdiccionales'].queryset.filter(jurisdiccion=solicitud.jurisdiccion)
 
 	return my_render(request, 'validez_nacional/solicitud/edit.html', {
