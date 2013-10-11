@@ -12,6 +12,11 @@
 			<label for="id_estado">Estado:</label>
 			{{ form.estado }}
 		</div>
+		<div class="form-select">
+			{{ form.carrera_sin_orientacion.errors }}
+			<label for="id_estado">Sin orientación:</label>
+			{{ form.carrera_sin_orientacion }}
+		</div>
 		<fieldset>
 			<legend>Asignar a Jurisdicciones:</legend>
 			<div class="form-checkbox-list">

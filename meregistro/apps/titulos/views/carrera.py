@@ -94,26 +94,6 @@ def create(request):
 		'is_new': True,
 	})
 
-
-@login_required
-@credential_required('tit_carrera_modificar')
-def edit(request, carrera_id):
-	carrera = Carrera.objects.get(pk=carrera_id)
-	if request.method == 'POST':
-		form = CarreraForm(request.POST, instance=carrera)
-		if form.is_valid():
-			carrera = form.save()
-			request.set_flash('success', 'Datos actualizados correctamente.')
-		else:
-			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
-	else:
-		form = CarreraForm(instance=carrera)
-
-	return my_render(request, 'titulos/carrera/edit.html', {
-		'form': form,
-		'carrera': carrera,
-	})
-
 def edit(request, carrera_id):
 	"""
 	Edición de los datos de una carrera.

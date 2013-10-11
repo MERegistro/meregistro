@@ -15,3 +15,10 @@ class CarreraForm(ModelForm):
 	class Meta:
 		model = Carrera
 
+	def clean(self):
+		cleaned = super(CarreraForm, self).clean()
+		if len(self.errors) == 0 and self.cleaned_data['nombre'] != '':
+			q = Carrera.objects.filter(nombre__iexact=self.cleaned_data['nombre']).exclude(id=self.instance.id)
+			if len(q) > 0:
+				raise forms.ValidationError("La carrera ya se encuentra registrada")
+		return cleaned

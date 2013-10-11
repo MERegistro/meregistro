@@ -4,11 +4,12 @@ from apps.registro.models.Jurisdiccion import Jurisdiccion
 from apps.titulos.models.EstadoCarrera import EstadoCarrera
 
 class Carrera(models.Model):
-	nombre = models.CharField(max_length=50, unique=True)
+	nombre = models.CharField(max_length=50)
 	estado = models.ForeignKey(EstadoCarrera) # Concuerda con el último estado en CarreraEstado
 	jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='titulos_carreras_jurisdicciones') # Provincias
 	observaciones = models.CharField(max_length=255, null=True, blank=True)
 	fecha_alta = models.DateField(auto_now_add=True)
+	carrera_sin_orientacion = models.BooleanField()
 
 	class Meta:
 		app_label = 'titulos'
