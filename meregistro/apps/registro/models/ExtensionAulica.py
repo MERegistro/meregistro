@@ -93,7 +93,7 @@ class ExtensionAulica(models.Model):
 			return None
 
 	def dadaDeBaja(self):
-		return self.estado.nombre == EstadoExtensionAulica.BAJA
+		return self.estado.nombre == EstadoExtensionAulica.NO_VIGENTE
 		
 	def is_editable(self):
 		es_pendiente = self.estado_actual.nombre == u'Pendiente'

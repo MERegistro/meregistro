@@ -214,7 +214,7 @@ def baja(request, anexo_id):
             baja = form.save(commit=False)
             baja.anexo = anexo
             baja.save()
-            estado = EstadoAnexo.objects.get(nombre=EstadoAnexo.BAJA)
+            estado = EstadoAnexo.objects.get(nombre=EstadoAnexo.NO_VIGENTE)
             anexo.estado = estado
             anexo.save()
             anexo.registrar_estado()

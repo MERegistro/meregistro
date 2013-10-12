@@ -103,7 +103,7 @@ class Establecimiento(models.Model):
 			  except:
 				pass
 		else:
-			estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.BAJA)
+			estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.NO_VIGENTE)
 			self.registrar_estado(estado)
 
 

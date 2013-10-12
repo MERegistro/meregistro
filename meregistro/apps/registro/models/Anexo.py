@@ -94,7 +94,7 @@ class Anexo(models.Model):
 			return None
 
 	def dadoDeBaja(self):
-		return self.estado.nombre == EstadoAnexo.BAJA
+		return self.estado.nombre == EstadoAnexo.NO_VIGENTE
 
 	def save(self):
 		self.updateAmbito()

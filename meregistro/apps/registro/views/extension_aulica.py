@@ -206,7 +206,7 @@ def baja(request, extension_aulica_id):
             baja = form.save(commit=False)
             baja.extension_aulica = extension_aulica
             baja.save()
-            estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.BAJA)
+            estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.NO_VIGENTE)
             extension_aulica.estado = estado
             extension_aulica.save()
             extension_aulica.registrar_estado()
