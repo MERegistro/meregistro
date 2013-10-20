@@ -8,7 +8,7 @@
 		<li{% if current_page == 'control' %} class="active"{% endif %}><a href="{% url apps.validez_nacional.views.solicitud.control solicitud.id %}" title="Control"><span>Control</span></a></li>
 			{% endif %}
 		{% else %}
-		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.validez_nacional.views.solicitud.create %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.validez_nacional.views.solicitud.create %}" title="Título"><span>Título</span></a></li>
 		<li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.validez_nacional.views.solicitud.editar_normativas %}" title="Normativas"><span>Normativas</span></a></li>
 		<li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.validez_nacional.views.solicitud.editar_cohortes %}" title="Cohortes"><span>Cohortes</span></a></li>
 		{% endif %}

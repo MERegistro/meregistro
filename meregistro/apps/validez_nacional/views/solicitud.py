@@ -49,7 +49,6 @@ def index(request):
 	if request.get_perfil().jurisdiccion():
 		q = q.filter(jurisdiccion__id=request.get_perfil().jurisdiccion().id)
 	paginator = Paginator(q, ITEMS_PER_PAGE)
-
 	try:
 		page_number = int(request.GET['page'])
 	except (KeyError, ValueError):
@@ -62,6 +61,7 @@ def index(request):
 
 	page = paginator.page(page_number)
 	objects = page.object_list
+
 	return my_render(request, 'validez_nacional/solicitud/index.html', {
 		'form_filters': form_filter,
 		'objects': objects,
@@ -287,7 +287,7 @@ def asignar_establecimientos(request, solicitud_id):
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_establecimientos_ids = __flat_list(solicitud.establecimientos.all().values_list("establecimiento_id"))
 	
-	q1 = q.filter(solicitudes__establecimiento_id__in=current_establecimientos_ids).order_by('cue') # seleccionados
+	q1 = q.filter(solicitudes__establecimiento__id__in=current_establecimientos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[e.id for e in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain
@@ -353,7 +353,7 @@ def asignar_anexos(request, solicitud_id):
 	current_anexos_ids = __flat_list(solicitud.anexos.all().values_list("anexo_id"))
 	
 	
-	q1 = q.filter(solicitudes__anexo_id__in=current_anexos_ids).order_by('cue') # seleccionados
+	q1 = q.filter(solicitudes__anexo__id__in=current_anexos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[a.id for a in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain

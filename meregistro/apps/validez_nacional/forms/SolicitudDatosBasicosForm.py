@@ -21,6 +21,6 @@ class SolicitudDatosBasicosForm(forms.ModelForm):
 		except KeyError:
 			solicitud = None
 		super(SolicitudDatosBasicosForm, self).__init__(*args, **kwargs)
-		self.fields['carrera'].queryset = self.fields['carrera'].queryset.filter(jurisdicciones__id=jurisdiccion_id, estado__nombre=EstadoCarrera.VIGENTE)
+		self.fields['carrera'].queryset = self.fields['carrera'].queryset.filter(jurisdicciones__id=jurisdiccion_id, estado__nombre=EstadoCarrera.VIGENTE, carrera_sin_orientacion=True)
 		if solicitud:
 			self.initial = {'carrera': solicitud.carrera, 'titulo_nacional': solicitud.titulo_nacional}
