@@ -16,7 +16,7 @@
 	<p><strong>Primera Cohorte Autorizada:</strong> {{ solicitud.primera_cohorte }}</p>
 	<p><strong>Últimas Cohorte Autorizada:</strong> {{ solicitud.ultima_cohorte }}</p>
 	<p><strong>Dictamen de la CoFEv:</strong> {{ solicitud.dictamen_cofev|default:'---' }}</p>
-	<p><strong>Normativa Jurisdiccional:</strong> {{ normativas_jurisdiccionales|default:'---' }}</p>
+	<p><strong>Normativa Jurisdiccional:</strong> {{ solicitud.normativas_jurisdiccionales.all|implode:", "|default:'---' }}</p>
 	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_nacionales }}</p>
 </div>
 
