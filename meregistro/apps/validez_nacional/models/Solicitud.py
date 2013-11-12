@@ -108,4 +108,7 @@ class Solicitud(models.Model):
 		numerable = numerable and self.jurisdiccion and self.carrera and self.primera_cohorte and self.ultima_cohorte \
 			and (self.normativas_jurisdiccionales or self.normativa_jurisdiccional_migrada) and self.normativas_nacionales
 		return numerable
+		
+	def numerado(self):
+		return self.estado.nombre == EstadoSolicitud.NUMERADO
 
