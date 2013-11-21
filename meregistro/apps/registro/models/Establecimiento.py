@@ -110,12 +110,12 @@ class Establecimiento(models.Model):
 	def updateAmbito(self):
 		if self.pk is None or self.ambito is None:
 			try:
-				self.ambito = self.dependencia_funcional.ambito.createChild(self.nombre, self)
+				self.ambito = self.dependencia_funcional.ambito.createChild(self.cue + ' - ' + self.nombre, self)
 			except Exception:
 				pass
 		else:
 			self.ambito.set_parent(self.dependencia_funcional.ambito)
-			self.ambito.descripcion = self.nombre
+			self.ambito.descripcion = self.cue + ' - ' + self.nombre
 			self.ambito.save()
 
 
