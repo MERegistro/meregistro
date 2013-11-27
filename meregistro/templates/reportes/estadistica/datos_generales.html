@@ -1,0 +1,167 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Consulta de Datos Generales{% endblock %}
+
+{% block content %}
+<h2>Consulta de Datos Generales</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "counter.html" %}
+<!--
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+-->
+<table class="hor-zebra">
+    <thead>
+        <tr>
+			<th>Tipo de UE</th>
+			<th>Jurisdicción</th>
+			<th>Tipo de Gestión</th>
+			<th>CUE</th>
+			<th>Nombre de la UE</th>
+			<th>Matrícula 2011 - Profesorados</th>
+			<th>Matrícula 2011 - Formación Docente</th>
+			<th>Matrícula 2011 - Total</th>
+			<th>Matrícula 2012 - Profesorados</th>
+			<th>Matrícula 2012 - Formación Docente</th>
+			<th>Matrícula 2012 - Total</th>
+			<th>Matrícula 2013 - Profesorados</th>
+			<th>Matrícula 2013 - Formación Docente</th>
+			<th>Matrícula 2013 - Total</th>
+			<th>Turno Mañana</th>
+			<th>Uso del Edificio</th>
+			<th>Comparte Con</th>
+			<th>Niveles</th>
+			<th>Turno Tarde</th>
+			<th>Uso del Edificio</th>
+			<th>Comparte Con</th>
+			<th>Niveles</th>
+			<th>Turno Noche</th>
+			<th>Uso del Edificio</th>
+			<th>Comparte Con</th>
+			<th>Niveles</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>{{ row.tipo_ue }}</td>
+			<td>{{ row.jurisdiccion }}</td>
+			<td>{{ row.tipo_gestion }}</td>
+			<td>{{ row.cue }}</td>
+			<td>{{ row.nombre_ue }}</td>
+			<td>{{ row.mat2011_profesorados|default:"---" }}</td>
+			<td>{{ row.mat2011_formacion_docente|default:"---" }}</td>
+			<td>{{ row.mat2011_total|default:"---" }}</td>
+			<td>{{ row.mat2012_profesorados|default:"---" }}</td>
+			<td>{{ row.mat2012_formacion_docente|default:"---" }}</td>
+			<td>{{ row.mat2012_total|default:"---" }}</td>
+			<td>{{ row.mat2013_profesorados|default:"---" }}</td>
+			<td>{{ row.mat2013_formacion_docente|default:"---" }}</td>
+			<td>{{ row.mat2013_total|default:"---" }}</td>
+			<td>{{ row.turno_maniana|default:"---" }}</td>
+			<td>{{ row.maniana_uso_edificio|default:"---" }}</td>
+			<td>{{ row.maniana_comparte_con|default:"---" }}</td>
+			<td>{{ row.maniana_niveles|default:"---" }}</td>
+			<td>{{ row.turno_tarde|default:"---" }}</td>
+			<td>{{ row.tarde_uso_edificio|default:"---" }}</td>
+			<td>{{ row.tarde_comparte_con|default:"---" }}</td>
+			<td>{{ row.tarde_niveles|default:"---" }}</td>
+			<td>{{ row.turno_noche|default:"---" }}</td>
+			<td>{{ row.noche_uso_edificio|default:"---" }}</td>
+			<td>{{ row.noche_comparte_con|default:"---" }}</td>
+			<td>{{ row.noche_niveles|default:"---" }}</td>
+		</tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+<hr />
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+var dropdown_dependencia = $("select#id_dependencia_funcional");
+
+$(document).ready(
+    dropdown_departamento.change(function(){
+		if (dropdown_departamento.val() == '') {
+			dropdown_localidad.html("<option value=''>Seleccione...</option>");
+		} else {
+			var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+			$.getJSON(url, function(models){
+				var options = '<option value="">Seleccione...</option>';
+				for(var i = 0; i < models.length; i++){
+					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+				}
+				dropdown_localidad.html(options);
+			});
+		} // END if
+	}) // END function
+); // END document.ready
+
+// Init
+
+if (dropdown_departamento.val() == '') {
+    dropdown_localidad.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_localidad.html(options);
+    dropdown_localidad.val(get_url_param('localidad'));
+
+    });
+}
+
+{% if user_perfil.rol.nombre in 'AdminNacional' %}
+//
+//
+// Admin de títulos ve todas las jurisdicciones
+//
+//
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+
+if (dropdown_jurisdiccion.val() == '') {
+    dropdown_departamento.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_departamento.html(options);
+    dropdown_departamento.val(get_url_param('departamento'));
+    });
+}
+
+dropdown_jurisdiccion.change(function(){
+    if (dropdown_jurisdiccion.val() == '') {
+	dropdown_departamento.html("<option value=''>Seleccione...</option>");
+    } else {
+	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
+	$.getJSON(url, function(models) {
+	    var options = '<option value="">Seleccione...</option>';
+	    for (var i = 0; i < models.length; i++) {
+	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+	    }
+	    dropdown_departamento.html(options);
+	});
+    }
+    dropdown_departamento.change();
+});
+{% endif %}
+</script>
+
+{% endblock %}

@@ -117,6 +117,13 @@
 			</ul>
 		</li>
 		{% endif %}
+		{% if 'consulta_estadistica_nacional' in credenciales %}
+		<li><a href="#" class="inactive"><span>Estadística</span></a>
+			<ul>
+				<li id="linkEstadistica"><a href="{% url apps.reportes.views.estadistica.datos_generales %}"><span>Datos Generales</span></a></li>
+			</ul>
+		</li>
+		{% endif %}
 		{% if 'reg_menu_ayuda' in credenciales %}
 		<li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
 		{% endif %}
