@@ -31,6 +31,11 @@
 		{{ form_filters.establecimiento }}
     </div>
     <div class="form-select">
+		{{ form_filters.tipo_gestion.errors }}
+		<label for="id_tipo_gestion">Tipo de Gestión:</label>
+		{{ form_filters.tipo_gestion }}
+    </div>
+    <div class="form-select">
 		{{ form_filters.carrera.errors }}
 		<label for="id_carrera">Carrera:</label>
 		{{ form_filters.carrera }}
@@ -64,6 +69,7 @@
         <tr>
             <th>Jurisdicción</th>
             <th>CUE - Nombre del ISFD</th>
+			<th>Tipo de Gestión</th>
             <th>Carrera</th>
             <th>Domicilio</th>
             <th>Contacto</th>
@@ -74,6 +80,7 @@
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
                 <td>{{ obj.establecimiento.dependencia_funcional.jurisdiccion }}</td>
                 <td>{{ obj.establecimiento.cue }} - {{ obj.establecimiento.nombre }}</td>
+                <td>{{ obj.establecimiento.dependencia_funcional.tipo_gestion.nombre }}</td>
                 <td>{{ obj.cohorte.carrera_jurisdiccional.carrera }}</td>
                 <td>
 					<ul>
@@ -96,7 +103,7 @@
 </form>
 {% else %}
 <div class="message notice">
-    <p>No se encontraron títulos.</p>
+    <p>No se encontraron datos.</p>
 </div>
 {% endif %}
 <hr />
