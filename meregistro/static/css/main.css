@@ -11,7 +11,7 @@
 	padding: 0;
 }
 html {
-	background: url(../img/bg-10x3000.gif) repeat-x;
+	background: #ECEAEE url(../img/bg-10x3000.gif) repeat-x;
 }
 /*
 *=COMMON
@@ -40,7 +40,7 @@ div#enConstruccion {
 div#wrapper {
 	width: 990px;
 	margin: 0 auto;
-	background: url(../img/bg-990x3000.gif) no-repeat;
+	background: #fff url(../img/bg-990x3000.gif) no-repeat;
 	padding-top: 20px;
 }
 /*
@@ -838,6 +838,7 @@ div.form-filter div.form-textarea textarea {
 }
 div.form-filter div.form-select select {
 	margin-top: -3px;
+	max-width: 420px;
 }
 div.form-filter div.form-text input,
 div.form-filter div.form-textarea textarea {
@@ -1099,7 +1100,6 @@ body.cohorte-seguimiento-index div#content h3 {
  */
 
 body.consulta-validez div#consultaValidezFormFilter select {
-	width: 420px;
 }
 body.consulta-validez td.actions-td ul li.details a {
 	display: block;
