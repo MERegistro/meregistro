@@ -13,17 +13,17 @@ import datetime
 Título nomenclado nacional
 """
 class Titulo(models.Model):
-    nombre = models.CharField(max_length = 200)
+    nombre = models.CharField(max_length=200)
     tipo_titulo = models.ForeignKey(TipoTitulo)
     tipo_normativa = models.ForeignKey(TituloTipoNormativa)
-    normativa = models.CharField(max_length = 50)
+    normativa = models.CharField(max_length=50)
     carrera = models.ForeignKey(Carrera)
     tiene_orientaciones = models.BooleanField()
-    horas_reloj = models.PositiveIntegerField(null = True, blank = True)
-    observaciones = models.CharField(max_length = 255, null = True, blank = True)
-    niveles = models.ManyToManyField(Nivel, db_table = 'titulos_titulos_niveles')
-    areas = models.ManyToManyField(Area, db_table = 'titulos_titulos_areas')
-    jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table = 'titulos_titulos_jurisdicciones') # Provincias
+    horas_reloj = models.PositiveIntegerField(null=True, blank=True)
+    observaciones = models.CharField(max_length=255, null=True, blank=True)
+    niveles = models.ManyToManyField(Nivel, db_table='titulos_titulos_niveles')
+    areas = models.ManyToManyField(Area, db_table='titulos_titulos_areas')
+    jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='titulos_titulos_jurisdicciones') # Provincias
     estado = models.ForeignKey(EstadoTitulo) # Concuerda con el último estado en TituloEstado
 
     class Meta:

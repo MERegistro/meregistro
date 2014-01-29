@@ -6,6 +6,7 @@ from apps.titulos.models import TituloNacional, EstadoTituloNacional, NormativaN
 
 
 class TituloNacionalForm(forms.ModelForm):
+	nombre = forms.CharField(max_length=100, required=True)
 	normativa_nacional = forms.ModelChoiceField(queryset=NormativaNacional.objects.filter(estado__nombre=EstadoNormativaNacional.VIGENTE).order_by('numero'), label='Normativa')
 	observaciones = forms.CharField(widget=forms.Textarea, required=False)
 	estado = forms.ModelChoiceField(queryset=EstadoTituloNacional.objects.all().order_by('nombre'), required=False, empty_label=None)
