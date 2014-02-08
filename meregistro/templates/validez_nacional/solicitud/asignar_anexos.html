@@ -39,7 +39,7 @@
 {% if objects %}
 {% include "counter.html" %}
 <hr />
-<form action="" method="post">{% csrf_token %}
+<form action="" method="post" id="asignar-anexos-form">{% csrf_token %}
     <table class="hor-zebra">
 		<thead>
 			<tr>
@@ -92,10 +92,18 @@ $('#check_all_anexos').click(function(){
 <hr />
 <script type="text/javascript">
 $(document).ready(function(){
+	var initial_data = $('#asignar-anexos-form').serialize();
 	// Enviar el número de página al form de búsqueda
 	$('div.paginator input').click(function(){
-		$('#form-filter input[name=page]').val($(this).val());
-		$('#form-filter').submit();
+		if($('#asignar-anexos-form').serialize() != initial_data){	
+			if(confirm("El formulario fue modificado. Si continúa se perderán los datos.\n¿Desea continuar de todos modos?")){
+				$('#form-filter input[name=page]').val($(this).val());
+				$('#form-filter').submit();
+			}
+		} else {
+			$('#form-filter input[name=page]').val($(this).val());
+			$('#form-filter').submit();
+		}
 		return false;
 	});
 });
