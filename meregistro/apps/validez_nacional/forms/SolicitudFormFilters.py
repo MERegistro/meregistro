@@ -22,6 +22,7 @@ class SolicitudFormFilters(forms.Form):
 	jurisdiccion = forms.ModelChoiceField(queryset=Jurisdiccion.objects.all().order_by('nombre'), required=False)
 	carrera = forms.CharField(max_length=40, label='Carrera', required=False)
 	normativa_nacional = forms.CharField(max_length=40, label='Normativa Nacional', required=False)
+	nro_expediente = forms.CharField(max_length=40, label='Nro. de Expediente', required=False)
 
 	def buildQuery(self, q=None):
 		"""
@@ -44,4 +45,6 @@ class SolicitudFormFilters(forms.Form):
 			q = q.filter(jurisdiccion=self.cleaned_data['jurisdiccion'])
 		if filter_by('normativa_nacional'):
 			q = q.filter(normativas_nacionales__icontains=self.cleaned_data['normativa_nacional'])
+		if filter_by('nro_expediente'):
+			q = q.filter(nro_expediente__icontains=self.cleaned_data['nro_expediente'])
 		return q
