@@ -6,13 +6,14 @@ from apps.validez_nacional.models import Solicitud, EstadoSolicitud
 
 
 class SolicitudControlForm(forms.ModelForm):
+	nro_expediente = forms.CharField(max_length=200, label='Nro. Expediente', required=False)
 	dictamen_cofev = forms.CharField(max_length=200, label='Dictamen Cofev', required=False)
 	normativas_nacionales = forms.CharField(max_length=99, label='Normativas Nacionales', required=True)
 	estado = forms.ModelChoiceField(queryset=EstadoSolicitud.objects.order_by('nombre'), label='Estado', required=True, empty_label=None)
 	
 	class Meta:
 	   model = Solicitud
-	   fields = ('dictamen_cofev', 'normativas_nacionales', 'estado')
+	   fields = ('dictamen_cofev', 'normativas_nacionales', 'estado', 'nro_expediente')
 
 	def __init__(self, *args, **kwargs):
 		super(SolicitudControlForm, self).__init__(*args, **kwargs)

@@ -2,6 +2,11 @@
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-text">
+			{{ form.nro_expediente.errors }}
+			<label for="id_nro_expediente">Nro. de Expediente:</label>
+			{{ form.nro_expediente }}
+		</div>
+		<div class="form-text">
 			{{ form.dictamen_cofev.errors }}
 			<label for="id_dictamen_cofev">Nro. Dictamen CoFEv:</label>
 			{{ form.dictamen_cofev }}
