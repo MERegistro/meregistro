@@ -7,7 +7,7 @@ from apps.validez_nacional.models import Solicitud
 
 
 class SolicitudNormativasForm(forms.ModelForm):
-    normativas_jurisdiccionales = forms.ModelMultipleChoiceField(queryset=NormativaJurisdiccional.objects.all().order_by('numero_anio'), widget=forms.CheckboxSelectMultiple, required=False)
+    normativas_jurisdiccionales = forms.ModelMultipleChoiceField(queryset=NormativaJurisdiccional.objects.all(), widget=forms.CheckboxSelectMultiple, required=False)
 
     class Meta:
        model = Solicitud

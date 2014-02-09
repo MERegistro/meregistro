@@ -6,7 +6,7 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
-from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional
+from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional, NormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
 	SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters, SolicitudAsignacionFormFilters
 from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
@@ -189,7 +189,18 @@ def editar_normativas(request, solicitud_id):
 	else:
 		form = SolicitudNormativasForm(instance=solicitud)
 		
-	form.fields['normativas_jurisdiccionales'].queryset = form.fields['normativas_jurisdiccionales'].queryset.filter(jurisdiccion=solicitud.jurisdiccion)
+	current_ids = [n.id for n in solicitud.normativas_jurisdiccionales.all().order_by('numero_anio')]
+	restantes_ids = [n.id for n in NormativaJurisdiccional.objects.filter(jurisdiccion=solicitud.jurisdiccion).exclude(id__in=current_ids).order_by('numero_anio')]
+
+	# http://blog.mathieu-leplatre.info/django-create-a-queryset-from-a-list-preserving-order.html
+	pk_list = current_ids + restantes_ids
+	clauses = ' '.join(['WHEN id=%s THEN %s' % (pk, i) for i, pk in enumerate(pk_list)])
+	ordering = 'CASE %s END' % clauses
+	queryset = NormativaJurisdiccional.objects.filter(pk__in=pk_list).extra(
+			   select={'ordering': ordering}, order_by=('ordering',))
+
+	form.fields['normativas_jurisdiccionales'].queryset = queryset
+
 
 	return my_render(request, 'validez_nacional/solicitud/edit.html', {
 		'form': form,
