@@ -15,15 +15,27 @@
 
 <div class="datos-lectura" id="datosValidez">
 	<p><strong>Jurisdicción:</strong> {{ validez.get_jurisdiccion.nombre }}</p>
-	<p><strong>CUE:</strong> {{ validez.cue }}</p>
-	<p><strong>Carrera:</strong> {{ validez.carrera }}</p>
-	<p><strong>Título:</strong> {{ validez.titulo_nacional }}</p>
 </div>
 
 <div class="form" id="validezForm">
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<input type="hidden" id="id_validez" name="id_validez" value="{{ validez.id }}" />
+		<div class="form-text">
+			{{ form.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form.cue }}
+		</div>
+		<div class="form-text">
+			{{ form.carrera.errors }}
+			<label for="id_carrera">Carrera:</label>
+			{{ form.carrera }}
+		</div>
+		<div class="form-text">
+			{{ form.titulo_nacional.errors }}
+			<label for="id_titulo_nacional">Título Nacional:</label>
+			{{ form.titulo_nacional }}
+		</div>
 		<div class="form-text">
 			{{ form.primera_cohorte.errors }}
 			<label for="id_primera_cohorte">Primera Cohorte Autorizada:</label>
