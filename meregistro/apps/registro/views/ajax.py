@@ -22,12 +22,16 @@ def get_departamentos_por_jurisdiccion(request, jurisdiccion_id):
 
 @login_required
 def get_tipo_gestion_de_dependencia(request, dependencia_funcional_id):
+    if dependencia_funcional_id == '0':
+        return HttpResponse('', mimetype="application/javascript")
     dependencia = DependenciaFuncional.objects.get(pk=dependencia_funcional_id)
     json_tipo_gestion = json.dumps(dependencia.tipo_gestion.nombre)
     return HttpResponse(json_tipo_gestion, mimetype="application/javascript")
     
 @login_required
 def get_tipo_gestion_de_establecimiento(request, establecimiento_id):
+    if establecimiento_id == '0':
+        return HttpResponse('', mimetype="application/javascript")
     dependencia = Establecimiento.objects.get(pk=establecimiento_id).dependencia_funcional
     json_tipo_gestion = json.dumps(dependencia.tipo_gestion.nombre)
     return HttpResponse(json_tipo_gestion, mimetype="application/javascript")
