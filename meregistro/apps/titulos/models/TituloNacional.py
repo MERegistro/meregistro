@@ -7,7 +7,7 @@ import datetime
 
 
 class TituloNacional(models.Model):
-	nombre = models.CharField(max_length=200)
+	nombre = models.CharField(max_length=255)
 	normativa_nacional = models.ForeignKey(NormativaNacional)
 	estado = models.ForeignKey(EstadoTituloNacional) # Concuerda con el último estado en TituloEstado
 	observaciones = models.CharField(max_length=255, null=True, blank=True)

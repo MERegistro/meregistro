@@ -7,7 +7,7 @@ from apps.registro.models import Jurisdiccion
 import datetime
 
 class CarreraForm(ModelForm):
-	nombre = forms.CharField(max_length=100, required=True)
+	nombre = forms.CharField(max_length=255, required=True)
 	jurisdicciones = forms.ModelMultipleChoiceField(queryset=Jurisdiccion.objects.all().order_by('nombre'), widget=forms.CheckboxSelectMultiple)
 	observaciones = forms.CharField(widget=forms.Textarea, required=False)
 	estado = forms.ModelChoiceField(queryset=EstadoCarrera.objects.all().order_by('nombre'), required=True, empty_label=None)
