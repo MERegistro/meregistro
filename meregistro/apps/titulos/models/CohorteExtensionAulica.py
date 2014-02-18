@@ -69,3 +69,11 @@ class CohorteExtensionAulica(models.Model):
 		for s in self.seguimiento.all():
 			total = total + s.egresados
 		return total
+
+		
+	def get_establecimiento(self):
+		return self.extension_aulica.establecimiento
+
+		
+	def get_unidad_educativa(self):
+		return self.extension_aulica

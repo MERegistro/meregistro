@@ -78,21 +78,21 @@
     <tbody>
         {% for obj in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-                <td>{{ obj.establecimiento.dependencia_funcional.jurisdiccion }}</td>
-                <td>{{ obj.establecimiento.cue }} - {{ obj.establecimiento.nombre }}</td>
-                <td>{{ obj.establecimiento.dependencia_funcional.tipo_gestion.nombre }}</td>
+                <td>{{ obj.get_establecimiento.dependencia_funcional.jurisdiccion }}</td>
+                <td>{{ obj.get_unidad_educativa.cue }} - {{ obj.get_unidad_educativa.nombre }}</td>
+                <td>{{ obj.get_establecimiento.dependencia_funcional.tipo_gestion.nombre }}</td>
                 <td>{{ obj.cohorte.carrera_jurisdiccional.carrera }}</td>
                 <td>
 					<ul>
-						<li><strong>Domicilio:</strong> {{ obj.establecimiento.get_domicilio_institucional }}</li>
-						<li><strong>Departamento:</strong> {{ obj.establecimiento.get_domicilio_institucional.localidad.departamento }}</li>
-						<li><strong>Localidad:</strong> {{ obj.establecimiento.get_domicilio_institucional.localidad }}</li>
+						<li><strong>Domicilio:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional }}</li>
+						<li><strong>Departamento:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional.localidad.departamento }}</li>
+						<li><strong>Localidad:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional.localidad }}</li>
 					</ul>
 				</td>
                 <td>
 					<ul>
-						<li><strong>Email:</strong> {{ obj.establecimiento.email|default:"---" }}</li>
-						<li><strong>Sitio Web:</strong> {{ obj.establecimiento.sitio_web|default:"---" }}</li>
+						<li><strong>Email:</strong> {{ obj.get_unidad_educativa.email|default:"---" }}</li>
+						<li><strong>Sitio Web:</strong> {{ obj.get_unidad_educativa.sitio_web|default:"---" }}</li>
 					</ul>
 				</td>
             </tr>

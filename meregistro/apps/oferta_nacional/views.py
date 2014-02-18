@@ -27,19 +27,19 @@ def index(request, anio):
 	Consulta de títulos
 	"""
 	if request.method == 'GET':
-		form_filter = OfertaNacionalFormFilters(request.GET)
+		form_filter = OfertaNacionalFormFilters(request.GET, anio=anio)
 	else:
-		form_filter = OfertaNacionalFormFilters()
+		form_filter = OfertaNacionalFormFilters(anio=anio)
 
-	q = build_query(form_filter, 1, request, anio)
-
+	q = build_query(form_filter, 1, request)
 	try:
 		if request.GET['export'] == '1':
 			return reporte_oferta_nacional(request, q, anio)
 	except KeyError:
 		pass
 
-	paginator = Paginator(q, ITEMS_PER_PAGE)
+	import itertools
+	paginator = Paginator(list(itertools.chain(q[0], q[1], q[2])), ITEMS_PER_PAGE)
 
 	try:
 		page_number = int(request.GET['page'])
@@ -67,12 +67,12 @@ def index(request, anio):
 	})
 
 
-def build_query(filters, page, request, anio):
+def build_query(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	q = filters.buildQuery().filter(cohorte__anio=anio)
-	q = q.order_by('establecimiento__dependencia_funcional__jurisdiccion__nombre', 'establecimiento__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
+	q = filters.buildQuery()
+	#q = 
 	return q
 
 

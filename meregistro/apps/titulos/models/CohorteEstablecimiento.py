@@ -67,5 +67,12 @@ class CohorteEstablecimiento(models.Model):
 		total = 0
 		for s in self.seguimiento.all():
 			total = total + s.egresados
-		return total
+		return total		
+
 		
+	def get_establecimiento(self):
+		return self.establecimiento
+
+		
+	def get_unidad_educativa(self):
+		return self.establecimiento
