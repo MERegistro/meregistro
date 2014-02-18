@@ -8,102 +8,104 @@
 <h2>Oferta Nacional de Carreras de Formación Docente {{ anio }}</h2>
 
 {% if flash %}
-    {% include "flashes.html" %}
+	{% include "flashes.html" %}
 {% endif %}
 
 <form action="" method="get">
 <div class="form-filter" id="oferta-nacional-filters">
-    <h3>Búsqueda avanzada</h3>
-    {{ form_filters.non_field_errors }}
-    <div class="form-select">
+	<h3>Búsqueda avanzada</h3>
+	{{ form_filters.non_field_errors }}
+	<div class="form-select">
 		{{ form_filters.jurisdiccion.errors }}
 		<label for="id_jurisdiccion">Jurisdicción:</label>
 		{{ form_filters.jurisdiccion }}
-    </div>
-    <div class="form-text">
+	</div>
+	<div class="form-text">
 		{{ form_filters.cue.errors }}
 		<label for="id_cue">CUE:</label>
 		{{ form_filters.cue }}
-    </div>
-    <div class="form-select">
+	</div>
+	<div class="form-select">
 		{{ form_filters.establecimiento.errors }}
 		<label for="id_establecimiento">Nombre del ISFD:</label>
 		{{ form_filters.establecimiento }}
-    </div>
-    <div class="form-select">
+	</div>
+	<div class="form-select">
 		{{ form_filters.tipo_gestion.errors }}
 		<label for="id_tipo_gestion">Tipo de Gestión:</label>
 		{{ form_filters.tipo_gestion }}
-    </div>
-    <div class="form-select">
+	</div>
+	<div class="form-select">
 		{{ form_filters.carrera.errors }}
 		<label for="id_carrera">Carrera:</label>
 		{{ form_filters.carrera }}
-    </div>
-    <div class="form-select">
+	</div>
+	<div class="form-select">
 		{{ form_filters.departamento.errors }}
 		<label for="id_departamento">Departamento:</label>
 		{{ form_filters.departamento }}
-    </div>
-    <div class="form-select">
+	</div>
+	<div class="form-select">
 		{{ form_filters.localidad.errors }}
 		<label for="id_localidad">Localidad:</label>
 		{{ form_filters.localidad }}
-    </div>
+	</div>
 
-    <div class="form-submit">
+	<div class="form-submit">
 		<input type="submit" value="Buscar" />
 		<input type="button" value="Reiniciar" onclick="window.location = '/oferta_nacional/{{ anio }}';" />
-    </div>
+	</div>
 </div>
 
 {% if objects %}
 {% include "counter.html" %}
+<!--
 <ul class="reportes-actions">
-    <li class="export-csv">
+	<li class="export-csv">
 	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
-    </li>
+	</li>
 </ul>
+-->
 <table class="hor-zebra">
-    <thead>
-        <tr>
-            <th>Jurisdicción</th>
-            <th>CUE - Nombre del ISFD</th>
+	<thead>
+		<tr>
+		<th>Jurisdicción</th>
+			<th>CUE - Nombre del ISFD</th>
 			<th>Tipo de Gestión</th>
-            <th>Carrera</th>
-            <th>Domicilio</th>
-            <th>Contacto</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for obj in objects %}
-            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-                <td>{{ obj.get_establecimiento.dependencia_funcional.jurisdiccion }}</td>
-                <td>{{ obj.get_unidad_educativa.cue }} - {{ obj.get_unidad_educativa.nombre }}</td>
-                <td>{{ obj.get_establecimiento.dependencia_funcional.tipo_gestion.nombre }}</td>
-                <td>{{ obj.cohorte.carrera_jurisdiccional.carrera }}</td>
-                <td>
-					<ul>
-						<li><strong>Domicilio:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional }}</li>
-						<li><strong>Departamento:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional.localidad.departamento }}</li>
-						<li><strong>Localidad:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional.localidad }}</li>
-					</ul>
-				</td>
-                <td>
-					<ul>
-						<li><strong>Email:</strong> {{ obj.get_unidad_educativa.email|default:"---" }}</li>
-						<li><strong>Sitio Web:</strong> {{ obj.get_unidad_educativa.sitio_web|default:"---" }}</li>
-					</ul>
-				</td>
-            </tr>
-        {% endfor %}
-    </tbody>
+			<th>Carrera</th>
+			<th>Domicilio</th>
+			<th>Contacto</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for obj in objects %}	
+		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>{{ obj.get_establecimiento.dependencia_funcional.jurisdiccion }}</td>
+			<td>{{ obj.get_unidad_educativa.cue }} - {{ obj.get_unidad_educativa.nombre }}</td>
+			<td>{{ obj.get_establecimiento.dependencia_funcional.tipo_gestion.nombre }}</td>
+			<td>{{ obj.cohorte.carrera_jurisdiccional.carrera }}</td>
+			<td>
+				<ul>
+					<li><strong>Domicilio:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional|default:'---' }}</li>
+					<li><strong>Departamento:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional.localidad.departamento|default:'---' }}</li>
+					<li><strong>Localidad:</strong> {{ obj.get_unidad_educativa.get_domicilio_institucional.localidad|default:'---' }}</li>
+				</ul>
+			</td>
+			<td>
+				<ul>
+					<li><strong>Email:</strong> {{ obj.get_unidad_educativa.email|default:"---" }}</li>
+					<li><strong>Sitio Web:</strong> {{ obj.get_unidad_educativa.sitio_web|default:"---" }}</li>
+				</ul>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
 </table>
 {% include "paginator.html" %}
 </form>
 {% else %}
 <div class="message notice">
-    <p>No se encontraron datos.</p>
+	<p>No se encontraron datos.</p>
 </div>
 {% endif %}
 <hr />
@@ -133,7 +135,7 @@ $(document).ready(function(){
 		jurisdiccion_change($(this).val());
 		first_load = false;
 	}); // END function
-    dropdown_establecimiento.change(function(){
+	dropdown_establecimiento.change(function(){
 		establecimiento_change($(this).val());
 		first_load = false;
 	}); // END function

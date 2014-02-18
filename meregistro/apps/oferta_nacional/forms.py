@@ -57,22 +57,21 @@ class OfertaNacionalFormFilters(forms.Form):
 					establecimiento__domicilios__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
 					establecimiento__domicilios__localidad__departamento__nombre__icontains=self.cleaned_data['departamento'])
 				q2 = q2.filter(\
-					anexo__domicilios__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
-					anexo__domicilios__localidad__departamento__nombre__icontains=self.cleaned_data['departamento'])
+					anexo__anexo_domicilio__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
+					anexo__anexo_domicilio__localidad__departamento__nombre__icontains=self.cleaned_data['departamento'])
 				q3 = q3.filter(\
-					extension_aulica__domicilios__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
-					extension_aulica__domicilios__localidad__departamento__nombre__icontains=self.cleaned_data['departamento'])
+					extension_aulica__domicilio__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
+					extension_aulica__domicilio__localidad__departamento__nombre__icontains=self.cleaned_data['departamento'])
 			if filter_by('localidad'):
 				q1 = q1.filter(\
 					establecimiento__domicilios__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
 					establecimiento__domicilios__localidad__nombre__icontains=self.cleaned_data['localidad'])
 				q2 = q2.filter(\
-					anexo__domicilios__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
-					anexo__domicilios__localidad__nombre__icontains=self.cleaned_data['localidad'])
+					anexo__anexo_domicilio__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
+					anexo__anexo_domicilio__localidad__nombre__icontains=self.cleaned_data['localidad'])
 				q3 = q3.filter(\
-					extension_aulica__domicilios__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
-					extension_aulica__domicilios__localidad__nombre__icontains=self.cleaned_data['localidad'])
-		#return q.distinct()
+					extension_aulica__domicilio__tipo_domicilio__descripcion=EstablecimientoDomicilio.TIPO_INSTITUCIONAL, \
+					extension_aulica__domicilio__localidad__nombre__icontains=self.cleaned_data['localidad'])
 
 		q1.distinct().order_by('establecimiento__dependencia_funcional__jurisdiccion__nombre', 'establecimiento__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
 		q2.distinct().order_by('anexo__dependencia_funcional__jurisdiccion__nombre', 'anexo__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')

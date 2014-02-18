@@ -53,6 +53,7 @@ def index(request, anio):
 		
 	page = paginator.page(page_number)
 	objects = page.object_list
+
 	return my_render(request, 'oferta_nacional/index.html', {
 		'anio': anio,
 		'form_filters': form_filter,
