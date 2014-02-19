@@ -107,7 +107,7 @@ TESTING_MODE = False
 TESTING_MODE_BANNER_COLOR = '#fb4'
 TESTING_MODE_BANNER_TEXT = 'Sistema de prueba: Los datos guardados se perderán en la próxima versión'
 
-APP_VERSION = '1.0.0'
+APP_VERSION = '1.2.0'
 
 SESSION_COOKIE_AGE = 30 * 60
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
