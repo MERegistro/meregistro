@@ -38,6 +38,23 @@
 			<label for="id_estado">Estado:</label>
 			{{ form_filters.estado }}
 		</div>
+		<div class="form-select">
+			{{ form_filters.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">Jurisdicción:</label>
+			{{ form_filters.jurisdiccion }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.normativa_nacional.errors }}
+			<label for="id_normativa_nacional">Normativa Nacional:</label>
+			{{ form_filters.normativa_nacional }}
+		</div> 
+		{% if user_perfil.rol.nombre in 'AdminNacional' %}
+		<div class="form-text">
+			{{ form_filters.nro_expediente.errors }}
+			<label for="id_normativa_nacional">Nro. Expediente:</label>
+			{{ form_filters.nro_expediente }}
+		</div> 
+		{% endif %}
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
 			<input type="button" value="Reiniciar" onclick="window.location = '/validez_nacional/';" />
@@ -65,6 +82,11 @@
       <th>Estado</th>
       <th>Dict. Cofev</th>
       <th>Norm. Nac.</th>
+      <th>Norm. Jur.</th>
+      {% if user_perfil.rol.nombre in 'AdminNacional' %}
+      <th>Nro. Exp.</th>
+	  {% endif %}
+      <th>Estado</th>
       <th class="actions">Acciones</th>
     </tr>
   </thead>
@@ -74,10 +96,13 @@
 	<td>{{ obj.jurisdiccion }}</td>
 	<td>{{ obj.carrera.nombre }}</td>
 	<td>{{ obj.titulo_nacional.nombre }}</td>
-	<!--
-	<td>{{ obj.normativas_jurisdiccionales.all|implode:", " }}</td>
-	-->
-	<td>{{ obj.primera_cohorte|default:"---" }}-{{ obj.ultima_cohorte|default:"---" }}</td>
+	<td>{{ obj.primera_cohorte|default:"-" }}-{{ obj.ultima_cohorte|default:"-" }}</td>
+	<td>{{ obj.dictamen_cofev|default:"" }}</td>
+	<td>{{ obj.normativas_nacionales|default:"" }}</td>
+	<td>{{ obj.normativas_jurisdiccionales.all|implode:",--" }}</td>
+    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+	<td>{{ obj.nro_expediente|default:"" }}</td>
+	{% endif %}
 	<td>{{ obj.estado }}</td>
 	<td>{{ obj.dictamen_cofev|default:"---" }}</td>
 	<td>{{ obj.normativas_nacionales|default:"---" }}</td>

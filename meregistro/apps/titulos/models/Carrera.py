@@ -4,7 +4,7 @@ from apps.registro.models.Jurisdiccion import Jurisdiccion
 from apps.titulos.models.EstadoCarrera import EstadoCarrera
 
 class Carrera(models.Model):
-	nombre = models.CharField(max_length=50, unique=True)
+	nombre = models.CharField(max_length=255, unique=True)
 	estado = models.ForeignKey(EstadoCarrera) # Concuerda con el último estado en CarreraEstado
 	jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='titulos_carreras_jurisdicciones') # Provincias
 	observaciones = models.CharField(max_length=255, null=True, blank=True)
@@ -36,8 +36,3 @@ class Carrera(models.Model):
 		except:
 			estados = {}
 		return estados
-		
-		
-	#def carrera_jurisdiccional(self):
-	#	tmp = False
-	#	return tmp

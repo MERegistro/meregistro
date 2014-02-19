@@ -128,6 +128,9 @@ function switch_subsidio(tipo_gestion){
 	$('select#id_subsidio').val(1);
 	//$('select#id_subsidio').attr('disabled', 'disabled');
 	$("select#id_subsidio option").not(":selected").attr("disabled", "disabled");
+    } else if(tipo_gestion == 'Privada'){
+	$('select#id_subsidio').val(6);
+	$("select#id_subsidio option").not(":selected").removeAttr("disabled");
     } else {
 	//$('select#id_subsidio').removeAttr('disabled');
 	$("select#id_subsidio option").not(":selected").removeAttr("disabled");
@@ -139,7 +142,8 @@ $(document).ready(function(){
     dropdown_dependencia_funcional = $('select#id_dependencia_funcional');
     dropdown_subsidio = $('select#id_subsidio');
     dropdown_dependencia_funcional.change(function(){
-	var url = "/registro/ajax/get_tipo_gestion_de_dependencia/" + $(this).val();
+	var df = $(this).val() == '' ? 0 : $(this).val();
+	var url = "/registro/ajax/get_tipo_gestion_de_dependencia/" + df;
 	$.getJSON(url, function(val){
 	    switch_subsidio(val);
 	});

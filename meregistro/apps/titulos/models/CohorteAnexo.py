@@ -70,3 +70,11 @@ class CohorteAnexo(models.Model):
 		for s in self.seguimiento.all():
 			total = total + s.egresados
 		return total
+		
+		
+	def get_establecimiento(self):
+		return self.anexo.establecimiento
+		
+		
+	def get_unidad_educativa(self):
+		return self.anexo

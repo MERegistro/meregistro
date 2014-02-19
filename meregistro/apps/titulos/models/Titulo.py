@@ -13,7 +13,7 @@ import datetime
 Título nomenclado nacional
 """
 class Titulo(models.Model):
-    nombre = models.CharField(max_length = 200)
+    nombre = models.CharField(max_length=255)
     tipo_titulo = models.ForeignKey(TipoTitulo)
     tipo_normativa = models.ForeignKey(TituloTipoNormativa)
     normativa = models.CharField(max_length = 50)

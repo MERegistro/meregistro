@@ -23,6 +23,14 @@
     </div>
 </div>
 {% else %}
-<p>Bienvenido, {{ user.nombre }}</p>
+<p><strong>Bienvenido/a:</strong> {{ user.nombre }}</p>
+    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+        <div id="link-manual-institucional">
+            <h4>Descargar el manual de Referente Institucional</h4>
+            <a href="{{ STATIC_URL }}manuales/77d5fe3c63cab427924f7eed2db50fdf/REFFOD_Manual_Referente_Institucional_V1.pdf" target="_blank">
+                <img src="{{ STATIC_URL }}img/REFFOD_Manual_Referente_Institucional_V1.png" />
+            </a>
+        </div>
+    {% endif %}
 {% endif %}
 {% endblock %}
