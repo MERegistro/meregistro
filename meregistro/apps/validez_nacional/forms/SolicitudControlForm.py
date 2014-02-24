@@ -8,7 +8,7 @@ from apps.validez_nacional.models import Solicitud, EstadoSolicitud
 class SolicitudControlForm(forms.ModelForm):
 	nro_expediente = forms.CharField(max_length=200, label='Nro. Expediente', required=False)
 	dictamen_cofev = forms.CharField(max_length=200, label='Dictamen Cofev', required=False)
-	normativas_nacionales = forms.CharField(max_length=99, label='Normativas Nacionales', required=True)
+	normativas_nacionales = forms.CharField(max_length=99, label='Normativas Nacionales', required=False)
 	estado = forms.ModelChoiceField(queryset=EstadoSolicitud.objects.order_by('nombre'), label='Estado', required=True, empty_label=None)
 	
 	class Meta:
@@ -18,3 +18,19 @@ class SolicitudControlForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(SolicitudControlForm, self).__init__(*args, **kwargs)
 		self.fields['estado'].queryset = EstadoSolicitud.objects.exclude(nombre=EstadoSolicitud.NUMERADO)
+
+
+	def clean(self):
+		'''
+		No tiene que se obligatoria si se carga número de expediente
+		'''
+		normativas_nacionales = self.cleaned_data['normativas_nacionales']
+		try:
+			nro_expediente = self.cleaned_data['nro_expediente']
+		except KeyError:
+			nro_expediente = None
+
+		if not nro_expediente and normativas_nacionales == '':
+			raise forms.ValidationError(u'Las normativas nacionales son requeridas.')
+		
+		return self.cleaned_data
