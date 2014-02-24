@@ -96,7 +96,7 @@ $(document).ready(function(){
 	// Enviar el número de página al form de búsqueda
 	$('div.paginator input').click(function(){
 		if($('#asignar-establecimientos-form').serialize() != initial_data){	
-			if(confirm("El formulario fue modificado. Si continúa se perderán los datos.\n¿Desea continuar de todos modos?")){
+			if(confirm("El formulario fue modificado. Debe guardar los cambios antes de continuar.\nSi continúa se perderán los datos.\n¿Desea continuar de todos modos?")){
 				$('#form-filter input[name=page]').val($(this).val());
 				$('#form-filter').submit();
 			}
