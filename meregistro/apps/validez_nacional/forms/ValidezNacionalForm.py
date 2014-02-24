@@ -14,7 +14,7 @@ class ValidezNacionalForm(forms.ModelForm):
 	primera_cohorte = forms.ChoiceField(label='Primera Cohorte Autorizada', choices=ANIOS_COHORTE_CHOICES, required=True)
 	ultima_cohorte = forms.ChoiceField(label='Última Cohorte Autorizada', choices=ANIOS_COHORTE_CHOICES, required=True)
 	normativa_jurisdiccional = forms.CharField(max_length=255, label='Normativa Jurisdiccional', required=True)
-	dictamen_cofev = forms.CharField(max_length=255, label='Dictamen CoFEv', required=True)
+	dictamen_cofev = forms.CharField(max_length=255, label='Dictamen CoFEv', required=False)
 	normativas_nacionales = forms.CharField(max_length=255, label='Normativa Nacional', required=True)
 	nro_infd = forms.CharField(max_length=255, label='Nro. INFD.', required=True)
 	
