@@ -141,9 +141,9 @@ $(document).ready(function(){
     dropdown_sede.change(function(){
 	var val = $(this).val() == '' ? 0 : $(this).val();
 	var url = "/registro/ajax/get_tipo_gestion_de_establecimiento/" + val;
-	$.getJSON(url, function(val){
-	    switch_subsidio(val);
-	});
+		$.getJSON(url, function(val){
+			switch_subsidio(val);
+		});
     });
     dropdown_sede.change();
      
