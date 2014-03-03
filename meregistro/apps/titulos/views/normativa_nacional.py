@@ -84,7 +84,7 @@ def create(request):
 		'is_new': True,
 	})
 
-
+"""
 @login_required
 @credential_required('tit_normativa_nacional_modificar')
 def edit(request, normativa_nacional_id):
@@ -103,7 +103,10 @@ def edit(request, normativa_nacional_id):
 		'form': form,
 		'normativa_nacional': normativa_nacional,
 	})
+"""
 
+@login_required
+@credential_required('tit_normativa_nacional_modificar')
 def edit(request, normativa_nacional_id):
 	"""
 	Edición de los datos de una normativa nacional.

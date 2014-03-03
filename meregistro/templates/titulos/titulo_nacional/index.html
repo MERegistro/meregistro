@@ -63,7 +63,7 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-	<td>{{ obj.normativa_nacional.numero }}</td>
+	<td>{{ obj.normativa_nacional.numero }}<span class="estado {% if obj.normativa_nacional.estado.nombre == 'Vigente' %}vigente{% else %}no-vigente{% endif %}">({{ obj.normativa_nacional.estado }})</span></td>
 	<td>{{ obj.nombre }}</td>
 	<td>{{ obj.carreras.all|implode:", " }}</td>
 	<td>

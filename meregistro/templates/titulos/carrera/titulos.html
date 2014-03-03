@@ -54,7 +54,7 @@
 						{% if obj.id in current_titulos_ids %}checked="checked"{% endif%} 
 					/>
 				</td>
-				<td>{{ obj.normativa_nacional.numero }}</td>
+				<td>{{ obj.normativa_nacional.numero }} <span class="estado {% if obj.estado.nombre == 'Vigente' %}vigente{% else %}no-vigente{% endif %}">({{ obj.estado }})</span></td>
 				<td>{{ obj.nombre }}</td>
 			</tr>
 		{% endfor %}

@@ -635,6 +635,15 @@ p.estado-baja,
 p.estado-no-vigente {
 	color: #f00;
 }
+span.estado { 
+	font-weight: bold;
+}
+span.vigente {
+	color: #57881B;
+}
+span.no-vigente {
+	color: #f00;
+}
 /* TABLE Establecimientos */
 th#thEstablecimientoCue {
 	width: 30px;
