@@ -98,5 +98,5 @@ class ValidezNacional(models.Model):
 		for est_sol in self.solicitud.establecimientos.all():
 			est_sol.delete()
 		for anexo_sol in self.solicitud.anexos.all():
-			est_anexo.delete()
+			anexo_sol.delete()
 		super(ValidezNacional, self).delete(*args, **kwargs)
