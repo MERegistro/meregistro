@@ -18,11 +18,13 @@ ITEMS_PER_PAGE = 50
 @login_required
 @credential_required('validez_nacional_validez_index')
 def index(request):
-	
+
+	jur = request.get_perfil().jurisdiccion()
+
 	if request.method == 'GET':
-		form_filter = ValidezNacionalFormFilters(request.GET)
+		form_filter = ValidezNacionalFormFilters(request.GET, jurisdiccion=jur)
 	else:
-		form_filter = SolicitudFormFilters()
+		form_filter = ValidezNacionalFormFilters(jurisdiccion=jur)
 	q = build_query(form_filter, 1, request)
 
 	"""
