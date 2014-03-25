@@ -79,7 +79,7 @@ def build_query(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	return filters.buildQuery().order_by('-estado__nombre', 'titulo_nacional__nombre', 'primera_cohorte')
+	return filters.buildQuery().order_by('-estado__nombre', 'jurisdiccion__nombre', 'primera_cohorte')
 
 
 @login_required
