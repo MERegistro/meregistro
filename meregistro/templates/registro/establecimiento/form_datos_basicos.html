@@ -87,8 +87,9 @@ checkbox = document.getElementById('id_unidad_academica');
 input = document.getElementById('id_nombre_unidad_academica');
 checked = checkbox.checked;
 input.disabled = !checked;
-first_load = true;
+//first_load = true;
 {% if establecimiento %}
+alert({{establecimiento.subsidio_id}});
 subsidio_id = {{ establecimiento.subsidio_id }};
 {% endif %}
 checkbox.onclick = function(){
@@ -128,21 +129,21 @@ function switch_subsidio(tipo_gestion){
     // No se puede deshabilitar el select porque no envía el valor y este es requerido
     // http://www.devcha.com/2008/02/readonly-attribute-to-dropdown-menu.html?showComment=1295534752678#c1119274142645841499
     if(tipo_gestion == 'Estatal'){
-		if (!first_load) {
+		//if (!first_load) {
 			$('select#id_subsidio').val(1);
-		}
+		//}
 		//$('select#id_subsidio').attr('disabled', 'disabled');
 		$("select#id_subsidio option").not(":selected").attr("disabled", "disabled");
     } else if(tipo_gestion == 'Privada'){
-		if (!first_load) {
+		//if (!first_load) {
 			$('select#id_subsidio').val(6);
-		}
+		//}
 		$("select#id_subsidio option").removeAttr("disabled");
     } else {
 		//$('select#id_subsidio').removeAttr('disabled');
 		$("select#id_subsidio option").not(":selected").removeAttr("disabled");
     }
-    first_load = false;
+    //first_load = false;
 }
 // Init
 $(document).ready(function(){
@@ -158,7 +159,7 @@ $(document).ready(function(){
     });
 {% if establecimiento %}
     dropdown_dependencia_funcional.change();
-    dropdown_subsidio.val({{ subsidio_id }});
+    dropdown_subsidio.(subsidio_id);
 {% endif %}
 }); // END document.ready
 </script>
