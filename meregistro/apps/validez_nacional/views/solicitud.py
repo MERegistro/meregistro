@@ -497,7 +497,7 @@ def numerar(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
 	
 	if len(solicitud.normativas_jurisdiccionales.all()) > 0:
-		normativas_jurisdiccionales = ', '.join([n.numero_anio + " - " + n.otorgada_por.nombre for n in solicitud.normativas_jurisdiccionales.all().order_by('numero_anio')])
+		normativas_jurisdiccionales = ', '.join([n.numero_anio for n in solicitud.normativas_jurisdiccionales.all().order_by('numero_anio')])
 	else: 
 		normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
 		
