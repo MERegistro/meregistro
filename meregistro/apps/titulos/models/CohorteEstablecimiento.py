@@ -33,6 +33,10 @@ class CohorteEstablecimiento(models.Model):
 	def registrada(self):
 		return self.estado.nombre == EstadoCohorteEstablecimiento.REGISTRADA
 
+	"La cohorte fue rechazada por el establecimiento?"
+	def rechazada(self):
+		return self.estado.nombre == EstadoCohorteEstablecimiento.RECHAZADA
+
 
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteEstablecimientoEstado import CohorteEstablecimientoEstado

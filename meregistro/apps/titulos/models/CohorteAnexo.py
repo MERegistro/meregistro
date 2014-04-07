@@ -34,6 +34,11 @@ class CohorteAnexo(models.Model):
 		return self.estado.nombre == EstadoCohorteAnexo.REGISTRADA
 
 
+	"La cohorte fue rechazada por el anexo?"
+	def rechazada(self):
+		return self.estado.nombre == EstadoCohorteAnexo.RECHAZADA
+
+
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteAnexoEstado import CohorteAnexoEstado
 		registro = CohorteAnexoEstado(estado=self.estado)

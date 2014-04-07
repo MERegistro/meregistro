@@ -776,11 +776,22 @@ td.actions-td ul li.registrar a {
 /* CONFIRMAR COHORTE */
 td.actions-td ul li.confirmar-cohorte a {
 	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/success.png) no-repeat left;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/yes.png) no-repeat left;
+}
+/* RECHAZAR COHORTE */
+td.actions-td ul li.rechazar-cohorte a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/delete-16.png) no-repeat left;
 }
 /* SEGUIMIENTO COHORTE */
+table#seguimiento-cohorte-table tr.estado-rechazada td {
+    color: #f00;
+    font-weight: bold;
+}
 td.actions-td ul li.seguimiento-cohorte a {
 	display: block;
 	width: 16px;

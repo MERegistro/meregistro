@@ -43,7 +43,7 @@
 
 {% if objects %}
 {% include "counter.html" %}
-<table class="hor-zebra">
+<table class="hor-zebra" id="seguimiento-cohorte-table">
   <thead>
 
     <tr>
@@ -57,26 +57,30 @@
   </thead>
   <tbody>
     {% for cohorte_unidad_educativa in objects %}
-      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} estado-{{ cohorte_unidad_educativa.estado|lower }}">
 
 	<td>{{ cohorte_unidad_educativa.cohorte.anio }}</td>
 	<td>{{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</td>
-	<td>{{ cohorte_unidad_educativa.estado }}</td>
+	<td class='estado'>{{ cohorte_unidad_educativa.estado }}</td>
 	<td>{% if cohorte_unidad_educativa.inscriptos != None %}{{ cohorte_unidad_educativa.inscriptos }}{% else %}---{% endif %}</td>
 	<td>{{ cohorte_unidad_educativa.seguimiento.all|implode:", " }}</td>
         <td class="actions-td">
-	    <ul>
-	    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-			{% if not cohorte_unidad_educativa.registrada %}
-			<li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
-			{% endif %}
-			{% if cohorte_unidad_educativa.is_editable %}
-			<li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Editar"><span>Editar</span></a></li>
-			{% endif %}
-			
-	    {% endif %}
-		<li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
-	    </ul>
+            <ul>
+            {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+                {% if cohorte_unidad_educativa.registrada %}
+                <li class="rechazar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.rechazar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Rechazar cohorte"><span>Rechazar cohorte</span></a></li>
+                {% endif %}                
+                {% if not cohorte_unidad_educativa.rechazada %}
+                    {% if not cohorte_unidad_educativa.registrada %}
+                    <li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
+                    {% endif %}
+                    {% if cohorte_unidad_educativa.is_editable %}
+                <li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Editar"><span>Editar</span></a></li>
+                    {% endif %}
+                <li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
+                {% endif %}
+            {% endif %}
+            </ul>
         </td>
       </tr>
     {% endfor %}
@@ -96,4 +100,9 @@
   </li>
 </ul>
 <hr />
+<script type="text/javascript">
+$('li.rechazar-cohorte a').click(function(){
+    return confirm('Está seguro de rechazar la asignación de Cohorte? Esto no puede deshacerse.');
+});
+</script>
 {% endblock %}

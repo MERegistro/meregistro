@@ -57,6 +57,7 @@ urlpatterns=patterns('',
     # Cohorte Seguimiento
     url(r'^cohorte_seguimiento$', 'apps.titulos.views.cohorte_seguimiento.index', name='cohorteSeguimientoIndex'),
     url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/confirmar$', 'apps.titulos.views.cohorte_seguimiento.confirmar', name='cohorteConfirmar'),
+    url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/rechazar$', 'apps.titulos.views.cohorte_seguimiento.rechazar', name='cohorteRechazar'),
     url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/seguimiento$', 'apps.titulos.views.cohorte_seguimiento.seguimiento', name='cohorteSeguimiento'),
     url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/create$', 'apps.titulos.views.cohorte_seguimiento.create', name='cohorteSeguimientoCreate'),
     url(r'^cohorte_seguimiento/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<seguimiento_id>[0-9]+)/edit$', 'apps.titulos.views.cohorte_seguimiento.edit', name='cohorteSeguimientoEdit'),

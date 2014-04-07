@@ -35,6 +35,11 @@ class CohorteExtensionAulica(models.Model):
 		return self.estado.nombre == EstadoCohorteExtensionAulica.REGISTRADA
 
 
+	"La cohorte fue rechazada por la extensión áulica?"
+	def rechazada(self):
+		return self.estado.nombre == EstadoCohorteExtensionAulica.RECHAZADA
+
+
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteExtensionAulicaEstado import CohorteExtensionAulicaEstado
 		registro = CohorteExtensionAulicaEstado(estado=self.estado)
