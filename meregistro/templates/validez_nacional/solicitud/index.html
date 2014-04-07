@@ -102,7 +102,13 @@
 	<td>{{ obj.primera_cohorte|default:"-" }}-{{ obj.ultima_cohorte|default:"-" }}</td>
 	<td>{{ obj.dictamen_cofev|default:"" }}</td>
 	<td>{{ obj.normativas_nacionales|default:"" }}</td>
-	<td>{{ obj.normativas_jurisdiccionales.all|implode:",--" }}</td>
+	<td>
+        <ul>
+            {% for n in obj.normativas_jurisdiccionales.all %}
+            <li>{{ n.numero_anio }}</li>
+            {% endfor %}
+        </ul>
+        </td>
     {% if user_perfil.rol.nombre in 'AdminNacional' %}
 	<td>{{ obj.nro_expediente|default:"" }}</td>
 	{% endif %}
