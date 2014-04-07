@@ -32,13 +32,6 @@ class SolicitudControlForm(forms.ModelForm):
 		No tiene que ser obligatoria si se carga número de expediente
 		'''
 		normativas_nacionales = data['normativas_nacionales']
-		try:
-			nro_expediente = data['nro_expediente']
-		except KeyError:
-			nro_expediente = None
-
-		if nro_expediente and normativas_nacionales == '':
-			raise forms.ValidationError(u'Las normativas nacionales son requeridas al cargar número de expediente.')
 		'''
 		Si se pasa a estado controlado, las normativas son obligatorias
 		'''
