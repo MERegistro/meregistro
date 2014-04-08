@@ -1066,6 +1066,10 @@ body.orientaciones-por-titulo div#datosTitulo {
 body.cohorte-asignar-establecimientos table.hor-zebra {
 	margin-top: 10px;
 }
+body.cohorte-asignar-establecimientos table.hor-zebra tr.cohorte-rechazada td {
+	font-weight: bold;
+    color: #f00;
+}
 body.cohorte-asignar-establecimientos div#datosCohorte {
 	margin-top: 30px;
 }

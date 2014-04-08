@@ -53,18 +53,29 @@
     <table class="hor-zebra">
 		<thead>
 			<tr>
-				<th><input type="checkbox" name="check_all_establecimientos" id="check_all_establecimientos" /> <label for="check_all_establecimientos">Todas</label></th>
+				<th>
+                    <input type="checkbox" name="check_all_establecimientos" id="check_all_establecimientos" />
+                    <label for="check_all_establecimientos">Todas</label>
+                </th>
 				<th id="thEstablecimientoCue">CUE</th>
 				<th>Sede</th>
 			</tr>
 		</thead>
 		<tbody>
 		{% for est in objects %}
+            {% if cohorte|args:est|call:'rechazada_por_establecimiento' %}
+			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} cohorte-rechazada">
+				<td><input type="checkbox" name="establecimientos" value="{{ est.id }}" /></td>
+				<td>{{ est.cue }}</td>
+				<td>{{ est.nombre }} (RECHAZADA)</td>
+			</tr>
+            {% else %}
 			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 				<td><input type="checkbox" name="establecimientos" value="{{ est.id }}"{% if est.id in current_establecimientos_ids %} checked="checked"{% endif%} /></td>
 				<td>{{ est.cue }}</td>
 				<td>{{ est.nombre }}</td>
 			</tr>
+            {% endif %}
 		{% endfor %}
 		</tbody>
     </table>
