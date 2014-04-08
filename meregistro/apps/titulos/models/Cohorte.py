@@ -138,3 +138,21 @@ class Cohorte(models.Model):
         except CohorteEstablecimiento.DoesNotExist:
             return False
         return cohorte_establecimiento.rechazada()
+
+
+    def rechazada_por_anexo(self, anexo):
+        from apps.titulos.models.CohorteAnexo import CohorteAnexo
+        try:
+            cohorte_anexo = CohorteAnexo.objects.get(cohorte=self, anexo__id=anexo.id)
+        except CohorteAnexo.DoesNotExist:
+            return False
+        return cohorte_anexo.rechazada()
+
+
+    def rechazada_por_extension_aulica(self, extension_aulica):
+        from apps.titulos.models.CohorteExtensionAulica import CohorteExtensionAulica
+        try:
+            cohorte_ea = CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica__id=extension_aulica.id)
+        except CohorteExtensionAulica.DoesNotExist:
+            return False
+        return cohorte_ea.rechazada()

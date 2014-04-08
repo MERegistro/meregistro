@@ -60,6 +60,13 @@
 		</thead>
 		<tbody>
 		{% for extension_aulica in objects %}
+            {% if cohorte|args:extension_aulica|call:'rechazada_por_extension_aulida' %}
+			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} cohorte-rechazada">
+				<td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}" /></td>
+				<td>{{ extension_aulica.cue }}</td>
+				<td>{{ extension_aulica.nombre }} (RECHAZADA)</td>
+			</tr>
+            {% else %}
 			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 				<td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_ids %} checked="checked"{% endif%} /></td>
 				<td>{{ extension_aulica.cue }}</td>
