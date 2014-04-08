@@ -154,7 +154,7 @@ def confirmar(request, cohorte_ue_id, tipo_unidad_educativa):
 		form = form_model(request.POST, instance=cohorte_unidad_educativa)
 		if form.is_valid() and not cohorte_unidad_educativa.rechazada():
 			cohorte_unidad_educativa = form.save(commit=False)
-			estado = estado_model.objects.get(nombre=estado_model.ASIGNADA)
+			estado = estado_model.objects.get(nombre=estado_model.REGISTRADA)
 			cohorte_unidad_educativa.estado = estado
 			cohorte_unidad_educativa.save()
 			cohorte_unidad_educativa.registrar_estado()

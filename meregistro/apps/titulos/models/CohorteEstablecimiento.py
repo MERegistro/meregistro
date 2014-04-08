@@ -63,6 +63,10 @@ class CohorteEstablecimiento(models.Model):
 		return self.registrada() and not self.tiene_seguimiento()
 		
 		
+	def is_rechazable(self):
+		return not self.rechazada() and self.inscriptos == None
+		
+		
 	def get_ultimo_seguimiento_cargado(self):
 		return self.seguimiento.all().order_by('-anio')[:1]		
 			

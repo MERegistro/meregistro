@@ -67,7 +67,7 @@
         <td class="actions-td">
             <ul>
             {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-                {% if cohorte_unidad_educativa.registrada %}
+                {% if cohorte_unidad_educativa.is_rechazable %}
                 <li class="rechazar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.rechazar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Rechazar cohorte"><span>Rechazar cohorte</span></a></li>
                 {% endif %}                
                 {% if not cohorte_unidad_educativa.rechazada %}
