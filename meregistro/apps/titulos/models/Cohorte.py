@@ -57,8 +57,8 @@ class Cohorte(models.Model):
     XXX: los valores "posts" vienen como strings
     """
     def save_establecimientos(self, establecimientos_procesados_ids, current_establecimientos_ids, establecimientos_seleccionados_ids, estado):
-        
         from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
+        from apps.titulos.models.EstadoCohorteEstablecimiento import EstadoCohorteEstablecimiento
         
         "Borrar los que se des-chequean"
         for est_id in establecimientos_procesados_ids:
@@ -74,8 +74,12 @@ class Cohorte(models.Model):
                 registro.registrar_estado()
             else:
                 registro = CohorteEstablecimiento.objects.get(cohorte=self, establecimiento=est_id)
+                old_estado = str(registro.estado)
+                if old_estado == EstadoCohorteEstablecimiento.RECHAZADA: # Si estaba rechazada, la pongo asignada de nuevo
+                    registro.estado = estado
+
                 registro.save()
-                if str(registro.estado) != str(estado):
+                if str(old_estado) != str(estado):
                     registro.registrar_estado()
 
     """
@@ -85,6 +89,7 @@ class Cohorte(models.Model):
     def save_anexos(self, anexos_procesados_ids, current_anexos_ids, anexos_seleccionados_ids, estado):
         
         from apps.titulos.models.CohorteAnexo import CohorteAnexo
+        from apps.titulos.models.EstadoCohorteAnexo import EstadoCohorteAnexo
         
         "Borrar los que se des-chequean"
         for anexo_id in anexos_procesados_ids:
@@ -100,8 +105,13 @@ class Cohorte(models.Model):
                 registro.registrar_estado()
             else:
                 registro = CohorteAnexo.objects.get(cohorte=self, anexo=anexo_id)
+
+                old_estado = str(registro.estado)
+                if old_estado == EstadoCohorteAnexo.RECHAZADA: # Si estaba rechazada, la pongo asignada de nuevo
+                    registro.estado = estado
+
                 registro.save()
-                if str(registro.estado) != str(estado):
+                if str(old_estado) != str(estado):
                     registro.registrar_estado()
 
     """
@@ -111,6 +121,7 @@ class Cohorte(models.Model):
     def save_extensiones_aulicas(self, extensiones_aulicas_procesadas_ids, current_extensiones_aulicas_ids, extensiones_aulicas_seleccionadas_ids, estado):
         
         from apps.titulos.models.CohorteExtensionAulica import CohorteExtensionAulica
+        from apps.titulos.models.EstadoCohorteExtensionAulica import EstadoCohorteExtensionAulica
         
         "Borrar los que se des-chequean"
         for extension_aulica_id in extensiones_aulicas_procesadas_ids:
@@ -126,8 +137,13 @@ class Cohorte(models.Model):
                 registro.registrar_estado()
             else:
                 registro = CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica=extension_aulica_id)
+
+                old_estado = str(registro.estado)
+                if old_estado == EstadoCohorteExtensionAulica.RECHAZADA: # Si estaba rechazada, la pongo asignada de nuevo
+                    registro.estado = estado
+
                 registro.save()
-                if str(registro.estado) != str(estado):
+                if str(old_estado) != str(estado):
                     registro.registrar_estado()
 
 
