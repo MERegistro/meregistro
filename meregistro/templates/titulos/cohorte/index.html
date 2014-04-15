@@ -50,6 +50,7 @@
 	<thead>
 		<tr>
 			<th>Carrera</th>
+			<th>Jurisdicción</th>
 			<th>Cohortes Generadas</th>
 			<th class="th-estados">Estados</th>
 			<th class="actions">Acciones</th>
@@ -59,6 +60,7 @@
 	{% for carrera_jurisdiccional in objects %}
 		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ carrera_jurisdiccional.carrera.nombre }}</td>
+			<td>{{ carrera_jurisdiccional.jurisdiccion.nombre }}</td>
 			<td><p>{{ carrera_jurisdiccional.cohortes.all|implode:", " }}</p></td>
 			<td>
 				<div class="estados">

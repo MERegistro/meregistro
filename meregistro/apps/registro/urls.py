@@ -19,6 +19,13 @@ urlpatterns = patterns('',
     url(r'^establecimiento/([0-9]+)/registrar', 'apps.registro.views.establecimiento.registrar', name='establecimientoRegistrar'),
     url(r'^establecimiento/datos$', 'apps.registro.views.establecimiento.datos_establecimiento', name='establecimientoDatos'),
     url(r'^establecimiento/([0-9]+)/detalle$', 'apps.registro.views.establecimiento.detalle', name='establecimientoDetalle'),
+    # Consulta
+    url(r'^establecimiento/([0-9]+)/ver_datos_basicos/', 'apps.registro.views.establecimiento.ver_datos_basicos', name='establecimientoVerDatosBasicos'),
+    #url(r'^establecimiento/([0-9]+)/completar_contacto/', 'apps.registro.views.establecimiento.completar_contacto', name='establecimientoCompletarContacto'),
+    #url(r'^establecimiento/([0-9]+)/completar_alcances/', 'apps.registro.views.establecimiento.completar_alcances', name='establecimientoCompletarAlcances'),
+    #url(r'^establecimiento/([0-9]+)/completar_funciones/', 'apps.registro.views.establecimiento.completar_funciones', name='establecimientoCompletarFunciones'),
+    #url(r'^establecimiento/([0-9]+)/completar_informacion_edilicia/', 'apps.registro.views.establecimiento.completar_informacion_edilicia', name='establecimientoCompletarInformacionEdilicia'),
+    #url(r'^establecimiento/([0-9]+)/completar_conexion_internet/', 'apps.registro.views.establecimiento.completar_conexion_internet', name='establecimientoCompletarConexionInternet'),
     # establecimiento domicilios
     url(r'^establecimiento/([0-9]+)/domicilios$', 'apps.registro.views.establecimiento_domicilio.index', name='establecimientoDomiciliosIndex'),
     url(r'^establecimiento/([0-9]+)/agregar_domicilio$', 'apps.registro.views.establecimiento_domicilio.create', name='establecimientoDomicilioCreate'),

@@ -1,0 +1,27 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Ver Datos de Sede{% endblock %}
+
+{% block content %}
+<h2>Ver Datos de Sede - {{ page_title }}</h2>
+<h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+{% if not establecimiento.get_verificacion_datos.completo %}
+	<div class="message warning">
+		<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+	</div>
+{% endif %}
+{% include "registro/establecimiento/ver_datos_nav.html" %}
+{% if template %}
+{% include template %}
+{% endif %}
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.establecimiento.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

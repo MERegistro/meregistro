@@ -465,11 +465,28 @@ div#establecimientoForm form input#id_cue {
 div#establecimientoForm form h4 {
 	margin-left: 10px;
 }
+div#establecimientoVer div {
+	margin-top: 30px;
+}
 div#establecimientoForm form select#id_tipo_norma {
 	width: 100px;	
 }
 div#establecimientoForm form select#id_norma_creacion {
 	width: 100px;	
+}
+/**
+ *=VER DATOS
+ */
+div#establecimientoVer {
+	width: 940px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
+div#establecimientoVer h4 {
+	margin-left: 10px;
+}
+div#establecimientoVer div.ver-dato {
+	margin: 20px 0 0 20px;
 }
 /* Matrícula - Mixto */
 div#establecimientoForm div#matricula_mixto.form-checkbox {
@@ -772,6 +789,10 @@ td.actions-td ul li.orientaciones a {
 /* REGISTRAR */
 td.actions-td ul li.registrar a {
 	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
+}
+/* VER-DATOS */
+td.actions-td ul li.ver-datos a {
+	background: url(../img/icons/eye.png) no-repeat left;
 }
 /* CONFIRMAR COHORTE */
 td.actions-td ul li.confirmar-cohorte a {

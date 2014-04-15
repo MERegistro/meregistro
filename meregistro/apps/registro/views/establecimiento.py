@@ -515,3 +515,22 @@ def detalle(request, establecimiento_id):
         'alcances': establecimiento.alcances.all(),
         'domicilios': establecimiento.domicilios.all(),
     })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_datos_basicos(request, establecimiento_id):
+    """
+    Visualización de los datos básicos de un establecimiento.
+    """
+    establecimiento = __get_establecimiento(request, establecimiento_id)      
+
+    parts = establecimiento.get_cue_parts()
+		
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_datos_basicos.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
