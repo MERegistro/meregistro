@@ -465,9 +465,6 @@ div#establecimientoForm form input#id_cue {
 div#establecimientoForm form h4 {
 	margin-left: 10px;
 }
-div#establecimientoVer div {
-	margin-top: 30px;
-}
 div#establecimientoForm form select#id_tipo_norma {
 	width: 100px;	
 }
@@ -482,8 +479,22 @@ div#establecimientoVer {
 	margin-top: 35px;
 	margin-bottom: 30px;
 }
+div#establecimientoVer div.grid-wrapper {
+	margin-right: 10px;
+}
+div#establecimientoVer ul {
+	margin: 20px 30px 0;
+	list-style: square;
+}
+div#establecimientoVer ul li {
+	margin-top: 10px;
+}
 div#establecimientoVer h4 {
 	margin-left: 10px;
+}
+div#establecimientoVer {
+	margin-top: 45px;
+	padding: 10px 0 30px;
 }
 div#establecimientoVer div.ver-dato {
 	margin: 20px 0 0 20px;

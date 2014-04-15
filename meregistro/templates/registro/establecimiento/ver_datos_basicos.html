@@ -1,11 +1,9 @@
 <div class="form tabbed-form" id="establecimientoVer">
-    <form action="" method="post">{% csrf_token %}
     {% if establecimiento %}
 	<h4>Fecha de Solicitud de Registro: {{ establecimiento.get_fecha_solicitud }}</h4>
     {% else %}    
 	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
     {% endif %}
-	{{ form.non_field_errors }}
 	<div class="ver-dato">
 	    <p><strong>Dependencia Funcional:</strong> {{ establecimiento.dependencia_funcional }}</p>
 	</div>
@@ -41,7 +39,7 @@
 	</div>
     {% if 'reg_establecimiento_verificar_datos' in credenciales %}
     <div class="ver-dato datos-verificados">
-        <p><strong>Datos Verificados:</strong> {{ establecimiento.verificado }}</p>
+        <p><strong>Datos Verificados:</strong> {% if establecimiento.verificado %}Sí{% else %}No{% endif %}</p>
     </div>
     {% endif %}
     </form>

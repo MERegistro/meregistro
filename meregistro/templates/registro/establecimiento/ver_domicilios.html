@@ -1,0 +1,39 @@
+{% load tags_filters %}
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="grid-wrapper">
+{% if domicilios %}
+	{% include "counter.html" %}
+		<table class="hor-zebra">
+			<thead>
+				<tr>
+					<th>Tipo</th>
+					<th>Dirección</th>
+					<th>Departamento</th>
+					<th>Localidad</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for dom in domicilios %}
+					<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+						<td>{{ dom.tipo_domicilio }}</td>
+						<td>{{ dom.calle }} {{ dom.altura }} ({{ dom.cp }})</td>
+						<td>{{ dom.localidad.departamento }}</td>
+						<td>{{ dom.localidad }}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+	<div class="message notice">
+		<p>No se encontraron domicilios.</p>
+	</div>
+	{% endif %}
+</div>
+	
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>
