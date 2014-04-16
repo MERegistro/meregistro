@@ -1,9 +1,9 @@
 <div class="form tabbed-form" id="establecimientoVer">
 	<div class="ver-dato">
-	    <p><strong>Uso del Edificio:</label> {{ informacion_edilicia.tipo_dominio }}</p>
+	    <p><strong>Uso del Edificio:</strong> {{ informacion_edilicia.tipo_dominio }}</p>
 	</div>
 	<div class="ver-dato">
-	    <p><strong>Comparte Edificion con:</label> {% if informacion_edilicia.tipo_compartido %}{{ informacion_edilicia.tipo_compartido }}{% else %}---{% endif %}</p>
+	    <p><strong>Comparte Edificion con:</strong> {% if informacion_edilicia.tipo_compartido %}{{ informacion_edilicia.tipo_compartido }}{% else %}---{% endif %}</p>
 	</div>
 	{% if informacion_edilicia.niveles.all %}
 	<fieldset>
