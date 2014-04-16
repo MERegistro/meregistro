@@ -1,9 +1,5 @@
 <div class="form tabbed-form" id="establecimientoVer">
-    {% if establecimiento %}
-	<h4>Fecha de Solicitud de Registro: {{ establecimiento.get_fecha_solicitud }}</h4>
-    {% else %}    
-	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
-    {% endif %}
+	<h4>Fecha de Solicitud de Registro: {{ anexo.get_fecha_solicitud }}</h4>
 	<div class="ver-dato">
 	    <p><strong>Depende de la Sede del:</strong> {{ anexo.establecimiento }}</p>
 	</div>
