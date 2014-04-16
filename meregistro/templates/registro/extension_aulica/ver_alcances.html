@@ -1,13 +1,13 @@
 <div class="form tabbed-form" id="establecimientoVer">
-{% if funciones %}
+{% if alcances %}
 	<ul>
-	{% for f in funciones %}			
-		<li>{{ f.nombre }}</li>
+	{% for a in alcances %}			
+		<li>{{ a.nombre }}</li>
 	{% endfor %}
 	</ul>
 {% else %}
 	<div class="ver-dato">
-		<p>No posee funciones cargadas.</p>
+		<p>No posee alcances cargados.</p>
 	</div>
 {% endif %}
     {% if 'reg_anexo_verificar_datos' in credenciales %}

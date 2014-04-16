@@ -94,8 +94,13 @@
     {% for ext in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 		<td>{{ ext.cue }}</td>
-        <td><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ext.id %}" title="Ver más datos"><span>{{ ext.nombre }}</span></a></td>
-		{% if user_perfil.rol.nombre in 'AdminNacional' %}
+		{% if 'reg_extension_aulica_consulta' in credenciales %}
+		<td><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ext.id %}" title="Ver datos"><span>{{ ext.nombre }}</span></a></td>
+		{% else %}
+		<td>{{ ext.nombre }}</td>
+		{% endif %}
+		
+        {% if user_perfil.rol.nombre in 'AdminNacional' %}
 		<td>{{ ext.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 		{% endif %}
 		<td>{{ ext.get_first_domicilio.localidad.departamento }}</td>
@@ -122,6 +127,11 @@
 				{% if 'reg_extension_aulica_baja' in credenciales and  ext.is_deletable %}
 				<li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 				{% endif %}
+								
+				{% if 'reg_extension_aulica_consulta' in credenciales %}
+				<li class="ver-datos"><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ext.id %}" title="Ver Datos"><span>Ver Datos</span></a></li>
+				{% endif %}
+				
 				{% if ext.verificado %} 
 				<li class="revisado" title="Revisado"><span>Revisado</span></li>
 				{% else %}

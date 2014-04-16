@@ -13,12 +13,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for anexo_turno in turnos %}
+			{% for extension_aulica_turno in turnos %}
 				<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-					<td>{{ anexo_turno.turno.nombre }}</td>
-					<td>{{ anexo_turno.tipo_dominio.descripcion }}</td>
-					<td>{{ anexo_turno.tipo_compartido.descripcion }}</td>
-					<td>{{ anexo_turno.niveles.all|implode:", " }}</td>
+					<td>{{ extension_aulica_turno.turno.nombre }}</td>
+					<td>{{ extension_aulica_turno.tipo_dominio.descripcion }}</td>
+					<td>{{ extension_aulica_turno.tipo_compartido.descripcion }}</td>
+					<td>{{ extension_aulica_turno.niveles.all|implode:", " }}</td>
 				</tr>
 			{% endfor %}
 		</tbody>
@@ -30,7 +30,7 @@
 	{% endif %}
 </div>
 	
-    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
     <div class="ver-dato datos-verificados">
         <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
     </div>
