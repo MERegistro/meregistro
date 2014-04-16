@@ -1,0 +1,41 @@
+<div class="form tabbed-form" id="establecimientoVer">
+    {% if establecimiento %}
+	<h4>Fecha de Solicitud de Registro: {{ establecimiento.get_fecha_solicitud }}</h4>
+    {% else %}    
+	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
+    {% endif %}
+	<div class="ver-dato">
+	    <p><strong>Depende de la Sede del:</strong> {{ anexo.establecimiento }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>CUE:</strong> {{ anexo.codigo_jurisdiccion }}{{ anexo.cue }}{{ anexo.codigo_tipo_unidad_educativa }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Nombre:</strong> {{ anexo.nombre }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>¿Posee Subsidio?:</strong> {{ anexo.subsidio }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Año de Creación:</strong> {{ anexo.anio_creacion|default:"" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Origen de la Norma:</strong> {{ anexo.tipo_normativa }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Tipo de Norma:</strong> {{ anexo.tipo_norma }} - {{ anexo.tipo_norma_otra|default:"" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Número de la Norma:</strong> {{ anexo.norma_creacion }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Observaciones:</strong> {{ anexo.observaciones|default:"---" }}</p>
+	</div>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if anexo.verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+    </form>
+
+</div>

@@ -1,0 +1,23 @@
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="ver-dato">
+	    <p><strong>Teléfono Institucional:</strong> {{ anexo.telefono|default:"---" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Interno:</strong> {{ anexo.interno|default:"---" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Número de Fax:</strong> {{ anexo.fax|default:"---" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Email Institucional:</strong> {{ anexo.email|default:"---" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Sitio Web:</strong> {{ anexo.sitio_web|default:"---" }}</p>
+	</div>
+    {% if 'reg_anexo_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if anexo.verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>
