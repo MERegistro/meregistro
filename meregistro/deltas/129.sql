@@ -27,6 +27,8 @@ INSERT INTO seguridad_rol_tipos_ambito_asignable (rol_id, tipoambito_id)
 VALUES ((SELECT id FROM seguridad_rol WHERE nombre = 'SoloConsultaNacional'), 1);
 INSERT INTO seguridad_rol_tipos_ambito_asignable (rol_id, tipoambito_id)
 VALUES ((SELECT id FROM seguridad_rol WHERE nombre = 'SoloConsultaJurisdiccional'), 2);
+INSERT INTO seguridad_rol_tipos_ambito_asignable (rol_id, tipoambito_id)
+VALUES ((SELECT id FROM seguridad_rol WHERE nombre = 'SoloConsultaJurisdiccional'), 3);
 -- Credenciales
 --
 INSERT INTO seguridad_rol_credenciales (rol_id, credencial_id) VALUES
