@@ -23,11 +23,10 @@ def build_query(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	jur = request.get_perfil().jurisdiccion()
-	if jur:
-		q = filters.buildQuery().filter(jurisdiccion=jur).order_by('carrera__nombre')
+	if filters.jur:
+		q = filters.buildQuery().order_by('carrera__nombre')
 	else:
-		q = filters.buildQuery().all().order_by('jurisdiccion__nombre', 'carrera__nombre')
+		q = filters.buildQuery().order_by('jurisdiccion__nombre', 'carrera__nombre')
 	return q
 
 @login_required
@@ -36,10 +35,11 @@ def index(request):
 	"""
 	Búsqueda de titulos
 	"""
+	jur = request.get_perfil().jurisdiccion()
 	if request.method == 'GET':
-		form_filter = CarreraJurisdiccionalCohorteFormFilters(request.GET)
+		form_filter = CarreraJurisdiccionalCohorteFormFilters(request.GET, jurisdiccion=jur)
 	else:
-		form_filter = CarreraJurisdiccionalCohorteFormFilters()
+		form_filter = CarreraJurisdiccionalCohorteFormFilters(jurisdiccion=jur)
 	q = build_query(form_filter, 1, request)
 
 	try:
