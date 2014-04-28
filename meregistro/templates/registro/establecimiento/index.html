@@ -94,7 +94,12 @@
         {% for est in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
                 <td>{{ est.cue }}</td>
-                <td><a href="{% url apps.registro.views.establecimiento.completar_datos_basicos est.id %}" title="Ver más datos"><span>{{ est.nombre }}</span></a></td>
+				{% if 'reg_establecimiento_consulta' in credenciales %}
+                <td><a href="{% url apps.registro.views.establecimiento.ver_datos_basicos est.id %}" title="Ver datos"><span>{{ est.nombre }}</span></a></td>
+				{% else %}
+                <td>{{ est.nombre }}</td>
+				{% endif %}
+				
 				{% if user_perfil.rol.nombre in 'AdminNacional' %}
                 <td>{{ est.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
 				{% endif %}
@@ -120,6 +125,9 @@
 						{% endif %}
 						{% if 'reg_establecimiento_registrar' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.establecimiento.registrar est.id %}" title="Registrar"><span>Registrar</span></a></li>
+						{% endif %}						
+						{% if 'reg_establecimiento_consulta' in credenciales %}
+                        <li class="ver-datos"><a href="{% url apps.registro.views.establecimiento.ver_datos_basicos est.id %}" title="Ver Datos"><span>Ver Datos</span></a></li>
 						{% endif %}
 			            
 						{% if est.verificado %} 

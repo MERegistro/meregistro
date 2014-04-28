@@ -8,6 +8,7 @@ from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
 from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Anexo import Anexo
+from apps.registro.models.AnexoTurno import AnexoTurno
 from apps.registro.models.Localidad import Localidad
 from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
@@ -525,4 +526,198 @@ def detalle(request, anexo_id):
         'autoridades': anexo.autoridades.all(),
         'alcances': anexo.alcances.all(),
         'domicilios': anexo.anexo_domicilio.all(),
+    })
+
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_datos_basicos(request, anexo_id):
+    """
+    Visualización de los datos básicos de un anexo.
+    """
+    anexo = __get_anexo(request, anexo_id)      
+
+    parts = anexo.get_cue_parts()
+		
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_datos_basicos.html',
+        'anexo': anexo,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_contacto(request, anexo_id):
+    """
+    Visualización de los datos de contacto de un anexo.
+    """
+    anexo = Anexo.objects.get(pk=anexo_id)
+
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+		
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_contacto.html',
+        'anexo': anexo,
+        'page_title': 'Contacto',
+        'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_alcances(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+
+    verificado = anexo.get_verificacion_datos().alcances
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_alcances.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'alcances': anexo.alcances.all(),
+        'page_title': 'Alcance',
+        'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_turnos(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+
+    verificado = anexo.get_verificacion_datos().turnos
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_turnos.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'turnos': AnexoTurno.objects.filter(anexo=anexo).order_by('turno__nombre'),
+        'page_title': 'Turnos',
+        'actual_page': 'turnos',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_funciones(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+    verificado = anexo.get_verificacion_datos().funciones
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_funciones.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'funciones': anexo.funciones.all(),
+        'page_title': 'Funciones',
+        'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_domicilios(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+    verificado = anexo.get_verificacion_datos().domicilios
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_domicilios.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'domicilios': anexo.anexo_domicilio.all(),
+        'page_title': 'Domicilios',
+        'actual_page': 'domicilios',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_autoridades(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+    verificado = anexo.get_verificacion_datos().autoridades
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_autoridades.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'autoridades': anexo.autoridades.all(),
+        'page_title': 'Autoridades',
+        'actual_page': 'autoridades',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_informacion_edilicia(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+    verificado = anexo.get_verificacion_datos().info_edilicia
+
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_informacion_edilicia.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'informacion_edilicia': anexo.anexoinformacionedilicia_set.get(),
+        'page_title': 'Información Edilicia',
+        'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_conexion_internet(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+    verificado = anexo.get_verificacion_datos().conectividad
+
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_conexion_internet.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'conexion_internet': anexo.anexoconexioninternet_set.get(),
+        'page_title': 'Conexión Internet',
+        'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def ver_matricula(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+    if not __anexo_dentro_del_ambito(request, anexo):
+        raise Exception('El anexo no se encuentra en su ámbito.')
+    verificado = anexo.get_verificacion_datos().matricula
+
+    return my_render(request, 'registro/anexo/ver_datos.html', {
+        'template': 'registro/anexo/ver_matricula.html',
+        'verificado': verificado,
+        'anexo': anexo,
+        'matricula': anexo.anexomatricula_set.all().order_by('anio'),
+        'page_title': 'Matrícula',
+        'actual_page': 'matricula',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })

@@ -1,0 +1,27 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Ver Datos de la Extensión Áulica{% endblock %}
+
+{% block content %}
+<h2>Ver Datos de la Extensión Áulica - {{ page_title }}</h2>
+<h3>{{ extension_aulica.cue }} - "{{ extension_aulica.nombre }}"</h3>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+{% if not extension_aulica.get_verificacion_datos.completo %}
+	<div class="message warning">
+		<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo.</p>
+	</div>
+{% endif %}
+{% include "registro/extension_aulica/ver_datos_nav.html" %}
+{% if template %}
+{% include template %}
+{% endif %}
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.extension_aulica.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

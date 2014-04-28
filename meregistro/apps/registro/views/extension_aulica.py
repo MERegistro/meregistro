@@ -10,6 +10,7 @@ from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Localidad import Localidad
 from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.ExtensionAulica import ExtensionAulica
+from apps.registro.models.ExtensionAulicaTurno import ExtensionAulicaTurno
 from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
 from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicilio
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
@@ -518,4 +519,202 @@ def detalle(request, extension_aulica_id):
         'funciones': extension_aulica.funciones.all(),
         'alcances': extension_aulica.alcances.all(),
         'domicilios': extension_aulica.domicilio.all(),
+    })
+
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_datos_basicos(request, extension_aulica_id):
+    """
+    Visualización de los datos básicos de un extension_aulica.
+    """
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)      
+
+    try:
+        codigo = Establecimiento.get_parts_from_cue(extension_aulica.cue)['codigo_tipo_unidad_educativa']
+    except TypeError:
+        codigo = ''
+		
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_datos_basicos.html',
+        'codigo': codigo,
+        'extension_aulica': extension_aulica,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_contacto(request, extension_aulica_id):
+    """
+    Visualización de los datos de contacto de un extension_aulica.
+    """
+    extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
+
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+		
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_contacto.html',
+        'extension_aulica': extension_aulica,
+        'page_title': 'Contacto',
+        'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_alcances(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+
+    verificado = extension_aulica.get_verificacion_datos().alcances
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_alcances.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'alcances': extension_aulica.alcances.all(),
+        'page_title': 'Alcance',
+        'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_turnos(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+
+    verificado = extension_aulica.get_verificacion_datos().turnos
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_turnos.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'turnos': ExtensionAulicaTurno.objects.filter(extension_aulica=extension_aulica).order_by('turno__nombre'),
+        'page_title': 'Turnos',
+        'actual_page': 'turnos',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_funciones(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+    verificado = extension_aulica.get_verificacion_datos().funciones
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_funciones.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'funciones': extension_aulica.funciones.all(),
+        'page_title': 'Funciones',
+        'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_domicilios(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+    verificado = extension_aulica.get_verificacion_datos().domicilios
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_domicilios.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'domicilios': extension_aulica.domicilio.all(),
+        'page_title': 'Domicilios',
+        'actual_page': 'domicilios',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_autoridades(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+    verificado = extension_aulica.get_verificacion_datos().autoridades
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_autoridades.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'autoridades': extension_aulica.autoridades.all(),
+        'page_title': 'Autoridades',
+        'actual_page': 'autoridades',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_informacion_edilicia(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+    verificado = extension_aulica.get_verificacion_datos().info_edilicia
+
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_informacion_edilicia.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'informacion_edilicia': extension_aulica.extensionaulicainformacionedilicia_set.get(),
+        'page_title': 'Información Edilicia',
+        'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_conexion_internet(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+    verificado = extension_aulica.get_verificacion_datos().conectividad
+
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_conexion_internet.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'conexion_internet': extension_aulica.extensionaulicaconexioninternet_set.get(),
+        'page_title': 'Conexión Internet',
+        'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_extension_aulica_consulta')
+def ver_matricula(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
+        raise Exception('La extensión áulica no se encuentra en su ámbito.')
+    verificado = extension_aulica.get_verificacion_datos().matricula
+
+    return my_render(request, 'registro/extension_aulica/ver_datos.html', {
+        'template': 'registro/extension_aulica/ver_matricula.html',
+        'verificado': verificado,
+        'extension_aulica': extension_aulica,
+        'matricula': extension_aulica.extensionaulicamatricula_set.all().order_by('anio'),
+        'page_title': 'Matrícula',
+        'actual_page': 'matricula',
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
     })

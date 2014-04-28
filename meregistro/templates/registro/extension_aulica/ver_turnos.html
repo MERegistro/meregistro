@@ -1,0 +1,39 @@
+{% load tags_filters %}
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="grid-wrapper">
+{% if turnos %}
+	{% include "counter.html" %}
+	<table class="hor-zebra">
+		<thead>
+			<tr>
+				<th>Turno</th>
+				<th>Uso del Edificio</th>
+				<th>Comparte con</th>
+				<th>Niveles</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for extension_aulica_turno in turnos %}
+				<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+					<td>{{ extension_aulica_turno.turno.nombre }}</td>
+					<td>{{ extension_aulica_turno.tipo_dominio.descripcion }}</td>
+					<td>{{ extension_aulica_turno.tipo_compartido.descripcion }}</td>
+					<td>{{ extension_aulica_turno.niveles.all|implode:", " }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<div class="message notice">
+		<p>No se encontraron turnos.</p>
+	</div>
+	{% endif %}
+</div>
+	
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

@@ -25,4 +25,6 @@ class TituloNacionalFormFilters(forms.Form):
             q = q.filter(normativa_nacional=self.cleaned_data['normativa_nacional'])
         if filter_by('estado'):
             q = q.filter(estado = self.cleaned_data['estado'])
-        return q.filter(normativa_nacional__estado__nombre=EstadoNormativaNacional.VIGENTE)
+        # 394
+        #return q.filter(normativa_nacional__estado__nombre=EstadoNormativaNacional.VIGENTE)
+        return q

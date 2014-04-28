@@ -471,6 +471,34 @@ div#establecimientoForm form select#id_tipo_norma {
 div#establecimientoForm form select#id_norma_creacion {
 	width: 100px;	
 }
+/**
+ *=VER DATOS
+ */
+div#establecimientoVer {
+	width: 940px;
+	margin-top: 35px;
+	margin-bottom: 30px;
+}
+div#establecimientoVer div.grid-wrapper {
+	margin-right: 10px;
+}
+div#establecimientoVer ul {
+	margin: 20px 30px 0;
+	list-style: square;
+}
+div#establecimientoVer ul li {
+	margin-top: 10px;
+}
+div#establecimientoVer h4 {
+	margin-left: 10px;
+}
+div#establecimientoVer {
+	margin-top: 45px;
+	padding: 10px 0 30px;
+}
+div#establecimientoVer div.ver-dato {
+	margin: 20px 0 0 20px;
+}
 /* Matrícula - Mixto */
 div#establecimientoForm div#matricula_mixto.form-checkbox {
 	height: 25px;
@@ -635,6 +663,15 @@ p.estado-baja,
 p.estado-no-vigente {
 	color: #f00;
 }
+span.estado { 
+	font-weight: bold;
+}
+span.vigente {
+	color: #57881B;
+}
+span.no-vigente {
+	color: #f00;
+}
 /* TABLE Establecimientos */
 th#thEstablecimientoCue {
 	width: 30px;
@@ -764,14 +801,29 @@ td.actions-td ul li.orientaciones a {
 td.actions-td ul li.registrar a {
 	background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
 }
+/* VER-DATOS */
+td.actions-td ul li.ver-datos a {
+	background: url(../img/icons/eye.png) no-repeat left;
+}
 /* CONFIRMAR COHORTE */
 td.actions-td ul li.confirmar-cohorte a {
 	display: block;
-	width: 24px;
-	height: 24px;
-	background: url(../img/icons/success.png) no-repeat left;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/yes.png) no-repeat left;
+}
+/* RECHAZAR COHORTE */
+td.actions-td ul li.rechazar-cohorte a {
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: url(../img/icons/delete-16.png) no-repeat left;
 }
 /* SEGUIMIENTO COHORTE */
+table#seguimiento-cohorte-table tr.estado-rechazada td {
+    color: #f00;
+    font-weight: bold;
+}
 td.actions-td ul li.seguimiento-cohorte a {
 	display: block;
 	width: 16px;
@@ -1045,6 +1097,12 @@ body.orientaciones-por-titulo div#datosTitulo {
 */
 body.cohorte-asignar-establecimientos table.hor-zebra {
 	margin-top: 10px;
+}
+body.cohorte-asignar-establecimientos table.hor-zebra tr.cohorte-rechazada td,
+body.cohorte-asignar-anexos table.hor-zebra tr.cohorte-rechazada td,
+body.cohorte-asignar-extensiones-aulicas table.hor-zebra tr.cohorte-rechazada td {
+	font-weight: bold;
+    color: #f00;
 }
 body.cohorte-asignar-establecimientos div#datosCohorte {
 	margin-top: 30px;

@@ -54,3 +54,21 @@ class Reporte():
         else:
             export_url += '?export=1'
         return export_url
+
+
+    @staticmethod
+    def dictfetchall(cursor):
+        "Returns all rows from a cursor as a dict"
+        desc = cursor.description
+        return [
+            dict(zip([col[0] for col in desc], row))
+            for row in cursor.fetchall()
+        ]
+
+
+    @staticmethod
+    def get_sql_file_content(filename):
+        import os, meregistro
+        queries_dir = meregistro.__path__[0] + '/apps/reportes/queries/'
+        with open(queries_dir + filename, 'r') as f:
+            return f.read()

@@ -16,8 +16,11 @@ class ValidezNacionalFormFilters(forms.Form):
 
 
 	def __init__(self, *args, **kwargs):
+		self.jur = kwargs.pop('jurisdiccion')
 		super(ValidezNacionalFormFilters, self).__init__(*args, **kwargs)
-		
+		if self.jur:
+			choices = [(j.id, j.nombre) for j in Jurisdiccion.objects.filter(pk=self.jur.id)]
+			self.fields['jurisdiccion'] = forms.ChoiceField(choices=choices, required=False)
 		
 	def buildQuery(self, q=None):
 		"""
@@ -28,21 +31,28 @@ class ValidezNacionalFormFilters(forms.Form):
 		if self.is_valid():
 			def filter_by(field):
 				return self.cleaned_data.has_key(field) and self.cleaned_data[field] != '' and self.cleaned_data[field] is not None
-		if filter_by('jurisdiccion'):
-			# Puede ser sede o anexo, determinarlo según tipo_unidad_educativa
-			from django.db.models import Q
-			q = q.filter(
-				(Q(tipo_unidad_educativa='Sede') & Q(unidad_educativa_id__in=[e.pk for e in Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=self.cleaned_data['jurisdiccion'].id)])) |
-				(Q(tipo_unidad_educativa='Anexo') & Q(unidad_educativa_id__in=[a.pk for a in Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion__id=self.cleaned_data['jurisdiccion'].id)]))
-			)
-		if filter_by('cue'):
-			q = q.filter(cue__icontains=self.cleaned_data['cue'])
-		if filter_by('carrera'):
-			q = q.filter(carrera__icontains=self.cleaned_data['carrera'])
-		if filter_by('titulo_nacional'):
-			q = q.filter(titulo_nacional__icontains=self.cleaned_data['titulo_nacional'])
-		if filter_by('primera_cohorte'):
-			q = q.filter(primera_cohorte=self.cleaned_data['primera_cohorte'])
-		if filter_by('nro_infd'):
-			q = q.filter(nro_infd__icontains=self.cleaned_data['nro_infd'])
+			if self.jur:
+				from django.db.models import Q
+				q = q.filter(
+					(Q(tipo_unidad_educativa='Sede') & Q(unidad_educativa_id__in=[e.pk for e in Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=self.jur.id)])) |
+					(Q(tipo_unidad_educativa='Anexo') & Q(unidad_educativa_id__in=[a.pk for a in Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion__id=self.jur.id)]))
+				)
+			else:
+				if filter_by('jurisdiccion'):
+					# Puede ser sede, anexo o jurisdicción, determinarlo
+					from django.db.models import Q
+					q = q.filter(
+						(Q(tipo_unidad_educativa='Sede') & Q(unidad_educativa_id__in=[e.pk for e in Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=self.cleaned_data['jurisdiccion'].id)])) |
+						(Q(tipo_unidad_educativa='Anexo') & Q(unidad_educativa_id__in=[a.pk for a in Anexo.objects.filter(establecimiento__dependencia_funcional__jurisdiccion__id=self.cleaned_data['jurisdiccion'].id)]))
+					)
+			if filter_by('cue'):
+				q = q.filter(cue__icontains=self.cleaned_data['cue'])
+			if filter_by('carrera'):
+				q = q.filter(carrera__icontains=self.cleaned_data['carrera'])
+			if filter_by('titulo_nacional'):
+				q = q.filter(titulo_nacional__icontains=self.cleaned_data['titulo_nacional'])
+			if filter_by('primera_cohorte'):
+				q = q.filter(primera_cohorte=self.cleaned_data['primera_cohorte'])
+			if filter_by('nro_infd'):
+				q = q.filter(nro_infd__icontains=self.cleaned_data['nro_infd'])
 		return q

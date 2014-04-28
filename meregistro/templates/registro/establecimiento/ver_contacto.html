@@ -1,0 +1,23 @@
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="ver-dato">
+	    <p><strong>Teléfono Institucional:</strong> {{ establecimiento.telefono }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Interno:</strong> {{ establecimiento.interno }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Número de Fax:</strong> {{ establecimiento.fax }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Email Institucional:</strong> {{ establecimiento.email }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Sitio Web:</strong> {{ establecimiento.sitio_web }}</p>
+	</div>
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if establecimiento.verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

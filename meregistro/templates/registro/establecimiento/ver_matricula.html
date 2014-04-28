@@ -1,0 +1,47 @@
+{% load tags_filters %}
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="grid-wrapper">
+{% if matricula %}
+	{% include "counter.html" %}
+		<table class="hor-zebra">
+			<thead>
+				<tr>
+					<th>Mixto</th>
+					<th>Año</th>
+					<th>Profesorados</th>
+					<th>Postítulos</th>
+					<th>F. Docente</th>
+					<th>Continua</th>
+					<th>Tecnicaturas</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for mat in matricula %}
+					<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+						<td>{% if mat.mixto %}Sí{% else %}No{% endif %}</td>
+						<td>{{ mat.anio }}</td>
+						<td>{% if mat.profesorados %}{{ mat.profesorados }}{% else %}---{% endif %}</td>
+						<td>{% if mat.postitulos %}{{ mat.postitulos }}{% else %}---{% endif %}</td>
+						<td>{% if mat.get_formacion_docente %}{{ mat.get_formacion_docente }}{% else %}---{% endif %}</td>
+						<td>{% if mat.get_formacion_continua %}{{ mat.get_formacion_continua }}{% else %}---{% endif %}</td>
+						<td>{% if mat.tecnicaturas %}{{ mat.tecnicaturas }}{% else %}---{% endif %}</td>
+						<td>{% if mat.total %}{{ mat.total }}{% else %}---{% endif %}</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+	<div class="message notice">
+		<p>No se encontraron datos de matrícula.</p>
+	</div>
+	{% endif %}
+</div>
+	
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

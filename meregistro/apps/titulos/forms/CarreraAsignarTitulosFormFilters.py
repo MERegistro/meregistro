@@ -5,7 +5,9 @@ from apps.titulos.models import TituloNacional, EstadoTituloNacional, NormativaN
 
 
 class CarreraAsignarTitulosFormFilters(forms.Form):
-	normativa_nacional = forms.ModelChoiceField(queryset=NormativaNacional.objects.filter(estado__nombre=EstadoNormativaNacional.VIGENTE).order_by('numero'), label='Normativa', required=False)
+	# 394
+	# normativa_nacional = forms.ModelChoiceField(queryset=NormativaNacional.objects.filter(estado__nombre=EstadoNormativaNacional.VIGENTE).order_by('numero'), label='Normativa', required=False)
+	normativa_nacional = forms.ModelChoiceField(queryset=NormativaNacional.objects.all().order_by('numero'), label='Normativa', required=False)
 
 	def buildQuery(self, q=None):
 		"""

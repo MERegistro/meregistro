@@ -33,6 +33,10 @@ class CohorteEstablecimiento(models.Model):
 	def registrada(self):
 		return self.estado.nombre == EstadoCohorteEstablecimiento.REGISTRADA
 
+	"La cohorte fue rechazada por el establecimiento?"
+	def rechazada(self):
+		return self.estado.nombre == EstadoCohorteEstablecimiento.RECHAZADA
+
 
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteEstablecimientoEstado import CohorteEstablecimientoEstado
@@ -57,6 +61,10 @@ class CohorteEstablecimiento(models.Model):
 	
 	def is_editable(self):
 		return self.registrada() and not self.tiene_seguimiento()
+		
+		
+	def is_rechazable(self):
+		return not self.rechazada() and self.inscriptos == None
 		
 		
 	def get_ultimo_seguimiento_cargado(self):

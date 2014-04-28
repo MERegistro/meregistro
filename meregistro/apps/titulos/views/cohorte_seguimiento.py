@@ -152,7 +152,7 @@ def confirmar(request, cohorte_ue_id, tipo_unidad_educativa):
 
 	if request.method == 'POST':
 		form = form_model(request.POST, instance=cohorte_unidad_educativa)
-		if form.is_valid():
+		if form.is_valid() and not cohorte_unidad_educativa.rechazada():
 			cohorte_unidad_educativa = form.save(commit=False)
 			estado = estado_model.objects.get(nombre=estado_model.REGISTRADA)
 			cohorte_unidad_educativa.estado = estado
@@ -175,6 +175,36 @@ def confirmar(request, cohorte_ue_id, tipo_unidad_educativa):
 		'unidad_educativa': unidad_educativa,
 		'tipo_unidad_educativa': tipo_unidad_educativa,
 	})
+
+@login_required
+#@credential_required('tit_cohorte_aceptar_asignacion')
+def rechazar(request, cohorte_ue_id, tipo_unidad_educativa):
+    """
+    Rechazar cohorte
+    """
+    if tipo_unidad_educativa == 'establecimiento':
+        cohorte_unidad_educativa = CohorteEstablecimiento.objects.get(pk=cohorte_ue_id, establecimiento__ambito__path__istartswith=request.get_perfil().ambito.path)
+        unidad_educativa = cohorte_unidad_educativa.establecimiento
+        estado_model = EstadoCohorteEstablecimiento
+        return_url = 'cohortesEstablecimientoIndex'
+    elif tipo_unidad_educativa == 'anexo':
+        cohorte_unidad_educativa = CohorteAnexo.objects.get(pk=cohorte_ue_id, anexo__ambito__path__istartswith=request.get_perfil().ambito.path)
+        unidad_educativa = cohorte_unidad_educativa.anexo
+        estado_model = EstadoCohorteAnexo
+        return_url = 'cohortesAnexoIndex'
+    elif tipo_unidad_educativa == 'extension_aulica':
+        cohorte_unidad_educativa = CohorteExtensionAulica.objects.get(pk=cohorte_ue_id, extension_aulica__ambito__path__istartswith=request.get_perfil().ambito.path)
+        unidad_educativa = cohorte_unidad_educativa.extension_aulica
+        estado_model = EstadoCohorteExtensionAulica
+        return_url = 'cohortesExtensionAulicaIndex'
+
+    cohorte_unidad_educativa.estado = estado_model.objects.get(nombre=estado_model.RECHAZADA)
+    cohorte_unidad_educativa.save()
+    cohorte_unidad_educativa.registrar_estado()
+
+    request.set_flash('success', 'Los datos fueron actualizados correctamente.')
+
+    return HttpResponseRedirect(reverse(return_url, args=[unidad_educativa.id]))
 
 
 @login_required

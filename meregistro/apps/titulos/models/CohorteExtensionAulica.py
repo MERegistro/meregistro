@@ -35,6 +35,11 @@ class CohorteExtensionAulica(models.Model):
 		return self.estado.nombre == EstadoCohorteExtensionAulica.REGISTRADA
 
 
+	"La cohorte fue rechazada por la extensión áulica?"
+	def rechazada(self):
+		return self.estado.nombre == EstadoCohorteExtensionAulica.RECHAZADA
+
+
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteExtensionAulicaEstado import CohorteExtensionAulicaEstado
 		registro = CohorteExtensionAulicaEstado(estado=self.estado)
@@ -58,7 +63,11 @@ class CohorteExtensionAulica(models.Model):
 	
 	def is_editable(self):
 		return self.registrada() and not self.tiene_seguimiento()
+			
 		
+	def is_rechazable(self):
+		return not self.rechazada() and self.inscriptos == None
+    
 		
 	def get_ultimo_seguimiento_cargado(self):
 		return self.seguimiento.all().order_by('-anio')[:1]

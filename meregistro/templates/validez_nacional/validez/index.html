@@ -85,11 +85,13 @@
 			<td>{{ obj.normativa_jurisdiccional|default:"" }}</td>
 			<td>{{ obj.normativas_nacionales|default:"" }}</td>
 			<td>{{ obj.nro_infd }}</td>
-			<td class="actions-td">
+			<td class="actions-td">				
+			{% if user_perfil.rol.nombre in 'AdminNacional' %}
 				<ul>
 					<li class="edit"><a href="{% url apps.validez_nacional.views.validez.edit obj.id %}" title="Edición Manual de Validez Nacional"><span>Edición Manual de Validez Nacional</span></a></li>
 					<li class="delete"><a href="{% url apps.validez_nacional.views.validez.eliminar obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-				</ul>			
+				</ul>
+			{% endif %}
 			</td>
 		</tr>
 		{% endfor %}

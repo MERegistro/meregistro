@@ -1,0 +1,17 @@
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="ver-dato">
+	    <p><strong>Teléfono Institucional:</strong> {{ extension_aulica.telefono|default:"---" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Email Institucional:</strong> {{ extension_aulica.email|default:"---" }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Sitio Web:</strong> {{ extension_aulica.sitio_web|default:"---" }}</p>
+	</div>
+    {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if extension_aulica.verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

@@ -1,0 +1,30 @@
+<div class="form tabbed-form" id="establecimientoVer">
+	{% if conexion_internet.tiene_conexion %}
+	<div class="ver-dato">
+	    <p><strong>¿Tiene Conexión?:</strong> Sí</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Tipo de Conexión:</strong> {{ conexion_internet.tipo_conexion }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Proveedor:</strong> {{ conexion_internet.proveedor }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Costo Mensual:</strong> {{ conexion_internet.costo }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Cantidad de máquinas que comparten la conexión:</strong> {{ conexion_internet.cantidad }}</p>
+	</div>
+	{% else %}
+	<div class="ver-dato">
+	    <p><strong>¿Tiene Conexión?:</strong> No</p>
+	</div>	
+	{% endif %}
+	
+    {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

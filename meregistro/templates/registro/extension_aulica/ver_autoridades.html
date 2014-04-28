@@ -1,0 +1,39 @@
+{% load tags_filters %}
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="grid-wrapper">
+{% if autoridades %}
+	{% include "counter.html" %}
+		<table class="hor-zebra">
+			<thead>
+				<tr>
+					<th>Cargo</th>
+					<th>Apellido</th>
+					<th>Nombre</th>
+					<th>Documento</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for aut in autoridades %}
+					<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+						<td>{{ aut.cargo }}</td>
+						<td>{{ aut.apellido }}</td>
+						<td>{{ aut.nombre }}</td>
+						<td>{% if aut.tipo_documento %}{{ aut.tipo_documento.abreviatura }}:{% endif %} {% if aut.documento %}{{ aut.documento }}{% else %}---{% endif %} </td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+	<div class="message notice">
+		<p>No se encontraron autoridades.</p>
+	</div>
+	{% endif %}
+</div>
+	
+    {% if 'reg_extension_aulica_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

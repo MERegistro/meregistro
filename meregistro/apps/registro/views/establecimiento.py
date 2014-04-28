@@ -515,3 +515,196 @@ def detalle(request, establecimiento_id):
         'alcances': establecimiento.alcances.all(),
         'domicilios': establecimiento.domicilios.all(),
     })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_datos_basicos(request, establecimiento_id):
+    """
+    Visualización de los datos básicos de un establecimiento.
+    """
+    establecimiento = __get_establecimiento(request, establecimiento_id)      
+
+    parts = establecimiento.get_cue_parts()
+		
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_datos_basicos.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Datos básicos',
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_contacto(request, establecimiento_id):
+    """
+    Visualización de los datos de contacto de un establecimiento.
+    """
+    establecimiento = Establecimiento.objects.get(pk=establecimiento_id)
+
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+		
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_contacto.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Contacto',
+        'actual_page': 'contacto',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_alcances(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+
+    verificado = establecimiento.get_verificacion_datos().alcances
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_alcances.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'alcances': establecimiento.alcances.all(),
+        'page_title': 'Alcance',
+        'actual_page': 'alcances',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_turnos(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+
+    verificado = establecimiento.get_verificacion_datos().turnos
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_turnos.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'turnos': EstablecimientoTurno.objects.filter(establecimiento=establecimiento).order_by('turno__nombre'),
+        'page_title': 'Turnos',
+        'actual_page': 'turnos',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_funciones(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    verificado = establecimiento.get_verificacion_datos().funciones
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_funciones.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'funciones': establecimiento.funciones.all(),
+        'page_title': 'Funciones',
+        'actual_page': 'funciones',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+    
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_domicilios(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    verificado = establecimiento.get_verificacion_datos().domicilios
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_domicilios.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'domicilios': establecimiento.domicilios.all(),
+        'page_title': 'Domicilios',
+        'actual_page': 'domicilios',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_autoridades(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    verificado = establecimiento.get_verificacion_datos().autoridades
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_autoridades.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'autoridades': establecimiento.autoridades.all(),
+        'page_title': 'Autoridades',
+        'actual_page': 'autoridades',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_informacion_edilicia(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    verificado = establecimiento.get_verificacion_datos().info_edilicia
+
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_informacion_edilicia.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'informacion_edilicia': establecimiento.establecimientoinformacionedilicia_set.get(),
+        'page_title': 'Información Edilicia',
+        'actual_page': 'informacion_edilicia',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_conexion_internet(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    verificado = establecimiento.get_verificacion_datos().conectividad
+
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_conexion_internet.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'conexion_internet': establecimiento.establecimientoconexioninternet_set.get(),
+        'page_title': 'Conexión Internet',
+        'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+
+@login_required
+@credential_required('reg_establecimiento_consulta')
+def ver_matricula(request, establecimiento_id):
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+    if not __establecimiento_dentro_del_ambito(request, establecimiento):
+        raise Exception('La sede no se encuentra en su ámbito.')
+    verificado = establecimiento.get_verificacion_datos().matricula
+
+    return my_render(request, 'registro/establecimiento/ver_datos.html', {
+        'template': 'registro/establecimiento/ver_matricula.html',
+        'verificado': verificado,
+        'establecimiento': establecimiento,
+        'matricula': establecimiento.establecimientomatricula_set.all().order_by('anio'),
+        'page_title': 'Matrícula',
+        'actual_page': 'matricula',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })

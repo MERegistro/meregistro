@@ -1,0 +1,24 @@
+<div class="form tabbed-form" id="establecimientoVer">
+	<div class="ver-dato">
+	    <p><strong>Uso del Edificio:</strong> {{ informacion_edilicia.tipo_dominio }}</p>
+	</div>
+	<div class="ver-dato">
+	    <p><strong>Comparte Edificion con:</strong> {% if informacion_edilicia.tipo_compartido %}{{ informacion_edilicia.tipo_compartido }}{% else %}---{% endif %}</p>
+	</div>
+	{% if informacion_edilicia.niveles.all %}
+	<fieldset>
+		<legend>Niveles con los que Comparte el Edificio:</legend>
+		<ul>
+		{% for n in informacion_edilicia.niveles.all %}
+			<li>{{ n.nombre }}</li>
+		{% endfor %}
+		</ul>
+	</fieldset>
+	{% endif %}
+    {% if 'reg_establecimiento_verificar_datos' in credenciales %}
+    <div class="ver-dato datos-verificados">
+        <p><strong>Datos Verificados:</strong> {% if verificado %}Sí{% else %}No{% endif %}</p>
+    </div>
+    {% endif %}
+
+</div>

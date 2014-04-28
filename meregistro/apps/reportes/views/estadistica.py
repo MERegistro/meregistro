@@ -11,6 +11,8 @@ from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 100000
 
+
+
 @login_required
 @credential_required('consulta_estadistica_nacional')
 def datos_generales(request):
@@ -40,3 +42,8 @@ def datos_generales(request):
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
 	})
+
+
+def datos_basicos_sede(request):
+    rows = Estadistica.datos_basicos_sede()
+    raise Exception(rows)

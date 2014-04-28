@@ -34,6 +34,11 @@ class CohorteAnexo(models.Model):
 		return self.estado.nombre == EstadoCohorteAnexo.REGISTRADA
 
 
+	"La cohorte fue rechazada por el anexo?"
+	def rechazada(self):
+		return self.estado.nombre == EstadoCohorteAnexo.RECHAZADA
+
+
 	def registrar_estado(self):
 		from apps.titulos.models.CohorteAnexoEstado import CohorteAnexoEstado
 		registro = CohorteAnexoEstado(estado=self.estado)
@@ -58,6 +63,10 @@ class CohorteAnexo(models.Model):
 	def is_editable(self):
 		return self.registrada() and not self.tiene_seguimiento()
 		
+		
+	def is_rechazable(self):
+		return not self.rechazada() and self.inscriptos == None
+        		
 		
 	def get_ultimo_seguimiento_cargado(self):
 		return self.seguimiento.all().order_by('-anio')[:1]			
