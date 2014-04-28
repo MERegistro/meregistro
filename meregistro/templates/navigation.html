@@ -109,6 +109,18 @@
 			</ul>
 		</li>
 		{% endif %}
+		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}
+		<li><a href="#" class="inactive"><span>Reportes</span></a>
+			<ul>
+				{% if 'reportes_datos_basicos_sedes' in credenciales %}
+				<li><a href="{% url apps.reportes.views.datos_basicos.sedes %}">Datos básicos de Sedes</a></li>
+				{% endif %}
+				{% if 'reportes_datos_basicos_anexos' in credenciales %}
+				<li><a href="{% url apps.reportes.views.datos_basicos.anexos %}">Datos básicos de Anexos</a></li>
+				{% endif %}
+			</ul>
+		</li>
+		{% endif %}
 		<li><a href="{% url apps.seguridad.views.usuario.editarDatosPropios %}"><span>Mis Datos</span></a></li>
 		{% if 'consulta_validez_titulos' in credenciales %}
 		<li><a href="#" class="inactive"><span>Validez Nacional</span></a>
