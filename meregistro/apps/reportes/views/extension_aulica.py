@@ -12,19 +12,23 @@ from apps.reportes.models import Reporte
 @login_required
 @credential_required('reg_extension_aulica_consulta')
 def extensiones_aulicas(request, q):
+
 	filename = 'extensiones_aulicas_' + str(date.today()) + '.xls'
-	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL', 'VERIFICADO'], filename=filename)
-	for extension_aulica in q:
-		fecha = '' if extension_aulica.fecha_alta is None else extension_aulica.fecha_alta.strftime('%d/%m/%Y')
-		turnos = '' #' - '.join("%s" % (t.nombre.encode('utf8')) for t in extension_aulica.turnos.all())
-		if extension_aulica.email is None:
-			email = ''
+	reporte = Reporte(headers=['REGION', 'JURISDICCIÓN', 'CUE', 'DEPENDENCIA FUNCIONAL', 'NOMBRE', 'DEPARTAMENTO', 'LOCALIDAD', 'ESTADO', 'VERIFICADO'], filename=filename)
+	for ea in q:
+		try:
+			localidad = ea.get_first_domicilio().localidad
+			departamento = localidad.departamento.nombre
+			localidad = localidad.nombre
+		except AttributeError:
+			localidad = ''
+			departamento = ''
+		if ea.estado is None:
+			estado_nombre = ''
 		else:
-			email = extension_aulica.email
-		if extension_aulica.telefono is None:
-			telefono = ''
-		else:
-			telefono = extension_aulica.telefono
-		reporte.rows.append([extension_aulica.nombre.encode('utf8'), fecha, turnos, telefono.encode('utf8'), email.encode('utf8'),
-    "SI" if extension_aulica.verificado() else "NO"])
+			estado_nombre = ea.estado.nombre.encode('utf8')
+		reporte.rows.append([ea.establecimiento.dependencia_funcional.jurisdiccion.region.nombre.encode('utf8'), ea.establecimiento.dependencia_funcional.jurisdiccion.nombre.encode('utf8'),\
+		ea.cue, ea.establecimiento.dependencia_funcional.nombre.encode('utf8'), ea.nombre.encode('utf8'), departamento.encode('utf8'), localidad.encode('utf8'), estado_nombre,
+    "SI" if ea.verificado() else "NO"])
+
 	return reporte.as_csv()
