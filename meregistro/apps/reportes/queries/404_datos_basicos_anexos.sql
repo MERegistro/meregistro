@@ -112,7 +112,7 @@ left join
 	where ie.tipo_compartido_id is not null
 	group by ie.anexo_id
 	) as comp on comp.comparte=ax.id
-where esax.id <> 4 --- no vigente	
+where esax.id = 3 --- Registrado	
 order by jurisdiccion, gestion, ax.cue;
 ---nota: el alcance y la funcion no son de una carrera en particular sino del anexo en general
 ---al filtrar por carrera, el alcance o la funcion podrían no ser la que le correspondan a la carrera sino

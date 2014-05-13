@@ -109,5 +109,5 @@ left join
 	where ie.tipo_compartido_id is not null
 	group by ie.establecimiento_id
 	) as comp on comp.comparte=e.id
-where e.estado_id<>4  --- los distintos de no vigentes
+where e.estado_id = 3  --- Registrado
 order by jurisdiccion, gestion, e.cue;
