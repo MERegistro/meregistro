@@ -31,7 +31,7 @@
 		</li>
         {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
-		<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
+		<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dep. func.</span></a></li>
         {% endif %}
 		<!--
 		Habilitación temporal
@@ -109,6 +109,14 @@
 			</ul>
 		</li>
 		{% endif %}
+		<li><a href="#" class="inactive"><span>Postítulos</span></a>
+			<ul>
+				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
+				<li><a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Solicitudes de Validez</span></a></li>
+				<li><a href="{% url apps.validez_nacional.views.solicitud.consulta_institucional %}"><span>Validez Nacional Institucional</span></a></li>
+				<li><a href="{% url apps.validez_nacional.views.validez.index %}"><span>Validez Nacional</span></a></li>
+			</ul>
+		</li>
 		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}
 		<li><a href="#" class="inactive"><span>Reportes</span></a>
 			<ul>
