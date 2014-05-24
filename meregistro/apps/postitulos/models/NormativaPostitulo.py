@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from apps.titulos.models.EstadoNormativaNacional import EstadoNormativaNacional
+from apps.postitulos.models.EstadoNormativaPostitulo import EstadoNormativaPostitulo
 import datetime
 
-class NormativaNacional(models.Model):
+class NormativaPostitulo(models.Model):
 	numero = models.CharField(max_length=50, unique=True)
 	descripcion = models.CharField(max_length=255)
 	observaciones = models.CharField(max_length=255, null=True, blank=True)
-	estado = models.ForeignKey(EstadoNormativaNacional) # Concuerda con el último estado en NormativaNacionalEstado
+	estado = models.ForeignKey(EstadoNormativaPostitulo) # Concuerda con el último estado en NormativaNacionalEstado
 	fecha_alta = models.DateField(auto_now_add=True)
 
 	class Meta:
-		app_label = 'titulos'
-		db_table = 'titulos_normativa_nacional'
+		app_label = 'postitulos'
+		db_table = 'postitulos_normativa'
 
 	def __unicode__(self):
 		return str(self.numero)
@@ -20,32 +20,32 @@ class NormativaNacional(models.Model):
 
 	"Sobreescribo el init para agregarle propiedades"
 	def __init__(self, *args, **kwargs):
-		super(NormativaNacional, self).__init__(*args, **kwargs)
+		super(NormativaPostitulo, self).__init__(*args, **kwargs)
 		self.estados = self.get_estados()
 
 
 	def registrar_estado(self):
 		import datetime
-		from apps.titulos.models.NormativaNacionalEstado import NormativaNacionalEstado
-		registro = NormativaNacionalEstado(estado=self.estado)
+		from apps.postitulos.models.NormativaPostituloEstado import NormativaPostituloEstado
+		registro = NormativaPostituloEstado(estado=self.estado)
 		registro.fecha = datetime.date.today()
-		registro.normativa_nacional_id = self.id
+		registro.normativa_postitulo_id = self.id
 		registro.save()
 
 	def get_estados(self):
-		from apps.titulos.models.NormativaNacionalEstado import NormativaNacionalEstado
+		from apps.postitulos.models.NormativaPostituloEstado import NormativaPostituloEstado
 		try:
-			estados = NormativaNacionalEstado.objects.filter(normativa_nacional=self).order_by('fecha', 'id')
+			estados = NormativaPostituloEstado.objects.filter(normativa_postitulo=self).order_by('fecha', 'id')
 		except:
 			estados = {}
 		return estados
 
-	"Algún título nacional está asociado a la normativa?"
-	def asociada_titulo_nacional(self):
-		from apps.titulos.models.TituloNacional import TituloNacional
-		return TituloNacional.objects.filter(normativa_nacional__id=self.id).exists()
+	"Algún postítulo nacional está asociado a la normativa?"
+	def asociada_postitulo_nacional(self):
+		from apps.postitulos.models.PostituloNacional import PostituloNacional
+		return PostituloNacional.objects.filter(normativa_postitulo__id=self.id).exists()
 	
 	"Eliminable?"
 	def is_deletable(self):
-		ret = self.asociada_titulo_nacional() == False
+		ret = self.asociada_postitulo_nacional() == False
 		return ret

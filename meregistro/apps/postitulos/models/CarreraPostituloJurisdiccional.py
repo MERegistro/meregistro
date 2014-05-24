@@ -54,14 +54,14 @@ class CarreraPostituloJurisdiccional(models.Model):
 	"""
 
 	def registrar_estado(self):
-		from apps.titulos.models.CarreraPostituloJurisdiccionalEstado import CarreraPostituloJurisdiccionalEstado
+		from apps.postitulos.models.CarreraPostituloJurisdiccionalEstado import CarreraPostituloJurisdiccionalEstado
 		registro = CarreraPostituloJurisdiccionalEstado(estado=self.estado)
 		registro.fecha = datetime.date.today()
 		registro.carrera_postitulo_jurisdiccional = self
 		registro.save()
 
 	def get_estados(self):
-		from apps.titulos.models.CarreraPostituloJurisdiccionalEstado import CarreraPostituloJurisdiccionalEstado
+		from apps.postitulos.models.CarreraPostituloJurisdiccionalEstado import CarreraPostituloJurisdiccionalEstado
 		try:
 			estados = CarreraPostituloJurisdiccionalEstado.objects.filter(carrera_postitulo_jurisdiccional=self).order_by('fecha', 'id')
 		except:

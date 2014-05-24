@@ -6,7 +6,7 @@ from apps.postitulos.models.EstadoCarreraPostitulo import EstadoCarreraPostitulo
 class CarreraPostitulo(models.Model):
 	nombre = models.CharField(max_length=255)
 	estado = models.ForeignKey(EstadoCarrera) # Concuerda con el último estado en CarreraPostituloEstado
-	jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='titulos_carreras_postitulo_jurisdicciones')
+	jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='postitulos_carreras_postitulo_jurisdicciones')
 	observaciones = models.CharField(max_length=255, null=True, blank=True)
 	fecha_alta = models.DateField(auto_now_add=True)
 	carrera_sin_orientacion = models.BooleanField()

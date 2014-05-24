@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from apps.postitulos.models.CarreraPostituloJurisdiccional import CarreraPostituloJurisdiccional
-from apps.titulos.models.EstadoCarreraPostituloJurisdiccional import EstadoCarreraPostituloJurisdiccional
+from apps.postitulos.models.EstadoCarreraPostituloJurisdiccional import EstadoCarreraPostituloJurisdiccional
 import datetime
 
 """
@@ -9,14 +9,14 @@ Representa los estados por los que pasa cada carrera jurisdiccional
 """
 
 class CarreraJurisdiccionalEstado(models.Model):
-    carrera_jurisdiccional = models.ForeignKey(CarreraJurisdiccional)
-    estado = models.ForeignKey(EstadoCarreraJurisdiccional)
+    carrera_postitulo_jurisdiccional = models.ForeignKey(CarreraPostituloJurisdiccional)
+    estado = models.ForeignKey(EstadoCarreraPostituloJurisdiccional)
     fecha = models.DateField()
 
     class Meta:
-        app_label = 'titulos'
+        app_label = 'postitulos'
         ordering = ['fecha']
-        db_table = 'titulos_carrera_jurisdiccional_estados'
+        db_table = 'postitulos_carrera_postitulo_jurisdiccional_estados'
 
     def __unicode__(self):
-        return str(self.titulo.nombre) + " - " + str(self.estado.nombre) + " - " + self.fecha
+        return str(self.postitulo.nombre) + " - " + str(self.estado.nombre) + " - " + self.fecha

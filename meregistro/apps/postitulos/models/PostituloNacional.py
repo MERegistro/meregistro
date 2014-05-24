@@ -1,31 +1,31 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from apps.titulos.models.EstadoTituloNacional import EstadoTituloNacional
-from apps.titulos.models.NormativaNacional import NormativaNacional
-from apps.titulos.models.Carrera import Carrera
+from apps.postitulos.models.EstadoPostituloNacional import EstadoPostituloNacional
+from apps.postitulos.models.NormativaPostitulo import NormativaPostitulo
+from apps.postitulos.models.CarreraPostitulo import CarreraPostitulo
 import datetime
 
 
-class TituloNacional(models.Model):
+class PostituloNacional(models.Model):
 	nombre = models.CharField(max_length=255)
-	normativa_nacional = models.ForeignKey(NormativaNacional)
-	estado = models.ForeignKey(EstadoTituloNacional) # Concuerda con el último estado en TituloEstado
+	normativa_postitulo = models.ForeignKey(NormativaPostitulo)
+	estado = models.ForeignKey(EstadoPostituloNacional) # Concuerda con el último estado en TituloEstado
 	observaciones = models.CharField(max_length=255, null=True, blank=True)
 	fecha_alta = models.DateField(auto_now_add=True)
-	carreras = models.ManyToManyField(Carrera, db_table='titulos_titulos_nacionales_carreras', related_name='titulos_asignados') # Carreras
+	carreras = models.ManyToManyField(CarreraPostitulo, db_table='postitulos_postitulos_nacionales_carreras', related_name='postitulos_asignados') # Carreras
 
 	class Meta:
-		app_label = 'titulos'
+		app_label = 'postitulos'
 		ordering = ['nombre']
-		db_table = 'titulos_titulo_nacional'
-		unique_together = ('nombre', 'normativa_nacional')
+		db_table = 'postitulos_postitulo_nacional'
+		unique_together = ('nombre', 'normativa_postitulo')
 
 	def __unicode__(self):
 		return self.nombre
 
 	"Sobreescribo el init para agregarle propiedades"
 	def __init__(self, *args, **kwargs):
-		super(TituloNacional, self).__init__(*args, **kwargs)
+		super(PostituloNacional, self).__init__(*args, **kwargs)
 		self.estados = self.get_estados()
 
 	"Sobreescribo para eliminar los objetos relacionados"
@@ -34,19 +34,19 @@ class TituloNacional(models.Model):
 			carrera.delete()
 		for est in self.estados.all():
 			est.delete()
-		super(TituloNacional, self).delete(*args, **kwargs)
+		super(PostituloNacional, self).delete(*args, **kwargs)
 
 	def registrar_estado(self):
-		from apps.titulos.models.TituloNacionalEstado import TituloNacionalEstado
-		registro = TituloNacionalEstado(estado=self.estado)
+		from apps.postitulos.models.PostituloNacionalEstado import PostituloNacionalEstado
+		registro = PostituloNacionalEstado(estado=self.estado)
 		registro.fecha = datetime.date.today()
-		registro.titulo_nacional_id = self.id
+		registro.postitulo_nacional_id = self.id
 		registro.save()
 
 	def get_estados(self):
-		from apps.titulos.models.TituloNacionalEstado import TituloNacionalEstado
+		from apps.postitulos.models.PostituloNacionalEstado import PostituloNacionalEstado
 		try:
-			estados = TituloNacionalEstado.objects.filter(titulo_nacional=self).order_by('fecha', 'id')
+			estados = PostituloNacionalEstado.objects.filter(postitulo_nacional=self).order_by('fecha', 'id')
 		except:
 			estados = {}
 		return estados

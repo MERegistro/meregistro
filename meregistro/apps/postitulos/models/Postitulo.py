@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from apps.titulos.models.EstadoTitulo import EstadoTitulo
-from apps.titulos.models.TipoTitulo import TipoTitulo
-from apps.titulos.models.TituloTipoNormativa import TituloTipoNormativa
-from apps.titulos.models.Carrera import Carrera
-from apps.titulos.models.Area import Area
+from apps.postitulos.models.EstadoPostitulo import EstadoPostitulo
+from apps.postitulos.models.TipoPostitulo import TipoPostitulo
+from apps.postitulos.models.PostituloTipoNormativa import PostituloTipoNormativa
+from apps.postitulos.models.Carrera import Carrera
+from apps.postitulos.models.Area import Area
 from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Jurisdiccion import Jurisdiccion
 import datetime
@@ -12,22 +12,22 @@ import datetime
 """
 Título nomenclado nacional
 """
-class Titulo(models.Model):
+class Postitulo(models.Model):
     nombre = models.CharField(max_length=255)
-    tipo_titulo = models.ForeignKey(TipoTitulo)
-    tipo_normativa = models.ForeignKey(TituloTipoNormativa)
+    tipo_postitulo = models.ForeignKey(TipoPostitulo)
+    tipo_normativa = models.ForeignKey(PostituloTipoNormativa)
     normativa = models.CharField(max_length=50)
     carrera = models.ForeignKey(Carrera)
     tiene_orientaciones = models.BooleanField()
     horas_reloj = models.PositiveIntegerField(null=True, blank=True)
     observaciones = models.CharField(max_length=255, null=True, blank=True)
-    niveles = models.ManyToManyField(Nivel, db_table='titulos_titulos_niveles')
-    areas = models.ManyToManyField(Area, db_table='titulos_titulos_areas')
-    jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='titulos_titulos_jurisdicciones') # Provincias
-    estado = models.ForeignKey(EstadoTitulo) # Concuerda con el último estado en TituloEstado
+    niveles = models.ManyToManyField(Nivel, db_table='postitulos_postitulos_niveles')
+    areas = models.ManyToManyField(Area, db_table='postitulos_postitulos_areas')
+    jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='postitulos_postitulos_jurisdicciones') # Provincias
+    estado = models.ForeignKey(EstadoPostitulo) # Concuerda con el último estado en TituloEstado
 
     class Meta:
-        app_label = 'titulos'
+        app_label = 'postitulos'
         ordering = ['nombre']
 
     def __unicode__(self):
@@ -35,33 +35,25 @@ class Titulo(models.Model):
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):
-        super(Titulo, self).__init__(*args, **kwargs)
+        super(Postitulo, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
 
-    "Sobreescribo para eliminar los objetos relacionados"
-    def delete(self, *args, **kwargs):
-        for orientacion in self.orientaciones.all():
-            orientacion.delete()
-        for est in self.estados.all():
-            est.delete()
-        super(Titulo, self).delete(*args, **kwargs)
-
     def registrar_estado(self):
-        from apps.titulos.models.TituloEstado import TituloEstado
-        registro = TituloEstado(estado = self.estado)
+        from apps.postitulos.models.PostituloEstado import PostituloEstado
+        registro = PostituloEstado(estado = self.estado)
         registro.fecha = datetime.date.today()
-        registro.titulo_id = self.id
+        registro.postitulo_id = self.id
         registro.save()
 
     def getEstados(self):
-        from apps.titulos.models.TituloEstado import TituloEstado
+        from apps.postitulos.models.PostituloEstado import PostituloEstado
         try:
-            estados = TituloEstado.objects.filter(titulo = self).order_by('fecha', 'id')
+            estados = PostituloEstado.objects.filter(postitulo = self).order_by('fecha', 'id')
         except:
             estados = {}
         return estados
 
     "Algún título jurisdiccional está asociado al título?"
-    def asociado_carrera_jurisdiccional(self):
-        from apps.titulos.models.CarreraJurisdiccional import CarreraJurisdiccional
-        return CarreraJurisdiccional.objects.filter(titulo = self).exists()
+    def asociado_carrera_postitulo_jurisdiccional(self):
+        from apps.postitulos.models.CarreraPostituloJurisdiccional import CarreraPostituloJurisdiccional
+        return CarreraPostituloJurisdiccional.objects.filter(postitulo = self).exists()

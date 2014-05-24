@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 """
-Representa las opciones de estados que tiene cada normativa nacional
+Representa las opciones de estados que tiene cada normativa
 """
 
-class EstadoNormativaNacional(models.Model):
+class EstadoNormativaPostitulo(models.Model):
 
     NO_VIGENTE = u'No vigente'
     VIGENTE = u'Vigente'
@@ -12,9 +12,9 @@ class EstadoNormativaNacional(models.Model):
     nombre = models.CharField(max_length = 50, unique = True)
 
     class Meta:
-        app_label = 'titulos'
+        app_label = 'postitulos'
         ordering = ['nombre']
-        db_table = 'titulos_estado_normativa_nacional'
+        db_table = 'postitulos_estado_normativa_nacional'
 
     def __unicode__(self):
         return self.nombre
