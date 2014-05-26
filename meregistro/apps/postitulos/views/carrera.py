@@ -160,7 +160,6 @@ def postitulos(request, carrera_id):
 	carrera = CarreraPostitulo.objects.get(pk=carrera_id)
 	
 	current_postitulos_ids = __flat_list(carrera.postitulos_asignados.all().values_list("id"))
-
 	if request.method == 'GET':
 		form_filter = CarreraAsignarPostitulosFormFilters(request.GET)
 	else:
@@ -172,11 +171,11 @@ def postitulos(request, carrera_id):
 		"Borrar los que se des-chequean, pero sólo si la carrera no es jurisdiccional"
 		#if not carrera.carrera_jurisdiccional():
 		for postitulo_id in current_postitulos_ids:
-			if str(titulo_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
-				carrera.titulos_asignados.remove(str(titulo_id))
+			if str(postitulo_id) not in post_ids: # Si no está en los nuevos ids, borrarlo
+				carrera.postitulos_asignados.remove(str(postitulo_id))
 		
 		"Vuelvo a calcular"
-		current_titulos_ids = __flat_list(carrera.postitulos_asignados.all().values_list("id"))
+		current_postitulos_ids = __flat_list(carrera.postitulos_asignados.all().values_list("id"))
 		"Agregar los nuevos"
 		for postitulo_id in post_ids:
 			"Si no está entre los actuales"

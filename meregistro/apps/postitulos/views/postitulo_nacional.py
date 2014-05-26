@@ -73,26 +73,26 @@ def create(request):
 	Alta de título nacional.
 	"""
 	if request.method == 'POST':
-		form = TituloNacionalForm(request.POST)
+		form = PostituloNacionalForm(request.POST)
 		if form.is_valid():
-			titulo_nacional = form.save(commit=False)
-			titulo_nacional.estado = EstadoTituloNacional.objects.get(nombre=EstadoTituloNacional.VIGENTE)
-			titulo_nacional.save()
+			postitulo_nacional = form.save(commit=False)
+			postitulo_nacional.estado = EstadoPostituloNacional.objects.get(nombre=EstadoPostituloNacional.VIGENTE)
+			postitulo_nacional.save()
 			form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
-			titulo_nacional.registrar_estado()
+			postitulo_nacional.registrar_estado()
 
 			#MailHelper.notify_by_email(MailHelper.TITULO_CREATE, titulo)
 			request.set_flash('success', 'Datos guardados correctamente.')
 
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('tituloNacionalEdit', args=[titulo_nacional.id]))
+			return HttpResponseRedirect(reverse('postituloNacionalEdit', args=[postitulo_nacional.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
-		form = TituloNacionalForm()
+		form = PostituloNacionalForm()
 
-	form.fields['estado'].queryset = EstadoTituloNacional.objects.filter(nombre=EstadoTituloNacional.VIGENTE)
-	return my_render(request, 'titulos/titulo_nacional/new.html', {
+	form.fields['estado'].queryset = EstadoPostituloNacional.objects.filter(nombre=EstadoPostituloNacional.VIGENTE)
+	return my_render(request, 'postitulos/postitulo_nacional/new.html', {
 		'form': form,
 		'is_new': True,
 	})
@@ -100,26 +100,26 @@ def create(request):
 
 @login_required
 @credential_required('tit_titulo_nacional_modificar')
-def edit(request, titulo_nacional_id):
+def edit(request, postitulo_nacional_id):
 	"""
 	Edición de los datos de un título nacional.
 	"""
-	titulo_nacional = TituloNacional.objects.get(pk=titulo_nacional_id)
-	estado_actual_id = titulo_nacional.estado.id
+	postitulo_nacional = PostituloNacional.objects.get(pk=postitulo_nacional_id)
+	estado_actual_id = postitulo_nacional.estado.id
 
 	if request.method == 'POST':
-		form = TituloNacionalForm(request.POST, instance=titulo_nacional, initial={'estado': estado_actual_id})
+		form = PostituloNacionalForm(request.POST, instance=postitulo_nacional, initial={'estado': estado_actual_id})
 		if form.is_valid():
-			titulo_nacional = form.save(commit=False)
+			postitulo_nacional = form.save(commit=False)
 
 			"Cambiar el estado?"
 			if int(request.POST['estado']) is not estado_actual_id:
-				titulo_nacional.estado = EstadoTituloNacional.objects.get(pk=request.POST['estado'])
-				titulo_nacional.save()
-				titulo_nacional.registrar_estado()
+				postitulo_nacional.estado = EstadoPostituloNacional.objects.get(pk=request.POST['estado'])
+				postitulo_nacional.save()
+				postitulo_nacional.registrar_estado()
 			else:
 				# Guardar directamente
-				titulo_nacional.save()
+				postitulo_nacional.save()
 
 			form.save_m2m()  # Guardo las relaciones - https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#the-save-method
 
@@ -128,9 +128,9 @@ def edit(request, titulo_nacional_id):
 		else:
 			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
 	else:
-		form = TituloNacionalForm(instance=titulo_nacional, initial={'estado': estado_actual_id})
+		form = PostituloNacionalForm(instance=postitulo_nacional, initial={'estado': estado_actual_id})
 
-	return my_render(request, 'titulos/titulo_nacional/edit.html', {
+	return my_render(request, 'postitulos/postitulo_nacional/edit.html', {
 		'form': form,
 		'is_new': False,
 	})

@@ -111,8 +111,9 @@
 		{% endif %}
 		<li><a href="#" class="inactive"><span>Postítulos</span></a>
 			<ul>
-				<li><a href="{% url apps.postitulos.views.carrera.index %}">Carreras Nacionales</a></li>
 				<li><a href="{% url apps.postitulos.views.normativa.index %}"><span>Normativas</span></a></li>
+				<li><a href="{% url apps.postitulos.views.carrera.index %}">Carreras Nacionales</a></li>
+				<li><a href="{% url apps.postitulos.views.postitulo_nacional.index %}"><span>Postítulos Nacionales</span></a></li>
 			</ul>
 		</li>
 		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}

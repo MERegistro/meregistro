@@ -2,14 +2,14 @@
 
 {% load tags_filters %}
 
-{% block title %}Administrar Titulos Nacionales{% endblock %}
+{% block title %}Administrar Postitulos Nacionales{% endblock %}
 
 {% block content %}
-<h2>Administrar Titulos Nacionales</h2>
+<h2>Administrar Postitulos Nacionales</h2>
 
 <ul class="actions">
 	<li class="create">
-		<a href="{% url apps.titulos.views.titulo_nacional.create %}"><span>Nuevo Título</span></a>
+		<a href="{% url apps.postitulos.views.postitulo_nacional.create %}"><span>Nuevo Postítulo</span></a>
 	</li>
 </ul>
 
@@ -22,9 +22,9 @@
 		<h3>Búsqueda avanzada</h3>
 		{{ form_filters.non_field_errors }}
 		<div class="form-select">
-			{{ form_filters.normativa_nacional.errors }}
-			<label for="id_normativa_nacional">Normativa:</label>
-			{{ form_filters.normativa_nacional }}
+			{{ form_filters.normativa_postitulo.errors }}
+			<label for="id_normativa_postitulo">Normativa:</label>
+			{{ form_filters.normativa_postitulo }}
 		</div>
 		<div class="form-text">
 			{{ form_filters.nombre.errors }}
@@ -38,7 +38,7 @@
 		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'titulo_nacional';" />
+			<input type="button" value="Reiniciar" onclick="window.location = 'postitulo_nacional';" />
 		</div>
 </div>
 
@@ -54,7 +54,7 @@
   <thead>
     <tr>
       <th>Normativa</th>
-      <th>Título</th>
+      <th>Postítulo</th>
       <th>Carrera</th>
       <th class="th-estados">Estados</th>
       <th class="actions">Acciones</th>
@@ -63,7 +63,7 @@
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-	<td>{{ obj.normativa_nacional.numero }}<span class="estado {% if obj.normativa_nacional.estado.nombre == 'Vigente' %}vigente{% else %}no-vigente{% endif %}"> ({{ obj.normativa_nacional.estado }})</span></td>
+	<td>{{ obj.normativa_postitulo.numero }}<span class="estado {% if obj.normativa_postitulo.estado.nombre == 'Vigente' %}vigente{% else %}no-vigente{% endif %}"> ({{ obj.normativa_postitulo.estado }})</span></td>
 	<td>{{ obj.nombre }}</td>
 	<td>{{ obj.carreras.all|implode:", " }}</td>
 	<td>
@@ -75,9 +75,9 @@
 	</td>
 	<td class="actions-td">
           <ul>
-            <li class="edit"><a href="{% url apps.titulos.views.titulo_nacional.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+            <li class="edit"><a href="{% url apps.postitulos.views.postitulo_nacional.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
             {% if obj.is_deletable %}
-            <li class="delete"><a href="{% url apps.titulos.views.titulo_nacional.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+            <li class="delete"><a href="{% url apps.postitulos.views.postitulo_nacional.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
 			{% endif %}
           </ul>
         </td>

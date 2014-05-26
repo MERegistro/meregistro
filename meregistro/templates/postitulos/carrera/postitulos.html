@@ -48,10 +48,10 @@
 						readonly="readonly" 
 						disabled="disabled" 
 						{% else %} 
-						name="titulos" 
+						name="postitulos" 
 						value="{{ obj.id }}"
 						{% endif %} 
-						{% if obj.id in current_titulos_ids %}checked="checked"{% endif%} 
+						{% if obj.id in current_postitulos_ids %}checked="checked"{% endif%} 
 					/>
 				</td>
 				<td>{{ obj.normativa_nacional.numero }} <span class="estado {% if obj.estado.nombre == 'Vigente' %}vigente{% else %}no-vigente{% endif %}">({{ obj.estado }})</span></td>
