@@ -1,0 +1,19 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Modificar Normativa de Postítulo{% endblock %}
+
+{% block content %}
+<h2>Modificar Normativa de Postítulo</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "postitulos/normativa/form.html" %}
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.postitulos.views.normativa.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

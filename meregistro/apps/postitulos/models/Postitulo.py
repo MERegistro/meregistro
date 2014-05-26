@@ -3,8 +3,8 @@ from django.db import models
 from apps.postitulos.models.EstadoPostitulo import EstadoPostitulo
 from apps.postitulos.models.TipoPostitulo import TipoPostitulo
 from apps.postitulos.models.PostituloTipoNormativa import PostituloTipoNormativa
-from apps.postitulos.models.Carrera import Carrera
-from apps.postitulos.models.Area import Area
+from apps.postitulos.models.CarreraPostitulo import CarreraPostitulo
+from apps.postitulos.models.AreaPostitulo import AreaPostitulo
 from apps.registro.models.Nivel import Nivel
 from apps.registro.models.Jurisdiccion import Jurisdiccion
 import datetime
@@ -14,15 +14,12 @@ Título nomenclado nacional
 """
 class Postitulo(models.Model):
     nombre = models.CharField(max_length=255)
-    tipo_postitulo = models.ForeignKey(TipoPostitulo)
     tipo_normativa = models.ForeignKey(PostituloTipoNormativa)
     normativa = models.CharField(max_length=50)
-    carrera = models.ForeignKey(Carrera)
-    tiene_orientaciones = models.BooleanField()
-    horas_reloj = models.PositiveIntegerField(null=True, blank=True)
+    carrera_postitulo = models.ForeignKey(CarreraPostitulo)
     observaciones = models.CharField(max_length=255, null=True, blank=True)
     niveles = models.ManyToManyField(Nivel, db_table='postitulos_postitulos_niveles')
-    areas = models.ManyToManyField(Area, db_table='postitulos_postitulos_areas')
+    areas = models.ManyToManyField(AreaPostitulo, db_table='postitulos_postitulos_areas')
     jurisdicciones = models.ManyToManyField(Jurisdiccion, db_table='postitulos_postitulos_jurisdicciones') # Provincias
     estado = models.ForeignKey(EstadoPostitulo) # Concuerda con el último estado en TituloEstado
 

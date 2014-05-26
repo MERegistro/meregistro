@@ -1,0 +1,28 @@
+{% extends "base_titulos.html" %}
+
+    {% block title %}Eliminación de normativa jurisdiccional{% endblock %}
+
+{% block content %}
+<h2>Eliminación de normativa jurisdiccional</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if puede_eliminarse %}
+<div class="form" id="normativaJurisdiccionalEliminarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="normativa_jurisdiccional_id" value="{{ normativa_jurisdiccional_id }}" />
+	<div class="form-submit">
+	    <input type="submit" value="Eliminar" />
+	</div>
+    </form>
+</div>
+
+{% endif %}
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

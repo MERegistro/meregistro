@@ -1,0 +1,58 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}{% css_classes "orientaciones-por-titulo" %}{% endblock %}
+
+{% block title %}Administrar orientaciones del título jurisdiccional{% endblock %}
+{% block content %}
+<h2>Administrar orientaciones del título jurisdiccional</h2>
+{% include "titulos/carrera_jurisdiccional/datos_titulo.html" %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if objects %}
+{% include "counter.html" %}
+<table class="hor-zebra">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Fecha de alta</th>
+      <th class="th-estados">Estados</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for orientacion in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ orientacion.nombre }}</td>
+	<td>{{ orientacion.fecha_alta|date:"d/m/Y" }}</td>
+	<td>
+	    <div class="estados">
+	    {% for estado in orientacion.estados %}
+		<p class="estado-{{ estado.estado.nombre|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+	    {% endfor %}
+	    </div>
+	</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+<div class="message">
+    <p>Puede asignar/quitar orientaciones desde el <a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_orientaciones carrera_jurisdiccional.id %}" title="Editar orientaciones"><span>formulario de edición</span></a> del título.</p>
+</div>
+{% else %}
+<div class="message notice">
+  <p>El título aún no tiene orientaciones.</p>
+  <p>Puede asignar/quitar orientaciones desde el <a href="{% url apps.titulos.views.carrera_jurisdiccional.editar_orientaciones carrera_jurisdiccional.id %}" title="Editar orientaciones"><span>formulario de edición</span></a> del título.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.carrera_jurisdiccional.index %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}

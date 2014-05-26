@@ -8,7 +8,7 @@ import datetime
 Representa los estados por los que pasa cada carrera jurisdiccional
 """
 
-class CarreraJurisdiccionalEstado(models.Model):
+class CarreraPostituloJurisdiccionalEstado(models.Model):
     carrera_postitulo_jurisdiccional = models.ForeignKey(CarreraPostituloJurisdiccional)
     estado = models.ForeignKey(EstadoCarreraPostituloJurisdiccional)
     fecha = models.DateField()

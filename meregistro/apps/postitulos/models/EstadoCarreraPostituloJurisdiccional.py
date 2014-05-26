@@ -15,7 +15,7 @@ class EstadoCarreraPostituloJurisdiccional(models.Model):
     class Meta:
         app_label = 'postitulos'
         ordering = ['nombre']
-        db_table = '[postitulos_estado_carrera_postitulo_jurisdiccional'
+        db_table = 'postitulos_estado_carrera_postitulo_jurisdiccional'
 
     def __unicode__(self):
         return self.nombre

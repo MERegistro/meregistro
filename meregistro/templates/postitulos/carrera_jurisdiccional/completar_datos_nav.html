@@ -1,0 +1,9 @@
+<div id="carreraJurisdiccionalDatosNav" class="tab-nav">
+	<ul>
+		{% if carrera_jurisdiccional %}
+		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.edit carrera_jurisdiccional.id %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		{% else %}
+		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.titulos.views.carrera_jurisdiccional.create %}" title="Datos básicos"><span>Datos básicos</span></a></li>
+		{% endif %}
+	</ul>
+</div>

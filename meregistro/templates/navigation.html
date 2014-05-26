@@ -111,10 +111,8 @@
 		{% endif %}
 		<li><a href="#" class="inactive"><span>Postítulos</span></a>
 			<ul>
-				<li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
-				<li><a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Solicitudes de Validez</span></a></li>
-				<li><a href="{% url apps.validez_nacional.views.solicitud.consulta_institucional %}"><span>Validez Nacional Institucional</span></a></li>
-				<li><a href="{% url apps.validez_nacional.views.validez.index %}"><span>Validez Nacional</span></a></li>
+				<li><a href="{% url apps.postitulos.views.carrera.index %}">Carreras Nacionales</a></li>
+				<li><a href="{% url apps.postitulos.views.normativa.index %}"><span>Normativas</span></a></li>
 			</ul>
 		</li>
 		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}

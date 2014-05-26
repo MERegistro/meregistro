@@ -1,0 +1,96 @@
+<div class="form" id="tituloForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_titulo.errors }}
+			<label for="id_tipo_titulo">Tipo de título:</label>
+			{{ form.tipo_titulo }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_normativa.errors }}
+			<label for="id_tipo_normativa">Tipo de normativa:</label>
+			{{ form.tipo_normativa }}
+		</div>
+		<div class="form-text">
+			{{ form.normativa.errors }}
+			<label for="id_normativa">Normativa:</label>
+			{{ form.normativa }}
+		</div>
+		<div class="form-select">
+			{{ form.carrera.errors }}
+			<label for="id_carrera">Carrera:</label>
+			{{ form.carrera }}
+		</div>
+		<div class="form-checkbox">
+			{{ form.tiene_orientaciones.errors }}
+			<label for="id_tiene_orientaciones">Tiene orientaciones:</label>
+			{{ form.tiene_orientaciones }}
+		</div>
+		{% if not is_new %}
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		{% endif %}
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<fieldset>
+			<legend>Áreas:</legend>
+			<div class="form-checkbox-list">
+				{{ form.areas.errors }}
+				{{ form.areas }}
+				<hr />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Niveles:</legend>
+			<div class="form-checkbox-list">
+				{{ form.niveles.errors }}
+				{{ form.niveles }}
+				<hr />
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend>Provincias:</legend>
+			<div class="form-checkbox-list">
+				{{ form.jurisdicciones.errors }}
+				<ul>
+					<li>
+						<label for="check_all_jurisdicciones">
+							<input checked type="checkbox" name="check_all_jurisdicciones" id="check_all_jurisdicciones" /> Todas
+						</label>
+					</li>
+				</ul>
+				{{ form.jurisdicciones }}
+				<hr />
+			</div>
+		</fieldset>
+		<div class="form-submit">
+		{% if anexo %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+// init
+jur_checked = false;
+jur_checkboxes = $('input[name="jurisdicciones"][type="checkbox"]');
+document.getElementById('check_all_jurisdicciones').checked = false;
+$('#check_all_jurisdicciones').attr('checked', jur_checked);
+$('#check_all_jurisdicciones').click(function(){
+	jur_checked = !jur_checked;
+	jur_checkboxes.attr('checked', jur_checked);
+});
+</script>

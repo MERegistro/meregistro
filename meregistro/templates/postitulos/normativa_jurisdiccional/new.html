@@ -1,0 +1,20 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Nueva Normativa Jurisdiccional{% endblock %}
+
+{% block content %}
+
+<h2>Nueva Normativa Jurisdiccional</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% include "titulos/normativa_jurisdiccional/form.html" %}
+
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+{% endblock %}
