@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.titulos.models import NormativaJurisdiccional, EstadoNormativaJurisdiccional
-from apps.titulos.forms import NormativaJurisdiccionalFormFilters, NormativaJurisdiccionalForm
+from apps.postitulos.forms import NormativaPostituloJurisdiccionalFormFilters, NormativaPostituloJurisdiccionalForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -21,13 +21,13 @@ def build_query(filters, page, request):
 
 
 @login_required
-#@credential_required('tit_nor_jur_consulta')
+@credential_required('tit_nor_jur_consulta')
 def index(request):
     " Búsqueda de orientaciones "
     if request.method == 'GET':
-        form_filter = NormativaJurisdiccionalFormFilters(request.GET)
+        form_filter = NormativaPostituloJurisdiccionalFormFilters(request.GET)
     else:
-        form_filter = NormativaJurisdiccionalFormFilters()
+        form_filter = NormativaPostituloJurisdiccionalFormFilters()
     q = build_query(form_filter, 1, request)
 
     if 'export' in request.GET:
@@ -47,7 +47,7 @@ def index(request):
 
     page = paginator.page(page_number)
     objects = page.object_list
-    return my_render(request, 'titulos/normativa_jurisdiccional/index.html', {
+    return my_render(request, 'postitulos/normativa_jurisdiccional/index.html', {
         'form_filters': form_filter,
         'objects': objects,
         'paginator': paginator,

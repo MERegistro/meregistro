@@ -23,10 +23,12 @@ urlpatterns=patterns('',
     url(r'^carrera_jurisdiccional$', 'apps.postitulos.views.carrera_jurisdiccional.index', name='carreraJurisdiccional'),
     url(r'^carrera_jurisdiccional/create$', 'apps.postitulos.views.carrera_jurisdiccional.create', name='carreraJurisdiccionalCreate'),
     url(r'^carrera_jurisdiccional/([0-9]+)/edit$', 'apps.postitulos.views.carrera_jurisdiccional.edit', name='carreraJurisdiccionalEdit'),
-    #url(r'^carrera_jurisdiccional/([0-9]+)/editar_normativas$', 'apps.titulos.views.carrera_jurisdiccional.editar_normativas', name='carreraJurisdiccionalNormativasEdit'),
-    #url(r'^carrera_jurisdiccional/editar_normativas$', 'apps.titulos.views.carrera_jurisdiccional.editar_normativas', { 'carrera_jurisdiccional_id': None }, name='carreraJurisdiccionalNormativasEdit'),
-    #url(r'^carrera_jurisdiccional/([0-9]+)/editar_cohortes$', 'apps.titulos.views.carrera_jurisdiccional.editar_cohortes', name='carreraJurisdiccionalCohortesEdit'),
-    #url(r'^carrera_jurisdiccional/editar_cohortes$', 'apps.titulos.views.carrera_jurisdiccional.editar_cohortes', { 'carrera_jurisdiccional_id': None }, name='carreraJurisdiccionalCohortesEdit'),
-    #url(r'^carrera_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.carrera_jurisdiccional.revisar_jurisdiccion', name='carreraJurisdiccionalRevisarJurisdiccion'),
-    #url(r'^carrera_jurisdiccional/([0-9]+)/eliminar$', 'apps.titulos.views.carrera_jurisdiccional.eliminar', name='carreraJurisdiccionalEliminar'),
+    url(r'^carrera_jurisdiccional/([0-9]+)/eliminar$', 'apps.postitulos.views.carrera_jurisdiccional.eliminar', name='carreraJurisdiccionalEliminar'),
+    # Normativa jurisdiccional
+    #url(r'^normativa_jurisdiccional/create$', 'apps.titulos.views.normativa_jurisdiccional.create', name='normativaJurisdiccionalCreate'),
+    #url(r'^normativa_jurisdiccional/([0-9]+)/editar$', 'apps.titulos.views.normativa_jurisdiccional.edit', name='normativaJurisdiccionalEdit'),
+    #url(r'^normativa_jurisdiccional/([0-9]+)/eliminar$', 'apps.titulos.views.normativa_jurisdiccional.eliminar', name='normativaJurisdiccionalEliminar'),
+    url(r'^normativa_jurisdiccional$', 'apps.postitulos.views.normativa_jurisdiccional.index', name='normativaJurisdiccional'),
+    #url(r'^normativa_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.normativa_jurisdiccional.revisar_jurisdiccion', name='normativaJurisdiccionalRevisarJurisdiccion'),
+    
 )
