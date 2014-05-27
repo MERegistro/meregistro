@@ -2060,6 +2060,7 @@ ALTER TABLE ONLY postitulos_postitulos_niveles
 
 -----------------------
 INSERT INTO postitulos_estado_carrera_postitulo (nombre) VALUES ('Vigente'), ('No vigente');
+INSERT INTO postitulos_estado_carrera_postitulo_jurisdiccional (nombre) VALUES ('Sin controlar'), ('Controlado'), ('Registrado');
 INSERT INTO postitulos_estado_postitulo_nacional (nombre) VALUES ('Vigente'), ('No vigente');
 INSERT INTO postitulos_estado_normativa (nombre) VALUES ('Vigente'), ('No vigente');
 -----------------------

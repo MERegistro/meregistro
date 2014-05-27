@@ -2,9 +2,9 @@
 	<form action="" method="post">{% csrf_token %}
 		{{ form.non_field_errors }}
 		<div class="form-select">
-			{{ form.carrera.errors }}
-			<label for="id_carrera">Nombre:</label>
-			{{ form.carrera }}
+			{{ form.carrera_postitulo.errors }}
+			<label for="id_carrera_postitulo">Nombre:</label>
+			{{ form.carrera_postitulo }}
 		</div>
 		<div class="form-submit">
 		{% if anexo %}
