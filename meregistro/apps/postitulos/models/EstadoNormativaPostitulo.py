@@ -14,7 +14,7 @@ class EstadoNormativaPostitulo(models.Model):
     class Meta:
         app_label = 'postitulos'
         ordering = ['nombre']
-        db_table = 'postitulos_estado_normativa'
+        db_table = 'postitulos_estado_normativa_postitulo'
 
     def __unicode__(self):
         return self.nombre

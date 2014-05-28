@@ -9,9 +9,9 @@ class NormativaMotivoOtorgamiento(models.Model):
     nombre = models.CharField(max_length = 50, unique = True)
 
     class Meta:
-        app_label = 'titulos'
+        app_label = 'postitulos'
         ordering = ['nombre']
-        db_table = 'titulos_normativa_motivo_otorgamiento'
+        db_table = 'postitulos_normativa_motivo_otorgamiento'
 
     def __unicode__(self):
         return self.nombre

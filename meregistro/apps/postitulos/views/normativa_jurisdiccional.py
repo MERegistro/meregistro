@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
-from apps.titulos.models import NormativaJurisdiccional, EstadoNormativaJurisdiccional
+from apps.postitulos.models import NormativaPostituloJurisdiccional, EstadoNormativaPostituloJurisdiccional
 from apps.postitulos.forms import NormativaPostituloJurisdiccionalFormFilters, NormativaPostituloJurisdiccionalForm
 from apps.registro.models import Jurisdiccion
 from django.core.paginator import Paginator
@@ -61,12 +61,12 @@ def index(request):
 
 
 @login_required
-#@credential_required('tit_nor_jur_alta')
+@credential_required('tit_nor_jur_alta')
 def create(request):
     " Crear nueva normativa "
 
     if request.method == 'POST':
-        form = NormativaJurisdiccionalForm(request.POST)
+        form = NormativaPostituloJurisdiccionalForm(request.POST)
         if form.is_valid():
             normativa_jurisdiccional = form.save(commit = False)
             normativa_jurisdiccional.jurisdiccion = request.get_perfil().jurisdiccion()
@@ -79,21 +79,22 @@ def create(request):
             # redirigir a edit
             return HttpResponseRedirect(reverse('normativaJurisdiccionalEdit', args = [normativa_jurisdiccional.id]))
         else:
+            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = NormativaJurisdiccionalForm()
+        form = NormativaPostituloJurisdiccionalForm()
 
-    return my_render(request, 'titulos/normativa_jurisdiccional/new.html', {
+    return my_render(request, 'postitulos/normativa_jurisdiccional/new.html', {
         'form': form,
         'is_new': True,
     })
 
 
 @login_required
-#@credential_required('tit_nor_jur_modificar')
+@credential_required('tit_nor_jur_modificar')
 def edit(request, normativa_jurisdiccional_id):
     " Edición de los datos de una normativa jurisdiccional "
-    normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
+    normativa_jurisdiccional = NormativaPostituloJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
 
     estado_actual = normativa_jurisdiccional.estado
     if estado_actual is None:
@@ -102,7 +103,7 @@ def edit(request, normativa_jurisdiccional_id):
         estado_actual_id = estado_actual.id
 
     if request.method == 'POST':
-        form = NormativaJurisdiccionalForm(request.POST, instance = normativa_jurisdiccional, initial = {'estado': estado_actual_id})
+        form = NormativaPostituloJurisdiccionalForm(request.POST, instance = normativa_jurisdiccional, initial = {'estado': estado_actual_id})
         if form.is_valid():
             normativa_jurisdiccional = form.save()
 
@@ -115,10 +116,10 @@ def edit(request, normativa_jurisdiccional_id):
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = NormativaJurisdiccionalForm(instance = normativa_jurisdiccional, initial = {'estado': estado_actual_id})
+        form = NormativaPostituloJurisdiccionalForm(instance = normativa_jurisdiccional, initial = {'estado': estado_actual_id})
 
         form.fields['estado'].empty_label = None
-    return my_render(request, 'titulos/normativa_jurisdiccional/edit.html', {
+    return my_render(request, 'postitulos/normativa_jurisdiccional/edit.html', {
         'form': form,
         'is_new': False,
     })
@@ -131,7 +132,7 @@ def eliminar(request, normativa_jurisdiccional_id):
     Eliminación de una normativa
     --- mientras no sea referida por un título jurisdiccional ---
     """
-    normativa_jurisdiccional = NormativaJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
+    normativa_jurisdiccional = NormativaPostituloJurisdiccional.objects.get(pk = normativa_jurisdiccional_id)
 
     puede_eliminarse = normativa_jurisdiccional.puede_eliminarse()
     if not puede_eliminarse:
@@ -144,7 +145,7 @@ def eliminar(request, normativa_jurisdiccional_id):
         request.set_flash('success', 'La normativa fue eliminada correctamente.')
         """ Redirecciono para evitar el reenvío del form """
         return HttpResponseRedirect(reverse('normativaJurisdiccional'))
-    return my_render(request, 'titulos/normativa_jurisdiccional/eliminar.html', {
+    return my_render(request, 'postitulos/normativa_jurisdiccional/eliminar.html', {
         'normativa_jurisdiccional_id': normativa_jurisdiccional.id,
         'puede_eliminarse': puede_eliminarse,
     })

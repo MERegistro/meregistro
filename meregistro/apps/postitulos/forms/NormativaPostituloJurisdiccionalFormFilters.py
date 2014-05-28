@@ -2,13 +2,13 @@
 
 from django import forms
 from django.db.models import Max
-from apps.postitulos.models import NormativaPostituloJurisdiccional, NormativaPostituloJurisdiccionalEstado, TipoNormativaPostituloJurisdiccional, NormativaPostituloMotivoOtorgamiento, EstadoNormativaPostituloJurisdiccional
+from apps.postitulos.models import NormativaPostituloJurisdiccional, NormativaPostituloJurisdiccionalEstado, TipoNormativaPostituloJurisdiccional, NormativaMotivoOtorgamiento, EstadoNormativaPostituloJurisdiccional
 
 
 class NormativaPostituloJurisdiccionalFormFilters(forms.Form):
     numero_anio = forms.CharField(label='Número/Año', required=False)
     tipo_normativa_postitulo_jurisdiccional = forms.ModelChoiceField(queryset = TipoNormativaPostituloJurisdiccional.objects.order_by('nombre'), label = 'Tipo de normativa', required = False)
-    otorgada_por = forms.ModelChoiceField(queryset = NormativaPostituloMotivoOtorgamiento.objects.order_by('nombre'), label = 'Otorgada por', required = False)
+    otorgada_por = forms.ModelChoiceField(queryset = NormativaMotivoOtorgamiento.objects.order_by('nombre'), label = 'Otorgada por', required = False)
     estado = forms.ModelChoiceField(queryset = EstadoNormativaPostituloJurisdiccional.objects.all().order_by('nombre'), required = False)
 
 
