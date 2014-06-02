@@ -40,6 +40,7 @@ urlpatterns=patterns('',
     url(r'^solicitud/editar_cohortes$', 'apps.postitulos.views.solicitud.editar_cohortes', { 'solicitud_id': None }, name='postituloSolicitudCohortesEdit'),
     url(r'^solicitud/([0-9]+)/asignar-establecimientos$', 'apps.postitulos.views.solicitud.asignar_establecimientos', name='postituloSolicitudAsignarEstablecimientos'),
     url(r'^solicitud/([0-9]+)/asignar-anexos$', 'apps.postitulos.views.solicitud.asignar_anexos', name='postituloSolicitudAsignarAnexos'),
+    url(r'^solicitud/([0-9]+)/control$', 'apps.postitulos.views.solicitud.control', name='postituloSolicitudControl'),
     # AJAX
     url(r'^ajax/get_postitulos_por_carrera/([0-9]?)', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
     #url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
@@ -47,7 +48,6 @@ urlpatterns=patterns('',
     )
 """
     # Control
-    url(r'^solicitud/([0-9]+)/control$', 'apps.validez_nacional.views.solicitud.control', name='solicitudControl'),
     # Asignar establecimientos
     # Asignar anexos
     # Numerar

@@ -15,3 +15,4 @@ from SolicitudDatosBasicosForm import SolicitudDatosBasicosForm
 from SolicitudNormativasForm import SolicitudNormativasForm
 from SolicitudCohortesForm import SolicitudCohortesForm
 from SolicitudAsignacionFormFilters import SolicitudAsignacionFormFilters
+from SolicitudControlForm import SolicitudControlForm

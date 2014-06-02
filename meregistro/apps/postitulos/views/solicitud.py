@@ -10,7 +10,7 @@ from apps.postitulos.models import PostituloNacional, EstadoPostituloNacional, \
 	EstadoNormativaPostituloJurisdiccional, NormativaPostituloJurisdiccional, EstadoSolicitud, \
 	Solicitud
 from apps.postitulos.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
-    SolicitudCohortesForm, SolicitudAsignacionFormFilters #, SolicitudControlForm, ValidezInstitucionalFormFilters
+    SolicitudCohortesForm, SolicitudAsignacionFormFilters, SolicitudControlForm #, ValidezInstitucionalFormFilters
 #from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -275,10 +275,10 @@ def control(request, solicitud_id):
 			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
 	else:
 		form = SolicitudControlForm(instance=solicitud)
-	return my_render(request, 'validez_nacional/solicitud/edit.html', {
+	return my_render(request, 'postitulos/solicitud/edit.html', {
 		'form': form,
 		'solicitud': solicitud,
-		'form_template': 'validez_nacional/solicitud/form_control.html',
+		'form_template': 'postitulos/solicitud/form_control.html',
 		'is_new': False,
 		'page_title': 'Control de Solicitud',
 		'current_page': 'control',
