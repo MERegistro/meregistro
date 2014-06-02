@@ -1,0 +1,111 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Asignación de Validez Nacional a Anexos{% endblock %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}{% css_classes "solicitud-asignar-anexos" %}{% endblock %}
+
+{% block content %}
+<h2>Asignación de Validez Nacional a Anexos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+		
+<div class="form-filter" id="solicitudAsignarAnexosFormFilter">
+	<form id="form-filter" action="" method="get">
+		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-text">
+			{{ form_filters.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form_filters.cue }}
+		</div> 
+		<div class="form-text">
+			{{ form_filters.unidad_educativa.errors }}
+			<label for="id_unidad_educativa">Unidad Educativa:</label>
+			{{ form_filters.unidad_educativa }}
+		</div> 
+		<input type="hidden" name="page" value="" />
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = '/validez_nacional/solicitud/{{ solicitud.id }}/asignar-anexos';" />
+		</div>
+	</form>
+</div>
+
+{% include "validez_nacional/datos_solicitud.html" %}
+
+{% if objects %}
+{% include "counter.html" %}
+<hr />
+<form action="" method="post" id="asignar-anexos-form">{% csrf_token %}
+    <table class="hor-zebra">
+		<thead>
+			<tr>
+				<th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /> <label for="check_all_anexos">Todas</label></th>
+				<th id="thAnexoCue">CUE</th>
+				<th>Anexo</th>
+				<th>Departamento</th>
+				<th>Localidad</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for anexo in objects %}
+			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+				<td><input type="checkbox" name="anexos" value="{{ anexo.id }}"{% if anexo.id in current_anexos_ids %} checked="checked"{% endif%} /></td>
+				<td>{{ anexo.cue }}</td>
+				<td>{{ anexo.nombre }}</td>
+				<td>{{ anexo.get_domicilio_institucional.localidad.departamento|default:"---" }}</td>
+				<td>{{ anexo.get_domicilio_institucional.localidad|default:"---" }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+    </table>
+	{% include "paginator.html" %}
+    <div class="form-submit" style="margin-top: 20px;">
+		<input type="submit" value="Asignar Anexos Seleccionados" />
+    </div>
+</form>
+<script type="text/javascript">
+// init
+anexo_checked = false;
+anexos_checkboxes = $('input[name="anexos"][type="checkbox"]');
+$('#check_all_anexos').checked = false;
+$('#check_all_anexos').attr('checked', anexo_checked);
+$('#check_all_anexos').click(function(){
+    anexo_checked = !anexo_checked;
+    anexos_checkboxes.attr('checked', anexo_checked);
+});
+</script>
+
+{% else %}
+<div class="message notice">
+	<p>No se encontraron anexos.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+<script type="text/javascript">
+$(document).ready(function(){
+	var initial_data = $('#asignar-anexos-form').serialize();
+	// Enviar el número de página al form de búsqueda
+	$('div.paginator input').click(function(){
+		if($('#asignar-anexos-form').serialize() != initial_data){	
+			if(confirm("El formulario fue modificado. Debe guardar los cambios antes de continuar.\nSi continúa se perderán los datos.\n¿Desea continuar de todos modos?")){
+				$('#form-filter input[name=page]').val($(this).val());
+				$('#form-filter').submit();
+			}
+		} else {
+			$('#form-filter input[name=page]').val($(this).val());
+			$('#form-filter').submit();
+		}
+		return false;
+	});
+});
+</script>
+{% endblock %}

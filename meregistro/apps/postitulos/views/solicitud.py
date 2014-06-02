@@ -6,8 +6,9 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
-from apps.postitulos.models import PostituloNacional, EstadoPostituloNacional, EstadoNormativaPostituloJurisdiccional, NormativaPostituloJurisdiccional
-from apps.postitulos.forms import SolicitudFormFilters#, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
+from apps.postitulos.models import PostituloNacional, EstadoPostituloNacional, \
+	EstadoNormativaPostituloJurisdiccional, NormativaPostituloJurisdiccional, EstadoSolicitud
+from apps.postitulos.forms import SolicitudFormFilters, SolicitudDatosBasicosForm#, SolicitudNormativasForm,\
 	#SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters, SolicitudAsignacionFormFilters
 #from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
 from django.core.paginator import Paginator
@@ -62,7 +63,7 @@ def index(request):
 	page = paginator.page(page_number)
 	objects = page.object_list
 
-	return my_render(request, 'validez_nacional/solicitud/index.html', {
+	return my_render(request, 'postitulos/solicitud/index.html', {
 		'form_filters': form_filter,
 		'objects': objects,
 		'paginator': paginator,
@@ -107,9 +108,9 @@ def create(request):
 	else:
 		form = SolicitudDatosBasicosForm(jurisdiccion_id=jurisdiccion_id)
 	# Agrego el filtro por jurisdicción
-	return my_render(request, 'validez_nacional/solicitud/new.html', {
+	return my_render(request, 'postitulos/solicitud/new.html', {
 		'form': form,
-		'form_template': 'validez_nacional/solicitud/form_datos_basicos.html',
+		'form_template': 'postitulos/solicitud/form_datos_basicos.html',
 		'is_new': True,
 		'page_title': 'Título',
 		'current_page': 'datos_basicos',

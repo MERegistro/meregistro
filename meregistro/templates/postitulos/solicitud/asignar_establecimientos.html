@@ -1,0 +1,111 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Asignación de Validez Nacional a Sedes{% endblock %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}{% css_classes "solicitud-asignar-establecimientos" %}{% endblock %}
+
+{% block content %}
+<h2>Asignación de Validez Nacional a Sedes</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+		
+<div class="form-filter" id="solicitudAsignarEstablecimientosFormFilter">
+	<form id="form-filter" action="" method="get">
+		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-text">
+			{{ form_filters.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form_filters.cue }}
+		</div> 
+		<div class="form-text">
+			{{ form_filters.unidad_educativa.errors }}
+			<label for="id_unidad_educativa">Unidad Educativa:</label>
+			{{ form_filters.unidad_educativa }}
+		</div> 
+		<input type="hidden" name="page" value="" />
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = '/validez_nacional/solicitud/{{ solicitud.id }}/asignar-establecimientos';" />
+		</div>
+	</form>
+</div>
+
+{% include "validez_nacional/datos_solicitud.html" %}
+
+{% if objects %}
+{% include "counter.html" %}
+<hr />
+<form action="" method="post" id="asignar-establecimientos-form">{% csrf_token %}
+    <table class="hor-zebra">
+		<thead>
+			<tr>
+				<th><input type="checkbox" name="check_all_establecimientos" id="check_all_establecimientos" /> <label for="check_all_establecimientos">Todas</label></th>
+				<th id="thEstablecimientoCue">CUE</th>
+				<th>Sede</th>
+				<th>Departamento</th>
+				<th>Localidad</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for est in objects %}
+			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+				<td><input type="checkbox" name="establecimientos" value="{{ est.id }}"{% if est.id in current_establecimientos_ids %} checked="checked"{% endif%} /></td>
+				<td>{{ est.cue }}</td>
+				<td>{{ est.nombre }}</td>
+				<td>{{ est.get_domicilio_institucional.localidad.departamento|default:"---" }}</td>
+				<td>{{ est.get_domicilio_institucional.localidad|default:"---" }}</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+    </table>
+	{% include "paginator.html" %}
+    <div class="form-submit" style="margin-top: 20px;">
+		<input type="submit" value="Asignar Sedes Seleccionadas" />
+    </div>
+</form>
+<script type="text/javascript">
+// init
+est_checked = false;
+est_checkboxes = $('input[name="establecimientos"][type="checkbox"]');
+$('#check_all_establecimientos').checked = false;
+$('#check_all_establecimientos').attr('checked', est_checked);
+$('#check_all_establecimientos').click(function(){
+    est_checked = !est_checked;
+    est_checkboxes.attr('checked', est_checked);
+});
+</script>
+
+{% else %}
+<div class="message notice">
+	<p>No se encontraron establecimientos.</p>
+</div>
+{% endif %}
+<ul class="actions">
+    <li class="back">
+        <a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Volver</span></a>
+    </li>
+</ul>
+<hr />
+<script type="text/javascript">
+$(document).ready(function(){
+	var initial_data = $('#asignar-establecimientos-form').serialize();
+	// Enviar el número de página al form de búsqueda
+	$('div.paginator input').click(function(){
+		if($('#asignar-establecimientos-form').serialize() != initial_data){	
+			if(confirm("El formulario fue modificado. Debe guardar los cambios antes de continuar.\nSi continúa se perderán los datos.\n¿Desea continuar de todos modos?")){
+				$('#form-filter input[name=page]').val($(this).val());
+				$('#form-filter').submit();
+			}
+		} else {
+			$('#form-filter input[name=page]').val($(this).val());
+			$('#form-filter').submit();
+		}
+		return false;
+	});
+});
+</script>
+{% endblock %}

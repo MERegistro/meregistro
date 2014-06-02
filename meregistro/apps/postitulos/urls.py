@@ -31,10 +31,14 @@ urlpatterns=patterns('',
     url(r'^normativa_jurisdiccional$', 'apps.postitulos.views.normativa_jurisdiccional.index', name='normativaJurisdiccional'),
     #url(r'^normativa_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.normativa_jurisdiccional.revisar_jurisdiccion', name='normativaJurisdiccionalRevisarJurisdiccion'),
     url(r'^solicitud$', 'apps.postitulos.views.solicitud.index', name='solicitudIndex'),
-)
+    url(r'^solicitud/create$', 'apps.postitulos.views.solicitud.create', name='solicitudCreate'),
+    # AJAX
+    url(r'^ajax/get_postitulos_por_carrera/([0-9]+)', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
+    #url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
+   
+    )
 """
     url(r'^solicitud$', 'apps.validez_nacional.views.solicitud.index', name='validezNacionalSolicitudIndex'),
-    url(r'^solicitud/create$', 'apps.validez_nacional.views.solicitud.create', name='validezNacionalSolicitudCreate'),
     url(r'^solicitud/([0-9]+)/editar$', 'apps.validez_nacional.views.solicitud.edit', name='validezNacionalSolicitudEdit'),
     url(r'^solicitud/([0-9]+)/eliminar$', 'apps.validez_nacional.views.solicitud.delete', name='validezNacionalSolicitudEdit'),
     url(r'^solicitud/consulta_institucional$', 'apps.validez_nacional.views.solicitud.consulta_institucional', name='validezNacionalConsultaInstitucional'),

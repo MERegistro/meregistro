@@ -1,0 +1,67 @@
+{% extends "base_titulos.html" %}
+{% load tags_filters %}
+
+{% block title %}Numeración de Títulos{% endblock %}
+
+{% block content %}
+<h2>Numeración de Títulos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="datos-lectura" id="datosSolicitud">
+	<p><strong>Jurisdicción:</strong> {{ solicitud.jurisdiccion }}</p>
+	<p><strong>Carrera:</strong> {{ solicitud.carrera }}</p>
+	<p><strong>Título:</strong> {{ solicitud.titulo_nacional }}</p>
+	<p><strong>Primera Cohorte Autorizada:</strong> {{ solicitud.primera_cohorte }}</p>
+	<p><strong>Últimas Cohorte Autorizada:</strong> {{ solicitud.ultima_cohorte }}</p>
+	<p><strong>Dictamen de la CoFEv:</strong> {{ solicitud.dictamen_cofev|default:'---' }}</p>
+	<p><strong>Normativa Jurisdiccional:</strong> {{ normativas_jurisdiccionales|default:'---' }}</p>
+	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_nacionales }}</p>
+</div>
+
+<form action="" method="POST">{% csrf_token %}
+    <h3 style="margin-top: 30px;">Se numerará el título en las siguientes Unidades Educativas:</h3>
+	<table class="hor-zebra" style="margin-top:15px" id="numeracion-solicitudes">
+	  <thead>
+		<tr>
+		  <th>Tipo UE</th>
+		  <th>CUE</th>
+		  <th>Nombre de la UE</th>
+		  <th>Departamento</th>
+		  <th>Localidad</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for se in solicitud_establecimientos %}
+		  <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>Sede</td>
+			<td>{{ se.establecimiento.cue }}</td>
+			<td style="text-align: left;">{{ se.establecimiento.nombre }}</td>
+			<td>{{ se.establecimiento.get_domicilio_institucional.localidad.departamento }}</td>
+			<td>{{ se.establecimiento.get_domicilio_institucional.localidad }}</td>
+		  </tr>
+		{% endfor %}
+		{% for sa in solicitud_anexos %}
+		  <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>Anexo</td>
+			<td>{{ sa.anexo.cue }}</td>
+			<td style="text-align: left;">{{ sa.anexo.nombre }}</td>
+			<td>{{ sa.anexo.get_domicilio_institucional.localidad.departamento }}</td>
+			<td>{{ sa.anexo.get_domicilio_institucional.localidad }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+	<div style="margin-top: 20px;" class="form-submit">
+		<input type="submit" value="Numerar" onclick="return confirm('Está a punto de numerar el título. Tenga en cuenta que esta acción no puede deshacerse. ¿Está seguro que desea continuar con la numeración?');">
+	</div>
+</form>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

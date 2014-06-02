@@ -14,6 +14,7 @@ INSERT INTO postitulos_estado_normativa_postitulo (nombre) VALUES ('Vigente'), (
 INSERT INTO postitulos_estado_normativa_postitulo_jurisdiccional (nombre) VALUES ('Vigente'), ('No vigente');
 INSERT INTO postitulos_normativa_motivo_otorgamiento (nombre) VALUES ('Aprobación'), ('Implementación'), ('Aprobación/Implementación');
 INSERT INTO postitulos_tipo_normativa_postitulo_jurisdiccional (nombre) VALUES ('Resolución'), ('Decreto'), ('Disposición'), ('Actuación'), ('Acuerdo'), ('Circular');
+INSERT INTO postitulos_estado_solicitud (nombre) VALUES ('Controlado'), ('Numerado'), ('Pendiente');
 
 
 -----------------------

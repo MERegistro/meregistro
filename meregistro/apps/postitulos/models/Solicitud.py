@@ -10,7 +10,7 @@ Solicitud de validez de Título nacional
 """
 class Solicitud(models.Model):
 	jurisdiccion = models.ForeignKey(Jurisdiccion, null=False, related_name="solicitudes_postitulo")
-	carrera = models.ForeignKey(CarreraPostitulo, null=False)
+	carrera_postitulo = models.ForeignKey(CarreraPostitulo, null=False)
 	postitulo_nacional = models.ForeignKey(PostituloNacional, null=False)
 	primera_cohorte = models.PositiveIntegerField(null=True)
 	ultima_cohorte = models.PositiveIntegerField(null=True)
@@ -104,7 +104,7 @@ class Solicitud(models.Model):
 	def is_numerable(self):
 		numerable = self.estado.nombre == EstadoSolicitud.CONTROLADO
 		numerable = numerable and (len(self.establecimientos.all()) > 0 or len(self.anexos.all()) > 0)
-		numerable = numerable and self.jurisdiccion and self.carrera and self.primera_cohorte and self.ultima_cohorte \
+		numerable = numerable and self.jurisdiccion and self.carrera_postitulo and self.primera_cohorte and self.ultima_cohorte \
 			and (self.normativas_jurisdiccionales or self.normativa_jurisdiccional_migrada) and self.normativas_nacionales
 		return numerable
 		

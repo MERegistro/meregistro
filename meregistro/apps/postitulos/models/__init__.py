@@ -28,3 +28,4 @@ from EstadoSolicitud import EstadoSolicitud
 from CohortePostituloEstablecimiento import CohortePostituloEstablecimiento
 from CohortePostituloAnexo import CohortePostituloAnexo
 from CohortePostituloExtensionAulica import CohortePostituloExtensionAulica
+from SolicitudEstado import SolicitudEstado
