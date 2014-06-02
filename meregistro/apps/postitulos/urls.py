@@ -41,18 +41,15 @@ urlpatterns=patterns('',
     url(r'^solicitud/([0-9]+)/asignar-establecimientos$', 'apps.postitulos.views.solicitud.asignar_establecimientos', name='postituloSolicitudAsignarEstablecimientos'),
     url(r'^solicitud/([0-9]+)/asignar-anexos$', 'apps.postitulos.views.solicitud.asignar_anexos', name='postituloSolicitudAsignarAnexos'),
     url(r'^solicitud/([0-9]+)/control$', 'apps.postitulos.views.solicitud.control', name='postituloSolicitudControl'),
+    url(r'^solicitud/([0-9]+)/numerar$', 'apps.postitulos.views.solicitud.numerar', name='postituloSolicitudNumerar'),
+    url(r'^solicitud/([0-9]+)/detalle-numeracion/([0-9]+)$', 'apps.postitulos.views.solicitud.detalle_numeracion', name='postituloSolicitudDetalleNumeracion'),
     # AJAX
     url(r'^ajax/get_postitulos_por_carrera/([0-9]?)', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
     #url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
-   
+      
     )
 """
-    # Control
-    # Asignar establecimientos
-    # Asignar anexos
     # Numerar
-    url(r'^solicitud/([0-9]+)/numerar$', 'apps.validez_nacional.views.solicitud.numerar', name='validezNacionalSolicitudNumerar'),
-    url(r'^solicitud/([0-9]+)/detalle-numeracion/([0-9]+)$', 'apps.validez_nacional.views.solicitud.detalle_numeracion', name='validezNacionalDetalleNumeracion'),
     # Validez Nacional
     url(r'^validez$', 'apps.validez_nacional.views.validez.index', name='validezNacionalIndex'),
     url(r'^validez/([0-9]+)/editar$', 'apps.validez_nacional.views.validez.edit', name='validezNacionalEditarValidez'),

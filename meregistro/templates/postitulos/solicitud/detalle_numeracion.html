@@ -1,23 +1,22 @@
 {% extends "base_titulos.html" %}
 {% load tags_filters %}
 
-{% block title %}Numeración de Títulos{% endblock %}
+{% block title %}Numeración de Postítulos{% endblock %}
 
 {% block content %}
-<h2>Numeración de Títulos</h2>
+<h2>Numeración de Postítulos</h2>
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
 
 <div class="datos-lectura" id="datosSolicitud">
 	<p><strong>Jurisdicción:</strong> {{ solicitud.jurisdiccion }}</p>
-	<p><strong>Carrera:</strong> {{ solicitud.carrera }}</p>
-	<p><strong>Título:</strong> {{ solicitud.titulo_nacional }}</p>
+	<p><strong>Carrera:</strong> {{ solicitud.carrera_postitulo }}</p>
+	<p><strong>Postítulo:</strong> {{ solicitud.postitulo_nacional }}</p>
 	<p><strong>Primera Cohorte Autorizada:</strong> {{ solicitud.primera_cohorte }}</p>
 	<p><strong>Últimas Cohorte Autorizada:</strong> {{ solicitud.ultima_cohorte }}</p>
-	<p><strong>Dictamen de la CoFEv:</strong> {{ solicitud.dictamen_cofev|default:'---' }}</p>
 	<p><strong>Normativa Jurisdiccional:</strong> {{ solicitud.normativas_jurisdiccionales.all|implode:", "|default:'---' }}</p>
-	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_nacionales }}</p>
+	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_postitulo }}</p>
 </div>
 
 
@@ -29,11 +28,13 @@
 	<p>Mostrando un total de <span id="counterTotal">{{ validez.count }}</span> registros</p>
 	{% endif %}
 </div>
+<!--
 <ul class="reportes-actions">
     <li class="export-csv">
 	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
+-->
 <table class="hor-zebra" style="margin-top:15px" id="numeracion-solicitudes">
   <thead>
 	<tr>
@@ -61,7 +62,7 @@
 
 <ul class="actions">
   <li class="back">
-    <a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Volver</span></a>
+    <a href="{% url apps.postitulos.views.solicitud.index %}"><span>Volver</span></a>
   </li>
 </ul>
 <hr />

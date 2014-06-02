@@ -11,17 +11,16 @@
 
 <div class="datos-lectura" id="datosSolicitud">
 	<p><strong>Jurisdicción:</strong> {{ solicitud.jurisdiccion }}</p>
-	<p><strong>Carrera:</strong> {{ solicitud.carrera }}</p>
-	<p><strong>Título:</strong> {{ solicitud.titulo_nacional }}</p>
+	<p><strong>Carrera:</strong> {{ solicitud.carrera_postitulo }}</p>
+	<p><strong>Postítulo:</strong> {{ solicitud.postitulo_nacional }}</p>
 	<p><strong>Primera Cohorte Autorizada:</strong> {{ solicitud.primera_cohorte }}</p>
 	<p><strong>Últimas Cohorte Autorizada:</strong> {{ solicitud.ultima_cohorte }}</p>
-	<p><strong>Dictamen de la CoFEv:</strong> {{ solicitud.dictamen_cofev|default:'---' }}</p>
 	<p><strong>Normativa Jurisdiccional:</strong> {{ normativas_jurisdiccionales|default:'---' }}</p>
-	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_nacionales }}</p>
+	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_postitulo }}</p>
 </div>
 
 <form action="" method="POST">{% csrf_token %}
-    <h3 style="margin-top: 30px;">Se numerará el título en las siguientes Unidades Educativas:</h3>
+    <h3 style="margin-top: 30px;">Se numerará el postítulo en las siguientes Unidades Educativas:</h3>
 	<table class="hor-zebra" style="margin-top:15px" id="numeracion-solicitudes">
 	  <thead>
 		<tr>

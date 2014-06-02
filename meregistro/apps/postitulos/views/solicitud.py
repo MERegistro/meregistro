@@ -8,7 +8,7 @@ from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.postitulos.models import PostituloNacional, EstadoPostituloNacional, \
 	EstadoNormativaPostituloJurisdiccional, NormativaPostituloJurisdiccional, EstadoSolicitud, \
-	Solicitud
+	Solicitud, ValidezNacional
 from apps.postitulos.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
     SolicitudCohortesForm, SolicitudAsignacionFormFilters, SolicitudControlForm #, ValidezInstitucionalFormFilters
 #from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
@@ -185,7 +185,7 @@ def editar_normativas(request, solicitud_id):
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('solicitudPostituloNormativasEdit', args=[solicitud.id]))
+			return HttpResponseRedirect(reverse('postituloSolicitudNormativasEdit', args=[solicitud.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -507,8 +507,8 @@ def numerar(request, solicitud_id):
 		request.set_flash('warning', 'La solicitud no se puede numerar.')
 		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 
-	solicitud_establecimientos = solicitud.establecimientos.all()
-	solicitud_anexos = solicitud.anexos.all()
+	solicitud_establecimientos = solicitud.establecimientos_postitulo.all()
+	solicitud_anexos = solicitud.anexos_postitulo.all()
 
 	if request.method == 'POST':
 		
@@ -526,13 +526,12 @@ def numerar(request, solicitud_id):
 			v.unidad_educativa_id = se.establecimiento.id
 			v.cue = se.establecimiento.cue
 			v.solicitud_id = solicitud.id
-			v.carrera = solicitud.carrera.nombre
-			v.titulo_nacional = solicitud.titulo_nacional.nombre
+			v.carrera_postitulo = solicitud.carrera_postitulo.nombre
+			v.postitulo_nacional = solicitud.postitulo_nacional.nombre
 			v.primera_cohorte = solicitud.primera_cohorte
 			v.ultima_cohorte = solicitud.ultima_cohorte
-			v.dictamen_cofev = solicitud.dictamen_cofev
-			v.normativas_nacionales = solicitud.normativas_nacionales
-			v.normativa_jurisdiccional = normativas_jurisdiccionales
+			v.normativas_postitulo = solicitud.normativas_postitulo
+			v.normativa_postitulo_jurisdiccional = normativas_jurisdiccionales
 			v.referencia = referencia
 			v.save() # Necesito recuperar el ID en la siguiente línea
 			v.nro_infd = v.calcular_nro_infd_establecimiento()
@@ -545,22 +544,21 @@ def numerar(request, solicitud_id):
 			v.unidad_educativa_id = sa.anexo.id
 			v.cue = sa.anexo.cue
 			v.solicitud_id = solicitud.id
-			v.carrera = solicitud.carrera.nombre
-			v.titulo_nacional = solicitud.titulo_nacional.nombre
+			v.carrera_postitulo = solicitud.carrera_postitulo.nombre
+			v.postitulo_nacional = solicitud.postitulo_nacional.nombre
 			v.primera_cohorte = solicitud.primera_cohorte
 			v.ultima_cohorte = solicitud.ultima_cohorte
-			v.dictamen_cofev = solicitud.dictamen_cofev
-			v.normativas_nacionales = solicitud.normativas_nacionales
-			v.normativa_jurisdiccional = normativas_jurisdiccionales
+			v.normativas_postitulo = solicitud.normativas_postitulo
+			v.normativa_postitulo_jurisdiccional = normativas_jurisdiccionales
 			v.referencia = referencia
 			v.save() # Necesito recuperar el ID en la siguiente línea
 			v.nro_infd = v.calcular_nro_infd_anexo()
 			v.save()
 			
 		request.set_flash('success', 'Se ha generado la validez de títulos.')
-		return HttpResponseRedirect(reverse('validezNacionalDetalleNumeracion', args=[solicitud.id, referencia]))
+		return HttpResponseRedirect(reverse('postituloSolicitudDetalleNumeracion', args=[solicitud.id, referencia]))
 			
-	return my_render(request, 'validez_nacional/solicitud/numerar.html', {
+	return my_render(request, 'postitulos/solicitud/numerar.html', {
 		'solicitud': solicitud,
 		'solicitud_establecimientos': solicitud_establecimientos,
 		'solicitud_anexos': solicitud_anexos,
@@ -577,7 +575,7 @@ def detalle_numeracion(request, solicitud_id, referencia):
 	if 'export' in request.GET:
 		return reporte_detalle_numeracion(request, validez)
 			
-	return my_render(request, 'validez_nacional/solicitud/detalle_numeracion.html', {
+	return my_render(request, 'postitulos/solicitud/detalle_numeracion.html', {
 		'solicitud': solicitud,
 		'validez': validez,
 		'export_url': Reporte.build_export_url(request.build_absolute_uri()),

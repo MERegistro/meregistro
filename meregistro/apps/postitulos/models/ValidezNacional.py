@@ -21,7 +21,6 @@ class ValidezNacional(models.Model):
 	postitulo_nacional = models.CharField(max_length=255, null=True)
 	primera_cohorte = models.CharField(max_length=255, null=True)
 	ultima_cohorte = models.CharField(max_length=255, null=True)
-	dictamen_cofev = models.CharField(max_length=255, null=True)
 	normativas_postitulo = models.CharField(max_length=255, null=True)
 	normativa_postitulo_jurisdiccional = models.CharField(max_length=255, null=True)
 	referencia = models.CharField(max_length=10, null=True, editable=False)
@@ -57,7 +56,7 @@ class ValidezNacional(models.Model):
 		tipo_gestion = str(anexo.establecimiento.dependencia_funcional.tipo_gestion.id)
 		unidad_educativa_id = str(anexo.establecimiento.id).zfill(5)
 		anio = str(datetime.date.today().year)[2:]
-		titulo = 'P'
+		postitulo = 'P'
 		id_unico = str(self.id).zfill(6)
 		nro_infd = cod_jur + tipo_gestion + unidad_educativa_id + anio + postitulo + id_unico
 		return nro_infd
