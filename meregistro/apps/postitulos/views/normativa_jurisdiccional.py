@@ -79,7 +79,6 @@ def create(request):
             # redirigir a edit
             return HttpResponseRedirect(reverse('normativaJurisdiccionalEdit', args = [normativa_jurisdiccional.id]))
         else:
-            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
         form = NormativaPostituloJurisdiccionalForm()
