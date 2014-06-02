@@ -94,8 +94,8 @@ class ValidezNacional(models.Model):
 		
 	"Sobreescribo para eliminar los objetos relacionados"
 	def delete(self, *args, **kwargs):
-		for est_sol in self.solicitud.establecimientos.all():
+		for est_sol in self.solicitud.establecimientos_postitulo.all():
 			est_sol.delete()
-		for anexo_sol in self.solicitud.anexos.all():
+		for anexo_sol in self.solicitud.anexos_postitulo.all():
 			anexo_sol.delete()
 		super(ValidezNacional, self).delete(*args, **kwargs)

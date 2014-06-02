@@ -5,8 +5,8 @@ from django.core.urlresolvers import reverse
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Ambito, Rol
-from apps.validez_nacional.forms import ValidezNacionalFormFilters, ValidezNacionalForm
-from apps.validez_nacional.models import ValidezNacional
+from apps.postitulos.forms import ValidezNacionalFormFilters, ValidezNacionalForm
+from apps.postitulos.models import ValidezNacional
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 #from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
@@ -26,7 +26,6 @@ def index(request):
 	else:
 		form_filter = ValidezNacionalFormFilters(jurisdiccion=jur)
 	q = build_query(form_filter, 1, request)
-
 	"""
 	try:
 		if request.GET['export'] == '1':
@@ -49,7 +48,7 @@ def index(request):
 
 	page = paginator.page(page_number)
 	objects = page.object_list
-	return my_render(request, 'validez_nacional/validez/index.html', {
+	return my_render(request, 'postitulos/validez/index.html', {
 		'form_filters': form_filter,
 		'objects': objects,
 		'paginator': paginator,
@@ -66,14 +65,13 @@ def build_query(filters, page, request):
 	"""
 	Construye el query de búsqueda a partir de los filtros.
 	"""
-	return filters.buildQuery().order_by('titulo_nacional', 'primera_cohorte')
+	return filters.buildQuery().order_by('postitulo_nacional', 'primera_cohorte')
 
 
 @login_required
 @credential_required('validez_nacional_validez_editar')
 def edit(request, validez_id):
 	validez = ValidezNacional.objects.get(pk=validez_id)
-	
 	if request.method == 'POST':
 		form = ValidezNacionalForm(request.POST, instance=validez)
 		if form.is_valid():
@@ -85,7 +83,7 @@ def edit(request, validez_id):
 	else:
 		form = ValidezNacionalForm(instance=validez)
 	
-	return my_render(request, 'validez_nacional/validez/edit.html', {
+	return my_render(request, 'postitulos/validez/edit.html', {
 		'validez': validez,
 		'form': form,
 	})
@@ -109,7 +107,7 @@ def eliminar(request, validez_nacional_id):
 		validez_nacional.delete()
 		request.set_flash('success', 'El registro de Validez Nacional fue eliminado correctamente.')
 		""" Redirecciono para evitar el reenvío del form """
-		return HttpResponseRedirect(reverse('validezNacionalIndex'))
-	return my_render(request, 'validez_nacional/validez/eliminar.html', {
+		return HttpResponseRedirect(reverse('postituloValidezNacionalIndex'))
+	return my_render(request, 'postitulos/validez/eliminar.html', {
 		'validez_nacional_id': validez_nacional.id,
 	})

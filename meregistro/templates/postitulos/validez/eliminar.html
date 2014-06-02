@@ -1,0 +1,31 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Eliminación de Validez Nacional de Postítulos{% endblock %}
+
+{% block content %}
+<h2>Eliminación de Validez Nacional de Postítulos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+    <div class="message warning">
+	<p>La eliminación del registro NO PUEDE SER DESHECHA!</p>
+	<p>Tenga en cuenta de que además se eliminará todo rastro relacionado con el mismo.</p>
+    </div>
+
+<div class="form" id="tituloEliminarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="validez_nacional_id" value="{{ validez_nacional_id }}" />
+	<div class="form-submit">
+	    <input type="submit" value="Eliminar" />
+	</div>
+    </form>
+</div>
+
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.postitulos.views.validez.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

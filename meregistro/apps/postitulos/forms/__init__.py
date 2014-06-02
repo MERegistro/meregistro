@@ -16,3 +16,5 @@ from SolicitudNormativasForm import SolicitudNormativasForm
 from SolicitudCohortesForm import SolicitudCohortesForm
 from SolicitudAsignacionFormFilters import SolicitudAsignacionFormFilters
 from SolicitudControlForm import SolicitudControlForm
+from ValidezNacionalFormFilters import ValidezNacionalFormFilters
+from ValidezNacionalForm import ValidezNacionalForm

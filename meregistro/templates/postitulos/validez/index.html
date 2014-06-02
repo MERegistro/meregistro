@@ -1,0 +1,109 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Validez Nacional de Postítulos{% endblock %}
+
+{% block content %}
+<h2>Validez Nacional de Postítulos</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+	<div class="form-filter" id="validezNacionalValidezFormFilter">
+		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-select">
+			{{ form_filters.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">Jurisdicción:</label>
+			{{ form_filters.jurisdiccion }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.cue.errors }}
+			<label for="id_cue">CUE:</label>
+			{{ form_filters.cue }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.carrera_postitulo.errors }}
+			<label for="id_carrera_postitulo">Carrera:</label>
+			{{ form_filters.carrera_postitulo }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.postitulo_nacional.errors }}
+			<label for="id_postitulo_nacional">Título Nacional:</label>
+			{{ form_filters.postitulo_nacional }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.primera_cohorte.errors }}
+			<label for="id_primera_cohorte">Primera Cohorte Autorizada:</label>
+			{{ form_filters.primera_cohorte }}
+		</div> 
+		<div class="form-text">
+			{{ form_filters.nro_infd.errors }}
+			<label for="id_nro_infd">Número INFD:</label>
+			{{ form_filters.nro_infd }}
+		</div> 
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = '/postitulos/validez';" />
+		</div>
+	</div>
+
+{% if objects %}
+{% include "counter.html" %}
+<!--
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+-->
+	<table class="hor-zebra" style="margin-top:65px">
+		<thead>
+			<tr>
+				<th>Jurisdicción</th>
+				<th>CUE</th>
+				<th>Carrera</th>
+				<th>Postítulo</th>
+				<th>Cohortes</th>
+				<th>Norm. Jurisd.</th>
+				<th>Norm. Nac.</th>
+				<th>Nro. INFD</th>
+				<th class="actions">Acciones</th>
+			</tr>
+		</thead>
+	<tbody>
+		{% for obj in objects %}
+		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>{{ obj.get_jurisdiccion.nombre }}</td>	
+			<td>{{ obj.cue }}</td>
+			<td>{{ obj.carrera_postitulo }}</td>
+			<td>{{ obj.postitulo_nacional }}</td>
+			<td>{{ obj.primera_cohorte }}-{{ obj.ultima_cohorte }}</td>
+			<td>{{ obj.normativa_postitulo_jurisdiccional|default:"" }}</td>
+			<td>{{ obj.normativas_postitulo|default:"" }}</td>
+			<td>{{ obj.nro_infd }}</td>
+			<td class="actions-td">				
+			{% if user_perfil.rol.nombre in 'AdminNacional' %}
+				<ul>
+					<li class="edit"><a href="{% url apps.postitulos.views.validez.edit obj.id %}" title="Edición Manual de Validez Nacional"><span>Edición Manual de Validez Nacional</span></a></li>
+					<li class="delete"><a href="{% url apps.postitulos.views.validez.eliminar obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+				</ul>
+			{% endif %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron resultados.</p>
+</div>
+{% endif %}
+<hr />
+{% endblock %}
+
