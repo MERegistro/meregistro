@@ -30,32 +30,26 @@ urlpatterns=patterns('',
     url(r'^normativa_jurisdiccional/([0-9]+)/eliminar$', 'apps.postitulos.views.normativa_jurisdiccional.eliminar', name='normativaJurisdiccionalEliminar'),
     url(r'^normativa_jurisdiccional$', 'apps.postitulos.views.normativa_jurisdiccional.index', name='normativaJurisdiccional'),
     #url(r'^normativa_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.normativa_jurisdiccional.revisar_jurisdiccion', name='normativaJurisdiccionalRevisarJurisdiccion'),
-    url(r'^solicitud$', 'apps.postitulos.views.solicitud.index', name='solicitudIndex'),
-    url(r'^solicitud/create$', 'apps.postitulos.views.solicitud.create', name='solicitudCreate'),
+    url(r'^solicitud$', 'apps.postitulos.views.solicitud.index', name='postituloSolicitudIndex'),
+    url(r'^solicitud/([0-9]+)/eliminar$', 'apps.postitulos.views.solicitud.delete', name='postitulosSolicitudEdit'),
+    url(r'^solicitud/create$', 'apps.postitulos.views.solicitud.create', name='postituloSolicitudCreate'),
+    url(r'^solicitud/([0-9]+)/editar$', 'apps.postitulos.views.solicitud.edit', name='postituloSolicitudEdit'),
+    url(r'^solicitud/([0-9]+)/editar_normativas$', 'apps.postitulos.views.solicitud.editar_normativas', name='postituloSolicitudNormativasEdit'),
+    url(r'^solicitud/editar_normativas$', 'apps.postitulos.views.solicitud.editar_normativas', { 'solicitud_id': None }, name='postituloSolicitudNormativasEdit'),
+    url(r'^solicitud/([0-9]+)/editar_cohortes$', 'apps.postitulos.views.solicitud.editar_cohortes', name='postituloSolicitudCohortesEdit'),
+    url(r'^solicitud/editar_cohortes$', 'apps.postitulos.views.solicitud.editar_cohortes', { 'solicitud_id': None }, name='postituloSolicitudCohortesEdit'),
+    url(r'^solicitud/([0-9]+)/asignar-establecimientos$', 'apps.postitulos.views.solicitud.asignar_establecimientos', name='postituloSolicitudAsignarEstablecimientos'),
+    url(r'^solicitud/([0-9]+)/asignar-anexos$', 'apps.postitulos.views.solicitud.asignar_anexos', name='postituloSolicitudAsignarAnexos'),
     # AJAX
-    url(r'^ajax/get_postitulos_por_carrera/([0-9]+)', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
+    url(r'^ajax/get_postitulos_por_carrera/([0-9]?)', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
     #url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
    
     )
 """
-    url(r'^solicitud$', 'apps.validez_nacional.views.solicitud.index', name='validezNacionalSolicitudIndex'),
-    url(r'^solicitud/([0-9]+)/editar$', 'apps.validez_nacional.views.solicitud.edit', name='validezNacionalSolicitudEdit'),
-    url(r'^solicitud/([0-9]+)/eliminar$', 'apps.validez_nacional.views.solicitud.delete', name='validezNacionalSolicitudEdit'),
-    url(r'^solicitud/consulta_institucional$', 'apps.validez_nacional.views.solicitud.consulta_institucional', name='validezNacionalConsultaInstitucional'),
-    #url(r'^validez_nacional/([0-9]+)/delete$', 'apps.titulos.views.validez_nacional.delete', name='validezNacionalEliminar'),
-    
-    # Normativa jurisdiccional
-    url(r'^solicitud/([0-9]+)/editar_normativas$', 'apps.validez_nacional.views.solicitud.editar_normativas', name='solicitudNormativasEdit'),
-    url(r'^solicitud/editar_normativas$', 'apps.validez_nacional.views.solicitud.editar_normativas', { 'solicitud_id': None }, name='solicitudNormativasEdit'),
-    # Cohortes
-    url(r'^solicitud/([0-9]+)/editar_cohortes$', 'apps.validez_nacional.views.solicitud.editar_cohortes', name='solicitudCohortesEdit'),
-    url(r'^solicitud/editar_cohortes$', 'apps.validez_nacional.views.solicitud.editar_cohortes', { 'solicitud_id': None }, name='solicitudCohortesEdit'),
     # Control
     url(r'^solicitud/([0-9]+)/control$', 'apps.validez_nacional.views.solicitud.control', name='solicitudControl'),
     # Asignar establecimientos
-    url(r'^solicitud/([0-9]+)/asignar-establecimientos$', 'apps.validez_nacional.views.solicitud.asignar_establecimientos', name='solicitudAsignarEstablecimientos'),
     # Asignar anexos
-    url(r'^solicitud/([0-9]+)/asignar-anexos$', 'apps.validez_nacional.views.solicitud.asignar_anexos', name='solicitudAsignarAnexos'),
     # Numerar
     url(r'^solicitud/([0-9]+)/numerar$', 'apps.validez_nacional.views.solicitud.numerar', name='validezNacionalSolicitudNumerar'),
     url(r'^solicitud/([0-9]+)/detalle-numeracion/([0-9]+)$', 'apps.validez_nacional.views.solicitud.detalle_numeracion', name='validezNacionalDetalleNumeracion'),

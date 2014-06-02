@@ -11,6 +11,7 @@ from django.core import serializers
 	
 @login_required
 def get_postitulos_por_carrera(request, carrera_id):
+	carrera_id = carrera_id or 0
 	if int(carrera_id) > 0:
 		try:
 			postitulos = PostituloNacional.objects.filter(carreras__id=carrera_id, estado__nombre=EstadoPostituloNacional.VIGENTE)

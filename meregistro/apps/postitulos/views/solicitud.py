@@ -7,9 +7,10 @@ from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.postitulos.models import PostituloNacional, EstadoPostituloNacional, \
-	EstadoNormativaPostituloJurisdiccional, NormativaPostituloJurisdiccional, EstadoSolicitud
-from apps.postitulos.forms import SolicitudFormFilters, SolicitudDatosBasicosForm#, SolicitudNormativasForm,\
-	#SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters, SolicitudAsignacionFormFilters
+	EstadoNormativaPostituloJurisdiccional, NormativaPostituloJurisdiccional, EstadoSolicitud, \
+	Solicitud
+from apps.postitulos.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
+    SolicitudCohortesForm, SolicitudAsignacionFormFilters #, SolicitudControlForm, ValidezInstitucionalFormFilters
 #from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
@@ -102,7 +103,7 @@ def create(request):
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 
-			return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+			return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -112,7 +113,7 @@ def create(request):
 		'form': form,
 		'form_template': 'postitulos/solicitud/form_datos_basicos.html',
 		'is_new': True,
-		'page_title': 'Título',
+		'page_title': 'Postítulo',
 		'current_page': 'datos_basicos',
 	})
 
@@ -128,7 +129,7 @@ def edit(request, solicitud_id):
 	
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 	
 	estado_id = solicitud.estado_id
 		
@@ -146,12 +147,12 @@ def edit(request, solicitud_id):
 			request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
 	else:
 		form = SolicitudDatosBasicosForm(instance=solicitud, jurisdiccion_id=solicitud.jurisdiccion_id)
-	return my_render(request, 'validez_nacional/solicitud/edit.html', {
+	return my_render(request, 'postitulos/solicitud/edit.html', {
 		'form': form,
 		'solicitud': solicitud,
-		'form_template': 'validez_nacional/solicitud/form_datos_basicos.html',
+		'form_template': 'postitulos/solicitud/form_datos_basicos.html',
 		'is_new': False,
-		'page_title': 'Título',
+		'page_title': 'Postítulo',
 		'current_page': 'datos_basicos',
 	})
 
@@ -166,16 +167,16 @@ def editar_normativas(request, solicitud_id):
 		solicitud = Solicitud.objects.get(pk=solicitud_id)
 	except:
 		# Es nuevo, no mostrar el formulario antes de que guarden los datos básicos
-		return my_render(request, 'validez_nacional/solicitud/new.html', {
+		return my_render(request, 'postitulos/solicitud/new.html', {
 			'solicitud': None,
-			'form_template': 'validez_nacional/solicitud/form_normativas.html',
+			'form_template': 'postitulos/solicitud/form_normativas.html',
 			'page_title': 'Normativas',
 			'current_page': 'normativas',
 	})
 
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 		
 	if request.method == 'POST':
 		form = SolicitudNormativasForm(request.POST, instance=solicitud)
@@ -184,29 +185,29 @@ def editar_normativas(request, solicitud_id):
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('solicitudNormativasEdit', args=[solicitud.id]))
+			return HttpResponseRedirect(reverse('solicitudPostituloNormativasEdit', args=[solicitud.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
 		form = SolicitudNormativasForm(instance=solicitud)
 		
 	current_ids = [n.id for n in solicitud.normativas_jurisdiccionales.all().order_by('numero_anio')]
-	restantes_ids = [n.id for n in NormativaJurisdiccional.objects.filter(jurisdiccion=solicitud.jurisdiccion).exclude(id__in=current_ids).order_by('numero_anio')]
+	restantes_ids = [n.id for n in NormativaPostituloJurisdiccional.objects.filter(jurisdiccion=solicitud.jurisdiccion).exclude(id__in=current_ids).order_by('numero_anio')]
 
 	# http://blog.mathieu-leplatre.info/django-create-a-queryset-from-a-list-preserving-order.html
 	pk_list = current_ids + restantes_ids
 	clauses = ' '.join(['WHEN id=%s THEN %s' % (pk, i) for i, pk in enumerate(pk_list)])
 	ordering = 'CASE %s END' % clauses
-	queryset = NormativaJurisdiccional.objects.filter(pk__in=pk_list).extra(
+	queryset = NormativaPostituloJurisdiccional.objects.filter(pk__in=pk_list).extra(
 			   select={'ordering': ordering}, order_by=('ordering',))
 
 	form.fields['normativas_jurisdiccionales'].queryset = queryset
 
 
-	return my_render(request, 'validez_nacional/solicitud/edit.html', {
+	return my_render(request, 'postitulos/solicitud/edit.html', {
 		'form': form,
 		'solicitud': solicitud,
-		'form_template': 'validez_nacional/solicitud/form_normativas.html',
+		'form_template': 'postitulos/solicitud/form_normativas.html',
 		'is_new': False,
 		'page_title': 'Normativas',
 		'current_page': 'normativas',
@@ -233,7 +234,7 @@ def editar_cohortes(request, solicitud_id):
 
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 		
 	if request.method == 'POST':
 		form = SolicitudCohortesForm(request.POST, instance=solicitud)
@@ -241,15 +242,15 @@ def editar_cohortes(request, solicitud_id):
 			cohorte = form.save()
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('solicitudCohortesEdit', args=[solicitud.id]))
+			return HttpResponseRedirect(reverse('postituloSolicitudCohortesEdit', args=[solicitud.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
 		form = SolicitudCohortesForm(instance=solicitud)
-	return my_render(request, 'validez_nacional/solicitud/edit.html', {
+	return my_render(request, 'postitulos/solicitud/edit.html', {
 		'form': form,
 		'solicitud': solicitud,
-		'form_template': 'validez_nacional/solicitud/form_cohortes.html',
+		'form_template': 'postitulos/solicitud/form_cohortes.html',
 		'is_new': solicitud.primera_cohorte is None and solicitud.ultima_cohorte is None,
 		'page_title': 'Cohortes',
 		'current_page': 'cohortes',
@@ -291,15 +292,15 @@ def asignar_establecimientos(request, solicitud_id):
 
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 
 	form_filter = SolicitudAsignacionFormFilters(request.GET, tipo_ue='Establecimiento', solicitud=solicitud)
 	q = form_filter.buildQuery()
 	
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
-	current_establecimientos_ids = __flat_list(solicitud.establecimientos.all().values_list("establecimiento_id"))
+	current_establecimientos_ids = __flat_list(solicitud.establecimientos_postitulo.all().values_list("establecimiento_id"))
 	
-	q1 = q.filter(solicitudes__establecimiento__id__in=current_establecimientos_ids).order_by('cue') # seleccionados
+	q1 = q.filter(solicitudes_postitulo__establecimiento__id__in=current_establecimientos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[e.id for e in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain
@@ -333,9 +334,9 @@ def asignar_establecimientos(request, solicitud_id):
 
 		request.set_flash('success', 'Datos actualizados correctamente.')
 		# redirigir a edit
-		return HttpResponseRedirect(reverse('solicitudAsignarEstablecimientos', args=[solicitud.id]))
+		return HttpResponseRedirect(reverse('postituloSolicitudAsignarEstablecimientos', args=[solicitud.id]))
 
-	return my_render(request, 'validez_nacional/solicitud/asignar_establecimientos.html', {
+	return my_render(request, 'postitulos/solicitud/asignar_establecimientos.html', {
 		'solicitud': solicitud,
 		'form_filters': form_filter,
 		'current_establecimientos_ids': current_establecimientos_ids,
@@ -356,16 +357,16 @@ def asignar_anexos(request, solicitud_id):
 
 	if not __puede_editarse_solicitud(request, solicitud):
 		request.set_flash('warning', 'No puede editarse la solicitud.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 		
 	form_filter = SolicitudAsignacionFormFilters(request.GET, tipo_ue='Anexo', solicitud=solicitud)
 	q = form_filter.buildQuery()
 	
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
-	current_anexos_ids = __flat_list(solicitud.anexos.all().values_list("anexo_id"))
+	current_anexos_ids = __flat_list(solicitud.anexos_postitulo.all().values_list("anexo_id"))
 	
 	
-	q1 = q.filter(solicitudes__anexo__id__in=current_anexos_ids).order_by('cue') # seleccionados
+	q1 = q.filter(solicitudes_postitulo__anexo__id__in=current_anexos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[a.id for a in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain
@@ -398,9 +399,9 @@ def asignar_anexos(request, solicitud_id):
 
 		request.set_flash('success', 'Datos actualizados correctamente.')
 		# redirigir a edit
-		return HttpResponseRedirect(reverse('solicitudAsignarAnexos', args=[solicitud.id]))
+		return HttpResponseRedirect(reverse('postituloSolicitudAsignarAnexos', args=[solicitud.id]))
 
-	return my_render(request, 'validez_nacional/solicitud/asignar_anexos.html', {
+	return my_render(request, 'postitulos/solicitud/asignar_anexos.html', {
 		'solicitud': solicitud,
 		'form_filters': form_filter,
 		'current_anexos_ids': current_anexos_ids,
@@ -424,7 +425,7 @@ def delete(request, solicitud_id):
 		request.set_flash('success', 'Registro eliminado correctamente.')
 	else:
 		request.set_flash('warning', 'El registro no puede ser eliminado.')
-	return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+	return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 	
 
 
@@ -504,7 +505,7 @@ def numerar(request, solicitud_id):
 		
 	if not solicitud.is_numerable():
 		request.set_flash('warning', 'La solicitud no se puede numerar.')
-		return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+		return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
 
 	solicitud_establecimientos = solicitud.establecimientos.all()
 	solicitud_anexos = solicitud.anexos.all()

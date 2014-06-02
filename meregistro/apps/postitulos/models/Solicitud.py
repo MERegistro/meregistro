@@ -83,7 +83,7 @@ class Solicitud(models.Model):
 	"""
 	def save_anexos(self, anexos_procesados_ids, current_anexos_ids, anexos_seleccionados_ids):
 		
-		from apps.validez_nacional.models import SolicitudAnexo
+		from apps.postitulos.models import SolicitudAnexo
 		
 		"Borrar los que se des-chequean"
 		for est_id in anexos_procesados_ids:
