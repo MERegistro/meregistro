@@ -497,11 +497,10 @@ def consulta_institucional(request):
 @credential_required('validez_nacional_solicitud_numerar')
 def numerar(request, solicitud_id):
 	solicitud = Solicitud.objects.get(pk=solicitud_id)
-	
+
+	normativas_jurisdiccionales = ''
 	if len(solicitud.normativas_jurisdiccionales.all()) > 0:
 		normativas_jurisdiccionales = ', '.join([n.numero_anio for n in solicitud.normativas_jurisdiccionales.all().order_by('numero_anio')])
-	else: 
-		normativas_jurisdiccionales = solicitud.normativa_jurisdiccional_migrada
 		
 	if not solicitud.is_numerable():
 		request.set_flash('warning', 'La solicitud no se puede numerar.')
