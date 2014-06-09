@@ -165,3 +165,20 @@ class ExtensionAulica(models.Model):
 		except IndexError:
 			return None
 		return dom
+
+	def get_domicilio_institucional(self):
+		from apps.registro.models import ExtensionAulicaDomicilio
+		try:
+			dom = ExtensionAulicaDomicilio.objects.get(extension_aulica=self, tipo_domicilio__descripcion=u'Institucional')
+		except ExtensionAulicaDomicilio.DoesNotExist:
+			return None
+		return dom
+
+	def is_editable(self):
+		es_pendiente = self.estado_actual.nombre == u'Pendiente'
+		return es_pendiente
+
+	def is_deletable(self):
+		cant_estados = len(self.estados.all()) is 1
+		es_pendiente = self.estado_actual.nombre == u'Pendiente'
+		return cant_estados == 1 and es_pendiente

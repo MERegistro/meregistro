@@ -26,10 +26,10 @@ class ExtensionAulicaDomicilio(models.Model):
 
 	def __unicode__(self):
 		if self.cp:
-			cp = " (CP: " + self.cp + ")"
+			cp = u" (CP: " + self.cp + ")"
 		else:
-			cp = ""
-		return str(self.calle) + " " + str(self.altura) + " - " + self.localidad.nombre + cp
+			cp = u""
+		return u"%s %s - %s %s" % (self.calle, self.altura, self.localidad.nombre, cp)
 
 	def __init__(self, *args, **kwargs):
 		super(ExtensionAulicaDomicilio, self).__init__(*args, **kwargs)
