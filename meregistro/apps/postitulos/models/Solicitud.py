@@ -105,7 +105,7 @@ class Solicitud(models.Model):
 		numerable = self.estado.nombre == EstadoSolicitud.CONTROLADO
 		numerable = numerable and (len(self.establecimientos_postitulo.all()) > 0 or len(self.anexos_postitulo.all()) > 0)
 		numerable = numerable and self.jurisdiccion and self.carrera_postitulo and self.primera_cohorte \
-			and self.ultima_cohorte and (self.normativas_jurisdiccionales) and self.normativas_postitulo
+			and self.ultima_cohorte and len(self.normativas_jurisdiccionales.all()) > 0 and self.normativas_postitulo
 
 		return numerable
 
