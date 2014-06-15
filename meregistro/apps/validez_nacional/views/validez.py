@@ -92,7 +92,7 @@ def edit(request, validez_id):
 
 
 @login_required
-#@credential_required('tit_carrera_jurisdiccional_eliminar')
+@credential_required('validez_nacional_validez_editar')
 def eliminar(request, validez_nacional_id):
 	"""
 	No sólo deberá eliminarse el registro de la tabla validez_nacional_validez_nacional, 

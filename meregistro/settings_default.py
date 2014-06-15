@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'apps.consulta_validez',
     'apps.oferta_nacional',
     'apps.validez_nacional',
+    'apps.postitulos',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

@@ -31,7 +31,7 @@
 		</li>
         {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
-		<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dependencias funcionales</span></a></li>
+		<li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dep. func.</span></a></li>
         {% endif %}
 		<!--
 		Habilitación temporal
@@ -109,6 +109,25 @@
 			</ul>
 		</li>
 		{% endif %}
+		{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' or user_perfil.rol.nombre in 'AdminNacional' %}
+		<li><a href="#" class="inactive"><span>Postítulos</span></a>
+			<ul>
+				{% if user_perfil.rol.nombre in 'AdminNacional' %}
+				<li><a href="{% url apps.postitulos.views.normativa.index %}"><span>Normativas Nacionales</span></a></li>
+				<li><a href="{% url apps.postitulos.views.carrera.index %}">Carreras Nacionales</a></li>
+				<li><a href="{% url apps.postitulos.views.postitulo_nacional.index %}"><span>Postítulos Nacionales</span></a></li>
+				{% endif %}
+				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
+				<li><a href="{% url apps.postitulos.views.carrera_jurisdiccional.index %}"><span>Carreras Jurisdiccionales</span></a></li>
+				<li><a href="{% url apps.postitulos.views.normativa_jurisdiccional.index %}"><span>Normativas Jurisdiccionales</span></a></li>
+				{% endif %}
+				{% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' or user_perfil.rol.nombre in 'AdminNacional' %}
+				<li><a href="{% url apps.postitulos.views.solicitud.index %}"><span>Solicitud de Validez Nacional</span></a></li>
+				<li><a href="{% url apps.postitulos.views.validez.index %}"><span>Validez Nacional</span></a></li>
+				{% endif %}
+			</ul>
+		</li>
+		{% endif %}
 		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}
 		<li><a href="#" class="inactive"><span>Reportes</span></a>
 			<ul>
@@ -117,6 +136,9 @@
 				{% endif %}
 				{% if 'reportes_datos_basicos_anexos' in credenciales %}
 				<li><a href="{% url apps.reportes.views.datos_basicos.anexos %}">Datos básicos de Anexos</a></li>
+				{% endif %}
+				{% if 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}
+				<li><a href="{% url apps.reportes.views.datos_basicos.extensiones_aulicas %}">Datos básicos de Ext. Áulicas</a></li>
 				{% endif %}
 			</ul>
 		</li>

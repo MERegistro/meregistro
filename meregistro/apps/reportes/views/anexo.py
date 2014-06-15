@@ -12,19 +12,23 @@ from apps.reportes.models import Reporte
 @login_required
 @credential_required('reg_anexo_consulta')
 def anexos(request, q):
+   
 	filename = 'anexos_' + str(date.today()) + '.xls'
-	reporte = Reporte(headers=['NOMBRE', 'FECHA ALTA', 'TURNOS', 'TELÉFONO', 'MAIL', 'VERIFICADO'], filename=filename)
+	reporte = Reporte(headers=['REGION', 'JURISDICCIÓN', 'CUE', 'DEPENDENCIA FUNCIONAL', 'NOMBRE', 'DEPARTAMENTO', 'LOCALIDAD', 'ESTADO', 'VERIFICADO'], filename=filename)
 	for anexo in q:
-		fecha = '' if anexo.fecha_alta is None else anexo.fecha_alta.strftime('%d/%m/%Y')
-		turnos = '' #' - '.join("%s" % (t.nombre.encode('utf8')) for t in anexo.turnos.all())
-		if anexo.email is None:
-			email = ''
+		try:
+			localidad = anexo.get_first_domicilio().localidad
+			departamento = localidad.departamento.nombre
+			localidad = localidad.nombre
+		except AttributeError:
+			localidad = ''
+			departamento = ''
+		if anexo.estado is None:
+			estado_nombre = ''
 		else:
-			email = anexo.email
-		if anexo.telefono is None:
-			telefono = ''
-		else:
-			telefono = anexo.telefono
-		reporte.rows.append([anexo.nombre.encode('utf8'), fecha.encode('utf8'), turnos, telefono.encode('utf8'), email.encode('utf8'),
+			estado_nombre = anexo.estado.nombre.encode('utf8')
+		reporte.rows.append([anexo.establecimiento.dependencia_funcional.jurisdiccion.region.nombre.encode('utf8'), anexo.establecimiento.dependencia_funcional.jurisdiccion.nombre.encode('utf8'),\
+		anexo.cue, anexo.establecimiento.dependencia_funcional.nombre.encode('utf8'), anexo.nombre.encode('utf8'), departamento.encode('utf8'), localidad.encode('utf8'), estado_nombre,
     "SI" if anexo.verificado() else "NO"])
+    
 	return reporte.as_csv()

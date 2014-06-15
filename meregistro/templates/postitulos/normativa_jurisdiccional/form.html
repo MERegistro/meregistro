@@ -1,0 +1,37 @@
+<div class="form" id="tituloForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		<div class="form-text">
+			{{ form.numero_anio.errors }}
+			<label for="numero_anio">Número / Año:</label>
+			{{ form.numero_anio }}
+		</div>
+		<div class="form-select">
+			{{ form.tipo_normativa_postitulo_jurisdiccional.errors }}
+			<label for="id_tipo_normativa_postitulo_jurisdiccional">Tipo de normativa:</label>
+			{{ form.tipo_normativa_postitulo_jurisdiccional }}
+		</div>
+		<div class="form-select">
+			{{ form.otorgada_por.errors }}
+			<label for="id_otorgada_por">Otorgada por:</label>
+			{{ form.otorgada_por }}
+		</div>
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if not is_new %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

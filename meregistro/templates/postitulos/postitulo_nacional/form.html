@@ -1,0 +1,33 @@
+<div class="form" id="tituloNacionalForm">
+	<form action="" method="post">{% csrf_token %}
+		{{ form.non_field_errors }}
+		{{ form.fecha_alta }}
+		<div class="form-select">
+			{{ form.normativa_postitulo.errors }}
+			<label for="id_normtiva_postitulo">Normativa:</label>
+			{{ form.normativa_postitulo }}
+		</div>
+		<div class="form-text">
+			{{ form.nombre.errors }}
+			<label for="id_nombre">Nombre:</label>
+			{{ form.nombre }}
+		</div>
+		<div class="form-select">
+			{{ form.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form.estado }}
+		</div>
+		<div class="form-textarea">
+			{{ form.observaciones.errors }}
+			<label for="observaciones">Observaciones:</label>
+			{{ form.observaciones }}
+		</div>
+		<div class="form-submit">
+		{% if obj %}
+			<input type="submit" value="Actualizar" />
+		{% else %}
+			<input type="submit" value="Guardar" />
+		{% endif %}
+		</div>
+	</form>
+</div>

@@ -1,0 +1,142 @@
+{% extends "base_titulos.html" %}
+
+{% load tags_filters %}
+
+{% block title %}Solicitud de Validez Nacional de Postítulos{% endblock %}
+
+{% block content %}
+<h2>Solicitud de Validez Nacional de Postítulos</h2>
+
+{% if "validez_nacional_solicitud_create" in credenciales %}
+<ul class="actions">
+	<li class="create">
+		<a href="{% url apps.postitulos.views.solicitud.create %}"><span>Nueva Solicitud de Validez</span></a>
+	</li>
+</ul>
+{% endif %}
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<form action="" method="get">
+	<div class="form-filter" id="validezNacionalSolicitudFormFilter">
+		<h3>Búsqueda avanzada</h3>
+		{{ form_filters.non_field_errors }}
+		<div class="form-text">
+			{{ form_filters.postitulo.errors }}
+			<label for="id_postitulo">Postítulo:</label>
+			{{ form_filters.postitulo }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.carrera_postitulo.errors }}
+			<label for="id_carrera_postitulo">Carrera:</label>
+			{{ form_filters.carrera_postitulo }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.primera_cohorte.errors }}
+			<label for="id_primera_cohorte">Primera Cohorte Solicitada:</label>
+			{{ form_filters.primera_cohorte }}
+		</div> 
+		<div class="form-select">
+			{{ form_filters.estado.errors }}
+			<label for="id_estado">Estado:</label>
+			{{ form_filters.estado }}
+		</div>
+		<div class="form-select">
+			{{ form_filters.jurisdiccion.errors }}
+			<label for="id_jurisdiccion">Jurisdicción:</label>
+			{{ form_filters.jurisdiccion }}
+		</div>
+		<div class="form-text">
+			{{ form_filters.normativa_postitulo.errors }}
+			<label for="id_normativa_postitulo">Normativa Nacional:</label>
+			{{ form_filters.normativa_postitulo }}
+		</div> 
+		{% if user_perfil.rol.nombre in 'AdminNacional' %}
+		<div class="form-text">
+			{{ form_filters.nro_expediente.errors }}
+			<label for="id_normativa_nacional">Nro. Expediente:</label>
+			{{ form_filters.nro_expediente }}
+		</div> 
+		{% endif %}
+		<div class="form-submit">
+			<input type="submit" value="Buscar" />
+			<input type="button" value="Reiniciar" onclick="window.location = '/postitulos/solicitud';" />
+		</div>
+</div>
+
+
+{% if objects %}
+{% include "counter.html" %}
+<!--
+<ul class="reportes-actions">
+    <li class="export-csv">
+	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    </li>
+</ul>
+-->
+<table class="hor-zebra" style="margin-top:65px">
+  <thead>
+    <tr>
+      <th>Jurisdicción</th>
+      <th>Carrera</th>
+      <th>Postítulo</th>
+      <th>Cohortes</th>
+      <th>Norm. Nac.</th>
+      <th>Norm. Jur.</th>
+      {% if user_perfil.rol.nombre in 'AdminNacional' %}
+      <th>Nro. Exp.</th>
+	  {% endif %}
+      <th>Estado</th>
+      <th class="actions">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for obj in objects %}
+      <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+	<td>{{ obj.jurisdiccion }}</td>
+	<td>{{ obj.carrera.nombre }}</td>
+	<td>{{ obj.postitulo_nacional.nombre }}</td>
+	<td>{{ obj.primera_cohorte|default:"-" }}-{{ obj.ultima_cohorte|default:"-" }}</td>
+	<td>{{ obj.normativas_postitulo|default:"" }}</td>
+	<td>
+        <ul>
+            {% for n in obj.normativas_jurisdiccionales.all %}
+            <li>{{ n.numero_anio }}</li>
+            {% endfor %}
+        </ul>
+        </td>
+    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+	<td>{{ obj.nro_expediente|default:"" }}</td>
+	{% endif %}
+	<td>{{ obj.estado }}</td>
+		<td class="actions-td">
+			<ul>
+			{% if "validez_nacional_solicitud_editar" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
+				<li class="edit"><a href="{% url apps.postitulos.views.solicitud.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+				<li class="one-many"><a href="{% url apps.postitulos.views.solicitud.asignar_establecimientos obj.id %}" title="Asignar a Sedes"><span>Asignar a Sedes</span></a></li>
+				<li class="one-many"><a href="{% url apps.postitulos.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
+			{% endif %}
+			{% if "validez_nacional_solicitud_numerar" in credenciales and obj.is_numerable %}
+				<li class="numerar"><a href="{% url apps.postitulos.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
+			{% endif %}
+			{% if obj.is_deletable %}
+				<li class="delete"><a href="{% url apps.postitulos.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>	
+			{% endif %}				
+			</ul>			
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% include "paginator.html" %}
+</form>
+{% else %}
+<div class="message notice">
+  <p>No se encontraron resultados.</p>
+</div>
+{% endif %}
+<hr />
+{% endblock %}
+

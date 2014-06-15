@@ -1,0 +1,67 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Numeración de Títulos{% endblock %}
+
+{% block content %}
+<h2>Numeración de Títulos</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="datos-lectura" id="datosSolicitud">
+	<p><strong>Jurisdicción:</strong> {{ solicitud.jurisdiccion }}</p>
+	<p><strong>Carrera:</strong> {{ solicitud.carrera }}</p>
+	<p><strong>Primera Cohorte Actualizada:</strong> {{ solicitud.primera_cohorte }}</p>
+	<p><strong>Últimas Cohorte Actualizada:</strong> {{ solicitud.ultima_cohorte }}</p>
+	<p><strong>Dictamen CoFEv:</strong> {{ solicitud.dictamen_cofev|default:'---' }}</p>
+	<p><strong>Normativa Jurisdiccional:</strong> {{ solicitud.normativa_jurisdiccional_migrada|default:'---' }}</p>
+	<p><strong>Normativa Nacional:</strong> {{ solicitud.normativas_nacionales }}</p>
+</div>
+
+<form action="" method="POST">{% csrf_token %}
+	<table class="hor-zebra" style="margin-top:65px" id="numeracion-solicitudes">
+	  <thead>
+		<tr>
+		  <th>Tipo UE</th>
+		  <th>CUE</th>
+		  <th>Departamento</th>
+		  <th>Localidad</th>
+		  <th>Nro. INFD</th>
+		</tr>
+	  </thead>
+	  <tbody>
+		{% for v in validez_establecimientos %}
+		  <input type="hidden" name="validez_nacional_establecimientos" value="{{ v.id }}" />
+		  <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>Sede</td>
+			<td>{{ v.cue }}</td>
+			<td>{{ v.get_establecimiento.get_domicilio_institucional.localidad.departamento }}</td>
+			<td>{{ v.get_establecimiento.get_domicilio_institucional.localidad }}</td>
+			<td>{{ v.nro_infd }}</td>
+			<!--<td><input type="text" name="validez_nacional_establecimientos" value="{{ v.nro_infd }}" readonly="readonly"/></td>-->
+		  </tr>
+		{% endfor %}
+		{% for v in validez_anexos %}
+		  <input type="hidden" name="validez_nacional_anexos" value="{{ v.id }}" />
+		  <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+			<td>Anexo</td>
+			<td>{{ v.cue }}</td>
+			<td>{{ v.get_anexo.get_domicilio_institucional.localidad.departamento }}</td>
+			<td>{{ v.get_anexo.get_domicilio_institucional.localidad }}</td>
+			<td>{{ v.nro_infd }}</td>
+		  </tr>
+		{% endfor %}
+	  </tbody>
+	</table>
+	<div style="margin-top: 20px;" class="form-submit">
+		<input type="submit" value="Numerar" onclick="return confirm('Esta acción no puede deshacerse.');">
+	</div>
+</form>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.validez_nacional.views.solicitud.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+{% endblock %}

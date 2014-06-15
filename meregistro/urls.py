@@ -9,6 +9,7 @@ import apps.backend.urls as backend_urls
 import apps.consulta_validez.urls as consulta_validez_urls
 import apps.oferta_nacional.urls as oferta_nacional_urls
 import apps.validez_nacional.urls as validez_nacional_urls
+import apps.postitulos.urls as postitulos_urls
 
 urlpatterns = patterns('',
     url(r'^login', 'apps.seguridad.views.login', name='login'),
@@ -18,6 +19,7 @@ urlpatterns = patterns('',
     url(r'^seguridad/', include(seguridad_urls)),
     url(r'^registro/', include(registro_urls)),
     url(r'^titulos/', include(titulos_urls)),
+    url(r'^postitulos/', include(postitulos_urls)),
     url(r'^reportes/', include(reportes_urls)),
     url(r'^sistema/', include(sistema_urls)),
     url(r'^backend/', include(backend_urls)),
