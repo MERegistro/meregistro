@@ -133,7 +133,7 @@ def create(request, establecimiento_id):
     alta_habilitada = EstablecimientoAutoridad.objects.filter(establecimiento__id = establecimiento.id).count() == 0    
     if not alta_habilitada:  # no debería estar en esta pantalla
         request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
-        return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex'))
+        return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex', args=[establecimiento.id]))
     
     return my_render(request, 'registro/establecimiento/autoridades/new.html', {
         'form': form,
