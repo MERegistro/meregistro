@@ -96,8 +96,8 @@ def ajax_get_unidades_por_jurisdiccion(request, jurisdiccion_id):
 
 def ajax_get_unidades_por_tipo_gestion(request, tipo_gestion_id):
 	if int(tipo_gestion_id) > 0:
-		sedes = Establecimiento.objects.filter(dependencia_funcional__tipo_gestion_id=tipo_gestion_id).order_by('cue').values_list('id', 'cue', 'nombre')
-		anexos = Anexo.objects.filter(establecimiento__dependencia_funcional__tipo_gestion_id=tipo_gestion_id).order_by('cue').values_list('id', 'cue', 'nombre')
+		sedes = Establecimiento.objects.filter(dependencia_funcional__tipo_gestion__id=tipo_gestion_id).order_by('cue').values_list('id', 'cue', 'nombre')
+		anexos = Anexo.objects.filter(establecimiento__dependencia_funcional__tipo_gestion__id=tipo_gestion_id).order_by('cue').values_list('id', 'cue', 'nombre')
 	else:
 		sedes = Establecimiento.objects.order_by('cue').values_list('id', 'cue', 'nombre')
 		anexos = Anexo.objects.order_by('cue').values_list('id', 'cue', 'nombre')

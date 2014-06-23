@@ -15,11 +15,15 @@ def carreras(request, q):
 	filename = 'carreras_' + str(date.today()) + '.xls'
 	reporte = Reporte(headers=['NOMBRE', 'JURISDICCIONES', 'OBSERVACIONES', 'FECHA DE ALTA', 'ESTADO'], filename=filename)
 	for carrera in q:
+		try:
+			obs = carrera.observaciones.encode('utf8')
+		except Exception:
+			obs = ''
 		if carrera.estado is None:
 			estado_nombre = ''
 		else:
 			estado_nombre = carrera.estado.nombre.encode('utf8')
 		jurisdicciones = ' - '.join("%s" % (j.nombre.encode('utf8')) for j in carrera.jurisdicciones.all())
-		reporte.rows.append([carrera.nombre.encode('utf8'), jurisdicciones, carrera.observaciones.encode('utf8'), carrera.fecha_alta.strftime("%d/%m/%Y"), estado_nombre])
+		reporte.rows.append([carrera.nombre.encode('utf8'), jurisdicciones, obs, carrera.fecha_alta.strftime("%d/%m/%Y"), estado_nombre])
 
 	return reporte.as_csv()
