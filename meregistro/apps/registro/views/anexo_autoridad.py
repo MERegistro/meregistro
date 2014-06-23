@@ -122,7 +122,7 @@ def create(request, anexo_id):
             autoridad.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('anexoAutoridadEdit', args=[autoridad.id]))
+            return HttpResponseRedirect(reverse('anexoAutoridadEdit'))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -133,7 +133,7 @@ def create(request, anexo_id):
     alta_habilitada = AnexoAutoridad.objects.filter(anexo__id = anexo.id).count() == 0    
     if not alta_habilitada:  # no debería estar en esta pantalla
         request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
-        return HttpResponseRedirect(reverse('anexoAutoridadesIndex'))
+        return HttpResponseRedirect(reverse('anexoAutoridadesIndex', args=[anexo.id]))
     
     return my_render(request, 'registro/anexo/autoridades/new.html', {
         'form': form,
