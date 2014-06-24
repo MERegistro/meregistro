@@ -150,7 +150,7 @@ class Cohorte(models.Model):
     def rechazada_por_establecimiento(self, establecimiento):
         from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
         try:
-            cohorte_establecimiento = CohorteEstablecimiento.objects.get(cohorte=self, establecimiento__id=establecimiento.id)
+            cohorte_establecimiento = CohorteEstablecimiento.objects.get(cohorte__id=self.id, establecimiento__id=establecimiento.id)
         except CohorteEstablecimiento.DoesNotExist:
             return False
         return cohorte_establecimiento.rechazada()
