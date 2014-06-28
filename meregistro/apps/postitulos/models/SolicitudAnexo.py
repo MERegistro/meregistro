@@ -6,7 +6,7 @@ import datetime
 	
 
 class SolicitudAnexo(models.Model):
-	anexo = models.ForeignKey(Anexo, related_name='solicitudes_postitulo')
+	anexo = models.ForeignKey(Anexo, related_name='anexo_solicitudes_postitulo')
 	solicitud = models.ForeignKey(Solicitud, related_name='anexos_postitulo')
 
 	class Meta:

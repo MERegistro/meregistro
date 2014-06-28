@@ -300,7 +300,9 @@ def asignar_establecimientos(request, solicitud_id):
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_establecimientos_ids = __flat_list(solicitud.establecimientos_postitulo.all().values_list("establecimiento_id"))
 	
-	q1 = q.filter(solicitudes_postitulo__establecimiento__id__in=current_establecimientos_ids).order_by('cue') # seleccionados
+	# HOTFIX
+	#q1 = q.filter(establecimiento_solicitudes_postitulo__establecimiento__id__in=current_establecimientos_ids).order_by('cue') # seleccionados
+	q1 = q.filter(id__in=current_establecimientos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[e.id for e in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain
@@ -365,8 +367,9 @@ def asignar_anexos(request, solicitud_id):
 	"Traigo los ids de los establecimientos actualmente asignados a la solicitud"
 	current_anexos_ids = __flat_list(solicitud.anexos_postitulo.all().values_list("anexo_id"))
 	
-	
-	q1 = q.filter(solicitudes_postitulo__anexo__id__in=current_anexos_ids).order_by('cue') # seleccionados
+	# HOTFIX
+	#q1 = q.filter(anexo_solicitudes_postitulo__anexo__id__in=current_anexos_ids).order_by('cue') # seleccionados
+	q1 = q.filter(id__in=current_anexos_ids).order_by('cue') # seleccionados
 	q2 = q.exclude(id__in=[a.id for a in q1]).order_by('cue') # no seleccionados
 	
 	from itertools import chain
