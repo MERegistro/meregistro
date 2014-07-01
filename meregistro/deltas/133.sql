@@ -1,7 +1,7 @@
 BEGIN;
 
 DELETE FROM titulos_cohorte_establecimiento_seguimiento
-WHERE cohorte_establecimiento_id = 13846;
+WHERE cohorte_establecimiento_id IN(13846, 13926);
 
 DELETE FROM titulos_cohorte_establecimiento_estados
 WHERE cohorte_establecimiento_id IN(
