@@ -20,7 +20,8 @@ WHERE cohorte_establecimiento_id IN(
     19321, 
     19313, 
     19316, 
-    19318
+    19318,
+    17491
 );
 
 DELETE FROM titulos_cohortes_establecimientos
@@ -40,7 +41,8 @@ WHERE id IN(
     19321, 
     19313, 
     19316, 
-    19318
+    19318,
+    17491
 );
 
 
