@@ -122,7 +122,7 @@ def create(request, anexo_id):
             autoridad.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('anexoAutoridadEdit'))
+            return HttpResponseRedirect(reverse('anexoAutoridadEdit', args=[autoridad.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:

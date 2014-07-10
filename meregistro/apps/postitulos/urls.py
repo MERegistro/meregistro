@@ -4,13 +4,13 @@ from django.conf.urls.defaults import *
 
 urlpatterns=patterns('',
     # Carrera
-    url(r'^carrera/create$', 'apps.postitulos.views.carrera.create', name='carreraCreate'),
-    url(r'^carrera/([0-9]+)/editar$', 'apps.postitulos.views.carrera.edit', name='carreraEdit'),
-    url(r'^carrera/([0-9]+)/delete$', 'apps.postitulos.views.carrera.delete', name='carreraEliminar'),
-    url(r'^carrera/([0-9]+)/postitulos$', 'apps.postitulos.views.carrera.postitulos', name='carreraPostitulos'),
-    url(r'^carrera$', 'apps.postitulos.views.carrera.index', name='carrera'),
+    url(r'^carrera/create$', 'apps.postitulos.views.carrera.create', name='carreraPostituloCreate'),
+    url(r'^carrera/([0-9]+)/editar$', 'apps.postitulos.views.carrera.edit', name='carreraPostituloEdit'),
+    url(r'^carrera/([0-9]+)/delete$', 'apps.postitulos.views.carrera.delete', name='carreraPostituloEliminar'),
+    url(r'^carrera/([0-9]+)/postitulos$', 'apps.postitulos.views.carrera.postitulos', name='carreraPostituloPostitulos'),
+    url(r'^carrera$', 'apps.postitulos.views.carrera.index', name='carreraPostitulos'),
     # Normativas
-    url(r'^normativa/create$', 'apps.postitulos.views.normativa.create', name='normativaCreate'),
+    url(r'^normativa/create$', 'apps.postitulos.views.normativa.create', name='normativaPostituloCreate'),
     url(r'^normativa/([0-9]+)/editar$', 'apps.postitulos.views.normativa.edit', name='normativaPostituloEdit'),
     url(r'^normativa/([0-9]+)/eliminar$', 'apps.postitulos.views.normativa.delete', name='normativaPostituloEliminar'),
     url(r'^normativa$', 'apps.postitulos.views.normativa.index', name='normativaPostitulo'),
@@ -20,15 +20,15 @@ urlpatterns=patterns('',
     url(r'^postitulo_nacional/([0-9]+)/eliminar$', 'apps.postitulos.views.postitulo_nacional.delete', name='postituloNacionalEliminar'),
     url(r'^postitulo_nacional$', 'apps.postitulos.views.postitulo_nacional.index', name='postituloNacional'),
     # Carrera jurisdiccional
-    url(r'^carrera_jurisdiccional$', 'apps.postitulos.views.carrera_jurisdiccional.index', name='carreraJurisdiccional'),
-    url(r'^carrera_jurisdiccional/create$', 'apps.postitulos.views.carrera_jurisdiccional.create', name='carreraJurisdiccionalCreate'),
-    url(r'^carrera_jurisdiccional/([0-9]+)/edit$', 'apps.postitulos.views.carrera_jurisdiccional.edit', name='carreraJurisdiccionalEdit'),
-    url(r'^carrera_jurisdiccional/([0-9]+)/eliminar$', 'apps.postitulos.views.carrera_jurisdiccional.eliminar', name='carreraJurisdiccionalEliminar'),
+    url(r'^carrera_jurisdiccional$', 'apps.postitulos.views.carrera_jurisdiccional.index', name='carreraPostituloJurisdiccional'),
+    url(r'^carrera_jurisdiccional/create$', 'apps.postitulos.views.carrera_jurisdiccional.create', name='carreraPostituloJurisdiccionalCreate'),
+    url(r'^carrera_jurisdiccional/([0-9]+)/edit$', 'apps.postitulos.views.carrera_jurisdiccional.edit', name='carreraPostituloJurisdiccionalEdit'),
+    url(r'^carrera_jurisdiccional/([0-9]+)/eliminar$', 'apps.postitulos.views.carrera_jurisdiccional.eliminar', name='carreraPostituloJurisdiccionalEliminar'),
     # Normativa jurisdiccional
-    url(r'^normativa_jurisdiccional/create$', 'apps.postitulos.views.normativa_jurisdiccional.create', name='normativaJurisdiccionalCreate'),
-    url(r'^normativa_jurisdiccional/([0-9]+)/editar$', 'apps.postitulos.views.normativa_jurisdiccional.edit', name='normativaJurisdiccionalEdit'),
-    url(r'^normativa_jurisdiccional/([0-9]+)/eliminar$', 'apps.postitulos.views.normativa_jurisdiccional.eliminar', name='normativaJurisdiccionalEliminar'),
-    url(r'^normativa_jurisdiccional$', 'apps.postitulos.views.normativa_jurisdiccional.index', name='normativaJurisdiccional'),
+    url(r'^normativa_jurisdiccional/create$', 'apps.postitulos.views.normativa_jurisdiccional.create', name='normativaPostituloJurisdiccionalCreate'),
+    url(r'^normativa_jurisdiccional/([0-9]+)/editar$', 'apps.postitulos.views.normativa_jurisdiccional.edit', name='normativaPostituloJurisdiccionalEdit'),
+    url(r'^normativa_jurisdiccional/([0-9]+)/eliminar$', 'apps.postitulos.views.normativa_jurisdiccional.eliminar', name='normativaPostituloJurisdiccionalEliminar'),
+    url(r'^normativa_jurisdiccional$', 'apps.postitulos.views.normativa_jurisdiccional.index', name='normativaPostituloJurisdiccional'),
     #url(r'^normativa_jurisdiccional/([0-9]+)/revisar_jurisdiccion$', 'apps.titulos.views.normativa_jurisdiccional.revisar_jurisdiccion', name='normativaJurisdiccionalRevisarJurisdiccion'),
     url(r'^solicitud$', 'apps.postitulos.views.solicitud.index', name='postituloSolicitudIndex'),
     url(r'^solicitud/([0-9]+)/eliminar$', 'apps.postitulos.views.solicitud.delete', name='postitulosSolicitudEdit'),
@@ -52,13 +52,3 @@ urlpatterns=patterns('',
     #url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
       
     )
-"""
-    # Numerar
-    # Validez Nacional
-    url(r'^validez$', 'apps.validez_nacional.views.validez.index', name='validezNacionalIndex'),
-    url(r'^validez/([0-9]+)/editar$', 'apps.validez_nacional.views.validez.edit', name='validezNacionalEditarValidez'),
-    url(r'^validez/([0-9]+)/eliminar$', 'apps.validez_nacional.views.validez.eliminar', name='validezNacionalEliminar'),
-    # AJAX
-    url(r'^ajax/get_titulos_por_carrera/([0-9]+)', 'apps.validez_nacional.views.ajax.get_titulos_por_carrera', name='ajaxGetTitulosPorCarrera'),
-    url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
-"""

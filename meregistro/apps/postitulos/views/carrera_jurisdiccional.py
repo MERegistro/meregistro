@@ -81,7 +81,7 @@ def create(request):
 			request.set_flash('success', 'Datos guardados correctamente.')
 
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalEdit', args=[carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('carreraPostituloJurisdiccionalEdit', args=[carrera_jurisdiccional.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -152,7 +152,7 @@ def editar_orientaciones(request, carrera_jurisdiccional_id):
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalOrientacionesEdit', args=[carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('carreraPostituloJurisdiccionalOrientacionesEdit', args=[carrera_jurisdiccional.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -195,7 +195,7 @@ def editar_normativas(request, carrera_jurisdiccional_id):
 
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalNormativasEdit', args=[carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('carreraPostituloJurisdiccionalNormativasEdit', args=[carrera_jurisdiccional.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -242,7 +242,7 @@ def editar_cohortes(request, carrera_jurisdiccional_id):
 			cohorte = form.save()
 			request.set_flash('success', 'Datos guardados correctamente.')
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraJurisdiccionalCohortesEdit', args=[carrera_jurisdiccional.id]))
+			return HttpResponseRedirect(reverse('carreraPostituloJurisdiccionalCohortesEdit', args=[carrera_jurisdiccional.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -317,7 +317,7 @@ def eliminar(request, carrera_jurisdiccional_id):
 		carrera.delete()
 		request.set_flash('success', 'La carrera jurisdiccional fue dada de baja correctamente.')
 		""" Redirecciono para evitar el reenvío del form """
-		return HttpResponseRedirect(reverse('carreraJurisdiccional'))
+		return HttpResponseRedirect(reverse('carreraPostituloJurisdiccional'))
 	return my_render(request, 'titulos/carrera_jurisdiccional/eliminar.html', {
 		'carrera_jurisdiccional_id': carrera.id,
 		'tiene_cohortes_generadas': tiene_cohortes_generadas,
@@ -332,4 +332,4 @@ def revisar_jurisdiccion(request, oid):
 	o.estado = EstadoCarreraJurisdiccional.objects.get(nombre=EstadoCarreraJurisdiccional.CONTROLADO)
 	o.registrar_estado()
 	request.set_flash('success', 'Registro revisado.')
-	return HttpResponseRedirect(reverse('carreraJurisdiccional'))
+	return HttpResponseRedirect(reverse('carreraPostituloJurisdiccional'))

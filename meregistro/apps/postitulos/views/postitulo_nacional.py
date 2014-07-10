@@ -140,12 +140,12 @@ def edit(request, postitulo_nacional_id):
 
 @login_required
 @credential_required('tit_titulo_nacional_baja')
-def delete(request, titulo_nacional_id):
-	titulo_nacional = TituloNacional.objects.get(pk=titulo_nacional_id)
+def delete(request, postitulo_nacional_id):
+	postitulo_nacional = PostituloNacional.objects.get(pk=postitulo_nacional_id)
 
-	if titulo_nacional.is_deletable():
-		titulo_nacional.delete()
+	if postitulo_nacional.is_deletable():
+		postitulo_nacional.delete()
 		request.set_flash('success', 'Registro eliminado correctamente.')
 	else:
 		request.set_flash('warning', 'El registro no puede ser eliminado.')
-	return HttpResponseRedirect(reverse('tituloNacional'))
+	return HttpResponseRedirect(reverse('postituloNacional'))

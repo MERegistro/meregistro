@@ -77,7 +77,7 @@ def create(request):
             request.set_flash('success', 'Datos guardados correctamente.')
 
             # redirigir a edit
-            return HttpResponseRedirect(reverse('normativaJurisdiccionalEdit', args = [normativa_jurisdiccional.id]))
+            return HttpResponseRedirect(reverse('normativaPostituloJurisdiccionalEdit', args = [normativa_jurisdiccional.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -111,7 +111,7 @@ def edit(request, normativa_jurisdiccional_id):
                 normativa_jurisdiccional.registrar_estado()
 
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('normativaJurisdiccionalEdit', args = [normativa_jurisdiccional_id]))
+            return HttpResponseRedirect(reverse('normativaPostituloJurisdiccionalEdit', args = [normativa_jurisdiccional_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
@@ -143,7 +143,7 @@ def eliminar(request, normativa_jurisdiccional_id):
         normativa_jurisdiccional.delete()
         request.set_flash('success', 'La normativa fue eliminada correctamente.')
         """ Redirecciono para evitar el reenvío del form """
-        return HttpResponseRedirect(reverse('normativaJurisdiccional'))
+        return HttpResponseRedirect(reverse('normativaPostituloJurisdiccional'))
     return my_render(request, 'postitulos/normativa_jurisdiccional/eliminar.html', {
         'normativa_jurisdiccional_id': normativa_jurisdiccional.id,
         'puede_eliminarse': puede_eliminarse,
@@ -157,4 +157,4 @@ def revisar_jurisdiccion(request, oid):
     o.revisado_jurisdiccion = True
     o.save()
     request.set_flash('success', 'Registro revisado.')
-    return HttpResponseRedirect(reverse('normativaJurisdiccional'))
+    return HttpResponseRedirect(reverse('normativaPostituloJurisdiccional'))

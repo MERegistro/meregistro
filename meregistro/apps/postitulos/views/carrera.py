@@ -82,7 +82,7 @@ def create(request):
 			request.set_flash('success', 'Datos guardados correctamente.')
 
 			# redirigir a edit
-			return HttpResponseRedirect(reverse('carreraEdit', args=[carrera.id]))
+			return HttpResponseRedirect(reverse('carreraPostituloEdit', args=[carrera.id]))
 		else:
 			request.set_flash('warning', 'Ocurrió un error guardando los datos.')
 	else:
@@ -140,7 +140,7 @@ def delete(request, carrera_id):
 	carrera.delete()
 	request.set_flash('success', 'Registro eliminado correctamente.')
 
-	return HttpResponseRedirect(reverse('carrera'))
+	return HttpResponseRedirect(reverse('carreraPostitulo'))
 	
 	
 def __flat_list(list_to_flat):
