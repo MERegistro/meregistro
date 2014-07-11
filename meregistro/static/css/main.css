@@ -1213,3 +1213,13 @@ div#link-manual-institucional a img {
 	width: 200px;
 	border: 3px #ccc solid;
 }
+/**
+ *=informe-solicitud
+ */
+body.informe-solicitud div.data li {
+	margin-top: 10px;
+}
+body.informe-solicitud td.inscripto-registro {
+	text-align: center;
+	cursor: pointer;
+}

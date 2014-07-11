@@ -9,9 +9,9 @@
 
 {% if "validez_nacional_solicitud_create" in credenciales %}
 <ul class="actions">
-	<li class="create">
-		<a href="{% url apps.validez_nacional.views.solicitud.create %}"><span>Nueva Solicitud de Validez</span></a>
-	</li>
+    <li class="create">
+        <a href="{% url apps.validez_nacional.views.solicitud.create %}"><span>Nueva Solicitud de Validez</span></a>
+    </li>
 </ul>
 {% endif %}
 
@@ -20,50 +20,50 @@
 {% endif %}
 
 <form action="" method="get">
-	<div class="form-filter" id="validezNacionalSolicitudFormFilter">
-		<h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
-		<div class="form-text">
-			{{ form_filters.titulo.errors }}
-			<label for="id_titulo">Título:</label>
-			{{ form_filters.titulo }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.carrera.errors }}
-			<label for="id_carrera">Carrera:</label>
-			{{ form_filters.carrera }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.primera_cohorte.errors }}
-			<label for="id_primera_cohorte">Primera Cohorte Solicitada:</label>
-			{{ form_filters.primera_cohorte }}
-		</div> 
-		<div class="form-select">
-			{{ form_filters.estado.errors }}
-			<label for="id_estado">Estado:</label>
-			{{ form_filters.estado }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.jurisdiccion.errors }}
-			<label for="id_jurisdiccion">Jurisdicción:</label>
-			{{ form_filters.jurisdiccion }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.normativa_nacional.errors }}
-			<label for="id_normativa_nacional">Normativa Nacional:</label>
-			{{ form_filters.normativa_nacional }}
-		</div> 
-		{% if user_perfil.rol.nombre in 'AdminNacional' %}
-		<div class="form-text">
-			{{ form_filters.nro_expediente.errors }}
-			<label for="id_normativa_nacional">Nro. Expediente:</label>
-			{{ form_filters.nro_expediente }}
-		</div> 
-		{% endif %}
-		<div class="form-submit">
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = '/validez_nacional/';" />
-		</div>
+    <div class="form-filter" id="validezNacionalSolicitudFormFilter">
+        <h3>Búsqueda avanzada</h3>
+        {{ form_filters.non_field_errors }}
+        <div class="form-text">
+            {{ form_filters.titulo.errors }}
+            <label for="id_titulo">Título:</label>
+            {{ form_filters.titulo }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.carrera.errors }}
+            <label for="id_carrera">Carrera:</label>
+            {{ form_filters.carrera }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.primera_cohorte.errors }}
+            <label for="id_primera_cohorte">Primera Cohorte Solicitada:</label>
+            {{ form_filters.primera_cohorte }}
+        </div> 
+        <div class="form-select">
+            {{ form_filters.estado.errors }}
+            <label for="id_estado">Estado:</label>
+            {{ form_filters.estado }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.jurisdiccion.errors }}
+            <label for="id_jurisdiccion">Jurisdicción:</label>
+            {{ form_filters.jurisdiccion }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.normativa_nacional.errors }}
+            <label for="id_normativa_nacional">Normativa Nacional:</label>
+            {{ form_filters.normativa_nacional }}
+        </div> 
+        {% if user_perfil.rol.nombre in 'AdminNacional' %}
+        <div class="form-text">
+            {{ form_filters.nro_expediente.errors }}
+            <label for="id_normativa_nacional">Nro. Expediente:</label>
+            {{ form_filters.nro_expediente }}
+        </div> 
+        {% endif %}
+        <div class="form-submit">
+            <input type="submit" value="Buscar" />
+            <input type="button" value="Reiniciar" onclick="window.location = '/validez_nacional/';" />
+        </div>
 </div>
 
 
@@ -72,7 +72,7 @@
 <!--
 <ul class="reportes-actions">
     <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    <a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
 -->
@@ -88,21 +88,21 @@
       <th>Norm. Jur.</th>
       {% if user_perfil.rol.nombre in 'AdminNacional' %}
       <th>Nro. Exp.</th>
-	  {% endif %}
+      {% endif %}
       <th>Estado</th>
-      <th class="actions">Acciones</th>
+      <th class="actions" style="width: 110px;">Acciones</th>
     </tr>
   </thead>
   <tbody>
     {% for obj in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-	<td>{{ obj.jurisdiccion }}</td>
-	<td>{{ obj.carrera.nombre }}</td>
-	<td>{{ obj.titulo_nacional.nombre }}</td>
-	<td>{{ obj.primera_cohorte|default:"-" }}-{{ obj.ultima_cohorte|default:"-" }}</td>
-	<td>{{ obj.dictamen_cofev|default:"" }}</td>
-	<td>{{ obj.normativas_nacionales|default:"" }}</td>
-	<td>
+    <td>{{ obj.jurisdiccion }}</td>
+    <td>{{ obj.carrera.nombre }}</td>
+    <td>{{ obj.titulo_nacional.nombre }}</td>
+    <td>{{ obj.primera_cohorte|default:"-" }}-{{ obj.ultima_cohorte|default:"-" }}</td>
+    <td>{{ obj.dictamen_cofev|default:"" }}</td>
+    <td>{{ obj.normativas_nacionales|default:"" }}</td>
+    <td>
         <ul>
             {% for n in obj.normativas_jurisdiccionales.all %}
             <li>{{ n.numero_anio }}</li>
@@ -110,23 +110,26 @@
         </ul>
         </td>
     {% if user_perfil.rol.nombre in 'AdminNacional' %}
-	<td>{{ obj.nro_expediente|default:"" }}</td>
-	{% endif %}
-	<td>{{ obj.estado }}</td>
-		<td class="actions-td">
-			<ul>
-			{% if "validez_nacional_solicitud_editar" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
-				<li class="edit"><a href="{% url apps.validez_nacional.views.solicitud.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
-				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_establecimientos obj.id %}" title="Asignar a Sedes"><span>Asignar a Sedes</span></a></li>
-				<li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
-			{% endif %}
-			{% if "validez_nacional_solicitud_numerar" in credenciales and obj.is_numerable %}
-				<li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
-			{% endif %}
-			{% if obj.is_deletable %}
-				<li class="delete"><a href="{% url apps.validez_nacional.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>	
-			{% endif %}				
-			</ul>			
+    <td>{{ obj.nro_expediente|default:"" }}</td>
+    {% endif %}
+    <td>{{ obj.estado }}</td>
+        <td class="actions-td">
+            <ul>
+            {% if "validez_nacional_solicitud_editar" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
+                <li class="edit"><a href="{% url apps.validez_nacional.views.solicitud.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
+                <li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_establecimientos obj.id %}" title="Asignar a Sedes"><span>Asignar a Sedes</span></a></li>
+                <li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
+            {% endif %}
+            {% if "validez_nacional_solicitud_numerar" in credenciales and obj.is_numerable %}
+                <li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
+            {% endif %}
+            {% if obj.estado.nombre == 'Pendiente' and user_perfil.rol.nombre in 'AdminNacional' %}
+                <li class="ver-datos"><a href="{% url apps.validez_nacional.views.solicitud.informe obj.id %}" title="Informe"><span>Informe</span></a></li>     
+            {% endif %}
+            {% if obj.is_deletable %}
+                <li class="delete"><a href="{% url apps.validez_nacional.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>    
+            {% endif %}
+            </ul>            
         </td>
       </tr>
     {% endfor %}

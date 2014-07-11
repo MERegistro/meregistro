@@ -113,3 +113,7 @@ class Solicitud(models.Model):
 	def numerado(self):
 		return self.estado.nombre == EstadoSolicitud.NUMERADO
 
+
+	def tiene_unidades_asignadas(self):
+		return (self.establecimientos.count() + self.anexos.count()) > 0 
+

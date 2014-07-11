@@ -580,3 +580,12 @@ def detalle_numeracion(request, solicitud_id, referencia):
 		'validez': validez,
 		'export_url': Reporte.build_export_url(request.build_absolute_uri()),
 	})
+
+@login_required
+@credential_required('validez_nacional_solicitud_informe')
+def informe(request, solicitud_id):
+	solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre=EstadoSolicitud.PENDIENTE)
+			
+	return my_render(request, 'validez_nacional/solicitud/informe.html', {
+		'solicitud': solicitud,
+	})

@@ -1,0 +1,135 @@
+{% extends "base_informe.html" %}
+
+{% load tags_filters %}
+
+{% block title %}INFORME DEPARTAMENTO DE REGISTRO Y VALIDEZ DE TITULOS INFOD{% endblock %}
+{% block css_body_classes %}{% css_classes "informe-solicitud" %}{% endblock %}
+{% block content %}
+<h2>INFORME DEPARTAMENTO DE REGISTRO Y VALIDEZ DE TITULOS INFOD</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="data">
+    <ul>
+        <li><strong>JURISDICCION SOLICITANTE:</strong> <span>{{ solicitud.jurisdiccion }}</span></li>
+        <li><strong>NÚMERO DE EXPEDIENTE:</strong> <span>{{ solicitud.nro_expediente|default:"---" }}</span></li>
+        <li><strong>TÍTULO QUE SOLICITA VALIDEZ NACIONAL:</strong> <span>{{ solicitud.titulo_nacional }}</span></li>
+        <li><strong>NORMATIVA PROVINCIAL APROBACIÓN DISEÑO CURRICULAR:</strong> {% for n in solicitud.normativas_jurisdiccionales.all %}{{ n.numero_anio }}  {% endfor %}</li>
+    </ul>
+</div>
+
+<br />
+
+<h2>INSTITUCIONES QUE SOLICITAN VALIDEZ NACIONAL:</h2>
+
+{% if solicitud.tiene_unidades_asignadas %}
+<table>
+    <thead>
+        <tr>
+            <th>Instituto</th>
+            <th>Localidad</th>
+            <th>N° CUE</th>
+            <th>Cohortes</th>
+            <th>Inscripto Registro Federal</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for sol_est in solicitud.establecimientos.all %}
+        <tr>
+            <td>{{ sol_est.establecimiento.nombre }}</td>
+            <td>{{ sol_est.establecimiento.get_domicilio_institucional.localidad }}</td>
+            <td>{{ sol_est.establecimiento.cue }}</td>
+            <td></td>
+            <td class="inscripto-registro"><span>Sí</span></td>
+        </tr>
+    {% endfor %}
+    {% for sol_anexo in solicitud.anexos.all %}
+        <tr>
+            <td>{{ sol_anexo.anexo.nombre }}</td>
+            <td>{{ sol_anexo.anexo.get_domicilio_institucional.localidad }}</td>
+            <td>{{ sol_anexo.anexo.cue }}</td>
+            <td>---</td>
+            <td class="inscripto-registro"><span>Sí</span></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>La solicitud no tiene Unidades Educativas asignadas.</p>
+{% endif %}
+
+<h2>INFORME:</h2>
+<p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° (6) 1111/11 EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
+<table id="tabla-informe">
+    <tbody>
+        <tr>
+            <th>1. Normativa de implementación con nómina del/los institulo/s donde se implementará el diseño curricular, con la/s cohorte/s autorizada/s para su implementación  y su/s respectivo/s número/s de CUE</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>
+        <tr>
+            <th>2. Diseño jurisdiccional único por carrera</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>            
+        <tr>
+            <th>3. Denominación del título</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>
+        <tr>
+            <th>4. Carga horaria mínima establecida por el CFE que en ningún caso será inferior a 2600 horas reloj</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>
+        <tr>
+            <th>5. Organización de los estudios en la cantidad de años académicos establecidos por el CFE que en ningún caso será inferior a 4 años</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>
+        <tr>
+            <th>6. Organización en torno a los tres campos del conocimiento presentes en cada uno de los años; FG, FE y FPP. Los tres campos deben ser de desarrollo simultáneo durante toda la carrera.</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>
+        <tr>
+            <th>7. Presencia de la residencia pedagógica en el último año académico.</th>
+            <td class="cumplido"><span>CUMPLIDO</span></td>
+        </tr>
+        <tr>
+            <th>8. Acreditación de las condiciones institucionales establecidas según RES.CFE N° 140/11</th>
+            <td class="cumplido"><span>CUMPLIDO<span></td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Observaciones:</h2>
+<textarea rows="10" id="observaciones"></textarea>
+
+<ul class="actions">
+  <li>
+    <input type="button" onclick="window.print()" value="Imprimir" class="noPrint"/>
+  </li>
+</ul>
+<hr />
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('td.inscripto-registro').click(function(){
+    sp = $(this).children();
+    if(sp.text() == 'Sí'){
+        sp.text('No');
+    } else {
+        sp.text('Sí');
+    }
+  });
+  
+  $('td.cumplido').click(function(){
+    sp = $(this).children();
+    if(sp.text() == 'CUMPLIDO'){
+        sp.text('A CUMPLIR');
+    } else {
+        sp.text('CUMPLIDO');
+    }
+  });
+
+});
+</script>
+
+{% endblock %}

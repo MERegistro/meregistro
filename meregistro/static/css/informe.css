@@ -1,0 +1,56 @@
+/*
+ *
+ * Archivo CSS principal del sistema
+ *
+ * @author: luciano.baraglia[at]gmail.com
+ *
+*/
+/*
+*=COMMON
+*/
+body {
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+}
+ul {
+	list-style: none;
+	padding: 0;
+}
+hr {
+	clear: both;
+	visibility: hidden;
+}
+table {
+	border-collapse: collapse;
+}
+table,
+table th,
+table td {
+	border: 1px solid;
+}
+table th,
+table td {
+	padding: 5px;
+}
+/**
+ *=informe-solicitud
+ */
+body.informe-solicitud div.data li {
+	margin-top: 10px;
+}
+body.informe-solicitud td.inscripto-registro {
+	text-align: center;
+	cursor: pointer;
+}
+body.informe-solicitud table#tabla-informe th {
+	text-align: left;
+	width: 90%;
+}
+body.informe-solicitud table#tabla-informe td.cumplido {
+	text-align: center;
+	cursor: pointer;
+}
+body.informe-solicitud textarea#observaciones {
+	width: 90%;
+	padding: 10px;
+}
