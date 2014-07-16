@@ -172,3 +172,36 @@ class Cohorte(models.Model):
         except CohorteExtensionAulica.DoesNotExist:
             return False
         return cohorte_ea.rechazada()
+
+
+    def tiene_seguimiento_establecimiento(self, establecimiento):
+        from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
+        from apps.titulos.models.CohorteEstablecimientoSeguimiento import CohorteEstablecimientoSeguimiento
+        try:
+            ce = CohorteEstablecimiento.objects.get(cohorte=self, establecimiento=establecimiento)
+        except CohorteEstablecimiento.DoesNotExist:
+            return False
+        return CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__id = ce.id).count() > 0
+        
+
+
+    def tiene_seguimiento_anexo(self, anexo):
+        from apps.titulos.models.CohorteAnexo import CohorteAnexo
+        from apps.titulos.models.CohorteAnexoSeguimiento import CohorteAnexoSeguimiento
+        try:
+            ca = CohorteAnexo.objects.get(cohorte=self, anexo=anexo)
+        except CohorteAnexo.DoesNotExist:
+            return False
+        return CohorteAnexoSeguimiento.objects.filter(cohorte_anexo__id = ca.id).count() > 0
+        
+
+
+    def tiene_seguimiento_extension_aulica(self, extension_aulica):
+        from apps.titulos.models.CohorteExtensionAulica import CohorteExtensionAulica
+        from apps.titulos.models.CohorteExtensionAulicaSeguimiento import CohorteExtensionAulicaSeguimiento
+        try:
+            cea = CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica=extension_aulica)
+        except CohorteExtensionAulica.DoesNotExist:
+            return False
+        return CohorteExtensionAulicaSeguimiento.objects.filter(cohorte_extension_aulica__id = cea.id).count() > 0
+        

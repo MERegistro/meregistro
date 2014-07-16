@@ -1104,6 +1104,13 @@ body.cohorte-asignar-extensiones-aulicas table.hor-zebra tr.cohorte-rechazada td
 	font-weight: bold;
     color: #f00;
 }
+body.cohorte-asignar-establecimientos table.hor-zebra tr.posee-seguimiento td,
+body.cohorte-asignar-anexos table.hor-zebra tr.posee-seguimiento td,
+body.cohorte-asignar-extensiones-aulicas table.hor-zebra tr.posee-seguimiento td {
+	font-weight: bold;
+    font-style: italic;
+    color: #aaa;
+}
 body.cohorte-asignar-establecimientos div#datosCohorte {
 	margin-top: 30px;
 }

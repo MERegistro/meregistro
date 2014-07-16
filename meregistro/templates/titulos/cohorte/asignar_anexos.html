@@ -13,35 +13,35 @@
 {% endif %}
 
 <div class="form-filter" id="cohorteAsignarAnexosFormFilter">
-	<form id="form-filter" action="" method="get">
-		<h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
-		<div class="form-select">
-			{{ form_filters.dependencia_funcional.errors }}
-			<label for="id_dependencia_funcional">Dependencia funcional:</label>
-			{{ form_filters.dependencia_funcional }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.cue.errors }}
-			<label for="id_cue">CUE:</label>
-			{{ form_filters.cue }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre del Anexo:</label>
-			{{ form_filters.nombre }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.tipo_gestion.errors }}
-			<label for="id_tipo_gestion">Tipo de Gestión:</label>
-			{{ form_filters.tipo_gestion }}
-		</div>
-		<input type="hidden" name="page" value="" />
-		<div class="form-submit">
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-anexos';" />
-		</div>
-	</form>
+    <form id="form-filter" action="" method="get">
+        <h3>Búsqueda avanzada</h3>
+        {{ form_filters.non_field_errors }}
+        <div class="form-select">
+            {{ form_filters.dependencia_funcional.errors }}
+            <label for="id_dependencia_funcional">Dependencia funcional:</label>
+            {{ form_filters.dependencia_funcional }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.cue.errors }}
+            <label for="id_cue">CUE:</label>
+            {{ form_filters.cue }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.nombre.errors }}
+            <label for="id_nombre">Nombre del Anexo:</label>
+            {{ form_filters.nombre }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.tipo_gestion.errors }}
+            <label for="id_tipo_gestion">Tipo de Gestión:</label>
+            {{ form_filters.tipo_gestion }}
+        </div>
+        <input type="hidden" name="page" value="" />
+        <div class="form-submit">
+            <input type="submit" value="Buscar" />
+            <input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-anexos';" />
+        </div>
+    </form>
 </div>
 
 {% include "titulos/cohorte/datos_cohorte.html" %}
@@ -51,34 +51,45 @@
 <hr />
 <form action="" method="post">{% csrf_token %}
     <table class="hor-zebra">
-		<thead>
-			<tr>
-				<th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /> <label for="check_all_anexos">Todas</label></th>
-				<th id="thEstablecimientoCue">CUE</th>
-				<th>Anexo</th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for anexo in objects %}
-            {% if cohorte|args:anexo|call:'rechazada_por_anexo' %}
-			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} cohorte-rechazada">
-				<td><input type="checkbox" name="anexos" value="{{ anexo.id }}" /></td>
-				<td>{{ anexo.cue }}</td>
-				<td>{{ anexo.nombre }} (RECHAZADA)</td>
-			</tr>
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="check_all_anexos" id="check_all_anexos" /> <label for="check_all_anexos">Todas</label></th>
+                <th id="thEstablecimientoCue">CUE</th>
+                <th>Anexo</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for anexo in objects %}
+            {% if cohorte|args:anexo|call:'tiene_seguimiento_anexo' %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} posee-seguimiento">
+                <td>
+                    <input type="checkbox" name="anexo_{{ anexo.id }}" checked="checked" disabled="disabled" />
+                    <input type="hidden" name="anexos" value="{{ anexo.id }}" readonly="readonly" />
+                </td>
+                <td>{{ anexo.cue }}</td>
+                <td>{{ anexo.nombre }} (POSEE SEGUIMIENTO)</td>
+            </tr>            
             {% else %}
-			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-				<td><input type="checkbox" name="anexos" value="{{ anexo.id }}"{% if anexo.id in current_anexos_ids %} checked="checked"{% endif%} /></td>
-				<td>{{ anexo.cue }}</td>
-				<td>{{ anexo.nombre }}</td>
-			</tr>
+                {% if cohorte|args:anexo|call:'rechazada_por_anexo' %}
+                <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} cohorte-rechazada">
+                    <td><input type="checkbox" name="anexos" value="{{ anexo.id }}" /></td>
+                    <td>{{ anexo.cue }}</td>
+                    <td>{{ anexo.nombre }} (RECHAZADA)</td>
+                </tr>
+                {% else %}
+                <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                    <td><input type="checkbox" name="anexos" value="{{ anexo.id }}"{% if anexo.id in current_anexos_ids %} checked="checked"{% endif%} /></td>
+                    <td>{{ anexo.cue }}</td>
+                    <td>{{ anexo.nombre }}</td>
+                </tr>
+                {% endif %}
             {% endif %}
-		{% endfor %}
-		</tbody>
+        {% endfor %}
+        </tbody>
     </table>
     {% include "paginator.html" %}
     <div class="form-submit" style="margin-top: 20px;">
-		<input type="submit" value="Asignar Anexo Seleccionados" />
+        <input type="submit" value="Asignar Anexo Seleccionados" />
     </div>
 </form>
 <script type="text/javascript">
@@ -106,12 +117,12 @@ $('#check_all_anexos').click(function(){
 <hr />
 <script type="text/javascript">
 $(document).ready(function(){
-	// Enviar el número de página al form de búsqueda
-	$('div.paginator input').click(function(){
-		$('#form-filter input[name=page]').val($(this).val());
-		$('#form-filter').submit();
-		return false;
-	});
+    // Enviar el número de página al form de búsqueda
+    $('div.paginator input').click(function(){
+        $('#form-filter input[name=page]').val($(this).val());
+        $('#form-filter').submit();
+        return false;
+    });
 });
 </script>
 {% endblock %}

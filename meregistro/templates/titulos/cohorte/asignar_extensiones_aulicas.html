@@ -13,35 +13,35 @@
 {% endif %}
 
 <div class="form-filter" id="cohorteAsignarExtensionesAulicasFormFilter">
-	<form action="" method="get">
-		<h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
-		<div class="form-select">
-			{{ form_filters.dependencia_funcional.errors }}
-			<label for="id_dependencia_funcional">Dependencia funcional:</label>
-			{{ form_filters.dependencia_funcional }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.cue.errors }}
-			<label for="id_cue">CUE:</label>
-			{{ form_filters.cue }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre de la Extensión Áulica:</label>
-			{{ form_filters.nombre }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.tipo_gestion.errors }}
-			<label for="id_tipo_gestion">Tipo de Gestión:</label>
-			{{ form_filters.tipo_gestion }}
-		</div>
-		<div class="form-submit">
-		<input type="hidden" name="page" value="" />
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-extensiones-aulicas';" />
-		</div>
-	</form>
+    <form action="" method="get">
+        <h3>Búsqueda avanzada</h3>
+        {{ form_filters.non_field_errors }}
+        <div class="form-select">
+            {{ form_filters.dependencia_funcional.errors }}
+            <label for="id_dependencia_funcional">Dependencia funcional:</label>
+            {{ form_filters.dependencia_funcional }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.cue.errors }}
+            <label for="id_cue">CUE:</label>
+            {{ form_filters.cue }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.nombre.errors }}
+            <label for="id_nombre">Nombre de la Extensión Áulica:</label>
+            {{ form_filters.nombre }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.tipo_gestion.errors }}
+            <label for="id_tipo_gestion">Tipo de Gestión:</label>
+            {{ form_filters.tipo_gestion }}
+        </div>
+        <div class="form-submit">
+        <input type="hidden" name="page" value="" />
+            <input type="submit" value="Buscar" />
+            <input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte/{{ cohorte.id }}/asignar-extensiones-aulicas';" />
+        </div>
+    </form>
 </div>
 
 {% include "titulos/cohorte/datos_cohorte.html" %}
@@ -51,34 +51,45 @@
 <hr />
 <form action="" method="post">{% csrf_token %}
     <table class="hor-zebra">
-		<thead>
-			<tr>
-				<th><input type="checkbox" name="check_all_extensiones_aulicas" id="check_all_extensiones_aulicas" /> <label for="check_all_extensiones_aulicas">Todas</label></th>
-				<th id="thEstablecimientoCue">CUE</th>
-				<th>Extensión Áulica</th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for extension_aulica in objects %}
-            {% if cohorte|args:extension_aulica|call:'rechazada_por_extension_aulica' %}
-			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} cohorte-rechazada">
-				<td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}" /></td>
-				<td>{{ extension_aulica.cue }}</td>
-				<td>{{ extension_aulica.nombre }} (RECHAZADA)</td>
-			</tr>
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="check_all_extensiones_aulicas" id="check_all_extensiones_aulicas" /> <label for="check_all_extensiones_aulicas">Todas</label></th>
+                <th id="thEstablecimientoCue">CUE</th>
+                <th>Extensión Áulica</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for extension_aulica in objects %}
+            {% if cohorte|args:extension_aulica|call:'tiene_seguimiento_extension_aulica' %}
+            <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} posee-seguimiento">
+                <td>
+                    <input type="checkbox" name="extension_aulica_{{ extension_aulica.id }}" checked="checked" disabled="disabled" />
+                    <input type="hidden" name="extensiones_aulicas" value="{{ extension_aulica.id }}" readonly="readonly" />    
+                </td>
+                <td>{{ extension_aulica.cue }}</td>
+                <td>{{ extension_aulica.nombre }} (POSEE SEGUIMIENTO)</td>
+            </tr>            
             {% else %}
-			<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-				<td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_ids %} checked="checked"{% endif%} /></td>
-				<td>{{ extension_aulica.cue }}</td>
-				<td>{{ extension_aulica.nombre }}</td>
-			</tr>
+                {% if cohorte|args:extension_aulica|call:'rechazada_por_extension_aulica' %}
+                <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} cohorte-rechazada">
+                    <td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}" /></td>
+                    <td>{{ extension_aulica.cue }}</td>
+                    <td>{{ extension_aulica.nombre }} (RECHAZADA)</td>
+                </tr>
+                {% else %}
+                <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                    <td><input type="checkbox" name="extensiones_aulicas" value="{{ extension_aulica.id }}"{% if extension_aulica.id in current_extensiones_aulicas_ids %} checked="checked"{% endif%} /></td>
+                    <td>{{ extension_aulica.cue }}</td>
+                    <td>{{ extension_aulica.nombre }}</td>
+                </tr>
+                {% endif %}
             {% endif %}
-		{% endfor %}
-		</tbody>
+        {% endfor %}
+        </tbody>
     </table>
 {% include "paginator.html" %}
     <div class="form-submit" style="margin-top: 20px;">
-		<input type="submit" value="Asignar Extensiones Áulicas Seleccionadas" />
+        <input type="submit" value="Asignar Extensiones Áulicas Seleccionadas" />
     </div>
 </form>
 <script type="text/javascript">
@@ -95,7 +106,7 @@ $('#check_all_extensiones_aulicas').click(function(){
 
 {% else %}
 <div class="message notice">
-	<p>No se encontraron extensiones áulicas.</p>
+    <p>No se encontraron extensiones áulicas.</p>
 </div>
 {% endif %}
 <ul class="actions">
@@ -106,12 +117,12 @@ $('#check_all_extensiones_aulicas').click(function(){
 <hr />
 <script type="text/javascript">
 $(document).ready(function(){
-	// Enviar el número de página al form de búsqueda
-	$('div.paginator input').click(function(){
-		$('#form-filter input[name=page]').val($(this).val());
-		$('#form-filter').submit();
-		return false;
-	});
+    // Enviar el número de página al form de búsqueda
+    $('div.paginator input').click(function(){
+        $('#form-filter input[name=page]').val($(this).val());
+        $('#form-filter').submit();
+        return false;
+    });
 });
 </script>
 {% endblock %}
