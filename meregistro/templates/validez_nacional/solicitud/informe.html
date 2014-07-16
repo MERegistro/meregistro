@@ -41,7 +41,7 @@
             <td>{{ sol_est.establecimiento.nombre }}</td>
             <td>{{ sol_est.establecimiento.get_domicilio_institucional.localidad }}</td>
             <td>{{ sol_est.establecimiento.cue }}</td>
-            <td></td>
+            <td>{{ solicitud.primera_cohorte }} - {{ solicitud.ultima_cohorte }}</td>
             <td class="inscripto-registro"><span>Sí</span></td>
         </tr>
     {% endfor %}
@@ -50,7 +50,7 @@
             <td>{{ sol_anexo.anexo.nombre }}</td>
             <td>{{ sol_anexo.anexo.get_domicilio_institucional.localidad }}</td>
             <td>{{ sol_anexo.anexo.cue }}</td>
-            <td>---</td>
+            <td>{{ solicitud.primera_cohorte }} - {{ solicitud.ultima_cohorte }}</td>
             <td class="inscripto-registro"><span>Sí</span></td>
         </tr>
     {% endfor %}
@@ -61,7 +61,7 @@
 {% endif %}
 
 <h2>INFORME:</h2>
-<p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° (6) 1111/11 EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
+<p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.nro_expediente|default:"---" }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
 <table id="tabla-informe">
     <tbody>
         <tr>
@@ -102,7 +102,7 @@
 <h2>Observaciones:</h2>
 <textarea rows="10" id="observaciones"></textarea>
 
-<ul class="actions">
+<ul class="actions noPrint">
   <li>
     <input type="button" onclick="window.print()" value="Imprimir" class="noPrint"/>
   </li>
@@ -122,11 +122,18 @@ $(document).ready(function(){
   
   $('td.cumplido').click(function(){
     sp = $(this).children();
-    if(sp.text() == 'CUMPLIDO'){
-        sp.text('A CUMPLIR');
-    } else {
-        sp.text('CUMPLIDO');
+    switch(sp.text()){
+        case 'CUMPLIDO':
+            t = 'A CUMPLIR';
+            break;
+        case 'A CUMPLIR':
+            t = 'NO CUMPLIDO';
+            break;
+        default:
+            t = 'CUMPLIDO';
+            break;
     }
+    sp.text(t);
   });
 
 });

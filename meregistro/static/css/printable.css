@@ -14,3 +14,8 @@ input#print-button {
 div#footer {
 	height: 20px;
 }
+@media print {
+	.noPrint {
+		display:none;
+	}
+}

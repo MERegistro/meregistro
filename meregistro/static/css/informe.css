@@ -54,3 +54,8 @@ body.informe-solicitud textarea#observaciones {
 	width: 90%;
 	padding: 10px;
 }
+@media print {
+	body.informe-solicitud textarea#observaciones {
+		border: none;
+	}
+}
