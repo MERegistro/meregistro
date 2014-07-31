@@ -51,3 +51,7 @@ class Perfil(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.rol) + ' (' + unicode(self.ambito) + ')'
+
+
+	def es_admin_nacional(self):
+		return self.rol.nombre == Rol.ROL_ADMIN_NACIONAL

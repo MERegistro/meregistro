@@ -21,6 +21,8 @@ from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.registro.forms.EstablecimientoCambiarEstadoForm import EstablecimientoCambiarEstadoForm
 from apps.registro.forms.EstablecimientoDatosBasicosForm import EstablecimientoDatosBasicosForm
+from apps.registro.forms.EstablecimientoCreateForm import EstablecimientoCreateForm
+from apps.registro.forms.EstablecimientoModificarCueForm import EstablecimientoModificarCueForm
 from apps.registro.forms.EstablecimientoContactoForm import EstablecimientoContactoForm
 from apps.registro.forms.EstablecimientoAlcancesForm import EstablecimientoAlcancesForm
 from apps.registro.forms.EstablecimientoTurnoForm import EstablecimientoTurnoForm
@@ -148,7 +150,7 @@ def create(request):
     Alta de establecimiento.
     """
     if request.method == 'POST':
-        form = EstablecimientoDatosBasicosForm(request.POST)
+        form = EstablecimientoCreateForm(request.POST)
         if form.is_valid():
             establecimiento = form.save()
             estado = EstadoEstablecimiento.objects.get(nombre=EstadoEstablecimiento.PENDIENTE)
@@ -160,7 +162,7 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = EstablecimientoDatosBasicosForm()
+        form = EstablecimientoCreateForm()
     if request.get_perfil().jurisdiccion() is not None:
         form.initial = {'codigo_jurisdiccion': request.get_perfil().jurisdiccion().prefijo, 'codigo_tipo_unidad_educativa': Establecimiento.CODIGO_TIPO_UNIDAD_EDUCATIVA, }
         form.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=request.get_perfil().jurisdiccion())
@@ -249,7 +251,7 @@ def completar_datos_basicos(request, establecimiento_id):
     Edición de los datos básicos de un establecimiento.
     """
     establecimiento = __get_establecimiento(request, establecimiento_id)      
-        
+    
     if request.method == 'POST' and request.has_credencial('reg_establecimiento_completar'):
         form = EstablecimientoDatosBasicosForm(request.POST, instance=establecimiento)
         if form.is_valid():
@@ -479,6 +481,43 @@ def completar_conexion_internet(request, establecimiento_id):
         'establecimiento': establecimiento,
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+    })
+
+
+@login_required
+@credential_required('registro_modificar_cue')
+def modificar_cue(request, establecimiento_id):
+    """
+    CU 26
+    """
+    establecimiento = __get_establecimiento(request, establecimiento_id)
+
+    if request.method == 'POST':
+        form = EstablecimientoModificarCueForm(request.POST, instance=establecimiento)
+        if form.is_valid():
+            establecimiento = form.save()
+           
+            MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = EstablecimientoModificarCueForm(instance=establecimiento)
+		
+
+    parts = establecimiento.get_cue_parts()
+    form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
+    form.initial['cue'] = parts['cue']
+    form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
+
+    return my_render(request, 'registro/establecimiento/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/establecimiento/form_modificar_cue.html',
+        'establecimiento': establecimiento,
+        'page_title': 'Modificar CUE',
+        'actual_page': 'datos_basicos',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
         'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
     })

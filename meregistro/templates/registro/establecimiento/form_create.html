@@ -1,17 +1,19 @@
 <div class="form tabbed-form" id="establecimientoForm">
     <form action="" method="post">{% csrf_token %}
-    {% if establecimiento %}
-	<h4>CUE: {{ establecimiento.cue }}{% if 'registro_modificar_cue' in credenciales %} <a href="{% url apps.registro.views.establecimiento.modificar_cue establecimiento.id %}"><span>(Modificar)</span></a>{% endif %}</h4>
-	<h4>Fecha de Solicitud de Registro: {{ establecimiento.get_fecha_solicitud }}</h4>
-    {% else %}    
+    
 	<h4>Fecha de solicitud de registro: {% now "d/m/Y" %}</h4>
-    {% endif %}
+    
 	{{ form.non_field_errors }}
 	<div class="form-select">
 	    {{ form.dependencia_funcional.errors }}
 	    <label for="id_dependencia_funcional">Dependencia Funcional:</label>
 	    {{ form.dependencia_funcional }}
 	</div>
+    <div class="form-text">
+    {{ form.cue.errors }}
+    <label for="id_cue">CUE:</label>
+    {{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
+    </div>
 	<div class="form-text">
 	    {{ form.nombre.errors }}
 	    <label for="id_nombre">Nombre:</label>

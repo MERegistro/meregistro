@@ -1,0 +1,22 @@
+<div class="form tabbed-form" id="establecimientoForm">
+    <form action="" method="post">{% csrf_token %}
+    
+	{{ form.non_field_errors }}
+
+    <div class="form-text">
+    {{ form.cue.errors }}
+    <label for="id_cue">CUE:</label>
+    {{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
+    </div>
+    {% if 'reg_establecimiento_completar' in credenciales or 'reg_establecimiento_nueva' in credenciales %}
+	<div class="form-submit">
+	    {% if establecimiento %}
+	    <input type="submit" value="Actualizar" />
+	    {% else %}
+	    <input type="submit" value="Enviar Solicitud" />
+	    {% endif %}
+	</div>
+    {% endif %}
+    </form>
+
+</div>

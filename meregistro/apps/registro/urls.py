@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     # completar datos del establecimiento
     url(r'^establecimiento/completar_datos/', 'apps.registro.views.establecimiento.completar_datos', name='establecimientoCompletarDatos'),
     url(r'^establecimiento/([0-9]+)/completar_datos_basicos/', 'apps.registro.views.establecimiento.completar_datos_basicos', name='establecimientoCompletarDatosBasicos'),
+    url(r'^establecimiento/([0-9]+)/modificar_cue/', 'apps.registro.views.establecimiento.modificar_cue', name='establecimientoModificarCue'),
     url(r'^establecimiento/([0-9]+)/completar_contacto/', 'apps.registro.views.establecimiento.completar_contacto', name='establecimientoCompletarContacto'),
     url(r'^establecimiento/([0-9]+)/completar_alcances/', 'apps.registro.views.establecimiento.completar_alcances', name='establecimientoCompletarAlcances'),
     url(r'^establecimiento/([0-9]+)/completar_funciones/', 'apps.registro.views.establecimiento.completar_funciones', name='establecimientoCompletarFunciones'),
