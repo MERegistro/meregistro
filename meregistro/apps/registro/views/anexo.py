@@ -18,7 +18,7 @@ from apps.registro.models.AnexoInformacionEdilicia import AnexoInformacionEdilic
 from apps.registro.models.AnexoConexionInternet import AnexoConexionInternet
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
-from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnoForm, AnexoDomicilioForm
+from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnoForm, AnexoDomicilioForm, AnexoCreateForm
 from apps.registro.forms.AnexoContactoForm import AnexoContactoForm
 from apps.registro.forms.AnexoAlcancesForm import AnexoAlcancesForm
 from apps.registro.forms.AnexoFuncionesForm import AnexoFuncionesForm
@@ -152,7 +152,7 @@ def create(request):
     Alta de anexo.
     """
     if request.method == 'POST':
-        form = AnexoDatosBasicosForm(request.POST)
+        form = AnexoCreateForm(request.POST)
         if form.is_valid():
             anexo = form.save(commit=False)
             estado = EstadoAnexo.objects.get(nombre=EstadoAnexo.PENDIENTE)
@@ -169,7 +169,7 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = AnexoDatosBasicosForm()
+        form = AnexoCreateForm()
 
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path, estado__nombre=EstadoEstablecimiento.REGISTRADO)
     form.initial = {'codigo_jurisdiccion': '--', 'cue': '-----', }
@@ -251,26 +251,17 @@ def completar_datos_basicos(request, anexo_id):
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
+            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoDatosBasicosForm(instance=anexo)
 
-    parts = anexo.get_cue_parts()
-    form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
-    form.initial['cue'] = parts['cue']
-    form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
     form.initial['verificado'] = anexo.get_verificacion_datos().datos_basicos
-    # Critreria del combo de establecimiento
-    from django.db.models import Q
-    q1 = Q(ambito__path__istartswith=request.get_perfil().ambito.path) | Q(id=anexo.establecimiento_id)
-    q2 = Q(estado__nombre=EstadoEstablecimiento.REGISTRADO)
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(q1, q2)
         
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_datos_basicos.html',
         'anexo': anexo,
-        'codigo_tipo_unidad_educativa': parts['codigo_tipo_unidad_educativa'],
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
@@ -471,6 +462,40 @@ def completar_conexion_internet(request, anexo_id):
         'page_title': 'Conectividad',
         'actual_page': 'conexion_internet',
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+    })
+
+
+
+@login_required
+@credential_required('registro_modificar_cue')
+def modificar_cue(request, anexo_id):
+    anexo = __get_anexo(request, anexo_id)
+
+    if request.method == 'POST':
+        form = AnexoModificarCueForm(request.POST, instance=anexo)
+        if form.is_valid():
+            anexo = form.save()
+           
+            MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoModificarCueForm(instance=anexo)
+
+    parts = anexo.get_cue_parts()
+    form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
+    form.initial['cue'] = parts['cue']
+    form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_modificar_cue.html',
+        'anexo': anexo,
+        'page_title': 'Modificar CUE',
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
         'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
