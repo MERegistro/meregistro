@@ -18,7 +18,7 @@ from apps.registro.models.AnexoInformacionEdilicia import AnexoInformacionEdilic
 from apps.registro.models.AnexoConexionInternet import AnexoConexionInternet
 from apps.registro.models.TipoDominio import TipoDominio
 from apps.registro.models.TipoCompartido import TipoCompartido
-from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnoForm, AnexoDomicilioForm, AnexoCreateForm
+from apps.registro.forms import AnexoFormFilters, AnexoDomicilioForm, AnexoBajaForm, AnexoDatosBasicosForm, AnexoTurnoForm, AnexoDomicilioForm, AnexoCreateForm, AnexoModificarCueForm
 from apps.registro.forms.AnexoContactoForm import AnexoContactoForm
 from apps.registro.forms.AnexoAlcancesForm import AnexoAlcancesForm
 from apps.registro.forms.AnexoFuncionesForm import AnexoFuncionesForm
@@ -251,7 +251,6 @@ def completar_datos_basicos(request, anexo_id):
             #MailHelper.notify_by_email(MailHelper.ESTABLECIMIENTO_UPDATE, establecimiento)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
-            raise Exception(form.errors)
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
         form = AnexoDatosBasicosForm(instance=anexo)
@@ -471,7 +470,6 @@ def completar_conexion_internet(request, anexo_id):
 @credential_required('registro_modificar_cue')
 def modificar_cue(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
-
     if request.method == 'POST':
         form = AnexoModificarCueForm(request.POST, instance=anexo)
         if form.is_valid():
@@ -495,7 +493,7 @@ def modificar_cue(request, anexo_id):
         'anexo': anexo,
         'page_title': 'Modificar CUE',
         'actual_page': 'datos_basicos',
-        'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
         'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 

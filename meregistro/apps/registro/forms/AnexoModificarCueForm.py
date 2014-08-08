@@ -10,11 +10,11 @@ class AnexoModificarCueForm(AnexoCreateForm):
 
     class Meta:
         model = Anexo
-        fields = ['cue']
+        fields = ['codigo_tipo_unidad_educativa', 'cue', 'codigo_jurisdiccion']
 
 
     def __init__(self, *args, **kwargs):
-        super(AnexoCreateForm, self).__init__(*args, **kwargs)
+        super(AnexoModificarCueForm, self).__init__(*args, **kwargs)
 
     def clean(self):
         # Armar el CUE correctamente
@@ -26,4 +26,6 @@ class AnexoModificarCueForm(AnexoCreateForm):
             cleaned_data['cue'] = str(codigo_jurisdiccion) + str(cue) + str(codigo_tipo_unidad_educativa)
         except KeyError:
             pass
+            
         return cleaned_data
+

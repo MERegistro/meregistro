@@ -1,0 +1,18 @@
+<div class="form tabbed-form" id="anexoForm">
+    <form action="" method="post">{% csrf_token %}
+    <h4>Depende de la Sede del: {{ anexo.establecimiento }}</h4>
+	{{ form.non_field_errors }}
+    <div class="form-text">
+    {{ form.cue.errors }}
+    <label for="id_cue">CUE:</label>
+    {{ form.codigo_jurisdiccion }}{{ form.cue }}{{ form.codigo_tipo_unidad_educativa }}
+    {{ form.codigo_tipo_unidad_educativa.errors }}
+    </div>
+    {% if 'reg_anexo_completar' in credenciales or 'reg_anexo_alta' in credenciales %}
+	<div class="form-submit">
+	    <input type="submit" value="Actualizar" />
+	</div>
+    {% endif %}
+    </form>
+
+</div>
