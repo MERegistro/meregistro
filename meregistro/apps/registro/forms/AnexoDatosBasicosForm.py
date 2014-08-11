@@ -15,7 +15,7 @@ class AnexoDatosBasicosForm(AnexoCreateForm):
     
     class Meta:
         model = Anexo
-        exclude = ('establecimiento', 'estado', 'funciones', 'alcances', 'turnos', 'sitio_web', 'telefono', 'email',)
+        exclude = ('establecimiento', 'estado', 'funciones', 'alcances', 'turnos', 'sitio_web', 'telefono', 'email')
 
 
     def __init__(self, *args, **kwargs):
@@ -35,4 +35,10 @@ class AnexoDatosBasicosForm(AnexoCreateForm):
 
 
     def clean_subsidio(self):
-        return self.instance.subsidio
+        from apps.registro.models import TipoSubsidio, TipoGestion
+        subsidio = self.cleaned_data['subsidio']
+        establecimiento = self.instance.establecimiento
+        tipo_gestion = establecimiento.dependencia_funcional.tipo_gestion.nombre
+        if tipo_gestion == TipoGestion.ESTATAL and subsidio.descripcion != TipoSubsidio.SIN_SUBSIDIO:
+            raise ValidationError('El Anexo no puede poseer subsidio ya que depende de una sede estatal')
+        return subsidio
