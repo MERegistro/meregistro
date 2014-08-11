@@ -17,12 +17,12 @@ class AnexoDatosBasicosForm(AnexoCreateForm):
         model = Anexo
         exclude = ('establecimiento', 'estado', 'funciones', 'alcances', 'turnos', 'sitio_web', 'telefono', 'email')
 
-
     def __init__(self, *args, **kwargs):
         super(AnexoDatosBasicosForm, self).__init__(*args, **kwargs)
         self.fields['codigo_jurisdiccion'].required = False
         self.fields['cue'].required = False
         self.fields['codigo_tipo_unidad_educativa'].required = False
+
 
     def clean_codigo_tipo_unidad_educativa(self):
         return self.instance.get_cue_parts()['codigo_tipo_unidad_educativa']

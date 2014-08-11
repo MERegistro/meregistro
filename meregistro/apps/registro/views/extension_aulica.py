@@ -16,7 +16,7 @@ from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicil
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
 from apps.registro.models.ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
 from apps.registro.models.ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
-from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaDatosBasicosForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaDatosBasicosForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm, ExtensionAulicaCreateForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -142,7 +142,7 @@ def create(request):
     Alta de extensión áulica.
     """
     if request.method == 'POST':
-        form = ExtensionAulicaDatosBasicosForm(request.POST)
+        form = ExtensionAulicaCreateForm(request.POST)
         if form.is_valid():
             ext = form.save(commit=False)
             estado = EstadoExtensionAulica.objects.get(nombre=EstadoExtensionAulica.PENDIENTE)
@@ -159,7 +159,7 @@ def create(request):
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
-        form = ExtensionAulicaDatosBasicosForm()
+        form = ExtensionAulicaCreateForm()
         
     jurisdiccion = request.get_perfil().jurisdiccion()
     form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
@@ -258,19 +258,12 @@ def completar_datos_basicos(request, extension_aulica_id):
     else:
         form = ExtensionAulicaDatosBasicosForm(instance=ext)
 
-    jurisdiccion = request.get_perfil().jurisdiccion()
-    form.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    try:
-        codigo = Establecimiento.get_parts_from_cue(ext.cue)['codigo_tipo_unidad_educativa']
-    except TypeError:
-        codigo = ''
     form.initial['verificado'] = ext.get_verificacion_datos().datos_basicos
     
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_datos_basicos.html',
         'extension_aulica': ext,
-        'codigo_tipo_unidad_educativa': codigo,
         'page_title': 'Datos básicos',
         'actual_page': 'datos_basicos',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
@@ -465,6 +458,38 @@ def completar_conexion_internet(request, extension_aulica_id):
         'actual_page': 'conexion_internet',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+    })
+
+
+@login_required
+@credential_required('registro_modificar_cue')
+def modificar_cue(request, extension_aulica_id):
+    extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    if request.method == 'POST':
+        form = AnexoModificarCueForm(request.POST, instance=anexo)
+        if form.is_valid():
+            anexo = form.save()
+           
+            MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+    else:
+        form = AnexoModificarCueForm(instance=anexo)
+
+    parts = anexo.get_cue_parts()
+    form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
+    form.initial['cue'] = parts['cue']
+    form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
+
+    return my_render(request, 'registro/anexo/completar_datos.html', {
+        'form': form,
+        'form_template': 'registro/anexo/form_modificar_cue.html',
+        'anexo': anexo,
+        'page_title': 'Modificar CUE',
+        'actual_page': 'datos_basicos',
+        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
     })
 
 

@@ -81,26 +81,6 @@ function switch_subsidio(tipo_gestion){
 }
 // Init
 $(document).ready(function(){
-    // CUE
-    codigo_jurisdiccion_input = $('input#id_codigo_jurisdiccion');
-    cue_input = $('input#id_cue');
-    codigo_input = $('input#id_codigo_tipo_unidad_educativa');
-    dropdown_sede = $('select#id_establecimiento');
-{% if anexo %}
-    var url = "/registro/ajax/get_cue_parts_from_sede/" + dropdown_sede.val();
-    $.getJSON(url, function(parts){
-        codigo_jurisdiccion_input.val(parts['codigo_jurisdiccion']);
-        cue_input.val(parts['cue']);
-        codigo_input.val('{{ codigo_tipo_unidad_educativa }}');
-    });
-{% endif %}
-    dropdown_sede.change(function(){
-        var url = "/registro/ajax/get_cue_parts_from_sede/" + $(this).val();
-        $.getJSON(url, function(parts){
-            codigo_jurisdiccion_input.val(parts['codigo_jurisdiccion']);
-            cue_input.val(parts['cue']);
-        });
-    });
     // Norma de creación
     dropdown_tipo_norma = $('select#id_tipo_norma');
     tipo_norma_val = $('select#id_tipo_norma option:selected').text();
@@ -127,13 +107,6 @@ $(document).ready(function(){
     
     // Subsidio
     dropdown_subsidio = $('select#id_subsidio');
-    dropdown_sede.change(function(){
-        var val = $(this).val() == '' ? 0 : $(this).val();
-        var url = "/registro/ajax/get_tipo_gestion_de_establecimiento/" + val;
-            $.getJSON(url, function(val){
-                switch_subsidio(val);
-            });
-    });
     //dropdown_sede.change();
      
 }); // END document.ready

@@ -100,6 +100,7 @@ urlpatterns = patterns('',
     # extensiones aulicas
     url(r'^extension_aulica$', 'apps.registro.views.extension_aulica.index', name='extensionAulica'),
     url(r'^extension_aulica/create', 'apps.registro.views.extension_aulica.create', name='extensionAulicaCreate'),
+    url(r'^extension_aulica/([0-9]+)/modificar_cue/', 'apps.registro.views.extension_aulica.modificar_cue', name='extensionAulicaModificarCue'),
     url(r'^extension_aulica/([0-9]+)/baja', 'apps.registro.views.extension_aulica.baja', name='extensionAulicaBaja'),
     url(r'^extension_aulica/([0-9]+)/delete', 'apps.registro.views.extension_aulica.delete', name='extensionAulicaDelete'),
     url(r'^extension_aulica/([0-9]+)/completar_datos_basicos/', 'apps.registro.views.extension_aulica.completar_datos_basicos', name='extensionAulicaCompletarDatosBasicos'),

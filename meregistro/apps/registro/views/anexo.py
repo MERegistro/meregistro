@@ -465,7 +465,6 @@ def completar_conexion_internet(request, anexo_id):
     })
 
 
-
 @login_required
 @credential_required('registro_modificar_cue')
 def modificar_cue(request, anexo_id):
