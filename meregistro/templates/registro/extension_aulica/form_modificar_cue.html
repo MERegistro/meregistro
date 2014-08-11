@@ -1,6 +1,6 @@
 <div class="form tabbed-form" id="anexoForm">
     <form action="" method="post">{% csrf_token %}
-    <h4>Depende de la Sede del: {{ anexo.establecimiento }}</h4>
+    <h4>Depende de la Sede del: {{ extension_aulica.establecimiento }}</h4>
 	{{ form.non_field_errors }}
     <div class="form-text">
     {{ form.cue.errors }}

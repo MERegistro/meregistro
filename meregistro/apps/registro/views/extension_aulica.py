@@ -16,7 +16,7 @@ from apps.registro.models.ExtensionAulicaDomicilio import ExtensionAulicaDomicil
 from apps.registro.models.ExtensionAulicaBaja import ExtensionAulicaBaja
 from apps.registro.models.ExtensionAulicaInformacionEdilicia import ExtensionAulicaInformacionEdilicia
 from apps.registro.models.ExtensionAulicaConexionInternet import ExtensionAulicaConexionInternet
-from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaDatosBasicosForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm, ExtensionAulicaCreateForm
+from apps.registro.forms import ExtensionAulicaFormFilters, ExtensionAulicaDatosBasicosForm, ExtensionAulicaDomicilioForm, ExtensionAulicaBajaForm, ExtensionAulicaContactoForm, ExtensionAulicaAlcancesForm, ExtensionAulicaFuncionesForm, ExtensionAulicaInformacionEdiliciaForm, ExtensionAulicaConexionInternetForm, ExtensionAulicaCambiarEstadoForm, ExtensionAulicaCreateForm, ExtensionAulicaModificarCueForm
 from helpers.MailHelper import MailHelper
 from django.core.paginator import Paginator
 import datetime
@@ -466,30 +466,30 @@ def completar_conexion_internet(request, extension_aulica_id):
 def modificar_cue(request, extension_aulica_id):
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
     if request.method == 'POST':
-        form = AnexoModificarCueForm(request.POST, instance=anexo)
+        form = ExtensionAulicaModificarCueForm(request.POST, instance=extension_aulica)
         if form.is_valid():
-            anexo = form.save()
+            extension_aulica = form.save()
            
-            MailHelper.notify_by_email(MailHelper.ANEXO_UPDATE, anexo)
+            MailHelper.notify_by_email(MailHelper.EXTENSION_AULICA_UPDATE, extension_aulica)
             request.set_flash('success', 'Datos actualizados correctamente.')
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
-        form = AnexoModificarCueForm(instance=anexo)
+        form = ExtensionAulicaModificarCueForm(instance=extension_aulica)
 
-    parts = anexo.get_cue_parts()
+    parts = extension_aulica.get_cue_parts()
     form.initial['codigo_jurisdiccion'] = parts['codigo_jurisdiccion']
     form.initial['cue'] = parts['cue']
     form.initial['codigo_tipo_unidad_educativa'] = parts['codigo_tipo_unidad_educativa']
 
-    return my_render(request, 'registro/anexo/completar_datos.html', {
+    return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
-        'form_template': 'registro/anexo/form_modificar_cue.html',
-        'anexo': anexo,
+        'form_template': 'registro/extension_aulica/form_modificar_cue.html',
+        'extension_aulica': extension_aulica,
         'page_title': 'Modificar CUE',
         'actual_page': 'datos_basicos',
-        'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
-        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+        'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
     })
 
 
