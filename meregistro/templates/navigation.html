@@ -128,7 +128,7 @@
 			</ul>
 		</li>
 		{% endif %}
-		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales or 'reportes_seguimiento_cohortes' in credenciales %}
+		{% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales or 'reportes_seguimiento_cohortes' in credenciales or 'reportes_matricula' in credenciales %}
 		<li><a href="#" class="inactive"><span>Reportes</span></a>
 			<ul>
 				{% if 'reportes_datos_basicos_sedes' in credenciales %}
@@ -142,6 +142,9 @@
 				{% endif %}
 				{% if 'reportes_seguimiento_cohortes' in credenciales %}
 				<li><a href="{% url apps.reportes.views.cohortes.seguimiento %}">Seguimiento de Cohortes</a></li>
+				{% endif %}
+				{% if 'reportes_matricula' in credenciales %}
+				<li><a href="{% url apps.reportes.views.matricula.index %}">Matrícula</a></li>
 				{% endif %}
 			</ul>
 		</li>
