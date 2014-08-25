@@ -1,10 +1,10 @@
-		<div id="header">
-			<h1><a href="/"><span>Ministerio de Educación</span></a></h1>
-			<h2><span>Instituto Nacional de Formación Docente</span></h2>
-			{% if user.is_authenticated %}
-				{% include "user_info.html" %}
-			{% endif %}
-		</div>	<!-- END header -->
+        <div id="header">
+            <h1><a href="/"><span>Ministerio de Educación</span></a></h1>
+            <h2><span>Instituto Nacional de Formación Docente</span></h2>
+            {% if user.is_authenticated %}
+                {% include "user_info.html" %}
+            {% endif %}
+        </div>    <!-- END header -->
   {% if settings.TESTING_MODE %}
   <div style="
     margin: 20px 20px 20px 20px;

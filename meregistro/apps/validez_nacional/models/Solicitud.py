@@ -34,8 +34,6 @@ class Solicitud(models.Model):
 
 	"Sobreescribo para eliminar los objetos relacionados"
 	def delete(self, *args, **kwargs):
-		for normativa in self.normativas_jurisdiccionales.all():
-			normativa.delete()
 		for est in self.estados.all():
 			est.delete()
 		super(Solicitud, self).delete(*args, **kwargs)
