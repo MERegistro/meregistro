@@ -19,7 +19,7 @@ ITEMS_PER_PAGE = 100000
 @credential_required('reportes_seguimiento_cohortes')
 def seguimiento(request):
     ambito = request.get_perfil().ambito
-    sql = Reporte.get_sql_file_content('417_seguimiento_cohortes.sql').replace('{{AMBITO_PATH}}', "'" + str(ambito.path) + "%%'")
+    sql = Reporte.get_sql_file_content('417_seguimiento_cohortes_b.sql').replace('{{AMBITO_PATH}}', "'" + str(ambito.path) + "%%'")
     
     cursor = connection.cursor()
     cursor.execute(sql)
