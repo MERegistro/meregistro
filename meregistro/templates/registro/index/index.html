@@ -7,22 +7,6 @@
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-{% if not user.is_authenticated %}
-<div id="intro">
-    <div id="resolucion">
-        <p>“Resulta indispensable reunir, sistematizar y validar la información relativa a instituciones de gestión estatal creadas y de gestión privada reconocidas, con ofertas, títulos y certificaciones en Formación Docente, en un único asiento; de manera que permita administrarla eficazmente para la toma de decisiones sobre políticas de Formación Docente, reconocer instituciones y estudios, otorgar validez nacional a los títulos y certificaciones, y dar publicidad a la oferta completa de Formación Docente de la República Argentina”.</p>
-        <cite>Resolución 16/07 del Consejo Federal de Educación</cite>
-    </div>
-    <p>Atento al cumplimiento del texto de la Resolución, se crea el <strong>Registro Federal de Instituciones y Ofertas de Formación Docente</strong>, el cual constituye una herramienta importante que permite suministrar información actualizada para contribuir a la toma de decisiones concernientes a la formación docente en todo el país. Su objetivo principal es mantener el registro de los Institutos Superiores de Formación Docente, y los datos consistentes y confiables concernientes a la homologación, validación y registro nacional de títulos y certificaciones.</p>
-    <p>La base de datos del Registro Federal es construida por las instituciones de formación docente de gestión estatal y privada de todo el país y corroborada por las autoridades educativas jurisdiccionales correspondientes; contribuye a consolidar un sistema de información integrado para la toma de decisiones, la planificación y el monitoreo permanente del sistema formador.</p>
-    <div id="intro-links">
-        <a id="link-oferta-2013" href="{% url apps.oferta_nacional.views.index 2014 %}" >Oferta Nacional 2014</a>
-        <a id="link-consulta-validez" href="{% url apps.consulta_validez.views.index %}">Certificación de Validez Nacional</a>		
-        <a id="link-login" href="{% url apps.seguridad.views.login %}">Acceso al Sistema REFFOD</a>		
-        <hr />		
-    </div>
-</div>
-{% else %}
 <p><strong>Bienvenido/a:</strong> {{ user.nombre }}</p>
     {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
         <div id="link-manual-institucional">
@@ -40,5 +24,4 @@
             </a>
         </div>
     {% endif %}
-{% endif %}
 {% endblock %}

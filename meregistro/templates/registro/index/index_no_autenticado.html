@@ -1,0 +1,28 @@
+{% extends extend_template %}
+
+{% load tags_filters %}
+{% block title %}Registro Federal de Instituciones y Ofertas de Formación Docente{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ STATIC_URL }}/v2/css/main.css" type="text/css" />
+{% endblock stylesheets %}
+{% block css_body_classes %}{% css_classes "v2" %}{% endblock %}
+{% block content %}
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+<div id="col-der">
+    <div id="header-v2">
+        <h1>INFD</h1>
+        <h2>Registro Federal de Instituciones y Ofertas de Formación Docente</h2>
+    </div>
+    <div id="intro-links">
+        <a id="link-oferta-2013" href="{% url apps.oferta_nacional.views.index 2014 %}" >Oferta Nacional 2014</a>
+        <a id="link-consulta-validez" href="{% url apps.consulta_validez.views.index %}">Certificación de Validez Nacional</a>
+        <a id="link-login" href="{% url apps.seguridad.views.login %}">Acceso al Sistema REFFOD</a>
+    </div>
+</div>
+<hr />
+<div id="footer-v2">
+
+</div>
+{% endblock %}
