@@ -35,7 +35,6 @@ def __flat_list(list_to_flat):
 @login_required
 @credential_required('validez_nacional_solicitud_consulta')
 def index(request):
-    
     if request.method == 'GET':
         form_filter = SolicitudFormFilters(request.GET)
     else:
@@ -47,9 +46,22 @@ def index(request):
             return reporte_solicitudes(request, q)
     except KeyError:
         pass
-        
-    if request.get_perfil().jurisdiccion():
+
+
+    ambito = request.get_perfil().ambito
+    perfil_jurisdiccional = ambito.tipo.nombre == Ambito.TIPO_JURISDICCION
+    perfil_establecimiento = ambito.tipo.nombre == Ambito.TIPO_ESTABLECIMIENTO
+    perfil_anexo = ambito.tipo.nombre == Ambito.TIPO_ANEXO
+
+    if perfil_jurisdiccional:
         q = q.filter(jurisdiccion__id=request.get_perfil().jurisdiccion().id)
+    elif perfil_establecimiento:
+        establecimiento = Establecimiento.objects.get(ambito__path=ambito.path)
+        q = q.filter(establecimientos__establecimiento__id=establecimiento.id)
+    elif perfil_anexo:
+        anexo = Anexo.objects.get(ambito__path=ambito.path)
+        q = q.filter(anexos__anexo__id=anexo.id)
+    
     paginator = Paginator(q, ITEMS_PER_PAGE)
     try:
         page_number = int(request.GET['page'])
@@ -74,6 +86,7 @@ def index(request):
         'next_page': page_number + 1,
         'prev_page': page_number - 1,
         'export_url': Reporte.build_export_url(request.build_absolute_uri()),
+        've_acciones': ambito.tipo.nombre not in [Ambito.TIPO_ESTABLECIMIENTO, Ambito.TIPO_ANEXO]
     })
 
 

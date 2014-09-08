@@ -90,7 +90,10 @@
       <th>Nro. Exp.</th>
       {% endif %}
       <th>Estado</th>
+      {% if ve_acciones %}
       <th class="actions" style="width: 110px;">Acciones</th>
+      {% endif %}
+      
     </tr>
   </thead>
   <tbody>
@@ -113,6 +116,7 @@
     <td>{{ obj.nro_expediente|default:"" }}</td>
     {% endif %}
     <td>{{ obj.estado }}</td>
+      {% if ve_acciones %}
         <td class="actions-td">
             <ul>
             {% if "validez_nacional_solicitud_editar" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
@@ -131,6 +135,7 @@
             {% endif %}
             </ul>            
         </td>
+    {% endif %}
       </tr>
     {% endfor %}
   </tbody>
