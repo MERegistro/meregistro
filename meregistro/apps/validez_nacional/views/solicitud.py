@@ -53,14 +53,17 @@ def index(request):
     perfil_establecimiento = ambito.tipo.nombre == Ambito.TIPO_ESTABLECIMIENTO
     perfil_anexo = ambito.tipo.nombre == Ambito.TIPO_ANEXO
 
-    if perfil_jurisdiccional:
-        q = q.filter(jurisdiccion__id=request.get_perfil().jurisdiccion().id)
-    elif perfil_establecimiento:
-        establecimiento = Establecimiento.objects.get(ambito__path=ambito.path)
-        q = q.filter(establecimientos__establecimiento__id=establecimiento.id)
-    elif perfil_anexo:
-        anexo = Anexo.objects.get(ambito__path=ambito.path)
-        q = q.filter(anexos__anexo__id=anexo.id)
+
+    if perfil_jurisdiccional or perfil_establecimiento or perfil_anexo:
+        form_filter.fields['jurisdiccion'].queryset = form_filter.fields['jurisdiccion'].queryset.filter(id=request.get_perfil().jurisdiccion().id)
+        if perfil_jurisdiccional:
+            q = q.filter(jurisdiccion__id=request.get_perfil().jurisdiccion().id)
+        elif perfil_establecimiento:
+            establecimiento = Establecimiento.objects.get(ambito__path=ambito.path)
+            q = q.filter(establecimientos__establecimiento__id=establecimiento.id)
+        elif perfil_anexo:
+            anexo = Anexo.objects.get(ambito__path=ambito.path)
+            q = q.filter(anexos__anexo__id=anexo.id)
     
     paginator = Paginator(q, ITEMS_PER_PAGE)
     try:
