@@ -22,9 +22,9 @@ fsmSolicitud = FSMSolicitud()
 
 def __puede_editarse_solicitud(request, solicitud):
     # Sólo se puede editar mientras está en estado Pendiente
-    # pero el AdminNacional puede hacerlo en estado Controlado también
+    # pero el AdminNacional puede hacerlo mientras no esté numerado
     return (solicitud.estado.nombre == EstadoSolicitud.PENDIENTE) or \
-        (solicitud.estado.nombre == EstadoSolicitud.CONTROLADO and request.get_perfil().rol.nombre == Rol.ROL_ADMIN_NACIONAL)
+        (solicitud.estado.nombre != EstadoSolicitud.NUMERADO and request.get_perfil().rol.nombre == Rol.ROL_ADMIN_NACIONAL)
     
 
 def __flat_list(list_to_flat):
