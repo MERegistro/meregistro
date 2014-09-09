@@ -43,15 +43,12 @@ class SolicitudControlForm(forms.ModelForm):
         dictamen_cofev = data['dictamen_cofev']
         nro_expediente = data['nro_expediente']
         
-        if estado == EstadoSolicitud.CONTROLADO:
-            if  nro_expediente == '':
-                raise forms.ValidationError(u'Para pasar a estado "controlado", es necesario cargar el número de expediente')
-            if  normativas_nacionales == '':
-                raise forms.ValidationError(u'Para pasar a estado "controlado", es necesario cargar las normativas nacionales')
+        if estado == EstadoSolicitud.CONTROLADO and nro_expediente == '':
+            raise forms.ValidationError(u'Para pasar a estado "controlado", es necesario cargar el número de expediente')
         if estado == EstadoSolicitud.RETENIDO and nro_expediente == '':
             raise forms.ValidationError(u'Para pasar a estado "retenido", es necesario cargar el número de expediente')
         if estado == EstadoSolicitud.EVALUADO and dictamen_cofev == '':
             raise forms.ValidationError(u'Para pasar a estado "evaluado", es necesario cargar el dictámen COFEV')
-        if estado == EstadoSolicitud.NUMERADO and normativas_nacionales == '':
-            raise forms.ValidationError(u'Para pasar a estado "numerado", es necesario cargar las normativas nacionales')
+        #if estado == EstadoSolicitud.NUMERADO and normativas_nacionales == '':
+        #    raise forms.ValidationError(u'Para pasar a estado "numerado", es necesario cargar las normativas nacionales')
         return self.cleaned_data
