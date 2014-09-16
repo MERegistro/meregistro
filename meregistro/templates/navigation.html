@@ -68,7 +68,7 @@
         Fin habilitación temporal
         -->
         {% if 'tit_carrera_consulta' in credenciales or 'tit_normativa_nacional_consulta' in credenciales or 'tit_cohorte_consulta' in credenciales or 'tit_cohorte_seguimiento' in credenciales or 'tit_cohorte_seguimiento_consulta' in credenciales %}
-        <li><a href="#" class="inactive"><span>Carreras</span></a>
+        <li><a href="#" class="inactive"><span>Oferta</span></a>
             <ul>
                 {% if 'tit_carrera_consulta' in credenciales %}
                 <li><a href="{% url apps.titulos.views.carrera.index %}"><span>Carreras Nacionales</span></a></li>
@@ -92,7 +92,7 @@
         </li>
         {% endif %}
         {% if 'validez_nacional_solicitud_consulta' in credenciales or 'tit_nor_jur_consulta' in credenciales or 'validez_nacional_solicitud_control' in credenciales or 'validez_nacional_validez_index' in credenciales or 'validez_nacional_solicitud_consulta_institucional' in credenciales %}
-        <li><a href="#" class="inactive"><span>Títulos</span></a>
+        <li><a href="#" class="inactive"><span>Validez</span></a>
             <ul>
                 {% if 'tit_nor_jur_consulta' in credenciales %}
                 <li><a href="{% url apps.titulos.views.normativa_jurisdiccional.index %}">Normativas</a></li>
