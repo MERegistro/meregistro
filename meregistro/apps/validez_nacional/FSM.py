@@ -20,3 +20,4 @@ class FSMSolicitud:
 
     def estadosDesde(self, estado):
         return self._estadoDesde[estado.nombre]
+

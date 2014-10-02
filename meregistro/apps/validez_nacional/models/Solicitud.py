@@ -102,12 +102,13 @@ class Solicitud(models.Model):
         
 
     def is_numerable(self):
-        numerable = self.estado.nombre == EstadoSolicitud.EVALUADO
+        numerable = self.estado.nombre in [EstadoSolicitud.EVALUADO, EstadoSolicitud.CONTROLADO] 
         numerable = numerable and (len(self.establecimientos.all()) > 0 or len(self.anexos.all()) > 0)
         numerable = numerable and self.jurisdiccion and self.carrera and self.primera_cohorte and self.ultima_cohorte \
             and (self.normativas_jurisdiccionales or self.normativa_jurisdiccional_migrada) and self.normativas_nacionales
         return numerable
-        
+
+
     def numerado(self):
         return self.estado.nombre == EstadoSolicitud.NUMERADO
 
