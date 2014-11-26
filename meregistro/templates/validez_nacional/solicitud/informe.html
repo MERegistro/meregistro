@@ -62,81 +62,96 @@
 
 <h2>INFORME:</h2>
 <p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.nro_expediente|default:"---" }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
-<table id="tabla-informe">
-    <tbody>
-        <tr>
-            <th>1. Normativa de implementación con nómina del/los institulo/s donde se implementará el diseño curricular, con la/s cohorte/s autorizada/s para su implementación  y su/s respectivo/s número/s de CUE</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>
-        <tr>
-            <th>2. Diseño jurisdiccional único por carrera</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>            
-        <tr>
-            <th>3. Denominación del título</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>
-        <tr>
-            <th>4. Carga horaria mínima establecida por el CFE que en ningún caso será inferior a 2600 horas reloj</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>
-        <tr>
-            <th>5. Organización de los estudios en la cantidad de años académicos establecidos por el CFE que en ningún caso será inferior a 4 años</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>
-        <tr>
-            <th>6. Organización en torno a los tres campos del conocimiento presentes en cada uno de los años; FG, FE y FPP. Los tres campos deben ser de desarrollo simultáneo durante toda la carrera.</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>
-        <tr>
-            <th>7. Presencia de la residencia pedagógica en el último año académico.</th>
-            <td class="cumplido"><span>CUMPLIDO</span></td>
-        </tr>
-        <tr>
-            <th>8. Acreditación de las condiciones institucionales establecidas según RES.CFE N° 140/11</th>
-            <td class="cumplido"><span>CUMPLIDO<span></td>
-        </tr>
-    </tbody>
-</table>
 
-<h2>Observaciones:</h2>
-<textarea rows="10" id="observaciones"></textarea>
+<form action="" method="post">{% csrf_token %}
+    {{ form.non_field_errors }}
+    <table id="tabla-informe">
+        <tbody>
+            <tr>
+                <th>1. Normativa de implementación con nómina del/los institulo/s donde se implementará el diseño curricular, con la/s cohorte/s autorizada/s para su implementación  y su/s respectivo/s número/s de CUE</th>
+                <td class="cumplido">
+                    {{ form.normativa_implementacion.errors }}
+                    <label for="id_normativa_implementacion">Cumplido:</label>
+                    {{ form.normativa_implementacion }}
+                </td>
+            </tr>
+            <tr>
+                <th>2. Diseño jurisdiccional único por carrera</th>
+                <td class="cumplido">
+                    {{ form.disenio_jurisdiccional_unico.errors }}
+                    <label for="id_disenio_jurisdiccional_unico">Cumplido:</label>
+                    {{ form.disenio_jurisdiccional_unico }}
+                </td>
+            </tr>            
+            <tr>
+                <th>3. Denominación del título</th>
+                <td class="cumplido">
+                    {{ form.denominacion_titulo.errors }}
+                    <label for="id_denominacion_titulo">Cumplido:</label>
+                    {{ form.denominacion_titulo }}
+                </td>
+            </tr>
+            <tr>
+                <th>4. Carga horaria mínima establecida por el CFE que en ningún caso será inferior a 2600 horas reloj</th>
+                <td class="cumplido">
+                    {{ form.carga_horaria_minima.errors }}
+                    <label for="id_carga_horaria_minima">Cumplido:</label>
+                    {{ form.carga_horaria_minima }}
+                </td>
+            </tr>
+            <tr>
+                <th>5. Organización de los estudios en la cantidad de años académicos establecidos por el CFE que en ningún caso será inferior a 4 años</th>
+                <td class="cumplido">
+                    {{ form.organizacion_estudios.errors }}
+                    <label for="id_organizacion_estudios">Cumplido:</label>
+                    {{ form.organizacion_estudios }}
+                </td>
+            </tr>
+            <tr>
+                <th>6. Organización en torno a los tres campos del conocimiento presentes en cada uno de los años; FG, FE y FPP. Los tres campos deben ser de desarrollo simultáneo durante toda la carrera.</th>
+                <td class="cumplido">
+                    {{ form.organizacion_tres_campos.errors }}
+                    <label for="id_organizacion_tres_campos">Cumplido:</label>
+                    {{ form.organizacion_tres_campos }}
+                </td>
+            </tr>
+            <tr>
+                <th>7. Presencia de la residencia pedagógica en el último año académico.</th>
+                <td class="cumplido">
+                    {{ form.presencia_residencia_pedagogica.errors }}
+                    <label for="id_presencia_residencia_pedagogica">Cumplido:</label>
+                    {{ form.presencia_residencia_pedagogica}}
+                </td>
+            </tr>
+            <tr>
+                <th>8. Acreditación de las condiciones institucionales establecidas según RES.CFE N° 140/11</th>
+                <td class="cumplido">
+                    {{ form.acreditacion_condiciones_institucionales.errors }}
+                    <label for="id_acreditacion_condiciones_institucionales">Cumplido:</label>
+                    {{ form.acreditacion_condiciones_institucionales }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<ul class="actions noPrint">
-  <li>
-    <input type="button" onclick="window.print()" value="Imprimir" class="noPrint"/>
-  </li>
-</ul>
+    <hr /><br />
+
+    <h2>Observaciones:</h2>
+    <div class="form-textarea">
+        {{ form.observaciones.errors }}
+        {{ form.observaciones }}
+    </div>
+    <hr /><br />
+
+    <input type="submit" value="Guardar Informe" class="noPrint" />
+</form>
+
 <hr />
 
-<script type="text/javascript">
-$(document).ready(function(){
-  $('td.inscripto-registro').click(function(){
-    sp = $(this).children();
-    if(sp.text() == 'Sí'){
-        sp.text('No');
-    } else {
-        sp.text('Sí');
-    }
-  });
-  
-  $('td.cumplido').click(function(){
-    sp = $(this).children();
-    switch(sp.text()){
-        case 'CUMPLIDO':
-            t = 'A CUMPLIR';
-            break;
-        case 'A CUMPLIR':
-            t = 'NO CUMPLIDO';
-            break;
-        default:
-            t = 'CUMPLIDO';
-            break;
-    }
-    sp.text(t);
-  });
-
-});
-</script>
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.validez_nacional.views.solicitud.informe_impresion solicitud.id %}"><span>Vista de impresión</span></a>
+  </li>
+</ul>
 
 {% endblock %}

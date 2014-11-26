@@ -127,7 +127,7 @@
             {% if "validez_nacional_solicitud_numerar" in credenciales and obj.is_numerable %}
                 <li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
             {% endif %}
-            {% if obj.estado.nombre == 'Pendiente' and user_perfil.rol.nombre in 'AdminNacional' %}
+            {% if obj.estado.nombre == 'Controlado' and user_perfil.rol.nombre in 'AdminNacional' %}
                 <li class="ver-datos"><a href="{% url apps.validez_nacional.views.solicitud.informe obj.id %}" title="Informe"><span>Informe</span></a></li>     
             {% endif %}
             {% if obj.is_deletable %}

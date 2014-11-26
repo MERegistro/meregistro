@@ -4,3 +4,4 @@ from SolicitudEstablecimiento import SolicitudEstablecimiento
 from SolicitudEstado import SolicitudEstado
 from ValidezNacional import ValidezNacional
 from SolicitudAnexo import SolicitudAnexo
+from InformeSolicitud import InformeSolicitud

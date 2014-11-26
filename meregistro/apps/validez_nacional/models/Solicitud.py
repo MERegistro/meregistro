@@ -114,5 +114,13 @@ class Solicitud(models.Model):
 
 
     def tiene_unidades_asignadas(self):
-        return (self.establecimientos.count() + self.anexos.count()) > 0 
+        return (self.establecimientos.count() + self.anexos.count()) > 0
 
+
+    def generar_informe(self):
+        from apps.validez_nacional.models import InformeSolicitud
+        informe = InformeSolicitud()
+        informe.solicitud_id = self.id
+        informe.save()
+
+        return informe

@@ -8,8 +8,8 @@ from apps.seguridad.models import Ambito, Rol
 from apps.registro.models import Establecimiento, EstadoEstablecimiento, Anexo, EstadoAnexo
 from apps.titulos.models import TituloNacional, EstadoTituloNacional, EstadoNormativaJurisdiccional, NormativaJurisdiccional
 from apps.validez_nacional.forms import SolicitudFormFilters, SolicitudDatosBasicosForm, SolicitudNormativasForm,\
-    SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters, SolicitudAsignacionFormFilters
-from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional
+    SolicitudCohortesForm, SolicitudControlForm, ValidezInstitucionalFormFilters, SolicitudAsignacionFormFilters, InformeSolicitudForm
+from apps.validez_nacional.models import EstadoSolicitud, Solicitud, SolicitudEstablecimiento, ValidezNacional, InformeSolicitud
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
 from apps.reportes.views.validez_nacional import solicitudes as reporte_solicitudes
@@ -606,8 +606,48 @@ def detalle_numeracion(request, solicitud_id, referencia):
 @login_required
 @credential_required('validez_nacional_solicitud_informe')
 def informe(request, solicitud_id):
-    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre=EstadoSolicitud.PENDIENTE)
-            
+    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre=EstadoSolicitud.CONTROLADO)
+
+    try:
+        informe = solicitud.informe.get()
+    except InformeSolicitud.DoesNotExist:
+        informe = solicitud.generar_informe()
+
+
+    if request.method == 'POST':
+        form = InformeSolicitudForm(request.POST, instance=informe)
+        
+        informe.solicitud = solicitud
+
+        if form.is_valid():
+            informe = form.save(commit=False)
+            informe.solicitud = solicitud
+            informe.save()
+
+            request.set_flash('success', 'Datos actualizados correctamente.')
+        else:
+            request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
+            raise Exception(form.errors)
+    else:
+        form = InformeSolicitudForm(instance=informe)
+    
     return my_render(request, 'validez_nacional/solicitud/informe.html', {
         'solicitud': solicitud,
+        'informe': informe,
+        'form': form,
+    })
+
+@login_required
+@credential_required('validez_nacional_solicitud_informe')
+def informe_impresion(request, solicitud_id):
+    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre=EstadoSolicitud.CONTROLADO)
+
+    try:
+        informe = solicitud.informe.get()
+    except InformeSolicitud.DoesNotExist:
+        informe = solicitud.generar_informe()
+    
+    return my_render(request, 'validez_nacional/solicitud/informe_impresion.html', {
+        'solicitud': solicitud,
+        'informe': informe,
     })

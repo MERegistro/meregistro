@@ -32,6 +32,42 @@ table th,
 table td {
 	padding: 5px;
 }
+/*
+*=HEADER
+*/
+div#header {
+	width: 966px;
+	height: 71px;
+	margin: 0;
+	background: url(../img/logo-236x71.jpg) no-repeat;
+}
+div#header h1 span,
+div#header h2 span {
+	display: none;
+}
+/*
+*=MESSAGE
+*/
+div.message {
+	margin: 20px 0 20px;
+	padding: 1px;
+}
+div.warning {
+	color: #fff ;
+	padding-left: 40px;
+	background: #F20909 url(../img/icons/warning.png) no-repeat 10px;
+}
+div.success {
+	color: #fff;
+	padding-left: 40px;
+	background: #6E972E url(../img/icons/success.png) no-repeat 10px;
+}
+div.notice {
+	color: #000;
+	padding-left: 40px;
+	background: #FFC140 url(../img/icons/warning.png) no-repeat 10px;
+	border: 1px #FF7800 solid;
+}
 /**
  *=informe-solicitud
  */
@@ -40,7 +76,7 @@ body.informe-solicitud div.data li {
 }
 body.informe-solicitud td.inscripto-registro {
 	text-align: center;
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 body.informe-solicitud table#tabla-informe th {
 	text-align: left;
@@ -48,7 +84,7 @@ body.informe-solicitud table#tabla-informe th {
 }
 body.informe-solicitud table#tabla-informe td.cumplido {
 	text-align: center;
-	cursor: pointer;
+	/*cursor: pointer;*/
 }
 body.informe-solicitud textarea#observaciones {
 	width: 90%;
