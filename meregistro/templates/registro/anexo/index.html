@@ -36,7 +36,7 @@
 		<label for="id_nombre">Nombre:</label>
 		{{ form_filters.nombre }}
     </div>
-	{% if user_perfil.rol.nombre in 'AdminNacional' %}
+	{% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' %}
     <div class="form-select">
 		{{ form_filters.jurisdiccion.errors }}
 		<label for="id_jurisdiccion">Jurisdicción:</label>
@@ -192,7 +192,7 @@ if (dropdown_departamento.val() == '') {
     });
 }
 
-{% if user_perfil.rol.nombre in 'AdminNacional' %}
+{% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional'  %}
 //
 //
 // Admin de títulos ve todas las jurisdicciones
