@@ -53,7 +53,7 @@
             <label for="id_normativa_nacional">Normativa Nacional:</label>
             {{ form_filters.normativa_nacional }}
         </div> 
-        {% if user_perfil.rol.nombre in 'AdminNacional' %}
+        {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' or user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
         <div class="form-text">
             {{ form_filters.nro_expediente.errors }}
             <label for="id_normativa_nacional">Nro. Expediente:</label>
@@ -86,7 +86,7 @@
       <th>Dict. Cofev</th>
       <th>Norm. Nac.</th>
       <th>Norm. Jur.</th>
-      {% if user_perfil.rol.nombre in 'AdminNacional' %}
+      {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' or user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
       <th>Nro. Exp.</th>
       {% endif %}
       <th>Estado</th>
@@ -112,7 +112,7 @@
             {% endfor %}
         </ul>
         </td>
-    {% if user_perfil.rol.nombre in 'AdminNacional' %}
+    {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' or user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
     <td>{{ obj.nro_expediente|default:"" }}</td>
     {% endif %}
     <td>{{ obj.estado }}</td>
