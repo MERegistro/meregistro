@@ -29,12 +29,9 @@ class SolicitudControlForm(forms.ModelForm):
 	def clean(self):
 		data = self.cleaned_data
 		'''
-		No tiene que ser obligatoria si se carga número de expediente
+		Si se pasa a estado controlado, el nro exp. es obligatorio
 		'''
-		normativas_postitulo = data['normativas_postitulo']
-		'''
-		Si se pasa a estado controlado, las normativas son obligatorias
-		'''
-		if data['estado'].nombre == EstadoSolicitud.CONTROLADO and normativas_postitulo == '':
-			raise forms.ValidationError(u'Las normativas nacionales son requeridas al pasar a estado CONTROLADO.')
+		nro_expediente = data['nro_expediente']
+		if data['estado'].nombre == EstadoSolicitud.CONTROLADO and nro_expediente == '':
+			raise forms.ValidationError(u'El Nro. de Expediente es requerido al pasar a estado CONTROLADO.')
 		return self.cleaned_data
