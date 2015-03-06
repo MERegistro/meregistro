@@ -28,6 +28,12 @@ class MailHelper():
     TITULO_UPDATE = u'TituloUpdate'
     TITULO_DELETE = u'TituloDelete'
 
+
+    @staticmethod
+    def get_usuarios_activos_por_rol(rol):
+        return Usuario.objects.filter(perfiles__rol__nombre=rol, perfiles__fecha_desasignacion=None, is_active=True)
+
+
     @staticmethod
     def notify_by_email(notification_type = None, model = None):
         """
@@ -93,7 +99,7 @@ class MailHelper():
     """
     @staticmethod
     def establecimiento_create(establecimiento):
-        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
+        recipients = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
             'subject': u'Solicitud de Registro de nueva Unidad Educativa',
             'message': u"""Estimado/a
@@ -146,7 +152,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualización de datos de establecimiento',
             'message': u'Se ha modificado el establecimiento',
             'email_from': u'pepe@example.com',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     @staticmethod
@@ -154,7 +161,8 @@ Instituto Nacional de Formación Docente<br />
         return {
             'subject': u'Baja de establecimiento',
             'message': u'Se ha dado de baja el establecimiento',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     """
@@ -164,7 +172,7 @@ Instituto Nacional de Formación Docente<br />
     """
     @staticmethod
     def anexo_create(anexo):
-        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
+        recipients = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
             'subject': u'Solicitud de registro de nuevo anexo',
             'message': u"""Estimado/a
@@ -217,7 +225,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualización de datos de anexo',
             'message': u'Se ha modificado el anexo',
             'email_from': u'pepe@example.com',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     @staticmethod
@@ -225,7 +234,8 @@ Instituto Nacional de Formación Docente<br />
         return {
             'subject': u'Baja de anexo',
             'message': u'Se ha dado de baja el anexo',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     """
@@ -235,7 +245,7 @@ Instituto Nacional de Formación Docente<br />
     """
     @staticmethod
     def extension_aulica_create(extension_aulica):
-        recipients = [u.email for u in Usuario.get_usuarios_by_rol(Rol.ROL_ADMIN_NACIONAL)]
+        recipients = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         return {
             'subject': u'Solicitud de registro de nueva extensión áulica',
             'message': u"""Estimado/a
@@ -288,7 +298,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualizació de datos de extensión áulica',
             'message': u'Se ha modificado la extensión áulica',
             'email_from': u'pepe@example.com',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     @staticmethod
@@ -296,7 +307,8 @@ Instituto Nacional de Formación Docente<br />
         return {
             'subject': u'Baja de extensión áulica',
             'message': u'Se ha dado de baja la extensión áulica',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     """
@@ -307,7 +319,8 @@ Instituto Nacional de Formación Docente<br />
         return {
             'subject': u'Creación de título',
             'message': u'Se ha creado un nuevo título',
-            'recipients': [u'user@example.com', u'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     @staticmethod
@@ -316,7 +329,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualización de datos de título',
             'message': u'Se ha modificado el título',
             'email_from': u'pepe@example.com',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
 
     @staticmethod
@@ -324,5 +338,6 @@ Instituto Nacional de Formación Docente<br />
         return {
             'subject': u'Baja de título',
             'message': u'Se ha dado de baja el título',
-            'recipients': ['user@example.com', 'admin@example.com'],
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
         }
