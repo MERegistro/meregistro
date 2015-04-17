@@ -30,6 +30,21 @@
             </ul> 
         </li>
         {% endif %}
+        {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
+        <li><a href="#" class="inactive"><span>Matrícula</span></a>
+            <ul>
+                {% if 'reg_establecimiento_consulta' in credenciales %}
+                <li><a href="{% url apps.registro.views.establecimiento_matricula.index %}"><span>Sedes</span></a></li>
+                {% endif %}
+                {% if 'reg_anexo_consulta' in credenciales or 'reg_anexo_completar' in credenciales %}
+                <li><a href="{% url apps.registro.views.anexo_matricula.index %}"><span>Anexos</span></a></li>
+                {% endif %}
+                {% if 'reg_extension_aulica_consulta' in credenciales %}
+                <li><a href="{% url apps.registro.views.extension_aulica_matricula.index %}"><span>Extensiones áulicas</span></a></li>
+                {% endif %}
+            </ul> 
+        </li>
+        {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
         <li><a href="{% url apps.registro.views.dependencia_funcional.index %}"><span>Dep. func.</span></a></li>
         {% endif %}

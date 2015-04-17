@@ -7,11 +7,13 @@ from django.core.paginator import Paginator
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
+from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.Anexo import Anexo
 from apps.registro.models.EstadoAnexo import EstadoAnexo
 from apps.registro.models.AnexoMatricula import AnexoMatricula
 from apps.registro.forms.AnexoMatriculaForm import AnexoMatriculaForm
 from apps.registro.forms.AnexoMatriculaFormFilters import AnexoMatriculaFormFilters
+from apps.registro.forms.AnexoFormFilters import AnexoFormFilters
 from apps.backend.models import ConfiguracionSolapasAnexo
 from apps.registro.forms.VerificacionDatosAnexoForm import VerificacionDatosAnexoForm
 
@@ -49,7 +51,75 @@ def __get_anexo(request, anexo_id):
 
 @login_required
 @credential_required('reg_anexo_consulta')
-def index(request, anexo_id):
+def index(request):
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    if jurisdiccion is not None:  # el usuario puede ser un referente o el admin de títulos
+        jurisdiccion_id = jurisdiccion.id
+    else:
+        try:
+            jurisdiccion_id = request.GET['jurisdiccion']
+            if request.GET['jurisdiccion'] == '':
+                jurisdiccion_id = None
+        except KeyError:
+            jurisdiccion_id = None
+
+    try:
+        departamento_id = request.GET['departamento']
+        if request.GET['departamento'] == '':
+            departamento_id = None
+    except KeyError:
+        departamento_id = None
+    
+    """
+    Búsqueda de anexos
+    """
+    if request.method == 'GET':
+        form_filter = AnexoFormFilters(request.GET, jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
+    else:
+        form_filter = AnexoFormFilters(jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
+    q = build_query(form_filter, 1, request)
+
+    if jurisdiccion is not None:
+        form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
+    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+    
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
+    return my_render(request, 'registro/anexo/matricula/index.html', {
+        'form_filters': form_filter,
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1,
+    })
+
+
+def build_query(filters, page, request):
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().order_by('establecimiento__nombre', 'cue').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
+
+@login_required
+@credential_required('reg_anexo_consulta')
+def matricula(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     """
     Búsqueda de anexos
@@ -58,7 +128,7 @@ def index(request, anexo_id):
         form_filter = AnexoMatriculaFormFilters(request.GET, anexo_id=anexo.id)
     else:
         form_filter = AnexoFormFilters(anexo_id=anexo.id)
-    q = build_query(form_filter, 1, request)
+    q = build_query_matricula(form_filter, 1, request)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -74,7 +144,7 @@ def index(request, anexo_id):
     page = paginator.page(page_number)
     objects = page.object_list
 		
-    return my_render(request, 'registro/anexo/matricula/index.html', {
+    return my_render(request, 'registro/anexo/matricula/matricula.html', {
         'anexo': anexo,
         'form_filters': form_filter,
         'objects': objects,
@@ -91,12 +161,12 @@ def index(request, anexo_id):
         'form_verificacion': VerificacionDatosAnexoForm(
 			dato_verificacion='matricula', 
 			unidad_educativa_id=anexo.id, 
-			return_url='anexoMatriculaIndex', 
+			return_url='anexoMatriculaIndexAnexo', 
 			verificado=anexo.get_verificacion_datos().matricula),
     })
 
 
-def build_query(filters, page, request):
+def build_query_matricula(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
@@ -121,7 +191,7 @@ def create(request, anexo_id):
             matricula.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('anexoMatriculaIndex', args=[matricula.anexo_id]))
+            return HttpResponseRedirect(reverse('anexoMatriculaIndexAnexoAnexo', args=[matricula.anexo_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -149,7 +219,7 @@ def edit(request, matricula_id):
             matricula.set_formacion_docente()
             matricula.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('anexoMatriculaIndex', args=[matricula.anexo_id]))
+            return HttpResponseRedirect(reverse('anexoMatriculaIndexAnexo', args=[matricula.anexo_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
@@ -170,4 +240,4 @@ def delete(request, matricula_id):
     
     matricula.delete()
     request.set_flash('success', 'Datos del matricula eliminados correctamente.')
-    return HttpResponseRedirect(reverse('anexoMatriculaIndex', args=[matricula.anexo_id]))
+    return HttpResponseRedirect(reverse('anexoMatriculaIndexAnexo', args=[matricula.anexo_id]))

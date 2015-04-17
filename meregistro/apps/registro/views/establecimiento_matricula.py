@@ -8,10 +8,12 @@ from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
 from apps.registro.models.Establecimiento import Establecimiento
+from apps.registro.models.DependenciaFuncional import DependenciaFuncional
 from apps.registro.models.EstadoEstablecimiento import EstadoEstablecimiento
 from apps.registro.models.EstablecimientoMatricula import EstablecimientoMatricula
 from apps.registro.forms.EstablecimientoMatriculaForm import EstablecimientoMatriculaForm
 from apps.registro.forms.EstablecimientoMatriculaFormFilters import EstablecimientoMatriculaFormFilters
+from apps.registro.forms.EstablecimientoFormFilters import EstablecimientoFormFilters
 from apps.backend.models import ConfiguracionSolapasEstablecimiento
 from apps.registro.forms.VerificacionDatosEstablecimientoForm import VerificacionDatosEstablecimientoForm
 
@@ -41,8 +43,72 @@ def __get_establecimiento(request, establecimiento_id):
 
 
 @login_required
+@credential_required('reg_establecimiento_consulta')
+def index(request):
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+
+    if jurisdiccion is not None:  # el usuario puede ser un referente o el admin de títulos
+        jurisdiccion_id = jurisdiccion.id
+    else:
+        try:
+            jurisdiccion_id = request.GET['jurisdiccion']
+            if request.GET['jurisdiccion'] == '':
+                jurisdiccion_id = None
+        except KeyError:
+            jurisdiccion_id = None
+
+    try:
+        departamento_id = request.GET['departamento']
+        if request.GET['departamento'] == '':
+            departamento_id = None
+    except KeyError:
+        departamento_id = None
+        
+    """
+    Búsqueda de establecimientos
+    """
+    if request.method == 'GET':
+        form_filter = EstablecimientoFormFilters(request.GET, jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
+    else:
+        form_filter = EstablecimientoFormFilters(jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
+    q = build_query(form_filter, 1, request)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+    if jurisdiccion is not None:
+        form_filter.fields['dependencia_funcional'].queryset = DependenciaFuncional.objects.filter(jurisdiccion=jurisdiccion)
+    page = paginator.page(page_number)
+    objects = page.object_list
+    return my_render(request, 'registro/establecimiento/matricula/index.html', {
+        'form_filters': form_filter,
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1,
+    })
+
+
+def build_query(filters, page, request):
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().order_by('nombre').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    
+@login_required
 @credential_required('reg_establecimiento_ver')
-def index(request, establecimiento_id):
+def matricula(request, establecimiento_id):
     establecimiento = __get_establecimiento(request, establecimiento_id)
     """
     Búsqueda de establecimientos
@@ -51,7 +117,7 @@ def index(request, establecimiento_id):
         form_filter = EstablecimientoMatriculaFormFilters(request.GET, establecimiento_id=establecimiento.id)
     else:
         form_filter = EstablecimientoMatriculaFormFilters(establecimiento_id=establecimiento.id)
-    q = build_query(form_filter, 1, request)
+    q = build_query_matricula(form_filter, 1, request)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -67,7 +133,7 @@ def index(request, establecimiento_id):
     page = paginator.page(page_number)
     objects = page.object_list
 
-    return my_render(request, 'registro/establecimiento/matricula/index.html', {
+    return my_render(request, 'registro/establecimiento/matricula/matricula.html', {
         'establecimiento': establecimiento,
         'form_filters': form_filter,
         'objects': objects,
@@ -82,14 +148,14 @@ def index(request, establecimiento_id):
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
         'actual_page': 'matricula',
         'form_verificacion': VerificacionDatosEstablecimientoForm(
-			dato_verificacion='matricula',
-			unidad_educativa_id=establecimiento.id,
-			return_url='establecimientoMatriculaIndex',
-			verificado=establecimiento.get_verificacion_datos().matricula),
+            dato_verificacion='matricula',
+            unidad_educativa_id=establecimiento.id,
+            return_url='establecimientoMatriculaIndexEstablecimiento',
+            verificado=establecimiento.get_verificacion_datos().matricula),
     })
 
 
-def build_query(filters, page, request):
+def build_query_matricula(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
@@ -114,7 +180,7 @@ def create(request, establecimiento_id):
             matricula.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('establecimientoMatriculaIndex', args=[matricula.establecimiento_id]))
+            return HttpResponseRedirect(reverse('establecimientoMatriculaIndexEstablecimiento', args=[matricula.establecimiento_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -142,7 +208,7 @@ def edit(request, matricula_id):
             matricula.set_formacion_docente()
             matricula.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('establecimientoMatriculaIndex', args=[matricula.establecimiento_id]))
+            return HttpResponseRedirect(reverse('establecimientoMatriculaIndexEstablecimiento', args=[matricula.establecimiento_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
@@ -162,4 +228,4 @@ def delete(request, matricula_id):
     establecimiento = __get_establecimiento(request, matricula.establecimiento_id)
     matricula.delete()
     request.set_flash('success', 'Datos del matricula eliminados correctamente.')
-    return HttpResponseRedirect(reverse('establecimientoMatriculaIndex', args=[matricula.establecimiento_id]))
+    return HttpResponseRedirect(reverse('establecimientoMatriculaIndexEstablecimiento', args=[matricula.establecimiento_id]))

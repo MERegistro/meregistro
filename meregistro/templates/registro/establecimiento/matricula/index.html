@@ -1,63 +1,110 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Completar Datos de Sede{% endblock %}
-
-{% load tags_filters %}
-
-{% block css_body_classes %}{% css_classes "tabs-n-grid" %}{% endblock %}
+{% block title %}Matrícula de Unidades Educativas{% endblock %}
 
 {% block content %}
-<h2>Completar Datos de Sede - Matrícula</h2>
-<h3>{{ establecimiento.cue }} - "{{ establecimiento.nombre }}"</h3>
-{% if 'reg_establecimiento_completar' in credenciales %}
-<ul class="actions">
-    <li class="create">
-        <a href="{% url apps.registro.views.establecimiento_matricula.create establecimiento.id %}"><span>Nueva Matrícula</span></a>
-    </li>
-</ul>
-{% endif %}
+<h2>Matrícula de Unidades Educativas</h2>
+
+
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-{% if not establecimiento.get_verificacion_datos.completo %}
-<div class="message warning">
-	<p>Las solapas cuyos datos todavía no han sido verificados se verán en color rojo. Por favor, verifique los datos.</p>
+
+<form action="" method="get">
+<div class="form-filter" id="establecimientoFormFilter" style="width:800px;">
+    <h3>Búsqueda avanzada</h3>
+    {{ form_filters.non_field_errors }}
+    <div class="form-select">
+		{{ form_filters.dependencia_funcional.errors }}
+		<label for="id_dependencia_funcional">Dependencia Funcional:</label>
+		{{ form_filters.dependencia_funcional }}
+    </div>
+    <div class="form-text">
+		{{ form_filters.cue.errors }}
+		<label for="id_cue">CUE:</label>
+		{{ form_filters.cue }}
+    </div>
+    <div class="form-text">
+		{{ form_filters.nombre.errors }}
+		<label for="id_nombre">Nombre:</label>
+		{{ form_filters.nombre }}
+    </div>
+    {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' %}
+    <div class="form-select">
+		{{ form_filters.jurisdiccion.errors }}
+		<label for="id_jurisdiccion">Jurisdicción:</label>
+		{{ form_filters.jurisdiccion }}
+    </div>
+    {% endif %}
+    <div class="form-select">
+		{{ form_filters.departamento.errors }}
+		<label for="id_departamento">Departamento:</label>
+		{{ form_filters.departamento }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.localidad.errors }}
+		<label for="id_localidad">Localidad:</label>
+		{{ form_filters.localidad }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.tipo_gestion.errors }}
+		<label for="id_tipo_gestion">Tipo de Gestión:</label>
+		{{ form_filters.tipo_gestion }}
+    </div>
+    <div class="form-select">
+		{{ form_filters.estado.errors }}
+		<label for="id_estado">Estado:</label>
+		{{ form_filters.estado }}
+    </div>
+    <div class="form-submit">
+		<input type="submit" value="Buscar" />
+		<input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
+    </div>
 </div>
-{% endif %}
-{% include "registro/establecimiento/completar_datos_nav.html" %}
-<div class="grid-wrapper">
+
 {% if objects %}
 {% include "counter.html" %}
+
 <table class="hor-zebra">
     <thead>
         <tr>
-            <th>Mixto</th>
-            <th>Año</th>
-            <th>Profesorados</th>
-            <th>Postítulos</th>
-            <th>F. Docente</th>
-            <th>Continua</th>
-            <th>Tecnicaturas</th>
-            <th>Total</th>
+            <th id="thEstablecimientoCue">CUE</th>
+            <th>Nombre</th>
+			{% if user_perfil.rol.nombre in 'AdminNacional' %}
+            <th>Jurisdicción</th>
+			{% endif %}
+            <th>Departamento</th>
+            <th>Localidad</th>
+            <th class="th-estados">Estado</th>
             <th class="actions">Acciones</th>
         </tr>
     </thead>
     <tbody>
-        {% for matricula in objects %}
+        {% for est in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-                <td>{% if matricula.mixto %}Sí{% else %}No{% endif %}</td>
-                <td>{{ matricula.anio }}</td>
-                <td>{% if matricula.profesorados %}{{ matricula.profesorados }}{% else %}---{% endif %}</td>
-                <td>{% if matricula.postitulos %}{{ matricula.postitulos }}{% else %}---{% endif %}</td>
-                <td>{% if matricula.get_formacion_docente %}{{ matricula.get_formacion_docente }}{% else %}---{% endif %}</td>
-                <td>{% if matricula.get_formacion_continua %}{{ matricula.get_formacion_continua }}{% else %}---{% endif %}</td>
-                <td>{% if matricula.tecnicaturas %}{{ matricula.tecnicaturas }}{% else %}---{% endif %}</td>
-                <td>{% if matricula.total %}{{ matricula.total }}{% else %}---{% endif %}</td>
+                <td>{{ est.cue }}</td>
+				{% if 'reg_establecimiento_consulta' in credenciales %}
+                <td><a href="{% url apps.registro.views.establecimiento.ver_datos_basicos est.id %}" title="Ver datos"><span>{{ est.nombre }}</span></a></td>
+				{% else %}
+                <td>{{ est.nombre }}</td>
+				{% endif %}
+				
+				{% if user_perfil.rol.nombre in 'AdminNacional' %}
+                <td>{{ est.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
+				{% endif %}
+                <td>{{ est.get_first_domicilio.localidad.departamento }}</td>
+                <td>{{ est.get_first_domicilio.localidad }}</td>
+                <td>
+                    <div class="estados">
+                    {% for registro_estado in est.registro_estados %}
+                    <p class="estado-{{ registro_estado.estado.nombre|slugify }}">{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
+                    {% endfor %}
+                    </div>
+                </td>
                 <td class="actions-td">
                     <ul>
-						{% if 'reg_establecimiento_completar' in credenciales %}
-                        <li class="edit"><a href="{% url apps.registro.views.establecimiento_matricula.edit matricula.id %}" title="Editar"><span>Editar</span></a></li>
-                        <li class="delete"><a href="{% url apps.registro.views.establecimiento_matricula.delete matricula.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+						{% if 'reg_establecimiento_completar' in credenciales and est.registrado %}
+                        <li class="edit"><a href="{% url apps.registro.views.establecimiento_matricula.matricula est.id %}" title="Matrícula"><span>Matrícula</span></a></li>
 						{% endif %}
                     </ul>
                 </td>
@@ -69,19 +116,88 @@
 </form>
 {% else %}
 <div class="message notice">
-    <p>No se encontraron datos.</p>
+    <p>No se encontraron sedes.</p>
 </div>
 {% endif %}
-</div>
-
-{% include "registro/establecimiento/form_verificacion_datos.html" %}
-
-<ul class="actions">
-    <li class="back">
-        <a href="{% url apps.registro.views.establecimiento.completar_datos_basicos establecimiento.id %}"><span>Volver</span></a>
-    </li>
-</ul>
-
 <hr />
+
+<script type="text/javascript">
+var dropdown_departamento = $("select#id_departamento");
+var dropdown_localidad = $("select#id_localidad");
+var dropdown_dependencia = $("select#id_dependencia_funcional");
+
+$(document).ready(
+    dropdown_departamento.change(function(){
+		if (dropdown_departamento.val() == '') {
+			dropdown_localidad.html("<option value=''>Seleccione...</option>");
+		} else {
+			var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+			$.getJSON(url, function(models){
+				var options = '<option value="">Seleccione...</option>';
+				for(var i = 0; i < models.length; i++){
+					options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+				}
+				dropdown_localidad.html(options);
+			});
+		} // END if
+	}) // END function
+); // END document.ready
+
+// Init
+
+if (dropdown_departamento.val() == '') {
+    dropdown_localidad.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_localidades_por_departamento/" + dropdown_departamento.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_localidad.html(options);
+    dropdown_localidad.val(get_url_param('localidad'));
+
+    });
+}
+
+{% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional'  %}
+//
+//
+// Admin de títulos ve todas las jurisdicciones
+//
+//
+var dropdown_jurisdiccion = $("select#id_jurisdiccion");
+
+if (dropdown_jurisdiccion.val() == '') {
+    dropdown_departamento.html("<option value=''>Seleccione...</option>");
+} else {
+    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + dropdown_jurisdiccion.val();
+    $.getJSON(url, function(models) {
+    var options = '<option value="">Seleccione...</option>';
+    for (var i = 0; i < models.length; i++){
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+    }
+    dropdown_departamento.html(options);
+    dropdown_departamento.val(get_url_param('departamento'));
+    });
+}
+
+dropdown_jurisdiccion.change(function(){
+    if (dropdown_jurisdiccion.val() == '') {
+	dropdown_departamento.html("<option value=''>Seleccione...</option>");
+    } else {
+	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
+	$.getJSON(url, function(models) {
+	    var options = '<option value="">Seleccione...</option>';
+	    for (var i = 0; i < models.length; i++) {
+	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+	    }
+	    dropdown_departamento.html(options);
+	});
+    }
+    dropdown_departamento.change();
+});
+{% endif %}
+</script>
 
 {% endblock %}

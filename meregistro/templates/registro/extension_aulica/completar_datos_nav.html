@@ -27,8 +27,5 @@
 {% if configuracion_solapas.conexion_internet %}
 		<li class="{% if actual_page == 'conexion_internet' %}active{% endif %}{% if not datos_verificados.conectividad %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.completar_conexion_internet extension_aulica.id %}" title="Conectividad"><span>Conectividad</span></a></li>
 {% endif %}
-{% if configuracion_solapas.matricula %}
-		<li class="{% if actual_page == 'matricula' %}active{% endif %}{% if not datos_verificados.matricula %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica_matricula.index extension_aulica.id %}" title="Matrícula"><span>Matrícula</span></a></li>
-{% endif %}
 	</ul>
 </div>

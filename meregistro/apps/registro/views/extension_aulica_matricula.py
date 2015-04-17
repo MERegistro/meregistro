@@ -7,10 +7,12 @@ from django.core.paginator import Paginator
 from meregistro.shortcuts import my_render
 from apps.seguridad.decorators import login_required, credential_required
 from apps.seguridad.models import Usuario, Perfil
+from apps.registro.models.Establecimiento import Establecimiento
 from apps.registro.models.ExtensionAulica import ExtensionAulica
 from apps.registro.models.EstadoExtensionAulica import EstadoExtensionAulica
 from apps.registro.models.ExtensionAulicaMatricula import ExtensionAulicaMatricula
 from apps.registro.forms.ExtensionAulicaMatriculaForm import ExtensionAulicaMatriculaForm
+from apps.registro.forms.ExtensionAulicaFormFilters import ExtensionAulicaFormFilters
 from apps.registro.forms.ExtensionAulicaMatriculaFormFilters import ExtensionAulicaMatriculaFormFilters
 from apps.backend.models import ConfiguracionSolapasExtensionAulica
 from apps.registro.forms.VerificacionDatosExtensionAulicaForm import VerificacionDatosExtensionAulicaForm
@@ -36,10 +38,83 @@ def __get_extension_aulica(request, extension_aulica_id):
     return extension_aulica
 
 
+@login_required
+@credential_required('reg_extension_aulica_ver')
+def index(request):
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    if jurisdiccion is not None:  # el usuario puede ser un referente o el admin de títulos
+        jurisdiccion_id = jurisdiccion.id
+    else:
+        try:
+            jurisdiccion_id = request.GET['jurisdiccion']
+            if request.GET['jurisdiccion'] == '':
+                jurisdiccion_id = None
+        except KeyError:
+            jurisdiccion_id = None
+
+    try:
+        departamento_id = request.GET['departamento']
+        if request.GET['departamento'] == '':
+            departamento_id = None
+    except KeyError:
+        departamento_id = None
+    
+    """
+    Búsqueda de extensiones áulicas
+    """
+    if request.method == 'GET':
+        form_filter = ExtensionAulicaFormFilters(request.GET, jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
+    else:
+        form_filter = ExtensionAulicaFormFilters(jurisdiccion_id=jurisdiccion_id, departamento_id=departamento_id)
+    q = build_query(form_filter, 1, request)
+
+    try:
+        if request.GET['export'] == '1':
+            return reporte_extensiones_aulicas(request, q)
+    except KeyError:
+        pass
+
+    jurisdiccion = request.get_perfil().jurisdiccion()
+    if jurisdiccion is not None:
+        form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(dependencia_funcional__jurisdiccion__id=jurisdiccion.id)
+    form_filter.fields["establecimiento"].queryset = Establecimiento.objects.filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
+    return my_render(request, 'registro/extension_aulica/matricula/index.html', {
+        'form_filters': form_filter,
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1,
+    })
+
+
+def build_query(filters, page, request):
+    """
+    Construye el query de búsqueda a partir de los filtros.
+    """
+    return filters.buildQuery().order_by('establecimiento__nombre', 'cue').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+
 
 @login_required
 @credential_required('reg_extension_aulica_ver')
-def index(request, extension_aulica_id):
+def matricula(request, extension_aulica_id):
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
     """
     Búsqueda de extension_aulicas
@@ -48,7 +123,7 @@ def index(request, extension_aulica_id):
         form_filter = ExtensionAulicaMatriculaFormFilters(request.GET, extension_aulica_id=extension_aulica.id)
     else:
         form_filter = ExtensionAulicaFormFilters(extension_aulica_id=extension_aulica.id)
-    q = build_query(form_filter, 1, request)
+    q = build_query_matricula(form_filter, 1, request)
     paginator = Paginator(q, ITEMS_PER_PAGE)
 
     try:
@@ -64,7 +139,7 @@ def index(request, extension_aulica_id):
     page = paginator.page(page_number)
     objects = page.object_list
 
-    return my_render(request, 'registro/extension_aulica/matricula/index.html', {
+    return my_render(request, 'registro/extension_aulica/matricula/matricula.html', {
         'extension_aulica': extension_aulica,
         'form_filters': form_filter,
         'objects': objects,
@@ -79,14 +154,14 @@ def index(request, extension_aulica_id):
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'actual_page': 'matricula',
         'form_verificacion': VerificacionDatosExtensionAulicaForm(
-			dato_verificacion='matricula', 
-			unidad_educativa_id=extension_aulica.id, 
-			return_url='extensionAulicaMatriculaIndex', 
-			verificado=extension_aulica.get_verificacion_datos().matricula),
+            dato_verificacion='matricula', 
+            unidad_educativa_id=extension_aulica.id, 
+            return_url='extensionAulicaMatriculaIndexExtensionAulica', 
+            verificado=extension_aulica.get_verificacion_datos().matricula),
     })
 
 
-def build_query(filters, page, request):
+def build_query_matricula(filters, page, request):
     """
     Construye el query de búsqueda a partir de los filtros.
     """
@@ -111,7 +186,7 @@ def create(request, extension_aulica_id):
             matricula.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('extensionAulicaMatriculaIndex', args=[matricula.extension_aulica_id]))
+            return HttpResponseRedirect(reverse('extensionAulicaMatriculaIndexExtensionAulica', args=[matricula.extension_aulica_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -139,7 +214,7 @@ def edit(request, matricula_id):
             matricula.set_formacion_docente()
             matricula.save()
             request.set_flash('success', 'Datos actualizados correctamente.')
-            return HttpResponseRedirect(reverse('extensionAulicaMatriculaIndex', args=[matricula.extension_aulica_id]))
+            return HttpResponseRedirect(reverse('extensionAulicaMatriculaIndexExtensionAulica', args=[matricula.extension_aulica_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error actualizando los datos.')
     else:
