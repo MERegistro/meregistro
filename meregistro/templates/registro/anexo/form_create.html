@@ -51,11 +51,21 @@
         <label for="id_norma_creacion">Número de la Norma:</label>
         {{ form.norma_creacion }}
     </div>
-    <div class="form-textarea">
-        {{ form.observaciones.errors }}
-        <label for="id_observaciones">Observaciones:</label>
-        {{ form.observaciones }}
-    </div>
+	<div class="form-select">
+	    {{ form.posee_centro_estudiantes.errors }}
+	    <label for="id_posee_centro_estudiantes">¿Hay centro de estudiantes en la institución?</label>
+	    {{ form.posee_centro_estudiantes }}
+	</div>
+	<div class="form-select" style="margin-top: 20px;">
+	    {{ form.posee_representantes_estudiantiles.errors }}
+	    <label for="id_posee_representantes_estudiantiles">¿Hay representantes estudiantiles en órgano colegiado de la institución?</label>
+	    {{ form.posee_representantes_estudiantiles }}
+	</div>
+	<div class="form-textarea" style="margin-top: 50px;">
+	    {{ form.observaciones.errors }}
+	    <label for="id_observaciones">Observaciones:</label>
+	    {{ form.observaciones }}
+	</div>
     {% if 'reg_anexo_verificar_datos' in credenciales %}
     <div class="form-checkbox datos-verificados">
         <label for="id_verificado">Datos Verificados:</label>

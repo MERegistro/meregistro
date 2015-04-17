@@ -7,11 +7,14 @@ from django import forms
 
 
 class EstablecimientoDatosBasicosForm(EstablecimientoCreateForm):
+    posee_centro_estudiantes = forms.ChoiceField(choices=((None, ''), (False, 'No'), (True, 'Sí')), required=False)
+    posee_representantes_estudiantiles = forms.ChoiceField(choices=((None, ''), (False, 'No'), (True, 'Sí')), required=False)
 
     class Meta:
         model = Establecimiento
         fields = ['dependencia_funcional', 'nombre', 'unidad_academica', 'nombre_unidad_academica', \
-            'subsidio', 'anio_creacion', 'tipo_normativa', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones']
+            'subsidio', 'anio_creacion', 'tipo_normativa', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones', \
+            'posee_centro_estudiantes', 'posee_representantes_estudiantiles']
 
 
     def __init__(self, *args, **kwargs):

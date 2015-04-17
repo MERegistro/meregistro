@@ -40,6 +40,8 @@ class ExtensionAulica(models.Model):
     ambito = models.ForeignKey(Ambito, editable=False, null=True)
     origen_norma = models.ForeignKey(OrigenNorma, null=False)
     subsidio = models.ForeignKey(TipoSubsidio)  # XXX Esto no está implementado en el formulario, por eso falla
+    posee_centro_estudiantes = models.NullBooleanField(null=True)
+    posee_representantes_estudiantiles = models.NullBooleanField(null=True)
 
     class Meta:
         app_label = 'registro'

@@ -16,7 +16,8 @@ class EstablecimientoCreateForm(ModelForm):
     class Meta:
         model = Establecimiento
         fields = ['dependencia_funcional', 'cue', 'nombre', 'unidad_academica', 'nombre_unidad_academica', \
-            'subsidio', 'anio_creacion', 'tipo_normativa', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones']
+            'subsidio', 'anio_creacion', 'tipo_normativa', 'tipo_norma', 'tipo_norma_otra', 'norma_creacion', 'observaciones', \
+            'posee_centro_estudiantes', 'posee_representantes_estudiantiles']
 
 
     def clean_nombre_unidad_academica(self):

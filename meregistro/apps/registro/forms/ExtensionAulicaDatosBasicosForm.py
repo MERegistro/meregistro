@@ -12,6 +12,8 @@ import datetime
 currentYear = datetime.datetime.now().year
 
 class ExtensionAulicaDatosBasicosForm(ExtensionAulicaCreateForm):
+    posee_centro_estudiantes = forms.ChoiceField(choices=((None, ''), (False, 'No'), (True, 'Sí')), required=False)
+    posee_representantes_estudiantiles = forms.ChoiceField(choices=((None, ''), (False, 'No'), (True, 'Sí')), required=False)
 
     class Meta:
         model = ExtensionAulica

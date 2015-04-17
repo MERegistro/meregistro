@@ -39,6 +39,8 @@ class Anexo(models.Model):
     alcances = models.ManyToManyField(Alcance, blank=True, null=True, db_table='registro_anexos_alcances')
     funciones = models.ManyToManyField(Funcion, blank=True, null=True, db_table='registro_anexos_funciones')
     subsidio = models.ForeignKey(TipoSubsidio)
+    posee_centro_estudiantes = models.NullBooleanField(null=True)
+    posee_representantes_estudiantiles = models.NullBooleanField(null=True)
 
     class Meta:
         app_label = 'registro'
