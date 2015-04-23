@@ -103,6 +103,7 @@ def build_query(filters, page, request):
 @login_required
 @credential_required('validez_nacional_solicitud_create')
 def create(request):
+
     try:
         jurisdiccion_id = jurisdiccion_id=request.get_perfil().jurisdiccion().id
     except AttributeError:
@@ -116,10 +117,8 @@ def create(request):
             solicitud.save()
             
             solicitud.registrar_estado()
-
             request.set_flash('success', 'Datos guardados correctamente.')
-
-            return HttpResponseRedirect(reverse('validezNacionalSolicitudIndex'))
+            return HttpResponseRedirect(reverse('validezNacionalSolicitudEdit', args=[solicitud.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
