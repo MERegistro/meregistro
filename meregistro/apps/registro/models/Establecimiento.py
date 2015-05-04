@@ -232,3 +232,17 @@ class Establecimiento(models.Model):
 
     def verificado(self):
         return self.get_verificacion_datos().completo()
+
+    """
+    Se puede certificar la carga del año cuando:
+        * Tiene seguimiento de cohorte cargado en ese año  
+        * Cargó la matrícula de ese año  
+        * Cargó datos de democratización
+    """
+    def puede_certificar_carga(self, anio):
+        from apps.titulos.models import CohorteEstablecimientoSeguimiento
+        from apps.registro.models import EstablecimientoMatricula
+        seguimiento_cargado = len(CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__establecimiento__id=self.id, anio=anio)) > 0
+        matricula_cargada = len(EstablecimientoMatricula.objects.filter(establecimiento__id=self.id, anio=anio)) > 0
+        
+        return seguimiento_cargado and matricula_cargada

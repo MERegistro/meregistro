@@ -1,0 +1,40 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Certificación de fin de carga {{ anio }} del Establecimiento{% endblock %}
+
+{% block content %}
+<h2>Certificación de fin de carga {{ anio }} del Establecimiento</h2>
+<div class="datos-lectura">
+	<p><strong>Establecimiento:</strong> {{ establecimiento.cue }} - {{ establecimiento.nombre }}</p>
+</div>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if not establecimiento.aceptada %}
+<div class="message warning">
+    <p>Una vez aceptada la cohorte no se puede modificar.</p>
+</div>
+<div class="form" id="cohorteConfirmarForm">
+    <form action="" method="post">{% csrf_token %}
+	<input type="hidden" name="cohorte_ue_id" value="{{ cohorte_ue.id }}" />
+	<div class="form-select">
+	    {{ form.inscriptos.errors }}
+	    <label for="id_inscriptos">Cantidad de inscriptos:</label>
+	    {{ form.inscriptos }}
+	</div>
+	<div class="form-submit">
+	    <input type="submit" value="Confirmar" />
+	</div>
+    </form>
+</div>
+{% else %}
+<div class="message notice">
+    <p>La cohorte ya se encuentra aceptada con {{ cohorte_establecimiento.inscriptos }} inscriptos y no puede ser modificada.</p>
+</div>
+{% endif %}
+<ul class="actions">
+	{% include "titulos/cohorte/seguimiento/back_action.html" %}
+</ul>
+<hr />
+{% endblock %}

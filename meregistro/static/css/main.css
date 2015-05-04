@@ -865,6 +865,13 @@ ul.reportes-actions li.export-csv {
     height: 24px;
     background: url(../img/icons/LibreOffice_Calc_icon_24px.png) no-repeat left;
 }
+/* CERTIFICAR */
+td.actions-td ul li.certificar-carga a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(../img/icons/power_on-16x16.png) no-repeat left;
+}
 /*
 *=FORM-FILTER
 */

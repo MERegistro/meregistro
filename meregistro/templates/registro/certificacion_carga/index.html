@@ -1,0 +1,129 @@
+{% extends "base_registro.html" %}
+
+{% load tags_filters %}
+
+{% block css_body_classes %}{% css_classes "certificacion-carga-index" %}{% endblock %}
+
+{% block title %}Certificación de fin de carga {{ anio }} de Unidades Educativas{% endblock %}
+
+{% block content %}
+<h2>Seguimiento de Cohorte de Unidades Educativas</h2>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<h3>Sede</h3>
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th style="width: 50px">CUE</th>
+            <th>Nombre</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if establecimiento %}
+        <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+            <td>{{ establecimiento.cue }}</td>
+            <td>{{ establecimiento.nombre }}</td>
+            <td class="actions-td">
+                <ul>
+                    <li class="certificar-carga">
+                        <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaEstablecimiento anio establecimiento.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+    {% else %}
+        <tr class="hor-zebra'">
+            <td></td>
+            <td></td>
+            <td class="actions-td"></td>
+        </tr>        
+    {% endif %}
+    </tbody>
+</table>
+
+<br />
+
+<h3>Anexos</h3>
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th style="width: 50px">CUE</th>
+            <th>Nombre</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if anexos %}
+        {% for anexo in anexos %}
+        <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+            <td>{{ anexo.cue }}</td>
+            <td>{{ anexo.nombre }}</td>
+            <td class="actions-td">
+                <ul>
+                <!-- Si el usuario es Referente institucional y es del ámbito de la Sede, o bien es del Anexo y es del anexo actual  -->
+
+                    {% if tipo_perfil == 'Sede' %}
+                    <li class="seguimiento-cohorte"><a href="{% url cohortesAnexoIndex anexo.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
+                    {% else %}
+                        {% if tipo_perfil == 'Anexo' and unidad_educativa_actual.id == anexo.id %}
+                    <li class="seguimiento-cohorte"><a href="{% url cohortesAnexoIndex anexo.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr class="hor-zebra'">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="actions-td">&nbsp;</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+
+<br />
+
+<h3>Extensiones Áulicas</h3>
+<table class="hor-zebra">
+    <thead>
+        <tr>
+            <th style="width: 50px">CUE</th>
+            <th>Nombre</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% if extensiones_aulicas %}
+        {% for extension_aulica in extensiones_aulicas %}
+        <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+            <td>{{ extension_aulica.cue }}</td>
+            <td>{{ extension_aulica.nombre }}</td>
+            <td class="actions-td">
+                <ul>
+                <!-- Si el usuario es Referente institucional y es del ámbito de la Sede, o bien es del Anexo y es del anexo actual  -->
+                    {% if tipo_perfil == 'Sede' %}
+                    <li class="seguimiento-cohorte"><a href="{% url cohortesExtensionAulicaIndex extension_aulica.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
+                    {% else %}
+                        {% if tipo_perfil == 'ExtensionAulica' and unidad_educativa_actual.id == extension_aulica.id %}
+                    <li class="seguimiento-cohorte"><a href="{% url cohortesExtensionAulicaIndex extension_aulica.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    {% else %}
+        <tr class="hor-zebra'">
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td class="actions-td">&nbsp;</td>
+        </tr>
+    {% endif %}
+    </tbody>
+</table>
+{% endblock %}
