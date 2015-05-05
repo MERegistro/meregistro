@@ -11,30 +11,28 @@
     {% include "flashes.html" %}
 {% endif %}
 
-{% if not establecimiento.aceptada %}
+{% if puede_certificar_carga %}
 <div class="message warning">
-    <p>Una vez aceptada la cohorte no se puede modificar.</p>
+    <p>Una vez certificada la carga del año no se puede volver atrás.</p>
 </div>
-<div class="form" id="cohorteConfirmarForm">
+<div class="form" id="certificarCargaForm">
     <form action="" method="post">{% csrf_token %}
-	<input type="hidden" name="cohorte_ue_id" value="{{ cohorte_ue.id }}" />
-	<div class="form-select">
-	    {{ form.inscriptos.errors }}
-	    <label for="id_inscriptos">Cantidad de inscriptos:</label>
-	    {{ form.inscriptos }}
-	</div>
-	<div class="form-submit">
-	    <input type="submit" value="Confirmar" />
-	</div>
+        <input type="hidden" name="establecimiento_id" value="{{ establecimiento.id }}" />
+        <div class="form-submit">
+            <input type="submit" value="Confirmar" />
+        </div>
     </form>
 </div>
 {% else %}
-<div class="message notice">
-    <p>La cohorte ya se encuentra aceptada con {{ cohorte_establecimiento.inscriptos }} inscriptos y no puede ser modificada.</p>
+<div class="message warning">
+    <p>No se puede certificar la carga. Compruebe que tiene el seguimiento de cohorte cargado para el año {{ anio }},
+    que cargó la matrícula de ese año y también cargó los datos democratización del establecimiento.</p>
 </div>
 {% endif %}
-<ul class="actions">
-	{% include "titulos/cohorte/seguimiento/back_action.html" %}
-</ul>
 <hr />
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.certificacion_carga.index anio %}"><span>Volver</span></a>
+  </li>
+</ul>
 {% endblock %}

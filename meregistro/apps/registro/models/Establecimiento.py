@@ -244,5 +244,24 @@ class Establecimiento(models.Model):
         from apps.registro.models import EstablecimientoMatricula
         seguimiento_cargado = len(CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__establecimiento__id=self.id, anio=anio)) > 0
         matricula_cargada = len(EstablecimientoMatricula.objects.filter(establecimiento__id=self.id, anio=anio)) > 0
+        datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
+        return seguimiento_cargado and matricula_cargada and datos_democratizacion_cargados
+
+    """
+    """
+    def certificar_carga(self, anio, usuario):
+        from apps.registro.models import EstablecimientoCertificacionCarga
+        certificacion = EstablecimientoCertificacionCarga()
+        certificacion.anio = anio
+        certificacion.usuario_id = usuario.id
+        certificacion.establecimiento_id = self.id
+        certificacion.fecha = datetime.date.today()
+        certificacion.save()
         
-        return seguimiento_cargado and matricula_cargada
+        return certificacion
+
+    """
+    """
+    def carga_certificada(self, anio):
+        from apps.registro.models import EstablecimientoCertificacionCarga
+        return EstablecimientoCertificacionCarga.objects.filter(establecimiento__id=self.id, anio=anio).exists()

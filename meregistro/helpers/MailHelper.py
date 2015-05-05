@@ -27,6 +27,8 @@ class MailHelper():
     TITULO_CREATE = u'TituloCreate'
     TITULO_UPDATE = u'TituloUpdate'
     TITULO_DELETE = u'TituloDelete'
+    
+    CERTIFICACION_CARGA_ESTABLECIMIENTO = u'CertificacionCargaEstablecimiento'
 
 
     @staticmethod
@@ -53,6 +55,7 @@ class MailHelper():
             MailHelper.TITULO_CREATE: MailHelper.titulo_create,
             MailHelper.TITULO_UPDATE: MailHelper.titulo_update,
             MailHelper.TITULO_DELETE: MailHelper.titulo_delete,
+            MailHelper.CERTIFICACION_CARGA_ESTABLECIMIENTO: MailHelper.certificacion_carga_establecimiento,
 
         }
         """ EJ:  mail_data = MailHelper.establecimiento_create(model) """
@@ -340,4 +343,17 @@ Instituto Nacional de Formación Docente<br />
             'message': u'Se ha dado de baja el título',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+        }
+
+    @staticmethod
+    def certificacion_carga_establecimiento(certificacion):
+        usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
+        establecimiento = certificacion.establecimiento
+        ambito_jurisdiccion_id = establecimiento.dependencia_funcional.jurisdiccion.ambito.id
+        recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id=ambito_jurisdiccion_id).distinct()]
+        return {
+            'subject': u'Certificación de Carga ' + str(certificacion.anio),
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + certificacion.anio + ' para el establecimiento ' + str(establecimiento) + '.',
+            #'recipients': ['user@example.com', 'admin@example.com'],
+            'recipients': recipientes
         }

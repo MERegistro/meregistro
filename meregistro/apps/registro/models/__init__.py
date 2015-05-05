@@ -55,3 +55,7 @@ from TipoSubsidio import TipoSubsidio
 from ExtensionAulicaAutoridad import ExtensionAulicaAutoridad
 from TipoDomicilio import TipoDomicilio
 from TipoCompartido import TipoCompartido
+
+from EstablecimientoCertificacionCarga import EstablecimientoCertificacionCarga
+from AnexoCertificacionCarga import AnexoCertificacionCarga
+from ExtensionAulicaCertificacionCarga import ExtensionAulicaCertificacionCarga

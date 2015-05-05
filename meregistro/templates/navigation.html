@@ -181,6 +181,9 @@
         </li>
         {% endif %}
         -->
+        {% if 'registro_certificar_carga' in credenciales %}
+        <li id="linkCertificacionCarga"><a href="{% url apps.registro.views.certificacion_carga.index '2015' %}"><span>Certificación de Carga 2015</span></a></li>
+        {% endif %}
         {% if 'reg_menu_ayuda' in credenciales %}
         <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
         {% endif %}
