@@ -10,10 +10,22 @@
 <p><strong>Bienvenido/a:</strong> {{ user.nombre }}</p>
     {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
         <div id="link-manual-institucional">
-            <h4>Descargar el manual de Referente Institucional</h4>
-            <a href="{{ STATIC_URL }}manuales/77d5fe3c63cab427924f7eed2db50fdf/REFFOD_Manual_Referente_Institucional_V1.pdf" target="_blank">
-                <img src="{{ STATIC_URL }}img/REFFOD_Manual_Referente_Institucional_V1.png" />
-            </a>
+            <table style="border: none;">
+                <tr>
+                    <td style="text-align: center; padding: 0 20px 0 0;">
+                        <h4>Descargar el manual de Referente Institucional</h4>
+                        <a href="{{ STATIC_URL }}manuales/77d5fe3c63cab427924f7eed2db50fdf/REFFOD_Manual_Referente_Institucional_V1.pdf" target="_blank">
+                            <img src="{{ STATIC_URL }}img/REFFOD_Manual_Referente_Institucional_V1.png" />
+                        </a>
+                    </td>
+                    <td style="text-align: center;">
+                        <h4>Descargar el manual de carga 2015</h4>
+                        <a href="{{ STATIC_URL }}manuales/77d5fe3c63cab427924f7eed2db50fdf/REFFOD_Instructivo_de_Carga_2015.pdf" target="_blank">
+                            <img src="{{ STATIC_URL }}img/REFFOD_Instructivo_de_Carga_2015.png" />
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </div>
     {% endif %}
     {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
