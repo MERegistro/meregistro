@@ -182,3 +182,36 @@ class Anexo(models.Model):
                 self.ambito.delete()
             except:
                 pass
+
+    """
+    Se puede certificar la carga del año cuando:
+        * Tiene seguimiento de cohorte cargado en ese año  
+        * Cargó la matrícula de ese año  
+        * Cargó datos de democratización
+    """
+    def puede_certificar_carga(self, anio):
+        from apps.titulos.models import CohorteAnexoSeguimiento
+        from apps.registro.models import AnexoMatricula
+        seguimiento_cargado = len(CohorteAnexoSeguimiento.objects.filter(cohorte_anexo__anexo__id=self.id, anio=anio)) > 0
+        matricula_cargada = len(AnexoMatricula.objects.filter(anexo__id=self.id, anio=anio)) > 0
+        datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
+        return seguimiento_cargado and matricula_cargada and datos_democratizacion_cargados
+
+    """
+    """
+    def certificar_carga(self, anio, usuario):
+        from apps.registro.models import AnexoCertificacionCarga
+        certificacion = AnexoCertificacionCarga()
+        certificacion.anio = anio
+        certificacion.usuario_id = usuario.id
+        certificacion.anexo_id = self.id
+        certificacion.fecha = datetime.date.today()
+        certificacion.save()
+        
+        return certificacion
+
+    """
+    """
+    def carga_certificada(self, anio):
+        from apps.registro.models import AnexoCertificacionCarga
+        return AnexoCertificacionCarga.objects.filter(anexo__id=self.id, anio=anio).exists()

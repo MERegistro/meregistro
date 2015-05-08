@@ -195,3 +195,37 @@ class ExtensionAulica(models.Model):
             'codigo_tipo_unidad_educativa': self.cue[7:9],
         }
         return parts
+
+    """
+    Se puede certificar la carga del año cuando:
+        * Tiene seguimiento de cohorte cargado en ese año  
+        * Cargó la matrícula de ese año  
+        * Cargó datos de democratización
+    """
+    def puede_certificar_carga(self, anio):
+        from apps.titulos.models import CohorteExtensionAulicaSeguimiento
+        from apps.registro.models import ExtensionAulicaMatricula
+        seguimiento_cargado = len(CohorteExtensionAulicaSeguimiento.objects.filter(cohorte_extension_aulica__extension_aulica__id=self.id, anio=anio)) > 0
+        matricula_cargada = len(ExtensionAulicaMatricula.objects.filter(extension_aulica__id=self.id, anio=anio)) > 0
+        datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
+        return seguimiento_cargado and matricula_cargada and datos_democratizacion_cargados
+
+    """
+    """
+    def certificar_carga(self, anio, usuario):
+        from apps.registro.models import ExtensionAulicaCertificacionCarga
+        certificacion = ExtensionAulicaCertificacionCarga()
+        certificacion.anio = anio
+        certificacion.usuario_id = usuario.id
+        certificacion.extension_aulica_id = self.id
+        certificacion.fecha = datetime.date.today()
+        certificacion.save()
+        
+        return certificacion
+
+    """
+    """
+    def carga_certificada(self, anio):
+        from apps.registro.models import ExtensionAulicaCertificacionCarga
+        return ExtensionAulicaCertificacionCarga.objects.filter(extension_aulica__id=self.id, anio=anio).exists()
+

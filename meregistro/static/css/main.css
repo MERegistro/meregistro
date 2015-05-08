@@ -369,6 +369,13 @@ div.form ul.errorlist li { /* Cada error */
     padding-left: 20px;
     background: url(../img/icons/warning-16.png) no-repeat 0 -2px;
 }
+div.form div.obligatorio-sin-completar label {
+    color: #f00;
+}
+div.form div.obligatorio-sin-completar input,
+div.form div.obligatorio-sin-completar select {
+    border: 1px #f00 solid;
+}
 div.form div.form-checkbox-list {
 }
 div#wrapper div#content div.form div.form-checkbox-list ul {

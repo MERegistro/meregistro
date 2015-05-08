@@ -40,12 +40,12 @@
         <label for="id_norma_creacion">Número de la Norma:</label>
         {{ form.norma_creacion }}
     </div>
-	<div class="form-select">
+	<div class="form-select{% if anexo.posee_centro_estudiantes == None %} obligatorio-sin-completar{% endif %}">
 	    {{ form.posee_centro_estudiantes.errors }}
 	    <label for="id_posee_centro_estudiantes">¿Hay centro de estudiantes en la institución?</label>
 	    {{ form.posee_centro_estudiantes }}
 	</div>
-	<div class="form-select" style="margin-top: 20px;">
+	<div class="form-select{% if anexo.posee_representantes_estudiantiles == None %} obligatorio-sin-completar{% endif %}" style="margin-top: 20px;">
 	    {{ form.posee_representantes_estudiantiles.errors }}
 	    <label for="id_posee_representantes_estudiantiles">¿Hay representantes estudiantiles en órgano colegiado de la institución?</label>
 	    {{ form.posee_representantes_estudiantiles }}

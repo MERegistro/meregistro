@@ -150,17 +150,11 @@ urlpatterns = patterns('',
     url(r'^dependencia_funcional/([0-9]+)/edit', 'apps.registro.views.dependencia_funcional.edit', name='dependenciaFuncionalEdit'),
     url(r'^dependencia_funcional/create', 'apps.registro.views.dependencia_funcional.create', name='dependenciaFuncionalCreate'),
     url(r'^dependencia_funcional/([0-9]+)/delete', 'apps.registro.views.dependencia_funcional.delete', name='dependenciaFuncionalDelete'),
-    # Certificación de Carga
+    # Certificación de Carga Establecimiento
     url(r'^certificacion_carga/([0-9]{4})$', 'apps.registro.views.certificacion_carga.index', name='certificacionCargaIndex'),
     url(r'^certificacion_carga/(?P<anio>[0-9]{4})/establecimiento/(?P<establecimiento_id>[0-9]+)$', 'apps.registro.views.certificacion_carga.certificar_establecimiento', name='certificarCargaEstablecimiento'),
-    #url(r'^certificacion_carga/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/rechazar$', 'apps.titulos.views.certificacion_carga.rechazar', name='cohorteRechazar'),
-    #url(r'^certificacion_carga/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/seguimiento$', 'apps.titulos.views.certificacion_carga.seguimiento', name='cohorteSeguimiento'),
-    #url(r'^certificacion_carga/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<cohorte_ue_id>[0-9]+)/create$', 'apps.titulos.views.certificacion_carga.create', name='cohorteSeguimientoCreate'),
-    #url(r'^certificacion_carga/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<seguimiento_id>[0-9]+)/edit$', 'apps.titulos.views.certificacion_carga.edit', name='cohorteSeguimientoEdit'),
-    #url(r'^certificacion_carga/cohorte_(?P<tipo_unidad_educativa>[a-z_]+)/(?P<seguimiento_id>[0-9]+)/delete$', 'apps.titulos.views.certificacion_carga.delete', name='cohorteSeguimientoDelete'),
-    #url(r'^certificacion_carga/([0-9]+)/establecimiento/$', 'apps.titulos.views.certificacion_carga.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'establecimiento' }, name='cohortesEstablecimientoIndex'),
-    #url(r'^certificacion_carga/([0-9]+)/anexo/$', 'apps.titulos.views.certificacion_carga.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'anexo' }, name='cohortesAnexoIndex'),
-    #url(r'^certificacion_carga/([0-9]+)/extension_aulica/$', 'apps.titulos.views.certificacion_carga.cohortes_unidad_educativa', { 'tipo_unidad_educativa': 'extension_aulica' }, name='cohortesExtensionAulicaIndex'),
+    url(r'^certificacion_carga/(?P<anio>[0-9]{4})/anexo/(?P<anexo_id>[0-9]+)$', 'apps.registro.views.certificacion_carga.certificar_anexo', name='certificarCargaAnexo'),
+    url(r'^certificacion_carga/(?P<anio>[0-9]{4})/extension_aulica/(?P<extension_aulica_id>[0-9]+)$', 'apps.registro.views.certificacion_carga.certificar_extension_aulica', name='certificarCargaExtensionAulica'),
     #
     # AJAX
     url(r'^ajax/get_localidades_por_departamento/(?P<departamento_id>[0-9]+)', 'apps.registro.views.ajax.get_localidades_por_departamento', name='ajaxGetLocalidadesPorTipo'),

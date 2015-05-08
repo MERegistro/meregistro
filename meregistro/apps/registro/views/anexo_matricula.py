@@ -143,7 +143,7 @@ def matricula(request, anexo_id):
 
     page = paginator.page(page_number)
     objects = page.object_list
-		
+        
     return my_render(request, 'registro/anexo/matricula/matricula.html', {
         'anexo': anexo,
         'form_filters': form_filter,
@@ -159,10 +159,10 @@ def matricula(request, anexo_id):
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
         'actual_page': 'matricula',
         'form_verificacion': VerificacionDatosAnexoForm(
-			dato_verificacion='matricula', 
-			unidad_educativa_id=anexo.id, 
-			return_url='anexoMatriculaIndexAnexo', 
-			verificado=anexo.get_verificacion_datos().matricula),
+            dato_verificacion='matricula', 
+            unidad_educativa_id=anexo.id, 
+            return_url='anexoMatriculaIndexAnexo', 
+            verificado=anexo.get_verificacion_datos().matricula),
     })
 
 
@@ -191,7 +191,7 @@ def create(request, anexo_id):
             matricula.save()
 
             request.set_flash('success', 'Datos guardados correctamente.')
-            return HttpResponseRedirect(reverse('anexoMatriculaIndexAnexoAnexo', args=[matricula.anexo_id]))
+            return HttpResponseRedirect(reverse('anexoMatriculaIndexAnexo', args=[matricula.anexo_id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:

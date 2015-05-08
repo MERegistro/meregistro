@@ -24,7 +24,7 @@ class ExtensionAulicaVerificacionDatos(models.Model):
     def completo(self):
         return (self.datos_basicos and self.contacto and self.alcances and self.turnos
             and self.funciones and self.domicilios and self.autoridades
-            and self.info_edilicia and self.conectividad and self.matricula)
+            and self.info_edilicia and self.conectividad)
 
 
     def get_datos_verificados(self):
@@ -37,6 +37,5 @@ class ExtensionAulicaVerificacionDatos(models.Model):
             'domicilios': self.domicilios, 
             'autoridades': self.autoridades,
             'info_edilicia': self.info_edilicia, 
-            'conectividad': self.conectividad, 
-            'matricula': self.matricula
+            'conectividad': self.conectividad
         }

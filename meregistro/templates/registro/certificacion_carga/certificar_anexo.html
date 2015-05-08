@@ -1,0 +1,38 @@
+{% extends "base_registro.html" %}
+
+{% block title %}Certificación de fin de carga {{ anio }} del Anexo{% endblock %}
+
+{% block content %}
+<h2>Certificación de fin de carga {{ anio }} del Anexo</h2>
+<div class="datos-lectura">
+	<p><strong>Anexo:</strong> {{ anexo.cue }} - {{ anexo.nombre }}</p>
+</div>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if puede_certificar_carga %}
+<div class="message warning">
+    <p>Una vez certificada la carga del año no se puede volver atrás.</p>
+</div>
+<div class="form" id="certificarCargaForm">
+    <form action="" method="post">{% csrf_token %}
+        <input type="hidden" name="anexo_id" value="{{ anexo.id }}" />
+        <div class="form-submit">
+            <input type="submit" value="Confirmar" />
+        </div>
+    </form>
+</div>
+{% else %}
+<div class="message warning">
+    <p>No se puede certificar la carga. Compruebe que tiene el seguimiento de cohorte cargado para el año {{ anio }},
+    que cargó la matrícula de ese año y también cargó los datos democratización del anexo.</p>
+</div>
+{% endif %}
+<hr />
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.registro.views.certificacion_carga.index anio %}"><span>Volver</span></a>
+  </li>
+</ul>
+{% endblock %}

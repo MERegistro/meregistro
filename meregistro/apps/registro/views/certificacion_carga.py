@@ -47,7 +47,6 @@ def index(request, anio):
     
     anexos = establecimiento.anexos
     extensiones_aulicas = establecimiento.extensiones_aulicas
-
     return my_render(request, 'registro/certificacion_carga/index.html', {
         'anio': anio,
         'establecimiento': establecimiento,
@@ -81,4 +80,56 @@ def certificar_establecimiento(request, anio, establecimiento_id):
         'anio': anio,
         'establecimiento': establecimiento,
         'puede_certificar_carga': establecimiento.puede_certificar_carga(anio)
+    })
+
+
+@login_required
+@credential_required('registro_certificar_carga')
+def certificar_anexo(request, anio, anexo_id):
+    if not anio in ANIOS_HABILITADOS:
+        request.set_flash('warning', 'No es posible certificar la carga del año ' + str(anio) + '.')
+        return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
+
+    anexo = Anexo.objects.get(id=anexo_id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    
+    if anexo.carga_certificada(anio):
+        request.set_flash('warning', 'La carga del año ' + str(anio) + ' ya se encuentra certificada.')
+        return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
+        
+    if request.method == 'POST':
+        certificacion = anexo.certificar_carga(anio, request.get_perfil().usuario)
+        request.set_flash('success', 'Carga del año ' + str(anio) + ' certificada correctamente.')
+        MailHelper.notify_by_email(MailHelper.CERTIFICACION_CARGA_ANEXO, certificacion)
+        return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
+        
+    return my_render(request, 'registro/certificacion_carga/certificar_anexo.html', {
+        'anio': anio,
+        'anexo': anexo,
+        'puede_certificar_carga': anexo.puede_certificar_carga(anio)
+    })
+
+
+@login_required
+@credential_required('registro_certificar_carga')
+def certificar_extension_aulica(request, anio, extension_aulica_id):
+    if not anio in ANIOS_HABILITADOS:
+        request.set_flash('warning', 'No es posible certificar la carga del año ' + str(anio) + '.')
+        return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
+
+    extension_aulica = ExtensionAulica.objects.get(id=extension_aulica_id, ambito__path__istartswith=request.get_perfil().ambito.path)
+    
+    if extension_aulica.carga_certificada(anio):
+        request.set_flash('warning', 'La carga del año ' + str(anio) + ' ya se encuentra certificada.')
+        return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
+        
+    if request.method == 'POST':
+        certificacion = extension_aulica.certificar_carga(anio, request.get_perfil().usuario)
+        request.set_flash('success', 'Carga del año ' + str(anio) + ' certificada correctamente.')
+        MailHelper.notify_by_email(MailHelper.CERTIFICACION_CARGA_ANEXO, certificacion)
+        return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
+        
+    return my_render(request, 'registro/certificacion_carga/certificar_extension_aulica.html', {
+        'anio': anio,
+        'extension_aulica': extension_aulica,
+        'puede_certificar_carga': extension_aulica.puede_certificar_carga(anio)
     })
