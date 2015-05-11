@@ -353,12 +353,13 @@ Instituto Nacional de Formación Docente<br />
     def certificacion_carga_establecimiento(certificacion):
         usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
         establecimiento = certificacion.establecimiento
+        anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = establecimiento.dependencia_funcional.ambito.id
         ambito_jurisdiccion_id = establecimiento.dependencia_funcional.jurisdiccion.ambito.id
         recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
         return {
-            'subject': u'Certificación de Carga ' + str(certificacion.anio),
-            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + certificacion.anio + ' para el establecimiento ' + str(establecimiento) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
+            'subject': u'Certificación de Carga ' + anio,
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para el establecimiento ' + str(establecimiento) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
         }
@@ -367,12 +368,13 @@ Instituto Nacional de Formación Docente<br />
     def certificacion_carga_anexo(certificacion):
         usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
         anexo = certificacion.anexo
+        anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = anexo.establecimiento.dependencia_funcional.ambito.id
         ambito_jurisdiccion_id = anexo.establecimiento.dependencia_funcional.jurisdiccion.ambito.id
         recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
         return {
-            'subject': u'Certificación de Carga ' + str(certificacion.anio),
-            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + certificacion.anio + ' para el anexo ' + str(anexo) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
+            'subject': u'Certificación de Carga ' + anio,
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para el anexo ' + str(anexo) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
         }
@@ -381,12 +383,13 @@ Instituto Nacional de Formación Docente<br />
     def certificacion_carga_extension_aulica(certificacion):
         usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
         extension_aulica = certificacion.extension_aulica
+        anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = extension_aulica.establecimiento.dependencia_funcional.ambito.id
         ambito_jurisdiccion_id = extension_aulica.establecimiento.dependencia_funcional.jurisdiccion.ambito.id
         recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
         return {
-            'subject': u'Certificación de Carga ' + str(certificacion.anio),
-            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + certificacion.anio + ' para la extensión áulica ' + str(extension_aulica) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
+            'subject': u'Certificación de Carga ' + anio,
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para la extensión áulica ' + str(extension_aulica) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
         }
