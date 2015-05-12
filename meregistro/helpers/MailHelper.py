@@ -351,7 +351,7 @@ Instituto Nacional de Formación Docente<br />
 
     @staticmethod
     def certificacion_carga_establecimiento(certificacion):
-        usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
+        usuario = u'' + certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
         establecimiento = certificacion.establecimiento
         anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = establecimiento.dependencia_funcional.ambito.id
@@ -359,7 +359,7 @@ Instituto Nacional de Formación Docente<br />
         recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
         return {
             'subject': u'Certificación de Carga ' + anio,
-            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para el establecimiento ' + str(establecimiento) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para el establecimiento ' + unicode(establecimiento) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
         }
@@ -374,7 +374,7 @@ Instituto Nacional de Formación Docente<br />
         recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
         return {
             'subject': u'Certificación de Carga ' + anio,
-            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para el anexo ' + str(anexo) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para el anexo ' + unicode(anexo) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
         }
@@ -389,7 +389,7 @@ Instituto Nacional de Formación Docente<br />
         recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
         return {
             'subject': u'Certificación de Carga ' + anio,
-            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para la extensión áulica ' + str(extension_aulica) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
+            'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + ' para la extensión áulica ' + unicode(extension_aulica) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
         }
