@@ -1,32 +1,56 @@
 <div class="form tabbed-form" id="establecimientoVer">
-	<h4>Fecha de Solicitud de Registro: {{ extension_aulica.get_fecha_solicitud }}</h4>
-	<div class="ver-dato">
-	    <p><strong>Depende de la Sede del:</strong> {{ extension_aulica.establecimiento }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>CUE:</strong> {{ extension_aulica.codigo_jurisdiccion }}{{ extension_aulica.cue }}{{ extension_aulica.codigo_tipo_unidad_educativa }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Nombre:</strong> {{ extension_aulica.nombre }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>¿Posee Subsidio?:</strong> {{ extension_aulica.subsidio }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Año de Creación:</strong> {{ extension_aulica.anio_creacion|default:"" }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Origen de la Norma:</strong> {{ extension_aulica.origen_norma }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Tipo de Norma:</strong> {{ extension_aulica.norma_creacion }} - {{ extension_aulica.norma_creacion_otra|default:"" }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Número de la Norma:</strong> {{ extension_aulica.norma_creacion_numero }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Observaciones:</strong> {{ extension_aulica.observaciones|default:"---" }}</p>
-	</div>
+    <h4>Fecha de Solicitud de Registro: {{ extension_aulica.get_fecha_solicitud }}</h4>
+    <div class="ver-dato">
+        <p><strong>Depende de la Sede del:</strong> {{ extension_aulica.establecimiento }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>CUE:</strong> {{ extension_aulica.codigo_jurisdiccion }}{{ extension_aulica.cue }}{{ extension_aulica.codigo_tipo_unidad_educativa }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Nombre:</strong> {{ extension_aulica.nombre }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>¿Posee Subsidio?:</strong> {{ extension_aulica.subsidio }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Año de Creación:</strong> {{ extension_aulica.anio_creacion|default:"" }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Origen de la Norma:</strong> {{ extension_aulica.origen_norma }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Tipo de Norma:</strong> {{ extension_aulica.norma_creacion }} - {{ extension_aulica.norma_creacion_otra|default:"" }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Número de la Norma:</strong> {{ extension_aulica.norma_creacion_numero }}</p>
+    </div>
+    <div class="ver-dato">
+        <p>
+            <strong>¿Hay centro de estudiantes en la institución?</strong>
+            {% if extension_aulica.posee_centro_estudiantes == None %} ---
+            {% else %}
+                {% if extension_aulica.posee_centro_estudiantes %} SI
+                {% else %} NO
+                {% endif %}
+            {% endif %}
+            
+        </p>
+    </div>
+    <div class="ver-dato">
+        <p>
+            <strong>¿Hay representantes estudiantiles en órgano colegiado de la institución?</strong>
+            {% if extension_aulica.posee_representantes_estudiantiles == None %} ---
+            {% else %}
+                {% if extension_aulica.posee_representantes_estudiantiles %} SI
+                {% else %} NO
+                {% endif %}
+            {% endif %}
+            
+        </p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Observaciones:</strong> {{ extension_aulica.observaciones|default:"---" }}</p>
+    </div>
     {% if 'reg_anexo_verificar_datos' in credenciales %}
     <div class="ver-dato datos-verificados">
         <p><strong>Datos Verificados:</strong> {% if extension_aulica.verificado %}Sí{% else %}No{% endif %}</p>

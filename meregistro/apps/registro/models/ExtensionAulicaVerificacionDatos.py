@@ -37,5 +37,6 @@ class ExtensionAulicaVerificacionDatos(models.Model):
             'domicilios': self.domicilios, 
             'autoridades': self.autoridades,
             'info_edilicia': self.info_edilicia, 
-            'conectividad': self.conectividad
+            'conectividad': self.conectividad,
+            'matricula': self.matricula
         }

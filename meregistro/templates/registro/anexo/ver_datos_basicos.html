@@ -1,32 +1,56 @@
 <div class="form tabbed-form" id="establecimientoVer">
-	<h4>Fecha de Solicitud de Registro: {{ anexo.get_fecha_solicitud }}</h4>
-	<div class="ver-dato">
-	    <p><strong>Depende de la Sede del:</strong> {{ anexo.establecimiento }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>CUE:</strong> {{ anexo.codigo_jurisdiccion }}{{ anexo.cue }}{{ anexo.codigo_tipo_unidad_educativa }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Nombre:</strong> {{ anexo.nombre }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>¿Posee Subsidio?:</strong> {{ anexo.subsidio }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Año de Creación:</strong> {{ anexo.anio_creacion|default:"" }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Origen de la Norma:</strong> {{ anexo.tipo_normativa }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Tipo de Norma:</strong> {{ anexo.tipo_norma }} - {{ anexo.tipo_norma_otra|default:"" }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Número de la Norma:</strong> {{ anexo.norma_creacion }}</p>
-	</div>
-	<div class="ver-dato">
-	    <p><strong>Observaciones:</strong> {{ anexo.observaciones|default:"---" }}</p>
-	</div>
+    <h4>Fecha de Solicitud de Registro: {{ anexo.get_fecha_solicitud }}</h4>
+    <div class="ver-dato">
+        <p><strong>Depende de la Sede del:</strong> {{ anexo.establecimiento }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>CUE:</strong> {{ anexo.codigo_jurisdiccion }}{{ anexo.cue }}{{ anexo.codigo_tipo_unidad_educativa }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Nombre:</strong> {{ anexo.nombre }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>¿Posee Subsidio?:</strong> {{ anexo.subsidio }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Año de Creación:</strong> {{ anexo.anio_creacion|default:"" }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Origen de la Norma:</strong> {{ anexo.tipo_normativa }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Tipo de Norma:</strong> {{ anexo.tipo_norma }} - {{ anexo.tipo_norma_otra|default:"" }}</p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Número de la Norma:</strong> {{ anexo.norma_creacion }}</p>
+    </div>
+    <div class="ver-dato">
+        <p>
+            <strong>¿Hay centro de estudiantes en la institución?</strong>
+            {% if anexo.posee_centro_estudiantes == None %} ---
+            {% else %}
+                {% if anexo.posee_centro_estudiantes %} SI
+                {% else %} NO
+                {% endif %}
+            {% endif %}
+            
+        </p>
+    </div>
+    <div class="ver-dato">
+        <p>
+            <strong>¿Hay representantes estudiantiles en órgano colegiado de la institución?</strong>
+            {% if anexo.posee_representantes_estudiantiles == None %} ---
+            {% else %}
+                {% if anexo.posee_representantes_estudiantiles %} SI
+                {% else %} NO
+                {% endif %}
+            {% endif %}
+            
+        </p>
+    </div>
+    <div class="ver-dato">
+        <p><strong>Observaciones:</strong> {{ anexo.observaciones|default:"---" }}</p>
+    </div>
     {% if 'reg_anexo_verificar_datos' in credenciales %}
     <div class="ver-dato datos-verificados">
         <p><strong>Datos Verificados:</strong> {% if anexo.verificado %}Sí{% else %}No{% endif %}</p>
