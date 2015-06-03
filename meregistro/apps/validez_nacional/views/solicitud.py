@@ -356,6 +356,8 @@ def asignar_establecimientos(request, solicitud_id):
         return HttpResponseRedirect(reverse('solicitudAsignarEstablecimientos', args=[solicitud.id]))
 
     return my_render(request, 'validez_nacional/solicitud/asignar_establecimientos.html', {
+        'is_new': False,
+        'current_page': 'asignar-establecimientos',
         'solicitud': solicitud,
         'form_filters': form_filter,
         'current_establecimientos_ids': current_establecimientos_ids,
@@ -421,6 +423,8 @@ def asignar_anexos(request, solicitud_id):
         return HttpResponseRedirect(reverse('solicitudAsignarAnexos', args=[solicitud.id]))
 
     return my_render(request, 'validez_nacional/solicitud/asignar_anexos.html', {
+        'is_new': False,
+        'current_page': 'asignar-anexos',
         'solicitud': solicitud,
         'form_filters': form_filter,
         'current_anexos_ids': current_anexos_ids,
