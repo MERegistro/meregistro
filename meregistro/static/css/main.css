@@ -810,6 +810,13 @@ td.actions-td ul li.orientaciones a {
     height: 16px;
     background: url(../img/icons/arrow-branch-bgr-16-ns.png) no-repeat left;
 }
+/* duplicar */
+td.actions-td ul li.duplicate a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background: url(../img/icons/copy.png) no-repeat left;
+}
 /* REGISTRAR */
 td.actions-td ul li.registrar a {
     background: url(../img/icons/arrow_right-disabled-16x16.png) no-repeat left;
