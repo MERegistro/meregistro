@@ -126,15 +126,15 @@ def duplicar(request, validez_id):
         form = ValidezNacionalForm(request.POST, instance=validez)
         if form.is_valid():
             validez = form.save()
-            return HttpResponseRedirect(reverse('validezNacionalEditarValidez', args=[validez.id]))
 
             request.set_flash('success', 'Registro de Validez duplicado correctamente.')
+            return HttpResponseRedirect(reverse('validezNacionalEditarValidez', args=[validez.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error duplicando el registro.')
     else:
         form = ValidezNacionalForm(instance=validez)
     
-    return my_render(request, 'validez_nacional/validez/edit.html', {
+    return my_render(request, 'validez_nacional/validez/duplicar.html', {
         'validez': validez,
         'form': form,
     })

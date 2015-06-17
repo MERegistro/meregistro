@@ -1,0 +1,102 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Duplicación de Validez Nacional{% endblock %}
+
+{% block content %}
+<h2>Duplicación de Validez Nacional</h2>
+<h3>{{ page_title }}</h3>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+
+<div class="datos-lectura" id="datosValidez">
+    <p><strong>Jurisdicción:</strong> {{ validez.get_jurisdiccion.nombre }}</p>
+</div>
+
+<div class="form" id="validezForm">
+    <form action="" method="post">{% csrf_token %}
+        {{ form.non_field_errors }}
+        <input type="hidden" id="id_validez" name="id_validez" value="{{ validez.id }}" />
+        <div class="form-text">
+            {{ form.cue.errors }}
+            <label for="id_cue">CUE:</label>
+            {{ form.cue }}
+        </div>
+        <div class="form-text">
+            {{ form.carrera.errors }}
+            <label for="id_carrera">Carrera:</label>
+            {{ form.carrera }}
+        </div>
+        <div class="form-text">
+            {{ form.titulo_nacional.errors }}
+            <label for="id_titulo_nacional">Título Nacional:</label>
+            {{ form.titulo_nacional }}
+        </div>
+        <div class="form-text">
+            {{ form.primera_cohorte.errors }}
+            <label for="id_primera_cohorte">Primera Cohorte Autorizada:</label>
+            {{ form.primera_cohorte }}
+        </div>
+        <div class="form-text">
+            {{ form.ultima_cohorte.errors }}
+            <label for="id_ultima_cohorte">Última Cohorte Autorizada:</label>
+            {{ form.ultima_cohorte }}
+        </div>
+        <div class="form-text">
+            {{ form.normativa_jurisdiccional.errors }}
+            <label for="id_normativa_jurisdiccional">Normativa Jurisdiccional:</label>
+            {{ form.normativa_jurisdiccional }}
+        </div>
+        <div class="form-text">
+            {{ form.dictamen_cofev.errors }}
+            <label for="id_dictamen_cofev">Dictamen CoFEv:</label>
+            {{ form.dictamen_cofev }}
+        </div>
+        <div class="form-text">
+            {{ form.normativas_nacionales.errors }}
+            <label for="id_normativas_nacionales">Normativa Nacional:</label>
+            {{ form.normativas_nacionales }}
+        </div>
+        <div class="form-text">
+            {{ form.nro_infd.errors }}
+            <label for="id_nro_infd">Nro. INFD.:</label>
+            {{ form.nro_infd }}
+        </div>
+        <div class="form-submit">
+            <input type="button" value="Actualizar" id="form-submit" />
+        </div>
+    </form>
+</div>
+
+<ul class="actions">
+  <li class="back">
+    <a href="{% url apps.validez_nacional.views.validez.index %}"><span>Volver</span></a>
+  </li>
+</ul>
+<hr />
+<script type="text/javascript">
+$(document).ready(function(){
+    // Se envía el formulario después de chequear si el nro infd está repetido (pidiendo confirmación del usuario)
+    $('#form-submit').click(function(){
+        $.ajax({
+            url: "/validez_nacional/ajax/chequear_nro_infd/"+$('#id_validez').val()+"/"+$('#id_nro_infd').val(),
+            dataType: 'json',
+            success: function(infd_repetido){
+                if(infd_repetido){
+                    confirmar_repetido = confirm('Tenga en cuenta que ya existe otro registro con el mismo Nro. INFD en el sistema. ¿Está seguro que desea guardar el registro?');
+                    if(confirmar_repetido){  // El usuario confirma, enviar el form
+                        $('div#validezForm form').submit();
+                    } else {
+                        // Cancelado...
+                    }
+                } else { // No está repetido, enviar el form
+                    $('div#validezForm form').submit();
+                }
+            } // END success
+        }); // END ajax
+    }); // END click
+}); // END ready function
+</script>
+{% endblock %}
