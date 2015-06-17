@@ -36,6 +36,11 @@
             {{ form_filters.titulo_nacional }}
         </div>
         <div class="form-text">
+            {{ form_filters.normativas_nacionales.errors }}
+            <label for="id_normativas_nacionales">Normativa Nacional:</label>
+            {{ form_filters.normativas_nacionales }}
+        </div>
+        <div class="form-text">
             {{ form_filters.primera_cohorte.errors }}
             <label for="id_primera_cohorte">Primera Cohorte Autorizada:</label>
             {{ form_filters.primera_cohorte }}
