@@ -198,17 +198,22 @@ class ExtensionAulica(models.Model):
 
     """
     Se puede certificar la carga del año cuando:
-        * Tiene seguimiento de cohorte cargado en ese año  
+        * Tiene seguimiento de cohorte cargado en ese año | Tiene inscriptos en la cohorte de ese año
         * Cargó la matrícula de ese año  
         * Cargó datos de democratización
     """
     def puede_certificar_carga(self, anio):
         from apps.titulos.models import CohorteExtensionAulicaSeguimiento
+        from apps.titulos.models import CohorteExtensionAulica
         from apps.registro.models import ExtensionAulicaMatricula
         seguimiento_cargado = len(CohorteExtensionAulicaSeguimiento.objects.filter(cohorte_extension_aulica__extension_aulica__id=self.id, anio=anio)) > 0
+        try:
+            inscriptos_cargados = CohorteExtensionAulica.objects.get(anexo__id=self.id, cohorte__anio=anio).inscriptos > 0
+        except CohorteExtensionAulica.DoesNotExist:
+            inscriptos_cargados = False
         matricula_cargada = len(ExtensionAulicaMatricula.objects.filter(extension_aulica__id=self.id, anio=anio)) > 0
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
-        return seguimiento_cargado and matricula_cargada and datos_democratizacion_cargados
+        return (seguimiento_cargado or inscriptos_cargados) and matricula_cargada and datos_democratizacion_cargados
 
     """
     """

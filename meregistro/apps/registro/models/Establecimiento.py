@@ -235,17 +235,22 @@ class Establecimiento(models.Model):
 
     """
     Se puede certificar la carga del año cuando:
-        * Tiene seguimiento de cohorte cargado en ese año  
+        * Tiene seguimiento de cohorte cargado en ese año | Tiene inscriptos en la cohorte de ese año
         * Cargó la matrícula de ese año  
         * Cargó datos de democratización
     """
     def puede_certificar_carga(self, anio):
         from apps.titulos.models import CohorteEstablecimientoSeguimiento
+        from apps.titulos.models import CohorteEstablecimiento
         from apps.registro.models import EstablecimientoMatricula
         seguimiento_cargado = len(CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__establecimiento__id=self.id, anio=anio)) > 0
+        try:
+            inscriptos_cargados = CohorteEstablecimiento.objects.get(establecimiento__id=self.id, cohorte__anio=anio).inscriptos > 0
+        except CohorteEstablecimiento.DoesNotExist:
+            inscriptos_cargados = False
         matricula_cargada = len(EstablecimientoMatricula.objects.filter(establecimiento__id=self.id, anio=anio)) > 0
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
-        return seguimiento_cargado and matricula_cargada and datos_democratizacion_cargados
+        return (seguimiento_cargado or inscriptos_cargados) and matricula_cargada and datos_democratizacion_cargados
 
     """
     """
