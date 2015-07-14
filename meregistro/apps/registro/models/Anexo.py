@@ -194,12 +194,10 @@ class Anexo(models.Model):
         from apps.titulos.models import CohorteAnexo
         from apps.registro.models import AnexoMatricula
         seguimiento_cargado = len(CohorteAnexoSeguimiento.objects.filter(cohorte_anexo__anexo__id=self.id, anio=anio)) > 0
-        try:
-            inscriptos_cargados = CohorteAnexo.objects.get(anexo__id=self.id, cohorte__anio=anio).inscriptos > 0
-        except CohorteAnexo.DoesNotExist:
-            inscriptos_cargados = False
+        inscriptos_cargados = len(CohorteAnexo.objects.filter(anexo__id=self.id, cohorte__anio=anio, inscriptos__gt=0)) > 0
         matricula_cargada = len(AnexoMatricula.objects.filter(anexo__id=self.id, anio=anio)) > 0
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
+
         return (seguimiento_cargado or inscriptos_cargados) and matricula_cargada and datos_democratizacion_cargados
 
     """

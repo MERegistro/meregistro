@@ -244,12 +244,10 @@ class Establecimiento(models.Model):
         from apps.titulos.models import CohorteEstablecimiento
         from apps.registro.models import EstablecimientoMatricula
         seguimiento_cargado = len(CohorteEstablecimientoSeguimiento.objects.filter(cohorte_establecimiento__establecimiento__id=self.id, anio=anio)) > 0
-        try:
-            inscriptos_cargados = CohorteEstablecimiento.objects.get(establecimiento__id=self.id, cohorte__anio=anio).inscriptos > 0
-        except CohorteEstablecimiento.DoesNotExist:
-            inscriptos_cargados = False
+        inscriptos_cargados = len(CohorteEstablecimiento.objects.filter(establecimiento__id=self.id, cohorte__anio=anio, inscriptos__gt=0)) > 0
         matricula_cargada = len(EstablecimientoMatricula.objects.filter(establecimiento__id=self.id, anio=anio)) > 0
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
+
         return (seguimiento_cargado or inscriptos_cargados) and matricula_cargada and datos_democratizacion_cargados
 
     """
