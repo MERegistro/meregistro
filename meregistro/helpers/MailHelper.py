@@ -159,8 +159,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualización de datos de establecimiento',
             'message': u'Se ha modificado el establecimiento',
             'email_from': u'pepe@example.com',
-            #'recipients': ['user@example.com', 'admin@example.com'],
-            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+            #'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+            'recipients': []
         }
 
     @staticmethod
@@ -232,8 +232,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualización de datos de anexo',
             'message': u'Se ha modificado el anexo',
             'email_from': u'pepe@example.com',
-            #'recipients': ['user@example.com', 'admin@example.com'],
-            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+            #'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+            'recipients': []
         }
 
     @staticmethod
@@ -305,8 +305,8 @@ Instituto Nacional de Formación Docente<br />
             'subject': u'Actualizació de datos de extensión áulica',
             'message': u'Se ha modificado la extensión áulica',
             'email_from': u'pepe@example.com',
-            #'recipients': ['user@example.com', 'admin@example.com'],
-            'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+            #'recipients': [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_ADMIN_NACIONAL)]
+            'recipients': []
         }
 
     @staticmethod
