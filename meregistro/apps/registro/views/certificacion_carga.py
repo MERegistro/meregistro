@@ -125,7 +125,7 @@ def certificar_extension_aulica(request, anio, extension_aulica_id):
     if request.method == 'POST':
         certificacion = extension_aulica.certificar_carga(anio, request.get_perfil().usuario)
         request.set_flash('success', 'Carga del año ' + str(anio) + ' certificada correctamente.')
-        MailHelper.notify_by_email(MailHelper.CERTIFICACION_CARGA_ANEXO, certificacion)
+        MailHelper.notify_by_email(MailHelper.CERTIFICACION_CARGA_EXTENSION_AULICA, certificacion)
         return HttpResponseRedirect(reverse('certificacionCargaIndex', args=[anio]))
         
     return my_render(request, 'registro/certificacion_carga/certificar_extension_aulica.html', {
