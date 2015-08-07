@@ -207,7 +207,7 @@ class ExtensionAulica(models.Model):
         from apps.titulos.models import CohorteExtensionAulica
         from apps.registro.models import ExtensionAulicaMatricula
         seguimiento_cargado = len(CohorteExtensionAulicaSeguimiento.objects.filter(cohorte_extension_aulica__extension_aulica__id=self.id, anio=anio)) > 0
-        inscriptos_cargados = len(CohorteExtensionAulica.objects.filter(anexo__id=self.id, cohorte__anio=anio, inscriptos__gt=0)) > 0
+        inscriptos_cargados = len(CohorteExtensionAulica.objects.filter(extension_aulica__id=self.id, cohorte__anio=anio, inscriptos__gt=0)) > 0
         matricula_cargada = len(ExtensionAulicaMatricula.objects.filter(extension_aulica__id=self.id, anio=anio)) > 0
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
 
