@@ -609,7 +609,7 @@ def detalle_numeracion(request, solicitud_id, referencia):
 @login_required
 @credential_required('validez_nacional_solicitud_informe')
 def informe(request, solicitud_id):
-    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre=EstadoSolicitud.CONTROLADO)
+    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre__in=[EstadoSolicitud.CONTROLADO, EstadoSolicitud.RETENIDO])
 
     try:
         informe = solicitud.informe.get()
@@ -643,7 +643,7 @@ def informe(request, solicitud_id):
 @login_required
 @credential_required('validez_nacional_solicitud_informe')
 def informe_impresion(request, solicitud_id):
-    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre=EstadoSolicitud.CONTROLADO)
+    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre__in=[EstadoSolicitud.CONTROLADO, EstadoSolicitud.RETENIDO])
 
     try:
         informe = solicitud.informe.get()
