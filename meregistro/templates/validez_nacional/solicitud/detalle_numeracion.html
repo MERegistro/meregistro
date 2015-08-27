@@ -48,7 +48,7 @@
   <tbody>
 	{% for v in validez %}
 	  <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-		<td>Sede</td>
+		<td>{{ v.tipo_unidad_educativa }}</td>
 		<td>{{ v.cue }}</td>
 		<td style="text-align: left;">{{ v.get_unidad_educativa.nombre }}</td>
 		<td>{{ v.get_unidad_educativa.get_domicilio_institucional.localidad.departamento }}</td>

@@ -560,6 +560,9 @@ def numerar(request, solicitud_id):
             v.save() # Necesito recuperar el ID en la siguiente línea
             v.nro_infd = v.calcular_nro_infd_establecimiento()
             v.save()
+            MailHelper.notify_by_email(MailHelper.NUMERACION_SOLICITUD, v)
+
+            
                 
         # solicitud-anexos
         for sa in solicitud_anexos:
@@ -579,6 +582,7 @@ def numerar(request, solicitud_id):
             v.save() # Necesito recuperar el ID en la siguiente línea
             v.nro_infd = v.calcular_nro_infd_anexo()
             v.save()
+            MailHelper.notify_by_email(MailHelper.NUMERACION_SOLICITUD, v)
             
         request.set_flash('success', 'Se ha generado la validez de títulos.')
         return HttpResponseRedirect(reverse('validezNacionalDetalleNumeracion', args=[solicitud.id, referencia]))

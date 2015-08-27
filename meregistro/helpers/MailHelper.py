@@ -32,6 +32,9 @@ class MailHelper():
     CERTIFICACION_CARGA_ANEXO = u'CertificacionCargaAnexo'
     CERTIFICACION_CARGA_EXTENSION_AULICA = u'CertificacionCargaExtensionAulica'
 
+    NUMERACION_SOLICITUD = u'NumeracionSolicitud'
+    
+    debug_count = 0
 
     @staticmethod
     def get_usuarios_activos_por_rol(rol):
@@ -60,6 +63,7 @@ class MailHelper():
             MailHelper.CERTIFICACION_CARGA_ESTABLECIMIENTO: MailHelper.certificacion_carga_establecimiento,
             MailHelper.CERTIFICACION_CARGA_ANEXO: MailHelper.certificacion_carga_anexo,
             MailHelper.CERTIFICACION_CARGA_EXTENSION_AULICA: MailHelper.certificacion_carga_extension_aulica,
+            MailHelper.NUMERACION_SOLICITUD: MailHelper.numeracion_solicitud,
 
         }
         """ EJ:  mail_data = MailHelper.establecimiento_create(model) """
@@ -83,6 +87,7 @@ class MailHelper():
 
     @staticmethod
     def debug_email(model, subject, message, email_from, recipients, notification_type):
+        MailHelper.debug_count += 1
         """
         Mock de envío para utilizar en desarrollo, crea un documento con los datos del email a enviar
         """
@@ -91,7 +96,9 @@ class MailHelper():
         import time
 
         sys.stdout.softspace = 0
-        f = open(PROJECT_ROOT + '/tmp/debug_emails/' + str(int(time.time())) + '-' + notification_type + '.txt', 'w')
+        nombrearchivo = PROJECT_ROOT + '/tmp/debug_emails/' + str(int(time.time())) + '-' + str(MailHelper.debug_count) + '-' + notification_type + '.txt'
+        print nombrearchivo
+        f = open(nombrearchivo, 'w')
         print >>f, u"Subject:", subject.encode('utf8')
         print >>f, u"Message:", message.encode('utf8')
         print >>f, u"From:", email_from.encode('utf8')
@@ -392,4 +399,65 @@ Instituto Nacional de Formación Docente<br />
             'message': u'El usuario ' + usuario + ' ha certificado la carga de datos ' + anio + u' para la extensión áulica ' + unicode(extension_aulica) + '. Por favor chequee que todos los datos hayan sido consignados correctamente.',
             #'recipients': ['user@example.com', 'admin@example.com'],
             'recipients': recipientes
+        }
+
+    @staticmethod
+    def numeracion_solicitud(validez):
+        from apps.validez_nacional.models.ValidezNacional import ValidezNacional
+        solicitud = validez.solicitud
+        ue = validez.get_unidad_educativa
+        
+        if validez.tipo_unidad_educativa == ValidezNacional.TIPO_UE_SEDE:
+            establecimiento = validez.get_establecimiento()
+            
+        else:
+            establecimiento = validez.get_anexo().establecimiento
+            
+        ambito_dependencia_funcional_id = establecimiento.dependencia_funcional.ambito.id
+        ambito_jurisdiccion_id = establecimiento.dependencia_funcional.jurisdiccion.ambito.id
+        if validez.dictamen_cofev is None:
+            dictamen_cofev = ''
+        else:
+            dictamen_cofev = validez.dictamen_cofev
+        recipientes = [u.email for u in MailHelper.get_usuarios_activos_por_rol(Rol.ROL_REFERENTE_JURISDICCIONAL).filter(perfiles__ambito__id__in=[ambito_jurisdiccion_id, ambito_dependencia_funcional_id]).distinct()]
+        return {
+            'subject': u'Nuevo registro de Validez Nacional',
+            'message': u"""Estimado/a
+
+Se ha registrado una nueva numeración de título nacional, cuyos datos son:
+
+Tipo: """ + validez.tipo_unidad_educativa + u"""
+Jurisdicción: """ + solicitud.jurisdiccion.nombre + u"""
+Carrera: """ + validez.carrera + u"""
+Título: """ + validez.titulo_nacional + u"""
+Primera Cohorte Autorizada: """ + str(validez.primera_cohorte) + u"""
+Últimas Cohorte Autorizada: """ + str(validez.ultima_cohorte) + u"""
+Dictamen de la CoFEv: """ + dictamen_cofev + u"""
+Normativa Jurisdiccional: """ + validez.normativa_jurisdiccional + u"""
+Normativa Nacional: """ + validez.normativas_nacionales + u"""
+
+Correo Automático - Sistema REFFOD
+Instituto Nacional de Formación Docente
+""",
+            'html': u"""Estimado/a
+<br /><br />
+Se ha registrado una nueva numeración de título nacional, cuyos datos son::
+<br /><br />
+Tipo: <b>Extensión Aulica</b><br />
+Tipo: <b>""" + validez.tipo_unidad_educativa + u"""</b><br />
+Jurisdicción: <b>""" + solicitud.jurisdiccion.nombre + u"""</b><br />
+Carrera: <b>""" + validez.carrera + u"""
+Título: <b>""" + validez.titulo_nacional + u"""</b><br />
+Primera Cohorte Autorizada: <b>""" + str(validez.primera_cohorte) + u"""</b><br />
+Últimas Cohorte Autorizada: <b>""" + str(validez.ultima_cohorte) + u"""</b><br />
+Dictamen de la CoFEv: <b>""" + dictamen_cofev + u"""</b><br />
+Normativa Jurisdiccional: <b>""" + validez.normativa_jurisdiccional + u"""</b><br />
+Normativa Nacional: <b>""" + validez.normativas_nacionales + u"""</b><br />
+<br /><br />
+<b>
+Correo Automático - Sistema REFFOD<br />
+Instituto Nacional de Formación Docente<br />
+</b>
+""",
+            'recipients': recipientes,
         }
