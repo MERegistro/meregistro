@@ -103,11 +103,13 @@ div#intro-links a:hover {
  *=footer
  */
 div#footer {
-    height: 60px;
-    background: #fff url(../img/footer-975x90.png) no-repeat;
+    height: 70px;
+    background: #fff url(../img/footer-975x90b.png) no-repeat 0 10px;
     padding: 40px 20px 0;
     border-top: 3px #2D7C7C solid;
     text-align: center;
+}
+div#footer div#creditos {
 }
 /**
  *=footer-v2
