@@ -5,6 +5,7 @@ class TipoGestion(models.Model):
     
     ESTATAL = u'Estatal'
     PRIVADA = u'Privada'
+    SOCIAL = u'Social'
     
     nombre = models.CharField(max_length=50, unique=True)
 
