@@ -405,7 +405,7 @@ Instituto Nacional de Formación Docente<br />
     def numeracion_solicitud(validez):
         from apps.validez_nacional.models.ValidezNacional import ValidezNacional
         solicitud = validez.solicitud
-        ue = validez.get_unidad_educativa
+        ue = validez.get_unidad_educativa()
         
         if validez.tipo_unidad_educativa == ValidezNacional.TIPO_UE_SEDE:
             establecimiento = validez.get_establecimiento()
@@ -427,6 +427,7 @@ Instituto Nacional de Formación Docente<br />
 Se ha registrado una nueva numeración de título nacional, cuyos datos son:
 
 Tipo: """ + validez.tipo_unidad_educativa + u"""
+CUE: """ + ue.cue + u"""
 Jurisdicción: """ + solicitud.jurisdiccion.nombre + u"""
 Carrera: """ + validez.carrera + u"""
 Título: """ + validez.titulo_nacional + u"""
@@ -443,9 +444,9 @@ Instituto Nacional de Formación Docente
 <br /><br />
 Se ha registrado una nueva numeración de título nacional, cuyos datos son::
 <br /><br />
-Tipo: <b>Extensión Aulica</b><br />
 Tipo: <b>""" + validez.tipo_unidad_educativa + u"""</b><br />
 Jurisdicción: <b>""" + solicitud.jurisdiccion.nombre + u"""</b><br />
+CUE: <b>""" + ue.cue + u"""</b><br />
 Carrera: <b>""" + validez.carrera + u"""
 Título: <b>""" + validez.titulo_nacional + u"""</b><br />
 Primera Cohorte Autorizada: <b>""" + str(validez.primera_cohorte) + u"""</b><br />
