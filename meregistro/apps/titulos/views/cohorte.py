@@ -206,11 +206,8 @@ def asignar_establecimientos(request, cohorte_id):
     current_establecimientos_ids = __flat_list(CohorteEstablecimiento.objects.filter(cohorte=cohorte).values_list("establecimiento_id"))
     
     "Búsqueda de establecimientos"
-    if request.method == 'GET':
-        form_filters = CohorteAsignarEstablecimientosFormFilters(request.GET)
-    else:
-        form_filters = CohorteAsignarEstablecimientosFormFilters()        
-
+    " Siempre lo hago en base a GET ya que cuando mando por POST no tiene cuenta el filtro y KABOOM! #483"
+    form_filters = CohorteAsignarEstablecimientosFormFilters(request.GET)
     jurisdiccion = request.get_perfil().jurisdiccion()
     
     form_filters.fields["dependencia_funcional"].queryset = form_filters.fields["dependencia_funcional"].queryset.filter(jurisdiccion=jurisdiccion)
@@ -286,10 +283,8 @@ def asignar_anexos(request, cohorte_id):
     current_anexos_ids = __flat_list(CohorteAnexo.objects.filter(cohorte=cohorte).values_list("anexo_id"))
     
     "Búsqueda de anexos"
-    if request.method == 'GET':
-        form_filters = CohorteAsignarAnexosFormFilters(request.GET)
-    else:
-        form_filters = CohorteAsignarAnexosFormFilters()        
+    " Siempre lo hago en base a GET ya que cuando mando por POST no tiene cuenta el filtro y KABOOM! #483"
+    form_filters = CohorteAsignarAnexosFormFilters(request.GET)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     
@@ -366,10 +361,8 @@ def asignar_extensiones_aulicas(request, cohorte_id):
     current_extensiones_aulicas_ids = __flat_list(CohorteExtensionAulica.objects.filter(cohorte=cohorte).values_list("extension_aulica_id"))
     
     "Búsqueda de extensiones áulicas"
-    if request.method == 'GET':
-        form_filters = CohorteAsignarExtensionesAulicasFormFilters(request.GET)
-    else:
-        form_filters = CohorteAsignarExtensionesAulicasFormFilters()        
+    " Siempre lo hago en base a GET ya que cuando mando por POST no tiene cuenta el filtro y KABOOM! #483"
+    form_filters = CohorteAsignarExtensionesAulicasFormFilters(request.GET)
 
     jurisdiccion = request.get_perfil().jurisdiccion()
     

@@ -59,11 +59,14 @@ class Cohorte(models.Model):
     def save_establecimientos(self, establecimientos_procesados_ids, current_establecimientos_ids, establecimientos_seleccionados_ids, estado):
         from apps.titulos.models.CohorteEstablecimiento import CohorteEstablecimiento
         from apps.titulos.models.EstadoCohorteEstablecimiento import EstadoCohorteEstablecimiento
-        
+
         "Borrar los que se des-chequean"
         for est_id in establecimientos_procesados_ids:
-            if (str(est_id) not in establecimientos_seleccionados_ids) and (est_id in current_establecimientos_ids): # Si no está en los ids de la página, borrarlo
-                CohorteEstablecimiento.objects.get(cohorte=self, establecimiento=est_id).delete()
+            # Si no está en los ids de la página, borrarlo
+            if (str(est_id) not in establecimientos_seleccionados_ids) and (est_id in current_establecimientos_ids): 
+                ce = CohorteEstablecimiento.objects.get(cohorte=self, establecimiento=est_id)
+                if not ce.tiene_seguimiento():
+                    ce.delete()
 
         "Agregar los nuevos"
         for est_id in establecimientos_seleccionados_ids:
@@ -93,8 +96,11 @@ class Cohorte(models.Model):
         
         "Borrar los que se des-chequean"
         for anexo_id in anexos_procesados_ids:
-            if (str(anexo_id) not in anexos_seleccionados_ids) and (anexo_id in current_anexos_ids): # Si no está en los ids de la página, borrarlo
-                CohorteAnexo.objects.get(cohorte=self, anexo=anexo_id).delete()
+            # Si no está en los ids de la página, borrarlo
+            if (str(anexo_id) not in anexos_seleccionados_ids) and (anexo_id in current_anexos_ids):
+                ca = CohorteAnexo.objects.get(cohorte=self, anexo=anexo_id)
+                if not ca.tiene_seguimiento():
+                    ca.delete()
 
         "Agregar los nuevos"
         for anexo_id in anexos_seleccionados_ids:
@@ -126,7 +132,9 @@ class Cohorte(models.Model):
         "Borrar los que se des-chequean"
         for extension_aulica_id in extensiones_aulicas_procesadas_ids:
             if (str(extension_aulica_id) not in extensiones_aulicas_seleccionadas_ids) and (extension_aulica_id in current_extensiones_aulicas_ids): # Si no está en los ids de la página, borrarlo
-                CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica=extension_aulica_id).delete()
+                cea = CohorteExtensionAulica.objects.get(cohorte=self, extension_aulica=extension_aulica_id)
+                if not cea.tiene_seguimiento():
+                    cea.delete()
 
         "Agregar los nuevos"
         for extension_aulica_id in extensiones_aulicas_seleccionadas_ids:
