@@ -3,9 +3,9 @@
 {% load tags_filters %}
 {% block title %}Registro Federal de Instituciones y Ofertas de Formación Docente{% endblock %}
 {% block stylesheets %}
-<link rel="stylesheet" href="{{ STATIC_URL }}/v2/css/main.css" type="text/css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}v2/css/main-no-autenticado.css" type="text/css" />
 {% endblock stylesheets %}
-{% block css_body_classes %}{% css_classes "v2" %}{% endblock %}
+{% block css_body_classes %}{% css_classes "v2 index-no-autenticado" %}{% endblock %}
 {% block content %}
 {% if flash %}
     {% include "flashes.html" %}

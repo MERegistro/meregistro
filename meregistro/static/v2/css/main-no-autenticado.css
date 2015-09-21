@@ -1,0 +1,121 @@
+/*
+ *
+ * Archivo CSS principal del sistema
+ *
+ * @author: luciano.baraglia[at]gmail.com
+ *
+*/
+/* RESET */
+* {
+	margin: 0;
+	padding: 0;
+}
+html {
+    background: #c1e3e3;
+}
+/*
+*=COMMON
+*/
+body {
+    background: #c1e3e3;
+	font-family: Arial, sans-serif;
+	font-size: 13px;
+}
+ul {
+	list-style: none;
+}
+hr {
+	clear: both;
+	visibility: hidden;
+}
+/*
+*=WRAPPER
+*/
+div#wrapper {
+    width: 975px;
+    margin: 20px auto;
+    background: #4BA6A6 url(../img/col-der-200x9.png) repeat-y 740px 0;
+    /**/
+    -moz-box-shadow: 0px 0px 7px #000;
+    -webkit-box-shadow: 0px 0px 7px #000;
+    box-shadow: 0px 0px 7px #000;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=7, Direction=135, Color='#000000')";
+    filter: progid:DXImageTransform.Microsoft.Shadow(Strength=7, Direction=135, Color='#000000');
+}
+/**
+ *=content
+ */
+div#content {
+    padding: 20px 0 0;
+}
+/**
+ *=HOME V2
+ */
+/**
+ *=header
+ */
+#header {
+    display: none;
+}
+#header-v2 h1,
+#header-v2 h2 {
+    display: none;
+}
+#header-v2 {
+    width: 180px;
+    height: 92px;
+    background: url(../img/header-v2-180x92.png) no-repeat;
+    margin: 0 0 0 10px;
+}
+/**
+ *=col-der
+ */
+div#col-der {
+    float: right;
+    width: 200px;
+    margin-right: 35px;
+}
+/**
+ *=intro-links
+ */
+div#intro-links {
+    margin: 50px 0 50px 5px;
+}
+div#intro-links a {
+    display: block;
+    width: 185px;
+    text-align: center;
+    font-size: 13px;
+    padding: 5px 0;
+    margin: 10px 0 0;
+}
+div#intro-links a:link,
+div#intro-links a:visited {
+    text-decoration: none;
+    color: #000;
+    border: 3px #ff6633 solid;
+    background: #fff;
+}
+div#intro-links a:hover {
+    border: 3px #4BA6A6 solid;
+}
+/**
+ *=footer
+ */
+div#footer {
+    height: 70px;
+    background: #fff url(../img/footer-975x90b.png) no-repeat 0 10px;
+    padding: 40px 20px 0;
+    border-top: 3px #2D7C7C solid;
+    text-align: center;
+}
+div#footer div#creditos {
+}
+/**
+ *=footer-v2
+ */
+div#footer-v2 {
+    width: 975px;
+    height: 190px;
+    background: url(../img/footer-v2-975x192.png) no-repeat;
+}
