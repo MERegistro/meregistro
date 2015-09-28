@@ -18,3 +18,4 @@ from SolicitudAsignacionFormFilters import SolicitudAsignacionFormFilters
 from SolicitudControlForm import SolicitudControlForm
 from ValidezNacionalFormFilters import ValidezNacionalFormFilters
 from ValidezNacionalForm import ValidezNacionalForm
+from InformeSolicitudForm import InformeSolicitudForm

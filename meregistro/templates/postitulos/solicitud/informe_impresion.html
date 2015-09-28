@@ -1,0 +1,87 @@
+{% extends "base_informe.html" %}
+
+{% load tags_filters %}
+
+{% block title %}INFORME DEPARTAMENTO DE REGISTRO Y VALIDEZ DE TITULOS INFOD{% endblock %}
+{% block css_body_classes %}{% css_classes "informe-solicitud" %}{% endblock %}
+{% block content %}
+<h2>INFORME DEPARTAMENTO DE REGISTRO Y VALIDEZ DE TITULOS INFOD</h2>
+
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+<div class="data">
+    <ul>
+        <li><strong>JURISDICCION SOLICITANTE:</strong> <span>{{ solicitud.jurisdiccion }}</span></li>
+        <li><strong>NÚMERO DE EXPEDIENTE:</strong> <span>{{ solicitud.nro_expediente|default:"---" }}</span></li>
+        <li><strong>TÍTULO QUE SOLICITA VALIDEZ NACIONAL:</strong> <span>{{ solicitud.titulo_nacional }}</span></li>
+        <li><strong>NORMATIVA APROBACIÓN:</strong> {% for n in solicitud.normativas_jurisdiccionales.all %}{{ n.numero_anio }}  {% endfor %}</li>
+    </ul>
+</div>
+
+<br />
+
+<h2>INSTITUCIONES QUE SOLICITAN VALIDEZ NACIONAL:</h2>
+
+{% if solicitud.tiene_unidades_asignadas %}
+<table>
+    <thead>
+        <tr>
+            <th>Instituto</th>
+            <th>Localidad</th>
+            <th>N° CUE</th>
+            <th>Cohortes</th>
+            <th>Inscripto Registro Federal</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for sol_est in solicitud.establecimientos.all %}
+        <tr>
+            <td>{{ sol_est.establecimiento.nombre }}</td>
+            <td>{{ sol_est.establecimiento.get_domicilio_institucional.localidad }}</td>
+            <td>{{ sol_est.establecimiento.cue }}</td>
+            <td>{{ solicitud.primera_cohorte }} - {{ solicitud.ultima_cohorte }}</td>
+            <td class="inscripto-registro"><span>Sí</span></td>
+        </tr>
+    {% endfor %}
+    {% for sol_anexo in solicitud.anexos.all %}
+        <tr>
+            <td>{{ sol_anexo.anexo.nombre }}</td>
+            <td>{{ sol_anexo.anexo.get_domicilio_institucional.localidad }}</td>
+            <td>{{ sol_anexo.anexo.cue }}</td>
+            <td>{{ solicitud.primera_cohorte }} - {{ solicitud.ultima_cohorte }}</td>
+            <td class="inscripto-registro"><span>Sí</span></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>La solicitud no tiene Unidades Educativas asignadas.</p>
+{% endif %}
+
+<h2>INFORME:</h2>
+<p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.nro_expediente|default:"---" }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
+<table id="tabla-informe">
+    <tbody>         
+        <tr>
+            <th>1. Denominación del título</th>
+            <td class="cumplido"><span>{% if informe.denominacion_titulo %}CUMPLIDO{% else %}SIN CUMPLIR{% endif %}</span></td>
+        </tr>
+    </tbody>
+</table>
+
+{% if informe.observaciones %}
+<h2>Observaciones:</h2>
+<p>{{ informe.observaciones }}</p>
+{% endif %}
+
+<ul class="actions noPrint">
+  <li>
+    <input type="button" onclick="window.print()" value="Imprimir" class="noPrint"/>
+  </li>
+</ul>
+<hr />
+
+
+{% endblock %}

@@ -30,3 +30,4 @@ from CohortePostituloAnexo import CohortePostituloAnexo
 from CohortePostituloExtensionAulica import CohortePostituloExtensionAulica
 from SolicitudEstado import SolicitudEstado
 from ValidezNacional import ValidezNacional
+from InformeSolicitud import InformeSolicitud

@@ -43,6 +43,8 @@ urlpatterns=patterns('',
     url(r'^solicitud/([0-9]+)/control$', 'apps.postitulos.views.solicitud.control', name='postituloSolicitudControl'),
     url(r'^solicitud/([0-9]+)/numerar$', 'apps.postitulos.views.solicitud.numerar', name='postituloSolicitudNumerar'),
     url(r'^solicitud/([0-9]+)/detalle-numeracion/([0-9]+)$', 'apps.postitulos.views.solicitud.detalle_numeracion', name='postituloSolicitudDetalleNumeracion'),
+    url(r'^solicitud/([0-9]+)/informe$', 'apps.postitulos.views.solicitud.informe', name='postituloSolicitudInforme'),
+    url(r'^solicitud/([0-9]+)/informe_impresion$', 'apps.postitulos.views.solicitud.informe_impresion', name='postituloInformeImpresion'),
     # Validez Nacional
     url(r'^validez$', 'apps.postitulos.views.validez.index', name='postituloValidezNacionalIndex'),
     url(r'^validez/([0-9]+)/editar$', 'apps.postitulos.views.validez.edit', name='postituloValidezNacionalEditarValidez'),
