@@ -114,6 +114,11 @@ class Solicitud(models.Model):
         return self.estado.nombre == EstadoSolicitud.NUMERADO
 
 
+
+    def tiene_unidades_asignadas(self):
+        return (self.establecimientos_postitulo.count() + self.anexos_postitulo.count()) > 0
+
+
     def generar_informe(self):
         from apps.postitulos.models import InformeSolicitud
         informe = InformeSolicitud()

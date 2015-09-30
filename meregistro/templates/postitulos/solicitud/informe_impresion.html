@@ -15,7 +15,7 @@
     <ul>
         <li><strong>JURISDICCION SOLICITANTE:</strong> <span>{{ solicitud.jurisdiccion }}</span></li>
         <li><strong>NÚMERO DE EXPEDIENTE:</strong> <span>{{ solicitud.nro_expediente|default:"---" }}</span></li>
-        <li><strong>TÍTULO QUE SOLICITA VALIDEZ NACIONAL:</strong> <span>{{ solicitud.titulo_nacional }}</span></li>
+        <li><strong>TÍTULO QUE SOLICITA VALIDEZ NACIONAL:</strong> <span>{{ solicitud.postitulo_nacional }}</span></li>
         <li><strong>NORMATIVA APROBACIÓN:</strong> {% for n in solicitud.normativas_jurisdiccionales.all %}{{ n.numero_anio }}  {% endfor %}</li>
     </ul>
 </div>
@@ -36,7 +36,7 @@
         </tr>
     </thead>
     <tbody>
-    {% for sol_est in solicitud.establecimientos.all %}
+    {% for sol_est in solicitud.establecimientos_postitulo.all %}
         <tr>
             <td>{{ sol_est.establecimiento.nombre }}</td>
             <td>{{ sol_est.establecimiento.get_domicilio_institucional.localidad }}</td>
@@ -45,7 +45,7 @@
             <td class="inscripto-registro"><span>Sí</span></td>
         </tr>
     {% endfor %}
-    {% for sol_anexo in solicitud.anexos.all %}
+    {% for sol_anexo in solicitud.anexos_postitulo.all %}
         <tr>
             <td>{{ sol_anexo.anexo.nombre }}</td>
             <td>{{ sol_anexo.anexo.get_domicilio_institucional.localidad }}</td>
