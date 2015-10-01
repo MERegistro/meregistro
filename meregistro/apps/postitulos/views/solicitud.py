@@ -103,7 +103,7 @@ def create(request):
 
             request.set_flash('success', 'Datos guardados correctamente.')
 
-            return HttpResponseRedirect(reverse('postituloSolicitudIndex'))
+            return HttpResponseRedirect(reverse('postituloSolicitudEdit', args=[solicitud.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -185,7 +185,7 @@ def editar_normativas(request, solicitud_id):
 
             request.set_flash('success', 'Datos guardados correctamente.')
             # redirigir a edit
-            return HttpResponseRedirect(reverse('postituloSolicitudNormativasEdit', args=[solicitud.id]))
+            #return HttpResponseRedirect(reverse('postituloSolicitudNormativasEdit', args=[solicitud.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
@@ -242,7 +242,7 @@ def editar_cohortes(request, solicitud_id):
             cohorte = form.save()
             request.set_flash('success', 'Datos guardados correctamente.')
             # redirigir a edit
-            return HttpResponseRedirect(reverse('postituloSolicitudCohortesEdit', args=[solicitud.id]))
+            #return HttpResponseRedirect(reverse('postituloSolicitudCohortesEdit', args=[solicitud.id]))
         else:
             request.set_flash('warning', 'Ocurrió un error guardando los datos.')
     else:
