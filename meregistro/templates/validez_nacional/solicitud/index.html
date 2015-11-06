@@ -119,21 +119,28 @@
       {% if ve_acciones %}
         <td class="actions-td">
             <ul>
+            
             {% if "validez_nacional_solicitud_editar" in credenciales and obj.estado.nombre == 'Pendiente' or user_perfil.rol.nombre in 'AdminNacional' and obj.estado.nombre != 'Numerado' %}
                 <li class="edit"><a href="{% url apps.validez_nacional.views.solicitud.edit obj.id %}" title="Editar"><span>Editar</span></a></li>
                 <li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_establecimientos obj.id %}" title="Asignar a Sedes"><span>Asignar a Sedes</span></a></li>
                 <li class="one-many"><a href="{% url apps.validez_nacional.views.solicitud.asignar_anexos obj.id %}" title="Asignar a Anexos"><span>Asignar a Anexos</span></a></li>
             {% endif %}
+            
             {% if "validez_nacional_solicitud_numerar" in credenciales and obj.is_numerable %}
                 <li class="numerar"><a href="{% url apps.validez_nacional.views.solicitud.numerar obj.id %}" title="Numerar"><span>Numerar</span></a></li>
             {% endif %}
-            {% if obj.estado.nombre == 'Controlado' or obj.estado.nombre == 'Retenido' and user_perfil.rol.nombre in 'AdminNacional' %}
-                <li class="ver-datos"><a href="{% url apps.validez_nacional.views.solicitud.informe obj.id %}" title="Informe"><span>Informe</span></a></li>     
+                
+            {% if user_perfil.rol.nombre in 'ReferenteJurisdiccional' or user_perfil.rol.nombre in 'AdminNacional' %}
+                {% if obj.estado.nombre == 'Controlado' or obj.estado.nombre == 'Retenido' or obj.estado.nombre == 'Evaluado' %}
+                <li class="ver-datos"><a href="{% url apps.validez_nacional.views.solicitud.informe_impresion obj.id %}" title="Informe"><span>Informe</span></a></li>     
+                {% endif %}
             {% endif %}
+            
             {% if obj.is_deletable %}
                 <li class="delete"><a href="{% url apps.validez_nacional.views.solicitud.delete obj.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>    
             {% endif %}
-            </ul>            
+            
+            </ul> 
         </td>
     {% endif %}
       </tr>

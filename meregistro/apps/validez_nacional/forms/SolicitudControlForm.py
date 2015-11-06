@@ -38,11 +38,26 @@ class SolicitudControlForm(forms.ModelForm):
         EVALUADO: Dictamen COFEV
         NUMERADO: (se pasa en la numeración)
         '''
-        estado = data['estado'].nombre
-        normativas_nacionales = data['normativas_nacionales']
-        dictamen_cofev = data['dictamen_cofev']
-        nro_expediente = data['nro_expediente']
-        
+        try:
+            estado = data['estado'].nombre
+        except KeyError:
+            estado = None
+            
+        try:
+            normativas_nacionales = data['normativas_nacionales']
+        except KeyError:
+            normativas_nacionales = None
+            
+        try:
+            dictamen_cofev = data['dictamen_cofev']
+        except KeyError:
+            dictamen_cofev = None
+            
+        try:
+            nro_expediente = data['nro_expediente']
+        except KeyError:
+            nro_expediente = None
+            
         if estado == EstadoSolicitud.CONTROLADO and nro_expediente == '':
             raise forms.ValidationError(u'Para pasar a estado "controlado", es necesario cargar el número de expediente')
         if estado == EstadoSolicitud.RETENIDO and nro_expediente == '':

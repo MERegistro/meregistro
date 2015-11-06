@@ -60,6 +60,7 @@
 <p>La solicitud no tiene Unidades Educativas asignadas.</p>
 {% endif %}
 
+{% if user_perfil.rol.nombre in 'AdminNacional' %}
 <h2>INFORME:</h2>
 <p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.nro_expediente|default:"---" }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
 <table id="tabla-informe">
@@ -99,9 +100,10 @@
     </tbody>
 </table>
 
-{% if informe.observaciones %}
+    {% if informe.observaciones %}
 <h2>Observaciones:</h2>
 <p>{{ informe.observaciones }}</p>
+    {% endif %}
 {% endif %}
 
 <ul class="actions noPrint">

@@ -645,9 +645,9 @@ def informe(request, solicitud_id):
     })
 
 @login_required
-@credential_required('validez_nacional_solicitud_informe')
+@credential_required('validez_nacional_solicitud_informe_impresion')
 def informe_impresion(request, solicitud_id):
-    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre__in=[EstadoSolicitud.CONTROLADO, EstadoSolicitud.RETENIDO])
+    solicitud = Solicitud.objects.get(pk=solicitud_id, estado__nombre__in=[EstadoSolicitud.CONTROLADO, EstadoSolicitud.RETENIDO, EstadoSolicitud.EVALUADO])
 
     try:
         informe = solicitud.informe.get()
