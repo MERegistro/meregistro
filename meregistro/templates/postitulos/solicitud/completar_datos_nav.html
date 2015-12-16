@@ -1,16 +1,18 @@
 <div id="solicitudDatosNav" class="tab-nav">
-	<ul>
-		{% if solicitud %}
-		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.edit solicitud.id %}" title="Postítulo"><span>Postítulo</span></a></li>
-		<li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_normativas solicitud.id %}" title="Normativas"><span>Normativas</span></a></li>
-		<li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_cohortes solicitud.id %}" title="Cohortes"><span>Cohortes</span></a></li>
-			{% if "validez_nacional_solicitud_control" in credenciales %}
-		<li{% if current_page == 'control' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.control solicitud.id %}" title="Control"><span>Control</span></a></li>
-			{% endif %}
-		{% else %}
-		<li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.create %}" title="Postítulo"><span>Postítulo</span></a></li>
-		<li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_normativas %}" title="Normativas"><span>Normativas</span></a></li>
-		<li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_cohortes %}" title="Cohortes"><span>Cohortes</span></a></li>
-		{% endif %}
-	</ul>
+    <ul>
+        {% if solicitud %}
+        <li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.edit solicitud.id %}" title="Postítulo"><span>Postítulo</span></a></li>
+        <li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_normativas solicitud.id %}" title="Normativas"><span>Normativas</span></a></li>
+        <li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_cohortes solicitud.id %}" title="Cohortes"><span>Cohortes</span></a></li>
+        <li{% if current_page == 'asignar-establecimientos' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.asignar_establecimientos solicitud.id %}" title="Asignar a Sedes"><span>Sedes</span></a></li>
+        <li{% if current_page == 'asignar-anexos' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.asignar_anexos solicitud.id %}" title="Asignar a Anexos"><span>Anexos</span></a></li>
+            {% if "validez_nacional_solicitud_control" in credenciales %}
+        <li{% if current_page == 'control' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.control solicitud.id %}" title="Control"><span>Control</span></a></li>
+            {% endif %}
+        {% else %}
+        <li{% if current_page == 'datos_basicos' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.create %}" title="Postítulo"><span>Postítulo</span></a></li>
+        <li{% if current_page == 'normativas' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_normativas %}" title="Normativas"><span>Normativas</span></a></li>
+        <li{% if current_page == 'cohortes' %} class="active"{% endif %}><a href="{% url apps.postitulos.views.solicitud.editar_cohortes %}" title="Cohortes"><span>Cohortes</span></a></li>
+        {% endif %}
+    </ul>
 </div>
