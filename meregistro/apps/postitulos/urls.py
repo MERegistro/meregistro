@@ -50,7 +50,7 @@ urlpatterns=patterns('',
     url(r'^validez/([0-9]+)/editar$', 'apps.postitulos.views.validez.edit', name='postituloValidezNacionalEditarValidez'),
     url(r'^validez/([0-9]+)/eliminar$', 'apps.postitulos.views.validez.eliminar', name='postituloValidezNacionalEliminar'),
     # AJAX
-    url(r'^ajax/get_postitulos_por_carrera/([0-9]?)', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
+    url(r'^ajax/get_postitulos_por_carrera/([0-9]+)?', 'apps.postitulos.views.ajax.get_postitulos_por_carrera', name='ajaxGetPostitulosPorCarrera'),
     #url(r'^ajax/chequear_nro_infd/([0-9]+)/([0-9a-zA-Z]+)', 'apps.validez_nacional.views.ajax.chequear_nro_infd', name='ajaxChequearNroINFD'),
       
     )
