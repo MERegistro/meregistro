@@ -15,7 +15,7 @@ class InformeSolicitud(models.Model):
     organizacion_tres_campos = models.BooleanField(default=True)
     presencia_residencia_pedagogica = models.BooleanField(default=True)
     acreditacion_condiciones_institucionales = models.BooleanField(default=True)
-    observaciones = models.CharField(max_length=999, null=True)
+    observaciones = models.TextField(null=True, blank=True)
     
     class Meta:
         app_label = 'validez_nacional'
