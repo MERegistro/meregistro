@@ -10,6 +10,7 @@ import apps.consulta_validez.urls as consulta_validez_urls
 import apps.oferta_nacional.urls as oferta_nacional_urls
 import apps.validez_nacional.urls as validez_nacional_urls
 import apps.postitulos.urls as postitulos_urls
+import apps.ws.urls as ws_urls
 
 urlpatterns = patterns('',
     url(r'^login', 'apps.seguridad.views.login', name='login'),
@@ -25,7 +26,8 @@ urlpatterns = patterns('',
     url(r'^backend/', include(backend_urls)),
     url(r'^consulta_validez/', include(consulta_validez_urls)),
     url(r'^oferta_nacional/', include(oferta_nacional_urls)),
-    url(r'^validez_nacional/', include(validez_nacional_urls)),
+    url(r'^ws/', include(ws_urls)),
+    url(r'^backend/', include(backend_urls)),
     url(r'^seleccionarPerfil', 'apps.seguridad.views.seleccionar_perfil', name='seleccionarPerfil'),
     url(r'^' + settings.STATIC_URL_PATH + '/(?P<path>.*)$', 'django.views.static.serve',
         {'document_root': settings.STATIC_DOC_ROOT}),
