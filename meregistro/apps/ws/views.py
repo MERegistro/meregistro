@@ -19,13 +19,13 @@ def getOfertaPorAnio(request, anio):
     q2 = CohorteAnexo.objects.filter(cohorte__anio=anio)
     q3 = CohorteExtensionAulica.objects.filter(cohorte__anio=anio)
 
-    q1.distinct().order_by('establecimiento__dependencia_funcional__jurisdiccion__nombre', 'establecimiento__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
-    q2.distinct().order_by('anexo__dependencia_funcional__jurisdiccion__nombre', 'anexo__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
-    q3.distinct().order_by('extension_aulica__dependencia_funcional__jurisdiccion__nombre', 'extension_aulica__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
+    q1.distinct().order_by('establecimiento__cue',)
+    q2.distinct().order_by('anexo__cue')
+    q3.distinct().order_by('extension_aulica__cue')
 
-    sedes = [{'Anio': ce.cohorte.anio, 'TipoUnidadEducativa': 'SEDE', 'IDInstituto': ce.get_unidad_educativa().id, 'Instituto': ce.get_unidad_educativa().nombre, 'CueAnexo': ce.get_unidad_educativa().cue, 'IDCarrera': ce.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ce.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ce.get_establecimiento().dependencia_funcional.tipo_gestion.nombre} for ce in q1]
-    anexos = [{'Anio': ca.cohorte.anio, 'TipoUnidadEducativa': 'ANEXO', 'IDInstituto': ca.get_unidad_educativa().id, 'Instituto': ca.get_unidad_educativa().nombre, 'CueAnexo': ca.get_unidad_educativa().cue, 'IDCarrera': ca.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ca.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ca.get_establecimiento().dependencia_funcional.tipo_gestion.nombre} for ca in q2]
-    extensiones = [{'Anio': cea.cohorte.anio, 'TipoUnidadEducativa': 'EXTENSIONAULICA', 'IDInstituto': cea.get_unidad_educativa().id, 'Instituto': cea.get_unidad_educativa().nombre, 'CueAnexo': cea.get_unidad_educativa().cue, 'IDCarrera': cea.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': cea.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': cea.get_establecimiento().dependencia_funcional.tipo_gestion.nombre} for cea in q3]
+    sedes = [{'Anio': ce.cohorte.anio, 'TipoUnidadEducativa': 'SEDE', 'IDInstituto': ce.establecimiento.id, 'Instituto': ce.establecimiento.nombre, 'CueAnexo': ce.establecimiento.cue, 'IDCarrera': ce.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ce.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ce.establecimiento.dependencia_funcional.tipo_gestion.nombre} for ce in q1]
+    anexos = [{'Anio': ca.cohorte.anio, 'TipoUnidadEducativa': 'ANEXO', 'IDInstituto': ca.anexo.id, 'Instituto': ca.anexo.nombre, 'CueAnexo': ca.anexo.cue, 'IDCarrera': ca.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ca.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ca.anexo.establecimiento.dependencia_funcional.tipo_gestion.nombre} for ca in q2]
+    extensiones = [{'Anio': cea.cohorte.anio, 'TipoUnidadEducativa': 'EXTENSIONAULICA', 'IDInstituto': cea.extension_aulica.id, 'Instituto': cea.extension_aulica.nombre, 'CueAnexo': cea.extension_aulica.cue, 'IDCarrera': cea.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': cea.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': cea.extension_aulica.establecimiento.dependencia_funcional.tipo_gestion.nombre} for cea in q3]
 
     import itertools
     q = list(itertools.chain(sedes, anexos, extensiones))
@@ -136,13 +136,13 @@ def getCarrerasPorInstituto(request, cueanexo, anio):
     q2 = CohorteAnexo.objects.filter(anexo__cue=cueanexo, cohorte__anio=anio)
     q3 = CohorteExtensionAulica.objects.filter(extension_aulica__cue=cueanexo, cohorte__anio=anio)
 
-    q1.distinct().order_by('establecimiento__dependencia_funcional__jurisdiccion__nombre', 'establecimiento__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
-    q2.distinct().order_by('anexo__dependencia_funcional__jurisdiccion__nombre', 'anexo__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
-    q3.distinct().order_by('extension_aulica__dependencia_funcional__jurisdiccion__nombre', 'extension_aulica__cue', 'cohorte__carrera_jurisdiccional__carrera__nombre')
+    q1.distinct().order_by('establecimiento__cue',)
+    q2.distinct().order_by('anexo__cue')
+    q3.distinct().order_by('extension_aulica__cue')
 
-    sedes = [{'Anio': ce.cohorte.anio, 'TipoUnidadEducativa': 'SEDE', 'IDInstituto': ce.get_unidad_educativa().id, 'Instituto': ce.get_unidad_educativa().nombre, 'CueAnexo': ce.get_unidad_educativa().cue, 'IDCarrera': ce.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ce.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ce.get_establecimiento().dependencia_funcional.tipo_gestion.nombre} for ce in q1]
-    anexos = [{'Anio': ca.cohorte.anio, 'TipoUnidadEducativa': 'ANEXO', 'IDInstituto': ca.get_unidad_educativa().id, 'Instituto': ca.get_unidad_educativa().nombre, 'CueAnexo': ca.get_unidad_educativa().cue, 'IDCarrera': ca.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ca.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ca.get_establecimiento().dependencia_funcional.tipo_gestion.nombre} for ca in q2]
-    extensiones = [{'Anio': cea.cohorte.anio, 'TipoUnidadEducativa': 'EXTENSIONAULICA', 'IDInstituto': cea.get_unidad_educativa().id, 'Instituto': cea.get_unidad_educativa().nombre, 'CueAnexo': cea.get_unidad_educativa().cue, 'IDCarrera': cea.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': cea.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': cea.get_establecimiento().dependencia_funcional.tipo_gestion.nombre} for cea in q3]
+    sedes = [{'Anio': ce.cohorte.anio, 'TipoUnidadEducativa': 'SEDE', 'IDInstituto': ce.establecimiento.id, 'Instituto': ce.establecimiento.nombre, 'CueAnexo': ce.establecimiento.cue, 'IDCarrera': ce.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ce.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ce.establecimiento.dependencia_funcional.tipo_gestion.nombre} for ce in q1]
+    anexos = [{'Anio': ca.cohorte.anio, 'TipoUnidadEducativa': 'ANEXO', 'IDInstituto': ca.anexo.id, 'Instituto': ca.anexo.nombre, 'CueAnexo': ca.anexo.cue, 'IDCarrera': ca.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': ca.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': ca.anexo.establecimiento.dependencia_funcional.tipo_gestion.nombre} for ca in q2]
+    extensiones = [{'Anio': cea.cohorte.anio, 'TipoUnidadEducativa': 'EXTENSIONAULICA', 'IDInstituto': cea.extension_aulica.id, 'Instituto': cea.extension_aulica.nombre, 'CueAnexo': cea.extension_aulica.cue, 'IDCarrera': cea.cohorte.carrera_jurisdiccional.carrera.id, 'Carrera': cea.cohorte.carrera_jurisdiccional.carrera.nombre, 'Gestion': cea.extension_aulica.establecimiento.dependencia_funcional.tipo_gestion.nombre} for cea in q3]
 
     import itertools
     q = list(itertools.chain(sedes, anexos, extensiones))
