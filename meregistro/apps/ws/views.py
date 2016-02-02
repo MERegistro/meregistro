@@ -14,6 +14,76 @@ def getOfertaPorAnio(request, anio):
         r = json.dumps({'error': u'Año inválido. Debe ser entre ' + anios_disponibles[0] + ' y ' + anios_disponibles[-1]}, ensure_ascii=False)
         return HttpResponse(r, mimetype = "application/javascript")
 
+    from django.db import connection
+    cursor = connection.cursor()
+    sql = '''
+SELECT
+    'SEDE' AS "tipo_ue",
+    est.id AS "id_establecimiento",
+    est.cue AS "cueanexo",
+    est.nombre AS "instituto",
+    tg.nombre AS "tipo_gestion",
+    carrera.id AS "id_carrera",
+    carrera.nombre AS "carrera",
+    c.anio AS "anio"
+FROM titulos_cohortes_establecimientos ce
+INNER JOIN titulos_cohorte c ON ce.cohorte_id = c.id
+INNER JOIN registro_establecimiento est ON ce.establecimiento_id = est.id
+INNER JOIN registro_dependencia_funcional df ON est.dependencia_funcional_id = df.id
+INNER JOIN registro_tipo_gestion tg ON df.tipo_gestion_id = tg.id
+INNER JOIN titulos_carrera_jurisdiccional cj ON c.carrera_jurisdiccional_id = cj.id
+INNER JOIN titulos_carrera carrera ON cj.carrera_id = carrera.id
+WHERE c.anio = %s
+
+UNION ALL
+
+SELECT 
+    'ANEXO' AS "tipo_ue",
+    a.id AS "id_establecimiento",
+    a.cue AS "cueanexo",
+    a.nombre AS "instituto",
+    tg.nombre AS "tipo_gestion",
+    carrera.id AS "id_carrera",
+    carrera.nombre AS "carrera",
+    c.anio AS "anio"
+FROM titulos_cohortes_anexos ca
+INNER JOIN titulos_cohorte c ON ca.cohorte_id = c.id
+INNER JOIN registro_anexo a ON ca.anexo_id = a.id
+INNER JOIN registro_establecimiento est ON a.establecimiento_id = est.id
+INNER JOIN registro_dependencia_funcional df ON est.dependencia_funcional_id = df.id
+INNER JOIN registro_tipo_gestion tg ON df.tipo_gestion_id = tg.id
+INNER JOIN titulos_carrera_jurisdiccional cj ON c.carrera_jurisdiccional_id = cj.id
+INNER JOIN titulos_carrera carrera ON cj.carrera_id = carrera.id
+WHERE c.anio = %s
+
+UNION ALL
+
+SELECT 
+    'EXTENSIONAULICA' AS "tipo_ue",
+    ea.id AS "id_establecimiento",
+    ea.cue AS "cueanexo",
+    ea.nombre AS "instituto",
+    tg.nombre AS "tipo_gestion",
+    carrera.id AS "id_carrera",
+    carrera.nombre AS "carrera",
+    c.anio AS "anio"
+FROM titulos_cohortes_extensiones_aulicas cea
+INNER JOIN titulos_cohorte c ON cea.cohorte_id = c.id
+INNER JOIN registro_extension_aulica ea ON cea.extension_aulica_id = ea.id
+INNER JOIN registro_establecimiento est ON ea.establecimiento_id = est.id
+INNER JOIN registro_dependencia_funcional df ON est.dependencia_funcional_id = df.id
+INNER JOIN registro_tipo_gestion tg ON df.tipo_gestion_id = tg.id
+INNER JOIN titulos_carrera_jurisdiccional cj ON c.carrera_jurisdiccional_id = cj.id
+INNER JOIN titulos_carrera carrera ON cj.carrera_id = carrera.id
+WHERE c.anio = %s
+
+ORDER BY cueanexo;
+    '''
+    cursor.execute(sql, [anio, anio, anio])
+
+    res = [{'Anio': res[7], 'TipoUnidadEducativa': res[0], 'IDInstituto': res[1], 'Instituto': res[3], 'CueAnexo': res[2], 'IDCarrera': res[5], 'Carrera': res[6], 'Gestion': res[4]} for res in cursor.fetchall()]
+    
+    '''
     from apps.titulos.models import Cohorte, CohorteEstablecimiento, CarreraJurisdiccional, Carrera, CohorteAnexo, CohorteExtensionAulica
     q1 = CohorteEstablecimiento.objects.filter(cohorte__anio=anio)
     q2 = CohorteAnexo.objects.filter(cohorte__anio=anio)
@@ -29,8 +99,10 @@ def getOfertaPorAnio(request, anio):
 
     import itertools
     q = list(itertools.chain(sedes, anexos, extensiones))
-    
-    j = json.dumps(q, ensure_ascii=False, indent=2)
+    '''
+
+
+    j = json.dumps(res, ensure_ascii=False, indent=2)
     return HttpResponse(j, mimetype = "application/javascript")
 
 
