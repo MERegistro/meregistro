@@ -17,7 +17,7 @@ from django.core import serializers
 
 
 ITEMS_PER_PAGE = 50
-ANIOS_DISPONIBLES = [2015]
+ANIOS_DISPONIBLES = [2016]
 
 
 def index(request, anio):
