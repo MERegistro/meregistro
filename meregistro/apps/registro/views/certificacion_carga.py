@@ -11,7 +11,7 @@ from helpers.MailHelper import MailHelper
 import datetime
 
 ITEMS_PER_PAGE = 50
-ANIOS_HABILITADOS = ['2015']
+ANIOS_HABILITADOS = ['2016']
 
 @login_required    
 def __get_ue_actual(request, tipo):

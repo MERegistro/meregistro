@@ -9,6 +9,7 @@ class EstadoCohorteAnexo(models.Model):
     ASIGNADA = u'Aceptada'
     REGISTRADA = u'Registrada'
     RECHAZADA = u'Rechazada'
+    FINALIZADA = u'Finalizada'
 
     nombre = models.CharField(max_length = 50, unique = True)
 

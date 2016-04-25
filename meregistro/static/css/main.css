@@ -751,6 +751,20 @@ ul.actions li.ver-perfiles {
 ul.actions li.bloqueos {
     background: #fff url(../img/icons/padlock_closed.png) no-repeat left;
 }
+/* FINALIZAR SEGUIMIENTO */
+ul.actions li.finalizar {
+    color: #000;
+    background: #fff url(../img/icons/delete.png) no-repeat left;
+    padding: 3px 5px 2px;
+}
+ul.actions li.finalizar a {
+    border-right: none;
+    padding-right: 0;
+}
+ul.actions li.finalizar a:link,
+ul.actions li.finalizar a:visited {
+    color: #000;
+}
 /* TABLE ACTIONS */
 td.actions-td {
 }

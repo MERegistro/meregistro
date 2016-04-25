@@ -239,6 +239,14 @@ class Establecimiento(models.Model):
         * Cargó la matrícula de ese año  
         * Cargó datos de democratización
     """
+    """
+    #494
+    Para que se pueda certificar tiene que cumplir con las siguientes condiciones:
+        1) En seguimiento de cohorte tiene que
+            * haber cargado el seguimiento o inscriptos 2016 o
+            * haber rechazado o haber hecho fin de seguimiento (new) (​/titulos/cohorte_seguimiento/1234/establecimiento/)
+        2) Haber cargado matrícula 2016 de la institución (/​registro/establecimiento/1234/matricula)
+    """
     def puede_certificar_carga(self, anio):
         from apps.titulos.models import CohorteEstablecimientoSeguimiento
         from apps.titulos.models import CohorteEstablecimiento
