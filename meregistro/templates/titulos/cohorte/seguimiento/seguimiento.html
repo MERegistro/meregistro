@@ -5,16 +5,23 @@
 {% block content %}
 <h2>Seguimiento de Cohorte {{ cohorte_unidad_educativa.cohorte.anio }}</h2>
 
+{% if user_perfil.rol.nombre in 'ReferenteInstitucional' and not cohorte_unidad_educativa.finalizada %}
 <ul class="actions">
-    {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
     <li class="create">
         <a href="{% url apps.titulos.views.cohorte_seguimiento.create tipo_unidad_educativa cohorte_unidad_educativa.id %}"><span>Nuevo año de seguimiento</span></a>
     </li>
-    <li class="finalizar">
+    <li class="finalizar-seguimiento">
         <a href="{% url apps.titulos.views.cohorte_seguimiento.finalizar_seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}"><span>Finalizar seguimiento</span></a>
     </li>
-    {% endif %}
 </ul>
+{% endif %}
+{% if user_perfil.rol.nombre in 'AdminNacional' and cohorte_unidad_educativa.finalizada %}
+<ul class="actions">
+    <li class="reactivar-seguimiento">
+        <a href="{% url apps.titulos.views.cohorte_seguimiento.reactivar_seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Reactivar seguimiento"><span>Reactivar seguimiento</span></a>
+    </li>
+</ul>
+{% endif %}
 
 {% if flash %}
     {% include "flashes.html" %}
@@ -53,7 +60,7 @@
     <td>{{ seguimiento.egresados }}</td>
     <td class="actions-td">
         <ul>
-        {% if forloop.last and user_perfil.rol.nombre in 'ReferenteInstitucional' %}
+        {% if forloop.last and user_perfil.rol.nombre in 'ReferenteInstitucional' and not cohorte_unidad_educativa.finalizada %}
             <li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.edit tipo_unidad_educativa seguimiento.id %}" title="Editar"><span>Editar</span></a></li>
             <li class="delete"><a href="{% url apps.titulos.views.cohorte_seguimiento.delete tipo_unidad_educativa seguimiento.id %}" title="Eliminar"><span>Eliminar</span></a></li>
         {% endif %}
@@ -74,5 +81,13 @@
     {% include "titulos/cohorte/seguimiento/back_action.html" %}
 </ul>
 <hr />
+<script type="text/javascript">
+$('li.finalizar-seguimiento a').click(function(){
+    return confirm('Está seguro de finalizar el seguimiento de la Cohorte? Esto no puede deshacerse.');
+});
+$('li.reactivar-seguimiento a').click(function(){
+    return confirm('Está seguro de reactivar el seguimiento de la Cohorte?');
+});
+</script>
 
 {% endblock %}

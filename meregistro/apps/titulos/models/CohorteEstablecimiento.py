@@ -68,7 +68,7 @@ class CohorteEstablecimiento(models.Model):
         
         
     def is_rechazable(self):
-        return not self.rechazada() and self.inscriptos == None
+        return not self.finalizada() and not self.rechazada() and self.inscriptos == None
         
         
     def get_ultimo_seguimiento_cargado(self):

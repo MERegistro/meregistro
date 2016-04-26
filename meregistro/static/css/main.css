@@ -752,17 +752,32 @@ ul.actions li.bloqueos {
     background: #fff url(../img/icons/padlock_closed.png) no-repeat left;
 }
 /* FINALIZAR SEGUIMIENTO */
-ul.actions li.finalizar {
+ul.actions li.finalizar-seguimiento {
     color: #000;
     background: #fff url(../img/icons/delete.png) no-repeat left;
     padding: 3px 5px 2px;
 }
-ul.actions li.finalizar a {
+ul.actions li.finalizar-seguimiento a {
     border-right: none;
     padding-right: 0;
 }
-ul.actions li.finalizar a:link,
-ul.actions li.finalizar a:visited {
+ul.actions li.finalizar-seguimiento a:link,
+ul.actions li.finalizar-seguimiento a:visited {
+    color: #000;
+}
+/* REACTIVAR SEGUIMIENTO */
+ul.actions li.reactivar-seguimiento {
+    color: #000;
+    background: #fff url(../img/icons/power_on-16x16.png) no-repeat left;
+    padding: 3px 5px 2px 0;
+}
+ul.actions li.reactivar-seguimiento a {
+    border-right: none;
+    padding-right: 0;
+    padding-left: 20px;
+}
+ul.actions li.reactivar-seguimiento a:link,
+ul.actions li.reactivar-seguimiento a:visited {
     color: #000;
 }
 /* TABLE ACTIONS */
@@ -854,7 +869,8 @@ td.actions-td ul li.rechazar-cohorte a {
     background: url(../img/icons/delete-16.png) no-repeat left;
 }
 /* SEGUIMIENTO COHORTE */
-table#seguimiento-cohorte-table tr.estado-rechazada td {
+table#seguimiento-cohorte-table tr.estado-rechazada td,
+table#seguimiento-cohorte-table tr.estado-finalizada td {
     color: #f00;
     font-weight: bold;
 }

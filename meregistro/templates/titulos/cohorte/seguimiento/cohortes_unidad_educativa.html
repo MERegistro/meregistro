@@ -11,33 +11,33 @@
 {% endif %}
 
 <div class="datos-lectura" id="datosCohorte">
-	<p><strong>CUE:</strong> {{ unidad_educativa.cue }}</p>
-	<p><strong>Nombre:</strong> {{ unidad_educativa.nombre }}</p>
+    <p><strong>CUE:</strong> {{ unidad_educativa.cue }}</p>
+    <p><strong>Nombre:</strong> {{ unidad_educativa.nombre }}</p>
 </div>
 
 <form action="" method="get">
 <div class="form-filter" id="confirmarCohorteFormFilter">
   <h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
-		<div class="form-select">
-			{{ form_filters.anio.errors }}
-			<label for="id_anio">Cohorte:</label>
-			{{ form_filters.anio }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.nombre_carrera.errors }}
-			<label for="id_nombre_carrera">Nombre de la carrera:</label>
-			{{ form_filters.nombre_carrera }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.estado.errors }}
-			<label for="id_estado">Estado:</label>
-			{{ form_filters.estado }}
-		</div>
-		<div class="form-submit">
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte_seguimiento/{{ unidad_educativa.id }}/{{ tipo_unidad_educativa }}/';" />
-		</div>
+        {{ form_filters.non_field_errors }}
+        <div class="form-select">
+            {{ form_filters.anio.errors }}
+            <label for="id_anio">Cohorte:</label>
+            {{ form_filters.anio }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.nombre_carrera.errors }}
+            <label for="id_nombre_carrera">Nombre de la carrera:</label>
+            {{ form_filters.nombre_carrera }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.estado.errors }}
+            <label for="id_estado">Estado:</label>
+            {{ form_filters.estado }}
+        </div>
+        <div class="form-submit">
+            <input type="submit" value="Buscar" />
+            <input type="button" value="Reiniciar" onclick="window.location = '/titulos/cohorte_seguimiento/{{ unidad_educativa.id }}/{{ tipo_unidad_educativa }}/';" />
+        </div>
 
 </div>
 
@@ -59,11 +59,11 @@
     {% for cohorte_unidad_educativa in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %} estado-{{ cohorte_unidad_educativa.estado|lower }}">
 
-	<td>{{ cohorte_unidad_educativa.cohorte.anio }}</td>
-	<td>{{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</td>
-	<td class='estado'>{{ cohorte_unidad_educativa.estado }}</td>
-	<td>{% if cohorte_unidad_educativa.inscriptos != None %}{{ cohorte_unidad_educativa.inscriptos }}{% else %}---{% endif %}</td>
-	<td>{{ cohorte_unidad_educativa.seguimiento.all|implode:", " }}</td>
+    <td>{{ cohorte_unidad_educativa.cohorte.anio }}</td>
+    <td>{{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</td>
+    <td class='estado'>{{ cohorte_unidad_educativa.estado }}</td>
+    <td>{% if cohorte_unidad_educativa.inscriptos != None %}{{ cohorte_unidad_educativa.inscriptos }}{% else %}---{% endif %}</td>
+    <td>{{ cohorte_unidad_educativa.seguimiento.all|implode:", " }}</td>
         <td class="actions-td">
             <ul>
             {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
@@ -71,15 +71,18 @@
                 <li class="rechazar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.rechazar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Rechazar cohorte"><span>Rechazar cohorte</span></a></li>
                 {% endif %}                
                 {% if not cohorte_unidad_educativa.rechazada %}
-                    {% if not cohorte_unidad_educativa.registrada %}
+                    {% if not cohorte_unidad_educativa.registrada and not cohorte_unidad_educativa.finalizada %}
                     <li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Confirmar cohorte"><span>Confirmar cohorte</span></a></li>
                     {% endif %}
                     {% if cohorte_unidad_educativa.is_editable %}
-                <li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Editar"><span>Editar</span></a></li>
+                    <li class="edit"><a href="{% url apps.titulos.views.cohorte_seguimiento.confirmar tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Editar"><span>Editar</span></a></li>
                     {% endif %}
-                <li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
                 {% endif %}
             {% endif %}
+            {% if user_perfil.rol.nombre in 'AdminNacional' and cohorte_unidad_educativa.finalizada  %}
+                <li class="confirmar-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.reactivar_seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Reactivar seguimiento"><span>Reactivar seguimiento</span></a></li>
+            {% endif %}
+            <li class="seguimiento-cohorte"><a href="{% url apps.titulos.views.cohorte_seguimiento.seguimiento tipo_unidad_educativa cohorte_unidad_educativa.id %}" title="Seguimiento"><span>Seguimiento</span></a></li>
             </ul>
         </td>
       </tr>
