@@ -241,6 +241,18 @@ class ExtensionAulica(models.Model):
         
         return True
 
+
+        from apps.titulos.models import CohorteExtensionAulica, EstadoCohorteExtensionAulica
+        cohortes_con_seguimiento_anio = [ce.id for ce in CohorteExtensionAulica.objects.filter(extension_aulica__id=self.id, seguimiento__anio=anio)]
+        cohortes_anio_con_inscriptos = [ce.id for ce in CohorteExtensionAulica.objects.filter(extension_aulica__id=self.id, cohorte__anio=anio, inscriptos__gt=0, estado__nombre=EstadoCohorteExtensionAulica.REGISTRADA)]
+        cohortes_sin_seguimiento_anio = CohorteExtensionAulica.objects.filter(extension_aulica__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio + cohortes_anio_con_inscriptos)
+        for ce in cohortes_sin_seguimiento_anio:
+            #if ce.estado.nombre not in [EstadoCohorteEstablecimiento.RECHAZADA, EstadoCohorteEstablecimiento.FINALIZADA, EstadoCohorteEstablecimiento.ASIGNADA]:
+            if ce.estado.nombre in [EstadoCohorteExtensionAulica.REGISTRADA]:
+                return False
+        
+        return True
+
     """
     """
     def certificar_carga(self, anio, usuario):

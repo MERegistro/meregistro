@@ -271,7 +271,8 @@ class Establecimiento(models.Model):
         """
         from apps.titulos.models import CohorteEstablecimiento, EstadoCohorteEstablecimiento
         cohortes_con_seguimiento_anio = [ce.id for ce in CohorteEstablecimiento.objects.filter(establecimiento__id=self.id, seguimiento__anio=anio)]
-        cohortes_sin_seguimiento_anio = CohorteEstablecimiento.objects.filter(establecimiento__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio)
+        cohortes_anio_con_inscriptos = [ce.id for ce in CohorteEstablecimiento.objects.filter(establecimiento__id=self.id, cohorte__anio=anio, inscriptos__gt=0, estado__nombre=EstadoCohorteEstablecimiento.REGISTRADA)]
+        cohortes_sin_seguimiento_anio = CohorteEstablecimiento.objects.filter(establecimiento__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio + cohortes_anio_con_inscriptos)
         for ce in cohortes_sin_seguimiento_anio:
             #if ce.estado.nombre not in [EstadoCohorteEstablecimiento.RECHAZADA, EstadoCohorteEstablecimiento.FINALIZADA, EstadoCohorteEstablecimiento.ASIGNADA]:
             if ce.estado.nombre in [EstadoCohorteEstablecimiento.REGISTRADA]:

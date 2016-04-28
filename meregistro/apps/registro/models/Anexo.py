@@ -221,8 +221,10 @@ class Anexo(models.Model):
         """
         from apps.titulos.models import CohorteAnexo, EstadoCohorteAnexo
         cohortes_con_seguimiento_anio = [ce.id for ce in CohorteAnexo.objects.filter(anexo__id=self.id, seguimiento__anio=anio)]
-        cohortes_sin_seguimiento_anio = CohorteAnexo.objects.filter(anexo__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio)
+        cohortes_anio_con_inscriptos = [ce.id for ce in CohorteAnexo.objects.filter(anexo__id=self.id, cohorte__anio=anio, inscriptos__gt=0, estado__nombre=EstadoCohorteAnexo.REGISTRADA)]
+        cohortes_sin_seguimiento_anio = CohorteAnexo.objects.filter(anexo__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio + cohortes_anio_con_inscriptos)
         for ce in cohortes_sin_seguimiento_anio:
+            #if ce.estado.nombre not in [EstadoCohorteEstablecimiento.RECHAZADA, EstadoCohorteEstablecimiento.FINALIZADA, EstadoCohorteEstablecimiento.ASIGNADA]:
             if ce.estado.nombre in [EstadoCohorteAnexo.REGISTRADA]:
                 return False
         
