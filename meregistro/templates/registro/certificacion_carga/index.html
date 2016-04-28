@@ -124,7 +124,9 @@
 
                     <li class="certificar-carga">
                     {% if tipo_perfil == 'Sede' %}
+                    {% if not extension_aulica|args:anio|call:'carga_certificada' %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaExtensionAulica anio extension_aulica.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
+                    {% endif %}
                     {% else %}
                         {% if tipo_perfil == 'ExtensionAulica' and unidad_educativa_actual.id == extension_aulica.id %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaExtensionAulica anio extension_aulica.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>

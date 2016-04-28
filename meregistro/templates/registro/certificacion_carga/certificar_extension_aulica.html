@@ -13,7 +13,10 @@
 
 {% if puede_certificar_carga %}
 <div class="message warning">
-    <p>Una vez certificada la carga del año no se puede volver atrás.</p>
+    <p>Una vez certificada la carga del año no se puede volver atrás. 
+    ¿Está seguro que se han actualizado todos los datos de la institución? Si hubo algún cambio en los mismos por favor realice la actualización correspondiente. 
+    </p>
+    
 </div>
 <div class="form" id="certificarCargaForm">
     <form action="" method="post">{% csrf_token %}
@@ -25,8 +28,8 @@
 </div>
 {% else %}
 <div class="message warning">
-    <p>No se puede certificar la carga. Compruebe que tiene el seguimiento de cohorte cargado para el año {{ anio }} (o la cohorte tiene inscriptos),
-    que cargó la matrícula de ese año y también cargó los datos democratización de la extensión áulica.</p>
+    <p>No se puede certificar la carga. Compruebe que tiene el seguimiento de cohortes registradas (no rechazadas ni finalizadas) cargado para el año {{ anio }} (o la cohorte tiene inscriptos),
+    y que cargó la matrícula de ese año.</p>
 </div>
 {% endif %}
 <hr />

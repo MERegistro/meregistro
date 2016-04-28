@@ -248,6 +248,7 @@ class Establecimiento(models.Model):
         2) Haber cargado matrícula 2016 de la institución (/​registro/establecimiento/1234/matricula)
     """
     def puede_certificar_carga(self, anio):
+        """
         from apps.titulos.models import CohorteEstablecimientoSeguimiento
         from apps.titulos.models import CohorteEstablecimiento
         from apps.registro.models import EstablecimientoMatricula
@@ -257,6 +258,27 @@ class Establecimiento(models.Model):
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
 
         return (seguimiento_cargado or inscriptos_cargados) and matricula_cargada and datos_democratizacion_cargados
+        """
+        # Matricula
+        matricula_cargada = self.establecimientomatricula_set.filter(anio=anio).exists()
+        if not matricula_cargada:
+            return False
+        
+        # Seguimiento
+        """
+        Si alguna cohorte no tiene seguimiento de dicho año y no está rechazada o finalizada, no se puede certificar la carga
+        NOTA: es lo mismo decir que no está registrada, porque las Asignadas supongo que no cuentan
+        """
+        from apps.titulos.models import CohorteEstablecimiento, EstadoCohorteEstablecimiento
+        cohortes_con_seguimiento_anio = [ce.id for ce in CohorteEstablecimiento.objects.filter(establecimiento__id=self.id, seguimiento__anio=anio)]
+        cohortes_sin_seguimiento_anio = CohorteEstablecimiento.objects.filter(establecimiento__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio)
+        for ce in cohortes_sin_seguimiento_anio:
+            #if ce.estado.nombre not in [EstadoCohorteEstablecimiento.RECHAZADA, EstadoCohorteEstablecimiento.FINALIZADA, EstadoCohorteEstablecimiento.ASIGNADA]:
+            if ce.estado.nombre in [EstadoCohorteEstablecimiento.REGISTRADA]:
+                return False
+        
+        return True
+
 
     """
     """

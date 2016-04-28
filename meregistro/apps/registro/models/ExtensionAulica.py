@@ -202,7 +202,16 @@ class ExtensionAulica(models.Model):
         * Cargó la matrícula de ese año  
         * Cargó datos de democratización
     """
+    """
+    #494
+    Para que se pueda certificar tiene que cumplir con las siguientes condiciones:
+        1) En seguimiento de cohorte tiene que
+            * haber cargado el seguimiento o inscriptos 2016 o
+            * haber rechazado o haber hecho fin de seguimiento (new) (​/titulos/cohorte_seguimiento/1234/establecimiento/)
+        2) Haber cargado matrícula 2016 de la institución (/​registro/establecimiento/1234/matricula)
+    """
     def puede_certificar_carga(self, anio):
+        """
         from apps.titulos.models import CohorteExtensionAulicaSeguimiento
         from apps.titulos.models import CohorteExtensionAulica
         from apps.registro.models import ExtensionAulicaMatricula
@@ -212,6 +221,25 @@ class ExtensionAulica(models.Model):
         datos_democratizacion_cargados = self.posee_centro_estudiantes is not None and self.posee_representantes_estudiantiles is not None
 
         return (seguimiento_cargado or inscriptos_cargados) and matricula_cargada and datos_democratizacion_cargados
+        """
+        # Matricula
+        matricula_cargada = self.extensionaulicamatricula_set.filter(anio=anio).exists()
+        if not matricula_cargada:
+            return False
+        
+        # Seguimiento
+        """
+        Si alguna cohorte no tiene seguimiento de dicho año y no está rechazada o finalizada, no se puede certificar la carga
+        NOTA: es lo mismo decir que no está registrada, porque las Asignadas supongo que no cuentan
+        """
+        from apps.titulos.models import CohorteExtensionAulica, EstadoCohorteExtensionAulica
+        cohortes_con_seguimiento_anio = [ce.id for ce in CohorteExtensionAulica.objects.filter(extension_aulica__id=self.id, seguimiento__anio=anio)]
+        cohortes_sin_seguimiento_anio = CohorteExtensionAulica.objects.filter(extension_aulica__id=self.id).exclude(id__in=cohortes_con_seguimiento_anio)
+        for ce in cohortes_sin_seguimiento_anio:
+            if ce.estado.nombre in [EstadoCohorteExtensionAulica.REGISTRADA]:
+                return False
+        
+        return True
 
     """
     """
