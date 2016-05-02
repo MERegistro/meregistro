@@ -824,6 +824,15 @@ td.actions-td ul li.no-revisado {
     background: url(../img/icons/circular-icons/no.png) no-repeat left;
     float: right;
 }
+td.actions-td ul li.carga-certificada {
+    background: url(../img/icons/circular-icons/yes.png) no-repeat left;
+    float: right;
+}
+/* No Revisado */
+td.actions-td ul li.carga-no-certificada {
+    background: url(../img/icons/circular-icons/no.png) no-repeat left;
+    float: right;
+}
 /* DETALLES */
 td.actions-td ul li.details a {
     display: block;

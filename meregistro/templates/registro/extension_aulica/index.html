@@ -8,7 +8,7 @@
 <ul class="actions">
     {% if 'reg_extension_aulica_alta' in credenciales %}
     <li class="create">
-		<a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
+        <a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
     </li>
     {% endif %}
 </ul>
@@ -18,126 +18,126 @@
 {% endif %}
 
 <form action="" method="get">
-	<div class="form-filter" id="extensionAulicaFormFilter">
-		<h3>Búsqueda avanzada</h3>
-		{{ form_filters.non_field_errors }}
-		<div class="form-select">
-			{{ form_filters.establecimiento.errors }}
-			<label for="id_establecimiento">Sede:</label>
-			{{ form_filters.establecimiento }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.cue.errors }}
-			<label for="id_cue">CUE:</label>
-			{{ form_filters.cue }}
-		</div>
-		<div class="form-text">
-			{{ form_filters.nombre.errors }}
-			<label for="id_nombre">Nombre:</label>
-			{{ form_filters.nombre }}
-		</div>
-		{% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' %}
-		<div class="form-select">
-			{{ form_filters.jurisdiccion.errors }}
-			<label for="id_jurisdiccion">Jurisdicción:</label>
-			{{ form_filters.jurisdiccion }}
-		</div>
-		{% endif %}
-		 <div class="form-select">
-			{{ form_filters.departamento.errors }}
-			<label for="id_departamento">Departamento:</label>
-			{{ form_filters.departamento }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.localidad.errors }}
-			<label for="id_localidad">Localidad:</label>
-			{{ form_filters.localidad }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.tipo_gestion.errors }}
-			<label for="id_tipo_gestion">Tipo de Gestión:</label>
-			{{ form_filters.tipo_gestion }}
-		</div>
-		<div class="form-select">
-			{{ form_filters.estado.errors }}
-			<label for="id_estado">Estado:</label>
-			{{ form_filters.estado }}
-		</div>
-		<div class="form-submit">
-			<input type="submit" value="Buscar" />
-			<input type="button" value="Reiniciar" onclick="window.location = 'extension_aulica';" />
-		</div>
+    <div class="form-filter" id="extensionAulicaFormFilter">
+        <h3>Búsqueda avanzada</h3>
+        {{ form_filters.non_field_errors }}
+        <div class="form-select">
+            {{ form_filters.establecimiento.errors }}
+            <label for="id_establecimiento">Sede:</label>
+            {{ form_filters.establecimiento }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.cue.errors }}
+            <label for="id_cue">CUE:</label>
+            {{ form_filters.cue }}
+        </div>
+        <div class="form-text">
+            {{ form_filters.nombre.errors }}
+            <label for="id_nombre">Nombre:</label>
+            {{ form_filters.nombre }}
+        </div>
+        {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' %}
+        <div class="form-select">
+            {{ form_filters.jurisdiccion.errors }}
+            <label for="id_jurisdiccion">Jurisdicción:</label>
+            {{ form_filters.jurisdiccion }}
+        </div>
+        {% endif %}
+         <div class="form-select">
+            {{ form_filters.departamento.errors }}
+            <label for="id_departamento">Departamento:</label>
+            {{ form_filters.departamento }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.localidad.errors }}
+            <label for="id_localidad">Localidad:</label>
+            {{ form_filters.localidad }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.tipo_gestion.errors }}
+            <label for="id_tipo_gestion">Tipo de Gestión:</label>
+            {{ form_filters.tipo_gestion }}
+        </div>
+        <div class="form-select">
+            {{ form_filters.estado.errors }}
+            <label for="id_estado">Estado:</label>
+            {{ form_filters.estado }}
+        </div>
+        <div class="form-submit">
+            <input type="submit" value="Buscar" />
+            <input type="button" value="Reiniciar" onclick="window.location = 'extension_aulica';" />
+        </div>
 
-	</div>
+    </div>
 
 {% if objects %}
 {% include "counter.html" %}
 <ul class="reportes-actions">
     <li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
+    <a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
     </li>
 </ul>
 <table class="hor-zebra">
-	<thead>
-		<tr>
-		<th id="thCueExtensionAulica">CUE</th>
-			<th>Nombre</th>
-			{% if user_perfil.rol.nombre in 'AdminNacional' %}
-			<th>Jurisdicción</th>
-			{% endif %}
-			<th>Departamento</th>
-			<th>Localidad</th>
-			<th class="th-estados">Estados</th>
-			<th class="actions">Acciones</th>
-		</tr>
-	</thead>
+    <thead>
+        <tr>
+        <th id="thCueExtensionAulica">CUE</th>
+            <th>Nombre</th>
+            {% if user_perfil.rol.nombre in 'AdminNacional' %}
+            <th>Jurisdicción</th>
+            {% endif %}
+            <th>Departamento</th>
+            <th>Localidad</th>
+            <th class="th-estados">Estados</th>
+            <th class="actions">Acciones</th>
+        </tr>
+    </thead>
     {% for ext in objects %}
       <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-		<td>{{ ext.cue }}</td>
-		{% if 'reg_extension_aulica_consulta' in credenciales %}
-		<td><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ext.id %}" title="Ver datos"><span>{{ ext.nombre }}</span></a></td>
-		{% else %}
-		<td>{{ ext.nombre }}</td>
-		{% endif %}
-		
+        <td>{{ ext.cue }}</td>
+        {% if 'reg_extension_aulica_consulta' in credenciales %}
+        <td><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ext.id %}" title="Ver datos"><span>{{ ext.nombre }}</span></a></td>
+        {% else %}
+        <td>{{ ext.nombre }}</td>
+        {% endif %}
+        
         {% if user_perfil.rol.nombre in 'AdminNacional' %}
-		<td>{{ ext.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
-		{% endif %}
-		<td>{{ ext.get_first_domicilio.localidad.departamento }}</td>
-		<td>{{ ext.get_first_domicilio.localidad }}</td>
-		<td>
-			<div class="estados">
-			{% for estado in ext.estados.all %}
-			<p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
-			{% endfor %}
-			</div>
-		</td>
+        <td>{{ ext.get_first_domicilio.localidad.departamento.jurisdiccion }}</td>
+        {% endif %}
+        <td>{{ ext.get_first_domicilio.localidad.departamento }}</td>
+        <td>{{ ext.get_first_domicilio.localidad }}</td>
+        <td>
+            <div class="estados">
+            {% for estado in ext.estados.all %}
+            <p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
+            {% endfor %}
+            </div>
+        </td>
         <td class="actions-td">
-			<ul>
-				{% if 'reg_extension_aulica_modificar' in credenciales and ext.registrado %}
-				<li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ext.id %}" title="Editar"><span>Editar</span></a></li>
-				{% endif %}	    
-				{% if 'reg_extension_aulica_modificar_pendiente' in credenciales and ext.pendiente %}
-				<li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ext.id %}" title="Editar"><span>Editar</span></a></li>
-				{% endif %}
-				{% if 'reg_extension_aulica_aprobar_registro' in credenciales %}
-				<li class="registrar"><a href="{% url apps.registro.views.extension_aulica.registrar ext.id %}" title="Registrar"><span>Registrar</span></a></li>
-				{% endif %}
+            <ul>
+                {% if 'reg_extension_aulica_modificar' in credenciales and ext.registrado %}
+                <li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ext.id %}" title="Editar"><span>Editar</span></a></li>
+                {% endif %}        
+                {% if 'reg_extension_aulica_modificar_pendiente' in credenciales and ext.pendiente %}
+                <li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ext.id %}" title="Editar"><span>Editar</span></a></li>
+                {% endif %}
+                {% if 'reg_extension_aulica_aprobar_registro' in credenciales %}
+                <li class="registrar"><a href="{% url apps.registro.views.extension_aulica.registrar ext.id %}" title="Registrar"><span>Registrar</span></a></li>
+                {% endif %}
 
-				{% if 'reg_extension_aulica_baja' in credenciales and  ext.is_deletable %}
-				<li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
-				{% endif %}
-								
-				{% if 'reg_extension_aulica_consulta' in credenciales %}
-				<li class="ver-datos"><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ext.id %}" title="Ver Datos"><span>Ver Datos</span></a></li>
-				{% endif %}
-				
-				{% if ext.verificado %} 
-				<li class="revisado" title="Revisado"><span>Revisado</span></li>
-				{% else %}
-				<li class="no-revisado" title="No Revisado"><span>No revisado</span></li>
-				{% endif %}
-			</ul>
+                {% if 'reg_extension_aulica_baja' in credenciales and  ext.is_deletable %}
+                <li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ext.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                {% endif %}
+                                
+                {% if 'reg_extension_aulica_consulta' in credenciales %}
+                <li class="ver-datos"><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ext.id %}" title="Ver Datos"><span>Ver Datos</span></a></li>
+                {% endif %}
+                
+                {% if ext.carga_certificada_anio_actual %} 
+                <li class="carga-certificada" title="Carga certificada"><span>Carga certificada</span></li>
+                {% else %}
+                <li class="carga-no-certificada" title="Carga no certificada"><span>Carga no certificada</span></li>
+                {% endif %}
+            </ul>
         </td>
       </tr>
     {% endfor %}
@@ -159,20 +159,20 @@ var dropdown_localidad = $("select#id_localidad");
 
 $(document).ready(
     dropdown_departamento.change(
-	function(){
-	    if (dropdown_departamento.val() == '') {
-		dropdown_localidad.html("<option value=''>Seleccione...</option>");
-	    } else {
-		var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
-		$.getJSON(url, function(models){
-		    var options = '<option value="">Seleccione...</option>';
-		    for(var i = 0; i < models.length; i++){
-			options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-		    }
-		    dropdown_localidad.html(options);
-		});
-	    } // END if
-	}) // END function
+    function(){
+        if (dropdown_departamento.val() == '') {
+        dropdown_localidad.html("<option value=''>Seleccione...</option>");
+        } else {
+        var url = "/registro/ajax/get_localidades_por_departamento/" + $(this).val();
+        $.getJSON(url, function(models){
+            var options = '<option value="">Seleccione...</option>';
+            for(var i = 0; i < models.length; i++){
+            options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+            }
+            dropdown_localidad.html(options);
+        });
+        } // END if
+    }) // END function
 ); // END document.ready
 
 // Init
@@ -215,16 +215,16 @@ if (dropdown_jurisdiccion.val() == '') {
 
 dropdown_jurisdiccion.change(function(){
     if (dropdown_jurisdiccion.val() == '') {
-	dropdown_departamento.html("<option value=''>Seleccione...</option>");
+    dropdown_departamento.html("<option value=''>Seleccione...</option>");
     } else {
-	var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
-	$.getJSON(url, function(models) {
-	    var options = '<option value="">Seleccione...</option>';
-	    for (var i = 0; i < models.length; i++) {
-	    options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
-	    }
-	    dropdown_departamento.html(options);
-	});
+    var url = "/registro/ajax/get_departamentos_por_jurisdiccion/" + $(this).val();
+    $.getJSON(url, function(models) {
+        var options = '<option value="">Seleccione...</option>';
+        for (var i = 0; i < models.length; i++) {
+        options += '<option value="' + models[i].pk + '">' + models[i].fields['nombre'] + '</option>';
+        }
+        dropdown_departamento.html(options);
+    });
     }
     dropdown_departamento.change();
 });

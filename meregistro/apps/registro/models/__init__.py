@@ -59,3 +59,5 @@ from TipoCompartido import TipoCompartido
 from EstablecimientoCertificacionCarga import EstablecimientoCertificacionCarga
 from AnexoCertificacionCarga import AnexoCertificacionCarga
 from ExtensionAulicaCertificacionCarga import ExtensionAulicaCertificacionCarga
+
+CERTIFICACION_CARGA_ANIOS_HABILITADOS = ['2016']

@@ -27,11 +27,11 @@
         <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}{% if establecimiento|args:anio|call:'carga_certificada' %} certificada{% else %} no-certificada{% endif %}">
             <td>{{ establecimiento.cue }}</td>
             <td>{{ establecimiento.nombre }}</td>
-            <td>{% if establecimiento|args:anio|call:'carga_certificada' %}SI{% else %}NO{% endif %}</td>
+            <td>{% if establecimiento.carga_certificada_anio_actual %}SI{% else %}NO{% endif %}</td>
             <td class="actions-td">
                 <ul>
                     <li class="certificar-carga">
-                    {% if tipo_perfil == 'Sede' and not establecimiento|args:anio|call:'carga_certificada' %}
+                    {% if tipo_perfil == 'Sede' and not establecimiento.carga_certificada_anio_actual %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaEstablecimiento anio establecimiento.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
                     {% endif %}
                     </li>
@@ -67,17 +67,15 @@
         <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
             <td>{{ anexo.cue }}</td>
             <td>{{ anexo.nombre }}</td>
-            <td>{% if anexo|args:anio|call:'carga_certificada' %}SI{% else %}NO{% endif %}</td>
+            <td>{% if anexo.carga_certificada_anio_actual %}SI{% else %}NO{% endif %}</td>
             <td class="actions-td">
                 <ul>
                 <!-- Si el usuario es Referente institucional y es del ámbito de la Sede, o bien es del Anexo y es del anexo actual  -->
-
+                    {% if not anexo.carga_certificada_anio_actual %}
                     <li class="certificar-carga">
-                    {% if tipo_perfil == 'Sede' %}
-                    {% if not anexo|args:anio|call:'carga_certificada' %}
+                        {% if tipo_perfil == 'Sede' %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaAnexo anio anexo.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
-                    {% endif %}
-                    {% else %}
+                        {% endif %}
                         {% if tipo_perfil == 'Anexo' and unidad_educativa_actual.id == anexo.id %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaAnexo anio anexo.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
                         {% endif %}
@@ -117,17 +115,16 @@
         <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
             <td>{{ extension_aulica.cue }}</td>
             <td>{{ extension_aulica.nombre }}</td>
-            <td>{% if extension_aulica|args:anio|call:'carga_certificada' %}SI{% else %}NO{% endif %}</td>
+            <td>{% if extension_aulica.carga_certificada_anio_actual %}SI{% else %}NO{% endif %}</td>
             <td class="actions-td">
                 <ul>
                 <!-- Si el usuario es Referente institucional y es del ámbito de la Sede, o bien es del Anexo y es del anexo actual  -->
 
                     <li class="certificar-carga">
-                    {% if tipo_perfil == 'Sede' %}
-                    {% if not extension_aulica|args:anio|call:'carga_certificada' %}
+                    {% if not extension_aulica.carga_certificada_anio_actual %}
+                        {% if tipo_perfil == 'Sede' %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaExtensionAulica anio extension_aulica.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
-                    {% endif %}
-                    {% else %}
+                        {% endif %}
                         {% if tipo_perfil == 'ExtensionAulica' and unidad_educativa_actual.id == extension_aulica.id %}
                         <a onClick="return confirm('¿Está seguro de que chequeó los datos institucionales,\nhizo el seguimiento de cohorte {{ anio }} y cargó la matrícula {{ anio }}?')" href='{% url certificarCargaExtensionAulica anio extension_aulica.id %}' title="Certificar año {{ anio }}"><span>Certificar año {{ anio }}</span></a>
                         {% endif %}

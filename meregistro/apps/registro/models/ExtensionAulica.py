@@ -52,6 +52,8 @@ class ExtensionAulica(models.Model):
         super(ExtensionAulica, self).__init__(*args, **kwargs)
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
+        from apps.registro.models import CERTIFICACION_CARGA_ANIOS_HABILITADOS
+        self.carga_certificada_anio_actual = self.carga_certificada(CERTIFICACION_CARGA_ANIOS_HABILITADOS[-1])
 
     def __unicode__(self):
         return self.nombre

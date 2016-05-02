@@ -8,10 +8,11 @@ from apps.seguridad.models import TipoAmbito
 from apps.registro.models import Jurisdiccion, Establecimiento, Anexo, ExtensionAulica
 from django.core.paginator import Paginator
 from helpers.MailHelper import MailHelper
+from apps.registro.models import CERTIFICACION_CARGA_ANIOS_HABILITADOS
 import datetime
 
 ITEMS_PER_PAGE = 50
-ANIOS_HABILITADOS = ['2016']
+ANIOS_HABILITADOS = CERTIFICACION_CARGA_ANIOS_HABILITADOS
 
 @login_required    
 def __get_ue_actual(request, tipo):
