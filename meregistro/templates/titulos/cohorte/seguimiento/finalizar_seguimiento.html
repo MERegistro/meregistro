@@ -1,0 +1,39 @@
+{% extends "base_titulos.html" %}
+
+{% block title %}Finalización de seguimiento de cohorte{% endblock %}
+
+{% block content %}
+<h2>Finalización de seguimiento de cohorte</h2>
+<div class="datos-lectura">
+	<p><strong>Carrera:</strong> {{ cohorte_unidad_educativa.cohorte.carrera_jurisdiccional.carrera }}</p>
+	<p><strong>Año:</strong> {{ cohorte_unidad_educativa.cohorte.anio }}</p>
+</div>
+{% if flash %}
+    {% include "flashes.html" %}
+{% endif %}
+
+{% if not cohorte_establecimiento.finalizada %}
+<div class="message warning">
+    <p>Está seguro de finalizar el seguimiento de la Cohorte?<br />
+    ¿Está seguro que ningún estudiante podrá continuar su cursada ni rendir exámenes en esta cohorte, con ese plan de estudios?<br />
+    Esto no puede deshacerse.</p>
+</div>
+<div class="form" id="cohorteFinalizarForm">
+    <form action="" method="post">{% csrf_token %}
+        <input type="hidden" name="cohorte_ue_id" value="{{ cohorte_ue.id }}" />
+
+        <div class="form-submit">
+            <input type="submit" value="Finalizar" />
+        </div>
+    </form>
+</div>
+{% else %}
+<div class="message notice">
+    <p>La cohorte ya se encuentra finalizada.</p>
+</div>
+{% endif %}
+<ul class="actions">
+	{% include "titulos/cohorte/seguimiento/back_action.html" %}
+</ul>
+<hr />
+{% endblock %}
