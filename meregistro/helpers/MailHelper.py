@@ -121,6 +121,7 @@ class MailHelper():
 Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
 
 Tipo: Sede
+Usuario: """ + get_current_user().apellido + ", " + get_current_user().nombre + " - " + get_current_user().tipo_documento.abreviatura + ": " + get_current_user().documento + u"""
 Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
 Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""
 Jurisdicción: """ + unicode(establecimiento.dependencia_funcional.jurisdiccion) + u"""
@@ -194,6 +195,7 @@ Instituto Nacional de Formación Docente<br />
 Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
 
 Tipo: Anexo
+Usuario: """ + get_current_user().apellido + ", " + get_current_user().nombre + " - " + get_current_user().tipo_documento.abreviatura + ": " + get_current_user().documento + u"""
 Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
 Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""
 Jurisdicción: """ + unicode(anexo.establecimiento.dependencia_funcional.jurisdiccion) + u"""
@@ -267,6 +269,7 @@ Instituto Nacional de Formación Docente<br />
 Se ha solicitado el registro de una nueva Unidad Educativa cuyos datos son:
 
 Tipo: Extensión Aulica
+Usuario: """ + get_current_user().apellido + ", " + get_current_user().nombre + " - " + get_current_user().tipo_documento.abreviatura + ": " + get_current_user().documento + u"""
 Fecha de Solicitud: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
 Usuario que Solicita el Alta: """ + get_current_user().apellido + ", " + get_current_user().nombre +  u"""
 Jurisdicción: """ + unicode(extension_aulica.establecimiento.dependencia_funcional.jurisdiccion) + u"""
@@ -358,7 +361,7 @@ Instituto Nacional de Formación Docente<br />
 
     @staticmethod
     def certificacion_carga_establecimiento(certificacion):
-        usuario = u'' + certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
+        usuario = u'' + certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre + ' (' + certificacion.usuario.tipo_documento.abreviatura + ': ' + certificacion.usuario.documento + '),'
         establecimiento = certificacion.establecimiento
         anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = establecimiento.dependencia_funcional.ambito.id
@@ -373,7 +376,7 @@ Instituto Nacional de Formación Docente<br />
 
     @staticmethod
     def certificacion_carga_anexo(certificacion):
-        usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
+        usuario = u'' + certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre + ' (' + certificacion.usuario.tipo_documento.abreviatura + ': ' + certificacion.usuario.documento + '),'
         anexo = certificacion.anexo
         anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = anexo.establecimiento.dependencia_funcional.ambito.id
@@ -388,7 +391,7 @@ Instituto Nacional de Formación Docente<br />
 
     @staticmethod
     def certificacion_carga_extension_aulica(certificacion):
-        usuario = certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre
+        usuario = u'' + certificacion.usuario.apellido + ' ' + certificacion.usuario.nombre + ' (' + certificacion.usuario.tipo_documento.abreviatura + ': ' + certificacion.usuario.documento + '),'
         extension_aulica = certificacion.extension_aulica
         anio = str(certificacion.anio)
         ambito_dependencia_funcional_id = extension_aulica.establecimiento.dependencia_funcional.ambito.id
@@ -426,6 +429,8 @@ Instituto Nacional de Formación Docente<br />
 
 Se ha registrado una nueva numeración de título nacional, cuyos datos son:
 
+Fecha de Numeración: """ + datetime.date.today().strftime("%d/%m/%Y") + u"""
+Usuario que Realiza la Numeración: """ + get_current_user().apellido + ", " + get_current_user().nombre + " - " + get_current_user().tipo_documento.abreviatura + ": " + get_current_user().documento + u"""
 Tipo: """ + validez.tipo_unidad_educativa + u"""
 CUE: """ + ue.cue + u"""
 Jurisdicción: """ + solicitud.jurisdiccion.nombre + u"""
