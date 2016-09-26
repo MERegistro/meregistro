@@ -39,12 +39,12 @@
 			{{ form_filters.primera_cohorte.errors }}
 			<label for="id_primera_cohorte">Primera Cohorte Autorizada:</label>
 			{{ form_filters.primera_cohorte }}
-		</div> 
+		</div>
 		<div class="form-text">
 			{{ form_filters.nro_infd.errors }}
 			<label for="id_nro_infd">Número INFD:</label>
 			{{ form_filters.nro_infd }}
-		</div> 
+		</div>
 		<div class="form-submit">
 			<input type="submit" value="Buscar" />
 			<input type="button" value="Reiniciar" onclick="window.location = '/postitulos/validez';" />
@@ -68,7 +68,7 @@
 				<th>Carrera</th>
 				<th>Postítulo</th>
 				<th>Cohortes</th>
-				<th>Norm. Jurisd.</th>
+				<th>Normativa Aprobación Plan</th>
 				<th>Norm. Nac.</th>
 				<th>Nro. INFD</th>
 				<th class="actions">Acciones</th>
@@ -77,7 +77,7 @@
 	<tbody>
 		{% for obj in objects %}
 		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
-			<td>{{ obj.get_jurisdiccion.nombre }}</td>	
+			<td>{{ obj.get_jurisdiccion.nombre }}</td>
 			<td>{{ obj.cue }}</td>
 			<td>{{ obj.carrera_postitulo }}</td>
 			<td>{{ obj.postitulo_nacional }}</td>
@@ -85,7 +85,7 @@
 			<td>{{ obj.normativa_postitulo_jurisdiccional|default:"" }}</td>
 			<td>{{ obj.normativas_postitulo|default:"" }}</td>
 			<td>{{ obj.nro_infd }}</td>
-			<td class="actions-td">				
+			<td class="actions-td">
 			{% if user_perfil.rol.nombre in 'AdminNacional' %}
 				<ul>
 					<li class="edit"><a href="{% url apps.postitulos.views.validez.edit obj.id %}" title="Edición Manual de Validez Nacional"><span>Edición Manual de Validez Nacional</span></a></li>
