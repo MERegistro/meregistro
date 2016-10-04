@@ -2,7 +2,7 @@
     <form action="" method="post">{% csrf_token %}
     <br />
     <h4>Depende de la Sede del: {{ extension_aulica.establecimiento }}</h4>
-    <h4>CUE: {{ extension_aulica.cue }}{% if 'registro_modificar_cue' in credenciales %} <a href="{% url apps.registro.views.anexo.modificar_cue extension_aulica.id %}"><span>(Modificar)</span></a>{% endif %}</h4>
+    <h4>CUE: {{ extension_aulica.cue }}{% if 'registro_modificar_cue' in credenciales %} <a href="{% url apps.registro.views.extension_aulica.modificar_cue extension_aulica.id %}"><span>(Modificar)</span></a>{% endif %}</h4>
     <h4>Fecha de Solicitud de Registro: {{ extension_aulica.get_fecha_solicitud }}</h4>
     {{ form.non_field_errors }}
     <div class="form-text">
@@ -89,14 +89,14 @@ $(document).ready(function(){
     dropdown_norma_creacion = $('select#id_norma_creacion');
     norma_creacion_val = dropdown_norma_creacion.val();
     norma_creacion_otra_input = $('input#id_norma_creacion_otra');
-    
+
     if(norma_creacion_val == 'Otra'){
         norma_creacion_otra_input.show();
     } else {
         norma_creacion_otra_input.val("");
         norma_creacion_otra_input.hide();
     }
-    
+
     dropdown_norma_creacion.change(function(){
         if (dropdown_norma_creacion.val() == 'Otra'){
             norma_creacion_otra_input.show();
@@ -105,7 +105,7 @@ $(document).ready(function(){
             norma_creacion_otra_input.hide();
         }
     });
-    
+
     // Subsidio
     dropdown_subsidio = $('select#id_subsidio');
     dropdown_sede.change(function(){
