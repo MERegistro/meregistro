@@ -27,7 +27,7 @@
                 {% if 'reg_extension_aulica_consulta' in credenciales %}
                 <li><a href="{% url apps.registro.views.extension_aulica.index %}"><span>Extensiones áulicas</span></a></li>
                 {% endif %}
-            </ul> 
+            </ul>
         </li>
         {% endif %}
         {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
@@ -42,7 +42,7 @@
                 {% if 'reg_extension_aulica_consulta' in credenciales %}
                 <li><a href="{% url apps.registro.views.extension_aulica_matricula.index %}"><span>Extensiones áulicas</span></a></li>
                 {% endif %}
-            </ul> 
+            </ul>
         </li>
         {% endif %}
         {% if 'reg_df_consulta' in credenciales %}
@@ -59,20 +59,20 @@
                 <li><a href="{% url apps.titulos.views.carrera_jurisdiccional.index %}">Títulos jurisdiccionales</a></li>
                 <li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
                 {% endif %}
-                
+
                 {% if user_perfil.rol.nombre in 'AdminNacional' %}
                 <li><a href="{% url apps.titulos.views.titulo.index %}">Títulos</a></li>
                 <li><a href="{% url apps.titulos.views.orientacion.index %}">Orientaciones</a></li>
                 {% endif %}
-                
+
                 {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
                 <li><a href="{% url apps.titulos.views.proyecto.index %}">Proyectos</a></li>
                 {% endif %}
-                
+
                 {% if user_perfil.rol.nombre in 'ReferenteInstitucional,AdminNacional' %}
                 <li><a href="{% url apps.titulos.views.postitulo.index %}">Postitulo</a></li>
                 {% endif %}
-                
+
                 {% if user_perfil.rol.nombre in 'ReferenteInstitucional' %}
                 <li><a href="{% url apps.titulos.views.cohorte.index %}">Cohortes</a></li>
                 {% endif %}
@@ -182,7 +182,7 @@
         {% endif %}
         -->
         {% if 'registro_certificar_carga' in credenciales %}
-        <li id="linkCertificacionCarga"><a href="{% url apps.registro.views.certificacion_carga.index '2016' %}"><span>Certificación de Carga 2016</span></a></li>
+        <li id="linkCertificacionCarga"><a href="{% url apps.registro.views.certificacion_carga.index '2017' %}"><span>Certificación de Carga 2017</span></a></li>
         {% endif %}
         {% if 'reg_menu_ayuda' in credenciales %}
         <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
