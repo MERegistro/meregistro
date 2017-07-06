@@ -31,7 +31,7 @@ def __extension_aulica_dentro_del_ambito(request, extension_aulica):
     return True
 
 @login_required
-def __get_extension_aulica(request, extension_aulica_id):    
+def __get_extension_aulica(request, extension_aulica_id):
     extension_aulica = ExtensionAulica.objects.get(pk=extension_aulica_id)
     if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
         raise Exception('El extension_aulica no se encuentra en su ámbito.')
@@ -39,7 +39,7 @@ def __get_extension_aulica(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def index(request):
 
     jurisdiccion = request.get_perfil().jurisdiccion()
@@ -59,7 +59,7 @@ def index(request):
             departamento_id = None
     except KeyError:
         departamento_id = None
-    
+
     """
     Búsqueda de extensiones áulicas
     """
@@ -113,7 +113,7 @@ def build_query(filters, page, request):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def matricula(request, extension_aulica_id):
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
     """
@@ -154,9 +154,9 @@ def matricula(request, extension_aulica_id):
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
         'actual_page': 'matricula',
         'form_verificacion': VerificacionDatosExtensionAulicaForm(
-            dato_verificacion='matricula', 
-            unidad_educativa_id=extension_aulica.id, 
-            return_url='extensionAulicaMatriculaIndexExtensionAulica', 
+            dato_verificacion='matricula',
+            unidad_educativa_id=extension_aulica.id,
+            return_url='extensionAulicaMatriculaIndexExtensionAulica',
             verificado=extension_aulica.get_verificacion_datos().matricula),
     })
 
@@ -232,7 +232,7 @@ def edit(request, matricula_id):
 def delete(request, matricula_id):
     matricula = ExtensionAulicaMatricula.objects.get(pk=matricula_id)
     extension_aulica = __get_extension_aulica(request, matricula.extension_aulica_id)
-    
+
     matricula.delete()
     request.set_flash('success', 'Datos del matricula eliminados correctamente.')
     return HttpResponseRedirect(reverse('extensionAulicaMatriculaIndex', args=[matricula.extension_aulica_id]))
