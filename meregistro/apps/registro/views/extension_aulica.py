@@ -621,7 +621,8 @@ def ver_contacto(request, extension_aulica_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
+        'autoridades': extension_aulica.autoridades.all(),
     })
     
 
@@ -704,7 +705,7 @@ def ver_domicilios(request, extension_aulica_id):
     })
 
 @login_required
-@credential_required('reg_extension_aulica_consulta')
+@credential_required('__NOT_EXIST__reg_extension_aulica_consulta')
 def ver_autoridades(request, extension_aulica_id):
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
     if not __extension_aulica_dentro_del_ambito(request, extension_aulica):

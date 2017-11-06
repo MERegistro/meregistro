@@ -622,7 +622,8 @@ def ver_contacto(request, anexo_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
-        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
+        'autoridades': anexo.autoridades.all(),
     })
     
 
@@ -705,7 +706,7 @@ def ver_domicilios(request, anexo_id):
     })
 
 @login_required
-@credential_required('reg_anexo_consulta')
+@credential_required('__NOT_EXIST__reg_anexo_consulta')
 def ver_autoridades(request, anexo_id):
     anexo = __get_anexo(request, anexo_id)
     if not __anexo_dentro_del_ambito(request, anexo):

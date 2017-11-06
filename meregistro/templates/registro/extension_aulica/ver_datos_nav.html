@@ -19,9 +19,11 @@
   {% if configuracion_solapas.domicilio %}
 		  <li class="{% if actual_page == 'domicilios' %}active{% endif %}{% if not datos_verificados.domicilios %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_domicilios extension_aulica.id %}" title="Domicilios"><span>Domicilios</span></a></li>
   {% endif %}
+  <!--
   {% if configuracion_solapas.autoridad %}
 		  <li class="{% if actual_page == 'autoridades' %}active{% endif %}{% if not datos_verificados.autoridades %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_autoridades extension_aulica.id %}" title="Autoridades"><span>Autoridades</span></a></li>
   {% endif %}
+  -->
   {% if configuracion_solapas.informacion_edilicia %}
 		  <li class="{% if actual_page == 'informacion_edilicia' %}active{% endif %}{% if not datos_verificados.info_edilicia %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_informacion_edilicia extension_aulica.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
   {% endif %}

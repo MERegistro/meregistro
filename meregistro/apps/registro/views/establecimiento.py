@@ -625,7 +625,8 @@ def ver_contacto(request, establecimiento_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
-        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
+        'autoridades': establecimiento.autoridades.all(),
     })
     
 
@@ -708,7 +709,7 @@ def ver_domicilios(request, establecimiento_id):
     })
 
 @login_required
-@credential_required('reg_establecimiento_consulta')
+@credential_required('__NOT_EXIST__reg_establecimiento_consulta')
 def ver_autoridades(request, establecimiento_id):
     establecimiento = __get_establecimiento(request, establecimiento_id)
     if not __establecimiento_dentro_del_ambito(request, establecimiento):
