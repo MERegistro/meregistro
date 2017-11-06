@@ -49,6 +49,8 @@ def index(request, anexo_id):
     
     anexo = __get_anexo(request, anexo_id)
 
+    return HttpResponseRedirect(reverse('establecimientoCompletarContacto', args=[establecimiento.id]))
+    
     """
     Búsqueda de anexos
     """
@@ -89,7 +91,7 @@ def index(request, anexo_id):
         'verificado': anexo.get_verificacion_datos().autoridades,
         'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
-        'actual_page': 'autoridades',
+        'actual_page': 'contacto',
         'form_verificacion': VerificacionDatosAnexoForm(
 			dato_verificacion='autoridades', 
 			unidad_educativa_id=anexo.id, 
@@ -133,7 +135,8 @@ def create(request, anexo_id):
     alta_habilitada = AnexoAutoridad.objects.filter(anexo__id = anexo.id).count() == 0    
     if not alta_habilitada:  # no debería estar en esta pantalla
         request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
-        return HttpResponseRedirect(reverse('anexoAutoridadesIndex', args=[anexo.id]))
+        return HttpResponseRedirect(reverse('anexoCompletarContacto', args=[anexo.id]))
+        #return HttpResponseRedirect(reverse('anexoAutoridadesIndex', args=[anexo.id]))
     
     return my_render(request, 'registro/anexo/autoridades/new.html', {
         'form': form,
@@ -175,4 +178,5 @@ def delete(request, autoridad_id):
     anexo = __get_anexo(request, autoridad.anexo_id)
     autoridad.delete()
     request.set_flash('success', 'Datos de la autoridad eliminados correctamente.')
-    return HttpResponseRedirect(reverse('anexoAutoridadesIndex', args=[anexo.id]))
+    return HttpResponseRedirect(reverse('anexoCompletarContacto', args=[anexo.id]))
+    #return HttpResponseRedirect(reverse('anexoAutoridadesIndex', args=[anexo.id]))

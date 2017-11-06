@@ -298,6 +298,33 @@ def completar_contacto(request, anexo_id):
         form = AnexoContactoForm(instance=anexo)
     form.initial['verificado'] = anexo.get_verificacion_datos().contacto
     
+    """
+    
+    Se unifica con autoridades
+    
+    """    
+    from apps.registro.forms.AnexoAutoridadFormFilters import AnexoAutoridadFormFilters
+    from apps.registro.views.anexo_autoridad import build_query as build_query_autoridades
+
+    form_filter = AnexoAutoridadFormFilters(anexo_id=anexo.id)
+
+    q = build_query_autoridades(form_filter, 1, request)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
+    alta_habilitada = objects.count() == 0
+    
     return my_render(request, 'registro/anexo/completar_datos.html', {
         'form': form,
         'form_template': 'registro/anexo/form_contacto.html',
@@ -305,7 +332,15 @@ def completar_contacto(request, anexo_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasAnexo.get_instance(),
-        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': anexo.get_verificacion_datos().get_datos_verificados(),
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1,
+        'alta_habilitada': alta_habilitada,
     })
 
 
