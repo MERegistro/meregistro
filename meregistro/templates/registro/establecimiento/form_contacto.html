@@ -83,12 +83,13 @@ tipo_norma_otra_enabled();
 </script>
 
 {% if 'reg_establecimiento_completar' in credenciales %}
-<ul class="actions">
+<ul class="actions" style="margin-bottom: 0;">
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento_autoridad.create establecimiento.id %}"><span>Nueva Autoridad</span></a>
     </li>
 </ul>
 {% endif %}
+<hr />
 
 <div class="grid-wrapper">
 {% if objects %}

@@ -49,6 +49,7 @@ def index(request, establecimiento_id):
     
     establecimiento = __get_establecimiento(request, establecimiento_id)
 
+    return HttpResponseRedirect(reverse('establecimientoCompletarContacto', args=[establecimiento.id]))
     """
     Búsqueda de establecimientos
     """
@@ -133,7 +134,7 @@ def create(request, establecimiento_id):
     alta_habilitada = EstablecimientoAutoridad.objects.filter(establecimiento__id = establecimiento.id).count() == 0    
     if not alta_habilitada:  # no debería estar en esta pantalla
         request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
-        return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex', args=[establecimiento.id]))
+        return HttpResponseRedirect(reverse('establecimientoCompletarContacto', args=[establecimiento.id]))
     
     return my_render(request, 'registro/establecimiento/autoridades/new.html', {
         'form': form,
@@ -175,4 +176,5 @@ def delete(request, autoridad_id):
     establecimiento = __get_establecimiento(request, autoridad.establecimiento_id)
     autoridad.delete()
     request.set_flash('success', 'Datos de la autoridad eliminados correctamente.')
-    return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex', args=[establecimiento.id]))
+    return HttpResponseRedirect(reverse('establecimientoCompletarContacto', args=[establecimiento.id]))
+    #return HttpResponseRedirect(reverse('establecimientoAutoridadesIndex', args=[establecimiento.id]))
