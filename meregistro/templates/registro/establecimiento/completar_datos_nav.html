@@ -7,12 +7,6 @@
   {% if configuracion_solapas.contacto %}
 		  <li class="{% if actual_page == 'contacto' %}active{% endif %}{% if not datos_verificados.contacto %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_contacto establecimiento.id %}" title="Contacto"><span>Contacto</span></a></li>
   {% endif %}
-  {% if configuracion_solapas.alcances %}
-		  <li class="{% if actual_page == 'alcances' %}active{% endif %}{% if not datos_verificados.alcances %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_alcances establecimiento.id %}" title="Alcance"><span>Alcance</span></a></li>
-  {% endif %}
-  {% if configuracion_solapas.turnos %}
-		  <li class="{% if actual_page == 'turnos' %}active{% endif %}{% if not datos_verificados.turnos %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento_turno.index establecimiento.id %}" title="Turnos"><span>Turnos</span></a></li>
-  {% endif %}
   {% if configuracion_solapas.funciones %}
 		  <li class="{% if actual_page == 'funciones' %}active{% endif %}{% if not datos_verificados.funciones %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.establecimiento.completar_funciones establecimiento.id %}" title="Funciones"><span>Funciones</span></a></li>
   {% endif %}
