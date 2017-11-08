@@ -23,6 +23,7 @@ class SolicitudFormFilters(forms.Form):
 	carrera = forms.CharField(max_length=40, label='Carrera', required=False)
 	normativa_nacional = forms.CharField(max_length=40, label='Normativa Nacional', required=False)
 	nro_expediente = forms.CharField(max_length=40, label='Nro. de Expediente', required=False)
+	nro_expediente_gedo = forms.CharField(max_length=40, label='Nro. de Expediente', required=False)
 
 	def buildQuery(self, q=None):
 		"""
@@ -47,4 +48,6 @@ class SolicitudFormFilters(forms.Form):
 			q = q.filter(normativas_nacionales__icontains=self.cleaned_data['normativa_nacional'])
 		if filter_by('nro_expediente'):
 			q = q.filter(nro_expediente__icontains=self.cleaned_data['nro_expediente'])
+		if filter_by('nro_expediente_gedo'):
+			q = q.filter(nro_expediente_gedo__icontains=self.cleaned_data['nro_expediente_gedo'])
 		return q

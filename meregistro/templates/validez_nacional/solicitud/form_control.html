@@ -5,6 +5,11 @@
 			{{ form.nro_expediente.errors }}
 			<label for="id_nro_expediente">Nro. de Expediente:</label>
 			{{ form.nro_expediente }}
+            <br />
+            <br />
+			{{ form.nro_expediente_gedo.errors }}
+			<label for="id_nro_expediente_gedo">&nbsp;</label>
+			<input id="id_nro_expediente_gedo_pre" type="text" value="EX-" disabled />{{ form.nro_expediente_gedo }}<input id="id_nro_expediente_gedo_post" type="text" value="- -APN-DVNTYE#ME" disabled />
 		</div>
 		<div class="form-text">
 			{{ form.dictamen_cofev.errors }}

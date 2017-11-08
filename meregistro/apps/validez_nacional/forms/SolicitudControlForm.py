@@ -13,13 +13,21 @@ class SolicitudControlForm(forms.ModelForm):
             code='expediente_invalido'
         ),
     ])
+    # EX-XXXX-XXXXXXXX- -APN-DVNTYE#ME
+    nro_expediente_gedo = forms.CharField(max_length=200, label='Nro. Expediente GEDO', required=False, validators=[
+        RegexValidator(
+            '^[0-9]{,4}\-[0-9]{,10}$', 
+            message='El Nro de Expediente debe tener el formato XXXX-XXXXXXXX (números)', 
+            code='expediente_invalido'
+        ),
+    ])
     dictamen_cofev = forms.CharField(max_length=200, label='Dictamen Cofev', required=False)
     normativas_nacionales = forms.CharField(max_length=99, label='Normativas Nacionales', required=False)
     estado = forms.ModelChoiceField(queryset=EstadoSolicitud.objects.order_by('nombre'), label='Estado', required=True, empty_label=None)
     
     class Meta:
        model = Solicitud
-       fields = ('dictamen_cofev', 'normativas_nacionales', 'estado', 'nro_expediente')
+       fields = ('dictamen_cofev', 'normativas_nacionales', 'estado', 'nro_expediente', 'nro_expediente_gedo')
 
     def __init__(self, *args, **kwargs):
         super(SolicitudControlForm, self).__init__(*args, **kwargs)
@@ -29,6 +37,7 @@ class SolicitudControlForm(forms.ModelForm):
 
     def clean(self):
         data = self.cleaned_data
+        
         '''
         REGLAS:
         -------
@@ -58,9 +67,17 @@ class SolicitudControlForm(forms.ModelForm):
         except KeyError:
             nro_expediente = None
             
-        if estado == EstadoSolicitud.CONTROLADO and nro_expediente == '':
+        try:
+            nro_expediente_gedo = data['nro_expediente_gedo']
+        except KeyError:
+            nro_expediente_gedo = None
+            
+        if nro_expediente and nro_expediente_gedo:
+            raise forms.ValidationError(u'Sólo se puede cargar un tipo de expediente')
+        
+        if estado == EstadoSolicitud.CONTROLADO and (nro_expediente == '' and nro_expediente_gedo == ''):
             raise forms.ValidationError(u'Para pasar a estado "controlado", es necesario cargar el número de expediente')
-        if estado == EstadoSolicitud.RETENIDO and nro_expediente == '':
+        if estado == EstadoSolicitud.RETENIDO and (nro_expediente == '' and nro_expediente_gedo == ''):
             raise forms.ValidationError(u'Para pasar a estado "retenido", es necesario cargar el número de expediente')
         if estado == EstadoSolicitud.EVALUADO and dictamen_cofev == '':
             raise forms.ValidationError(u'Para pasar a estado "evaluado", es necesario cargar el dictámen COFEV')
