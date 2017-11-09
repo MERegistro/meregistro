@@ -33,6 +33,8 @@ class Solicitud(models.Model):
             return self.nro_expediente
         elif self.nro_expediente_gedo != '':
             return 'EX-' + self.nro_expediente_gedo + '- -APN-DVNTYE#ME'
+        else:
+            return ''
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):

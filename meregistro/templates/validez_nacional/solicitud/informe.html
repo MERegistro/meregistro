@@ -16,7 +16,7 @@
     <div class="data">
         <ul>
             <li><strong>JURISDICCION SOLICITANTE:</strong> <span>{{ solicitud.jurisdiccion }}</span></li>
-            <li><strong>NÚMERO DE EXPEDIENTE:</strong> <span>{{ solicitud.nro_expediente|default:"---" }}</span></li>
+            <li><strong>NÚMERO DE EXPEDIENTE:</strong> <span>{{ solicitud.get_nro_expediente_completo }}</span></li>
             <li><strong>TÍTULO:</strong> <span>{{ solicitud.titulo_nacional }}</span></li>
             <li><strong>NORMATIVA PROVINCIAL APROBACIÓN DISEÑO CURRICULAR:</strong> {% for n in solicitud.normativas_jurisdiccionales.all %}{{ n.numero_anio }}  {% endfor %}</li>
         </ul>
