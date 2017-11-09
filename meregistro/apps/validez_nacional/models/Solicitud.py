@@ -29,11 +29,10 @@ class Solicitud(models.Model):
         return self.titulo_nacional.nombre
 
     def get_nro_expediente_completo(self):
-        if self.nro_expediente != None:
+        if self.nro_expediente and self.nro_expediente.strip():
             return self.nro_expediente
-        elif self.nro_expediente_gedo != None:
+        if self.nro_expediente_gedo and self.nro_expediente_gedo.strip():
             return 'EX-' + self.nro_expediente_gedo + '- -APN-DVNTYE#ME'
-            return 3
         else:
             return ''
 
