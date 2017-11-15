@@ -39,10 +39,13 @@ def __get_extension_aulica(request, extension_aulica_id):
 
 
 @login_required
-@credential_required('reg_extension_aulica_ver')
+@credential_required('reg_extension_aulica_consulta')
 def index(request, extension_aulica_id):
     
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
+    
+    return HttpResponseRedirect(reverse('extensionAulicaCompletarContacto', args=[extension_aulica.id]))
+    
     """
     Búsqueda de extensiones
     """
@@ -127,7 +130,8 @@ def create(request, extension_aulica_id):
     alta_habilitada = ExtensionAulicaAutoridad.objects.filter(extension_aulica__id = extension_aulica.id).count() == 0    
     if not alta_habilitada:  # no debería estar en esta pantalla
         request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
-        return HttpResponseRedirect(reverse('extensionAulicaAutoridadesIndex', args=[extension_aulica.id]))
+        return HttpResponseRedirect(reverse('extensionAulicaCompletarContacto', args=[extension_aulica.id]))
+        #return HttpResponseRedirect(reverse('extensionAulicaAutoridadesIndex', args=[extension_aulica.id]))
     
     return my_render(request, 'registro/extension_aulica/autoridades/new.html', {
         'form': form,
@@ -169,4 +173,5 @@ def delete(request, autoridad_id):
     extension_aulica = __get_extension_aulica(request, autoridad.extension_aulica_id)
     autoridad.delete()
     request.set_flash('success', 'Datos de la autoridad eliminados correctamente.')
-    return HttpResponseRedirect(reverse('extensionAulicaAutoridadesIndex', args=[extension_aulica.id]))
+    return HttpResponseRedirect(reverse('extensionAulicaCompletarContacto', args=[extension_aulica.id]))
+    #return HttpResponseRedirect(reverse('extensionAulicaAutoridadesIndex', args=[extension_aulica.id]))

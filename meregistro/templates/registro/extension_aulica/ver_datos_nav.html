@@ -7,21 +7,17 @@
   {% if configuracion_solapas.contacto %}
 		  <li class="{% if actual_page == 'contacto' %}active{% endif %}{% if not datos_verificados.contacto %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_contacto extension_aulica.id %}" title="Contacto"><span>Contacto</span></a></li>
   {% endif %}
-  {% if configuracion_solapas.alcances %}
-		  <li class="{% if actual_page == 'alcances' %}active{% endif %}{% if not datos_verificados.alcances %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_alcances extension_aulica.id %}" title="Alcance"><span>Alcance</span></a></li>
-  {% endif %}
-  {% if configuracion_solapas.turnos %}
-		  <li class="{% if actual_page == 'turnos' %}active{% endif %}{% if not datos_verificados.turnos %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_turnos extension_aulica.id %}" title="Turnos"><span>Turnos</span></a></li>
-  {% endif %}
   {% if configuracion_solapas.funciones %}
 		  <li class="{% if actual_page == 'funciones' %}active{% endif %}{% if not datos_verificados.funciones %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_funciones extension_aulica.id %}" title="Funciones"><span>Funciones</span></a></li>
   {% endif %}
   {% if configuracion_solapas.domicilio %}
 		  <li class="{% if actual_page == 'domicilios' %}active{% endif %}{% if not datos_verificados.domicilios %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_domicilios extension_aulica.id %}" title="Domicilios"><span>Domicilios</span></a></li>
   {% endif %}
+  <!--
   {% if configuracion_solapas.autoridad %}
 		  <li class="{% if actual_page == 'autoridades' %}active{% endif %}{% if not datos_verificados.autoridades %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_autoridades extension_aulica.id %}" title="Autoridades"><span>Autoridades</span></a></li>
   {% endif %}
+  -->
   {% if configuracion_solapas.informacion_edilicia %}
 		  <li class="{% if actual_page == 'informacion_edilicia' %}active{% endif %}{% if not datos_verificados.info_edilicia %} datos-no-verificados{% endif %}"><a href="{% url apps.registro.views.extension_aulica.ver_informacion_edilicia extension_aulica.id %}" title="Información edilicia"><span>Info. edilicia</span></a></li>
   {% endif %}

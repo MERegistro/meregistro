@@ -1296,3 +1296,18 @@ body.informe-solicitud td.inscripto-registro {
     text-align: center;
     cursor: pointer;
 }
+/**
+ *=solicitud control
+ */
+
+/* EXPEDIENTE GEDO */
+input#id_nro_expediente_gedo {
+    width: 200px;
+    margin: 0 5px;
+}
+input#id_nro_expediente_gedo_pre {
+    width: 20px;
+}
+input#id_nro_expediente_gedo_post {
+    width: 120px;
+}

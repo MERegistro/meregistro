@@ -81,3 +81,53 @@ $('#id_tipo_norma').change(tipo_norma_otra_enabled);
 tipo_norma_otra_enabled();
 
 </script>
+
+{% if 'reg_establecimiento_completar' in credenciales %}
+<ul class="actions" style="margin-bottom: 0;">
+    <li class="create">
+        <a href="{% url apps.registro.views.establecimiento_autoridad.create establecimiento.id %}"><span>Nueva Autoridad</span></a>
+    </li>
+</ul>
+{% endif %}
+<hr />
+
+<div class="grid-wrapper">
+{% if objects %}
+
+{% include "counter.html" %}
+    <table class="hor-zebra">
+        <thead>
+            <tr>
+                <th>Cargo</th>
+                <th>Apellido</th>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th class="actions">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for aut in objects %}
+                <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
+                    <td>{{ aut.cargo }}</td>
+                    <td>{{ aut.apellido }}</td>
+                    <td>{{ aut.nombre }}</td>
+                    <td>{% if aut.tipo_documento %}{{ aut.tipo_documento.abreviatura }}:{% endif %} {% if aut.documento %}{{ aut.documento }}{% else %}---{% endif %} </td>
+                    <td class="actions-td">
+                        <ul>
+                            {% if 'reg_establecimiento_completar' in credenciales %}
+                                <li class="edit"><a href="{% url apps.registro.views.establecimiento_autoridad.edit aut.id %}" title="Editar"><span>Editar</span></a></li>
+                                <li class="delete"><a href="{% url apps.registro.views.establecimiento_autoridad.delete aut.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
+                            {% endif %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="message notice">
+        <p>No se encontraron autoridades.</p>
+    </div>
+{% endif %}
+
+</div>

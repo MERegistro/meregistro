@@ -56,8 +56,14 @@
         {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' or user_perfil.rol.nombre in 'ReferenteJurisdiccional' or user_perfil.rol.nombre in 'ReferenteInstitucional' %}
         <div class="form-text">
             {{ form_filters.nro_expediente.errors }}
-            <label for="id_normativa_nacional">Nro. Expediente:</label>
+            <label for="id_nro_expediente">Nro. Expediente:</label>
             {{ form_filters.nro_expediente }}
+        </div> 
+        <div class="form-text">
+            {{ form_filters.nro_expediente_gedo.errors }}
+            <label for="id_nro_expediente_gedo">&nbsp;</label>
+            <input id="id_nro_expediente_gedo_pre" type="text" value="EX-" disabled />{{ form_filters.nro_expediente_gedo }}<input id="id_nro_expediente_gedo_post" type="text" value="- -APN-DVNTYE#ME" disabled />
+            <br />
         </div> 
         {% endif %}
         <div class="form-submit">
@@ -113,7 +119,7 @@
         </ul>
     </td>
     {% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' or user_perfil.rol.nombre in 'ReferenteJurisdiccional' or user_perfil.rol.nombre in 'ReferenteInstitucional' %}
-    <td>{{ obj.nro_expediente|default:"" }}</td>
+    <td>{{ obj.get_nro_expediente_completo }}</td>
     {% endif %}
     <td>{{ obj.estado }}</td>
       {% if ve_acciones %}

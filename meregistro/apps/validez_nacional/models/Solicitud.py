@@ -16,6 +16,7 @@ class Solicitud(models.Model):
     ultima_cohorte = models.PositiveIntegerField(null=True)
     dictamen_cofev = models.CharField(max_length=200, null=True)
     nro_expediente = models.CharField(max_length=200, null=True)
+    nro_expediente_gedo = models.CharField(max_length=200, null=True)
     normativas_jurisdiccionales = models.ManyToManyField(NormativaJurisdiccional, db_table='validez_nacional_solicitud_normativas_jurisdiccionales')
     normativas_nacionales = models.CharField(max_length=99, null=True)
     estado = models.ForeignKey(EstadoSolicitud, null=False) # Concuerda con el último estado en SolicitudEstado
@@ -26,6 +27,14 @@ class Solicitud(models.Model):
 
     def __unicode__(self):
         return self.titulo_nacional.nombre
+
+    def get_nro_expediente_completo(self):
+        if self.nro_expediente and self.nro_expediente.strip():
+            return self.nro_expediente
+        if self.nro_expediente_gedo and self.nro_expediente_gedo.strip():
+            return 'EX-' + self.nro_expediente_gedo + '- -APN-DVNTYE#ME'
+        else:
+            return ''
 
     "Sobreescribo el init para agregarle propiedades"
     def __init__(self, *args, **kwargs):

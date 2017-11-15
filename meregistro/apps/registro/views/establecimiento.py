@@ -316,6 +316,32 @@ def completar_contacto(request, establecimiento_id):
         form = EstablecimientoContactoForm(instance=establecimiento)
     form.initial['verificado'] = establecimiento.get_verificacion_datos().contacto
     
+    """
+    
+    Se unifica con autoridades
+    
+    """    
+    from apps.registro.forms.EstablecimientoAutoridadFormFilters import EstablecimientoAutoridadFormFilters
+    from apps.registro.views.establecimiento_autoridad import build_query as build_query_autoridades
+
+    form_filter = EstablecimientoAutoridadFormFilters(establecimiento_id=establecimiento.id)
+
+    q = build_query_autoridades(form_filter, 1, request)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
+    alta_habilitada = objects.count() == 0
 		
     return my_render(request, 'registro/establecimiento/completar_datos.html', {
         'form': form,
@@ -324,7 +350,15 @@ def completar_contacto(request, establecimiento_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
-        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1,
+        'alta_habilitada': alta_habilitada,
     })
 
 
@@ -591,7 +625,8 @@ def ver_contacto(request, establecimiento_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasEstablecimiento.get_instance(),
-        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': establecimiento.get_verificacion_datos().get_datos_verificados(),
+        'autoridades': establecimiento.autoridades.all(),
     })
     
 
@@ -674,7 +709,7 @@ def ver_domicilios(request, establecimiento_id):
     })
 
 @login_required
-@credential_required('reg_establecimiento_consulta')
+@credential_required('__NOT_EXIST__reg_establecimiento_consulta')
 def ver_autoridades(request, establecimiento_id):
     establecimiento = __get_establecimiento(request, establecimiento_id)
     if not __establecimiento_dentro_del_ambito(request, establecimiento):

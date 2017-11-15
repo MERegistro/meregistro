@@ -1,20 +1,5 @@
 <div id="mainNav">
     <ul class="sf-menu">
-        {% if 'seg_backend' in credenciales %}
-        <li><a href="{% url apps.backend.views.index %}">BACKEND</a></li>
-        {% endif %}
-        {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
-        <li><a href="#" class="inactive">Seguridad</a>
-            <ul style="width: 250px;">
-                {% if 'seg_usuario_buscar' in credenciales or 'seg_usuario_alta' in credenciales %}
-                <li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
-                {% endif %}
-                {% if 'seg_rol_registrar' in credenciales %}
-                <li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
-                {% endif %}
-            </ul>
-        </li>
-        {% endif %}
         {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
         <li><a href="#" class="inactive"><span>Unidades educativas</span></a>
             <ul>
@@ -186,6 +171,21 @@
         {% endif %}
         {% if 'reg_menu_ayuda' in credenciales %}
         <li id="linkAyuda"><a href="{% url apps.sistema.views.pages.ayuda %}"><span>Ayuda</span></a></li>
+        {% endif %}
+        {% if 'seg_backend' in credenciales %}
+        <li><a href="{% url apps.backend.views.index %}">BACKEND</a></li>
+        {% endif %}
+        {% if 'seg_backend' in credenciales or 'seg_usuario_buscar' in credenciales or 'seg_rol_registrar' in credenciales or 'seg_usuario_alta' in credenciales %}
+        <li><a href="#" class="inactive">Seguridad</a>
+            <ul style="width: 250px;">
+                {% if 'seg_usuario_buscar' in credenciales or 'seg_usuario_alta' in credenciales %}
+                <li><a href="{% url apps.seguridad.views.usuario.index %}">Usuarios</a></li>
+                {% endif %}
+                {% if 'seg_rol_registrar' in credenciales %}
+                <li><a href="{% url apps.seguridad.views.rol.index %}">Roles</a></li>
+                {% endif %}
+            </ul>
+        </li>
         {% endif %}
     </ul>
 </div>

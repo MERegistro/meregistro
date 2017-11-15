@@ -294,7 +294,33 @@ def completar_contacto(request, extension_aulica_id):
     else:
         form = ExtensionAulicaContactoForm(instance=ext)
     form.initial['verificado'] = ext.get_verificacion_datos().contacto
+    
+    """
+    
+    Se unifica con autoridades
+    
+    """    
+    from apps.registro.forms.ExtensionAulicaAutoridadFormFilters import ExtensionAulicaAutoridadFormFilters
+    from apps.registro.views.extension_aulica_autoridad import build_query as build_query_autoridades
 
+    form_filter = ExtensionAulicaAutoridadFormFilters(extension_aulica_id=ext.id)
+
+    q = build_query_autoridades(form_filter, 1, request)
+    paginator = Paginator(q, ITEMS_PER_PAGE)
+
+    try:
+        page_number = int(request.GET['page'])
+    except (KeyError, ValueError):
+        page_number = 1
+    # chequear los límites
+    if page_number < 1:
+        page_number = 1
+    elif page_number > paginator.num_pages:
+        page_number = paginator.num_pages
+
+    page = paginator.page(page_number)
+    objects = page.object_list
+    alta_habilitada = objects.count() == 0
     return my_render(request, 'registro/extension_aulica/completar_datos.html', {
         'form': form,
         'form_template': 'registro/extension_aulica/form_contacto.html',
@@ -302,7 +328,15 @@ def completar_contacto(request, extension_aulica_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': ext.get_verificacion_datos().get_datos_verificados(),
+        'objects': objects,
+        'paginator': paginator,
+        'page': page,
+        'page_number': page_number,
+        'pages_range': range(1, paginator.num_pages + 1),
+        'next_page': page_number + 1,
+        'prev_page': page_number - 1,
+        'alta_habilitada': alta_habilitada,
     })
 
 
@@ -587,7 +621,8 @@ def ver_contacto(request, extension_aulica_id):
         'page_title': 'Contacto',
         'actual_page': 'contacto',
         'configuracion_solapas': ConfiguracionSolapasExtensionAulica.get_instance(),
-        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados()
+        'datos_verificados': extension_aulica.get_verificacion_datos().get_datos_verificados(),
+        'autoridades': extension_aulica.autoridades.all(),
     })
     
 
@@ -670,7 +705,7 @@ def ver_domicilios(request, extension_aulica_id):
     })
 
 @login_required
-@credential_required('reg_extension_aulica_consulta')
+@credential_required('__NOT_EXIST__reg_extension_aulica_consulta')
 def ver_autoridades(request, extension_aulica_id):
     extension_aulica = __get_extension_aulica(request, extension_aulica_id)
     if not __extension_aulica_dentro_del_ambito(request, extension_aulica):
