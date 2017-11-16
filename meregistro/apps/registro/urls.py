@@ -122,7 +122,7 @@ urlpatterns = patterns('',
     #url(r'^extension_aulica/([0-9]+)/turnos$', 'apps.registro.views.extension_aulica_turno.index', name='extensionAulicaTurnosIndex'),
     #url(r'^extension_aulica/([0-9]+)/agregar_turno$', 'apps.registro.views.extension_aulica_turno.create', name='extensionAulicaTurnosCreate'),
     #url(r'^extension_aulica/turnos/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_turno.edit', name='extensionAulicaTurnoEdit'),
-    #url(r'^extension_aulica/turnos/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_turno.delete', name='extensionAulicaTurnoDelete'),      
+    #url(r'^extension_aulica/turnos/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_turno.delete', name='extensionAulicaTurnoDelete'),
     # extension áulica matrícula
     url(r'^extension_aulica/matricula$', 'apps.registro.views.extension_aulica_matricula.index', name='extensionAulicaMatriculaIndex'),
     url(r'^extension_aulica/([0-9]+)/matricula$', 'apps.registro.views.extension_aulica_matricula.matricula', name='extensionAulicaMatriculaIndexExtensionAulica'),
@@ -133,7 +133,7 @@ urlpatterns = patterns('',
     url(r'^extension_aulica/([0-9]+)/autoridades$', 'apps.registro.views.extension_aulica_autoridad.index', name='extensionAulicaAutoridadesIndex'),
     url(r'^extension_aulica/([0-9]+)/agregar_autoridad$', 'apps.registro.views.extension_aulica_autoridad.create', name='extensionAulicaAutoridadCreate'),
     url(r'^extension_aulica/autoridades/([0-9]+)/edit$', 'apps.registro.views.extension_aulica_autoridad.edit', name='extensionAulicaAutoridadEdit'),
-    url(r'^extension_aulica/autoridades/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_autoridad.delete', name='extensionAulicaAutoridadDelete'),    
+    url(r'^extension_aulica/autoridades/([0-9]+)/delete$', 'apps.registro.views.extension_aulica_autoridad.delete', name='extensionAulicaAutoridadDelete'),
     # Consulta
     url(r'^extension_aulica/([0-9]+)/ver_datos_basicos/', 'apps.registro.views.extension_aulica.ver_datos_basicos', name='extensionAulicaVerDatosBasicos'),
     url(r'^extension_aulica/([0-9]+)/ver_contacto/', 'apps.registro.views.extension_aulica.ver_contacto', name='extensionAulicaVerContacto'),
@@ -165,4 +165,9 @@ urlpatterns = patterns('',
     url(r'^ajax/verificar_dato_extension_aulica/(?P<extension_aulica_id>[0-9]+)', 'apps.registro.views.ajax.verificar_dato_extension_aulica', name='ajaxExtensionAulicaVerificarDato'),
     url(r'^ajax/get_tipo_gestion_de_dependencia/(?P<dependencia_funcional_id>[0-9]+)', 'apps.registro.views.ajax.get_tipo_gestion_de_dependencia', name='ajaxGetTipoGestionDependencia'),
     url(r'^ajax/get_tipo_gestion_de_establecimiento/(?P<establecimiento_id>[0-9]+)', 'apps.registro.views.ajax.get_tipo_gestion_de_establecimiento', name='ajaxGetTipoGestionEstablecimiento'),
+    #
+    #
+    # UNIDADES EDUCATIVAS
+    #
+    url(r'^unidades_educativas$', 'apps.registro.views.unidades_educativas.index', name='unidadesEducativasIndex'),
    )
