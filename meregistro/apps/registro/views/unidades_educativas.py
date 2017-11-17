@@ -122,7 +122,7 @@ def build_query(filters, page, request):
     """
     unidades_educativas = filters.buildQuery()
     sedes = unidades_educativas['sedes'].filter(ambito__path__istartswith=request.get_perfil().ambito.path)
-    anexos = unidades_educativas['anexos'].filter(ambito__path__istartswith=request.get_perfil().ambito.path)
+    anexos = unidades_educativas['anexos'].order_by('establecimiento__nombre', 'cue').filter(ambito__path__istartswith=request.get_perfil().ambito.path)
     extensiones_aulicas = unidades_educativas['extensiones_aulicas'].filter(ambito__path__istartswith=request.get_perfil().ambito.path)
 
 

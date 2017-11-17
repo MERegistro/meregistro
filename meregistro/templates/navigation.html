@@ -1,6 +1,10 @@
 <div id="mainNav">
     <ul class="sf-menu">
         {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
+        <li><a href="{% url apps.registro.views.unidades_educativas.index %}"><span>Unidades Educativas</span></a></li>
+        {% endif %}
+        <!--
+        {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
         <li><a href="#" class="inactive"><span>Unidades educativas</span></a>
             <ul>
                 {% if 'reg_establecimiento_consulta' in credenciales %}
@@ -15,6 +19,7 @@
             </ul>
         </li>
         {% endif %}
+        -->
         {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
         <li><a href="#" class="inactive"><span>Matrícula</span></a>
             <ul>

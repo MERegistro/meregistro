@@ -18,7 +18,7 @@ class UnidadesEducativasFormFilters(forms.Form):
     estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects, label='Estado', required=False)
     tipo_gestion = forms.ModelChoiceField(queryset=TipoGestion.objects.order_by('nombre'), label='Tipo de gestión', required=False)
     estado = forms.ModelChoiceField(queryset=EstadoEstablecimiento.objects.order_by('nombre'), label='Estado', required=False)
-    tipo_unidad_educativa = forms.ChoiceField(choices = (('', '---------'),('Establecimiento', 'Sede'), ('Anexo', 'Anexo'), ('ExtensionAulica', 'Extenión Áulica')), label='Tipo de Unidad Educativa', required=False)
+    tipo_unidad_educativa = forms.ChoiceField(choices = (('', '---------'),('Sede', 'Sede'), ('Anexo', 'Anexo'), ('ExtensionAulica', 'Extenión Áulica')), label='Tipo de Unidad Educativa', required=False)
 
     def __init__(self, *args, **kwargs):
         self.jurisdiccion_id = kwargs.pop('jurisdiccion_id')
@@ -83,7 +83,7 @@ class UnidadesEducativasFormFilters(forms.Form):
                 q3 = q3.filter(estado=self.cleaned_data['estado'])
             if filter_by('tipo_unidad_educativa'):
                 tipo_ue = self.cleaned_data['tipo_unidad_educativa']
-                if tipo_ue == 'Establecimiento':
+                if tipo_ue == 'Sede':
                     resultado = {'sedes': q1.distinct(), 'anexos': q2.none(), 'extensiones_aulicas': q3.none()}
                 elif tipo_ue == 'Anexo':
                     resultado = {'sedes': q1.none(), 'anexos': q2.distinct(), 'extensiones_aulicas': q3.none()}

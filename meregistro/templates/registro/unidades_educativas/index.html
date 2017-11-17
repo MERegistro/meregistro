@@ -5,11 +5,24 @@
 {% block content %}
 <h2>Administración de Unidades Educativas</h2>
 
-{% if 'reg_establecimiento_nueva' in credenciales %}
+{% if 'reg_establecimiento_nueva' in credenciales or 'reg_anexo_alta' in credenciales or 'reg_extension_aulica_alta' in credenciales %}
 <ul class="actions">
+    {% if 'reg_establecimiento_nueva' in credenciales %}
     <li class="create">
         <a href="{% url apps.registro.views.establecimiento.create %}"><span>Nueva Sede</span></a>
     </li>
+    {% endif %}
+    {% if 'reg_anexo_alta' in credenciales %}
+    <li class="create">
+        <a href="{% url apps.registro.views.anexo.create %}"><span>Nuevo anexo</span></a>
+    </li>
+    {% endif %}
+    {% if 'reg_extension_aulica_alta' in credenciales %}
+    <li class="create">
+        <a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
+    </li>
+    {% endif %}
+    
 </ul>
 {% endif %}
 
@@ -70,7 +83,7 @@
     </div>
     <div class="form-submit">
         <input type="submit" value="Buscar" />
-        <input type="button" value="Reiniciar" onclick="window.location = 'establecimiento';" />
+        <input type="button" value="Reiniciar" onclick="window.location = 'unidades_educativas';" />
     </div>
 </div>
 
@@ -100,8 +113,17 @@
         {% for ue in objects %}
             <tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
                 <td>{{ ue.cue }}</td>
-                {% if 'reg_establecimiento_consulta' in credenciales %}
-                <td><a href="{% url apps.registro.views.establecimiento.ver_datos_basicos ue.id %}" title="Ver datos"><span>{{ ue.nombre }}</span></a></td>
+                {% if 'reg_establecimiento_consulta' in credenciales or 'reg_anexo_consulta' in credenciales or 'reg_extension_aulica_consulta' in credenciales %}
+                <td>
+                    {% if ue.tipo_ue == 'Sede' %}
+                    <a href="{% url apps.registro.views.establecimiento.ver_datos_basicos ue.id %}" title="Ver datos"><span>{{ ue.nombre }}</span></a></td>
+                    {% endif %}
+                    {% if ue.tipo_ue == 'Anexo' %}
+                    <a href="{% url apps.registro.views.anexo.ver_datos_basicos ue.id %}" title="Ver datos"><span>{{ ue.nombre }}</span></a></td>
+                    {% endif %}
+                    {% if ue.tipo_ue == 'Extensión Áulica' %}
+                    <a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ue.id %}" title="Ver datos"><span>{{ ue.nombre }}</span></a></td>
+                    {% endif %}
                 {% else %}
                 <td>{{ ue.nombre }}</td>
                 {% endif %}
@@ -158,23 +180,23 @@
 
                     {% if ue.tipo_ue == 'Anexo' %}
                      <ul>
-                        {% if 'reg_anexo_completar' in credenciales and anexo.registrado %}
+                        {% if 'reg_anexo_completar' in credenciales and ue.registrado %}
                         <li class="edit"><a href="{% url apps.registro.views.anexo.completar_datos_basicos ue.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
-                        {% if 'reg_editar_anexo_pendiente' in credenciales and anexo.pendiente %}
+                        {% if 'reg_editar_anexo_pendiente' in credenciales and ue.pendiente %}
                         <li class="edit"><a href="{% url apps.registro.views.anexo.completar_datos_basicos ue.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
                         {% if 'reg_anexo_aprobar_registro' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.anexo.registrar ue.id %}" title="Registrar"><span>Registrar</span></a></li>
                         {% endif %}
-                        {% if 'reg_anexo_baja' in credenciales and anexo.is_deletable %}
+                        {% if 'reg_anexo_baja' in credenciales and ue.is_deletable %}
                         <li class="delete"><a href="{% url apps.registro.views.anexo.delete ue.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
                         {% endif %}
                         {% if 'reg_anexo_consulta' in credenciales %}
                         <li class="ver-datos"><a href="{% url apps.registro.views.anexo.ver_datos_basicos ue.id %}" title="Ver Datos"><span>Ver Datos</span></a></li>
                         {% endif %}
 
-                        {% if anexo.carga_certificada_anio_actual %}
+                        {% if ue.carga_certificada_anio_actual %}
                         <li class="carga-certificada" title="Carga certificada"><span>Carga certificada</span></li>
                         {% else %}
                         <li class="carga-no-certificada" title="Carga no certificada"><span>Carga no certificada</span></li>
@@ -184,17 +206,17 @@
 
                     {% if ue.tipo_ue == 'Extensión Áulica' %}
                     <ul>
-                        {% if 'reg_extension_aulica_modificar' in credenciales and ext.registrado %}
+                        {% if 'reg_extension_aulica_modificar' in credenciales and ue.registrado %}
                         <li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ue.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
-                        {% if 'reg_extension_aulica_modificar_pendiente' in credenciales and ext.pendiente %}
+                        {% if 'reg_extension_aulica_modificar_pendiente' in credenciales and ue.pendiente %}
                         <li class="edit"><a href="{% url apps.registro.views.extension_aulica.completar_datos_basicos ue.id %}" title="Editar"><span>Editar</span></a></li>
                         {% endif %}
                         {% if 'reg_extension_aulica_aprobar_registro' in credenciales %}
                         <li class="registrar"><a href="{% url apps.registro.views.extension_aulica.registrar ue.id %}" title="Registrar"><span>Registrar</span></a></li>
                         {% endif %}
 
-                        {% if 'reg_extension_aulica_baja' in credenciales and  ext.is_deletable %}
+                        {% if 'reg_extension_aulica_baja' in credenciales and  ue.is_deletable %}
                         <li class="delete"><a href="{% url apps.registro.views.extension_aulica.delete ue.id %}" title="Eliminar" onclick="return confirmDelete();"><span>Eliminar</span></a></li>
                         {% endif %}
 
@@ -202,7 +224,7 @@
                         <li class="ver-datos"><a href="{% url apps.registro.views.extension_aulica.ver_datos_basicos ue.id %}" title="Ver Datos"><span>Ver Datos</span></a></li>
                         {% endif %}
 
-                        {% if ext.carga_certificada_anio_actual %}
+                        {% if ue.carga_certificada_anio_actual %}
                         <li class="carga-certificada" title="Carga certificada"><span>Carga certificada</span></li>
                         {% else %}
                         <li class="carga-no-certificada" title="Carga no certificada"><span>Carga no certificada</span></li>
@@ -220,7 +242,7 @@
 </form>
 {% else %}
 <div class="message notice">
-    <p>No se encontraron sedes.</p>
+    <p>No se encontraron unidades educativas.</p>
 </div>
 {% endif %}
 <hr />
