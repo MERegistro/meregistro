@@ -63,7 +63,7 @@
     {% endif %}
 
     <h2>INFORME:</h2>
-    <p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.nro_expediente|default:"---" }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
+    <p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.get_nro_expediente_completo }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
 
     <form action="" method="post">{% csrf_token %}
         {{ form.non_field_errors }}

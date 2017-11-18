@@ -64,7 +64,7 @@
 
     {% if user_perfil.rol.nombre in 'AdminNacional' %}
     <h2>INFORME:</h2>
-    <p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.nro_expediente|default:"---" }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
+    <p>DEL ANALISIS EFECTUADO SOBRE EL EXPEDIENTE N° {{ solicitud.get_nro_expediente_completo }} EN RELACIÓN A REQUISITOS ESTABLECIDOS EN LA NORMATIVA VIGENTE SURGE QUE:</p>
     <table id="tabla-informe">
         <tbody>
             <tr>
