@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 import dates
 
 class EstablecimientoAutoridadForm(ModelForm):
-    cargo = forms.ModelChoiceField(queryset=AutoridadCargo.objects.order_by('descripcion'), label='Cargo', required=True, empty_label=None)
+    cargo = forms.ModelChoiceField(queryset=AutoridadCargo.objects.order_by('id'), label='Cargo', required=True, empty_label=None)
     tipo_documento = forms.ModelChoiceField(queryset=TipoDocumento.objects.order_by('descripcion'), label='Tipo de documento', required=False)
     fecha_nacimiento = forms.DateField(
         input_formats=['%d/%m/%Y', '%d/%m/%y'],

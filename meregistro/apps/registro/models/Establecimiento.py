@@ -14,8 +14,7 @@ from apps.seguridad.models import Ambito
 import datetime
 from apps.seguridad.audit import audit
 from apps.registro.models.TipoSubsidio import TipoSubsidio
-
-
+from apps.seguridad.models.TipoDocumento import TipoDocumento
 
 @audit
 class Establecimiento(models.Model):
@@ -48,12 +47,19 @@ class Establecimiento(models.Model):
     estado = models.ForeignKey(EstadoEstablecimiento, editable=False, null=True)
     posee_centro_estudiantes = models.NullBooleanField(null=True)
     posee_representantes_estudiantiles = models.NullBooleanField(null=True)
+    # Fusión con autoridades
+    director_apellido = models.CharField(max_length=40, null=False)
+    director_nombre = models.CharField(max_length=40, null=False)
+    director_fecha_nacimiento = models.DateField(null=True)
+    director_tipo_documento = models.ForeignKey(TipoDocumento, null=True, blank=True)
+    director_documento = models.CharField(max_length=20, null=True, blank=True)
+    director_telefono = models.CharField(max_length=30, null=True, blank=True)
+    director_celular = models.CharField(max_length=30, null=True, blank=True)
+    director_email = models.EmailField(max_length=255, null=True, blank=True)
     
-
     class Meta:
         app_label = 'registro'
         ordering = ['nombre']
-
 
     """
     Sobreescribo el init para agregarle propiedades

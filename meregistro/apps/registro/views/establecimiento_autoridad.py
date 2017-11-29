@@ -131,10 +131,11 @@ def create(request, establecimiento_id):
 
     # Chequear si se puede dar de alta
     # XXX: sólo se puede dar de alta un registro por ahora
-    alta_habilitada = EstablecimientoAutoridad.objects.filter(establecimiento__id = establecimiento.id).count() == 0    
-    if not alta_habilitada:  # no debería estar en esta pantalla
-        request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
-        return HttpResponseRedirect(reverse('establecimientoCompletarContacto', args=[establecimiento.id]))
+    # Se habilita el 29.11.2017
+    #alta_habilitada = EstablecimientoAutoridad.objects.filter(establecimiento__id = establecimiento.id).count() == 0    
+    #if not alta_habilitada:  # no debería estar en esta pantalla
+    #    request.set_flash('warning', 'No puede dar de alta más de una autoridad.')
+    #    return HttpResponseRedirect(reverse('establecimientoCompletarContacto', args=[establecimiento.id]))
     
     return my_render(request, 'registro/establecimiento/autoridades/new.html', {
         'form': form,
