@@ -18,7 +18,7 @@ from apps.registro.models.TipoSubsidio import TipoSubsidio
 class ExtensionAulica(models.Model):
     NORMA_CREACION_CHOICES = ['Decreto', 'Resolución', 'Disposición', 'Dictamen', 'Otra']
     YEARS_CHOICES = [(int(n), str(n)) for n in range(1800, datetime.datetime.now().year + 1)]
-        
+
     establecimiento = models.ForeignKey(Establecimiento, related_name="extensiones_aulicas")
     cue = models.CharField(max_length=9, null=True, blank=True, unique=True)
     nombre = models.CharField(max_length = 255)
@@ -57,7 +57,7 @@ class ExtensionAulica(models.Model):
 
     def __unicode__(self):
         return self.nombre
-        
+
     def clean(self):
         " Chequea que el cue sea único "
         cue = self.cue
@@ -74,7 +74,7 @@ class ExtensionAulica(models.Model):
                     raise ValidationError('Los datos ingresados corresponden a una Unidad Educativa (Anexo) que ya se encuentra registrada')
             except Anexo.DoesNotExist:
                 pass
-                
+
     def registrar_estado(self):
         from apps.registro.models.ExtensionAulicaEstado import ExtensionAulicaEstado
         registro = ExtensionAulicaEstado(estado = self.estado)
@@ -98,7 +98,7 @@ class ExtensionAulica(models.Model):
 
     def dadaDeBaja(self):
         return self.estado.nombre == EstadoExtensionAulica.NO_VIGENTE
-        
+
     def is_editable(self):
         es_pendiente = self.estado_actual.nombre == u'Pendiente'
         return es_pendiente
@@ -164,6 +164,7 @@ class ExtensionAulica(models.Model):
                 pass
 
     def get_first_domicilio(self):
+        #raise Exception(self.domicilio.all()[0].localidad.departamento.jurisdiccion)
         try:
             dom = self.domicilio.all()[0]
         except IndexError:
@@ -201,7 +202,7 @@ class ExtensionAulica(models.Model):
     """
     Se puede certificar la carga del año cuando:
         * Tiene seguimiento de cohorte cargado en ese año | Tiene inscriptos en la cohorte de ese año
-        * Cargó la matrícula de ese año  
+        * Cargó la matrícula de ese año
         * Cargó datos de democratización
     """
     """
@@ -228,7 +229,7 @@ class ExtensionAulica(models.Model):
         matricula_cargada = self.extensionaulicamatricula_set.filter(anio=anio).exists()
         if not matricula_cargada:
             return False
-        
+
         # Seguimiento
         """
         Si alguna cohorte no tiene seguimiento de dicho año y no está rechazada o finalizada, no se puede certificar la carga
@@ -242,7 +243,7 @@ class ExtensionAulica(models.Model):
             #if ce.estado.nombre not in [EstadoCohorteEstablecimiento.RECHAZADA, EstadoCohorteEstablecimiento.FINALIZADA, EstadoCohorteEstablecimiento.ASIGNADA]:
             if ce.estado.nombre in [EstadoCohorteExtensionAulica.REGISTRADA]:
                 return False
-        
+
         return True
 
     """
@@ -255,7 +256,7 @@ class ExtensionAulica(models.Model):
         certificacion.extension_aulica_id = self.id
         certificacion.fecha = datetime.date.today()
         certificacion.save()
-        
+
         return certificacion
 
     """
