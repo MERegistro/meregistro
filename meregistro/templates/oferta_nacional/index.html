@@ -59,13 +59,7 @@
 
 {% if objects %}
 {% include "counter.html" %}
-<!--
-<ul class="reportes-actions">
-	<li class="export-csv">
-	<a href="{{ export_url }}" title="Exportar resultado en formato CSV"><span>Exportar Resultado</span></a>
-	</li>
-</ul>
--->
+
 <table class="hor-zebra">
 	<thead>
 		<tr>
@@ -78,7 +72,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		{% for obj in objects %}	
+		{% for obj in objects %}
 		<tr class="{% cycle 'hor-zebra' 'hor-zebra_odd' %}">
 			<td>{{ obj.get_establecimiento.dependencia_funcional.jurisdiccion }}</td>
 			<td>{{ obj.get_unidad_educativa.cue }} - {{ obj.get_unidad_educativa.nombre }}</td>
@@ -113,8 +107,8 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-		
-	// Init	
+
+	// Init
 	var dropdown_jurisdiccion = $("select#id_jurisdiccion");
 	var dropdown_establecimiento = $("select#id_establecimiento");
 	var dropdown_carrera = $("select#id_carrera");
@@ -122,8 +116,8 @@ $(document).ready(function(){
 	var current_jur = dropdown_jurisdiccion.val();
 	var current_est = dropdown_establecimiento.val();
 	var current_carrera = dropdown_carrera.val();
-	
-		
+
+
 	if(dropdown_jurisdiccion.val() > 0){
 		jurisdiccion_change(dropdown_jurisdiccion.val());
 	}

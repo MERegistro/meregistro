@@ -1,9 +1,9 @@
 {% extends "base_registro.html" %}
 
-{% block title %}Administración de Unidades Educativas{% endblock %}
+{% block title %}Administración de Unidades de Servicio{% endblock %}
 
 {% block content %}
-<h2>Administración de Unidades Educativas</h2>
+<h2>Administración de Unidades de Servicio</h2>
 
 {% if 'reg_establecimiento_nueva' in credenciales or 'reg_anexo_alta' in credenciales or 'reg_extension_aulica_alta' in credenciales %}
 <ul class="actions">
@@ -22,14 +22,14 @@
         <a href="{% url apps.registro.views.extension_aulica.create %}"><span>Nueva Extensión Áulica</span></a>
     </li>
     {% endif %}
-    
+
 </ul>
 {% endif %}
 
 {% if flash %}
     {% include "flashes.html" %}
 {% endif %}
-
+{% if user_perfil.rol.nombre in 'AdminNacional' or user_perfil.rol.nombre in 'SoloConsultaNacional' or user_perfil.rol.nombre in 'ReferenteJurisdiccional' %}
 <form action="" method="get">
 <div class="form-filter" id="establecimientoFormFilter" style="width:800px;">
     <h3>Búsqueda avanzada</h3>
@@ -38,6 +38,11 @@
         {{ form_filters.dependencia_funcional.errors }}
         <label for="id_dependencia_funcional">Dependencia Funcional:</label>
         {{ form_filters.dependencia_funcional }}
+    </div>
+    <div class="form-select">
+        {{ form_filters.tipo_unidad_educativa.errors }}
+        <label for="id_tipo_ue">Tipo de Unidad de Servicio:</label>
+        {{ form_filters.tipo_unidad_educativa }}
     </div>
     <div class="form-text">
         {{ form_filters.cue.errors }}
@@ -76,16 +81,13 @@
         <label for="id_estado">Estado:</label>
         {{ form_filters.estado }}
     </div>
-    <div class="form-select">
-        {{ form_filters.tipo_unidad_educativa.errors }}
-        <label for="id_estado">Tipo de UE:</label>
-        {{ form_filters.tipo_unidad_educativa }}
-    </div>
+
     <div class="form-submit">
         <input type="submit" value="Buscar" />
         <input type="button" value="Reiniciar" onclick="window.location = 'unidades_educativas';" />
     </div>
 </div>
+{% endif %}
 
 {% if objects %}
 {% include "counter.html" %}
@@ -135,21 +137,7 @@
                 <td>{{ ue.get_first_domicilio.localidad }}</td>
                 <td>
                     <div class="estados">
-                    {% if ue.tipo_ue == 'Sede' %}
-                        {% for registro_estado in ue.registro_estados %}
-                        <p class="estado-{{ registro_estado.estado.nombre|slugify }}">{{ registro_estado.fecha|date:"d/m/Y" }} - <strong>{{ registro_estado.estado.nombre }}</strong></p>
-                        {% endfor %}
-                    {% endif %}
-                    {% if ue.tipo_ue == 'Anexo' %}
-                        {% for estado in ue.estados.all %}
-                        <p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
-                        {% endfor %}
-                    {% endif %}
-                    {% if ue.tipo_ue == 'Extensión Áulica' %}
-                        {% for estado in ue.estados.all %}
-                        <p class="estado-{{ estado|slugify }}">{{ estado.fecha|date:"d/m/Y" }} - <strong>{{ estado.estado.nombre }}</strong></p>
-                        {% endfor %}
-                    {% endif %}
+                        <p class="estado-{{ ue.estado|slugify }}"><strong>{{ ue.estado }}</strong></p>
                     </div>
                 </td>
                 <td class="actions-td">
