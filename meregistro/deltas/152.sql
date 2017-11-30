@@ -21,6 +21,14 @@ ADD CONSTRAINT registro_establecimiento_director_tipo_documento_id_fkey FOREIGN 
 REFERENCES seguridad_tipo_documento (id) MATCH SIMPLE
 ON UPDATE NO ACTION ON DELETE NO ACTION DEFERRABLE INITIALLY DEFERRED;
 
+
+UPDATE registro_establecimiento est
+SET director_apellido = a.apellido, director_nombre = a.nombre, director_fecha_nacimiento = a.fecha_nacimiento, 
+    director_tipo_documento_id = a.tipo_documento_id, director_documento = a.documento, director_telefono = a.telefono, 
+    director_celular = a.celular, director_email = a.email
+FROM registro_establecimiento_autoridades a
+WHERE a.establecimiento_id = est.id;
+
 -------------------------------------
 
 INSERT INTO deltas_sql (numero, app, comentario) VALUES ('152', 'Registro', 'Se agregan datos del director al establecimiento');
