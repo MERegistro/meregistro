@@ -32,11 +32,13 @@ def index(request, anio):
         form_filter = OfertaNacionalFormFilters(anio=anio)
 
     q = build_query(form_filter, 1, request)
+    """
     try:
         if request.GET['export'] == '1':
             return reporte_oferta_nacional(request, q, anio)
     except KeyError:
         pass
+    """
 
     import itertools
     paginator = Paginator(list(itertools.chain(q[0], q[1], q[2])), ITEMS_PER_PAGE)
