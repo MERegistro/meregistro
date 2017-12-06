@@ -68,6 +68,7 @@ class Establecimiento(models.Model):
         super(Establecimiento, self).__init__(*args, **kwargs)
         self.registro_estados = RegistroEstablecimiento.objects.filter(establecimiento=self).order_by('id')
         self.estado_actual = self.getEstadoActual()
+        self.tipo_ue = 'Sede'
         from apps.registro.models import CERTIFICACION_CARGA_ANIOS_HABILITADOS
         self.carga_certificada_anio_actual = self.carga_certificada(CERTIFICACION_CARGA_ANIOS_HABILITADOS[-1])
 

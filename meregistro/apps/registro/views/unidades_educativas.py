@@ -11,7 +11,7 @@ from apps.registro.models.DependenciaFuncional import DependenciaFuncional
 from apps.registro.forms.UnidadesEducativasFormFilters import UnidadesEducativasFormFilters
 from django.core.paginator import Paginator
 from apps.registro.FSM import FSMEstablecimiento
-from apps.reportes.views.establecimiento import establecimientos as reporte_establecimientos
+from apps.reportes.views.unidades_educativas import unidades_educativas as reporte_unidades_educativas
 from apps.reportes.models import Reporte
 from django.contrib import messages
 from itertools import chain
@@ -83,7 +83,7 @@ def index(request):
 
     try:
         if request.GET['export'] == '1':
-            return reporte_establecimientos(request, q)
+            return reporte_unidades_educativas(request, q)
     except KeyError:
         pass
 

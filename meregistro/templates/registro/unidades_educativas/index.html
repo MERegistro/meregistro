@@ -41,7 +41,7 @@
     </div>
     <div class="form-select">
         {{ form_filters.tipo_unidad_educativa.errors }}
-        <label for="id_tipo_ue">Tipo de Unidad de Servicio:</label>
+        <label for="id_tipo_ue">Tipo Unidad Servicio:</label>
         {{ form_filters.tipo_unidad_educativa }}
     </div>
     <div class="form-text">
@@ -101,7 +101,7 @@
         <tr>
             <th id="thEstablecimientoCue">CUE</th>
             <th>Nombre</th>
-            <th>Tipo de UE</th>
+            <th>Tipo Unidad Servicio</th>
             {% if user_perfil.rol.nombre in 'AdminNacional' %}
             <th>Jurisdicción</th>
             {% endif %}

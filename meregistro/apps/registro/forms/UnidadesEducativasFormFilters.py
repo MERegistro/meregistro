@@ -50,17 +50,17 @@ class UnidadesEducativasFormFilters(forms.Form):
                 q2 = q2.filter(nombre__icontains=self.cleaned_data['nombre'])
                 q3 = q3.filter(nombre__icontains=self.cleaned_data['nombre'])
             if filter_by('cue'):
-                q1 = q1.filter(cue__exact=self.cleaned_data['cue'])
-                q2 = q2.filter(cue__exact=self.cleaned_data['cue'])
-                q3 = q3.filter(cue__exact=self.cleaned_data['cue'])
+                q1 = q1.filter(cue__istartswith=self.cleaned_data['cue'])
+                q2 = q2.filter(cue__istartswith=self.cleaned_data['cue'])
+                q3 = q3.filter(cue__istartswith=self.cleaned_data['cue'])
             if filter_by('dependencia_funcional'):
                 q1 = q1.filter(dependencia_funcional=self.cleaned_data['dependencia_funcional'])
-                q2 = q2.filter(dependencia_funcional=self.cleaned_data['dependencia_funcional'])
-                q3 = q3.filter(dependencia_funcional=self.cleaned_data['dependencia_funcional'])
+                q2 = q2.filter(establecimiento__dependencia_funcional=self.cleaned_data['dependencia_funcional'])
+                q3 = q3.filter(establecimiento__dependencia_funcional=self.cleaned_data['dependencia_funcional'])
             if filter_by('jurisdiccion'):
                 q1 = q1.filter(dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
-                q2 = q2.filter(dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
-                q3 = q3.filter(dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
+                q2 = q2.filter(establecimiento__dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
+                q3 = q3.filter(establecimiento__dependencia_funcional__jurisdiccion=self.cleaned_data['jurisdiccion'])
             if filter_by('estado'):
                 q1 = q1.filter(estado=self.cleaned_data['estado'])
                 q2 = q2.filter(estado=self.cleaned_data['estado'])
@@ -75,8 +75,8 @@ class UnidadesEducativasFormFilters(forms.Form):
                 q3 = q3.filter(domicilios__localidad=self.cleaned_data['localidad'])
             if filter_by('tipo_gestion'):
                 q1 = q1.filter(dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
-                q2 = q2.filter(dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
-                q3 = q3.filter(dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
+                q2 = q2.filter(establecimiento__dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
+                q3 = q3.filter(establecimiento__dependencia_funcional__tipo_gestion=self.cleaned_data['tipo_gestion'])
             if filter_by('estado'):
                 q1 = q1.filter(estado=self.cleaned_data['estado'])
                 q2 = q2.filter(estado=self.cleaned_data['estado'])

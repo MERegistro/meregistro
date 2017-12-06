@@ -50,8 +50,10 @@ class ExtensionAulica(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(ExtensionAulica, self).__init__(*args, **kwargs)
+        self.dependencia_funcional = self.establecimiento.dependencia_funcional
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
+        self.tipo_ue = 'Extensión Áulica'
         from apps.registro.models import CERTIFICACION_CARGA_ANIOS_HABILITADOS
         self.carga_certificada_anio_actual = self.carga_certificada(CERTIFICACION_CARGA_ANIOS_HABILITADOS[-1])
 

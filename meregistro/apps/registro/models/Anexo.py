@@ -51,8 +51,10 @@ class Anexo(models.Model):
     " Sobreescribo el init para agregarle propiedades "
     def __init__(self, *args, **kwargs):
         super(Anexo, self).__init__(*args, **kwargs)
+        self.dependencia_funcional = self.establecimiento.dependencia_funcional
         self.estados = self.getEstados()
         self.estado_actual = self.getEstadoActual()
+        self.tipo_ue = 'Anexo'
         from apps.registro.models import CERTIFICACION_CARGA_ANIOS_HABILITADOS
         self.carga_certificada_anio_actual = self.carga_certificada(CERTIFICACION_CARGA_ANIOS_HABILITADOS[-1])
 
