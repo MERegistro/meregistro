@@ -31,6 +31,7 @@ def index(request):
         'TIPO',\
         'CUE',\
         'ESTABLECIMIENTO',\
+        'ESTADO',\
         'AÑO',\
         'PROFESORADOS',\
         'POSTÍTULOS',\
@@ -55,6 +56,7 @@ def index(request):
             row['tipo'].encode('utf8') if row['tipo'] else '',\
             row['cue'].encode('utf8') if row['cue'] else '',\
             row['nombre'].encode('utf8') if row['nombre'] else '',\
+            row['estado'].encode('utf8') if row['estado'] else '',\
             row['anio'] if row['anio'] else '',\
             row['profesorados'] if row['profesorados'] else '',\
             row['postitulos'] if row['postitulos'] else '',\

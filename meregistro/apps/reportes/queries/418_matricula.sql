@@ -1,6 +1,7 @@
 -- matricula
 select  j.nombre as jurisdiccion, tg.nombre as gestion, e.id  clave, '1.sede' as tipo, e.cue , e.nombre,
 m.anio as anio, m.profesorados, m.postitulos, m.formacion_continua, m.formacion_docente, m.tecnicaturas, m.total,
+estado.nombre AS estado,
 ---funciones en horizontal
 (select case when ef.establecimiento_id is not null then 'SI' end 
 	from registro_establecimientos_funciones ef 
@@ -41,6 +42,7 @@ inner join registro_dependencia_funcional as df on df.id=e.dependencia_funcional
 inner join registro_tipo_gestion tg on tg.id=df.tipo_gestion_id
 inner join registro_jurisdiccion j on j.id=df.jurisdiccion_id
 left join registro_establecimiento_matricula m on m.establecimiento_id=e.id
+left join registro_estado_establecimiento estado on e.estado_id=estado.id
 --
 inner join seguridad_ambito ambito on e.ambito_id = ambito.id and ambito.path ilike {{AMBITO_PATH}}
 --
@@ -51,7 +53,8 @@ union
 ---union de anexos
 select  j.nombre as jurisdiccion, tg.nombre as gestion, ax.establecimiento_id as clave, '2.anexo' as tipo
 , ax.cue as cue, ax.nombre 
-, max.anio as anio, max.profesorados, max.postitulos, max.formacion_continua, max.formacion_docente, max.tecnicaturas, max.total
+, max.anio as anio, max.profesorados, max.postitulos, max.formacion_continua, max.formacion_docente, max.tecnicaturas, max.total,
+estado.nombre AS estado
 ---funciones en horizontal
 , (select case when axf.anexo_id is not null then 'SI' end 
 	from registro_anexos_funciones axf 
@@ -93,6 +96,7 @@ inner join registro_dependencia_funcional as df on df.id=e2.dependencia_funciona
 inner join registro_tipo_gestion tg on tg.id=df.tipo_gestion_id
 inner join registro_jurisdiccion j on j.id=df.jurisdiccion_id
 left join registro_anexo_matricula max on max.anexo_id=ax.id
+left join registro_estado_anexo estado on ax.estado_id=estado.id
 --
 inner join seguridad_ambito ambito on ax.ambito_id = ambito.id and ambito.path ilike {{AMBITO_PATH}}
 --
@@ -103,7 +107,8 @@ union
 ---union de extensiones aulicas
 select j.nombre as jurisdiccion, tg.nombre as gestion, ea.establecimiento_id as clave, '3.e.áulica as tipo'
 , ea.cue as cue, ea.nombre
-, mea.anio as anio, mea.profesorados, mea.postitulos, mea.formacion_continua, mea.formacion_docente, mea.tecnicaturas, mea.total
+, mea.anio as anio, mea.profesorados, mea.postitulos, mea.formacion_continua, mea.formacion_docente, mea.tecnicaturas, mea.total,
+estado.nombre AS estado
 ---funciones en horizontal
 , (select case when eaf.extensionaulica_id is not null then 'SI' end 
 	from registro_extension_aulica_funciones eaf 
@@ -144,6 +149,7 @@ inner join registro_dependencia_funcional as df on df.id=e3.dependencia_funciona
 inner join registro_tipo_gestion tg on tg.id=df.tipo_gestion_id
 inner join registro_jurisdiccion j on j.id=df.jurisdiccion_id
 left join registro_extension_aulica_matricula mea on mea.extension_aulica_id=ea.id
+left join registro_estado_extension_aulica estado on ea.estado_id=estado.id
 --
 inner join seguridad_ambito ambito on ea.ambito_id = ambito.id and ambito.path ilike {{AMBITO_PATH}}
 --
