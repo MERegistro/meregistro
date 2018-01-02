@@ -11,7 +11,7 @@ from apps.reportes.models import Reporte
 
 @login_required
 @credential_required('reg_establecimiento_consulta')
-def unidades_educativas(request, q):
+def unidades_servicio(request, q):
     filename = 'unidades_educativas_' + str(date.today()) + '.xlsx'
     reporte = Reporte(headers=['REGION', 'JURISDICCIÓN', 'TIPO UNIDAD DE SERVICIO', 'CUE', 'DEPENDENCIA FUNCIONAL', 'NOMBRE', 'DEPARTAMENTO', 'LOCALIDAD', 'ESTADO', 'HISTORIAL DE ESTADOS', 'VERIFICADO'], filename=filename)
     for ue in q:

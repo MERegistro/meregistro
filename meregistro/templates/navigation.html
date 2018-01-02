@@ -133,17 +133,11 @@
             </ul>
         </li>
         {% endif %}
-        {% if 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales or 'reportes_seguimiento_cohortes' in credenciales or 'reportes_matricula' in credenciales %}
+        {% if 'reportes_datos_basicos_unidades_servicio' in credenciales or 'reportes_datos_basicos_sedes' in credenciales or 'reportes_datos_basicos_anexos' in credenciales or 'reportes_datos_basicos_extensiones_aulicas' in credenciales or 'reportes_seguimiento_cohortes' in credenciales or 'reportes_matricula' in credenciales %}
         <li><a href="#" class="inactive"><span>Reportes</span></a>
             <ul>
-                {% if 'reportes_datos_basicos_sedes' in credenciales %}
-                <li><a href="{% url apps.reportes.views.datos_basicos.sedes %}">Datos básicos de Sedes</a></li>
-                {% endif %}
-                {% if 'reportes_datos_basicos_anexos' in credenciales %}
-                <li><a href="{% url apps.reportes.views.datos_basicos.anexos %}">Datos básicos de Anexos</a></li>
-                {% endif %}
-                {% if 'reportes_datos_basicos_extensiones_aulicas' in credenciales %}
-                <li><a href="{% url apps.reportes.views.datos_basicos.extensiones_aulicas %}">Datos básicos de Ext. Áulicas</a></li>
+                {% if 'reportes_datos_basicos_unidades_servicio' in credenciales %}
+                <li><a href="{% url apps.reportes.views.datos_basicos.unidades_servicio %}">Unidades de Servicio</a></li>
                 {% endif %}
                 {% if 'reportes_seguimiento_cohortes' in credenciales %}
                 <li><a href="{% url apps.reportes.views.cohortes.seguimiento %}">Seguimiento de Cohortes</a></li>

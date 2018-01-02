@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^datos-basicos/sedes$', 'apps.reportes.views.datos_basicos.sedes', name='reporteDatosBasicosSedes'),
     url(r'^datos-basicos/anexos$', 'apps.reportes.views.datos_basicos.anexos', name='reporteDatosBasicosAnexos'),
     url(r'^datos-basicos/extensiones-aulicas$', 'apps.reportes.views.datos_basicos.extensiones_aulicas', name='reporteDatosBasicosExtensionesAulicas'),
+    url(r'^datos-basicos/unidades-servicio$', 'apps.reportes.views.datos_basicos.unidades_servicio', name='reporteDatosBasicosUnidadesServicio'),
     # 417 reporte seguimiento cohortes
     url(r'^cohortes/seguimiento$', 'apps.reportes.views.cohortes.seguimiento', name='reporteSeguimientoCohortes'),
     # 418 reporte matrícula
