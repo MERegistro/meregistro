@@ -9,7 +9,6 @@ from apps.seguridad.decorators import login_required, credential_required
 from django.db import connection
 from datetime import date
 import csv
-import xlsxwriter
 from apps.reportes.models import Reporte
 
 
@@ -24,10 +23,11 @@ def seguimiento(request):
     
     cursor = connection.cursor()
     cursor.execute(sql)
-    filename = 'seguimiento_cohortes_' + str(date.today()) + '.xlsx'
+
+    filename = 'seguimiento_cohortes_' + str(date.today()) + '.xls'
     reporte = Reporte(headers=[\
-        'JURISDICCION',\
-        'GESTION',\
+        'JURISDICCIÓN',\
+        'GESTIÓN',\
         'CLAVE',\
         'TIPO',\
         'CUE',\
@@ -42,8 +42,8 @@ def seguimiento(request):
         'NO CURSAN',\
         'EGRESADOS',\
         'INICIAL',\
-        'CONTINUA',\
-        'INVESTIGACION',\
+        'CONTÍNUA',\
+        'INVESTIGACIÓN',\
         'APOYO',\
         'INICIAL',\
         'PRIMARIA',\
@@ -52,13 +52,13 @@ def seguimiento(request):
     ], filename=filename)
     for row in Reporte.dictfetchall(cursor):
         reporte.rows.append([\
-            row['jurisdiccion'] if row['jurisdiccion'] else '',\
-            row['gestion'] if row['gestion'] else '',\
+            row['jurisdiccion'].encode('utf8') if row['jurisdiccion'] else '',\
+            row['gestion'].encode('utf8') if row['gestion'] else '',\
             row['clave'] if row['clave'] else '',\
-            row['tipo'] if row['tipo'] else '',\
-            row['cue'] if row['cue'] else '',\
-            row['establecimiento'] if row['establecimiento'] else '',\
-            row['carrera'] if row['carrera'] else '',\
+            row['tipo'].encode('utf8') if row['tipo'] else '',\
+            row['cue'].encode('utf8') if row['cue'] else '',\
+            row['establecimiento'].encode('utf8') if row['establecimiento'] else '',\
+            row['carrera'].encode('utf8') if row['carrera'] else '',\
             row['cohorte'] if row['cohorte'] else '',\
             row['cursada'] if row['cursada'] else '',\
             row['inscriptos'] if row['inscriptos'] else '',\
@@ -67,13 +67,13 @@ def seguimiento(request):
             row['recursan_cursan_nuevas_unidades'] if row['recursan_cursan_nuevas_unidades'] else '',\
             row['no_cursan'] if row['no_cursan'] else '',\
             row['egresados'] if row['egresados'] else '',\
-            row['inicial'] if row['inicial'] else '',\
-            row['continua'] if row['continua'] else '',\
-            row['investigacion'] if row['investigacion'] else '',\
-            row['apoyo'] if row['apoyo'] else '',\
-            row['inicial'] if row['inicial'] else '',\
-            row['primaria'] if row['primaria'] else '',\
-            row['media'] if row['media'] else '',\
-            row['superior'] if row['superior'] else ''\
+            row['inicial'].encode('utf8') if row['inicial'] else '',\
+            row['continua'].encode('utf8') if row['continua'] else '',\
+            row['investigacion'].encode('utf8') if row['investigacion'] else '',\
+            row['apoyo'].encode('utf8') if row['apoyo'] else '',\
+            row['inicial'].encode('utf8') if row['inicial'] else '',\
+            row['primaria'].encode('utf8') if row['primaria'] else '',\
+            row['media'].encode('utf8') if row['media'] else '',\
+            row['superior'].encode('utf8') if row['superior'] else ''\
         ])
-    return reporte.as_xlsx()
+    return reporte.as_csv()
